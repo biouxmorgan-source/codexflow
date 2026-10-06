@@ -15,7 +15,7 @@
             </div>
             <div>
                 <label for="entityTypeId" class="label">Type</label>
-                <select id="entityTypeId" wire:model="entityTypeId" class="field">
+                <select id="entityTypeId" wire:model.live="entityTypeId" class="field">
                     @foreach ($this->types as $entityType)
                         <option value="{{ $entityType->id }}">{{ $entityType->name }}</option>
                     @endforeach
@@ -74,6 +74,13 @@
                     <x-link-textarea id="description" model="description" />
                     @error('description') <p class="error">{{ $message }}</p> @enderror
                 </div>
+                <x-field-inputs :definitions="$this->fieldDefinitions->where('zone', \App\Enums\Zone::Public)" />
+                @can('update', $campaign->gameSystem)
+                    <p class="text-sm text-stone-500">
+                        <a href="{{ route('fields.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>{{ $this->fieldDefinitions->isEmpty() ? 'Ajouter des champs pour ce jeu' : 'Gérer les champs du jeu' }}</a>
+                        (caractéristiques, compétences, capacités…)
+                    </p>
+                @endcan
             </div>
         </section>
 
@@ -83,6 +90,9 @@
             <label for="gmNotes" class="label">Notes MJ</label>
             <x-link-textarea id="gmNotes" model="gmNotes" />
             @error('gmNotes') <p class="error">{{ $message }}</p> @enderror
+            <div class="mt-4 space-y-4">
+                <x-field-inputs :definitions="$this->fieldDefinitions->where('zone', \App\Enums\Zone::GameMaster)" />
+            </div>
         </section>
 
         <div class="flex gap-3">

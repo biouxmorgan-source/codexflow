@@ -1,0 +1,303 @@
+<?php
+
+namespace App\Actions\Imports;
+
+use App\Enums\FieldType;
+use App\Enums\Zone;
+use App\Models\Campaign;
+use App\Models\Entity;
+use App\Models\EntityType;
+use App\Models\FieldDefinition;
+use App\Models\User;
+use App\Support\Import\Normalize;
+use App\Support\Import\TabularFile;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+
+/**
+ * Import de fiches avec leurs champs libres. plan() ne modifie rien ; run() applique le plan.
+ */
+class ImportEntities
+{
+    /** Cibles possibles d'une colonne, hors champs libres (« field:ID ») et nouveau champ (« new »). */
+    public const TARGETS = [
+        'ignore' => 'Ignorer',
+        'name' => 'Nom',
+        'type' => 'Type de fiche',
+        'summary' => 'Résumé',
+        'description' => 'Description',
+        'gm_notes' => 'Notes MJ',
+    ];
+
+    private const LIMITS = ['name' => 255, 'summary' => 500, 'description' => 20000, 'gm_notes' => 20000];
+
+    /** @var Collection<int, EntityType> */
+    private Collection $types;
+
+    /** @var Collection<int, FieldDefinition> */
+    private Collection $definitions;
+
+    /**
+     * @param  array<int, string>  $mapping  [index de colonne => cible]
+     * @param  array{default_type_id: int, scope: string, update_existing: bool, new_group: ?string, new_zone: Zone, new_type_id: ?int}  $options
+     */
+    public function __construct(
+        private readonly Campaign $campaign,
+        private readonly User $user,
+        private readonly TabularFile $table,
+        private readonly array $mapping,
+        private readonly array $options,
+    ) {
+        $this->types = EntityType::query()->availableTo($user)->get();
+        $this->definitions = $campaign->gameSystem->fieldDefinitions()->get()->keyBy('id');
+    }
+
+    /**
+     * Devine la cible de chaque colonne d'après son en-tête.
+     *
+     * @param  Collection<int, FieldDefinition>  $definitions
+     * @return array<int, string>
+     */
+    public static function guessMapping(array $headers, Collection $definitions): array
+    {
+        $aliases = [
+            'name' => ['nom', 'name', 'titre'],
+            'type' => ['type', 'typedefiche', 'categorie'],
+            'summary' => ['resume', 'summary', 'accroche'],
+            'description' => ['description', 'desc'],
+            'gm_notes' => ['notesmj', 'notes', 'gmnotes', 'secret', 'secrets', 'mj'],
+        ];
+
+        $used = [];
+        $mapping = [];
+
+        foreach ($headers as $index => $header) {
+            $key = Normalize::key($header);
+            $target = collect($aliases)->search(fn (array $names) => in_array($key, $names, true));
+
+            if ($target === false) {
+                $definition = $definitions->first(fn (FieldDefinition $definition) => Normalize::key($definition->name) === $key);
+                $target = $definition ? 'field:'.$definition->id : 'new';
+            }
+
+            if ($target !== 'new' && in_array($target, $used, true)) {
+                $target = 'ignore';
+            }
+
+            $used[] = $target;
+            $mapping[$index] = $target;
+        }
+
+        return $mapping;
+    }
+
+    /**
+     * @return array{
+     *     errors: list<string>,
+     *     rows: list<array{line: int, name: string, type: string, action: string, errors: list<string>, warnings: list<string>}>,
+     *     new_fields: list<array{column: int, name: string, type: FieldType, reused: bool}>,
+     *     valid: int,
+     * }
+     */
+    public function plan(): array
+    {
+        return $this->build()['plan'];
+    }
+
+    /**
+     * @return array{created: int, updated: int, fields: int}
+     */
+    public function run(): array
+    {
+        $build = $this->build();
+
+        return DB::transaction(function () use ($build) {
+            $columnDefinitions = $build['columns'];
+            $createdFields = 0;
+            $position = (int) $this->campaign->gameSystem->fieldDefinitions()->max('position');
+
+            foreach ($build['plan']['new_fields'] as $new) {
+                if ($new['reused']) {
+                    continue;
+                }
+
+                $definition = $this->campaign->gameSystem->fieldDefinitions()->create([
+                    'name' => $new['name'],
+                    'group' => $this->options['new_group'],
+                    'type' => $new['type'],
+                    'zone' => $this->options['new_zone'],
+                    'entity_type_id' => $this->options['new_type_id'],
+                    'position' => ++$position,
+                ]);
+                $columnDefinitions[$new['column']] = $definition;
+                $createdFields++;
+            }
+
+            $created = 0;
+            $updated = 0;
+
+            foreach ($build['valid'] as $row) {
+                $entity = $row['existing'] ?? new Entity;
+
+                foreach ($row['attributes'] as $attribute => $value) {
+                    if ($value !== null || ! $entity->exists) {
+                        $entity->{$attribute} = $value;
+                    }
+                }
+
+                $values = [];
+                foreach ($row['fields'] as $column => $value) {
+                    if ($value !== null) {
+                        $values[$columnDefinitions[$column]->id] = $value;
+                    }
+                }
+                $entity->setFieldValues($values);
+
+                if (! $entity->exists) {
+                    $entity->owner()->associate($this->user);
+
+                    if ($this->options['scope'] === 'world' && $this->campaign->world_id) {
+                        $entity->world()->associate($this->campaign->world);
+                    } else {
+                        $entity->campaign()->associate($this->campaign);
+                    }
+
+                    $created++;
+                } else {
+                    $updated++;
+                }
+
+                $entity->save();
+            }
+
+            return ['created' => $created, 'updated' => $updated, 'fields' => $createdFields];
+        });
+    }
+
+    private function build(): array
+    {
+        $errors = [];
+        $targets = array_count_values($this->mapping);
+
+        if (($targets['name'] ?? 0) !== 1) {
+            $errors[] = 'Associez une colonne, et une seule, au nom des fiches.';
+        }
+
+        // Colonnes de champs libres : définitions existantes ou nouveaux champs (types devinés).
+        $columns = [];
+        $newFields = [];
+
+        foreach ($this->mapping as $column => $target) {
+            if (str_starts_with($target, 'field:')) {
+                $definition = $this->definitions->get((int) substr($target, 6));
+
+                if ($definition === null) {
+                    $errors[] = 'La colonne « '.$this->table->headers[$column].' » vise un champ qui n\'existe plus.';
+                } else {
+                    $columns[$column] = $definition;
+                }
+            } elseif ($target === 'new') {
+                $name = $this->table->headers[$column];
+                $reused = $this->definitions->first(fn (FieldDefinition $definition) => Normalize::key($definition->name) === Normalize::key($name)
+                    && $definition->entity_type_id === $this->options['new_type_id']);
+                $type = $reused?->type ?? FieldType::guess($this->table->column($column));
+
+                $columns[$column] = $reused ?? new FieldDefinition(['name' => $name, 'type' => $type]);
+                $newFields[] = ['column' => $column, 'name' => $name, 'type' => $type, 'reused' => $reused !== null];
+            }
+        }
+
+        $existing = $this->campaign->availableEntities()->get()
+            ->keyBy(fn (Entity $entity) => $entity->entity_type_id.'|'.mb_strtolower($entity->name));
+
+        $rows = [];
+        $valid = [];
+        $seen = [];
+
+        foreach ($this->table->rows as $row) {
+            $rowErrors = [];
+            $warnings = [];
+            $attributes = [];
+            $fields = [];
+            $fieldColumns = [];
+            $typeId = $this->options['default_type_id'];
+
+            foreach ($this->mapping as $column => $target) {
+                $raw = $row['cells'][$column] ?? '';
+
+                if (isset(self::LIMITS[$target])) {
+                    $attributes[$target] = $raw === '' ? null : $raw;
+
+                    if (mb_strlen($raw) > self::LIMITS[$target]) {
+                        $rowErrors[] = self::TARGETS[$target].' : dépasse '.self::LIMITS[$target].' caractères';
+                    }
+                } elseif ($target === 'type' && $raw !== '') {
+                    $type = $this->types->first(fn (EntityType $type) => in_array(Normalize::key($raw), [Normalize::key($type->name), Normalize::key((string) $type->key)], true));
+
+                    if ($type) {
+                        $typeId = $type->id;
+                    } else {
+                        $rowErrors[] = 'type de fiche « '.$raw.' » inconnu';
+                    }
+                } elseif (isset($columns[$column])) {
+                    $fieldColumns[] = $column;
+                    [$value, $error] = $columns[$column]->parse($raw);
+
+                    if ($error) {
+                        $rowErrors[] = $columns[$column]->name.' : '.$error;
+                    } else {
+                        $fields[$column] = $value;
+                    }
+                }
+            }
+
+            // Un champ réservé à un autre type de fiche ne s'afficherait pas : on le signale.
+            foreach ($fieldColumns as $column) {
+                $fieldTypeId = $columns[$column]->exists ? $columns[$column]->entity_type_id : $this->options['new_type_id'];
+
+                if ($fieldTypeId !== null && $fieldTypeId !== $typeId && isset($fields[$column])) {
+                    unset($fields[$column]);
+                    $warnings[] = $columns[$column]->name.' ne concerne que les fiches '.$this->types->firstWhere('id', $fieldTypeId)?->name.' : valeur ignorée';
+                }
+            }
+
+            $name = (string) ($attributes['name'] ?? '');
+            $key = $typeId.'|'.mb_strtolower($name);
+
+            if ($name === '') {
+                $rowErrors[] = 'nom manquant';
+            } elseif (isset($seen[$key])) {
+                $rowErrors[] = 'déjà présente ligne '.$seen[$key];
+            } else {
+                $seen[$key] = $row['line'];
+            }
+
+            $match = $this->options['update_existing'] ? $existing->get($key) : null;
+            $attributes['entity_type_id'] = $typeId;
+
+            $rows[] = [
+                'line' => $row['line'],
+                'name' => $name,
+                'type' => (string) $this->types->firstWhere('id', $typeId)?->name,
+                'action' => $match ? 'update' : 'create',
+                'errors' => $rowErrors,
+                'warnings' => $warnings,
+            ];
+
+            if ($rowErrors === []) {
+                $valid[] = ['existing' => $match, 'attributes' => $attributes, 'fields' => $fields];
+            }
+        }
+
+        return [
+            'plan' => [
+                'errors' => $errors,
+                'rows' => $rows,
+                'new_fields' => $newFields,
+                'valid' => $errors === [] ? count($valid) : 0,
+            ],
+            'columns' => $columns,
+            'valid' => $errors === [] ? $valid : [],
+        ];
+    }
+}

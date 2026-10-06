@@ -1,0 +1,177 @@
+<?php
+
+namespace Tests\Feature\Imports;
+
+use App\Enums\FieldType;
+use App\Enums\Zone;
+use App\Livewire\Imports\Create;
+use App\Models\Campaign;
+use App\Models\Entity;
+use App\Models\EntityType;
+use App\Models\FieldDefinition;
+use App\Models\User;
+use App\Models\World;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Livewire\Livewire;
+use Tests\TestCase;
+
+class ImportTest extends TestCase
+{
+    use RefreshDatabase;
+
+    private User $gm;
+
+    private Campaign $campaign;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->gm = User::factory()->create();
+        $world = World::factory()->for($this->gm, 'owner')->create();
+        $this->campaign = Campaign::factory()->for($this->gm, 'owner')->create(['world_id' => $world->id]);
+    }
+
+    public function test_entities_are_imported_from_a_french_excel_csv_with_new_fields(): void
+    {
+        $existing = Entity::factory()->for($this->gm, 'owner')->for($this->campaign->world)->create([
+            'name' => 'Shen Chu',
+            'summary' => 'Ancien résumé',
+            'description' => 'À garder',
+        ]);
+
+        // Export Excel français : point-virgule, Windows-1252, virgule décimale.
+        $csv = mb_convert_encoding(implode("\r\n", [
+            'Nom;Type;Résumé;Force;Discrétion;Né le',
+            'Shen Chu;Personnage;Herboriste;2,5;oui;01/02/1990',
+            'Loup des cendres;créature;"Prédateur; rapide";5;non;',
+            ';Personnage;Sans nom;1;oui;',
+            'Golem;Machine;;9;non;',
+            'Mira;;Colporteuse;beaucoup;non;',
+        ]), 'Windows-1252', 'UTF-8');
+
+        $component = Livewire::actingAs($this->gm)
+            ->test(Create::class, ['campaign' => $this->campaign])
+            ->set('file', UploadedFile::fake()->createWithContent('pnj.csv', $csv))
+            ->assertHasNoErrors()
+            ->assertSet('mapping', [0 => 'name', 1 => 'type', 2 => 'summary', 3 => 'new', 4 => 'new', 5 => 'new'])
+            ->set('newGroup', 'Caractéristiques')
+            ->assertSee(['Force · Nombre', 'Discrétion · Oui/non', 'Né le · Date'])
+            ->assertSee(['Ligne 4', 'nom manquant', 'type de fiche « Machine » inconnu', 'Ligne 6 (Mira)', '« beaucoup » n\'est pas un nombre'])
+            ->assertSee('Importer 2 lignes');
+
+        $this->assertSame(0, FieldDefinition::count(), 'Rien n\'est créé avant validation.');
+
+        $component->call('import')->assertHasNoErrors();
+        $component->assertSee('1 créé, 1 mis à jour, 3 nouveaux champs');
+
+        $strength = FieldDefinition::where('name', 'Force')->sole();
+        $this->assertSame(FieldType::Number, $strength->type);
+        $this->assertSame('Caractéristiques', $strength->group);
+        $this->assertNull($strength->entity_type_id, 'Avec une colonne Type, les champs valent pour tous les types.');
+
+        $shen = $existing->fresh();
+        $this->assertSame('Herboriste', $shen->summary);
+        $this->assertSame('À garder', $shen->description);
+        $this->assertSame(2.5, $shen->fieldValue($strength));
+        $this->assertSame('1990-02-01', $shen->fieldValue(FieldDefinition::where('name', 'Né le')->sole()));
+
+        $wolf = Entity::where('name', 'Loup des cendres')->sole();
+        $this->assertSame(EntityType::standard('creature')->id, $wolf->entity_type_id);
+        $this->assertSame('Prédateur; rapide', $wolf->summary);
+        $this->assertSame($this->campaign->world_id, $wolf->world_id);
+        $this->assertFalse($wolf->fieldValue(FieldDefinition::where('name', 'Discrétion')->sole()));
+    }
+
+    public function test_json_import_maps_columns_to_existing_fields(): void
+    {
+        $die = $this->campaign->gameSystem->fieldDefinitions()->create([
+            'name' => 'Dé de vie', 'type' => FieldType::Select, 'options' => ['d6', 'd8'], 'zone' => Zone::Public,
+        ]);
+
+        $json = json_encode([
+            ['nom' => 'Aldric', 'dé de vie' => 'D8', 'secret' => 'Indicateur'],
+            ['nom' => 'Mira', 'dé de vie' => 'd20'],
+        ]);
+
+        Livewire::actingAs($this->gm)
+            ->test(Create::class, ['campaign' => $this->campaign])
+            ->set('scope', 'campaign')
+            ->set('file', UploadedFile::fake()->createWithContent('pnj.json', $json))
+            ->assertSet('mapping', [0 => 'name', 1 => 'field:'.$die->id, 2 => 'gm_notes'])
+            ->assertSee('ne fait pas partie des choix')
+            ->call('import');
+
+        $aldric = Entity::where('name', 'Aldric')->sole();
+        $this->assertSame('d8', $aldric->fieldValue($die));
+        $this->assertSame('Indicateur', $aldric->gm_notes);
+        $this->assertSame($this->campaign->id, $aldric->campaign_id);
+        $this->assertFalse(Entity::where('name', 'Mira')->exists());
+    }
+
+    public function test_values_for_fields_of_another_entity_type_are_flagged_and_skipped(): void
+    {
+        $strength = $this->campaign->gameSystem->fieldDefinitions()->create([
+            'name' => 'Force', 'type' => FieldType::Number, 'zone' => Zone::Public,
+            'entity_type_id' => EntityType::standard('character')->id,
+        ]);
+
+        Livewire::actingAs($this->gm)
+            ->test(Create::class, ['campaign' => $this->campaign])
+            ->set('file', UploadedFile::fake()->createWithContent('b.csv', "Nom;Type;Force\nLoup;Créature;5\nAldric;Personnage;3"))
+            ->assertSee('Force ne concerne que les fiches Personnage : valeur ignorée')
+            ->call('import');
+
+        $this->assertNull(Entity::where('name', 'Loup')->sole()->fieldValue($strength));
+        $this->assertSame(3, Entity::where('name', 'Aldric')->sole()->fieldValue($strength));
+    }
+
+    public function test_a_list_of_fields_is_imported_for_the_game(): void
+    {
+        $csv = implode("\n", [
+            'Nom,Groupe,Type,Zone,Choix,Type de fiche',
+            'Force,Caractéristiques,nombre,publique,,Personnage',
+            'Dé de vie,Caractéristiques,liste,,d4|d6|d8,',
+            'Pouvoir caché,Capacités,texte long,MJ,,',
+            'Chance,,pourcentage,,,',
+            'Rang,,liste,,,',
+        ]);
+
+        Livewire::actingAs($this->gm)
+            ->test(Create::class, ['campaign' => $this->campaign])
+            ->set('mode', 'fields')
+            ->set('file', UploadedFile::fake()->createWithContent('champs.csv', $csv))
+            ->assertSee(['type « pourcentage » inconnu', 'une liste a besoin de choix', 'Importer 3 lignes'])
+            ->call('import')
+            ->assertSee('3 créés');
+
+        $this->assertSame(['Force', 'Dé de vie', 'Pouvoir caché'], FieldDefinition::ordered()->pluck('name')->all());
+        $this->assertSame(EntityType::standard('character')->id, FieldDefinition::where('name', 'Force')->value('entity_type_id'));
+        $this->assertSame(['d4', 'd6', 'd8'], FieldDefinition::where('name', 'Dé de vie')->sole()->options);
+        $this->assertSame(Zone::GameMaster, FieldDefinition::where('name', 'Pouvoir caché')->sole()->zone);
+    }
+
+    public function test_unreadable_files_are_reported(): void
+    {
+        Livewire::actingAs($this->gm)
+            ->test(Create::class, ['campaign' => $this->campaign])
+            ->set('file', UploadedFile::fake()->createWithContent('vide.json', '{"a": 1'))
+            ->assertSee('Le fichier JSON est illisible')
+            ->set('file', UploadedFile::fake()->createWithContent('page.html', '<p>x</p>'))
+            ->assertHasErrors('file');
+    }
+
+    public function test_import_and_examples_are_reserved_to_the_game_owner(): void
+    {
+        $stranger = User::factory()->create();
+
+        $this->actingAs($stranger)->get(route('imports.create', $this->campaign))->assertForbidden();
+        $this->actingAs($stranger)->get(route('imports.example', [$this->campaign, 'fiches']))->assertForbidden();
+
+        $this->actingAs($this->gm)
+            ->get(route('imports.example', [$this->campaign, 'champs']))
+            ->assertOk()
+            ->assertDownload('codexflow-exemple-champs.csv');
+    }
+}

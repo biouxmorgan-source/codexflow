@@ -121,6 +121,10 @@ class Show extends Component
     public function render()
     {
         $attachments = $this->entity->attachments;
+        $fields = $this->campaign->gameSystem->fieldDefinitions()->forType($this->entity->entity_type_id)->ordered()->get();
+        $publicFields = $fields->where('zone', Zone::Public);
+        $gmFields = $fields->where('zone', Zone::GameMaster);
+        $filled = fn ($definitions) => $definitions->contains(fn ($definition) => $this->entity->fieldValue($definition) !== null);
 
         return view('livewire.entities.show', [
             'otherCampaigns' => $this->entity->isWorldEntity()
@@ -131,6 +135,10 @@ class Show extends Component
             'backlinks' => EntityLinks::backlinks($this->entity, $this->campaign),
             'publicAttachments' => $attachments->where('zone', Zone::Public),
             'gmAttachments' => $attachments->where('zone', Zone::GameMaster),
+            'publicFields' => $publicFields,
+            'gmFields' => $gmFields,
+            'hasPublicFields' => $filled($publicFields),
+            'hasGmFields' => $filled($gmFields),
         ])->title($this->entity->name);
     }
 }

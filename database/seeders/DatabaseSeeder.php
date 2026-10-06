@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Actions\Campaigns\CreateCampaign;
+use App\Enums\FieldType;
+use App\Enums\Zone;
 use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\User;
@@ -50,14 +52,51 @@ class DatabaseSeeder extends Seeder
             'Frère Anselme' => ['Moine érudit du monastère voisin.', 'Cherche le grimoire perdu de son ordre.'],
         ];
 
+        // Champs libres du jeu de démonstration, nommés comme le MJ le ferait.
+        $game = $first->gameSystem;
+        $dice = ['d4', 'd6', 'd8', 'd10', 'd12'];
+        $fields = collect([
+            ['Force', 'Caractéristiques', FieldType::Select, $dice],
+            ['Dextérité', 'Caractéristiques', FieldType::Select, $dice],
+            ['Intelligence', 'Caractéristiques', FieldType::Select, $dice],
+            ['Esprit', 'Caractéristiques', FieldType::Select, $dice],
+            ['Niveau', 'Caractéristiques', FieldType::Number, null],
+            ['Métier', 'Profil', FieldType::Text, null],
+        ])->map(fn (array $field, int $position) => $game->fieldDefinitions()->create([
+            'name' => $field[0],
+            'group' => $field[1],
+            'type' => $field[2],
+            'options' => $field[3],
+            'zone' => Zone::Public,
+            'entity_type_id' => $character->id,
+            'position' => $position,
+        ]))->keyBy('name');
+        $fields['Ambition secrète'] = $game->fieldDefinitions()->create([
+            'name' => 'Ambition secrète', 'type' => FieldType::Text, 'zone' => Zone::GameMaster,
+            'entity_type_id' => $character->id, 'position' => $fields->count(),
+        ]);
+
         foreach ($npcs as $name => [$summary, $secret]) {
-            Entity::factory()->for($gm, 'owner')->for($first->world)->create([
+            $npc = Entity::factory()->for($gm, 'owner')->for($first->world)->create([
                 'entity_type_id' => $character->id,
                 'name' => $name,
                 'summary' => $summary,
                 'description' => null,
                 'gm_notes' => $secret,
             ]);
+
+            if ($name === 'Aldric le tavernier') {
+                $npc->setFieldValues([
+                    $fields['Force']->id => 'd8',
+                    $fields['Dextérité']->id => 'd4',
+                    $fields['Intelligence']->id => 'd6',
+                    $fields['Esprit']->id => 'd6',
+                    $fields['Niveau']->id => 3,
+                    $fields['Métier']->id => 'Aubergiste',
+                    $fields['Ambition secrète']->id => 'Racheter la guilde',
+                ]);
+                $npc->save();
+            }
         }
 
         $inn->stateIn($second)->fill(['status' => 'incendiée'])->save();

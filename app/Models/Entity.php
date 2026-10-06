@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * Fiche d'entité. Zone publique : name, summary, description. Zone MJ : gm_notes.
+ * Les champs libres (field_values) sont rangés par zone selon leur définition : masqués à la sérialisation.
  */
 #[Fillable(['entity_type_id', 'name', 'summary', 'description', 'gm_notes', 'image_path'])]
-#[Hidden(['gm_notes'])]
+#[Hidden(['gm_notes', 'field_values'])]
 class Entity extends Model
 {
     /** @use HasFactory<EntityFactory> */
@@ -24,6 +25,13 @@ class Entity extends Model
 
     /** Disque privé : les fichiers ne sont servis qu'après vérification des droits. */
     public const FILES_DISK = 'local';
+
+    protected function casts(): array
+    {
+        return [
+            'field_values' => 'array',
+        ];
+    }
 
     protected static function booted(): void
     {
@@ -80,6 +88,32 @@ class Entity extends Model
             Storage::disk(self::FILES_DISK)->delete($this->image_path);
             $this->image_path = null;
         }
+    }
+
+    public function fieldValue(FieldDefinition $definition): mixed
+    {
+        return ($this->field_values ?? [])[(string) $definition->getKey()] ?? null;
+    }
+
+    /**
+     * Remplace les valeurs des champs donnés, sans toucher à celles des autres jeux.
+     *
+     * @param  array<int|string, mixed>  $values  [id de définition => valeur ou null]
+     */
+    public function setFieldValues(array $values): void
+    {
+        $current = $this->field_values ?? [];
+
+        foreach ($values as $id => $value) {
+            if ($value === null) {
+                unset($current[(string) $id]);
+            } else {
+                $current[(string) $id] = $value;
+            }
+        }
+
+        // Un objet vide reste un objet JSON, pas un tableau.
+        $this->field_values = $current === [] ? new \stdClass : $current;
     }
 
     public function isWorldEntity(): bool
