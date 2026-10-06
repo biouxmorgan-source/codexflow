@@ -65,6 +65,23 @@
                 @endif
             </section>
 
+            @if ($rules->isNotEmpty() || $documents->isNotEmpty())
+                <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                    @if ($rules->isNotEmpty())
+                        <h2 class="mb-2 font-semibold">Règles</h2>
+                        <ul class="mb-4 space-y-1 text-sm">
+                            @foreach ($rules as $rule)
+                                <li wire:key="rule-{{ $rule->id }}"><a href="{{ route('rules.show', [$campaign, $rule]) }}" class="text-codex hover:underline" wire:navigate>{{ $rule->title }}</a></li>
+                            @endforeach
+                        </ul>
+                    @endif
+                    @if ($documents->isNotEmpty())
+                        <h2 class="mb-2 font-semibold">Documents</h2>
+                        <x-document-list :documents="$documents" :campaign="$campaign" />
+                    @endif
+                </section>
+            @endif
+
             <section class="rounded-xl border border-codex/30 bg-white p-6 shadow-sm">
                 <h2 class="mb-1 font-semibold text-codex">À jouer</h2>
                 <p class="mb-3 text-sm text-stone-600">Ce que vous voulez placer pendant la scène. La liste vous attendra en mode Session.</p>

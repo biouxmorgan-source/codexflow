@@ -4,14 +4,19 @@ namespace Database\Seeders;
 
 use App\Actions\Campaigns\CreateCampaign;
 use App\Enums\FieldType;
+use App\Enums\RuleOrigin;
+use App\Enums\RuleStatus;
 use App\Enums\SceneStatus;
 use App\Enums\Zone;
+use App\Models\Document;
 use App\Models\Entity;
 use App\Models\EntityRelation;
 use App\Models\EntityType;
+use App\Models\Rule;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -162,5 +167,84 @@ class DatabaseSeeder extends Seeder
             'description' => "Deux hommes de [[La Guilde des ombres|{$guild->id}]] descendent à la cave.",
         ]);
         $night->entities()->attach([$guild->id => ['note' => 'deux hommes encapuchonnés', 'position' => 0]]);
+
+        // Règles : une du jeu (partagée par ses campagnes), une propre à la campagne.
+        $travel = new Rule([
+            'title' => 'Jet de condition du matin',
+            'category' => 'Voyage',
+            'summary' => 'Chaque matin, Force + Esprit : le résultat fixe la condition du jour.',
+            'procedure' => "1. Chaque voyageur lance Force + Esprit.\n2. Ajoutez +1 s'il a bien dormi à l'auberge.\n3. Le résultat devient sa condition pour la journée.",
+            'source' => 'Livre de base',
+            'origin' => RuleOrigin::Reference,
+        ]);
+        $travel->owner()->associate($gm);
+        $travel->gameSystem()->associate($first->gameSystem);
+        $travel->save();
+        $travel->tags()->sync(Tag::idsFromInput($gm, 'voyage'));
+
+        $brawl = new Rule([
+            'title' => 'Bagarre de taverne',
+            'category' => 'Combat',
+            'summary' => 'Pas de blessure grave : on perd des points de condition, pas des PV.',
+            'procedure' => 'Chaque coup réussi retire 1 point de condition. À 0, le personnage est sonné jusqu\'à la fin de la scène.',
+            'gm_notes' => 'À tester ce soir : si c\'est trop long, passer à un seul jet en opposition.',
+            'origin' => RuleOrigin::House,
+            'status' => RuleStatus::ToTest,
+        ]);
+        $brawl->owner()->associate($gm);
+        $brawl->campaign()->associate($first);
+        $brawl->save();
+        $brawl->tags()->sync(Tag::idsFromInput($gm, 'combat, taverne'));
+
+        // Un document PDF rangé dans la campagne et lié aux deux scènes.
+        $path = 'documents/lettre-de-mira.pdf';
+        Storage::disk(Document::DISK)->put($path, self::samplePdf('Lettre de Mira : rendez-vous a minuit, cave du Poney.'));
+        $letter = new Document([
+            'title' => 'Lettre de Mira',
+            'description' => 'La lettre que Mira cherche à faire porter.',
+            'zone' => Zone::GameMaster,
+            'disk' => Document::DISK,
+            'path' => $path,
+            'original_name' => 'lettre-de-mira.pdf',
+            'mime_type' => 'application/pdf',
+            'size' => Storage::disk(Document::DISK)->size($path),
+        ]);
+        $letter->owner()->associate($gm);
+        $letter->campaign()->associate($first);
+        $letter->save();
+
+        $arrival->rules()->attach([$travel->id => ['position' => 0], $brawl->id => ['position' => 1]]);
+        $arrival->documents()->attach($letter->id, ['position' => 0]);
+        $mira->documents()->attach($letter->id);
+    }
+
+    /** Un PDF d'une page, juste assez pour la démonstration. */
+    private static function samplePdf(string $text): string
+    {
+        $stream = 'BT /F1 18 Tf 72 720 Td ('.addcslashes($text, '()\\').') Tj ET';
+        $objects = [
+            '<< /Type /Catalog /Pages 2 0 R >>',
+            '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+            '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>',
+            '<< /Length '.strlen($stream)." >>\nstream\n{$stream}\nendstream",
+            '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',
+        ];
+
+        $pdf = "%PDF-1.4\n";
+        $offsets = [];
+
+        foreach ($objects as $index => $object) {
+            $offsets[] = strlen($pdf);
+            $pdf .= ($index + 1)." 0 obj\n{$object}\nendobj\n";
+        }
+
+        $xref = strlen($pdf);
+        $pdf .= 'xref'."\n0 ".(count($objects) + 1)."\n0000000000 65535 f \n";
+
+        foreach ($offsets as $offset) {
+            $pdf .= sprintf("%010d 00000 n \n", $offset);
+        }
+
+        return $pdf.'trailer << /Size '.(count($objects) + 1)." /Root 1 0 R >>\nstartxref\n{$xref}\n%%EOF\n";
     }
 }

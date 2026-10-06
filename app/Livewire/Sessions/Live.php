@@ -5,8 +5,10 @@ namespace App\Livewire\Sessions;
 use App\Enums\SceneStatus;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
+use App\Models\Document;
 use App\Models\Entity;
 use App\Models\PlaySession;
+use App\Models\Rule;
 use App\Models\Scene;
 use App\Models\SessionNote;
 use App\Models\ToPlayItem;
@@ -65,6 +67,20 @@ class Live extends Component
         return SessionContext::cards($this->campaign, $this->session?->currentScene);
     }
 
+    /** @return Collection<int, Rule> */
+    #[Computed]
+    public function rules(): Collection
+    {
+        return SessionContext::rules($this->campaign, $this->session?->currentScene);
+    }
+
+    /** @return Collection<int, Document> */
+    #[Computed]
+    public function documents(): Collection
+    {
+        return SessionContext::documents($this->campaign, $this->session?->currentScene);
+    }
+
     /** @return Collection<int, Entity> */
     #[Computed]
     public function pins(): Collection
@@ -84,7 +100,7 @@ class Live extends Component
         return $this->campaign->toPlayItems()
             ->pending()
             ->where(fn ($q) => $q->whereNull('scene_id')->when($sceneId, fn ($q) => $q->orWhere('scene_id', $sceneId)))
-            ->with('scene')
+            ->with(['scene', 'rule'])
             ->get();
     }
 

@@ -25,6 +25,7 @@ class Campaign extends Model
         // Une à une, pour que chaque entité supprime ses fichiers.
         static::deleting(function (Campaign $campaign) {
             $campaign->localEntities()->each(fn (Entity $entity) => $entity->delete());
+            $campaign->documents()->each(fn (Document $document) => $document->delete());
         });
     }
 
@@ -102,6 +103,30 @@ class Campaign extends Model
     public function toPlayItems(): HasMany
     {
         return $this->hasMany(ToPlayItem::class)->orderBy('position')->orderBy('id');
+    }
+
+    /** @return HasMany<Rule, $this> */
+    public function rules(): HasMany
+    {
+        return $this->hasMany(Rule::class);
+    }
+
+    /** @return HasMany<Document, $this> */
+    public function documents(): HasMany
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    /** @return Builder<Rule> */
+    public function availableRules(): Builder
+    {
+        return Rule::query()->availableIn($this);
+    }
+
+    /** @return Builder<Document> */
+    public function availableDocuments(): Builder
+    {
+        return Document::query()->availableIn($this);
     }
 
     /** @return HasMany<CampaignEntityState, $this> */

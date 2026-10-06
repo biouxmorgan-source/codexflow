@@ -4,11 +4,16 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\ImportExampleController;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
+use App\Livewire\Documents\Index as DocumentIndex;
+use App\Livewire\Documents\Show as DocumentShow;
 use App\Livewire\Entities\Form as EntityForm;
 use App\Livewire\Entities\Show as EntityShow;
 use App\Livewire\EntityTypes\Manage as EntityTypesManage;
 use App\Livewire\Fields\Manage as FieldsManage;
 use App\Livewire\Imports\Create as ImportCreate;
+use App\Livewire\Rules\Form as RuleForm;
+use App\Livewire\Rules\Index as RuleIndex;
+use App\Livewire\Rules\Show as RuleShow;
 use App\Livewire\Scenarios\Index as ScenarioIndex;
 use App\Livewire\Scenes\Form as SceneForm;
 use App\Livewire\Scenes\Show as SceneShow;
@@ -33,10 +38,18 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/session', SessionLive::class)->name('sessions.live')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 
+    Route::livewire('/campagnes/{campaign}/regles', RuleIndex::class)->name('rules.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/regles/nouvelle', RuleForm::class)->name('rules.create')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/regles/{rule}', RuleShow::class)->name('rules.show')->whereNumber(['campaign', 'rule']);
+    Route::livewire('/campagnes/{campaign}/regles/{rule}/modifier', RuleForm::class)->name('rules.edit')->whereNumber(['campaign', 'rule']);
+    Route::livewire('/campagnes/{campaign}/documents', DocumentIndex::class)->name('documents.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/documents/{document}', DocumentShow::class)->name('documents.show')->whereNumber(['campaign', 'document']);
+
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/import', ImportCreate::class)->name('imports.create')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/import/exemple-{kind}.csv', ImportExampleController::class)->name('imports.example')->whereNumber('campaign')->whereIn('kind', ['fiches', 'champs']);
 
     Route::get('/fichiers/{attachment}', [FileController::class, 'attachment'])->name('attachments.show')->whereNumber('attachment');
+    Route::get('/documents/{document}/fichier', [FileController::class, 'document'])->name('documents.file')->whereNumber('document');
     Route::get('/entites/{entity}/image', [FileController::class, 'entityImage'])->name('entities.image')->whereNumber('entity');
 });

@@ -14,6 +14,8 @@
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('sessions.live', $campaign) }}" class="btn-primary bg-flow hover:bg-ink" wire:navigate>Mode Session</a>
             <a href="{{ route('scenarios.index', $campaign) }}" class="btn-secondary" wire:navigate>Scénarios</a>
+            <a href="{{ route('rules.index', $campaign) }}" class="btn-secondary" wire:navigate>Règles</a>
+            <a href="{{ route('documents.index', $campaign) }}" class="btn-secondary" wire:navigate>Documents</a>
             @can('update', $campaign->gameSystem)
                 <a href="{{ route('fields.index', $campaign) }}" class="btn-secondary" wire:navigate>Champs du jeu</a>
                 <a href="{{ route('imports.create', $campaign) }}" class="btn-secondary" wire:navigate>Importer</a>
