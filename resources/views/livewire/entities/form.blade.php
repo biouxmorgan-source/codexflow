@@ -46,13 +46,32 @@
             <p class="mb-4 text-sm text-stone-600">Ce que les joueurs pourront découvrir quand vous le révélerez.</p>
             <div class="space-y-4">
                 <div>
+                    <span class="label">Image principale</span>
+                    <div class="flex flex-wrap items-center gap-4">
+                        @if ($image && ! $errors->has('image') && $image->isPreviewable())
+                            <img src="{{ $image->temporaryUrl() }}" alt="Aperçu de la nouvelle image" class="h-24 w-24 rounded-lg object-cover">
+                        @elseif ($entity?->hasImage() && ! $removeImage)
+                            <img src="{{ route('entities.image', $entity) }}?v={{ $entity->updated_at?->timestamp }}" alt="Image actuelle de {{ $entity->name }}" class="h-24 w-24 rounded-lg object-cover">
+                        @endif
+                        <div class="space-y-2">
+                            <input id="image" type="file" wire:model="image" accept="image/jpeg,image/png,image/webp,image/gif" aria-label="Image principale" class="block text-sm file:mr-3 file:rounded-md file:border-0 file:bg-codex-soft file:px-3 file:py-2 file:font-medium file:text-codex">
+                            <p class="text-xs text-stone-500">Portrait, plan ou illustration. JPG, PNG, WebP ou GIF, 10 Mo maximum.</p>
+                            @if ($entity?->hasImage() && ! $image)
+                                <label class="flex items-center gap-2 text-sm"><input type="checkbox" wire:model.live="removeImage"> Retirer l'image</label>
+                            @endif
+                        </div>
+                    </div>
+                    <div wire:loading wire:target="image" class="mt-1 text-sm text-stone-500">Envoi de l'image…</div>
+                    @error('image') <p class="error">{{ $message }}</p> @enderror
+                </div>
+                <div>
                     <label for="summary" class="label">Résumé</label>
                     <input id="summary" type="text" wire:model="summary" class="field" placeholder="Une phrase pour reconnaître l'entité">
                     @error('summary') <p class="error">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label for="description" class="label">Description</label>
-                    <textarea id="description" wire:model="description" rows="6" class="field"></textarea>
+                    <x-link-textarea id="description" model="description" />
                     @error('description') <p class="error">{{ $message }}</p> @enderror
                 </div>
             </div>
@@ -62,7 +81,7 @@
             <h2 class="mb-1 font-semibold text-flow">Zone MJ</h2>
             <p class="mb-4 text-sm text-stone-600">Jamais visible des joueurs : secrets, motivations, notes de préparation.</p>
             <label for="gmNotes" class="label">Notes MJ</label>
-            <textarea id="gmNotes" wire:model="gmNotes" rows="6" class="field"></textarea>
+            <x-link-textarea id="gmNotes" model="gmNotes" />
             @error('gmNotes') <p class="error">{{ $message }}</p> @enderror
         </section>
 

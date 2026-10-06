@@ -36,3 +36,7 @@
         @apply mt-1 text-sm text-red-700;
     }
 }
+
+[x-cloak] {
+    display: none !important;
+}

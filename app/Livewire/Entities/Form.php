@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Entities;
 
+use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
@@ -9,12 +10,17 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\WithFileUploads;
 
 /**
  * Création et modification d'une fiche, toujours depuis le contexte d'une campagne.
  */
 class Form extends Component
 {
+    use SuggestsEntities;
+    use WithFileUploads;
+
     public Campaign $campaign;
 
     public ?Entity $entity = null;
@@ -31,6 +37,11 @@ class Form extends Component
 
     /** « world » : réutilisable dans toutes les campagnes du monde ; « campaign » : propre à cette campagne. */
     public string $scope = 'campaign';
+
+    /** Image principale (portrait, illustration du lieu ou de l'objet). */
+    public ?TemporaryUploadedFile $image = null;
+
+    public bool $removeImage = false;
 
     public function mount(Campaign $campaign, ?Entity $entity = null): void
     {
@@ -72,11 +83,13 @@ class Form extends Component
             'description' => ['nullable', 'string', 'max:20000'],
             'gmNotes' => ['nullable', 'string', 'max:20000'],
             'scope' => ['required', Rule::in($this->campaign->world_id ? ['world', 'campaign'] : ['campaign'])],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240'],
         ], attributes: [
             'entityTypeId' => 'type',
             'summary' => 'résumé',
             'gmNotes' => 'notes MJ',
             'scope' => 'portée',
+            'image' => 'image',
         ]);
 
         $entity = $this->entity ?? new Entity;
@@ -96,6 +109,14 @@ class Form extends Component
             } else {
                 $entity->campaign()->associate($this->campaign);
             }
+        }
+
+        if ($this->removeImage || $this->image !== null) {
+            $entity->deleteImage();
+        }
+
+        if ($this->image !== null) {
+            $entity->image_path = $this->image->store('entities', Entity::FILES_DISK);
         }
 
         $entity->save();

@@ -47,6 +47,11 @@
                     @php($state = $entity->campaignStates->first())
                     <li wire:key="entity-{{ $entity->id }}">
                         <a href="{{ route('entities.show', [$campaign, $entity]) }}" class="flex items-center gap-3 px-4 py-3 hover:bg-stone-50" wire:navigate>
+                            @if ($entity->hasImage())
+                                <img src="{{ route('entities.image', $entity) }}?v={{ $entity->updated_at?->timestamp }}" alt="" loading="lazy" class="h-10 w-10 shrink-0 rounded-lg object-cover">
+                            @else
+                                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-semibold text-stone-500" aria-hidden="true">{{ mb_strtoupper(mb_substr($entity->name, 0, 1)) }}</span>
+                            @endif
                             <span class="min-w-0 flex-1">
                                 <span class="block truncate font-medium">{{ $entity->name }}</span>
                                 @if ($entity->summary)
