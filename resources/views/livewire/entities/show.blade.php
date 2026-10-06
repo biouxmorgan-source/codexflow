@@ -154,6 +154,61 @@
                 </div>
             </form>
 
+            @if ($entity->isWorldEntity() && $allFields->isNotEmpty())
+                @php($overridden = $allFields->filter(fn ($definition) => $entity->overridesFieldIn($definition, $campaign)))
+                <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <h2 class="font-semibold">Champs dans cette campagne</h2>
+                    <p class="mb-3 text-sm text-stone-600">Une valeur propre à la campagne ; la fiche du monde et les autres campagnes ne changent pas.</p>
+                    @if ($overridden->isNotEmpty())
+                        <ul class="mb-3 space-y-1 text-sm">
+                            @foreach ($overridden as $definition)
+                                @php($value = $entity->fieldValueIn($definition, $campaign))
+                                @php($worldValue = $entity->fieldValue($definition))
+                                <li wire:key="override-{{ $definition->id }}" class="flex items-start gap-2">
+                                    <span class="min-w-0 flex-1">
+                                        <span class="font-medium">{{ $definition->name }}</span> : {{ $value === null ? 'vide' : $definition->type->format($value) }}
+                                        <span class="block text-xs text-stone-500">Monde : {{ $worldValue === null ? 'vide' : $definition->type->format($worldValue) }}</span>
+                                    </span>
+                                    <button type="button" wire:click="removeOverride({{ $definition->id }})" class="shrink-0 text-xs text-codex hover:underline">Valeur du monde</button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                    <form wire:submit="saveOverride" class="space-y-2">
+                        <label for="overrideFieldId" class="sr-only">Champ</label>
+                        <select id="overrideFieldId" wire:model.live="overrideFieldId" class="field py-1.5 text-sm">
+                            <option value="">Choisir un champ…</option>
+                            @foreach ($allFields as $definition)
+                                <option value="{{ $definition->id }}">{{ $definition->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('overrideFieldId') <p class="error">{{ $message }}</p> @enderror
+                        @php($picked = $allFields->firstWhere('id', (int) $overrideFieldId))
+                        @if ($picked)
+                            <label for="overrideValue" class="sr-only">Valeur dans cette campagne</label>
+                            @if ($picked->type === \App\Enums\FieldType::Select)
+                                <select id="overrideValue" wire:model="overrideValue" class="field py-1.5 text-sm">
+                                    <option value="">— vide —</option>
+                                    @foreach ($picked->options ?? [] as $option)
+                                        <option value="{{ $option }}">{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                            @elseif ($picked->type === \App\Enums\FieldType::Boolean)
+                                <select id="overrideValue" wire:model="overrideValue" class="field py-1.5 text-sm">
+                                    <option value="">— vide —</option>
+                                    <option value="oui">Oui</option>
+                                    <option value="non">Non</option>
+                                </select>
+                            @else
+                                <input id="overrideValue" type="text" wire:model="overrideValue" class="field py-1.5 text-sm" placeholder="{{ $picked->type === \App\Enums\FieldType::Date ? 'jj/mm/aaaa' : 'Valeur dans cette campagne (vide = aucune)' }}">
+                            @endif
+                            @error('overrideValue') <p class="error">{{ $message }}</p> @enderror
+                            <button type="submit" class="btn-secondary min-h-0 py-1 text-sm">Surcharger</button>
+                        @endif
+                    </form>
+                </section>
+            @endif
+
             @if ($scenes->isNotEmpty())
                 <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                     <h2 class="mb-2 font-semibold">Scènes</h2>

@@ -21,6 +21,7 @@ class FieldDefinition extends Model
         static::deleted(function (FieldDefinition $definition) {
             $key = (string) $definition->getKey();
             DB::update('update entities set field_values = field_values - ? where jsonb_exists(field_values, ?)', [$key, $key]);
+            DB::update("update campaign_entity_states set overrides = overrides - ? where jsonb_typeof(overrides) = 'object' and jsonb_exists(overrides, ?)", [$key, $key]);
         });
     }
 
