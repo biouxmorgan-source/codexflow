@@ -19,6 +19,14 @@ class Campaign extends Model
     /** @use HasFactory<CampaignFactory> */
     use HasFactory;
 
+    protected static function booted(): void
+    {
+        // Une à une, pour que chaque entité supprime ses fichiers.
+        static::deleting(function (Campaign $campaign) {
+            $campaign->localEntities()->each(fn (Entity $entity) => $entity->delete());
+        });
+    }
+
     protected function casts(): array
     {
         return [

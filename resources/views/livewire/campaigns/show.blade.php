@@ -69,4 +69,22 @@
             </ul>
         @endif
     </section>
+
+    @can('delete', $campaign)
+        @php($localCount = $campaign->localEntities()->count())
+        <section class="mt-10 rounded-xl border border-red-200 bg-white p-6 shadow-sm">
+            <h2 class="mb-2 font-semibold">Supprimer la campagne</h2>
+            <p class="mb-3 text-sm text-stone-600">
+                @if ($localCount > 0)
+                    Ses {{ $localCount }} fiche{{ $localCount > 1 ? 's' : '' }} propre{{ $localCount > 1 ? 's' : '' }} à la campagne et leurs fichiers seront supprimés.
+                @else
+                    La campagne et ses notes de campagne seront supprimées.
+                @endif
+                @if ($campaign->world)
+                    Les fiches du monde « {{ $campaign->world->name }} » sont conservées.
+                @endif
+            </p>
+            <button type="button" wire:click="delete" wire:confirm="Supprimer définitivement la campagne {{ $campaign->name }} ? Cette action est irréversible." class="text-sm font-medium text-red-700 hover:underline">Supprimer la campagne</button>
+        </section>
+    @endcan
 </div>

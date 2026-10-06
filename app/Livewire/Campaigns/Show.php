@@ -6,6 +6,7 @@ use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -45,6 +46,15 @@ class Show extends Component
     public function types(): Collection
     {
         return EntityType::query()->availableTo(auth()->user())->orderBy('id')->get();
+    }
+
+    public function delete(): void
+    {
+        $this->authorize('delete', $this->campaign);
+
+        DB::transaction(fn () => $this->campaign->delete());
+
+        $this->redirectRoute('campaigns.index', navigate: true);
     }
 
     public function render()
