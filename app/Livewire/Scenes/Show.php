@@ -5,6 +5,7 @@ namespace App\Livewire\Scenes;
 use App\Enums\SceneStatus;
 use App\Models\Campaign;
 use App\Models\Scene;
+use App\Models\ToPlayItem;
 use App\Support\EntityLinks;
 use Livewire\Component;
 
@@ -28,6 +29,28 @@ class Show extends Component
         $this->scene->save();
     }
 
+    public string $toPlayBody = '';
+
+    public function addToPlay(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $this->validate(['toPlayBody' => ['required', 'string', 'max:500']], attributes: ['toPlayBody' => 'élément à jouer']);
+
+        $item = new ToPlayItem(['body' => trim($this->toPlayBody), 'position' => (int) $this->campaign->toPlayItems()->max('position') + 1]);
+        $item->campaign()->associate($this->campaign);
+        $this->scene->toPlayItems()->save($item);
+
+        $this->reset('toPlayBody');
+    }
+
+    public function deleteToPlay(int $id): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $this->scene->toPlayItems()->findOrFail($id)->delete();
+    }
+
     public function delete(): void
     {
         $this->authorize('update', $this->campaign);
@@ -47,6 +70,7 @@ class Show extends Component
             'entities' => $this->scene->entities()
                 ->with(['type', 'campaignStates' => fn ($q) => $q->where('campaign_id', $this->campaign->id)])
                 ->get(),
+            'toPlay' => $this->scene->toPlayItems()->get(),
             'previous' => $index > 0 ? $siblings[$index - 1] : null,
             'next' => $siblings[$index + 1] ?? null,
         ])->title($this->scene->name);

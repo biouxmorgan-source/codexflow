@@ -81,6 +81,29 @@ class Campaign extends Model
         return $this->hasManyThrough(Scene::class, Scenario::class);
     }
 
+    /** @return HasMany<PlaySession, $this> */
+    public function playSessions(): HasMany
+    {
+        return $this->hasMany(PlaySession::class);
+    }
+
+    public function openSession(): ?PlaySession
+    {
+        return $this->playSessions()->whereNull('ended_at')->first();
+    }
+
+    /** @return BelongsToMany<Entity, $this> */
+    public function pins(): BelongsToMany
+    {
+        return $this->belongsToMany(Entity::class, 'campaign_pins')->withPivot('position')->withTimestamps()->orderByPivot('position');
+    }
+
+    /** @return HasMany<ToPlayItem, $this> */
+    public function toPlayItems(): HasMany
+    {
+        return $this->hasMany(ToPlayItem::class)->orderBy('position')->orderBy('id');
+    }
+
     /** @return HasMany<CampaignEntityState, $this> */
     public function entityStates(): HasMany
     {

@@ -52,6 +52,27 @@ class EntityLinks
     }
 
     /**
+     * Fiches citées dans un texte, dans l'ordre d'apparition et sans doublon.
+     *
+     * @return Collection<int, Entity>
+     */
+    public static function referenced(?string $text, Campaign $campaign): Collection
+    {
+        if ($text === null || $text === '') {
+            return collect();
+        }
+
+        preg_match_all(self::PATTERN, $text, $matches, PREG_SET_ORDER);
+        [$byId, $byName] = self::resolve($matches, $campaign);
+
+        return collect($matches)
+            ->map(fn (array $m) => isset($m[2]) && $m[2] !== '' ? $byId->get((int) $m[2]) : $byName->get(mb_strtolower(trim($m[1]))))
+            ->filter()
+            ->unique('id')
+            ->values();
+    }
+
+    /**
      * Fiches de la campagne qui citent cette entité.
      *
      * @return Collection<int, Entity>

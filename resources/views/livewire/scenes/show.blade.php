@@ -65,6 +65,25 @@
                 @endif
             </section>
 
+            <section class="rounded-xl border border-codex/30 bg-white p-6 shadow-sm">
+                <h2 class="mb-1 font-semibold text-codex">À jouer</h2>
+                <p class="mb-3 text-sm text-stone-600">Ce que vous voulez placer pendant la scène. La liste vous attendra en mode Session.</p>
+                <ul class="space-y-1 text-sm">
+                    @foreach ($toPlay as $item)
+                        <li wire:key="toplay-{{ $item->id }}" class="flex items-start gap-2">
+                            <span @class(['min-w-0 flex-1', 'text-stone-400 line-through' => $item->done_at])>{{ $item->body }}</span>
+                            <button type="button" wire:click="deleteToPlay({{ $item->id }})" class="shrink-0 text-xs text-stone-400 hover:text-red-700" aria-label="Supprimer « {{ $item->body }} »">✕</button>
+                        </li>
+                    @endforeach
+                </ul>
+                <form wire:submit="addToPlay" class="mt-3 flex gap-2">
+                    <label for="toPlayBody" class="sr-only">Nouvel élément à jouer</label>
+                    <input id="toPlayBody" type="text" wire:model="toPlayBody" class="field py-1.5 text-sm" placeholder="Mira glisse une lettre…" autocomplete="off">
+                    <button type="submit" class="btn-secondary min-h-0 py-1 text-sm">Ajouter</button>
+                </form>
+                @error('toPlayBody') <p class="error">{{ $message }}</p> @enderror
+            </section>
+
             <nav class="flex justify-between gap-3 text-sm" aria-label="Scènes voisines">
                 @if ($previous)
                     <a href="{{ route('scenes.show', [$campaign, $previous]) }}" class="text-codex hover:underline" wire:navigate>← {{ $previous->name }}</a>
