@@ -107,7 +107,8 @@ final class GlobalSearch
             (select string_agg(value, ' ') from jsonb_each_text(entities.field_values)),
             (select entity_types.name from entity_types where entity_types.id = entities.entity_type_id),
             (select string_agg(tags.name, ' ') from entity_tag join tags on tags.id = entity_tag.tag_id where entity_tag.entity_id = entities.id),
-            (select concat_ws(' ', s.status, s.gm_notes) from campaign_entity_states s where s.entity_id = entities.id and s.campaign_id = {$campaignId}),
+            (select concat_ws(' ', s.status, s.gm_notes,
+                (select string_agg(o.value, ' ') from jsonb_each_text(case when jsonb_typeof(s.overrides) = 'object' then s.overrides else '{}'::jsonb end) o)) from campaign_entity_states s where s.entity_id = entities.id and s.campaign_id = {$campaignId}),
             (select string_agg(scenes.name, ' ') from scene_entity
                 join scenes on scenes.id = scene_entity.scene_id
                 join scenarios on scenarios.id = scenes.scenario_id

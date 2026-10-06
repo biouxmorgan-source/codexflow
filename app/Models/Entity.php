@@ -128,6 +128,34 @@ class Entity extends Model
     }
 
     /**
+     * Valeur du champ dans une campagne : la surcharge de la campagne si elle existe,
+     * sinon la valeur de la fiche.
+     */
+    public function fieldValueIn(FieldDefinition $definition, Campaign $campaign): mixed
+    {
+        $state = $this->loadedStateIn($campaign);
+
+        return $state?->overrides($definition) ? $state->fieldOverrides()[(string) $definition->getKey()] : $this->fieldValue($definition);
+    }
+
+    public function overridesFieldIn(FieldDefinition $definition, Campaign $campaign): bool
+    {
+        return (bool) $this->loadedStateIn($campaign)?->overrides($definition);
+    }
+
+    /**
+     * État de campagne, lu une fois puis gardé en mémoire dans la relation campaignStates.
+     */
+    private function loadedStateIn(Campaign $campaign): ?CampaignEntityState
+    {
+        if (! $this->relationLoaded('campaignStates')) {
+            $this->setRelation('campaignStates', $this->campaignStates()->where('campaign_id', $campaign->getKey())->get());
+        }
+
+        return $this->campaignStates->firstWhere('campaign_id', $campaign->getKey());
+    }
+
+    /**
      * Remplace les valeurs des champs donnés, sans toucher à celles des autres jeux.
      *
      * @param  array<int|string, mixed>  $values  [id de définition => valeur ou null]
