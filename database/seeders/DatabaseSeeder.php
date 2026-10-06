@@ -40,13 +40,23 @@ class DatabaseSeeder extends Seeder
             'entity_type_id' => $place->id,
             'name' => 'Le Poney fringant',
             'summary' => 'Auberge animée au carrefour des routes marchandes.',
+            'description' => 'Deux étages de bois sombre, une cheminée immense et des chambres à louer à la semaine.',
             'gm_notes' => 'La cave abrite un passage vers les égouts.',
         ]);
 
-        foreach (['Aldric le tavernier', 'Mira la colporteuse', 'Frère Anselme'] as $name) {
+        $npcs = [
+            'Aldric le tavernier' => ['Tient le Poney fringant depuis vingt ans.', 'Renseigne la guilde des voleurs contre quelques pièces.'],
+            'Mira la colporteuse' => ['Marchande ambulante, toujours de passage.', 'Transporte en secret des lettres pour la résistance.'],
+            'Frère Anselme' => ['Moine érudit du monastère voisin.', 'Cherche le grimoire perdu de son ordre.'],
+        ];
+
+        foreach ($npcs as $name => [$summary, $secret]) {
             Entity::factory()->for($gm, 'owner')->for($first->world)->create([
                 'entity_type_id' => $character->id,
                 'name' => $name,
+                'summary' => $summary,
+                'description' => null,
+                'gm_notes' => $secret,
             ]);
         }
 

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Fiche d'entité. Zone publique : name, summary, description. Zone MJ : gm_notes.
@@ -20,6 +21,17 @@ class Entity extends Model
 {
     /** @use HasFactory<EntityFactory> */
     use HasFactory;
+
+    /** Disque privé : les fichiers ne sont servis qu'après vérification des droits. */
+    public const FILES_DISK = 'local';
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Entity $entity) {
+            $entity->attachments->each->delete();
+            $entity->deleteImage();
+        });
+    }
 
     /** @return BelongsTo<User, $this> */
     public function owner(): BelongsTo
@@ -49,6 +61,25 @@ class Entity extends Model
     public function campaignStates(): HasMany
     {
         return $this->hasMany(CampaignEntityState::class);
+    }
+
+    /** @return HasMany<Attachment, $this> */
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(Attachment::class)->latest();
+    }
+
+    public function hasImage(): bool
+    {
+        return $this->image_path !== null;
+    }
+
+    public function deleteImage(): void
+    {
+        if ($this->image_path !== null) {
+            Storage::disk(self::FILES_DISK)->delete($this->image_path);
+            $this->image_path = null;
+        }
     }
 
     public function isWorldEntity(): bool

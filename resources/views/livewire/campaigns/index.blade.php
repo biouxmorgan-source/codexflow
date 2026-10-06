@@ -71,9 +71,15 @@
         <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($this->campaigns as $campaign)
                 @php($role = $campaign->members->first()->pivot->role)
-                <li wire:key="campaign-{{ $campaign->id }}" class="flex flex-col rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+                <li wire:key="campaign-{{ $campaign->id }}" class="relative flex flex-col rounded-xl border border-stone-200 bg-white p-5 shadow-sm hover:border-codex/40">
                     <div class="mb-2 flex items-start justify-between gap-2">
-                        <h2 class="text-lg font-semibold">{{ $campaign->name }}</h2>
+                        <h2 class="text-lg font-semibold">
+                            @if ($role === \App\Enums\CampaignRole::GameMaster)
+                                <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex after:absolute after:inset-0" wire:navigate>{{ $campaign->name }}</a>
+                            @else
+                                {{ $campaign->name }}
+                            @endif
+                        </h2>
                         <span @class([
                             'shrink-0 rounded-full px-2 py-0.5 text-xs font-medium',
                             'bg-codex-soft text-codex' => $campaign->status === \App\Enums\CampaignStatus::Active,

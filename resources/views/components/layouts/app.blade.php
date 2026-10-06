@@ -5,7 +5,7 @@
             <a href="{{ route('campaigns.index') }}" class="text-xl font-semibold tracking-tight" wire:navigate>
                 <span class="text-ink">CODEX</span><span class="text-flow">FLOW</span>
             </a>
-            <nav class="flex items-center gap-4 text-sm whitespace-nowrap">
+            <nav class="flex items-center gap-3 text-sm whitespace-nowrap sm:gap-4">
                 <a href="{{ route('campaigns.index') }}" class="font-medium hover:text-codex" wire:navigate>Mes campagnes</a>
                 <span class="hidden text-stone-500 sm:inline">{{ auth()->user()->name }}</span>
                 <form method="POST" action="{{ route('logout') }}">
