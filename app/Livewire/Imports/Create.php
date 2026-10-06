@@ -5,6 +5,7 @@ namespace App\Livewire\Imports;
 use App\Actions\Imports\ImportEntities;
 use App\Actions\Imports\ImportFieldDefinitions;
 use App\Actions\Imports\ImportRules;
+use App\Actions\Imports\ImportScenes;
 use App\Enums\Zone;
 use App\Models\Campaign;
 use App\Models\EntityType;
@@ -26,9 +27,11 @@ class Create extends Component
 {
     use WithFileUploads;
 
+    private const MODES = ['entities', 'fields', 'rules', 'scenes'];
+
     public Campaign $campaign;
 
-    /** « entities » : des fiches et leurs valeurs ; « fields » : une liste de champs ; « rules » : des règles. */
+    /** « entities » : des fiches et leurs valeurs ; « fields » : une liste de champs ; « rules » : des règles ; « scenes » : des scénarios et leurs scènes. */
     #[Url(except: 'entities')]
     public string $mode = 'entities';
 
@@ -60,7 +63,7 @@ class Create extends Component
         $this->authorize('update', $campaign);
         $this->authorize('update', $campaign->gameSystem);
 
-        if (! in_array($this->mode, ['entities', 'fields', 'rules'], true)) {
+        if (! in_array($this->mode, self::MODES, true)) {
             $this->mode = 'entities';
         }
 
@@ -124,7 +127,7 @@ class Create extends Component
     {
         $this->authorize('update', $this->campaign->gameSystem);
         $this->validate($this->fileRules() + [
-            'mode' => ['required', Rule::in(['entities', 'fields', 'rules'])],
+            'mode' => ['required', Rule::in(self::MODES)],
             'ruleScope' => ['required', Rule::in(['game', 'campaign'])],
             'defaultTypeId' => ['required', Rule::in($this->types->modelKeys())],
             'newTypeId' => ['nullable', Rule::in($this->types->modelKeys())],
@@ -147,7 +150,7 @@ class Create extends Component
         unset($this->definitions, $this->table, $this->plan);
     }
 
-    private function action(): ImportEntities|ImportFieldDefinitions|ImportRules|null
+    private function action(): ImportEntities|ImportFieldDefinitions|ImportRules|ImportScenes|null
     {
         $table = $this->table;
 
@@ -157,6 +160,10 @@ class Create extends Component
 
         if ($this->mode === 'fields') {
             return new ImportFieldDefinitions($this->campaign->gameSystem, auth()->user(), $table);
+        }
+
+        if ($this->mode === 'scenes') {
+            return new ImportScenes($this->campaign, $table, $this->updateExisting);
         }
 
         if ($this->mode === 'rules') {

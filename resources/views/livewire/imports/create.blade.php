@@ -14,10 +14,13 @@
                 $plural($result['created'], 'créé', 'créés'),
                 $plural($result['updated'], 'mis à jour', 'mis à jour'),
                 ! empty($result['fields']) ? $plural($result['fields'], 'nouveau champ', 'nouveaux champs') : null,
+                ! empty($result['scenarios']) ? $plural($result['scenarios'], 'nouveau scénario', 'nouveaux scénarios') : null,
             ])->filter()->implode(', ') }}.</p>
             <p class="mt-1 text-sm">
                 @if ($mode === 'rules')
                     <a href="{{ route('rules.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les règles</a>
+                @elseif ($mode === 'scenes')
+                    <a href="{{ route('scenarios.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les scénarios</a>
                 @else
                     <a href="{{ route('campaigns.show', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les fiches</a>
                     · <a href="{{ route('fields.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les champs du jeu</a>
@@ -34,6 +37,7 @@
                     <label class="flex items-center gap-2"><input type="radio" wire:model.live="mode" value="entities"> Des fiches (une ligne par fiche)</label>
                     <label class="flex items-center gap-2"><input type="radio" wire:model.live="mode" value="fields"> Une liste de champs pour le jeu {{ $campaign->gameSystem->name }}</label>
                     <label class="flex items-center gap-2"><input type="radio" wire:model.live="mode" value="rules"> Des règles ou aides de jeu</label>
+                    <label class="flex items-center gap-2"><input type="radio" wire:model.live="mode" value="scenes"> Des scénarios et leurs scènes</label>
                 </div>
             </fieldset>
 
@@ -42,10 +46,12 @@
                     Une colonne pour le nom, puis une colonne par information : type, résumé, ou vos champs (Force, Discrétion…). Les colonnes inconnues deviennent de nouveaux champs.
                 @elseif ($mode === 'fields')
                     Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique ou MJ), Choix (séparés par |), Type de fiche.
+                @elseif ($mode === 'scenes')
+                    Une ligne par scène. Colonnes reconnues : Scénario, Résumé du scénario, Chapitre, Scène, Description, Statut, puis Fiches, Documents et Règles à lier (noms séparés par |). Importez d'abord les fiches et les documents pour que les liens les trouvent.
                 @else
                     Une ligne par règle. Colonnes reconnues : Titre, Catégorie, Résumé, Procédure, Notes MJ, Source, Origine (référence, maison, test), Statut, Zone (publique ou MJ), Tags (séparés par des virgules).
                 @endif
-                <a href="{{ route('imports.example', [$campaign, ['entities' => 'fiches', 'fields' => 'champs', 'rules' => 'regles'][$mode] ?? 'fiches']) }}" class="text-codex hover:underline">Télécharger un fichier exemple</a>
+                <a href="{{ route('imports.example', [$campaign, ['entities' => 'fiches', 'fields' => 'champs', 'rules' => 'regles', 'scenes' => 'scenes'][$mode] ?? 'fiches']) }}" class="text-codex hover:underline">Télécharger un fichier exemple</a>
             </p>
 
             <div>
@@ -155,6 +161,15 @@
             </section>
         @endif
 
+        @if ($this->table instanceof \App\Support\Import\TabularFile && $mode === 'scenes')
+            <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <label class="flex items-center gap-2 text-sm">
+                    <input type="checkbox" wire:model.live="updateExisting">
+                    Mettre à jour les scènes qui existent déjà sous le même nom dans le même scénario (les cases vides ne changent rien)
+                </label>
+            </section>
+        @endif
+
         @if ($plan = $this->plan)
             @php($errorRows = collect($plan['rows'])->filter(fn ($row) => $row['errors'] !== []))
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
@@ -205,7 +220,10 @@
                             <tr>
                                 <th class="py-2 pr-3 font-medium">Ligne</th>
                                 <th class="py-2 pr-3 font-medium">Nom</th>
-                                @if ($mode === 'rules')
+                                @if ($mode === 'scenes')
+                                    <th class="py-2 pr-3 font-medium">Scénario</th>
+                                    <th class="py-2 pr-3 font-medium">Liens</th>
+                                @elseif ($mode === 'rules')
                                     <th class="py-2 pr-3 font-medium">Catégorie</th>
                                     <th class="py-2 pr-3 font-medium">Zone</th>
                                 @elseif ($mode === 'fields')
@@ -224,7 +242,10 @@
                                 <tr wire:key="row-{{ $row['line'] }}">
                                     <td class="py-1.5 pr-3 text-stone-500">{{ $row['line'] }}</td>
                                     <td class="py-1.5 pr-3 font-medium">{{ $row['name'] ?: '—' }}</td>
-                                    @if ($mode === 'rules')
+                                    @if ($mode === 'scenes')
+                                        <td class="py-1.5 pr-3">{{ $row['scenario'] ?: '—' }}</td>
+                                        <td class="py-1.5 pr-3">{{ $row['links'] }}</td>
+                                    @elseif ($mode === 'rules')
                                         <td class="py-1.5 pr-3">{{ $row['category'] ?: '—' }}</td>
                                         <td class="py-1.5 pr-3">{{ $row['zone'] }}</td>
                                     @elseif ($mode === 'fields')
