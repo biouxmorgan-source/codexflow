@@ -200,6 +200,7 @@ class Show extends Component
             ->filter(fn (EntityRelation $relation) => $relation->from !== null && $relation->to !== null);
 
         return view('livewire.entities.show', [
+            'scenes' => EntityLinks::scenes($this->entity, $this->campaign),
             'publicRelations' => $relations->where('zone', Zone::Public),
             'gmRelations' => $relations->where('zone', Zone::GameMaster),
             'relationLabels' => collect(self::RELATION_LABELS)

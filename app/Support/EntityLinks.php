@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Campaign;
 use App\Models\Entity;
+use App\Models\Scene;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
@@ -68,6 +69,27 @@ class EntityLinks
                 }
             })
             ->orderBy('name')
+            ->get();
+    }
+
+    /**
+     * Scènes de la campagne qui citent la fiche, par une liaison ou dans leur préparation.
+     *
+     * @return Collection<int, Scene>
+     */
+    public static function scenes(Entity $entity, Campaign $campaign): Collection
+    {
+        $byId = '%|'.$entity->getKey().']]%';
+        $byName = '%[['.addcslashes(mb_strtolower($entity->name), '%_\\').']]%';
+
+        return $campaign->scenes()
+            ->where(fn ($q) => $q
+                ->whereHas('entities', fn ($e) => $e->whereKey($entity->getKey()))
+                ->orWhere('scenes.description', 'like', $byId)
+                ->orWhereRaw('lower(scenes.description) like ?', [$byName]))
+            ->with('scenario')
+            ->orderBy('scenarios.position')
+            ->orderBy('scenes.position')
             ->get();
     }
 

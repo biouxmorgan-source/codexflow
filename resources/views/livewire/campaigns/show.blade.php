@@ -12,6 +12,7 @@
             </p>
         </div>
         <div class="flex flex-wrap gap-2">
+            <a href="{{ route('scenarios.index', $campaign) }}" class="btn-secondary" wire:navigate>Scénarios</a>
             @can('update', $campaign->gameSystem)
                 <a href="{{ route('fields.index', $campaign) }}" class="btn-secondary" wire:navigate>Champs du jeu</a>
                 <a href="{{ route('imports.create', $campaign) }}" class="btn-secondary" wire:navigate>Importer</a>

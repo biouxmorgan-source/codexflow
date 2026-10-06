@@ -78,6 +78,12 @@ class Entity extends Model
         return $this->hasMany(Attachment::class)->latest();
     }
 
+    /** @return BelongsToMany<Scene, $this> */
+    public function scenes(): BelongsToMany
+    {
+        return $this->belongsToMany(Scene::class, 'scene_entity')->withPivot('note', 'position');
+    }
+
     /** @return BelongsToMany<Tag, $this> */
     public function tags(): BelongsToMany
     {
