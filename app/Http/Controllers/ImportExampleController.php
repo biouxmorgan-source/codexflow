@@ -25,6 +25,11 @@ class ImportExampleController extends Controller
             ['Discrétion', 'Compétences', 'oui/non', 'publique', '', ''],
             ['Pouvoir caché', 'Capacités', 'texte long', 'MJ', '', ''],
         ],
+        'regles' => [
+            ['Titre', 'Catégorie', 'Résumé', 'Procédure', 'Notes MJ', 'Source', 'Origine', 'Statut', 'Zone', 'Tags'],
+            ['Voyage', 'Déplacements', 'Un test par jour de marche', "Chaque voyageur lance 1d20.\nEn cas d'échec, il perd 1 point de vigueur.", '', 'Livre de base p. 42', 'référence', 'disponible', 'publique', 'voyage, extérieur'],
+            ['Initiative en groupe', 'Combat', 'Un seul jet par camp', '', 'À tester sur deux séances', '', 'maison', 'à tester', 'MJ', 'combat'],
+        ],
     ];
 
     public function __invoke(Campaign $campaign, string $kind): StreamedResponse

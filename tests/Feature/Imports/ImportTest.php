@@ -3,12 +3,15 @@
 namespace Tests\Feature\Imports;
 
 use App\Enums\FieldType;
+use App\Enums\RuleOrigin;
+use App\Enums\RuleStatus;
 use App\Enums\Zone;
 use App\Livewire\Imports\Create;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\FieldDefinition;
+use App\Models\Rule;
 use App\Models\User;
 use App\Models\World;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -150,6 +153,69 @@ class ImportTest extends TestCase
         $this->assertSame(EntityType::standard('character')->id, FieldDefinition::where('name', 'Force')->value('entity_type_id'));
         $this->assertSame(['d4', 'd6', 'd8'], FieldDefinition::where('name', 'Dé de vie')->sole()->options);
         $this->assertSame(Zone::GameMaster, FieldDefinition::where('name', 'Pouvoir caché')->sole()->zone);
+    }
+
+    public function test_rules_are_imported_for_the_game_and_existing_ones_updated(): void
+    {
+        $existing = new Rule(['title' => 'Kangling', 'summary' => 'Ancienne définition', 'procedure' => 'À garder']);
+        $existing->owner()->associate($this->gm);
+        $existing->game_system_id = $this->campaign->game_system_id;
+        $existing->save();
+
+        $csv = implode("\r\n", [
+            'Titre;Catégorie;Résumé;Procédure;Notes MJ;Origine;Statut;Zone;Tags',
+            'kangling;Glossaire;Cor en fémur humain;;;;;;Glossaire',
+            'Magie poussée;Magie;Sorciers à 0 SAN;"Lancez 1D100.',
+            'Comparez au Mythe.";Option;maison;à tester;MJ;Magie, Option',
+            ';Glossaire;Sans titre;;;;;;',
+            'Dakini;Glossaire;Être féminin;;;officielle;;secret;',
+            'Ghat;Glossaire;Marches;;;inventée;périmée;;',
+        ]);
+
+        $component = Livewire::actingAs($this->gm)
+            ->test(Create::class, ['campaign' => $this->campaign, 'mode' => 'rules'])
+            ->set('file', UploadedFile::fake()->createWithContent('regles.csv', $csv))
+            ->assertSee(['Mise à jour', 'titre manquant', 'origine « inventée » inconnue', 'statut « périmée » inconnu', 'Importer 3 lignes']);
+
+        $this->assertSame(1, Rule::count(), 'Rien n\'est créé avant validation.');
+
+        $component->call('import')->assertHasNoErrors()->assertSee('2 créés, 1 mis à jour');
+
+        $kangling = $existing->fresh();
+        $this->assertSame('Cor en fémur humain', $kangling->summary);
+        $this->assertSame('À garder', $kangling->procedure, 'Une case vide ne remplace rien.');
+        $this->assertSame('Glossaire', $kangling->category);
+        $this->assertSame(['Glossaire'], $kangling->tags->pluck('name')->all());
+
+        $magic = Rule::where('title', 'Magie poussée')->sole();
+        $this->assertSame("Lancez 1D100.\nComparez au Mythe.", $magic->procedure);
+        $this->assertSame(RuleOrigin::House, $magic->origin);
+        $this->assertSame(RuleStatus::ToTest, $magic->status);
+        $this->assertSame(Zone::GameMaster, $magic->zone);
+        $this->assertSame($this->campaign->game_system_id, $magic->game_system_id);
+        $this->assertNull($magic->campaign_id);
+        $this->assertSame(['Magie', 'Option'], $magic->tags->pluck('name')->all());
+
+        $this->assertSame(Zone::GameMaster, Rule::where('title', 'Dakini')->sole()->zone);
+    }
+
+    public function test_rules_can_be_imported_for_the_campaign_only(): void
+    {
+        Livewire::actingAs($this->gm)
+            ->test(Create::class, ['campaign' => $this->campaign])
+            ->set('mode', 'rules')
+            ->set('ruleScope', 'campaign')
+            ->set('file', UploadedFile::fake()->createWithContent('regles.json', json_encode([['titre' => 'Voyage', 'procédure' => 'Un test par jour']])))
+            ->call('import')
+            ->assertSee('1 créé');
+
+        $rule = Rule::sole();
+        $this->assertSame($this->campaign->id, $rule->campaign_id);
+        $this->assertNull($rule->game_system_id);
+        $this->assertSame(RuleOrigin::Reference, $rule->origin);
+        $this->assertSame(Zone::Public, $rule->zone);
+
+        $this->get(route('imports.example', [$this->campaign, 'regles']))->assertOk()->assertDownload('codexflow-exemple-regles.csv');
     }
 
     public function test_unreadable_files_are_reported(): void

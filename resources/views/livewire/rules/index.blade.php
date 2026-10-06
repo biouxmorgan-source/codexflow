@@ -9,7 +9,10 @@
             <h1 class="text-2xl font-semibold">Règles et aides de jeu</h1>
             <p class="text-sm text-stone-600">Les règles du jeu {{ $campaign->gameSystem->name }} servent à toutes ses campagnes ; les autres restent propres à celle-ci.</p>
         </div>
-        <a href="{{ route('rules.create', $campaign) }}" class="btn-primary" wire:navigate>Nouvelle règle</a>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('imports.create', [$campaign, 'mode' => 'rules']) }}" class="btn-secondary" wire:navigate>Importer</a>
+            <a href="{{ route('rules.create', $campaign) }}" class="btn-primary" wire:navigate>Nouvelle règle</a>
+        </div>
     </div>
 
     <div class="mb-4 flex flex-wrap items-center gap-3">

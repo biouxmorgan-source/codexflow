@@ -16,8 +16,12 @@
                 ! empty($result['fields']) ? $plural($result['fields'], 'nouveau champ', 'nouveaux champs') : null,
             ])->filter()->implode(', ') }}.</p>
             <p class="mt-1 text-sm">
-                <a href="{{ route('campaigns.show', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les fiches</a>
-                · <a href="{{ route('fields.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les champs du jeu</a>
+                @if ($mode === 'rules')
+                    <a href="{{ route('rules.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les règles</a>
+                @else
+                    <a href="{{ route('campaigns.show', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les fiches</a>
+                    · <a href="{{ route('fields.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les champs du jeu</a>
+                @endif
             </p>
         </div>
     @endif
@@ -29,16 +33,19 @@
                 <div class="flex flex-col gap-2 sm:flex-row sm:gap-6">
                     <label class="flex items-center gap-2"><input type="radio" wire:model.live="mode" value="entities"> Des fiches (une ligne par fiche)</label>
                     <label class="flex items-center gap-2"><input type="radio" wire:model.live="mode" value="fields"> Une liste de champs pour le jeu {{ $campaign->gameSystem->name }}</label>
+                    <label class="flex items-center gap-2"><input type="radio" wire:model.live="mode" value="rules"> Des règles ou aides de jeu</label>
                 </div>
             </fieldset>
 
             <p class="text-sm text-stone-600">
                 @if ($mode === 'entities')
                     Une colonne pour le nom, puis une colonne par information : type, résumé, ou vos champs (Force, Discrétion…). Les colonnes inconnues deviennent de nouveaux champs.
-                @else
+                @elseif ($mode === 'fields')
                     Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique ou MJ), Choix (séparés par |), Type de fiche.
+                @else
+                    Une ligne par règle. Colonnes reconnues : Titre, Catégorie, Résumé, Procédure, Notes MJ, Source, Origine (référence, maison, test), Statut, Zone (publique ou MJ), Tags (séparés par des virgules).
                 @endif
-                <a href="{{ route('imports.example', [$campaign, $mode === 'entities' ? 'fiches' : 'champs']) }}" class="text-codex hover:underline">Télécharger un fichier exemple</a>
+                <a href="{{ route('imports.example', [$campaign, ['entities' => 'fiches', 'fields' => 'champs', 'rules' => 'regles'][$mode] ?? 'fiches']) }}" class="text-codex hover:underline">Télécharger un fichier exemple</a>
             </p>
 
             <div>
@@ -132,6 +139,22 @@
             </section>
         @endif
 
+        @if ($this->table instanceof \App\Support\Import\TabularFile && $mode === 'rules')
+            <section class="grid gap-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2">
+                <div>
+                    <label for="ruleScope" class="label">Règles rattachées à</label>
+                    <select id="ruleScope" wire:model.live="ruleScope" class="field">
+                        <option value="game">Tout le jeu {{ $campaign->gameSystem->name }}</option>
+                        <option value="campaign">Cette campagne seulement</option>
+                    </select>
+                </div>
+                <label class="flex items-center gap-2 self-end text-sm">
+                    <input type="checkbox" wire:model.live="updateExisting">
+                    Mettre à jour les règles qui existent déjà sous le même titre (les cases vides ne changent rien)
+                </label>
+            </section>
+        @endif
+
         @if ($plan = $this->plan)
             @php($errorRows = collect($plan['rows'])->filter(fn ($row) => $row['errors'] !== []))
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
@@ -182,7 +205,10 @@
                             <tr>
                                 <th class="py-2 pr-3 font-medium">Ligne</th>
                                 <th class="py-2 pr-3 font-medium">Nom</th>
-                                @if ($mode === 'fields')
+                                @if ($mode === 'rules')
+                                    <th class="py-2 pr-3 font-medium">Catégorie</th>
+                                    <th class="py-2 pr-3 font-medium">Zone</th>
+                                @elseif ($mode === 'fields')
                                     <th class="py-2 pr-3 font-medium">Groupe</th>
                                     <th class="py-2 pr-3 font-medium">Type</th>
                                     <th class="py-2 pr-3 font-medium">Zone</th>
@@ -198,7 +224,10 @@
                                 <tr wire:key="row-{{ $row['line'] }}">
                                     <td class="py-1.5 pr-3 text-stone-500">{{ $row['line'] }}</td>
                                     <td class="py-1.5 pr-3 font-medium">{{ $row['name'] ?: '—' }}</td>
-                                    @if ($mode === 'fields')
+                                    @if ($mode === 'rules')
+                                        <td class="py-1.5 pr-3">{{ $row['category'] ?: '—' }}</td>
+                                        <td class="py-1.5 pr-3">{{ $row['zone'] }}</td>
+                                    @elseif ($mode === 'fields')
                                         <td class="py-1.5 pr-3">{{ $row['group'] ?: '—' }}</td>
                                         <td class="py-1.5 pr-3">{{ $row['type'] }}</td>
                                         <td class="py-1.5 pr-3">{{ $row['zone'] }}</td>
