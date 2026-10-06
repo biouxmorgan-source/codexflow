@@ -58,6 +58,7 @@ class CampaignIndexTest extends TestCase
         $this->assertSame(CampaignRole::GameMaster, $campaign->roleOf($user));
     }
 
+    /** Parcours de recette 1 : un jeu, un monde, puis deux campagnes qui partagent ce monde. */
     public function test_two_campaigns_can_share_the_same_world(): void
     {
         $user = User::factory()->create();
