@@ -17,6 +17,13 @@
                     {{ $entity->type->name }} ·
                     {{ $entity->isWorldEntity() ? 'Monde « '.$entity->world->name.' »' : 'Propre à cette campagne' }}
                 </p>
+                @if ($entity->tags->isNotEmpty())
+                    <p class="mt-2 flex flex-wrap gap-1">
+                        @foreach ($entity->tags as $entityTag)
+                            <a href="{{ route('campaigns.show', [$campaign, 'tag' => $entityTag->id]) }}" class="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-700 hover:bg-codex-soft" wire:navigate>#{{ $entityTag->name }}</a>
+                        @endforeach
+                    </p>
+                @endif
             </div>
         </div>
         <a href="{{ route('entities.edit', [$campaign, $entity]) }}" class="btn-secondary" wire:navigate>Modifier la fiche</a>
@@ -31,10 +38,11 @@
                 @endif
                 @if ($entity->description)
                     <div class="text-stone-700">{{ $description }}</div>
-                @elseif (! $entity->summary && $publicAttachments->isEmpty() && ! $hasPublicFields)
+                @elseif (! $entity->summary && $publicAttachments->isEmpty() && ! $hasPublicFields && $publicRelations->isEmpty())
                     <p class="text-sm text-stone-500">Rien pour l'instant.</p>
                 @endif
                 <x-field-values :definitions="$publicFields" :entity="$entity" :campaign="$campaign" />
+                <x-relation-list :relations="$publicRelations" :entity="$entity" :campaign="$campaign" />
                 <x-attachment-list :attachments="$publicAttachments" />
             </section>
 
@@ -42,12 +50,54 @@
                 <h2 class="mb-3 font-semibold text-flow">Zone MJ</h2>
                 @if ($entity->gm_notes)
                     <div class="text-stone-700">{{ $gmNotes }}</div>
-                @elseif ($gmAttachments->isEmpty() && ! $hasGmFields)
+                @elseif ($gmAttachments->isEmpty() && ! $hasGmFields && $gmRelations->isEmpty())
                     <p class="text-sm text-stone-500">Aucune note MJ.</p>
                 @endif
                 <x-field-values :definitions="$gmFields" :entity="$entity" :campaign="$campaign" />
+                <x-relation-list :relations="$gmRelations" :entity="$entity" :campaign="$campaign" />
                 <x-attachment-list :attachments="$gmAttachments" />
             </section>
+
+            <form wire:submit="addRelation" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-1 font-semibold">Ajouter une relation</h2>
+                <p class="mb-4 text-sm text-stone-600">{{ $entity->name }} <em>travaille pour</em> la Guilde, <em>habite à</em> Valdaria… Elle apparaît sur les deux fiches.</p>
+                <div class="grid gap-4 md:grid-cols-2">
+                    <div>
+                        <label for="relationLabel" class="label">Relation</label>
+                        <input id="relationLabel" type="text" wire:model="relationLabel" list="relation-labels" class="field" placeholder="travaille pour">
+                        <datalist id="relation-labels">
+                            @foreach ($relationLabels as $label)
+                                <option value="{{ $label }}">
+                            @endforeach
+                        </datalist>
+                        @error('relationLabel') <p class="error">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="relationTarget" class="label">Fiche liée</label>
+                        <x-entity-picker id="relationTarget" model="relationTargetId" />
+                        @error('relationTargetId') <p class="error">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="relationReverse" class="label">Vu depuis l'autre fiche <span class="font-normal text-stone-500">(facultatif)</span></label>
+                        <input id="relationReverse" type="text" wire:model="relationReverse" class="field" placeholder="emploie">
+                        @error('relationReverse') <p class="error">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="relationZone" class="label">Zone</label>
+                        <select id="relationZone" wire:model="relationZone" class="field">
+                            <option value="public">Zone publique</option>
+                            <option value="gm">Zone MJ (secrète)</option>
+                        </select>
+                    </div>
+                    @if ($entity->isWorldEntity())
+                        <label class="flex items-center gap-2 text-sm md:col-span-2">
+                            <input type="checkbox" wire:model="relationCampaignOnly">
+                            Seulement dans cette campagne <span class="text-stone-500">(sinon, valable dans tout le monde quand les deux fiches en font partie)</span>
+                        </label>
+                    @endif
+                </div>
+                <button type="submit" class="btn-primary mt-4">Ajouter la relation</button>
+            </form>
 
             <form wire:submit="saveUploads" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-1 font-semibold">Joindre des fichiers</h2>

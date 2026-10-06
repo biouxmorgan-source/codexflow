@@ -6,7 +6,9 @@ use App\Actions\Campaigns\CreateCampaign;
 use App\Enums\FieldType;
 use App\Enums\Zone;
 use App\Models\Entity;
+use App\Models\EntityRelation;
 use App\Models\EntityType;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -100,5 +102,37 @@ class DatabaseSeeder extends Seeder
         }
 
         $inn->stateIn($second)->fill(['status' => 'incendiée'])->save();
+
+        // Un type personnalisé, des tags et des relations pour montrer le rangement.
+        $faction = new EntityType(['name' => 'Faction']);
+        $faction->user_id = $gm->id;
+        $faction->save();
+
+        $guild = Entity::factory()->for($gm, 'owner')->for($first->world)->create([
+            'entity_type_id' => $faction->id,
+            'name' => 'La Guilde des ombres',
+            'summary' => 'Réseau de voleurs et d\'informateurs.',
+            'description' => null,
+            'gm_notes' => 'Dirigée en secret par le bourgmestre.',
+        ]);
+
+        $aldric = Entity::where('name', 'Aldric le tavernier')->sole();
+        $mira = Entity::where('name', 'Mira la colporteuse')->sole();
+
+        $inn->tags()->sync(Tag::idsFromInput($gm, 'taverne, acte 1'));
+        $aldric->tags()->sync(Tag::idsFromInput($gm, 'taverne, intrigue'));
+        $guild->tags()->sync(Tag::idsFromInput($gm, 'intrigue'));
+
+        foreach ([
+            [$aldric, $inn, 'tient', 'tenue par', Zone::Public],
+            [$mira, $inn, 'loge à', null, Zone::Public],
+            [$aldric, $guild, 'renseigne', 'paie', Zone::GameMaster],
+        ] as [$from, $to, $label, $reverse, $zone]) {
+            $relation = new EntityRelation(['label' => $label, 'reverse_label' => $reverse, 'zone' => $zone]);
+            $relation->owner()->associate($gm);
+            $relation->from()->associate($from);
+            $relation->to()->associate($to);
+            $relation->save();
+        }
     }
 }

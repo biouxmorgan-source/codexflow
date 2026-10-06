@@ -3,10 +3,12 @@
 namespace App\Livewire\Entities;
 
 use App\Enums\Zone;
+use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Attachment;
 use App\Models\Campaign;
 use App\Models\CampaignEntityState;
 use App\Models\Entity;
+use App\Models\EntityRelation;
 use App\Support\EntityLinks;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -15,7 +17,11 @@ use Livewire\WithFileUploads;
 
 class Show extends Component
 {
+    use SuggestsEntities;
     use WithFileUploads;
+
+    /** Libellés proposés pour les relations ; le MJ peut en écrire d'autres. */
+    public const RELATION_LABELS = ['connaît', 'habite à', 'travaille pour', 'membre de', 'possède', 'allié de', 'ennemi de', 'parent de', 'amoureux de', 'se trouve à'];
 
     /** Types acceptés en pièce jointe : images, PDF, textes et documents bureautiques courants. */
     public const ATTACHMENT_MIMES = 'jpg,jpeg,png,webp,gif,pdf,txt,md,doc,docx,odt,xls,xlsx,ods';
@@ -34,6 +40,16 @@ class Show extends Component
     public array $uploads = [];
 
     public string $uploadZone = 'gm';
+
+    public ?int $relationTargetId = null;
+
+    public string $relationLabel = '';
+
+    public string $relationReverse = '';
+
+    public string $relationZone = 'public';
+
+    public bool $relationCampaignOnly = false;
 
     public function mount(Campaign $campaign, Entity $entity): void
     {
@@ -113,6 +129,60 @@ class Show extends Component
         $this->redirectRoute('campaigns.show', $this->campaign, navigate: true);
     }
 
+    public function addRelation(): void
+    {
+        $this->authorize('update', $this->entity);
+
+        $this->validate([
+            'relationTargetId' => ['required', 'integer', Rule::notIn([$this->entity->id])],
+            'relationLabel' => ['required', 'string', 'max:100'],
+            'relationReverse' => ['nullable', 'string', 'max:100'],
+            'relationZone' => ['required', Rule::enum(Zone::class)],
+        ], [
+            'relationTargetId.required' => 'Choisissez la fiche liée.',
+            'relationTargetId.not_in' => 'Une fiche ne peut pas être liée à elle-même.',
+        ], [
+            'relationLabel' => 'relation',
+            'relationReverse' => 'relation inverse',
+        ]);
+
+        $target = $this->campaign->availableEntities()->find($this->relationTargetId);
+
+        if ($target === null) {
+            $this->addError('relationTargetId', 'Cette fiche n\'existe pas dans la campagne.');
+
+            return;
+        }
+
+        $this->authorize('update', $target);
+
+        // Entre deux fiches du monde, la relation vaut pour tout le monde, sauf demande contraire.
+        $worldWide = $this->entity->isWorldEntity() && $target->isWorldEntity() && ! $this->relationCampaignOnly;
+
+        $relation = new EntityRelation([
+            'label' => trim($this->relationLabel),
+            'reverse_label' => trim($this->relationReverse) ?: null,
+            'zone' => $this->relationZone,
+        ]);
+        $relation->owner()->associate(auth()->user());
+        $relation->from()->associate($this->entity);
+        $relation->to()->associate($target);
+        $relation->campaign()->associate($worldWide ? null : $this->campaign);
+        $relation->save();
+
+        $this->reset('relationTargetId', 'relationLabel', 'relationReverse', 'relationCampaignOnly');
+    }
+
+    public function deleteRelation(int $relationId): void
+    {
+        $this->authorize('update', $this->entity);
+
+        $relation = $this->entity->relationsIn($this->campaign)->findOrFail($relationId);
+        abort_unless($relation->user_id === auth()->id(), 403);
+
+        $relation->delete();
+    }
+
     private function state(): CampaignEntityState
     {
         return $this->entity->stateIn($this->campaign);
@@ -126,7 +196,15 @@ class Show extends Component
         $gmFields = $fields->where('zone', Zone::GameMaster);
         $filled = fn ($definitions) => $definitions->contains(fn ($definition) => $this->entity->fieldValue($definition) !== null);
 
+        $relations = $this->entity->relationsIn($this->campaign)->orderBy('label')->get()
+            ->filter(fn (EntityRelation $relation) => $relation->from !== null && $relation->to !== null);
+
         return view('livewire.entities.show', [
+            'publicRelations' => $relations->where('zone', Zone::Public),
+            'gmRelations' => $relations->where('zone', Zone::GameMaster),
+            'relationLabels' => collect(self::RELATION_LABELS)
+                ->merge(EntityRelation::where('user_id', auth()->id())->distinct()->pluck('label'))
+                ->unique()->sort()->values(),
             'otherCampaigns' => $this->entity->isWorldEntity()
                 ? $this->entity->world->campaigns()->whereKeyNot($this->campaign->getKey())->count()
                 : 0,

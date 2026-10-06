@@ -36,11 +36,22 @@
                     @endforeach
                 </select>
             </div>
+            @if ($this->tags->isNotEmpty())
+                <div>
+                    <label for="tag" class="sr-only">Tag</label>
+                    <select id="tag" wire:model.live="tag" class="field">
+                        <option value="">Tous les tags</option>
+                        @foreach ($this->tags as $existingTag)
+                            <option value="{{ $existingTag->id }}">#{{ $existingTag->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
         </div>
 
         @if ($this->entities->isEmpty())
             <div class="rounded-xl border border-dashed border-stone-300 bg-white p-10 text-center">
-                @if ($search !== '' || $type !== '')
+                @if ($search !== '' || $type !== '' || $tag !== '')
                     <p class="text-stone-600">Aucune entité ne correspond à ces critères.</p>
                 @else
                     <p class="text-lg font-medium">Aucune entité pour l'instant.</p>
@@ -62,6 +73,9 @@
                                 <span class="block truncate font-medium">{{ $entity->name }}</span>
                                 @if ($entity->summary)
                                     <span class="block truncate text-sm text-stone-600">{{ $entity->summary }}</span>
+                                @endif
+                                @if ($entity->tags->isNotEmpty())
+                                    <span class="block truncate text-xs text-stone-500">{{ $entity->tags->map(fn ($t) => '#'.$t->name)->implode(' ') }}</span>
                                 @endif
                             </span>
                             @if ($state?->status)

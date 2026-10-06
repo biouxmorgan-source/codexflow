@@ -5,6 +5,7 @@ namespace App\Livewire\Campaigns;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
@@ -21,6 +22,9 @@ class Show extends Component
     #[Url(as: 'type', except: '')]
     public string $type = '';
 
+    #[Url(as: 'tag', except: '')]
+    public string $tag = '';
+
     public function mount(Campaign $campaign): void
     {
         $this->authorize('update', $campaign);
@@ -33,10 +37,12 @@ class Show extends Component
         return $this->campaign->availableEntities()
             ->with([
                 'type',
+                'tags',
                 'campaignStates' => fn ($q) => $q->where('campaign_id', $this->campaign->getKey()),
             ])
             ->when($this->search !== '', fn ($q) => $q->where('name', 'ilike', '%'.addcslashes($this->search, '%_\\').'%'))
             ->when($this->type !== '', fn ($q) => $q->where('entity_type_id', $this->type))
+            ->when($this->tag !== '', fn ($q) => $q->whereHas('tags', fn ($t) => $t->whereKey((int) $this->tag)))
             ->orderBy('name')
             ->get();
     }
@@ -46,6 +52,21 @@ class Show extends Component
     public function types(): Collection
     {
         return EntityType::query()->availableTo(auth()->user())->orderBy('id')->get();
+    }
+
+    /**
+     * Étiquettes portées par au moins une fiche de la campagne.
+     *
+     * @return Collection<int, Tag>
+     */
+    #[Computed]
+    public function tags(): Collection
+    {
+        return Tag::query()
+            ->where('user_id', auth()->id())
+            ->whereHas('entities', fn ($q) => $q->availableIn($this->campaign))
+            ->orderByRaw('lower(name)')
+            ->get();
     }
 
     public function delete(): void

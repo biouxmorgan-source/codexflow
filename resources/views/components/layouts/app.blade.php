@@ -7,6 +7,7 @@
             </a>
             <nav class="flex items-center gap-3 text-sm whitespace-nowrap sm:gap-4">
                 <a href="{{ route('campaigns.index') }}" class="font-medium hover:text-codex" wire:navigate>Mes campagnes</a>
+                <a href="{{ route('entity-types.index') }}" class="hidden hover:text-codex sm:inline" wire:navigate>Types de fiche</a>
                 <span class="hidden text-stone-500 sm:inline">{{ auth()->user()->name }}</span>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

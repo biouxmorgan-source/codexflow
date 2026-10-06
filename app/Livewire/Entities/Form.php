@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\FieldDefinition;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -46,6 +47,9 @@ class Form extends Component
 
     public bool $removeImage = false;
 
+    /** Étiquettes séparées par des virgules. */
+    public string $tags = '';
+
     /** Champs libres du jeu : [id de définition => saisie]. */
     public array $fields = [];
 
@@ -64,6 +68,7 @@ class Form extends Component
             $this->description = (string) $entity->description;
             $this->gmNotes = (string) $entity->gm_notes;
             $this->scope = $entity->isWorldEntity() ? 'world' : 'campaign';
+            $this->tags = $entity->tags->pluck('name')->implode(', ');
 
             foreach ($campaign->gameSystem->fieldDefinitions as $definition) {
                 $value = $entity->fieldValue($definition);
@@ -94,6 +99,13 @@ class Form extends Component
         return $this->campaign->gameSystem->fieldDefinitions()->forType($this->entityTypeId ?: null)->ordered()->get();
     }
 
+    /** @return list<string> */
+    #[Computed]
+    public function existingTags(): array
+    {
+        return Tag::query()->where('user_id', auth()->id())->has('entities')->orderByRaw('lower(name)')->pluck('name')->all();
+    }
+
     public function save(): void
     {
         $this->validate([
@@ -104,6 +116,7 @@ class Form extends Component
             'gmNotes' => ['nullable', 'string', 'max:20000'],
             'scope' => ['required', Rule::in($this->campaign->world_id ? ['world', 'campaign'] : ['campaign'])],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240'],
+            'tags' => ['nullable', 'string', 'max:1000'],
         ], attributes: [
             'entityTypeId' => 'type',
             'summary' => 'résumé',
@@ -158,6 +171,7 @@ class Form extends Component
         }
 
         $entity->save();
+        $entity->tags()->sync(Tag::idsFromInput(auth()->user(), $this->tags));
 
         $this->redirectRoute('entities.show', [$this->campaign, $entity], navigate: true);
     }

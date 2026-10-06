@@ -16,6 +16,12 @@ class EntityType extends Model
         return $this->hasMany(Entity::class);
     }
 
+    /** @return HasMany<FieldDefinition, $this> */
+    public function fieldDefinitions(): HasMany
+    {
+        return $this->hasMany(FieldDefinition::class);
+    }
+
     public function isStandard(): bool
     {
         return $this->user_id === null;
