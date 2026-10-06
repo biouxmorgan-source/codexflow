@@ -12,6 +12,8 @@ use App\Livewire\Imports\Create as ImportCreate;
 use App\Livewire\Scenarios\Index as ScenarioIndex;
 use App\Livewire\Scenes\Form as SceneForm;
 use App\Livewire\Scenes\Show as SceneShow;
+use App\Livewire\Sessions\Live as SessionLive;
+use App\Livewire\Sessions\Show as SessionShow;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route(auth()->check() ? 'campaigns.index' : 'login'));
@@ -27,6 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/scenes/nouvelle', SceneForm::class)->name('scenes.create')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/scenes/{scene}', SceneShow::class)->name('scenes.show')->whereNumber(['campaign', 'scene']);
     Route::livewire('/campagnes/{campaign}/scenes/{scene}/modifier', SceneForm::class)->name('scenes.edit')->whereNumber(['campaign', 'scene']);
+
+    Route::livewire('/campagnes/{campaign}/session', SessionLive::class)->name('sessions.live')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/import', ImportCreate::class)->name('imports.create')->whereNumber('campaign');

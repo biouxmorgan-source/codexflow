@@ -173,6 +173,19 @@ class Show extends Component
         $this->reset('relationTargetId', 'relationLabel', 'relationReverse', 'relationCampaignOnly');
     }
 
+    public function togglePin(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        if ($this->campaign->pins()->whereKey($this->entity->id)->exists()) {
+            $this->campaign->pins()->detach($this->entity->id);
+        } else {
+            $this->campaign->pins()->attach($this->entity->id, [
+                'position' => (int) $this->campaign->pins()->max('campaign_pins.position') + 1,
+            ]);
+        }
+    }
+
     public function deleteRelation(int $relationId): void
     {
         $this->authorize('update', $this->entity);
@@ -201,6 +214,7 @@ class Show extends Component
 
         return view('livewire.entities.show', [
             'scenes' => EntityLinks::scenes($this->entity, $this->campaign),
+            'pinned' => $this->campaign->pins()->whereKey($this->entity->id)->exists(),
             'publicRelations' => $relations->where('zone', Zone::Public),
             'gmRelations' => $relations->where('zone', Zone::GameMaster),
             'relationLabels' => collect(self::RELATION_LABELS)

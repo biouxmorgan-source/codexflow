@@ -40,3 +40,13 @@
 [x-cloak] {
     display: none !important;
 }
+
+/* Mode focus de l'écran de session : seule la partie utile reste à l'écran. */
+.focus-mode > header {
+    display: none;
+}
+
+.focus-mode main {
+    max-width: none;
+    padding-top: 1rem;
+}

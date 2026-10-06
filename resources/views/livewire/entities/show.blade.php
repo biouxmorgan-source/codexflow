@@ -26,7 +26,10 @@
                 @endif
             </div>
         </div>
-        <a href="{{ route('entities.edit', [$campaign, $entity]) }}" class="btn-secondary" wire:navigate>Modifier la fiche</a>
+        <div class="flex flex-wrap gap-2">
+            <button type="button" wire:click="togglePin" class="btn-secondary" aria-pressed="{{ $pinned ? 'true' : 'false' }}">{{ $pinned ? 'Désépingler' : 'Épingler' }}</button>
+            <a href="{{ route('entities.edit', [$campaign, $entity]) }}" class="btn-secondary" wire:navigate>Modifier la fiche</a>
+        </div>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-3">
