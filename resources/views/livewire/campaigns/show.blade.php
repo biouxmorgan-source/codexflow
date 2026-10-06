@@ -11,7 +11,13 @@
                 · {{ $campaign->world ? 'Monde : '.$campaign->world->name : 'Sans monde partagé' }}
             </p>
         </div>
-        <a href="{{ route('entities.create', $campaign) }}" class="btn-primary" wire:navigate>Nouvelle entité</a>
+        <div class="flex flex-wrap gap-2">
+            @can('update', $campaign->gameSystem)
+                <a href="{{ route('fields.index', $campaign) }}" class="btn-secondary" wire:navigate>Champs du jeu</a>
+                <a href="{{ route('imports.create', $campaign) }}" class="btn-secondary" wire:navigate>Importer</a>
+            @endcan
+            <a href="{{ route('entities.create', $campaign) }}" class="btn-primary" wire:navigate>Nouvelle entité</a>
+        </div>
     </div>
 
     <section>

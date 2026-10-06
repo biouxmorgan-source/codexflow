@@ -31,9 +31,10 @@
                 @endif
                 @if ($entity->description)
                     <div class="text-stone-700">{{ $description }}</div>
-                @elseif (! $entity->summary && $publicAttachments->isEmpty())
+                @elseif (! $entity->summary && $publicAttachments->isEmpty() && ! $hasPublicFields)
                     <p class="text-sm text-stone-500">Rien pour l'instant.</p>
                 @endif
+                <x-field-values :definitions="$publicFields" :entity="$entity" :campaign="$campaign" />
                 <x-attachment-list :attachments="$publicAttachments" />
             </section>
 
@@ -41,9 +42,10 @@
                 <h2 class="mb-3 font-semibold text-flow">Zone MJ</h2>
                 @if ($entity->gm_notes)
                     <div class="text-stone-700">{{ $gmNotes }}</div>
-                @elseif ($gmAttachments->isEmpty())
+                @elseif ($gmAttachments->isEmpty() && ! $hasGmFields)
                     <p class="text-sm text-stone-500">Aucune note MJ.</p>
                 @endif
+                <x-field-values :definitions="$gmFields" :entity="$entity" :campaign="$campaign" />
                 <x-attachment-list :attachments="$gmAttachments" />
             </section>
 

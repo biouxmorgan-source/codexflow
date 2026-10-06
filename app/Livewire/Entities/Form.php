@@ -2,12 +2,15 @@
 
 namespace App\Livewire\Entities;
 
+use App\Enums\FieldType;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
+use App\Models\FieldDefinition;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -43,6 +46,9 @@ class Form extends Component
 
     public bool $removeImage = false;
 
+    /** Champs libres du jeu : [id de définition => saisie]. */
+    public array $fields = [];
+
     public function mount(Campaign $campaign, ?Entity $entity = null): void
     {
         $this->authorize('update', $campaign);
@@ -59,6 +65,13 @@ class Form extends Component
             $this->gmNotes = (string) $entity->gm_notes;
             $this->scope = $entity->isWorldEntity() ? 'world' : 'campaign';
 
+            foreach ($campaign->gameSystem->fieldDefinitions as $definition) {
+                $value = $entity->fieldValue($definition);
+                $this->fields[$definition->id] = $definition->type === FieldType::Boolean
+                    ? (bool) $value
+                    : (string) $value;
+            }
+
             return;
         }
 
@@ -72,6 +85,13 @@ class Form extends Component
     public function types(): Collection
     {
         return EntityType::query()->availableTo(auth()->user())->orderBy('id')->get();
+    }
+
+    /** @return Collection<int, FieldDefinition> */
+    #[Computed]
+    public function fieldDefinitions(): Collection
+    {
+        return $this->campaign->gameSystem->fieldDefinitions()->forType($this->entityTypeId ?: null)->ordered()->get();
     }
 
     public function save(): void
@@ -92,7 +112,25 @@ class Form extends Component
             'image' => 'image',
         ]);
 
+        $values = [];
+        $errors = [];
+
+        foreach ($this->fieldDefinitions as $definition) {
+            [$value, $error] = $definition->parse($this->fields[$definition->id] ?? null);
+
+            if ($error !== null) {
+                $errors['fields.'.$definition->id] = $definition->name.' : '.$error.'.';
+            }
+
+            $values[$definition->id] = $value;
+        }
+
+        if ($errors !== []) {
+            throw ValidationException::withMessages($errors);
+        }
+
         $entity = $this->entity ?? new Entity;
+        $entity->setFieldValues($values);
         $entity->fill([
             'entity_type_id' => (int) $this->entityTypeId,
             'name' => $this->name,

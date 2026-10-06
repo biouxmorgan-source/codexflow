@@ -26,4 +26,10 @@ class GameSystem extends Model
     {
         return $this->hasMany(Campaign::class);
     }
+
+    /** @return HasMany<FieldDefinition, $this> */
+    public function fieldDefinitions(): HasMany
+    {
+        return $this->hasMany(FieldDefinition::class);
+    }
 }
