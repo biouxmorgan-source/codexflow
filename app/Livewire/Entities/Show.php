@@ -173,6 +173,31 @@ class Show extends Component
         $this->reset('relationTargetId', 'relationLabel', 'relationReverse', 'relationCampaignOnly');
     }
 
+    public ?int $pickedDocumentId = null;
+
+    public function linkDocument(): void
+    {
+        $this->authorize('update', $this->entity);
+
+        $document = $this->pickedDocumentId ? $this->campaign->availableDocuments()->find($this->pickedDocumentId) : null;
+
+        if ($document === null) {
+            $this->addError('pickedDocumentId', 'Choisissez un document dans la liste.');
+
+            return;
+        }
+
+        $this->entity->documents()->syncWithoutDetaching([$document->id]);
+        $this->pickedDocumentId = null;
+    }
+
+    public function unlinkDocument(int $documentId): void
+    {
+        $this->authorize('update', $this->entity);
+
+        $this->entity->documents()->detach($documentId);
+    }
+
     public function togglePin(): void
     {
         $this->authorize('update', $this->campaign);
@@ -204,6 +229,7 @@ class Show extends Component
     public function render()
     {
         $attachments = $this->entity->attachments;
+        $documents = $this->entity->documents()->availableIn($this->campaign)->get();
         $fields = $this->campaign->gameSystem->fieldDefinitions()->forType($this->entity->entity_type_id)->ordered()->get();
         $publicFields = $fields->where('zone', Zone::Public);
         $gmFields = $fields->where('zone', Zone::GameMaster);
@@ -215,6 +241,8 @@ class Show extends Component
         return view('livewire.entities.show', [
             'scenes' => EntityLinks::scenes($this->entity, $this->campaign),
             'pinned' => $this->campaign->pins()->whereKey($this->entity->id)->exists(),
+            'documents' => $documents,
+            'documentOptions' => $this->campaign->availableDocuments()->whereKeyNot($documents->modelKeys())->orderByRaw('lower(title)')->get(['id', 'title']),
             'publicRelations' => $relations->where('zone', Zone::Public),
             'gmRelations' => $relations->where('zone', Zone::GameMaster),
             'relationLabels' => collect(self::RELATION_LABELS)

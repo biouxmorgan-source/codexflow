@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attachment;
+use App\Models\Document;
 use App\Models\Entity;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,20 @@ class FileController
             $attachment->path,
             $attachment->original_name,
             ['Content-Type' => $attachment->mime_type, 'X-Content-Type-Options' => 'nosniff'],
+            $disposition,
+        );
+    }
+
+    public function document(Document $document): StreamedResponse
+    {
+        Gate::authorize('view', $document);
+
+        $disposition = in_array($document->mime_type, self::INLINE_TYPES, true) ? 'inline' : 'attachment';
+
+        return Storage::disk($document->disk)->response(
+            $document->path,
+            $document->original_name,
+            ['Content-Type' => $document->mime_type, 'X-Content-Type-Options' => 'nosniff', 'Cache-Control' => 'private, max-age=3600'],
             $disposition,
         );
     }

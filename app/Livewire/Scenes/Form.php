@@ -38,6 +38,16 @@ class Form extends Component
 
     public ?int $pickedEntityId = null;
 
+    /** @var list<int> Règles liées, dans l'ordre. */
+    public array $ruleIds = [];
+
+    /** @var list<int> Documents liés, dans l'ordre. */
+    public array $documentIds = [];
+
+    public ?int $pickedRuleId = null;
+
+    public ?int $pickedDocumentId = null;
+
     public function mount(Campaign $campaign, ?Scene $scene = null): void
     {
         $this->authorize('update', $campaign);
@@ -54,6 +64,8 @@ class Form extends Component
             $this->linked = $scene->entities()->with('type')->get()
                 ->map(fn (Entity $entity) => self::row($entity, (string) $entity->pivot->note))
                 ->all();
+            $this->ruleIds = $scene->rules()->pluck('rules.id')->all();
+            $this->documentIds = $scene->documents()->pluck('documents.id')->all();
 
             return;
         }
@@ -98,6 +110,34 @@ class Form extends Component
     {
         unset($this->linked[$index]);
         $this->linked = array_values($this->linked);
+    }
+
+    public function addRule(): void
+    {
+        if ($this->pickedRuleId && $this->campaign->availableRules()->whereKey($this->pickedRuleId)->exists()) {
+            $this->ruleIds = array_values(array_unique([...$this->ruleIds, (int) $this->pickedRuleId]));
+        }
+
+        $this->pickedRuleId = null;
+    }
+
+    public function removeRule(int $id): void
+    {
+        $this->ruleIds = array_values(array_diff($this->ruleIds, [$id]));
+    }
+
+    public function addDocument(): void
+    {
+        if ($this->pickedDocumentId && $this->campaign->availableDocuments()->whereKey($this->pickedDocumentId)->exists()) {
+            $this->documentIds = array_values(array_unique([...$this->documentIds, (int) $this->pickedDocumentId]));
+        }
+
+        $this->pickedDocumentId = null;
+    }
+
+    public function removeDocument(int $id): void
+    {
+        $this->documentIds = array_values(array_diff($this->documentIds, [$id]));
     }
 
     public function save(): void
@@ -149,7 +189,26 @@ class Form extends Component
             ]])
             ->all());
 
+        $scene->rules()->sync(self::positions($this->campaign->availableRules()->whereKey($this->ruleIds)->pluck('id')->all(), $this->ruleIds));
+        $scene->documents()->sync(self::positions($this->campaign->availableDocuments()->whereKey($this->documentIds)->pluck('id')->all(), $this->documentIds));
+
         $this->redirectRoute('scenes.show', [$this->campaign, $scene], navigate: true);
+    }
+
+    /**
+     * Garde l'ordre choisi, sans les éléments qui ne sont pas utilisables dans la campagne.
+     *
+     * @param  list<int>  $allowed
+     * @param  list<int>  $ordered
+     * @return array<int, array{position: int}>
+     */
+    private static function positions(array $allowed, array $ordered): array
+    {
+        return collect($ordered)
+            ->filter(fn (int $id) => in_array($id, $allowed, true))
+            ->values()
+            ->mapWithKeys(fn (int $id, int $position) => [$id => ['position' => $position]])
+            ->all();
     }
 
     /** @return array{id: int, name: string, type: string, note: string} */
@@ -162,6 +221,8 @@ class Form extends Component
     {
         return view('livewire.scenes.form', [
             'scenarios' => $this->campaign->scenarios()->get(),
+            'rules' => $this->campaign->availableRules()->orderByRaw('lower(title)')->get(['id', 'title', 'category'])->keyBy('id'),
+            'documents' => $this->campaign->availableDocuments()->orderByRaw('lower(title)')->get(['id', 'title', 'mime_type'])->keyBy('id'),
         ])->title($this->scene ? 'Modifier '.$this->scene->name : 'Nouvelle scène');
     }
 }

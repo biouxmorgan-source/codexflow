@@ -93,6 +93,59 @@
                     </section>
                 @endif
 
+                @if ($this->rules->isNotEmpty() || $this->documents->isNotEmpty())
+                    <div class="grid gap-4 md:grid-cols-2">
+                        @if ($this->rules->isNotEmpty())
+                            <section>
+                                <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">Règles</h2>
+                                <div class="space-y-2">
+                                    @foreach ($this->rules as $rule)
+                                        <details wire:key="rule-{{ $rule->id }}" class="group rounded-xl border border-stone-200 bg-white p-3 shadow-sm">
+                                            <summary class="flex cursor-pointer list-none items-start gap-2">
+                                                <span class="min-w-0 flex-1">
+                                                    <span class="font-medium">{{ $rule->title }}</span>
+                                                    <span class="ml-1 rounded-full px-2 py-0.5 text-xs font-medium {{ $rule->status->badge() }}">{{ $rule->status->label() }}</span>
+                                                    @if ($rule->summary)
+                                                        <span class="block text-sm text-stone-600">{{ $rule->summary }}</span>
+                                                    @endif
+                                                </span>
+                                                <span class="text-stone-400 transition group-open:rotate-90" aria-hidden="true">›</span>
+                                            </summary>
+                                            @if ($rule->procedure)
+                                                <div class="mt-2 border-t border-stone-100 pt-2 text-sm text-stone-700">{{ \App\Support\EntityLinks::render($rule->procedure, $campaign) }}</div>
+                                            @endif
+                                            @if ($rule->gm_notes)
+                                                <p class="mt-2 rounded-lg bg-flow/5 p-2 text-sm whitespace-pre-line text-stone-700"><span class="font-medium text-flow">MJ :</span> {{ $rule->gm_notes }}</p>
+                                            @endif
+                                            <a href="{{ route('rules.show', [$campaign, $rule]) }}" target="_blank" rel="noopener" class="mt-2 inline-block text-xs text-codex hover:underline">Ouvrir la règle ↗</a>
+                                        </details>
+                                    @endforeach
+                                </div>
+                            </section>
+                        @endif
+                        @if ($this->documents->isNotEmpty())
+                            <section>
+                                <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">Documents</h2>
+                                <ul class="space-y-2">
+                                    @foreach ($this->documents as $document)
+                                        <li wire:key="document-{{ $document->id }}">
+                                            <a href="{{ route('documents.file', $document) }}" target="_blank" rel="noopener" class="flex items-center gap-3 rounded-xl border border-stone-200 bg-white p-3 shadow-sm hover:border-codex/40">
+                                                @if ($document->isImage())
+                                                    <img src="{{ route('documents.file', $document) }}" alt="" loading="lazy" class="h-10 w-10 shrink-0 rounded-lg object-cover">
+                                                @else
+                                                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-xs font-semibold text-red-700" aria-hidden="true">PDF</span>
+                                                @endif
+                                                <span class="min-w-0 flex-1 truncate font-medium text-codex">{{ $document->title }}</span>
+                                                <span class="text-xs text-stone-500" aria-hidden="true">↗</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </section>
+                        @endif
+                    </div>
+                @endif
+
                 <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
                     <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">Notes de session</h2>
                     <form wire:submit="addNote" class="flex gap-2">
@@ -127,7 +180,11 @@
                             <li wire:key="toplay-{{ $item->id }}" class="flex items-start gap-2">
                                 <button type="button" wire:click="markPlayed({{ $item->id }})" class="mt-0.5 h-5 w-5 shrink-0 rounded border border-stone-300 hover:border-codex hover:bg-codex-soft" aria-label="Marquer « {{ $item->body }} » comme joué"></button>
                                 <span class="min-w-0 flex-1">
-                                    {{ $item->body }}
+                                    @if ($item->rule)
+                                        <a href="{{ route('rules.show', [$campaign, $item->rule]) }}" target="_blank" rel="noopener" class="text-codex hover:underline"><span class="text-xs text-stone-500">Règle ·</span> {{ $item->body }}</a>
+                                    @else
+                                        {{ $item->body }}
+                                    @endif
                                     @if ($item->scene)
                                         <span class="block text-xs text-stone-500">{{ $item->scene->name }}</span>
                                     @endif

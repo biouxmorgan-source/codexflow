@@ -84,6 +84,12 @@ class Entity extends Model
         return $this->belongsToMany(Scene::class, 'scene_entity')->withPivot('note', 'position');
     }
 
+    /** @return BelongsToMany<Document, $this> */
+    public function documents(): BelongsToMany
+    {
+        return $this->belongsToMany(Document::class)->withTimestamps()->orderBy('documents.title');
+    }
+
     /** @return BelongsToMany<Tag, $this> */
     public function tags(): BelongsToMany
     {

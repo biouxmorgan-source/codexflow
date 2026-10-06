@@ -85,6 +85,68 @@
                 </div>
             </section>
 
+            <div class="grid gap-6 md:grid-cols-2">
+                <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <h2 class="mb-1 font-semibold">Règles utiles</h2>
+                    <p class="mb-4 text-sm text-stone-600">Les points de règle à avoir sous la main pendant la scène.</p>
+                    @if ($ruleIds)
+                        <ul class="mb-3 space-y-1 text-sm">
+                            @foreach ($ruleIds as $ruleId)
+                                @continue(! $rules->has($ruleId))
+                                <li wire:key="rule-{{ $ruleId }}" class="flex items-center gap-2">
+                                    <span class="min-w-0 flex-1">{{ $rules[$ruleId]->title }}</span>
+                                    <button type="button" wire:click="removeRule({{ $ruleId }})" class="text-red-700 hover:underline" aria-label="Retirer {{ $rules[$ruleId]->title }}">Retirer</button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                    @if ($rules->except($ruleIds)->isEmpty())
+                        <p class="text-sm text-stone-500">{{ $rules->isEmpty() ? 'Aucune règle dans la campagne pour l\'instant.' : 'Toutes les règles sont liées.' }}</p>
+                    @else
+                        <div class="flex gap-2">
+                            <label for="pickedRuleId" class="sr-only">Lier une règle</label>
+                            <select id="pickedRuleId" wire:model="pickedRuleId" class="field min-w-0 flex-1 py-1.5 text-sm">
+                                <option value="">Choisir une règle…</option>
+                                @foreach ($rules->except($ruleIds) as $option)
+                                    <option value="{{ $option->id }}">{{ $option->title }}{{ $option->category ? ' · '.$option->category : '' }}</option>
+                                @endforeach
+                            </select>
+                            <button type="button" wire:click="addRule" class="btn-secondary min-h-0 py-1 text-sm">Lier</button>
+                        </div>
+                    @endif
+                </section>
+
+                <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <h2 class="mb-1 font-semibold">Documents</h2>
+                    <p class="mb-4 text-sm text-stone-600">Cartes, lettres, handouts : ouverts en un clic pendant la session.</p>
+                    @if ($documentIds)
+                        <ul class="mb-3 space-y-1 text-sm">
+                            @foreach ($documentIds as $documentId)
+                                @continue(! $documents->has($documentId))
+                                <li wire:key="doc-{{ $documentId }}" class="flex items-center gap-2">
+                                    <span class="min-w-0 flex-1">{{ $documents[$documentId]->title }}</span>
+                                    <button type="button" wire:click="removeDocument({{ $documentId }})" class="text-red-700 hover:underline" aria-label="Retirer {{ $documents[$documentId]->title }}">Retirer</button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                    @if ($documents->except($documentIds)->isEmpty())
+                        <p class="text-sm text-stone-500">{{ $documents->isEmpty() ? 'Aucun document dans la campagne pour l\'instant.' : 'Tous les documents sont liés.' }}</p>
+                    @else
+                        <div class="flex gap-2">
+                            <label for="pickedDocumentId" class="sr-only">Lier un document</label>
+                            <select id="pickedDocumentId" wire:model="pickedDocumentId" class="field min-w-0 flex-1 py-1.5 text-sm">
+                                <option value="">Choisir un document…</option>
+                                @foreach ($documents->except($documentIds) as $option)
+                                    <option value="{{ $option->id }}">{{ $option->title }}</option>
+                                @endforeach
+                            </select>
+                            <button type="button" wire:click="addDocument" class="btn-secondary min-h-0 py-1 text-sm">Lier</button>
+                        </div>
+                    @endif
+                </section>
+            </div>
+
             <div class="flex gap-3">
                 <button type="submit" class="btn-primary">Enregistrer</button>
                 <a href="{{ $scene ? route('scenes.show', [$campaign, $scene]) : route('scenarios.index', $campaign) }}" class="btn-secondary" wire:navigate>Annuler</a>

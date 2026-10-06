@@ -30,6 +30,12 @@ class ToPlayItem extends Model
         return $this->belongsTo(Scene::class);
     }
 
+    /** @return BelongsTo<Rule, $this> */
+    public function rule(): BelongsTo
+    {
+        return $this->belongsTo(Rule::class);
+    }
+
     /** @param Builder<ToPlayItem> $query */
     public function scopePending(Builder $query): void
     {

@@ -1,0 +1,101 @@
+<div>
+    <nav class="mb-2 text-sm text-stone-500">
+        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
+        › <a href="{{ route('rules.index', $campaign) }}" class="hover:text-codex" wire:navigate>Règles</a>
+    </nav>
+
+    <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
+        <div>
+            @if ($rule->category)
+                <p class="text-xs font-semibold tracking-wide text-stone-500 uppercase">{{ $rule->category }}</p>
+            @endif
+            <h1 class="text-2xl font-semibold">{{ $rule->title }}</h1>
+            <div class="mt-2 flex flex-wrap items-center gap-2 text-sm">
+                <label for="status" class="sr-only">Statut</label>
+                <select id="status" wire:change="setStatus($event.target.value)" class="rounded-full border-0 py-1 pr-8 pl-3 text-sm font-medium {{ $rule->status->badge() }}">
+                    @foreach (\App\Enums\RuleStatus::cases() as $ruleStatus)
+                        <option value="{{ $ruleStatus->value }}" @selected($rule->status === $ruleStatus)>{{ $ruleStatus->label() }}</option>
+                    @endforeach
+                </select>
+                <span class="text-stone-500">{{ $rule->origin->label() }} · {{ $rule->isShared() ? 'Règle du jeu '.$campaign->gameSystem->name : 'Propre à cette campagne' }} · {{ $rule->zone === \App\Enums\Zone::Public ? 'Consultable par les joueurs' : 'MJ seulement' }}</span>
+            </div>
+            @if ($rule->tags->isNotEmpty())
+                <p class="mt-2 flex flex-wrap gap-1 text-xs">
+                    @foreach ($rule->tags as $tag)
+                        <a href="{{ route('rules.index', [$campaign, 'tag' => $tag->name]) }}" class="rounded-full bg-stone-100 px-2 py-0.5 text-stone-700 hover:bg-codex-soft" wire:navigate>{{ $tag->name }}</a>
+                    @endforeach
+                </p>
+            @endif
+        </div>
+        <div class="flex flex-wrap gap-2">
+            @if ($pendingToPlay)
+                <span class="btn-secondary cursor-default text-stone-500">Dans « À jouer »</span>
+            @else
+                <button type="button" wire:click="addToPlay" class="btn-secondary">Ajouter à « À jouer »</button>
+            @endif
+            <a href="{{ route('rules.edit', [$campaign, $rule]) }}" class="btn-secondary" wire:navigate>Modifier</a>
+        </div>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-3">
+        <div class="space-y-6 lg:col-span-2">
+            <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                @if ($rule->summary)
+                    <p class="mb-4 font-medium text-stone-800">{{ $rule->summary }}</p>
+                @endif
+                <h2 class="mb-2 font-semibold">Procédure</h2>
+                @if ($rule->procedure)
+                    <div class="text-stone-700">{{ $procedure }}</div>
+                @else
+                    <p class="text-sm text-stone-500">Pas encore de procédure.</p>
+                @endif
+                @if ($rule->source)
+                    <p class="mt-4 text-sm text-stone-500">Source : {{ $rule->source }}</p>
+                @endif
+            </section>
+
+            @if ($rule->gm_notes)
+                <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm">
+                    <h2 class="mb-2 font-semibold text-flow">Notes MJ</h2>
+                    <p class="whitespace-pre-line text-stone-700">{{ $rule->gm_notes }}</p>
+                </section>
+            @endif
+        </div>
+
+        <aside class="space-y-6">
+            <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-3 font-semibold">Documents</h2>
+                <x-document-list :documents="$documents" :campaign="$campaign" unlink="unlinkDocument" />
+                @if ($documentOptions->isNotEmpty())
+                    <div class="mt-3 flex gap-2">
+                        <label for="pickedDocumentId" class="sr-only">Lier un document</label>
+                        <select id="pickedDocumentId" wire:model="pickedDocumentId" class="field min-w-0 flex-1 py-1.5 text-sm">
+                            <option value="">Lier un document…</option>
+                            @foreach ($documentOptions as $option)
+                                <option value="{{ $option->id }}">{{ $option->title }}</option>
+                            @endforeach
+                        </select>
+                        <button type="button" wire:click="linkDocument" class="btn-secondary min-h-0 py-1 text-sm">Lier</button>
+                    </div>
+                    @error('pickedDocumentId') <p class="error">{{ $message }}</p> @enderror
+                @endif
+            </section>
+
+            <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-3 font-semibold">Scènes</h2>
+                @forelse ($scenes as $scene)
+                    <a href="{{ route('scenes.show', [$campaign, $scene]) }}" class="block py-1 text-sm text-codex hover:underline" wire:navigate>{{ $scene->name }} <span class="text-stone-500">· {{ $scene->scenario->name }}</span></a>
+                @empty
+                    <p class="text-sm text-stone-500">Liez la règle à une scène depuis la scène : elle s'affichera en mode Session.</p>
+                @endforelse
+            </section>
+
+            <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-2 font-semibold">Supprimer</h2>
+                <p class="mb-3 text-sm text-stone-600">{{ $rule->isShared() ? 'La règle disparaîtra de toutes les campagnes du jeu.' : 'Les documents liés sont conservés.' }}</p>
+                <button type="button" wire:click="delete" wire:confirm="Supprimer la règle {{ $rule->title }} ?" class="text-sm font-medium text-red-700 hover:underline">Supprimer la règle</button>
+            </div>
+        </aside>
+    </div>
+</div>

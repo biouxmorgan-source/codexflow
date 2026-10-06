@@ -39,4 +39,16 @@ class Scene extends Model
     {
         return $this->hasMany(ToPlayItem::class)->orderBy('position')->orderBy('id');
     }
+
+    /** @return BelongsToMany<Rule, $this> */
+    public function rules(): BelongsToMany
+    {
+        return $this->belongsToMany(Rule::class)->withPivot('position')->orderByPivot('position');
+    }
+
+    /** @return BelongsToMany<Document, $this> */
+    public function documents(): BelongsToMany
+    {
+        return $this->belongsToMany(Document::class)->withPivot('position')->orderByPivot('position');
+    }
 }

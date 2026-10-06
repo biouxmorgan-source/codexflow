@@ -22,6 +22,18 @@ class Tag extends Model
         return $this->belongsToMany(Entity::class);
     }
 
+    /** @return BelongsToMany<Rule, $this> */
+    public function rules(): BelongsToMany
+    {
+        return $this->belongsToMany(Rule::class);
+    }
+
+    /** @return BelongsToMany<Document, $this> */
+    public function documents(): BelongsToMany
+    {
+        return $this->belongsToMany(Document::class);
+    }
+
     /**
      * Retrouve ou crée les étiquettes d'un compte à partir d'une saisie « a, b, c » (sans tenir compte de la casse).
      *

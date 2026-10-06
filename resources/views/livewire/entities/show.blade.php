@@ -169,6 +169,24 @@
             @endif
 
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-2 font-semibold">Documents</h2>
+                <x-document-list :documents="$documents" :campaign="$campaign" unlink="unlinkDocument" />
+                @if ($documentOptions->isNotEmpty())
+                    <div class="mt-3 flex gap-2">
+                        <label for="pickedDocumentId" class="sr-only">Lier un document</label>
+                        <select id="pickedDocumentId" wire:model="pickedDocumentId" class="field min-w-0 flex-1 py-1.5 text-sm">
+                            <option value="">Lier un document…</option>
+                            @foreach ($documentOptions as $option)
+                                <option value="{{ $option->id }}">{{ $option->title }}</option>
+                            @endforeach
+                        </select>
+                        <button type="button" wire:click="linkDocument" class="btn-secondary min-h-0 py-1 text-sm">Lier</button>
+                    </div>
+                    @error('pickedDocumentId') <p class="error">{{ $message }}</p> @enderror
+                @endif
+            </section>
+
+            <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-2 font-semibold">Cité dans</h2>
                 @if ($backlinks->isEmpty())
                     <p class="text-sm text-stone-500">Aucune autre fiche ne mentionne {{ $entity->name }}.</p>
