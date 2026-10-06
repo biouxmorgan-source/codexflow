@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
@@ -75,6 +76,25 @@ class Entity extends Model
     public function attachments(): HasMany
     {
         return $this->hasMany(Attachment::class)->latest();
+    }
+
+    /** @return BelongsToMany<Tag, $this> */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class)->orderByRaw('lower(tags.name)');
+    }
+
+    /**
+     * Relations de la fiche dans les deux sens, visibles dans la campagne.
+     *
+     * @return Builder<EntityRelation>
+     */
+    public function relationsIn(Campaign $campaign): Builder
+    {
+        return EntityRelation::query()
+            ->visibleIn($campaign)
+            ->where(fn (Builder $q) => $q->where('from_entity_id', $this->getKey())->orWhere('to_entity_id', $this->getKey()))
+            ->with(['from.type', 'to.type']);
     }
 
     public function hasImage(): bool
