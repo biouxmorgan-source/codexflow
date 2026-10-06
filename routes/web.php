@@ -17,6 +17,7 @@ use App\Livewire\Rules\Show as RuleShow;
 use App\Livewire\Scenarios\Index as ScenarioIndex;
 use App\Livewire\Scenes\Form as SceneForm;
 use App\Livewire\Scenes\Show as SceneShow;
+use App\Livewire\Search\Index as SearchIndex;
 use App\Livewire\Sessions\Live as SessionLive;
 use App\Livewire\Sessions\Show as SessionShow;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/regles/{rule}/modifier', RuleForm::class)->name('rules.edit')->whereNumber(['campaign', 'rule']);
     Route::livewire('/campagnes/{campaign}/documents', DocumentIndex::class)->name('documents.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/documents/{document}', DocumentShow::class)->name('documents.show')->whereNumber(['campaign', 'document']);
+
+    Route::livewire('/campagnes/{campaign}/recherche', SearchIndex::class)->name('search.index')->whereNumber('campaign');
 
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/import', ImportCreate::class)->name('imports.create')->whereNumber('campaign');
