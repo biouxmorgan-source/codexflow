@@ -1,0 +1,57 @@
+<?php
+
+// Règles courantes traduites ; les autres retombent sur lang/en (fallback_locale).
+return [
+    'accepted' => 'Le champ :attribute doit être accepté.',
+    'array' => 'Le champ :attribute doit être une liste.',
+    'boolean' => 'Le champ :attribute doit être vrai ou faux.',
+    'confirmed' => 'La confirmation du champ :attribute ne correspond pas.',
+    'current_password' => 'Le mot de passe est incorrect.',
+    'date' => 'Le champ :attribute doit être une date valide.',
+    'email' => 'Le champ :attribute doit être une adresse e-mail valide.',
+    'exists' => 'La valeur sélectionnée pour :attribute est invalide.',
+    'file' => 'Le champ :attribute doit être un fichier.',
+    'image' => 'Le champ :attribute doit être une image.',
+    'in' => 'La valeur sélectionnée pour :attribute est invalide.',
+    'integer' => 'Le champ :attribute doit être un nombre entier.',
+    'lowercase' => 'Le champ :attribute doit être en minuscules.',
+    'max' => [
+        'array' => 'Le champ :attribute ne doit pas contenir plus de :max éléments.',
+        'file' => 'Le fichier :attribute ne doit pas dépasser :max kilo-octets.',
+        'numeric' => 'Le champ :attribute ne doit pas dépasser :max.',
+        'string' => 'Le champ :attribute ne doit pas dépasser :max caractères.',
+    ],
+    'min' => [
+        'array' => 'Le champ :attribute doit contenir au moins :min éléments.',
+        'file' => 'Le fichier :attribute doit faire au moins :min kilo-octets.',
+        'numeric' => 'Le champ :attribute doit être au moins :min.',
+        'string' => 'Le champ :attribute doit contenir au moins :min caractères.',
+    ],
+    'numeric' => 'Le champ :attribute doit être un nombre.',
+    'password' => [
+        'letters' => 'Le champ :attribute doit contenir au moins une lettre.',
+        'mixed' => 'Le champ :attribute doit contenir au moins une majuscule et une minuscule.',
+        'numbers' => 'Le champ :attribute doit contenir au moins un chiffre.',
+        'symbols' => 'Le champ :attribute doit contenir au moins un symbole.',
+        'uncompromised' => 'Ce :attribute est apparu dans une fuite de données. Choisissez-en un autre.',
+    ],
+    'required' => 'Le champ :attribute est obligatoire.',
+    'required_if' => 'Le champ :attribute est obligatoire quand :other vaut :value.',
+    'required_without' => 'Le champ :attribute est obligatoire quand :values n\'est pas renseigné.',
+    'string' => 'Le champ :attribute doit être un texte.',
+    'unique' => 'Cette valeur de :attribute est déjà utilisée.',
+    'url' => 'Le champ :attribute doit être une URL valide.',
+
+    'attributes' => [
+        'name' => 'nom',
+        'email' => 'adresse e-mail',
+        'password' => 'mot de passe',
+        'password_confirmation' => 'confirmation du mot de passe',
+        'current_password' => 'mot de passe actuel',
+        'description' => 'description',
+        'game_system_id' => 'jeu',
+        'world_id' => 'monde',
+        'new_game_name' => 'nom du nouveau jeu',
+        'new_world_name' => 'nom du nouveau monde',
+    ],
+];
