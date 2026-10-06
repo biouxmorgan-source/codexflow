@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Livewire\Scenes;
+
+use App\Enums\SceneStatus;
+use App\Models\Campaign;
+use App\Models\Scene;
+use App\Support\EntityLinks;
+use Livewire\Component;
+
+class Show extends Component
+{
+    public Campaign $campaign;
+
+    public Scene $scene;
+
+    public function mount(Campaign $campaign, Scene $scene): void
+    {
+        $this->authorize('update', $campaign);
+        abort_unless($scene->scenario->campaign_id === $campaign->id, 404);
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $this->scene->status = SceneStatus::from($status);
+        $this->scene->save();
+    }
+
+    public function delete(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $this->scene->delete();
+
+        $this->redirectRoute('scenarios.index', $this->campaign, navigate: true);
+    }
+
+    public function render()
+    {
+        $siblings = $this->scene->scenario->scenes()->get(['id', 'name']);
+        $index = $siblings->search(fn (Scene $scene) => $scene->is($this->scene));
+
+        return view('livewire.scenes.show', [
+            'description' => EntityLinks::render($this->scene->description, $this->campaign),
+            'entities' => $this->scene->entities()
+                ->with(['type', 'campaignStates' => fn ($q) => $q->where('campaign_id', $this->campaign->id)])
+                ->get(),
+            'previous' => $index > 0 ? $siblings[$index - 1] : null,
+            'next' => $siblings[$index + 1] ?? null,
+        ])->title($this->scene->name);
+    }
+}

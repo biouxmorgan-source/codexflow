@@ -151,6 +151,20 @@
                 </div>
             </form>
 
+            @if ($scenes->isNotEmpty())
+                <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <h2 class="mb-2 font-semibold">Scènes</h2>
+                    <ul class="space-y-1 text-sm">
+                        @foreach ($scenes as $linkedScene)
+                            <li class="flex items-center justify-between gap-2">
+                                <a href="{{ route('scenes.show', [$campaign, $linkedScene]) }}" class="text-codex hover:underline" wire:navigate>{{ $linkedScene->name }}</a>
+                                <span class="shrink-0 rounded-full px-2 py-0.5 text-xs {{ $linkedScene->status->badge() }}">{{ $linkedScene->status->label() }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </section>
+            @endif
+
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-2 font-semibold">Cité dans</h2>
                 @if ($backlinks->isEmpty())

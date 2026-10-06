@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Actions\Campaigns\CreateCampaign;
 use App\Enums\FieldType;
+use App\Enums\SceneStatus;
 use App\Enums\Zone;
 use App\Models\Entity;
 use App\Models\EntityRelation;
@@ -134,5 +135,32 @@ class DatabaseSeeder extends Seeder
             $relation->to()->associate($to);
             $relation->save();
         }
+
+        // Un scénario de démonstration avec ses scènes.
+        $scenario = $first->scenarios()->create([
+            'name' => 'Une nuit au Poney fringant',
+            'summary' => 'Les voyageurs font halte à l\'auberge ; la Guilde y règle ses comptes.',
+        ]);
+
+        $arrival = $scenario->scenes()->create([
+            'chapter' => 'Acte I',
+            'name' => 'Arrivée à l\'auberge',
+            'status' => SceneStatus::Available,
+            'position' => 1,
+            'description' => "La salle est bondée. [[Aldric le tavernier|{$aldric->id}]] propose les dernières chambres à prix d'or.\n[[Mira la colporteuse|{$mira->id}]] cherche discrètement quelqu'un pour porter une lettre.",
+        ]);
+        $arrival->entities()->attach([
+            $inn->id => ['note' => null, 'position' => 0],
+            $aldric->id => ['note' => 'derrière le comptoir', 'position' => 1],
+            $mira->id => ['note' => 'près de la cheminée', 'position' => 2],
+        ]);
+
+        $night = $scenario->scenes()->create([
+            'chapter' => 'Acte I',
+            'name' => 'Visite nocturne',
+            'position' => 2,
+            'description' => "Deux hommes de [[La Guilde des ombres|{$guild->id}]] descendent à la cave.",
+        ]);
+        $night->entities()->attach([$guild->id => ['note' => 'deux hommes encapuchonnés', 'position' => 0]]);
     }
 }

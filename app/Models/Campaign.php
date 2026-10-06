@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 #[Fillable(['name', 'description', 'game_system_id', 'world_id', 'status', 'archived_at'])]
 class Campaign extends Model
@@ -66,6 +67,18 @@ class Campaign extends Model
     public function localEntities(): HasMany
     {
         return $this->hasMany(Entity::class);
+    }
+
+    /** @return HasMany<Scenario, $this> */
+    public function scenarios(): HasMany
+    {
+        return $this->hasMany(Scenario::class)->orderBy('position')->orderBy('id');
+    }
+
+    /** @return HasManyThrough<Scene, Scenario, $this> */
+    public function scenes(): HasManyThrough
+    {
+        return $this->hasManyThrough(Scene::class, Scenario::class);
     }
 
     /** @return HasMany<CampaignEntityState, $this> */
