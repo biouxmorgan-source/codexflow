@@ -22,12 +22,33 @@
 <body>
     <main>
         <div class="logo">CODEX<span>FLOW</span></div>
-        <h1>Vous êtes hors ligne</h1>
-        <p>Cette page n'a pas encore été ouverte sur cet appareil. Les fiches de personnage déjà consultées restent lisibles sans connexion.</p>
+        <h1 data-text="title">Vous êtes hors ligne</h1>
+        <p data-text="body">Cette page n'a pas encore été ouverte sur cet appareil. Les fiches de personnage déjà consultées restent lisibles sans connexion.</p>
         <ul id="sheets"></ul>
-        <button type="button" onclick="location.reload()">Réessayer</button>
+        <button type="button" onclick="location.reload()" data-text="retry">Réessayer</button>
     </main>
     <script>
+        // Page statique (service worker) : textes traduits ici, selon la langue de l'appareil.
+        (() => {
+            const texts = {
+                en: ['You are offline', 'This page has not been opened on this device yet. Character sheets you have already viewed remain readable without a connection.', 'Try again'],
+                de: ['Sie sind offline', 'Diese Seite wurde auf diesem Gerät noch nicht geöffnet. Bereits angesehene Charakterbögen bleiben ohne Verbindung lesbar.', 'Erneut versuchen'],
+                es: ['Estás sin conexión', 'Esta página aún no se ha abierto en este dispositivo. Las fichas de personaje ya consultadas siguen disponibles sin conexión.', 'Reintentar'],
+                it: ['Sei offline', 'Questa pagina non è ancora stata aperta su questo dispositivo. Le schede dei personaggi già consultate restano leggibili senza connessione.', 'Riprova'],
+                pt: ['Você está offline', 'Esta página ainda não foi aberta neste dispositivo. As fichas de personagem já consultadas continuam legíveis sem conexão.', 'Tentar novamente'],
+                nl: ['Je bent offline', 'Deze pagina is nog niet geopend op dit apparaat. Personagebladen die je al hebt bekeken, blijven zonder verbinding leesbaar.', 'Opnieuw proberen'],
+                pl: ['Jesteś offline', 'Ta strona nie była jeszcze otwierana na tym urządzeniu. Wcześniej przeglądane karty postaci pozostają dostępne bez połączenia.', 'Spróbuj ponownie'],
+            };
+            const lang = (navigator.languages || [navigator.language]).map((l) => l.slice(0, 2)).find((l) => l === 'fr' || texts[l]);
+            if (!texts[lang]) return;
+            const [title, body, retry] = texts[lang];
+            document.documentElement.lang = lang;
+            document.title = title + ' · CodexFlow';
+            document.querySelector('[data-text=title]').textContent = title;
+            document.querySelector('[data-text=body]').textContent = body;
+            document.querySelector('[data-text=retry]').textContent = retry;
+        })();
+
         // Liste les fiches de personnage gardées sur cet appareil par le service worker.
         (async () => {
             if (!('caches' in window)) return;

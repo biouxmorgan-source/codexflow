@@ -59,7 +59,7 @@ class Index extends Component
                 : array_intersect_key(['entities' => __('Fiches connues'), 'knowledge' => __('Informations, objets et règles'), 'documents' => __('Documents'), 'notes' => __('Notes')], array_flip(GlobalSearch::PLAYER_KINDS)),
             'myCharacter' => $isGameMaster ? null : $this->campaign->playerCharacters()->active()->where('user_id', auth()->id())->with('entity')->first(),
             'entityTypes' => $isGameMaster
-                ? EntityType::query()->availableTo(auth()->user())->orderBy('name')->get(['id', 'name'])
+                ? EntityType::query()->availableTo(auth()->user())->orderBy('name')->get(['id', 'name', 'key', 'user_id'])
                 : collect(),
         ])->title($this->q !== ''
             ? __(':query · Recherche · :name', ['query' => $this->q, 'name' => $this->campaign->name])
