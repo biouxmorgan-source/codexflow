@@ -1,7 +1,7 @@
 <span class="inline-flex items-center gap-2">
     @if ($showing)
-        <span @class(['inline-flex items-center gap-1 font-medium text-flow', 'text-xs' => $compact, 'text-sm' => ! $compact])>
-            <span aria-hidden="true">●</span> {{ __('À la table') }}
+        <span @class(['inline-flex items-center gap-1 font-medium text-flow', 'text-xs' => $compact, 'text-sm' => ! $compact]) title="{{ __("Affiché sur l'écran de table") }}">
+            <span aria-hidden="true">●</span> {{ $label ? __(':label : à la table', ['label' => $label]) : __('À la table') }}
         </span>
         @unless ($compact)
             <a href="{{ route('table.screen', $campaign) }}" target="codexflow-table" class="text-sm link">{{ __("Ouvrir l'écran") }}</a>
