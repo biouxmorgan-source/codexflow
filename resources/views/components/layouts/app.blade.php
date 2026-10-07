@@ -11,6 +11,11 @@
                     x-data x-on:keydown.slash.window="if (! ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && ! document.activeElement.isContentEditable) { $event.preventDefault(); $refs.q.focus() }">
                     <label for="header-search" class="sr-only">{{ __('Rechercher dans :name', ['name' => $searchCampaign->name]) }}</label>
                     <input id="header-search" x-ref="q" type="search" name="q" class="field py-1.5 text-sm" placeholder="{{ __('Rechercher…') }}  /" autocomplete="off">
+                    {{-- Mode « Voir comme… » : la recherche se fait dans ce que connaît le personnage (vérifié par la page de recherche). --}}
+                    @php($viewAsCharacter = request()->route('character'))
+                    @if ($viewAsCharacter && request()->routeIs('characters.show', 'characters.entity') && request()->boolean('comme'))
+                        <input type="hidden" name="comme" value="{{ $viewAsCharacter instanceof \App\Models\PlayerCharacter ? $viewAsCharacter->id : $viewAsCharacter }}">
+                    @endif
                 </form>
             @endif
             <nav class="flex items-center gap-3 text-sm whitespace-nowrap sm:gap-4">

@@ -2,6 +2,10 @@
 @php($counters = $this->fields->where('type', \App\Enums\FieldType::Counter))
 @php($others = $this->fields->reject(fn ($definition) => $definition->type === \App\Enums\FieldType::Counter))
 <div>
+    @if ($viewAs)
+        <x-view-as-banner :name="$entity->name" :exit="route('characters.show', [$campaign, $character])" />
+    @endif
+
     <nav class="mb-2 text-sm text-stone-500">
         <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
         @if ($this->isGameMaster)
@@ -16,6 +20,7 @@
         <p class="mb-4 rounded-md bg-flow/10 px-3 py-2 text-sm text-ink">
             {{ __('Vous voyez la fiche comme :name la voit : sans la zone MJ.', ['name' => $character->player?->name ?? __('le joueur')]) }}
             <a href="{{ route('entities.show', [$campaign, $entity]) }}" class="link" wire:navigate>{{ __('Fiche complète') }}</a>
+            · <a href="{{ route('characters.show', [$campaign, $character, 'comme' => 1]) }}" class="link" wire:navigate>{{ __('Voir comme :name', ['name' => $entity->name]) }}</a>
         </p>
     @endif
 
@@ -181,7 +186,7 @@
                                     <div class="min-w-0 flex-1">
                                         @switch($grant->kind)
                                             @case('entity')
-                                                <a href="{{ route('characters.entity', [$campaign, $character, $grant->entity]) }}" class="link font-medium" wire:navigate>{{ $grant->entity->name }}</a>
+                                                <a href="{{ route('characters.entity', [$campaign, $character, $grant->entity, ...$this->viewAsQuery()]) }}" class="link font-medium" wire:navigate>{{ $grant->entity->name }}</a>
                                                 <span class="text-xs text-stone-500">{{ $grant->entity->type->name }}</span>
                                                 @if ($grant->entity->summary)
                                                     <p class="text-sm text-stone-600">{{ $grant->entity->summary }}</p>

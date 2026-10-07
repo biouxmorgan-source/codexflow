@@ -80,6 +80,32 @@ class CharacterNote extends Model
                 ->whereHas('sharedWith', fn (Builder $q) => $q->where('player_characters.user_id', $user->id))));
     }
 
+    /**
+     * Notes que le joueur d'un personnage lit, vues par le MJ en mode « Voir comme… ».
+     *
+     * Même règle que scopeVisibleTo pour un joueur, à une exception : les notes « Moi seul »
+     * restent privées, le MJ ne les lit jamais, même à travers le personnage. Personnage sans
+     * joueur : les notes de toute la table et celles partagées avec ce personnage, soit ce que
+     * lirait n'importe quel joueur à qui on le confierait.
+     *
+     * @param  Builder<CharacterNote>  $query
+     */
+    public function scopeVisibleToCharacter(Builder $query, PlayerCharacter $character): void
+    {
+        $playerId = $character->user_id;
+
+        $query->whereHas('character', fn (Builder $q) => $q->where('campaign_id', $character->campaign_id))
+            ->where('visibility', '!=', 'private')
+            ->where(fn (Builder $q) => $q
+                ->where('visibility', 'group')
+                ->when($playerId, fn (Builder $q) => $q->orWhere('user_id', $playerId))
+                ->orWhere(fn (Builder $q) => $q
+                    ->where('visibility', 'players')
+                    ->whereHas('sharedWith', fn (Builder $q) => $playerId
+                        ? $q->where('player_characters.user_id', $playerId)
+                        : $q->whereKey($character->id))));
+    }
+
     public function visibilityLabel(): string
     {
         return self::visibilities()[$this->visibility] ?? $this->visibility;

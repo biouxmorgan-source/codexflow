@@ -62,6 +62,9 @@ final class GlobalSearch
         private readonly Campaign $campaign,
         private readonly User $user,
         string $query,
+        // Mode « Voir comme… » : le MJ cherche à travers ce personnage, comme son joueur.
+        // L'appelant vérifie que l'utilisateur est MJ de la campagne et que le personnage en fait partie.
+        private readonly ?PlayerCharacter $asCharacter = null,
     ) {
         $this->words = self::words($query);
     }
@@ -93,8 +96,14 @@ final class GlobalSearch
             return [];
         }
 
+        if ($this->asCharacter !== null) {
+            return $this->runForPlayer($this->asCharacter, $kinds);
+        }
+
         if (! $this->campaign->isGameMaster($this->user)) {
-            return $this->runForPlayer($kinds);
+            $character = $this->campaign->playerCharacters()->active()->where('user_id', $this->user->id)->first();
+
+            return $character === null ? [] : $this->runForPlayer($character, $kinds);
         }
 
         $kinds ??= array_diff(array_keys(self::KINDS), ['knowledge']);
@@ -119,21 +128,15 @@ final class GlobalSearch
     }
 
     /**
-     * Recherche d'un joueur, à travers son personnage actif : zone publique des fiches révélées,
+     * Recherche d'un joueur, à travers son personnage actif (ou celui que le MJ « voit comme ») : zone publique des fiches révélées,
      * informations et objets reçus, documents donnés, notes qu'il a le droit de lire.
      * La zone MJ n'entre jamais dans le texte cherché.
      *
      * @param  list<string>|null  $kinds
      * @return array<string, Collection<int, SearchResult>>
      */
-    private function runForPlayer(?array $kinds): array
+    private function runForPlayer(PlayerCharacter $character, ?array $kinds): array
     {
-        $character = $this->campaign->playerCharacters()->active()->where('user_id', $this->user->id)->first();
-
-        if ($character === null) {
-            return [];
-        }
-
         $results = [];
 
         foreach (array_intersect($kinds ?? self::PLAYER_KINDS, self::PLAYER_KINDS) as $kind) {
@@ -150,6 +153,12 @@ final class GlobalSearch
         }
 
         return $results;
+    }
+
+    /** @return array<string, int> paramètre qui garde le mode « Voir comme… » dans les liens des résultats */
+    private function viewAsQuery(): array
+    {
+        return $this->asCharacter ? ['comme' => 1] : [];
     }
 
     /** @return Collection<int, SearchResult> */
@@ -172,7 +181,7 @@ final class GlobalSearch
             ->map(fn (Entity $entity) => new SearchResult(
                 title: $entity->name,
                 subtitle: $entity->type->name,
-                url: route('characters.entity', [$this->campaign, $character, $entity]),
+                url: route('characters.entity', [$this->campaign, $character, $entity, ...$this->viewAsQuery()]),
                 snippet: $this->snippet([__('Résumé') => $entity->summary, __('Description') => $entity->description], $entity->name),
             ));
     }
@@ -194,7 +203,7 @@ final class GlobalSearch
             ->map(fn (CharacterGrant $grant) => new SearchResult(
                 title: $grant->label(),
                 subtitle: CharacterGrant::kinds()[$grant->kind],
-                url: route('characters.show', [$this->campaign, $character]),
+                url: route('characters.show', [$this->campaign, $character, ...$this->viewAsQuery()]),
                 snippet: $this->snippet($grant->kind === 'rule'
                     ? [__('Résumé') => $grant->rule->summary, __('Procédure') => $grant->rule->procedure]
                     : [__('Texte') => $grant->body], $grant->label()),
@@ -222,7 +231,9 @@ final class GlobalSearch
     private function readableNotes(PlayerCharacter $character): Collection
     {
         return CharacterNote::query()
-            ->visibleTo($this->user, $this->campaign)
+            ->when($this->asCharacter,
+                fn (Builder $q) => $q->visibleToCharacter($this->asCharacter),
+                fn (Builder $q) => $q->visibleTo($this->user, $this->campaign))
             ->with('character.entity')
             ->tap(fn (Builder $q) => $this->matchAll($q, 'character_notes.body'))
             ->latest('id')
@@ -232,7 +243,7 @@ final class GlobalSearch
                 title: __('Note de :name', ['name' => $note->character->entity->name]),
                 subtitle: $note->created_at->isoFormat('L LT').' · '.$note->visibilityLabel(),
                 // Une note partagée par un autre joueur se lit sur la page de son propre personnage.
-                url: route('characters.show', [$this->campaign, $character]),
+                url: route('characters.show', [$this->campaign, $character, ...$this->viewAsQuery()]),
                 snippet: $this->snippet([__('Note') => $note->body], ''),
             ));
     }
