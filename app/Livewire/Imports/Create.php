@@ -7,6 +7,7 @@ use App\Actions\Imports\ImportFieldDefinitions;
 use App\Actions\Imports\ImportRules;
 use App\Actions\Imports\ImportScenes;
 use App\Enums\Zone;
+use App\Models\ActivityLog;
 use App\Models\Campaign;
 use App\Models\EntityType;
 use App\Models\FieldDefinition;
@@ -145,7 +146,7 @@ class Create extends Component
             return;
         }
 
-        $this->result = $action->run();
+        $this->result = ActivityLog::batch(fn () => $action->run());
         $this->reset('file', 'mapping');
         unset($this->definitions, $this->table, $this->plan);
     }

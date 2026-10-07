@@ -34,6 +34,7 @@
             @else
                 <button type="button" wire:click="addToPlay" class="btn-secondary">Ajouter à « À jouer »</button>
             @endif
+            <a href="{{ route('journal.index', [$campaign, 'sujet' => 'rule:'.$rule->id]) }}" class="btn-secondary" wire:navigate>Historique</a>
             <a href="{{ route('rules.edit', [$campaign, $rule]) }}" class="btn-secondary" wire:navigate>Modifier</a>
         </div>
     </div>

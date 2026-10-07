@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\SceneStatus;
+use App\Models\Concerns\RecordsActivity;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['chapter', 'name', 'description', 'status', 'position'])]
 class Scene extends Model
 {
+    use RecordsActivity;
+
     protected $attributes = ['status' => 'planned'];
 
     protected function casts(): array
@@ -50,5 +53,20 @@ class Scene extends Model
     public function documents(): BelongsToMany
     {
         return $this->belongsToMany(Document::class)->withPivot('position')->orderByPivot('position');
+    }
+
+    public function activityType(): string
+    {
+        return 'scene';
+    }
+
+    public function activityLabel(): string
+    {
+        return $this->name;
+    }
+
+    public function activityScope(): array
+    {
+        return ['campaign_id' => $this->scenario?->campaign_id];
     }
 }

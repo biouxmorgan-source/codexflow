@@ -20,7 +20,10 @@
                 </select>
             </div>
         </div>
-        <a href="{{ route('scenes.edit', [$campaign, $scene]) }}" class="btn-secondary" wire:navigate>Modifier la scène</a>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('journal.index', [$campaign, 'sujet' => 'scene:'.$scene->id]) }}" class="btn-secondary" wire:navigate>Historique</a>
+            <a href="{{ route('scenes.edit', [$campaign, $scene]) }}" class="btn-secondary" wire:navigate>Modifier la scène</a>
+        </div>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-3">

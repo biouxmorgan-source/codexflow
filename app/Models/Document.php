@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Zone;
+use App\Models\Concerns\RecordsActivity;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Storage;
 #[Fillable(['title', 'description', 'zone', 'disk', 'path', 'original_name', 'mime_type', 'size'])]
 class Document extends Model
 {
+    use RecordsActivity;
+
     public const DISK = 'local';
 
     /** Types acceptés au téléversement (extensions). */
@@ -129,5 +132,20 @@ class Document extends Model
                 $q->orWhere('world_id', $campaign->world_id);
             }
         });
+    }
+
+    public function activityType(): string
+    {
+        return 'document';
+    }
+
+    public function activityLabel(): string
+    {
+        return $this->title;
+    }
+
+    public function activityScope(): array
+    {
+        return ['campaign_id' => $this->campaign_id, 'world_id' => $this->world_id, 'game_system_id' => $this->game_system_id];
     }
 }
