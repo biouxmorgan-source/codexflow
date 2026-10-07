@@ -26,6 +26,45 @@ class FieldDefinition extends Model
             DB::update('update entities set field_values = field_values - ? where jsonb_exists(field_values, ?)', [$key, $key]);
             DB::update("update campaign_entity_states set overrides = overrides - ? where jsonb_typeof(overrides) = 'object' and jsonb_exists(overrides, ?)", [$key, $key]);
         });
+
+        static::updated(function (FieldDefinition $definition) {
+            if ($definition->wasChanged('type')) {
+                $definition->convertStoredValues(FieldType::from($definition->getRawOriginal('type')));
+            }
+        });
+    }
+
+    /**
+     * Garde les valeurs saisies quand le champ change de type entre nombre et compteur :
+     * des PV « 11 » deviennent « 11 / 11 », et un compteur redevenu nombre garde sa valeur actuelle.
+     */
+    private function convertStoredValues(FieldType $from): void
+    {
+        $sql = match (true) {
+            $from === FieldType::Number && $this->type === FieldType::Counter => [
+                'number', "jsonb_build_object('value', %1\$s->?, 'max', %1\$s->?)",
+            ],
+            $from === FieldType::Counter && $this->type === FieldType::Number => [
+                'object', "coalesce(%1\$s->?->'value', '0'::jsonb)",
+            ],
+            default => null,
+        };
+
+        if ($sql === null) {
+            return;
+        }
+
+        [$jsonType, $expression] = $sql;
+        $key = (string) $this->getKey();
+        $bindings = $this->type === FieldType::Counter ? [$key, $key] : [$key];
+
+        foreach (['entities' => 'field_values', 'campaign_entity_states' => 'overrides'] as $table => $column) {
+            DB::update(
+                "update {$table} set {$column} = jsonb_set({$column}, array[?], ".sprintf($expression, $column).")
+                where jsonb_typeof({$column}) = 'object' and jsonb_typeof({$column}->?) = ?",
+                [$key, ...$bindings, $key, $jsonType],
+            );
+        }
     }
 
     protected function casts(): array
