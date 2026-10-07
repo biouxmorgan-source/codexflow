@@ -1264,5 +1264,11 @@
     "Échelle : 1 case =": "Schaal: 1 vakje =",
     "Écran ↗": "Scherm ↗",
     "échelle": "schaal",
-    "Mesurer": "Meten"
+    "Mesurer": "Meten",
+    "Fiches de personnage inutilisées": "Ongebruikte personagefiches",
+    "Les fiches de personnages retirés restent dans la campagne. Supprimez les doublons pour qu’ils n’apparaissent plus dans les listes (cartes, recherche…).": "Fiches van verwijderde personages blijven in de campagne. Verwijder dubbele fiches zodat ze niet meer in lijsten verschijnen (kaarten, zoeken…).",
+    "Supprimer :name et sa fiche ? Ses connaissances, possessions et notes seront supprimées aussi.": ":name en de fiche verwijderen? Kennis, bezittingen en notities worden ook verwijderd.",
+    "Supprimer avec sa fiche": "Verwijderen met fiche",
+    "Supprimer la fiche « :name » ?": "De fiche ‘:name’ verwijderen?",
+    "Une fiche « :name » existe déjà : elle est sélectionnée ci-dessus. Créez le personnage avec elle, ou supprimez-la plus bas.": "Er bestaat al een fiche ‘:name’: die is hierboven geselecteerd. Maak het personage daarmee aan, of verwijder de fiche hieronder."
 }

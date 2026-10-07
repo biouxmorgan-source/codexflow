@@ -92,6 +92,18 @@ class Index extends Component
             'playerId' => ['nullable', Rule::in($this->players->modelKeys())],
         ], attributes: ['name' => __('nom'), 'playerId' => __('joueur'), 'entityChoice' => __('fiche')]);
 
+        // Une fiche de ce nom attend déjà dans la campagne : la reprendre plutôt que la dupliquer.
+        $same = $this->entityChoice === 'new'
+            ? $this->candidates->first(fn (Entity $entity) => mb_strtolower($entity->name) === mb_strtolower(trim($this->name)))
+            : null;
+
+        if ($same !== null) {
+            $this->entityChoice = (string) $same->id;
+            $this->addError('entityChoice', __('Une fiche « :name » existe déjà : elle est sélectionnée ci-dessus. Créez le personnage avec elle, ou supprimez-la plus bas.', ['name' => $same->name]));
+
+            return;
+        }
+
         DB::transaction(function () {
             if ($this->entityChoice === 'new') {
                 $entity = new Entity(['name' => trim($this->name)]);
@@ -191,6 +203,43 @@ class Index extends Component
 
         $this->find($characterId)->delete();
         unset($this->characters, $this->candidates);
+    }
+
+    /** Supprime le personnage et sa fiche de campagne (connaissances, notes et jetons liés compris). */
+    public function destroy(int $characterId): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $entity = $this->find($characterId)->entity;
+        abort_unless($entity->campaign_id === $this->campaign->id, 404);
+        $this->authorize('delete', $entity);
+
+        // Le personnage part avec sa fiche (clé étrangère en cascade).
+        $entity->delete();
+        unset($this->characters, $this->candidates);
+    }
+
+    /**
+     * Fiches de personnage de la campagne qui ne sont plus des personnages joueurs : d'anciens
+     * personnages retirés, souvent en double après plusieurs essais.
+     *
+     * @return Collection<int, Entity>
+     */
+    #[Computed]
+    public function unused(): Collection
+    {
+        return $this->candidates->filter(fn (Entity $entity) => $entity->campaign_id === $this->campaign->id)->values();
+    }
+
+    public function deleteUnused(int $entityId): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $entity = $this->unused->find($entityId) ?? abort(404);
+        $this->authorize('delete', $entity);
+
+        $entity->delete();
+        unset($this->candidates, $this->unused);
     }
 
     private function find(int $characterId): PlayerCharacter

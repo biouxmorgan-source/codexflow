@@ -1264,5 +1264,11 @@
     "Échelle : 1 case =": "Maßstab: 1 Feld =",
     "Écran ↗": "Bildschirm ↗",
     "échelle": "Maßstab",
-    "Mesurer": "Messen"
+    "Mesurer": "Messen",
+    "Fiches de personnage inutilisées": "Ungenutzte Charaktereinträge",
+    "Les fiches de personnages retirés restent dans la campagne. Supprimez les doublons pour qu’ils n’apparaissent plus dans les listes (cartes, recherche…).": "Einträge entfernter Charaktere bleiben in der Kampagne. Löschen Sie Duplikate, damit sie nicht mehr in Listen erscheinen (Karten, Suche…).",
+    "Supprimer :name et sa fiche ? Ses connaissances, possessions et notes seront supprimées aussi.": ":name und den Eintrag löschen? Wissen, Besitz und Notizen werden ebenfalls gelöscht.",
+    "Supprimer avec sa fiche": "Mit Eintrag löschen",
+    "Supprimer la fiche « :name » ?": "Den Eintrag „:name“ löschen?",
+    "Une fiche « :name » existe déjà : elle est sélectionnée ci-dessus. Créez le personnage avec elle, ou supprimez-la plus bas.": "Ein Eintrag „:name“ existiert bereits: Er ist oben ausgewählt. Erstellen Sie den Charakter damit oder löschen Sie ihn unten."
 }

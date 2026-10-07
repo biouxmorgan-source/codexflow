@@ -279,4 +279,39 @@ class PlayerCharacterTest extends TestCase
         $this->assertTrue(FieldDefinition::where('name', 'Munitions')->sole()->player_editable);
         $this->assertTrue(FieldDefinition::where('name', 'PM')->sole()->player_editable);
     }
+
+    /** Retirer puis recréer un personnage ne doit pas laisser de fiches en double. */
+    public function test_removed_characters_do_not_pile_up_as_duplicate_sheets(): void
+    {
+        $sofian = $this->createCharacter('Sofian');
+        $page = Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $this->campaign])
+            ->call('remove', $sofian->id)
+            ->assertSee('Fiches de personnage inutilisées');
+
+        // Recréer « Sofian » propose la fiche existante au lieu d'en créer une seconde.
+        $page->set('entityChoice', 'new')->set('name', 'sofian ')->call('create')
+            ->assertHasErrors('entityChoice')
+            ->assertSet('entityChoice', (string) $sofian->entity_id);
+        $this->assertSame(1, Entity::where('name', 'Sofian')->count());
+
+        $page->call('create')->assertHasNoErrors();
+        $again = PlayerCharacter::sole();
+        $this->assertSame($sofian->entity_id, $again->entity_id);
+
+        // Supprimer avec sa fiche : plus rien ne reste.
+        $page->call('destroy', $again->id);
+        $this->assertSame(0, PlayerCharacter::count());
+        $this->assertSame(0, Entity::where('name', 'Sofian')->count());
+
+        // Les doublons déjà là se suppriment depuis la liste des fiches inutilisées.
+        $old = Entity::factory()->for($this->gm, 'owner')->for($this->campaign)->create(['name' => 'Sofian', 'entity_type_id' => EntityType::standard('character')->id]);
+        $page->call('deleteUnused', $old->id);
+        $this->assertNull(Entity::find($old->id));
+
+        // Une fiche encore jouée n'est pas « inutilisée ».
+        $harvey = $this->createCharacter();
+        Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $this->campaign])
+            ->call('deleteUnused', $harvey->entity_id)
+            ->assertNotFound();
+    }
 }
