@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Message entre le MJ et les joueurs. Il appartient à la conversation d'un personnage
@@ -33,6 +35,18 @@ class Message extends Model
     public function sender(): BelongsTo
     {
         return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    /** @return BelongsTo<PlayerCharacter, $this> personnage au nom duquel un joueur a écrit */
+    public function senderCharacter(): BelongsTo
+    {
+        return $this->belongsTo(PlayerCharacter::class, 'sender_character_id');
+    }
+
+    /** Nom affiché de l'auteur : son personnage pour un joueur, « MJ » sinon. */
+    public function senderLabel(): string
+    {
+        return $this->senderCharacter?->entity?->name ?? 'MJ';
     }
 
     /** @return BelongsTo<Entity, $this> */
@@ -113,5 +127,35 @@ class Message extends Model
     public static function unreadCount(User $user, Campaign $campaign): int
     {
         return self::query()->visibleTo($user, $campaign)->unreadBy($user)->count();
+    }
+
+    /**
+     * Marque lus les messages affichés et les notifications qui les annoncent.
+     *
+     * @param  Collection<int, Message>  $messages
+     * @param  int|'group'|null  $scope  conversation affichée au MJ (personnage ou groupe) ; null = toutes
+     * @return int nombre d'éléments passés en lu
+     */
+    public static function markRead(User $user, Campaign $campaign, Collection $messages, int|string|null $scope = null): int
+    {
+        $changed = $user->unreadNotifications()
+            ->whereRaw("data->>'kind' = 'message'")
+            ->whereRaw("(data->>'campaign_id')::bigint = ?", [$campaign->id])
+            ->when($scope === 'group', fn ($q) => $q->whereRaw("data->>'character_id' is null"))
+            ->when(is_int($scope), fn ($q) => $q->whereRaw("(data->>'character_id')::bigint = ?", [$scope]))
+            ->update(['read_at' => now()]);
+
+        $unread = $messages->filter(fn (Message $message) => $message->sender_id !== $user->id)->modelKeys();
+
+        if ($unread !== []) {
+            $now = now();
+            $changed += DB::table('message_reads')->insertOrIgnore(array_map(fn (int $id) => [
+                'message_id' => $id,
+                'user_id' => $user->id,
+                'read_at' => $now,
+            ], $unread));
+        }
+
+        return $changed;
     }
 }

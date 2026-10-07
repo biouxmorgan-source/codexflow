@@ -4,16 +4,14 @@ namespace App\Livewire\Messages;
 
 use App\Actions\Messages\SendMessage;
 use App\Enums\Zone;
+use App\Livewire\Concerns\ReadsMessages;
 use App\Livewire\Concerns\SuggestsEntities;
-use App\Livewire\HeaderBadges;
 use App\Models\Campaign;
-use App\Models\CharacterGrant;
 use App\Models\Document;
 use App\Models\Message;
 use App\Models\PlayerCharacter;
 use App\Models\Rule;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
@@ -25,6 +23,7 @@ use Livewire\Component;
  */
 class Index extends Component
 {
+    use ReadsMessages;
     use SuggestsEntities;
 
     public Campaign $campaign;
@@ -49,6 +48,9 @@ class Index extends Component
 
     public ?string $flash = null;
 
+    /** Destinataire d'un joueur : gm (en privé) ou group (toute la table). */
+    public string $to = 'gm';
+
     public function mount(Campaign $campaign): void
     {
         $this->authorize('view', $campaign);
@@ -61,12 +63,6 @@ class Index extends Component
             // Le MJ arrive directement sur la conversation qui attend une réponse.
             $this->conversation = (string) ($this->characters->firstWhere('unread', '>', 0)?->id ?? '');
         }
-    }
-
-    #[Computed]
-    public function isGameMaster(): bool
-    {
-        return $this->campaign->isGameMaster(auth()->user());
     }
 
     /**
@@ -100,13 +96,6 @@ class Index extends Component
         return $this->campaign->messages()->whereNull('player_character_id')->unreadBy(auth()->user())->count();
     }
 
-    /** Personnage actif du joueur connecté : c'est depuis lui qu'il écrit au MJ. */
-    #[Computed]
-    public function myCharacter(): ?PlayerCharacter
-    {
-        return $this->campaign->playerCharacters()->active()->where('user_id', auth()->id())->with('entity')->first();
-    }
-
     #[Computed]
     public function currentCharacter(): ?PlayerCharacter
     {
@@ -122,76 +111,12 @@ class Index extends Component
             ->when($this->isGameMaster, fn ($q) => $this->conversation === ''
                 ? $q->whereNull('player_character_id')
                 : $q->where('player_character_id', (int) $this->conversation))
-            ->with(['sender', 'character.entity', 'entity', 'document', 'rule'])
+            ->with(['sender', 'senderCharacter.entity', 'character.entity', 'entity', 'document', 'rule'])
             ->latest('id')
             ->limit(200)
             ->get()
             ->reverse()
             ->values();
-    }
-
-    /**
-     * Éléments révélés aux personnages du joueur, par personnage : une pièce jointe
-     * n'est un lien que si le personnage la connaît encore.
-     *
-     * @return \Illuminate\Support\Collection<int, \Illuminate\Support\Collection<int, CharacterGrant>>
-     */
-    #[Computed]
-    public function knowledge(): \Illuminate\Support\Collection
-    {
-        if ($this->isGameMaster) {
-            return collect();
-        }
-
-        return CharacterGrant::query()
-            ->whereIn('kind', ['entity', 'document', 'rule'])
-            ->whereHas('character', fn ($q) => $q->where('campaign_id', $this->campaign->id)->where('user_id', auth()->id()))
-            ->get()
-            ->groupBy('player_character_id');
-    }
-
-    /**
-     * Lien vers la pièce jointe pour la personne connectée, ou null si elle ne peut pas l'ouvrir.
-     *
-     * @return array{label: string, url: string}|null
-     */
-    public function reference(Message $message): ?array
-    {
-        $kind = match (true) {
-            $message->entity_id !== null => 'entity',
-            $message->document_id !== null => 'document',
-            $message->rule_id !== null => 'rule',
-            default => null,
-        };
-
-        if ($kind === null || $message->{$kind} === null) {
-            return null;
-        }
-
-        $item = $message->{$kind};
-        $label = $kind === 'entity' ? $item->name : $item->title;
-
-        if ($this->isGameMaster) {
-            return ['label' => $label, 'url' => match ($kind) {
-                'entity' => route('entities.show', [$this->campaign, $item]),
-                'document' => route('documents.show', [$this->campaign, $item]),
-                'rule' => route('rules.show', [$this->campaign, $item]),
-            }];
-        }
-
-        $character = $message->character ?? $this->myCharacter;
-        $known = $character !== null && ($this->knowledge->get($character->id) ?? collect())
-            ->contains(fn (CharacterGrant $grant) => $grant->kind === $kind && $grant->{$kind.'_id'} === $item->id);
-
-        if (! $known || ($kind === 'rule' && $item->zone !== Zone::Public)) {
-            return null;
-        }
-
-        return ['label' => $label, 'url' => match ($kind) {
-            'entity' => route('characters.entity', [$this->campaign, $character, $item]),
-            'document' => route('characters.document', [$this->campaign, $character, $item]),
-            'rule' => route('characters.show', [$this->campaign, $character]).'#section-rule',
-        }];
     }
 
     /** @return Collection<int, Document> */
@@ -228,6 +153,7 @@ class Index extends Component
             'refDocumentId' => [ValidationRule::requiredIf($this->refKind === 'document'), ValidationRule::in(['', ...$this->documents->modelKeys()])],
             'refRuleId' => [ValidationRule::requiredIf($this->refKind === 'rule'), ValidationRule::in(['', ...$this->rules->modelKeys()])],
             'selected.*' => [ValidationRule::in($this->characters->modelKeys())],
+            'to' => [ValidationRule::in(['gm', 'group'])],
         ], [
             'refEntityId.required' => 'Choisissez la fiche à joindre.',
             'refDocumentId.required' => 'Choisissez le document à joindre.',
@@ -238,7 +164,7 @@ class Index extends Component
             $characterIds = $this->conversation !== '' ? [(int) $this->conversation] : array_map('intval', $this->selected);
         } else {
             abort_if($this->myCharacter === null, 403);
-            $characterIds = [$this->myCharacter->id];
+            $characterIds = $this->to === 'group' ? [] : [$this->myCharacter->id];
         }
 
         $reference = match ($this->refKind) {
@@ -261,27 +187,16 @@ class Index extends Component
     /** Ce qui s'affiche est lu, avec les notifications de ces messages. */
     private function markRead(): void
     {
-        $changed = auth()->user()->unreadNotifications()
-            ->whereRaw("data->>'kind' = 'message'")
-            ->whereRaw("(data->>'campaign_id')::bigint = ?", [$this->campaign->id])
-            ->when($this->isGameMaster, fn ($q) => $this->conversation === ''
-                ? $q->whereRaw("data->>'character_id' is null")
-                : $q->whereRaw("(data->>'character_id')::bigint = ?", [(int) $this->conversation]))
-            ->update(['read_at' => now()]);
+        $scope = match (true) {
+            ! $this->isGameMaster => null,
+            $this->conversation === '' => 'group',
+            default => (int) $this->conversation,
+        };
 
-        $unread = $this->messages->filter(fn (Message $message) => $message->sender_id !== auth()->id())->modelKeys();
-
-        $now = now();
-        $changed += $unread === [] ? 0 : DB::table('message_reads')->insertOrIgnore(array_map(fn (int $id) => [
-            'message_id' => $id,
-            'user_id' => auth()->id(),
-            'read_at' => $now,
-        ], $unread));
-
-        if ($changed > 0) {
+        if (Message::markRead(auth()->user(), $this->campaign, $this->messages, $scope) > 0) {
             unset($this->characters, $this->groupUnread);
             // L'en-tête a pu s'afficher avant : on lui demande de recompter.
-            $this->dispatch('messages-read')->to(HeaderBadges::class);
+            $this->dispatch('messages-read');
         }
     }
 
