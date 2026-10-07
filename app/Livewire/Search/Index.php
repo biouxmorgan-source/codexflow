@@ -50,8 +50,15 @@ class Index extends Component
 
     public function render()
     {
+        $isGameMaster = $this->campaign->isGameMaster(auth()->user());
+
         return view('livewire.search.index', [
-            'entityTypes' => $this->campaign->isGameMaster(auth()->user())
+            'isGameMaster' => $isGameMaster,
+            'kinds' => $isGameMaster
+                ? array_diff_key(GlobalSearch::KINDS, ['knowledge' => true])
+                : array_intersect_key(['entities' => 'Fiches connues', 'knowledge' => 'Informations et objets', 'documents' => 'Documents', 'notes' => 'Notes'], array_flip(GlobalSearch::PLAYER_KINDS)),
+            'myCharacter' => $isGameMaster ? null : $this->campaign->playerCharacters()->active()->where('user_id', auth()->id())->with('entity')->first(),
+            'entityTypes' => $isGameMaster
                 ? EntityType::query()->availableTo(auth()->user())->orderBy('name')->get(['id', 'name'])
                 : collect(),
         ])->title(($this->q !== '' ? $this->q.' · ' : '').'Recherche · '.$this->campaign->name);

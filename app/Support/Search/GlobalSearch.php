@@ -2,9 +2,13 @@
 
 namespace App\Support\Search;
 
+use App\Enums\Zone;
 use App\Models\Campaign;
+use App\Models\CharacterGrant;
+use App\Models\CharacterNote;
 use App\Models\Document;
 use App\Models\Entity;
+use App\Models\PlayerCharacter;
 use App\Models\Rule;
 use App\Models\Scene;
 use App\Models\SessionNote;
@@ -30,7 +34,11 @@ final class GlobalSearch
         'rules' => 'Règles',
         'documents' => 'Documents',
         'notes' => 'Notes de session',
+        'knowledge' => 'Informations et objets',
     ];
+
+    /** Ce qu'un joueur peut chercher : seulement ce que son personnage a reçu, et les notes qu'il peut lire. */
+    public const PLAYER_KINDS = ['entities', 'knowledge', 'documents', 'notes'];
 
     private const PER_KIND = 20;
 
@@ -72,13 +80,11 @@ final class GlobalSearch
             return [];
         }
 
-        // Lot 1 : seul le MJ voit le contenu de la campagne. Les joueurs trouveront au lot 2
-        // la zone publique de ce qui leur a été révélé ; rien d'autre ne doit sortir.
         if (! $this->campaign->isGameMaster($this->user)) {
-            return [];
+            return $this->runForPlayer($kinds);
         }
 
-        $kinds ??= array_keys(self::KINDS);
+        $kinds ??= array_diff(array_keys(self::KINDS), ['knowledge']);
         $results = [];
 
         foreach ($kinds as $kind) {
@@ -97,6 +103,117 @@ final class GlobalSearch
         }
 
         return $results;
+    }
+
+    /**
+     * Recherche d'un joueur, à travers son personnage actif : zone publique des fiches révélées,
+     * informations et objets reçus, documents donnés, notes qu'il a le droit de lire.
+     * La zone MJ n'entre jamais dans le texte cherché.
+     *
+     * @param  list<string>|null  $kinds
+     * @return array<string, Collection<int, SearchResult>>
+     */
+    private function runForPlayer(?array $kinds): array
+    {
+        $character = $this->campaign->playerCharacters()->active()->where('user_id', $this->user->id)->first();
+
+        if ($character === null) {
+            return [];
+        }
+
+        $results = [];
+
+        foreach (array_intersect($kinds ?? self::PLAYER_KINDS, self::PLAYER_KINDS) as $kind) {
+            $found = match ($kind) {
+                'entities' => $this->knownEntities($character),
+                'knowledge' => $this->receivedItems($character),
+                'documents' => $this->receivedDocuments($character),
+                'notes' => $this->readableNotes($character),
+            };
+
+            if ($found->isNotEmpty()) {
+                $results[$kind] = $found;
+            }
+        }
+
+        return $results;
+    }
+
+    /** @return Collection<int, SearchResult> */
+    private function knownEntities(PlayerCharacter $character): Collection
+    {
+        // Seules les valeurs des champs publics sont cherchables.
+        $publicKeys = $this->campaign->gameSystem->fieldDefinitions()->where('zone', Zone::Public)->pluck('id')
+            ->map(fn (int $id) => "'".$id."'")->implode(',') ?: "''";
+        $haystack = "concat_ws(' ', entities.name, entities.summary, entities.description,
+            (select string_agg(value, ' ') from jsonb_each_text(entities.field_values) where key in ({$publicKeys})),
+            (select entity_types.name from entity_types where entity_types.id = entities.entity_type_id))";
+
+        return Entity::query()
+            ->whereIn('id', $character->grants()->where('kind', 'entity')->select('entity_id'))
+            ->with('type')
+            ->tap(fn (Builder $q) => $this->matchAll($q, $haystack))
+            ->tap(fn (Builder $q) => $this->rank($q, 'entities.name'))
+            ->limit(self::PER_KIND)
+            ->get()
+            ->map(fn (Entity $entity) => new SearchResult(
+                title: $entity->name,
+                subtitle: $entity->type->name,
+                url: route('characters.entity', [$this->campaign, $character, $entity]),
+                snippet: $this->snippet(['Résumé' => $entity->summary, 'Description' => $entity->description], $entity->name),
+            ));
+    }
+
+    /** @return Collection<int, SearchResult> */
+    private function receivedItems(PlayerCharacter $character): Collection
+    {
+        return $character->grants()
+            ->whereIn('kind', ['information', 'possession'])
+            ->tap(fn (Builder $q) => $this->matchAll($q, "concat_ws(' ', character_grants.title, character_grants.body)"))
+            ->limit(self::PER_KIND)
+            ->get()
+            ->map(fn (CharacterGrant $grant) => new SearchResult(
+                title: $grant->label(),
+                subtitle: CharacterGrant::KINDS[$grant->kind],
+                url: route('characters.show', [$this->campaign, $character]),
+                snippet: $this->snippet(['Texte' => $grant->body], $grant->label()),
+            ));
+    }
+
+    /** @return Collection<int, SearchResult> */
+    private function receivedDocuments(PlayerCharacter $character): Collection
+    {
+        return Document::query()
+            ->whereIn('id', $character->grants()->where('kind', 'document')->select('document_id'))
+            ->tap(fn (Builder $q) => $this->matchAll($q, "concat_ws(' ', documents.title, documents.description)"))
+            ->tap(fn (Builder $q) => $this->rank($q, 'documents.title'))
+            ->limit(self::PER_KIND)
+            ->get()
+            ->map(fn (Document $document) => new SearchResult(
+                title: $document->title,
+                subtitle: $document->isPdf() ? 'PDF' : 'Image',
+                url: route('characters.document', [$this->campaign, $character, $document]),
+                snippet: $this->snippet(['Description' => $document->description], $document->title),
+            ));
+    }
+
+    /** @return Collection<int, SearchResult> */
+    private function readableNotes(PlayerCharacter $character): Collection
+    {
+        return CharacterNote::query()
+            ->visibleTo($this->user, $this->campaign)
+            ->with('character.entity')
+            ->tap(fn (Builder $q) => $this->matchAll($q, 'character_notes.body'))
+            ->latest('id')
+            ->limit(self::PER_KIND)
+            ->get()
+            ->map(fn (CharacterNote $note) => new SearchResult(
+                title: 'Note de '.$note->character->entity->name,
+                subtitle: $note->created_at->format('d/m/Y H:i').' · '.$note->visibilityLabel(),
+                // Une note partagée par un autre joueur se lit sur la page de son propre personnage.
+                url: route('characters.show', [$this->campaign, $character]),
+                snippet: $this->snippet(['Note' => $note->body], ''),
+            ));
     }
 
     /** @return Collection<int, SearchResult> */
