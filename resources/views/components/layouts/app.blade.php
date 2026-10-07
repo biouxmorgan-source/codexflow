@@ -14,12 +14,12 @@
                 </form>
             @endif
             <nav class="flex items-center gap-3 text-sm whitespace-nowrap sm:gap-4">
-                <a href="{{ route('campaigns.index') }}" class="font-medium hover:text-codex" wire:navigate>Mes campagnes</a>
-                <a href="{{ route('entity-types.index') }}" class="hidden hover:text-codex sm:inline" wire:navigate>Types de fiche</a>
+                <a href="{{ route('campaigns.index') }}" @class(['rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft', 'bg-codex-soft' => request()->routeIs('campaigns.index')]) wire:navigate>Mes campagnes</a>
+                <a href="{{ route('entity-types.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('entity-types.*')]) wire:navigate>Types de fiche</a>
                 <span class="hidden text-stone-500 sm:inline">{{ auth()->user()->name }}</span>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="text-stone-600 hover:text-codex">Se déconnecter</button>
+                    <button type="submit" class="rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink">Se déconnecter</button>
                 </form>
             </nav>
         </div>

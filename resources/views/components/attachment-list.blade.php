@@ -21,7 +21,7 @@
         @foreach ($files as $attachment)
             <li wire:key="attachment-{{ $attachment->id }}" class="flex items-center gap-3 px-3 py-2 text-sm">
                 <span class="shrink-0 rounded bg-stone-100 px-1.5 py-0.5 text-xs font-medium uppercase text-stone-600">{{ pathinfo($attachment->original_name, PATHINFO_EXTENSION) ?: 'fichier' }}</span>
-                <a href="{{ route('attachments.show', $attachment) }}" target="_blank" rel="noopener" class="min-w-0 flex-1 truncate font-medium text-codex hover:underline">{{ $attachment->original_name }}</a>
+                <a href="{{ route('attachments.show', $attachment) }}" target="_blank" rel="noopener" class="min-w-0 flex-1 truncate font-medium link">{{ $attachment->original_name }}</a>
                 <span class="shrink-0 text-stone-500">{{ $attachment->humanSize() }}</span>
                 <button type="button" wire:click="deleteAttachment({{ $attachment->id }})" wire:confirm="Supprimer {{ $attachment->original_name }} ?" class="shrink-0 text-red-700 hover:underline" aria-label="Supprimer {{ $attachment->original_name }}">Supprimer</button>
             </li>

@@ -1,7 +1,7 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
     <h1 class="text-2xl font-semibold">Importer depuis un fichier</h1>
@@ -18,12 +18,12 @@
             ])->filter()->implode(', ') }}.</p>
             <p class="mt-1 text-sm">
                 @if ($mode === 'rules')
-                    <a href="{{ route('rules.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les règles</a>
+                    <a href="{{ route('rules.index', $campaign) }}" class="link" wire:navigate>Voir les règles</a>
                 @elseif ($mode === 'scenes')
-                    <a href="{{ route('scenarios.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les scénarios</a>
+                    <a href="{{ route('scenarios.index', $campaign) }}" class="link" wire:navigate>Voir les scénarios</a>
                 @else
-                    <a href="{{ route('campaigns.show', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les fiches</a>
-                    · <a href="{{ route('fields.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>Voir les champs du jeu</a>
+                    <a href="{{ route('campaigns.show', $campaign) }}" class="link" wire:navigate>Voir les fiches</a>
+                    · <a href="{{ route('fields.index', $campaign) }}" class="link" wire:navigate>Voir les champs du jeu</a>
                 @endif
             </p>
         </div>
@@ -51,7 +51,10 @@
                 @else
                     Une ligne par règle. Colonnes reconnues : Titre, Catégorie, Résumé, Procédure, Notes MJ, Source, Origine (référence, maison, test), Statut, Zone (publique ou MJ), Tags (séparés par des virgules).
                 @endif
-                <a href="{{ route('imports.example', [$campaign, ['entities' => 'fiches', 'fields' => 'champs', 'rules' => 'regles', 'scenes' => 'scenes'][$mode] ?? 'fiches']) }}" class="text-codex hover:underline">Télécharger un fichier exemple</a>
+                <a href="{{ route('imports.example', [$campaign, ['entities' => 'fiches', 'fields' => 'champs', 'rules' => 'regles', 'scenes' => 'scenes'][$mode] ?? 'fiches']) }}" class="link">Télécharger un fichier exemple</a>
+                ou
+                <a href="{{ route('exports.download', [$campaign, ['entities' => 'fiches', 'fields' => 'champs', 'rules' => 'regles', 'scenes' => 'scenes'][$mode] ?? 'fiches']) }}" class="link">exporter {{ ['entities' => 'les fiches', 'fields' => 'les champs', 'rules' => 'les règles', 'scenes' => 'les scènes'][$mode] ?? 'les fiches' }} de la campagne</a>
+                dans ce même format, pour vous en servir de modèle.
             </p>
 
             <div>

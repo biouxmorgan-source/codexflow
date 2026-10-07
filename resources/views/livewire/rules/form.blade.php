@@ -1,8 +1,8 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
-        › <a href="{{ route('rules.index', $campaign) }}" class="hover:text-codex" wire:navigate>Règles</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
+        › <a href="{{ route('rules.index', $campaign) }}" class="crumb" wire:navigate>Règles</a>
     </nav>
 
     <h1 class="mb-6 text-2xl font-semibold">{{ $rule ? 'Modifier '.$rule->title : 'Nouvelle règle' }}</h1>

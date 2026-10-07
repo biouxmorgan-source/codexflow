@@ -1,7 +1,7 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -9,7 +9,10 @@
             <h1 class="text-2xl font-semibold">Scénarios</h1>
             <p class="mt-1 text-sm text-stone-600">Découpez la campagne en scénarios, regroupez les scènes par chapitre si vous le souhaitez, et suivez ce qui a été joué.</p>
         </div>
-        <a href="{{ route('imports.create', [$campaign, 'mode' => 'scenes']) }}" class="btn-secondary" wire:navigate>Importer</a>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('imports.create', [$campaign, 'mode' => 'scenes']) }}" class="btn-secondary" wire:navigate>Importer</a>
+            <a href="{{ route('exports.download', [$campaign, 'scenes']) }}" class="btn-secondary">Exporter</a>
+        </div>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-3">
@@ -26,7 +29,7 @@
                         <span class="flex shrink-0 items-center gap-1 text-sm">
                             <button type="button" wire:click="moveScenario({{ $scenario->id }}, -1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="Monter {{ $scenario->name }}">↑</button>
                             <button type="button" wire:click="moveScenario({{ $scenario->id }}, 1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="Descendre {{ $scenario->name }}">↓</button>
-                            <button type="button" wire:click="edit({{ $scenario->id }})" class="rounded px-2 py-1 text-codex hover:underline">Modifier</button>
+                            <button type="button" wire:click="edit({{ $scenario->id }})" class="rounded px-2 py-1 link">Modifier</button>
                             <button type="button" wire:click="delete({{ $scenario->id }})" wire:confirm="Supprimer le scénario {{ $scenario->name }} et ses {{ $scenario->scenes->count() }} scène(s) ? Les fiches liées sont conservées." class="rounded px-2 py-1 text-red-700 hover:underline">Supprimer</button>
                         </span>
                     </div>
@@ -41,7 +44,7 @@
                                     <ul class="divide-y divide-stone-100 rounded-lg border border-stone-200">
                                         @foreach ($scenes as $scene)
                                             <li wire:key="scene-{{ $scene->id }}" class="flex flex-wrap items-center gap-2 px-3 py-2">
-                                                <a href="{{ route('scenes.show', [$campaign, $scene]) }}" class="min-w-0 flex-1 truncate font-medium text-codex hover:underline" wire:navigate>{{ $scene->name }}</a>
+                                                <a href="{{ route('scenes.show', [$campaign, $scene]) }}" class="min-w-0 flex-1 truncate font-medium link" wire:navigate>{{ $scene->name }}</a>
                                                 <label class="sr-only" for="status-{{ $scene->id }}">Statut de {{ $scene->name }}</label>
                                                 <select id="status-{{ $scene->id }}" wire:change="setStatus({{ $scene->id }}, $event.target.value)" class="rounded-full border-0 py-0.5 pr-7 pl-2 text-xs font-medium {{ $scene->status->badge() }}">
                                                     @foreach (\App\Enums\SceneStatus::cases() as $status)
@@ -58,7 +61,7 @@
                         </div>
                     @endif
 
-                    <a href="{{ route('scenes.create', [$campaign, 'scenario' => $scenario->id]) }}" class="mt-3 inline-block text-sm font-medium text-codex hover:underline" wire:navigate>+ Nouvelle scène</a>
+                    <a href="{{ route('scenes.create', [$campaign, 'scenario' => $scenario->id]) }}" class="mt-3 inline-block text-sm font-medium link" wire:navigate>+ Nouvelle scène</a>
                 </section>
             @empty
                 <div class="rounded-xl border border-dashed border-stone-300 bg-white p-10 text-center">

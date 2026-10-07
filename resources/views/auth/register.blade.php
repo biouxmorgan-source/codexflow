@@ -24,6 +24,6 @@
     </form>
 
     <p class="mt-6 text-center text-sm">
-        Déjà inscrit ? <a href="{{ route('login') }}" class="text-codex hover:underline">Se connecter</a>
+        Déjà inscrit ? <a href="{{ route('login') }}" class="link">Se connecter</a>
     </p>
 </x-layouts.guest>

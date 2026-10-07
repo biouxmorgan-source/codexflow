@@ -16,6 +16,6 @@
     </form>
 
     <p class="mt-6 text-center text-sm">
-        <a href="{{ route('login') }}" class="text-codex hover:underline">Retour à la connexion</a>
+        <a href="{{ route('login') }}" class="link">Retour à la connexion</a>
     </p>
 </x-layouts.guest>

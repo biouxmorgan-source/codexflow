@@ -1,9 +1,10 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
-    <h1 class="mb-4 text-2xl font-semibold">Recherche</h1>
+    <h1 class="text-2xl font-semibold">Recherche</h1>
+    <p class="mt-1 mb-4 text-sm text-stone-600">Cherche dans les fiches, scènes, règles, documents et notes de session de la campagne. Astuce : la touche / place le curseur dans la recherche depuis n'importe quelle page.</p>
 
     <div class="mb-6 flex flex-wrap gap-3">
         <div class="min-w-0 flex-1 basis-64">
@@ -43,7 +44,7 @@
                     <ul class="divide-y divide-stone-100 rounded-xl border border-stone-200 bg-white shadow-sm">
                         @foreach ($items as $result)
                             <li>
-                                <a href="{{ $result->url }}" class="block px-4 py-3 hover:bg-stone-50" wire:navigate>
+                                <a href="{{ $result->url }}" class="block px-4 py-3 hover:bg-codex-soft" wire:navigate>
                                     <span class="font-medium text-codex">{{ \App\Support\Search\GlobalSearch::highlight($result->title, $words) }}</span>
                                     <span class="ml-1 text-xs text-stone-500">{{ $result->subtitle }}</span>
                                     @if ($result->snippet)

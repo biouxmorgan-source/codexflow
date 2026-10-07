@@ -1,6 +1,9 @@
 <div>
     <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <h1 class="text-2xl font-semibold">Mes campagnes</h1>
+        <div>
+            <h1 class="text-2xl font-semibold">Mes campagnes</h1>
+            <p class="mt-1 text-sm text-stone-600">Cliquez sur une campagne pour ouvrir ses fiches, ses scénarios et le mode Session.</p>
+        </div>
         @unless ($creating)
             <button type="button" wire:click="$set('creating', true)" class="btn-primary">Nouvelle campagne</button>
         @endunless
@@ -71,11 +74,11 @@
         <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($this->campaigns as $campaign)
                 @php($role = $campaign->members->first()->pivot->role)
-                <li wire:key="campaign-{{ $campaign->id }}" class="relative flex flex-col rounded-xl border border-stone-200 bg-white p-5 shadow-sm hover:border-codex/40">
+                <li wire:key="campaign-{{ $campaign->id }}" class="relative flex flex-col rounded-xl border border-stone-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-codex/50 hover:shadow-md">
                     <div class="mb-2 flex items-start justify-between gap-2">
                         <h2 class="text-lg font-semibold">
                             @if ($role === \App\Enums\CampaignRole::GameMaster)
-                                <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex after:absolute after:inset-0" wire:navigate>{{ $campaign->name }}</a>
+                                <a href="{{ route('campaigns.show', $campaign) }}" class="text-codex hover:text-ink after:absolute after:inset-0" wire:navigate>{{ $campaign->name }}</a>
                             @else
                                 {{ $campaign->name }}
                             @endif

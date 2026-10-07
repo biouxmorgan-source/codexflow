@@ -1,7 +1,7 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -11,6 +11,7 @@
         </div>
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('imports.create', [$campaign, 'mode' => 'rules']) }}" class="btn-secondary" wire:navigate>Importer</a>
+            <a href="{{ route('exports.download', [$campaign, 'regles']) }}" class="btn-secondary">Exporter</a>
             <a href="{{ route('rules.create', $campaign) }}" class="btn-primary" wire:navigate>Nouvelle règle</a>
         </div>
     </div>
@@ -47,7 +48,7 @@
                     <ul class="divide-y divide-stone-100 rounded-xl border border-stone-200 bg-white shadow-sm">
                         @foreach ($rules as $rule)
                             <li wire:key="rule-{{ $rule->id }}">
-                                <a href="{{ route('rules.show', [$campaign, $rule]) }}" class="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-3 hover:bg-stone-50" wire:navigate>
+                                <a href="{{ route('rules.show', [$campaign, $rule]) }}" class="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-3 hover:bg-codex-soft" wire:navigate>
                                     <span class="font-medium text-codex">{{ $rule->title }}</span>
                                     <span class="rounded-full px-2 py-0.5 text-xs font-medium {{ $rule->status->badge() }}">{{ $rule->status->label() }}</span>
                                     <span class="text-xs text-stone-500">{{ $rule->origin->label() }} · {{ $rule->isShared() ? 'Jeu' : 'Campagne' }}</span>

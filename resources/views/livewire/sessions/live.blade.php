@@ -12,8 +12,8 @@
     <div class="mb-4 flex flex-wrap items-center gap-3">
         <div class="min-w-0 flex-1">
             <nav class="text-sm text-stone-500 [.focus-mode_&]:hidden">
-                <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-                › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
+                <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+                › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
             </nav>
             <h1 class="text-2xl font-semibold">{{ $session ? $session->label() : 'Mode Session' }}</h1>
             @if ($session)
@@ -36,7 +36,7 @@
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-2 font-semibold">Sessions passées</h2>
                 @forelse ($this->pastSessions as $past)
-                    <a href="{{ route('sessions.show', [$campaign, $past]) }}" class="flex justify-between gap-2 py-1 text-sm hover:text-codex" wire:navigate>
+                    <a href="{{ route('sessions.show', [$campaign, $past]) }}" class="-mx-2 flex justify-between gap-2 rounded-md px-2 py-1 text-sm text-codex hover:bg-codex-soft" wire:navigate>
                         <span>{{ $past->label() }}</span>
                         <span class="text-stone-500">{{ $past->started_at->format('d/m/Y') }} · {{ $past->notes_count }} note{{ $past->notes_count > 1 ? 's' : '' }}</span>
                     </a>
@@ -72,7 +72,7 @@
                     @if ($scene)
                         <p class="text-xs text-stone-500">{{ $scene->scenario->name }}{{ $scene->chapter ? ' · '.$scene->chapter : '' }}</p>
                         <h3 class="text-xl font-semibold">
-                            <a href="{{ route('scenes.show', [$campaign, $scene]) }}" target="_blank" rel="noopener" class="hover:text-codex">{{ $scene->name }}</a>
+                            <a href="{{ route('scenes.show', [$campaign, $scene]) }}" target="_blank" rel="noopener" class="crumb">{{ $scene->name }}</a>
                         </h3>
                         @if ($scene->description)
                             <div class="mt-2 text-stone-700">{{ \App\Support\EntityLinks::render($scene->description, $campaign) }}</div>
@@ -117,7 +117,7 @@
                                             @if ($rule->gm_notes)
                                                 <p class="mt-2 rounded-lg bg-flow/5 p-2 text-sm whitespace-pre-line text-stone-700"><span class="font-medium text-flow">MJ :</span> {{ $rule->gm_notes }}</p>
                                             @endif
-                                            <a href="{{ route('rules.show', [$campaign, $rule]) }}" target="_blank" rel="noopener" class="mt-2 inline-block text-xs text-codex hover:underline">Ouvrir la règle ↗</a>
+                                            <a href="{{ route('rules.show', [$campaign, $rule]) }}" target="_blank" rel="noopener" class="mt-2 inline-block text-xs link">Ouvrir la règle ↗</a>
                                         </details>
                                     @endforeach
                                 </div>
@@ -181,7 +181,7 @@
                                 <button type="button" wire:click="markPlayed({{ $item->id }})" class="mt-0.5 h-5 w-5 shrink-0 rounded border border-stone-300 hover:border-codex hover:bg-codex-soft" aria-label="Marquer « {{ $item->body }} » comme joué"></button>
                                 <span class="min-w-0 flex-1">
                                     @if ($item->rule)
-                                        <a href="{{ route('rules.show', [$campaign, $item->rule]) }}" target="_blank" rel="noopener" class="text-codex hover:underline"><span class="text-xs text-stone-500">Règle ·</span> {{ $item->body }}</a>
+                                        <a href="{{ route('rules.show', [$campaign, $item->rule]) }}" target="_blank" rel="noopener" class="link"><span class="text-xs text-stone-500">Règle ·</span> {{ $item->body }}</a>
                                     @else
                                         {{ $item->body }}
                                     @endif
