@@ -22,8 +22,9 @@ class Notify
      * Le joueur du personnage, s'il en a un et si ce n'est pas lui qui agit.
      *
      * @param  string|Closure(string): string  $text  texte, ou fonction qui l'écrit dans la langue (code) du destinataire
+     * @param  array<string, int>  $extra  par exemple grant_id, pour afficher l'élément reçu dès son arrivée
      */
-    public static function player(PlayerCharacter $character, string $kind, string|Closure $text, string $url): void
+    public static function player(PlayerCharacter $character, string $kind, string|Closure $text, string $url, array $extra = []): void
     {
         $player = $character->player;
 
@@ -31,7 +32,7 @@ class Notify
             return;
         }
 
-        $player->notify(new CampaignEvent($character->campaign, $kind, self::textFor($text, $player), $url, ['character_id' => $character->id]));
+        $player->notify(new CampaignEvent($character->campaign, $kind, self::textFor($text, $player), $url, ['character_id' => $character->id] + $extra));
         Live::user($player->id, $kind, $character->campaign_id);
     }
 
@@ -81,7 +82,7 @@ class Notify
             'rule' => [fn (string $locale) => __('Le MJ vous a ouvert la règle :label.', ['label' => self::quote($label, $locale)], $locale), route('characters.show', [$campaign, $character]).'#section-rule'],
         };
 
-        self::player($character, 'grant', $text, $url);
+        self::player($character, 'grant', $text, $url, ['grant_id' => $grant->id]);
     }
 
     /** Un personnage donne ou transmet quelque chose à un autre : son joueur et le MJ sont prévenus. */
@@ -123,7 +124,7 @@ class Notify
             default => $sheet.'#section-knowledge',
         };
 
-        self::player($to, 'grant', $toPlayer, $url);
+        self::player($to, 'grant', $toPlayer, $url, ['grant_id' => $grant->id]);
         self::gameMasters($campaign, 'grant', $toGameMasters, $sheet, $to);
     }
 

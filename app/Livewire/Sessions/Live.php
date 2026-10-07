@@ -11,6 +11,7 @@ use App\Models\PlaySession;
 use App\Models\Rule;
 use App\Models\Scene;
 use App\Models\SessionNote;
+use App\Models\TableMap;
 use App\Models\ToPlayItem;
 use App\Support\SessionContext;
 use App\Support\TableDisplay;
@@ -277,6 +278,13 @@ class Live extends Component
     public function tableDocuments(): Collection
     {
         return $this->campaign->availableDocuments()->orderBy('title')->get();
+    }
+
+    /** @return Collection<int, TableMap> */
+    #[Computed]
+    public function tableMaps(): Collection
+    {
+        return $this->campaign->maps()->get(['id', 'name', 'campaign_id']);
     }
 
     #[Computed]

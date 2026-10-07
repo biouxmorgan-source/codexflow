@@ -135,4 +135,5 @@ document.addEventListener('alpine:init', () => {
 });
 
 import './echo';
+import './map-editor';
 import './pwa';

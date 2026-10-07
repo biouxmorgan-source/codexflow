@@ -22,6 +22,8 @@ use App\Livewire\EntityTypes\Manage as EntityTypesManage;
 use App\Livewire\Fields\Manage as FieldsManage;
 use App\Livewire\Imports\Create as ImportCreate;
 use App\Livewire\Journal\Index as JournalIndex;
+use App\Livewire\Maps\Index as MapIndex;
+use App\Livewire\Maps\Show as MapShow;
 use App\Livewire\Members\Index as MemberIndex;
 use App\Livewire\Messages\Index as MessageIndex;
 use App\Livewire\Notifications\Index as NotificationIndex;
@@ -37,6 +39,7 @@ use App\Livewire\Secrets\Index as SecretIndex;
 use App\Livewire\Sessions\Live as SessionLive;
 use App\Livewire\Sessions\Show as SessionShow;
 use App\Livewire\Support\ReportBug;
+use App\Livewire\Table\Remote as TableRemote;
 use App\Livewire\Table\Screen as TableScreen;
 use App\Livewire\Tags\Manage as TagsManage;
 use Illuminate\Support\Facades\Route;
@@ -74,6 +77,10 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/ecran-de-table', TableScreen::class)->name('table.screen')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/ecran-de-table/fichier', [TableScreenController::class, 'file'])->name('table.file')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/ecran-de-table/image', [TableScreenController::class, 'image'])->name('table.image')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/ecran-de-table/jetons/{token}', [TableScreenController::class, 'token'])->name('table.token')->whereNumber(['campaign', 'token']);
+    Route::livewire('/campagnes/{campaign}/telecommande', TableRemote::class)->name('table.remote')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/cartes', MapIndex::class)->name('maps.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/cartes/{map}', MapShow::class)->name('maps.show')->whereNumber(['campaign', 'map']);
     Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 
     Route::livewire('/campagnes/{campaign}/regles', RuleIndex::class)->name('rules.index')->whereNumber('campaign');

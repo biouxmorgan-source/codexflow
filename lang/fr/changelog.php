@@ -4,6 +4,18 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.7.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Autour de la table',
+        'items' => [
+            'Cartes : une image sur l\'écran de table, que vous zoomez et déplacez, avec une grille carrée facultative et une échelle.',
+            'Jetons facultatifs, liés aux fiches (nom et portrait) : déplacer, redimensionner, montrer ou masquer aux joueurs.',
+            'Règle temporaire : tracez une ligne, la distance s\'affiche en cases ou en mètres.',
+            'Télécommande : depuis votre téléphone, videz l\'écran, passez à l\'élément suivant de la scène, pilotez la carte.',
+            'Joueurs : ce que le MJ vous révèle ou vous donne s\'affiche aussitôt, sans passer par les notifications.',
+        ],
+    ],
+
     '0.6.0' => [
         'date' => '2026-10-09',
         'title' => 'La mémoire de la campagne',

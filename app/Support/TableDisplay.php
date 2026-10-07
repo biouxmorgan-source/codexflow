@@ -8,17 +8,19 @@ use App\Models\Attachment;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
+use App\Models\TableMap;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
 /**
  * Écran de table : ce que le MJ montre aux joueurs sur un second écran (carte, image,
- * portrait, zone publique d'une fiche, règle, annonce). Jamais la zone MJ.
+ * portrait, zone publique d'une fiche, règle, carte avec ses jetons visibles, annonce).
+ * Jamais la zone MJ, jamais un jeton masqué.
  */
 class TableDisplay
 {
     /** Ce qu'on peut afficher depuis une page de contenu, avec « Afficher à la table ». */
-    public const KINDS = ['document', 'entity', 'portrait', 'attachment', 'rule'];
+    public const KINDS = ['document', 'entity', 'portrait', 'attachment', 'rule', 'map'];
 
     /**
      * Affiche un élément de la campagne. Faux si l'élément n'y est pas utilisable ou ne s'affiche pas.
@@ -31,6 +33,7 @@ class TableDisplay
             'portrait' => $campaign->availableEntities()->whereKey($id)->whereNotNull('image_path')->exists(),
             'attachment' => self::attachment($campaign, $id) !== null,
             'rule' => $campaign->availableRules()->whereKey($id)->exists(),
+            'map' => $campaign->maps()->whereKey($id)->exists(),
             default => false,
         };
 
@@ -57,6 +60,19 @@ class TableDisplay
     public static function showEntity(Campaign $campaign, Entity $entity): void
     {
         self::save($campaign, ['kind' => 'entity', 'id' => $entity->id]);
+    }
+
+    /**
+     * Une carte affichée a changé (vue, grille, jetons, règle) : l'écran se redessine,
+     * sans le fondu d'un nouvel affichage.
+     */
+    public static function mapChanged(TableMap $map): void
+    {
+        $campaign = $map->campaign;
+
+        if (self::isShowing($campaign, 'map', $map->id)) {
+            self::broadcast($campaign);
+        }
     }
 
     public static function showText(Campaign $campaign, string $text): void
@@ -113,6 +129,9 @@ class TableDisplay
             'rule' => ($rule = $campaign->availableRules()->find($state['id'] ?? 0))
                 ? ['kind' => 'rule', 'rule' => $rule, 'key' => $key]
                 : null,
+            'map' => ($map = $campaign->maps()->with(['document', 'tokens' => fn ($q) => $q->where('hidden', false)->with('entity')])->find($state['id'] ?? 0))
+                ? ['kind' => 'map', 'map' => $map, 'key' => $key]
+                : null,
             'text' => filled($state['text'] ?? null) ? ['kind' => 'text', 'text' => $state['text'], 'key' => $key] : null,
             default => null,
         };
@@ -139,6 +158,7 @@ class TableDisplay
             'portrait' => __('Portrait de :name', ['name' => $current['entity']->name]),
             'attachment' => $current['attachment']->original_name,
             'rule' => $current['rule']->title,
+            'map' => $current['map']->name,
             'text' => __('« :text »', ['text' => mb_strimwidth($current['text'], 0, 60, '…')]),
             default => __('Écran vide'),
         };

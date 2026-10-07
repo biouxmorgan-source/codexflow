@@ -108,6 +108,12 @@ class Campaign extends Model
         return $this->hasMany(Secret::class);
     }
 
+    /** @return HasMany<TableMap, $this> */
+    public function maps(): HasMany
+    {
+        return $this->hasMany(TableMap::class)->orderBy('name');
+    }
+
     /** @return HasMany<PlaySession, $this> */
     public function playSessions(): HasMany
     {
