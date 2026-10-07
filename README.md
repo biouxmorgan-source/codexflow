@@ -13,6 +13,7 @@ composer install
 npm install
 cp .env.example .env
 php artisan key:generate
+php artisan webpush:vapid   # notifications push, facultatif
 php artisan migrate --seed
 composer run dev
 ```

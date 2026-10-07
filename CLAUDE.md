@@ -13,7 +13,7 @@ Assistant Web/PWA pour Maître de Jeu, indépendant de tout système de règles.
 
 ```sh
 composer install && npm install
-cp .env.example .env && php artisan key:generate
+cp .env.example .env && php artisan key:generate && php artisan webpush:vapid
 php artisan migrate --seed        # compte démo : mj@codexflow.test / password
 composer run dev                  # serveur + Vite
 php artisan test                  # tests (PostgreSQL, base codexflow_test)
