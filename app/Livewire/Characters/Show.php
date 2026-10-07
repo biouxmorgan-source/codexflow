@@ -14,6 +14,7 @@ use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
 use App\Models\Rule;
 use App\Models\ToPlayItem;
+use App\Support\Notify;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule as ValidationRule;
@@ -233,6 +234,7 @@ class Show extends Component
         $item->character()->associate($this->character);
         $item->rule()->associate($rule);
         $item->save();
+        Notify::gameMasters($this->campaign, 'intention', $this->entity->name.' : '.Notify::excerpt($body), route('sessions.live', $this->campaign), $this->character);
 
         $this->reset(['intentionBody', 'intentionRuleId']);
         unset($this->intentions);
