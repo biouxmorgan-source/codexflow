@@ -4,24 +4,25 @@ namespace App\Policies;
 
 use App\Models\Rule;
 use App\Models\User;
+use App\Support\CoGameMaster;
 
 /**
- * Lot 1 : seul le MJ propriétaire y accède. Les joueurs verront la zone publique au lot 2.
+ * Le MJ propriétaire et ses co-MJ accèdent aux règles ; les joueurs les consultent par leurs personnages.
  */
 class RulePolicy
 {
     public function view(User $user, Rule $model): bool
     {
-        return $model->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $model);
     }
 
     public function update(User $user, Rule $model): bool
     {
-        return $model->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $model);
     }
 
     public function delete(User $user, Rule $model): bool
     {
-        return $model->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $model);
     }
 }

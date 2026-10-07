@@ -60,7 +60,7 @@ class Manage extends Component
     #[Computed]
     public function types(): Collection
     {
-        return EntityType::query()->availableTo(auth()->user())->orderBy('id')->get();
+        return EntityType::query()->availableTo($this->campaign->owner)->orderBy('id')->get();
     }
 
     /** @return list<string> */

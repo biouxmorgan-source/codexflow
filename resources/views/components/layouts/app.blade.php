@@ -6,7 +6,7 @@
                 <span class="text-ink">CODEX</span><span class="text-flow">FLOW</span>
             </a>
             @php($searchCampaign = request()->route('campaign'))
-            @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('search.index') && auth()->user()->can('view', $searchCampaign))
+            @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('search.index') && auth()->user()->can('play', $searchCampaign))
                 <form method="GET" action="{{ route('search.index', $searchCampaign) }}" role="search" class="order-last w-full sm:order-none sm:w-auto sm:max-w-xs sm:flex-1"
                     x-data x-on:keydown.slash.window="if (! ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && ! document.activeElement.isContentEditable) { $event.preventDefault(); $refs.q.focus() }">
                     <label for="header-search" class="sr-only">{{ __('Rechercher dans :name', ['name' => $searchCampaign->name]) }}</label>
@@ -46,7 +46,7 @@
         @endcan
     </footer>
     @livewire(\App\Livewire\WhatsNew::class)
-    @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('messages.*') && auth()->user()->can('view', $searchCampaign))
+    @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('messages.*') && auth()->user()->can('play', $searchCampaign))
         @persist('chat-'.$searchCampaign->id)
             @livewire(\App\Livewire\ChatDock::class, ['campaign' => $searchCampaign], key('chat-'.$searchCampaign->id))
         @endpersist

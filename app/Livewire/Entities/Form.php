@@ -91,7 +91,7 @@ class Form extends Component
     #[Computed]
     public function types(): Collection
     {
-        return EntityType::query()->availableTo(auth()->user())->orderBy('id')->get();
+        return EntityType::query()->availableTo($this->campaign->owner)->orderBy('id')->get();
     }
 
     /** @return Collection<int, FieldDefinition> */
@@ -105,7 +105,7 @@ class Form extends Component
     #[Computed]
     public function existingTags(): array
     {
-        return Tag::query()->where('user_id', auth()->id())->has('entities')->orderByRaw('lower(name)')->pluck('name')->all();
+        return Tag::query()->where('user_id', $this->campaign->user_id)->has('entities')->orderByRaw('lower(name)')->pluck('name')->all();
     }
 
     public function save(): void
@@ -155,7 +155,7 @@ class Form extends Component
         ]);
 
         if (! $entity->exists) {
-            $entity->owner()->associate(auth()->user());
+            $entity->owner()->associate($this->campaign->owner);
 
             if ($this->scope === 'world') {
                 $entity->world()->associate($this->campaign->world);
@@ -173,7 +173,7 @@ class Form extends Component
         }
 
         $entity->save();
-        $entity->tags()->sync(Tag::idsFromInput(auth()->user(), $this->tags));
+        $entity->tags()->sync(Tag::idsFromInput($this->campaign->owner, $this->tags));
 
         $back = $this->backUrl();
         $back ? $this->redirect($back, navigate: true) : $this->redirectRoute('entities.show', [$this->campaign, $entity], navigate: true);

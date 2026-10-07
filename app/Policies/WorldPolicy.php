@@ -4,17 +4,18 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\World;
+use App\Support\CoGameMaster;
 
 class WorldPolicy
 {
     public function view(User $user, World $world): bool
     {
-        return $world->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $world);
     }
 
     public function update(User $user, World $world): bool
     {
-        return $world->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $world);
     }
 
     public function delete(User $user, World $world): bool

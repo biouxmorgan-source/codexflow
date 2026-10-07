@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Enums\CampaignRole;
 use App\Enums\Zone;
 use App\Models\Campaign;
 use App\Models\Document;
@@ -42,10 +43,14 @@ class TableDisplay
         self::broadcast($campaign);
     }
 
-    /** Le MJ voit toujours l'écran ; un joueur seulement quand le MJ le partage. */
+    /** Le MJ et les spectateurs voient toujours l'écran ; un joueur seulement quand le MJ le partage. */
     public static function canWatch(User $user, Campaign $campaign): bool
     {
-        return $campaign->isGameMaster($user) || ($campaign->table_shared && $user->can('view', $campaign));
+        return match ($campaign->roleOf($user)) {
+            CampaignRole::GameMaster, CampaignRole::Spectator => true,
+            CampaignRole::Player => (bool) $campaign->table_shared,
+            null => false,
+        };
     }
 
     /**

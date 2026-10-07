@@ -53,7 +53,7 @@ class Index extends Component
 
     public function mount(Campaign $campaign): void
     {
-        $this->authorize('view', $campaign);
+        $this->authorize('play', $campaign);
 
         if (! $this->isGameMaster) {
             $this->conversation = '';

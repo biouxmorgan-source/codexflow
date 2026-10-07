@@ -51,7 +51,7 @@ class Show extends Component
     #[Computed]
     public function types(): Collection
     {
-        return EntityType::query()->availableTo(auth()->user())->orderBy('id')->get();
+        return EntityType::query()->availableTo($this->campaign->owner)->orderBy('id')->get();
     }
 
     /**
@@ -63,7 +63,7 @@ class Show extends Component
     public function tags(): Collection
     {
         return Tag::query()
-            ->where('user_id', auth()->id())
+            ->where('user_id', $this->campaign->user_id)
             ->whereHas('entities', fn ($q) => $q->availableIn($this->campaign))
             ->orderByRaw('lower(name)')
             ->get();

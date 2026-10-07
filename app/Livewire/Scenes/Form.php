@@ -98,7 +98,7 @@ class Form extends Component
     #[Computed]
     public function existingTags(): array
     {
-        return Tag::query()->where('user_id', auth()->id())->has('scenes')->orderByRaw('lower(name)')->pluck('name')->all();
+        return Tag::query()->where('user_id', $this->campaign->user_id)->has('scenes')->orderByRaw('lower(name)')->pluck('name')->all();
     }
 
     public function addEntity(): void
@@ -202,7 +202,7 @@ class Form extends Component
             ]])
             ->all());
 
-        $scene->tags()->sync(Tag::idsFromInput(auth()->user(), $this->tags));
+        $scene->tags()->sync(Tag::idsFromInput($this->campaign->owner, $this->tags));
         $scene->rules()->sync(self::positions($this->campaign->availableRules()->whereKey($this->ruleIds)->pluck('id')->all(), $this->ruleIds));
         $scene->documents()->sync(self::positions($this->campaign->availableDocuments()->whereKey($this->documentIds)->pluck('id')->all(), $this->documentIds));
 

@@ -36,8 +36,8 @@
             <span class="mt-1 text-sm text-stone-600">{{ __('Les personnages des joueurs : à qui ils sont confiés, leur feuille PDF, leurs compteurs.') }}</span>
         </a>
         <a href="{{ route('members.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">{{ __('Joueurs →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('Inviter vos joueurs par un lien et voir qui fait partie de la campagne.') }}</span>
+            <span class="font-semibold text-codex">{{ __('Membres →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Inviter joueurs, co-MJ et spectateurs par un lien, et voir qui fait partie de la campagne.') }}</span>
         </a>
         @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
         <a href="{{ route('messages.index', $campaign) }}" class="tile" wire:navigate>

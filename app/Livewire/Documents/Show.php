@@ -53,7 +53,7 @@ class Show extends Component
             'description' => trim($this->description) ?: null,
             'zone' => $this->zone,
         ])->save();
-        $this->document->tags()->sync(Tag::idsFromInput(auth()->user(), $this->tags));
+        $this->document->tags()->sync(Tag::idsFromInput($this->campaign->owner, $this->tags));
         $this->document->unsetRelation('tags');
 
         $this->saved = true;

@@ -95,7 +95,7 @@ class Message extends Model
 
         $role = $campaign->roleOf($user);
 
-        if ($role === null) {
+        if ($role === null || $role === CampaignRole::Spectator) {
             $query->whereRaw('false');
 
             return;

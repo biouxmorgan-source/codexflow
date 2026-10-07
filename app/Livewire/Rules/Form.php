@@ -85,7 +85,7 @@ class Form extends Component
     #[Computed]
     public function existingTags(): array
     {
-        return Tag::query()->where('user_id', auth()->id())->has('rules')->orderByRaw('lower(name)')->pluck('name')->all();
+        return Tag::query()->where('user_id', $this->campaign->user_id)->has('rules')->orderByRaw('lower(name)')->pluck('name')->all();
     }
 
     public function save(): void
@@ -132,14 +132,14 @@ class Form extends Component
         ]);
 
         if (! $rule->exists) {
-            $rule->owner()->associate(auth()->user());
+            $rule->owner()->associate($this->campaign->owner);
         }
 
         $rule->game_system_id = $this->scope === 'game' ? $this->campaign->game_system_id : null;
         $rule->campaign_id = $this->scope === 'campaign' ? $this->campaign->id : null;
         $rule->save();
 
-        $rule->tags()->sync(Tag::idsFromInput(auth()->user(), $this->tags));
+        $rule->tags()->sync(Tag::idsFromInput($this->campaign->owner, $this->tags));
 
         $this->redirectRoute('rules.show', [$this->campaign, $rule], navigate: true);
     }

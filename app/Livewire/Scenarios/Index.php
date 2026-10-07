@@ -45,7 +45,7 @@ class Index extends Component
     #[Computed]
     public function filterTag(): ?Tag
     {
-        return $this->tag ? Tag::query()->where('user_id', auth()->id())->find($this->tag) : null;
+        return $this->tag ? Tag::query()->where('user_id', $this->campaign->user_id)->find($this->tag) : null;
     }
 
     public function edit(int $id): void

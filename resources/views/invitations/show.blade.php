@@ -8,7 +8,7 @@
             {{ __(':name vous invite à rejoindre la campagne', ['name' => $invitation->inviter?->name ?? __('Le MJ')]) }}
         </p>
         <p class="mt-1 text-xl font-semibold">{{ $campaign->name }}</p>
-        <p class="mt-1 text-sm text-stone-600">{{ $campaign->gameSystem->name }} · {{ __('en tant que :role', ['role' => mb_strtolower($invitation->role->label())]) }}</p>
+        <p class="mt-1 text-sm text-stone-600">{{ $campaign->gameSystem->name }} · {{ __('en tant que :role', ['role' => $invitation->role === \App\Enums\CampaignRole::GameMaster ? __('Co-MJ') : mb_strtolower($invitation->role->label())]) }}</p>
 
         <div class="mt-6">
             @guest

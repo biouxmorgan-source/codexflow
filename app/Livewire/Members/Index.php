@@ -8,12 +8,13 @@ use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 /**
- * Les joueurs de la campagne : liens d'invitation à transmettre, membres actuels.
- * Réservé au MJ.
+ * Les membres de la campagne : liens d'invitation à transmettre, membres actuels et leur rôle.
+ * Les co-MJ consultent la liste ; seul le propriétaire invite, change les rôles et retire.
  */
 class Index extends Component
 {
@@ -22,6 +23,8 @@ class Index extends Component
     public string $label = '';
 
     public string $email = '';
+
+    public string $role = 'player';
 
     /** Invitation qui vient d'être créée, mise en avant pour copier son lien. */
     public ?int $createdId = null;
@@ -36,7 +39,7 @@ class Index extends Component
     public function members(): Collection
     {
         return $this->campaign->members()->get()
-            ->sortBy(fn (User $user) => [$user->pivot->role === CampaignRole::GameMaster ? 0 : 1, mb_strtolower($user->name)])
+            ->sortBy(fn (User $user) => [$user->id === $this->campaign->user_id ? 0 : 1, array_search($user->pivot->role, CampaignRole::cases(), true), mb_strtolower($user->name)])
             ->values();
     }
 
@@ -49,38 +52,59 @@ class Index extends Component
 
     public function invite(): void
     {
-        $this->authorize('update', $this->campaign);
+        $this->authorize('manage', $this->campaign);
 
         $validated = $this->validate([
             'label' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'max:255'],
-        ], attributes: ['label' => __('nom'), 'email' => __('adresse e-mail')]);
+            'role' => ['required', Rule::enum(CampaignRole::class)],
+        ], attributes: ['label' => __('nom'), 'email' => __('adresse e-mail'), 'role' => __('rôle')]);
 
         $invitation = new CampaignInvitation([
             'label' => $validated['label'] ?: null,
             'email' => $validated['email'] ? mb_strtolower($validated['email']) : null,
-            'role' => CampaignRole::Player,
+            'role' => CampaignRole::from($validated['role']),
         ]);
         $invitation->campaign()->associate($this->campaign);
         $invitation->inviter()->associate(auth()->user());
         $invitation->save();
 
         $this->createdId = $invitation->id;
-        $this->reset(['label', 'email']);
+        $this->reset(['label', 'email', 'role']);
         unset($this->invitations);
     }
 
     public function revoke(int $invitationId): void
     {
-        $this->authorize('update', $this->campaign);
+        $this->authorize('manage', $this->campaign);
 
         $this->campaign->invitations()->whereKey($invitationId)->whereNull('accepted_at')->delete();
         unset($this->invitations);
     }
 
+    public function changeRole(int $userId, string $role): void
+    {
+        $this->authorize('manage', $this->campaign);
+
+        // Le propriétaire reste MJ de sa campagne.
+        abort_if($userId === $this->campaign->user_id, 403);
+
+        $member = $this->campaign->members()->whereKey($userId)->firstOrFail();
+        $new = CampaignRole::from($role);
+
+        if ($member->pivot->role === $new) {
+            return;
+        }
+
+        $this->campaign->members()->updateExistingPivot($userId, ['role' => $new->value]);
+        ActivityLog::record('member', $member->id, $member->name, 'updated', ['role' => ['old' => $member->pivot->role->value, 'new' => $new->value]], ['campaign_id' => $this->campaign->id]);
+
+        unset($this->members);
+    }
+
     public function remove(int $userId): void
     {
-        $this->authorize('update', $this->campaign);
+        $this->authorize('manage', $this->campaign);
 
         // Le créateur de la campagne en reste toujours le MJ.
         abort_if($userId === $this->campaign->user_id, 403);
@@ -99,6 +123,6 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.members.index')->title(__('Joueurs · :name', ['name' => $this->campaign->name]));
+        return view('livewire.members.index')->title(__('Membres · :name', ['name' => $this->campaign->name]));
     }
 }
