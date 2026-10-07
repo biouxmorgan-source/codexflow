@@ -90,3 +90,18 @@
     max-width: none;
     padding-top: 1rem;
 }
+
+/* Écran de table : fondu à chaque changement, curseur masqué en plein écran. */
+.table-fade {
+    animation: table-fade 0.5s ease-out;
+}
+
+@keyframes table-fade {
+    from {
+        opacity: 0;
+    }
+}
+
+:fullscreen .table-screen {
+    cursor: none;
+}

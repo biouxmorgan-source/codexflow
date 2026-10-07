@@ -128,8 +128,8 @@
                                 <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">Documents</h2>
                                 <ul class="space-y-2">
                                     @foreach ($this->documents as $document)
-                                        <li wire:key="document-{{ $document->id }}">
-                                            <a href="{{ route('documents.file', $document) }}" target="_blank" rel="noopener" class="flex items-center gap-3 rounded-xl border border-stone-200 bg-white p-3 shadow-sm hover:border-codex/40">
+                                        <li wire:key="document-{{ $document->id }}" class="flex items-center gap-2 rounded-xl border border-stone-200 bg-white p-3 shadow-sm hover:border-codex/40">
+                                            <a href="{{ route('documents.file', $document) }}" target="_blank" rel="noopener" class="flex min-w-0 flex-1 items-center gap-3">
                                                 @if ($document->isImage())
                                                     <img src="{{ route('documents.file', $document) }}" alt="" loading="lazy" class="h-10 w-10 shrink-0 rounded-lg object-cover">
                                                 @else
@@ -138,6 +138,7 @@
                                                 <span class="min-w-0 flex-1 truncate font-medium text-codex">{{ $document->title }}</span>
                                                 <span class="text-xs text-stone-500" aria-hidden="true">↗</span>
                                             </a>
+                                            <button type="button" wire:click="showDocument({{ $document->id }})" class="shrink-0 rounded-md border border-stone-200 px-2 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex" aria-label="Montrer « {{ $document->title }} » sur l'écran de table">Montrer</button>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -208,6 +209,52 @@
                             <button type="submit" class="btn-secondary ml-auto min-h-0 py-1 text-sm">Ajouter</button>
                         </div>
                     </form>
+                </section>
+
+                {{-- Écran de table : ce que voient les joueurs sur le second écran. --}}
+                <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                    <div class="mb-2 flex items-center gap-2">
+                        <h2 class="mr-auto text-sm font-semibold tracking-wide text-stone-500 uppercase">Écran de table</h2>
+                        <a href="{{ route('table.screen', $campaign) }}" target="codexflow-table" class="link text-sm">Ouvrir ↗</a>
+                    </div>
+                    <p class="flex items-center gap-2 text-sm">
+                        <span class="min-w-0 flex-1 truncate"><span class="text-stone-500">Affiché :</span> <span class="font-medium">{{ $this->tableLabel }}</span></span>
+                        @if ($campaign->table_display)
+                            <button type="button" wire:click="clearTable" class="shrink-0 text-xs text-stone-500 hover:text-red-700">Vider</button>
+                        @endif
+                    </p>
+                    <p class="mt-1 text-xs text-stone-500">Ouvrez l'écran, glissez la fenêtre sur la télé ou le projecteur, puis « Plein écran ».</p>
+
+                    <div class="mt-3 space-y-2">
+                        @if ($this->tableDocuments->isNotEmpty())
+                            <div class="flex gap-2">
+                                <label for="tableDocument" class="sr-only">Carte ou document à montrer</label>
+                                <select id="tableDocument" wire:model="tableDocumentId" class="field min-w-0 py-1.5 text-sm">
+                                    <option value="">Carte, image ou document…</option>
+                                    @foreach ($this->tableDocuments as $document)
+                                        <option value="{{ $document->id }}">{{ $document->title }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="button" wire:click="showDocument()" class="btn-secondary min-h-0 py-1 text-sm">Montrer</button>
+                            </div>
+                            @error('tableDocumentId') <p class="error">{{ $message }}</p> @enderror
+                        @endif
+                        <div class="flex gap-2">
+                            <div class="min-w-0 flex-1">
+                                <label for="tableEntity" class="sr-only">Fiche à montrer (zone publique)</label>
+                                <x-entity-picker id="tableEntity" model="tableEntityId" />
+                            </div>
+                            <button type="button" wire:click="showEntity" class="btn-secondary min-h-0 py-1 text-sm">Montrer</button>
+                        </div>
+                        @error('tableEntityId') <p class="error">{{ $message }}</p> @enderror
+                        <form wire:submit="showText" class="flex gap-2">
+                            <label for="tableText" class="sr-only">Annonce à afficher</label>
+                            <input id="tableText" type="text" wire:model="tableText" class="field min-w-0 py-1.5 text-sm" placeholder="Annonce : « Trois jours plus tard… »" autocomplete="off" maxlength="500">
+                            <button type="submit" class="btn-secondary min-h-0 py-1 text-sm">Montrer</button>
+                        </form>
+                        @error('tableText') <p class="error">{{ $message }}</p> @enderror
+                        <p class="text-xs text-stone-500">Une fiche s'affiche sans sa zone MJ.</p>
+                    </div>
                 </section>
 
                 {{-- Révéler une information ou donner un objet en pleine partie. --}}

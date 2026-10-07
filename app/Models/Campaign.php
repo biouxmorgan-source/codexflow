@@ -34,6 +34,7 @@ class Campaign extends Model
         return [
             'status' => CampaignStatus::class,
             'archived_at' => 'datetime',
+            'table_display' => 'array',
         ];
     }
 

@@ -13,6 +13,7 @@ use App\Models\Scene;
 use App\Models\SessionNote;
 use App\Models\ToPlayItem;
 use App\Support\SessionContext;
+use App\Support\TableDisplay;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +36,12 @@ class Live extends Component
     public bool $toPlayForScene = true;
 
     public ?int $pickedPinId = null;
+
+    public string $tableDocumentId = '';
+
+    public ?int $tableEntityId = null;
+
+    public string $tableText = '';
 
     public function mount(Campaign $campaign): void
     {
@@ -263,6 +270,73 @@ class Live extends Component
 
         $this->campaign->pins()->detach($entityId);
         unset($this->pins);
+    }
+
+    /** @return Collection<int, Document> */
+    #[Computed]
+    public function tableDocuments(): Collection
+    {
+        return $this->campaign->availableDocuments()->orderBy('title')->get();
+    }
+
+    #[Computed]
+    public function tableLabel(): string
+    {
+        return TableDisplay::label($this->campaign);
+    }
+
+    /** Montre le document donné, ou celui choisi dans la liste. */
+    public function showDocument(?int $documentId = null): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $document = $this->campaign->availableDocuments()->find($documentId ?? (int) $this->tableDocumentId);
+
+        if ($document === null) {
+            $this->addError('tableDocumentId', 'Choisissez un document dans la liste.');
+
+            return;
+        }
+
+        TableDisplay::showDocument($this->campaign, $document);
+        $this->tableDocumentId = '';
+        unset($this->tableLabel);
+    }
+
+    public function showEntity(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $entity = $this->tableEntityId ? $this->campaign->availableEntities()->find($this->tableEntityId) : null;
+
+        if ($entity === null) {
+            $this->addError('tableEntityId', 'Choisissez une fiche dans la liste.');
+
+            return;
+        }
+
+        TableDisplay::showEntity($this->campaign, $entity);
+        $this->tableEntityId = null;
+        unset($this->tableLabel);
+    }
+
+    public function showText(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $this->validate(['tableText' => ['required', 'string', 'max:500']], attributes: ['tableText' => 'annonce']);
+
+        TableDisplay::showText($this->campaign, trim($this->tableText));
+        $this->reset('tableText');
+        unset($this->tableLabel);
+    }
+
+    public function clearTable(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableDisplay::clear($this->campaign);
+        unset($this->tableLabel);
     }
 
     private function activate(PlaySession $session, ?Scene $scene): void

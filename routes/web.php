@@ -31,6 +31,7 @@ use App\Livewire\Scenes\Show as SceneShow;
 use App\Livewire\Search\Index as SearchIndex;
 use App\Livewire\Sessions\Live as SessionLive;
 use App\Livewire\Sessions\Show as SessionShow;
+use App\Livewire\Table\Screen as TableScreen;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route(auth()->check() ? 'campaigns.index' : 'login'));
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/scenes/{scene}/modifier', SceneForm::class)->name('scenes.edit')->whereNumber(['campaign', 'scene']);
 
     Route::livewire('/campagnes/{campaign}/session', SessionLive::class)->name('sessions.live')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/ecran-de-table', TableScreen::class)->name('table.screen')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 
     Route::livewire('/campagnes/{campaign}/regles', RuleIndex::class)->name('rules.index')->whereNumber('campaign');
