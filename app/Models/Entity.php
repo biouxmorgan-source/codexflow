@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\RecordsActivity;
+use App\Support\Live;
 use Database\Factories\EntityFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -44,6 +45,11 @@ class Entity extends Model
             $entity->attachments->each->delete();
             $entity->deleteImage();
             PlayerCharacter::where('entity_id', $entity->id)->get()->each->delete();
+        });
+
+        // Fiche d'un personnage joueur : ceux qui l'ont ouverte la voient changer en direct.
+        static::updated(function (Entity $entity) {
+            PlayerCharacter::where('entity_id', $entity->id)->pluck('id')->each(fn (int $id) => Live::character($id));
         });
     }
 

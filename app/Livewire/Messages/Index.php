@@ -5,6 +5,7 @@ namespace App\Livewire\Messages;
 use App\Actions\Messages\SendMessage;
 use App\Enums\Zone;
 use App\Livewire\Concerns\SuggestsEntities;
+use App\Livewire\HeaderBadges;
 use App\Models\Campaign;
 use App\Models\CharacterGrant;
 use App\Models\Document;
@@ -260,7 +261,7 @@ class Index extends Component
     /** Ce qui s'affiche est lu, avec les notifications de ces messages. */
     private function markRead(): void
     {
-        auth()->user()->unreadNotifications()
+        $changed = auth()->user()->unreadNotifications()
             ->whereRaw("data->>'kind' = 'message'")
             ->whereRaw("(data->>'campaign_id')::bigint = ?", [$this->campaign->id])
             ->when($this->isGameMaster, fn ($q) => $this->conversation === ''
@@ -270,18 +271,24 @@ class Index extends Component
 
         $unread = $this->messages->filter(fn (Message $message) => $message->sender_id !== auth()->id())->modelKeys();
 
-        if ($unread === []) {
-            return;
-        }
-
         $now = now();
-        DB::table('message_reads')->insertOrIgnore(array_map(fn (int $id) => [
+        $changed += $unread === [] ? 0 : DB::table('message_reads')->insertOrIgnore(array_map(fn (int $id) => [
             'message_id' => $id,
             'user_id' => auth()->id(),
             'read_at' => $now,
         ], $unread));
 
-        unset($this->characters, $this->groupUnread);
+        if ($changed > 0) {
+            unset($this->characters, $this->groupUnread);
+            // L'en-tête a pu s'afficher avant : on lui demande de recompter.
+            $this->dispatch('messages-read')->to(HeaderBadges::class);
+        }
+    }
+
+    /** @return array<string, string> mises à jour en direct (Reverb) */
+    public function getListeners(): array
+    {
+        return ['echo-private:users.'.auth()->id().',.activity' => '$refresh'];
     }
 
     public function render()

@@ -133,3 +133,5 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 });
+
+import './echo';

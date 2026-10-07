@@ -328,6 +328,17 @@ class Show extends Component
             : null;
     }
 
+    /** Le MJ ou le joueur a modifié la fiche ailleurs : on recharge, sauf la saisie en cours. */
+    public function characterChanged(): void
+    {
+        $this->character->refresh();
+        unset($this->entity, $this->canPlay);
+
+        if (! $this->editing) {
+            $this->fillValues();
+        }
+    }
+
     private function editable(int $definitionId): FieldDefinition
     {
         abort_unless($this->canPlay, 403);
@@ -352,6 +363,15 @@ class Show extends Component
         foreach ($this->fields->where('player_editable', true) as $definition) {
             $this->values[$definition->id] = $definition->type->input($this->entity->fieldValue($definition));
         }
+    }
+
+    /** @return array<string, string> mises à jour en direct (Reverb) */
+    public function getListeners(): array
+    {
+        return [
+            'echo-private:users.'.auth()->id().',.activity' => '$refresh',
+            'echo-private:characters.'.$this->character->id.',.changed' => 'characterChanged',
+        ];
     }
 
     public function render()

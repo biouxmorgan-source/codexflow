@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Live;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +32,7 @@ class PlayerCharacter extends Model
     protected static function booted(): void
     {
         static::deleted(fn (PlayerCharacter $character) => $character->deleteSheet());
+        static::updated(fn (PlayerCharacter $character) => Live::character($character->id));
     }
 
     /** @return BelongsTo<Campaign, $this> */
