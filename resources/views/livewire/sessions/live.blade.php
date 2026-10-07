@@ -100,6 +100,12 @@
                     </section>
                 @endif
 
+                {{-- Secrets de la scène, de ses fiches et de ses documents, à révéler d'un clic. --}}
+                @php($secretItems = ['scene' => $scene ? [$scene->id] : [], 'entity' => $this->cards->map(fn ($card) => $card['entity']->id)->values()->all(), 'document' => $this->documents->modelKeys()])
+                @if ($scene || $secretItems['entity'] !== [])
+                    <livewire:secrets.panel :campaign="$campaign" :items="$secretItems" :compact="true" :wire:key="'session-secrets-'.md5(json_encode($secretItems))" />
+                @endif
+
                 @if ($this->rules->isNotEmpty() || $this->documents->isNotEmpty())
                     <div class="grid gap-4 md:grid-cols-2">
                         @if ($this->rules->isNotEmpty())

@@ -31,6 +31,10 @@
             <span class="font-semibold text-codex">{{ __('Règles →') }}</span>
             <span class="mt-1 text-sm text-stone-600">{{ __('Règles du jeu, règles maison et glossaire, pour retrouver une procédure en pleine partie.') }}</span>
         </a>
+        <a href="{{ route('secrets.index', $campaign) }}" class="tile" wire:navigate>
+            <span class="font-semibold text-codex">{{ __('Secrets →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Ce que les personnages pourraient découvrir, relié aux fiches et aux scènes, et qui le sait déjà.') }}</span>
+        </a>
         <a href="{{ route('characters.index', $campaign) }}" class="tile" wire:navigate>
             <span class="font-semibold text-codex">{{ __('Personnages →') }}</span>
             <span class="mt-1 text-sm text-stone-600">{{ __('Les personnages des joueurs : à qui ils sont confiés, leur feuille PDF, leurs compteurs.') }}</span>

@@ -87,20 +87,21 @@ class ExchangeGrant
         return [$received, $quantity];
     }
 
-    /** Une connaissance se partage : le giver la garde. */
+    /** Une connaissance se partage : le giver la garde. Un secret partagé reste un secret connu. */
     private function share(CharacterGrant $grant, PlayerCharacter $to): CharacterGrant
     {
         $known = match ($grant->kind) {
             'entity', 'document', 'rule' => $to->grants()->where($grant->kind.'_id', $grant->{$grant->kind.'_id'})->exists(),
-            default => $to->grants()->where('kind', $grant->kind)->where('title', $grant->title)
-                ->where(fn ($q) => $grant->body === null ? $q->whereNull('body') : $q->where('body', $grant->body))->exists(),
+            default => ($grant->secret_id !== null && $to->grants()->where('secret_id', $grant->secret_id)->exists())
+                || $to->grants()->where('kind', $grant->kind)->where('title', $grant->title)
+                    ->where(fn ($q) => $grant->body === null ? $q->whereNull('body') : $q->where('body', $grant->body))->exists(),
         };
 
         if ($known) {
             throw ValidationException::withMessages(['exchange' => __(':name le sait déjà.', ['name' => $to->entity->name])]);
         }
 
-        return $to->grants()->create($grant->only(['kind', 'entity_id', 'document_id', 'rule_id', 'title', 'body']) + ['granted_by' => auth()->id()]);
+        return $to->grants()->create($grant->only(['kind', 'entity_id', 'document_id', 'rule_id', 'secret_id', 'title', 'body']) + ['granted_by' => auth()->id()]);
     }
 
     private function record(CharacterGrant $grant, string $label, ?int $given, PlayerCharacter $from, PlayerCharacter $to): void

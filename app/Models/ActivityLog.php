@@ -36,6 +36,7 @@ class ActivityLog extends Model
         'field' => 'Champ',
         'member' => 'Membre',
         'grant' => 'Élément donné',
+        'secret' => 'Secret',
     ];
 
     private const LABELS = [
@@ -65,6 +66,7 @@ class ActivityLog extends Model
             'field' => __('Champ'),
             'member' => __('Membre'),
             'grant' => __('Élément donné'),
+            'secret' => __('Secret'),
         ];
     }
 

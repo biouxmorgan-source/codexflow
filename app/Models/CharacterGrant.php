@@ -67,6 +67,24 @@ class CharacterGrant extends Model
         return $this->belongsTo(Rule::class);
     }
 
+    /** @return BelongsTo<Secret, $this> */
+    public function secret(): BelongsTo
+    {
+        return $this->belongsTo(Secret::class);
+    }
+
+    /** @return BelongsTo<PlaySession, $this> séance pendant laquelle l'élément a été révélé */
+    public function playSession(): BelongsTo
+    {
+        return $this->belongsTo(PlaySession::class);
+    }
+
+    /** @return BelongsTo<Scene, $this> scène en cours au moment de la révélation */
+    public function scene(): BelongsTo
+    {
+        return $this->belongsTo(Scene::class);
+    }
+
     /** @return BelongsTo<User, $this> */
     public function giver(): BelongsTo
     {
