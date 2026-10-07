@@ -4,6 +4,18 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.7.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Rond de tafel',
+        'items' => [
+            'Kaarten: een afbeelding op het tafelscherm die je zoomt en verschuift, met een optioneel vierkant raster en een schaal.',
+            'Optionele pionnen, gekoppeld aan fiches (naam en portret): verplaatsen, van grootte veranderen, tonen aan of verbergen voor de spelers.',
+            'Tijdelijke liniaal: trek een lijn en de afstand verschijnt in vakjes of in meters.',
+            'Afstandsbediening: maak vanaf je telefoon het scherm leeg, ga naar het volgende element van de scène, bedien de kaart.',
+            'Spelers: wat de SL je onthult of geeft, verschijnt meteen, zonder via de meldingen te gaan.',
+        ],
+    ],
+
     '0.6.0' => [
         'date' => '2026-10-09',
         'title' => 'Het geheugen van de campagne',

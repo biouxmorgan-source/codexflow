@@ -90,6 +90,8 @@ class GrantTest extends TestCase
 
         $this->sheet('Harvey')->assertSee(['Règles', 'Contacter Nyogtha', 'Coûte 10 points de magie', 'Lancer en chantant'])->assertDontSee('Le culte surveille');
         $this->sheet('Jack')->assertDontSee('Contacter Nyogtha');
+        // La fenêtre « reçu » déjà vue, pour ne regarder que les résultats de recherche.
+        $alex->unreadNotifications->markAsRead();
         $this->actingAs($alex)->get(route('search.index', [$this->campaign, 'q' => 'chantant']))->assertSee('Contacter Nyogtha');
         $this->actingAs($sam)->get(route('search.index', [$this->campaign, 'q' => 'chantant']))->assertDontSee('Contacter Nyogtha');
         $this->actingAs($alex)->get(route('search.index', [$this->campaign, 'q' => 'culte surveille']))->assertDontSee('Contacter Nyogtha');

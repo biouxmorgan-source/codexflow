@@ -275,6 +275,20 @@
                         @error('tableText') <p class="error">{{ $message }}</p> @enderror
                         <p class="text-xs text-stone-500">{{ __("Une fiche s'affiche sans sa zone MJ.") }}</p>
                     </div>
+
+                    @if ($this->tableMaps->isNotEmpty())
+                        <ul class="mt-3 flex flex-wrap gap-1.5">
+                            @foreach ($this->tableMaps as $map)
+                                <li wire:key="session-map-{{ $map->id }}">
+                                    <button type="button" wire:click="showOnTable('map', {{ $map->id }})" class="rounded-md border border-stone-200 px-2 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex" aria-label="{{ __("Montrer la carte « :name » sur l'écran de table", ['name' => $map->name]) }}">{{ $map->name }}</button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                    <p class="mt-3 flex gap-4 text-sm">
+                        <a href="{{ route('maps.index', $campaign) }}" class="link" wire:navigate>{{ __('Cartes →') }}</a>
+                        <a href="{{ route('table.remote', $campaign) }}" class="link" wire:navigate>{{ __('Télécommande →') }}</a>
+                    </p>
                 </section>
 
                 {{-- Révéler une information ou donner un objet en pleine partie. --}}

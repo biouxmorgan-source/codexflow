@@ -4,6 +4,18 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.7.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Alrededor de la mesa',
+        'items' => [
+            'Mapas: una imagen en la pantalla de mesa que amplías y mueves, con una cuadrícula opcional y una escala.',
+            'Tokens opcionales, vinculados a fichas (nombre y retrato): moverlos, cambiar su tamaño, mostrarlos u ocultarlos a los jugadores.',
+            'Regla temporal: traza una línea y la distancia aparece en casillas o en metros.',
+            'Mando a distancia: desde tu teléfono, vacía la pantalla, pasa al siguiente elemento de la escena, controla el mapa.',
+            'Jugadores: lo que el DJ te revela o te da aparece al instante, sin pasar por las notificaciones.',
+        ],
+    ],
+
     '0.6.0' => [
         'date' => '2026-10-09',
         'title' => 'La memoria de la campaña',

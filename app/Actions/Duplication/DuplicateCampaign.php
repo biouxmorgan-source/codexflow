@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
  * Copié : le contenu préparé propre à la campagne — fiches de campagne (sauf celles des personnages
  * joueurs), leurs relations et liens, états de campagne des fiches du monde, scénarios et scènes
  * (statuts remis à « Prévue »), documents (fichiers copiés) et règles de campagne avec leurs liens,
- * épingles et éléments « À jouer » du MJ non encore joués.
+ * épingles, cartes et leurs jetons, et éléments « À jouer » du MJ non encore joués.
  *
  * Non copié : les membres autres que le propriétaire, les invitations, les personnages joueurs et
  * tout ce qui leur appartient (connaissances, possessions, notes), les séances et leurs notes,
@@ -78,6 +78,8 @@ class DuplicateCampaign
             [, $map] = $this->scenarios->copyInto($scenario, $campaign, $scenario->name, $scenario->position, $entities, $documents, $rules);
             $scenes += $map;
         }
+
+        $this->copyMaps($source, $campaign, $entities, $documents);
 
         foreach ($source->pins()->get() as $pin) {
             if (isset($entities[$pin->id])) {
@@ -149,6 +151,40 @@ class DuplicateCampaign
         }
 
         return $map;
+    }
+
+    /**
+     * Cartes et jetons préparés, sans la vue ni la règle du moment. Les jetons des personnages
+     * joueurs restent à la table d'origine.
+     *
+     * @param  array<int, int>  $entities
+     * @param  array<int, int>  $documents
+     */
+    private function copyMaps(Campaign $source, Campaign $campaign, array $entities, array $documents): void
+    {
+        foreach ($source->maps()->with('tokens')->get() as $map) {
+            if (! isset($documents[$map->document_id])) {
+                continue;
+            }
+
+            $copy = $map->replicate(['view_x', 'view_y', 'view_zoom', 'ruler']);
+            $copy->setRelations([]);
+            $copy->campaign_id = $campaign->id;
+            $copy->document_id = $documents[$map->document_id];
+            $copy->save();
+
+            foreach ($map->tokens as $token) {
+                if ($token->entity_id !== null && ! isset($entities[$token->entity_id])) {
+                    continue;
+                }
+
+                $tokenCopy = $token->replicate();
+                $tokenCopy->setRelations([]);
+                $tokenCopy->table_map_id = $copy->id;
+                $tokenCopy->entity_id = $token->entity_id === null ? null : $entities[$token->entity_id];
+                $tokenCopy->save();
+            }
+        }
     }
 
     /** @return array<int, int> */

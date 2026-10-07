@@ -35,6 +35,10 @@
             <span class="font-semibold text-codex">{{ __('Secrets →') }}</span>
             <span class="mt-1 text-sm text-stone-600">{{ __('Ce que les personnages pourraient découvrir, relié aux fiches et aux scènes, et qui le sait déjà.') }}</span>
         </a>
+        <a href="{{ route('maps.index', $campaign) }}" class="tile" wire:navigate>
+            <span class="font-semibold text-codex">{{ __('Cartes →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __("Une carte sur l'écran de table, avec grille, jetons et règle si besoin, pilotable depuis le téléphone.") }}</span>
+        </a>
         <a href="{{ route('characters.index', $campaign) }}" class="tile" wire:navigate>
             <span class="font-semibold text-codex">{{ __('Personnages →') }}</span>
             <span class="mt-1 text-sm text-stone-600">{{ __('Les personnages des joueurs : à qui ils sont confiés, leur feuille PDF, leurs compteurs.') }}</span>

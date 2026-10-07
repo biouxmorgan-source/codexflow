@@ -63,6 +63,12 @@
                 </article>
                 @break
 
+            @case('map')
+                <x-table-map :map="$display['map']" :tokens="$display['map']->tokens"
+                    :image-url="route('table.file', [$campaign, 'v' => $display['key']])"
+                    :token-url="fn ($token) => route('table.token', [$campaign, $token, 'v' => $token->entity?->updated_at?->timestamp])" />
+                @break
+
             @case('text')
                 <p class="max-w-5xl p-12 text-center font-serif text-5xl leading-tight whitespace-pre-line lg:text-6xl">{{ $display['text'] }}</p>
                 @break

@@ -51,6 +51,7 @@
         @endcan
     </footer>
     @livewire(\App\Livewire\WhatsNew::class)
+    @livewire(\App\Livewire\ReceivedPopup::class)
     @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('messages.*') && auth()->user()->can('play', $searchCampaign))
         @persist('chat-'.$searchCampaign->id)
             @livewire(\App\Livewire\ChatDock::class, ['campaign' => $searchCampaign], key('chat-'.$searchCampaign->id))

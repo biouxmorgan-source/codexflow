@@ -4,6 +4,18 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.7.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Wokół stołu',
+        'items' => [
+            'Mapy: obraz na ekranie stołu, który przybliżasz i przesuwasz, z opcjonalną siatką kwadratową i skalą.',
+            'Opcjonalne żetony, powiązane z kartami (nazwa i portret): przesuwanie, zmiana rozmiaru, pokazywanie graczom lub ukrywanie przed nimi.',
+            'Tymczasowa linijka: narysuj linię, a odległość pojawi się w polach lub w metrach.',
+            'Pilot: z telefonu wyczyść ekran, przejdź do następnego elementu sceny, steruj mapą.',
+            'Gracze: to, co MG ci ujawnia lub daje, pojawia się od razu, bez przechodzenia przez powiadomienia.',
+        ],
+    ],
+
     '0.6.0' => [
         'date' => '2026-10-09',
         'title' => 'Pamięć kampanii',
