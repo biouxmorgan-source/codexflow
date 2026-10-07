@@ -33,6 +33,17 @@
                 @if ($character->locked) · <span class="font-medium text-flow">fiche verrouillée par le MJ</span> @endif
             </p>
         </div>
+        @if ($this->isGameMaster && $character->user_id)
+            <a href="{{ route('messages.index', [$campaign, 'personnage' => $character->id]) }}" class="btn-secondary" wire:navigate>Écrire au joueur</a>
+        @elseif ($this->isOwner)
+            @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
+            <a href="{{ route('messages.index', $campaign) }}" class="btn-secondary" wire:navigate>
+                Messages
+                @if ($unread > 0)
+                    <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-white">{{ $unread }} <span class="sr-only">non lus</span></span>
+                @endif
+            </a>
+        @endif
     </header>
 
     @if ($counters->isNotEmpty())
@@ -117,7 +128,7 @@
             @php($grants = $this->grants)
             @foreach (['knowledge' => 'Connaissances', 'possession' => 'Possessions', 'rule' => 'Règles', 'document' => 'Documents'] as $section => $sectionTitle)
                 @php($items = $grants->filter(fn ($grant) => $section === 'knowledge' ? in_array($grant->kind, ['entity', 'information'], true) : $grant->kind === $section))
-                <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm" wire:key="section-{{ $section }}">
+                <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm" id="section-{{ $section }}" wire:key="section-{{ $section }}">
                     <h2 class="mb-2 font-semibold">{{ $sectionTitle }}</h2>
                     @if ($items->isEmpty())
                         <p class="text-sm text-stone-600">
