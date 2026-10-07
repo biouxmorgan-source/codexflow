@@ -133,7 +133,7 @@ class ImportScenes
 
         if ($missing !== []) {
             return [
-                'plan' => ['errors' => ['Le fichier doit avoir une colonne « Scénario » et une colonne « Scène ».'], 'rows' => [], 'valid' => 0],
+                'plan' => ['errors' => [__('Le fichier doit avoir une colonne « Scénario » et une colonne « Scène ».')], 'rows' => [], 'valid' => 0],
                 'valid' => [],
             ];
         }
@@ -144,7 +144,6 @@ class ImportScenes
             'documents' => $this->index($this->campaign->availableDocuments()->get(['id', 'title', 'original_name']), fn (Document $document) => [$document->title, pathinfo((string) $document->original_name, PATHINFO_FILENAME)]),
             'rules' => $this->index($this->campaign->availableRules()->get(['id', 'title']), fn (Rule $rule) => $rule->title),
         ];
-        $labels = ['entities' => 'fiche', 'documents' => 'document', 'rules' => 'règle'];
 
         $existing = $this->campaign->scenes()->with('scenario')->get()
             ->keyBy(fn (Scene $scene) => mb_strtolower($scene->scenario->name.'|'.$scene->name));
@@ -160,7 +159,7 @@ class ImportScenes
 
             foreach (self::LIMITS as $target => $limit) {
                 if (mb_strlen($cell($target)) > $limit) {
-                    $errors[] = $this->label($target).' : dépasse '.$limit.' caractères';
+                    $errors[] = __(':field : dépasse :max caractères', ['field' => $this->label($target), 'max' => $limit]);
                 }
             }
 
@@ -170,19 +169,19 @@ class ImportScenes
             $status = self::status($cell('status'));
 
             if ($scenario === '') {
-                $errors[] = 'scénario manquant';
+                $errors[] = __('scénario manquant');
             }
 
             if ($name === '') {
-                $errors[] = 'nom de scène manquant';
+                $errors[] = __('nom de scène manquant');
             } elseif (isset($seen[$key])) {
-                $errors[] = 'déjà présente ligne '.$seen[$key];
+                $errors[] = __('déjà présente ligne :line', ['line' => $seen[$key]]);
             } else {
                 $seen[$key] = $row['line'];
             }
 
             if ($status === false) {
-                $errors[] = 'statut « '.$cell('status').' » inconnu';
+                $errors[] = __('statut « :name » inconnu', ['name' => $cell('status')]);
             }
 
             $links = [];
@@ -198,7 +197,11 @@ class ImportScenes
                     $id = $lookup[mb_strtolower($wanted)] ?? $lookup[Normalize::key($wanted)] ?? null;
 
                     if ($id === null) {
-                        $warnings[] = $labels[$relation].' « '.$wanted.' » introuvable';
+                        $warnings[] = match ($relation) {
+                            'entities' => __('fiche « :name » introuvable', ['name' => $wanted]),
+                            'documents' => __('document « :name » introuvable', ['name' => $wanted]),
+                            default => __('règle « :name » introuvable', ['name' => $wanted]),
+                        };
                     } elseif (! in_array($id, $links[$relation], true) && count($links[$relation]) < self::MAX_LINKS) {
                         $links[$relation][] = $id;
                     }
@@ -266,10 +269,11 @@ class ImportScenes
     private function label(string $target): string
     {
         return match ($target) {
-            'scenario' => 'scénario',
-            'scenario_summary' => 'résumé du scénario',
-            'chapter' => 'chapitre',
-            'name' => 'nom de la scène',
+            'scenario' => __('scénario'),
+            'scenario_summary' => __('résumé du scénario'),
+            'chapter' => __('chapitre'),
+            'name' => __('nom de la scène'),
+            'description' => __('description'),
             default => $target,
         };
     }
@@ -284,7 +288,7 @@ class ImportScenes
         }
 
         foreach (SceneStatus::cases() as $status) {
-            if (in_array($key, [Normalize::key($status->value), Normalize::key($status->label())], true)) {
+            if (in_array($key, [Normalize::key($status->value), Normalize::key($status->label('fr')), Normalize::key($status->label())], true)) {
                 return $status;
             }
         }

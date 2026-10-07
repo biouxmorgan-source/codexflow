@@ -54,11 +54,11 @@ class ChatDock extends Component
     public function tabs(): \Illuminate\Support\Collection
     {
         $user = auth()->user();
-        $group = ['key' => 'group', 'label' => 'Groupe', 'unread' => $this->scoped('group')->unreadBy($user)->count()];
+        $group = ['key' => 'group', 'label' => __('Groupe'), 'unread' => $this->scoped('group')->unreadBy($user)->count()];
 
         if (! $this->isGameMaster) {
             return collect([
-                ['key' => 'gm', 'label' => 'MJ', 'unread' => $this->scoped('gm')->unreadBy($user)->count()],
+                ['key' => 'gm', 'label' => __('MJ'), 'unread' => $this->scoped('gm')->unreadBy($user)->count()],
                 $group,
             ]);
         }
@@ -114,7 +114,7 @@ class ChatDock extends Component
 
     public function send(SendMessage $send): void
     {
-        $this->validate(['body' => ['required', 'string', 'max:5000']], [], ['body' => 'message']);
+        $this->validate(['body' => ['required', 'string', 'max:5000']], [], ['body' => __('message')]);
         abort_unless($this->tabs->contains('key', $this->tab), 404);
 
         $characterIds = match (true) {

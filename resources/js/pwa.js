@@ -19,6 +19,9 @@ window.addEventListener('beforeinstallprompt', (event) => {
     window.dispatchEvent(new CustomEvent('codexflow:installable'));
 });
 
+// Textes traduits fournis par la page (layout base), le français restant la valeur par défaut.
+const text = (key, fallback) => window.codexflowText?.[key] ?? fallback;
+
 const csrf = () => document.querySelector('meta[name="csrf-token"]')?.content ?? '';
 const vapidKey = () => document.querySelector('meta[name="vapid-public-key"]')?.content ?? '';
 
@@ -76,7 +79,7 @@ document.addEventListener('alpine:init', () => {
                 await saveSubscription('POST', { endpoint: json.endpoint, keys: json.keys, contentEncoding: (PushManager.supportedContentEncodings ?? ['aes128gcm'])[0] });
                 this.subscribed = true;
             } catch (error) {
-                this.error = "L'abonnement n'a pas abouti. Réessayez, ou vérifiez les réglages de notification du navigateur.";
+                this.error = text('pushSubscribeFailed', "L'abonnement n'a pas abouti. Réessayez, ou vérifiez les réglages de notification du navigateur.");
             } finally {
                 this.busy = false;
             }
@@ -94,7 +97,7 @@ document.addEventListener('alpine:init', () => {
                 }
                 this.subscribed = false;
             } catch (error) {
-                this.error = 'La désactivation a échoué. Réessayez.';
+                this.error = text('pushDisableFailed', 'La désactivation a échoué. Réessayez.');
             } finally {
                 this.busy = false;
             }

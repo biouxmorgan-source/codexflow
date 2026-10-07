@@ -30,8 +30,8 @@ final class SessionContext
         $linked = $scene->entities()->get();
         $cited = EntityLinks::referenced($scene->description, $campaign)->whereNotIn('id', $linked->modelKeys());
 
-        $cards = $linked->map(fn (Entity $entity) => ['entity' => $entity, 'note' => $entity->pivot->note, 'source' => 'Dans la scène'])
-            ->concat($cited->map(fn (Entity $entity) => ['entity' => $entity, 'note' => null, 'source' => 'Cité dans la préparation']))
+        $cards = $linked->map(fn (Entity $entity) => ['entity' => $entity, 'note' => $entity->pivot->note, 'source' => __('Dans la scène')])
+            ->concat($cited->map(fn (Entity $entity) => ['entity' => $entity, 'note' => null, 'source' => __('Cité dans la préparation')]))
             ->values();
 
         self::load($campaign, $cards->pluck('entity'));

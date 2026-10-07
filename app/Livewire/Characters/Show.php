@@ -16,6 +16,7 @@ use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
 use App\Models\Rule;
 use App\Models\ToPlayItem;
+use App\Support\Locale;
 use App\Support\Notify;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -141,7 +142,7 @@ class Show extends Component
         $this->validate([
             'exchangeTo' => ['required', ValidationRule::in($this->companions->modelKeys())],
             'exchangeQuantity' => ['integer', 'min:1'],
-        ], ['exchangeTo.required' => 'Choisissez un personnage.'], ['exchangeTo' => 'destinataire', 'exchangeQuantity' => 'quantité']);
+        ], ['exchangeTo.required' => __('Choisissez un personnage.')], ['exchangeTo' => __('destinataire'), 'exchangeQuantity' => __('quantité')]);
 
         $grant = $this->character->grants()->findOrFail($this->exchangeGrantId);
         $to = $this->companions->firstWhere('id', (int) $this->exchangeTo);
@@ -149,7 +150,9 @@ class Show extends Component
         app(ExchangeGrant::class)->handle($grant, $to, $grant->kind === 'possession' ? $this->exchangeQuantity : null);
 
         $this->exchangeGrantId = null;
-        $this->flashExchange = ($grant->kind === 'possession' ? 'Donné à ' : 'Transmis à ').$to->entity->name.'.';
+        $this->flashExchange = $grant->kind === 'possession'
+            ? __('Donné à :name.', ['name' => $to->entity->name])
+            : __('Transmis à :name.', ['name' => $to->entity->name]);
         unset($this->grants, $this->journal);
     }
 
@@ -177,7 +180,7 @@ class Show extends Component
             'addTitle' => ['required', 'string', 'max:200'],
             'addBody' => ['nullable', 'string', 'max:5000'],
             'addQuantity' => ['integer', 'min:1', 'max:1000000'],
-        ], attributes: ['addTitle' => $this->addKind === 'possession' ? 'objet' : 'titre', 'addBody' => 'détail', 'addQuantity' => 'quantité']);
+        ], attributes: ['addTitle' => $this->addKind === 'possession' ? __('objet') : __('titre'), 'addBody' => __('détail'), 'addQuantity' => __('quantité')]);
 
         app(PlayerAdditions::class)->add($this->character, $this->addKind, $this->addTitle, $this->addBody, $this->addQuantity);
 
@@ -279,7 +282,7 @@ class Show extends Component
             'noteVisibility' => [ValidationRule::in(array_keys(CharacterNote::VISIBILITIES))],
             'noteShares' => [ValidationRule::requiredIf($this->noteVisibility === 'players'), 'array'],
             'noteShares.*' => [ValidationRule::in($this->companions->modelKeys())],
-        ], ['noteShares.required' => 'Choisissez au moins un personnage.'], ['noteBody' => 'note']);
+        ], ['noteShares.required' => __('Choisissez au moins un personnage.')], ['noteBody' => __('note')]);
 
         $note = $this->editingNoteId
             ? $this->character->notes()->where('user_id', auth()->id())->findOrFail($this->editingNoteId)
@@ -333,10 +336,11 @@ class Show extends Component
         $this->validate([
             'intentionBody' => [ValidationRule::requiredIf($this->intentionRuleId === ''), 'nullable', 'string', 'max:450'],
             'intentionRuleId' => ['nullable', ValidationRule::in($this->publicRules->modelKeys())],
-        ], ['intentionBody.required' => 'Écrivez ce que vous voulez tenter, ou choisissez une règle.'], ['intentionBody' => 'intention']);
+        ], ['intentionBody.required' => __('Écrivez ce que vous voulez tenter, ou choisissez une règle.')], ['intentionBody' => __('intention')]);
 
         $rule = $this->intentionRuleId === '' ? null : $this->publicRules->find((int) $this->intentionRuleId);
-        $body = trim($this->intentionBody) ?: 'Demande à tester la règle « '.$rule->title.' »';
+        // Texte enregistré, lu par le MJ : écrit dans la langue du MJ propriétaire de la campagne.
+        $body = trim($this->intentionBody) ?: __('Demande à tester la règle « :title »', ['title' => $rule->title], Locale::for($this->campaign->owner));
 
         $item = new ToPlayItem(['body' => mb_substr($body, 0, 500), 'position' => (int) $this->campaign->toPlayItems()->max('position') + 1]);
         $item->campaign()->associate($this->campaign);
@@ -401,7 +405,7 @@ class Show extends Component
             [$value, $error] = $definition->parse($this->values[$definition->id] ?? null);
 
             if ($error !== null) {
-                $errors['values.'.$definition->id] = $definition->name.' : '.$error.'.';
+                $errors['values.'.$definition->id] = __(':field : :error.', ['field' => $definition->name, 'error' => $error]);
             } else {
                 $parsed[$definition->id] = $value;
             }

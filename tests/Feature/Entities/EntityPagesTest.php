@@ -56,6 +56,26 @@ class EntityPagesTest extends TestCase
             ->assertSee(['Le Poney fringant', 'Aldric', 'Mira', 'Anselme']);
     }
 
+    public function test_editing_a_sheet_returns_to_the_page_it_was_opened_from(): void
+    {
+        $npc = Entity::factory()->for($this->gm, 'owner')->for($this->campaignA)->create(['name' => 'Aldric']);
+        $characters = route('characters.index', $this->campaignA, false);
+
+        // Depuis la page Personnages : on y revient, après l'enregistrement comme après l'annulation.
+        Livewire::actingAs($this->gm)->withQueryParams(['retour' => $characters])
+            ->test(Form::class, ['campaign' => $this->campaignA, 'entity' => $npc])
+            ->assertSeeHtml('href="'.$characters.'"')
+            ->set('name', 'Aldric le Vieux')
+            ->call('save')
+            ->assertRedirect($characters);
+
+        // Une adresse vers un autre site est ignorée.
+        Livewire::actingAs($this->gm)->withQueryParams(['retour' => '//exemple.com/piege'])
+            ->test(Form::class, ['campaign' => $this->campaignA, 'entity' => $npc])
+            ->call('save')
+            ->assertRedirect(route('entities.show', [$this->campaignA, $npc]));
+    }
+
     public function test_campaign_only_entities_stay_in_their_campaign(): void
     {
         $this->createEntity($this->campaignA, 'Secret de A', EntityType::standard('item'), 'campaign');

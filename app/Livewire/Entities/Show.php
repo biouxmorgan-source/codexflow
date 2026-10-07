@@ -22,8 +22,15 @@ class Show extends Component
     use SuggestsEntities;
     use WithFileUploads;
 
-    /** Libellés proposés pour les relations ; le MJ peut en écrire d'autres. */
-    public const RELATION_LABELS = ['connaît', 'habite à', 'travaille pour', 'membre de', 'possède', 'allié de', 'ennemi de', 'parent de', 'amoureux de', 'se trouve à'];
+    /**
+     * Libellés proposés pour les relations, dans la langue de l'utilisateur ; le MJ peut en écrire d'autres.
+     *
+     * @return list<string>
+     */
+    public static function relationLabels(): array
+    {
+        return [__('connaît'), __('habite à'), __('travaille pour'), __('membre de'), __('possède'), __('allié de'), __('ennemi de'), __('parent de'), __('amoureux de'), __('se trouve à')];
+    }
 
     /** Types acceptés en pièce jointe : images, PDF, textes et documents bureautiques courants. */
     public const ATTACHMENT_MIMES = 'jpg,jpeg,png,webp,gif,pdf,txt,md,doc,docx,odt,xls,xlsx,ods';
@@ -71,7 +78,7 @@ class Show extends Component
         $this->validate([
             'status' => ['nullable', 'string', 'max:60'],
             'stateNotes' => ['nullable', 'string', 'max:20000'],
-        ], attributes: ['status' => 'statut', 'stateNotes' => 'notes de campagne']);
+        ], attributes: ['status' => __('statut'), 'stateNotes' => __('notes de campagne')]);
 
         $state = $this->state();
         $state->fill([
@@ -101,7 +108,7 @@ class Show extends Component
         $definition = $this->fieldDefinitionsForType()->firstWhere('id', (int) $this->overrideFieldId);
 
         if ($definition === null) {
-            $this->addError('overrideFieldId', 'Choisissez un champ.');
+            $this->addError('overrideFieldId', __('Choisissez un champ.'));
 
             return;
         }
@@ -109,7 +116,7 @@ class Show extends Component
         [$value, $error] = $definition->parse($this->overrideValue);
 
         if ($error !== null) {
-            $this->addError('overrideValue', $definition->name.' : '.$error.'.');
+            $this->addError('overrideValue', __(':name : :error.', ['name' => $definition->name, 'error' => $error]));
 
             return;
         }
@@ -151,7 +158,7 @@ class Show extends Component
             'uploads' => ['required', 'array', 'max:10'],
             'uploads.*' => ['file', 'mimes:'.self::ATTACHMENT_MIMES, 'max:20480'],
             'uploadZone' => ['required', Rule::enum(Zone::class)],
-        ], attributes: ['uploads' => 'fichiers', 'uploads.*' => 'fichier', 'uploadZone' => 'zone']);
+        ], attributes: ['uploads' => __('fichiers'), 'uploads.*' => __('fichier'), 'uploadZone' => __('zone')]);
 
         foreach ($this->uploads as $file) {
             $attachment = new Attachment([
@@ -198,17 +205,17 @@ class Show extends Component
             'relationReverse' => ['nullable', 'string', 'max:100'],
             'relationZone' => ['required', Rule::enum(Zone::class)],
         ], [
-            'relationTargetId.required' => 'Choisissez la fiche liée.',
-            'relationTargetId.not_in' => 'Une fiche ne peut pas être liée à elle-même.',
+            'relationTargetId.required' => __('Choisissez la fiche liée.'),
+            'relationTargetId.not_in' => __('Une fiche ne peut pas être liée à elle-même.'),
         ], [
-            'relationLabel' => 'relation',
-            'relationReverse' => 'relation inverse',
+            'relationLabel' => __('relation'),
+            'relationReverse' => __('relation inverse'),
         ]);
 
         $target = $this->campaign->availableEntities()->find($this->relationTargetId);
 
         if ($target === null) {
-            $this->addError('relationTargetId', 'Cette fiche n\'existe pas dans la campagne.');
+            $this->addError('relationTargetId', __("Cette fiche n'existe pas dans la campagne."));
 
             return;
         }
@@ -241,7 +248,7 @@ class Show extends Component
         $document = $this->pickedDocumentId ? $this->campaign->availableDocuments()->find($this->pickedDocumentId) : null;
 
         if ($document === null) {
-            $this->addError('pickedDocumentId', 'Choisissez un document dans la liste.');
+            $this->addError('pickedDocumentId', __('Choisissez un document dans la liste.'));
 
             return;
         }
@@ -304,7 +311,7 @@ class Show extends Component
             'documentOptions' => $this->campaign->availableDocuments()->whereKeyNot($documents->modelKeys())->orderByRaw('lower(title)')->get(['id', 'title']),
             'publicRelations' => $relations->where('zone', Zone::Public),
             'gmRelations' => $relations->where('zone', Zone::GameMaster),
-            'relationLabels' => collect(self::RELATION_LABELS)
+            'relationLabels' => collect(self::relationLabels())
                 ->merge(EntityRelation::where('user_id', auth()->id())->distinct()->pluck('label'))
                 ->unique()->sort()->values(),
             'otherCampaigns' => $this->entity->isWorldEntity()

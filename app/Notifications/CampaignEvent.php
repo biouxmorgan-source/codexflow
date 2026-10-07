@@ -3,7 +3,9 @@
 namespace App\Notifications;
 
 use App\Models\Campaign;
+use App\Models\User;
 use App\Notifications\Channels\PushChannel;
+use App\Support\Locale;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushMessage;
 
@@ -20,6 +22,17 @@ class CampaignEvent extends Notification
         'message' => 'Message',
         'intention' => 'À jouer',
     ];
+
+    /** @return array<string, string> libellés traduits des types (mêmes clés que KINDS) */
+    public static function kinds(): array
+    {
+        return [
+            'grant' => __('Reçu'),
+            'revoke' => __('Repris'),
+            'message' => __('Message'),
+            'intention' => __('À jouer'),
+        ];
+    }
 
     public function __construct(
         public Campaign $campaign,
@@ -52,7 +65,7 @@ class CampaignEvent extends Notification
             ->badge('/icons/badge-96.png')
             ->tag('codexflow-'.$this->kind.'-'.$this->campaign->id)
             ->renotify()
-            ->lang('fr')
+            ->lang(Locale::for($notifiable instanceof User ? $notifiable : null))
             ->data(['url' => route('notifications.open', $this->id, false)]);
     }
 

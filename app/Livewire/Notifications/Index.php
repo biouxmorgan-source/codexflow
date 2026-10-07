@@ -48,6 +48,6 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.notifications.index')->title('Notifications');
+        return view('livewire.notifications.index')->title(__('Notifications'));
     }
 }

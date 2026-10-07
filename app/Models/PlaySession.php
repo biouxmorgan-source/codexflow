@@ -46,6 +46,8 @@ class PlaySession extends Model
 
     public function label(): string
     {
-        return 'Session '.$this->number.($this->title ? ' · '.$this->title : '');
+        return $this->title
+            ? __('Session :number · :title', ['number' => $this->number, 'title' => $this->title])
+            : __('Session :number', ['number' => $this->number]);
     }
 }

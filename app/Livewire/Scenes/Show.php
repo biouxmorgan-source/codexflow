@@ -35,7 +35,7 @@ class Show extends Component
     {
         $this->authorize('update', $this->campaign);
 
-        $this->validate(['toPlayBody' => ['required', 'string', 'max:500']], attributes: ['toPlayBody' => 'élément à jouer']);
+        $this->validate(['toPlayBody' => ['required', 'string', 'max:500']], attributes: ['toPlayBody' => __('élément à jouer')]);
 
         $item = new ToPlayItem(['body' => trim($this->toPlayBody), 'position' => (int) $this->campaign->toPlayItems()->max('position') + 1]);
         $item->campaign()->associate($this->campaign);

@@ -21,7 +21,7 @@ class InvitationController extends Controller
         $invitation = CampaignInvitation::with(['campaign', 'inviter'])->where('token', $token)->first();
 
         if ($invitation === null) {
-            return view('invitations.show', ['invitation' => null, 'problem' => 'Ce lien d\'invitation n\'existe pas ou a été annulé par le MJ.']);
+            return view('invitations.show', ['invitation' => null, 'problem' => __('Ce lien d\'invitation n\'existe pas ou a été annulé par le MJ.')]);
         }
 
         $member = $request->user() ? $invitation->campaign->roleOf($request->user()) : null;
@@ -30,8 +30,8 @@ class InvitationController extends Controller
             return view('invitations.show', [
                 'invitation' => null,
                 'problem' => $invitation->accepted_at
-                    ? 'Ce lien d\'invitation a déjà été utilisé. Demandez-en un nouveau à votre MJ.'
-                    : 'Ce lien d\'invitation a expiré. Demandez-en un nouveau à votre MJ.',
+                    ? __('Ce lien d\'invitation a déjà été utilisé. Demandez-en un nouveau à votre MJ.')
+                    : __('Ce lien d\'invitation a expiré. Demandez-en un nouveau à votre MJ.'),
             ]);
         }
 
@@ -73,6 +73,6 @@ class InvitationController extends Controller
             return redirect()->route('campaigns.show', $campaign);
         }
 
-        return redirect()->route('campaigns.index')->with('status', 'Vous avez rejoint la campagne « '.$campaign->name.' ».');
+        return redirect()->route('campaigns.index')->with('status', __('Vous avez rejoint la campagne « :name ».', ['name' => $campaign->name]));
     }
 }

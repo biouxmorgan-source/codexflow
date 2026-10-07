@@ -72,9 +72,9 @@ class Index extends Component
     public function scopes(): array
     {
         return array_filter([
-            'campaign' => 'Cette campagne',
-            'world' => $this->campaign->world ? 'Le monde '.$this->campaign->world->name : null,
-            'game' => 'Le jeu '.$this->campaign->gameSystem->name,
+            'campaign' => __('Cette campagne'),
+            'world' => $this->campaign->world ? __('Le monde :name', ['name' => $this->campaign->world->name]) : null,
+            'game' => __('Le jeu :name', ['name' => $this->campaign->gameSystem->name]),
         ]);
     }
 
@@ -88,7 +88,7 @@ class Index extends Component
             'scope' => ['required', Rule::in(array_keys($this->scopes()))],
             'zone' => ['required', Rule::enum(Zone::class)],
             'tags' => ['nullable', 'string', 'max:1000'],
-        ], attributes: ['uploads' => 'fichiers', 'uploads.*' => 'fichier', 'scope' => 'rangement', 'zone' => 'visibilité']);
+        ], attributes: ['uploads' => __('fichiers'), 'uploads.*' => __('fichier'), 'scope' => __('rangement'), 'zone' => __('visibilité')]);
 
         match ($this->scope) {
             'game' => $this->authorize('update', $this->campaign->gameSystem),
@@ -123,6 +123,6 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.documents.index')->title('Documents · '.$this->campaign->name);
+        return view('livewire.documents.index')->title(__('Documents · :name', ['name' => $this->campaign->name]));
     }
 }

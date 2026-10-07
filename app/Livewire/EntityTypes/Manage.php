@@ -46,13 +46,13 @@ class Manage extends Component
 
     public function save(): void
     {
-        $this->validate(['name' => ['required', 'string', 'max:60']], attributes: ['name' => 'nom']);
+        $this->validate(['name' => ['required', 'string', 'max:60']], attributes: ['name' => __('nom')]);
 
         $name = trim($this->name);
         $taken = $this->types->contains(fn (EntityType $type) => $type->id !== $this->editingId && mb_strtolower($type->name) === mb_strtolower($name));
 
         if ($taken) {
-            $this->addError('name', 'Ce type existe déjà.');
+            $this->addError('name', __('Ce type existe déjà.'));
 
             return;
         }
@@ -78,7 +78,7 @@ class Manage extends Component
         $this->authorize('delete', $type);
 
         if ($type->entities()->exists()) {
-            $this->addError('delete', 'Le type « '.$type->name.' » est encore utilisé par des fiches : changez-les de type avant de le supprimer.');
+            $this->addError('delete', __('Le type « :name » est encore utilisé par des fiches : changez-les de type avant de le supprimer.', ['name' => $type->name]));
 
             return;
         }
@@ -95,6 +95,6 @@ class Manage extends Component
 
     public function render()
     {
-        return view('livewire.entity-types.manage')->title('Types de fiche');
+        return view('livewire.entity-types.manage')->title(__('Types de fiche'));
     }
 }

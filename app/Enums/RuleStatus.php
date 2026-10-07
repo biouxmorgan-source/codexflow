@@ -14,15 +14,16 @@ enum RuleStatus: string
     case ToChange = 'to_change';
     case Rejected = 'rejected';
 
-    public function label(): string
+    /** Libellé dans la langue courante, ou dans $locale (« fr » pour l'export et l'import). */
+    public function label(?string $locale = null): string
     {
         return match ($this) {
-            self::Available => 'Disponible',
-            self::ToTest => 'À tester',
-            self::Testing => 'En test',
-            self::Adopted => 'Adoptée',
-            self::ToChange => 'À modifier',
-            self::Rejected => 'Rejetée',
+            self::Available => __('Disponible', [], $locale),
+            self::ToTest => __('À tester', [], $locale),
+            self::Testing => __('En test', [], $locale),
+            self::Adopted => __('Adoptée', [], $locale),
+            self::ToChange => __('À modifier', [], $locale),
+            self::Rejected => __('Rejetée', [], $locale),
         };
     }
 

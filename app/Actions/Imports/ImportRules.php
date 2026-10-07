@@ -112,7 +112,7 @@ class ImportRules
     {
         if (! isset($this->columns['title'])) {
             return [
-                'plan' => ['errors' => ['Le fichier doit avoir une colonne « Titre ».'], 'rows' => [], 'valid' => 0],
+                'plan' => ['errors' => [__('Le fichier doit avoir une colonne « Titre ».')], 'rows' => [], 'valid' => 0],
                 'valid' => [],
             ];
         }
@@ -135,7 +135,7 @@ class ImportRules
 
             foreach (self::LIMITS as $target => $limit) {
                 if (mb_strlen($cell($target)) > $limit) {
-                    $errors[] = $target === 'title' ? 'titre trop long ('.$limit.' caractères maximum)' : $this->label($target).' : dépasse '.$limit.' caractères';
+                    $errors[] = $target === 'title' ? __('titre trop long (:max caractères maximum)', ['max' => $limit]) : __(':field : dépasse :max caractères', ['field' => $this->label($target), 'max' => $limit]);
                 }
             }
 
@@ -145,23 +145,23 @@ class ImportRules
             $zone = Normalize::zone($cell('zone'));
 
             if ($title === '') {
-                $errors[] = 'titre manquant';
+                $errors[] = __('titre manquant');
             } elseif (isset($seen[mb_strtolower($title)])) {
-                $errors[] = 'déjà présente ligne '.$seen[mb_strtolower($title)];
+                $errors[] = __('déjà présente ligne :line', ['line' => $seen[mb_strtolower($title)]]);
             } else {
                 $seen[mb_strtolower($title)] = $row['line'];
             }
 
             if ($origin === null) {
-                $errors[] = 'origine « '.$cell('origin').' » inconnue (référence, maison ou test)';
+                $errors[] = __('origine « :name » inconnue (référence, maison ou test)', ['name' => $cell('origin')]);
             }
 
             if ($status === null) {
-                $errors[] = 'statut « '.$cell('status').' » inconnu';
+                $errors[] = __('statut « :name » inconnu', ['name' => $cell('status')]);
             }
 
             if ($zone === null) {
-                $errors[] = 'zone « '.$cell('zone').' » inconnue (publique ou MJ)';
+                $errors[] = __('zone « :name » inconnue (publique ou MJ)', ['name' => $cell('zone')]);
             }
 
             $match = $this->updateExisting && $title !== '' ? $existing->get(mb_strtolower($title)) : null;
@@ -201,10 +201,12 @@ class ImportRules
     private function label(string $target): string
     {
         return match ($target) {
-            'category' => 'catégorie',
-            'summary' => 'résumé',
-            'procedure' => 'procédure',
-            'gm_notes' => 'notes MJ',
+            'category' => __('catégorie'),
+            'summary' => __('résumé'),
+            'procedure' => __('procédure'),
+            'gm_notes' => __('notes MJ'),
+            'source' => __('source'),
+            'tags' => __('tags'),
             default => $target,
         };
     }
@@ -228,7 +230,8 @@ class ImportRules
         }
 
         foreach (RuleStatus::cases() as $status) {
-            if (in_array($key, [Normalize::key($status->value), Normalize::key($status->label())], true)) {
+            // Libellé français (format d'échange) ou dans la langue de l'utilisateur.
+            if (in_array($key, [Normalize::key($status->value), Normalize::key($status->label('fr')), Normalize::key($status->label())], true)) {
                 return $status;
             }
         }

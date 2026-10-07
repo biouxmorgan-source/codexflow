@@ -1,8 +1,8 @@
 @props(['id' => 'tags', 'model' => 'tags', 'existing' => []])
 {{-- Saisie de tags « a, b, c » avec les tags déjà utilisés en raccourcis. --}}
 <div x-data>
-    <label for="{{ $id }}" class="label">Tags <span class="font-normal text-stone-500">(séparés par des virgules)</span></label>
-    <input id="{{ $id }}" type="text" wire:model="{{ $model }}" class="field" placeholder="combat, voyage, acte 1…">
+    <label for="{{ $id }}" class="label">{{ __('Tags') }} <span class="font-normal text-stone-500">{{ __('(séparés par des virgules)') }}</span></label>
+    <input id="{{ $id }}" type="text" wire:model="{{ $model }}" class="field" placeholder="{{ __('combat, voyage, acte 1…') }}">
     @error($model) <p class="error">{{ $message }}</p> @enderror
     @if ($existing)
         <p class="mt-2 flex flex-wrap gap-1 text-xs">

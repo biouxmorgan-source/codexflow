@@ -41,7 +41,7 @@ class Index extends Component
             ->orderByRaw('lower(coalesce(category, \'\'))')
             ->orderByRaw('lower(title)')
             ->get()
-            ->groupBy(fn (Rule $rule) => $rule->category ?: 'Sans catégorie');
+            ->groupBy(fn (Rule $rule) => $rule->category ?: __('Sans catégorie'));
     }
 
     /** @return list<string> */
@@ -57,6 +57,6 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.rules.index')->title('Règles · '.$this->campaign->name);
+        return view('livewire.rules.index')->title(__('Règles · :name', ['name' => $this->campaign->name]));
     }
 }

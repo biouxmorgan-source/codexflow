@@ -127,7 +127,7 @@ class FieldDefinition extends Model
 
     public function groupLabel(): string
     {
-        return $this->group ?: 'Champs';
+        return $this->group ?: __('Champs');
     }
 
     public function activityType(): string

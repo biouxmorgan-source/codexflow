@@ -10,8 +10,8 @@ enum Zone: string
     public function label(): string
     {
         return match ($this) {
-            self::Public => 'Zone publique',
-            self::GameMaster => 'Zone MJ',
+            self::Public => __('Zone publique'),
+            self::GameMaster => __('Zone MJ'),
         };
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -20,6 +21,20 @@ class EntityType extends Model
     public function fieldDefinitions(): HasMany
     {
         return $this->hasMany(FieldDefinition::class);
+    }
+
+    /** Les types standards portent un nom français en base, affiché dans la langue de l'interface. */
+    protected function name(): Attribute
+    {
+        return Attribute::get(fn (?string $value) => $this->user_id !== null ? $value : match ($this->key) {
+            'character' => __('Personnage'),
+            'place' => __('Lieu'),
+            'organization' => __('Organisation'),
+            'item' => __('Objet'),
+            'creature' => __('Créature'),
+            'document' => __('Document'),
+            default => $value,
+        });
     }
 
     public function isStandard(): bool

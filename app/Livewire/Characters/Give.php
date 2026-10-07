@@ -89,8 +89,8 @@ class Give extends Component
             'body' => ['nullable', 'string', 'max:20000'],
             'quantity' => ['nullable', 'integer', 'min:1', 'max:100000'],
         ], [
-            'selected.required' => 'Choisissez au moins un personnage.',
-        ], ['title' => $this->kind === 'possession' ? 'objet' : 'titre', 'body' => 'texte', 'quantity' => 'quantité']);
+            'selected.required' => __('Choisissez au moins un personnage.'),
+        ], ['title' => $this->kind === 'possession' ? __('objet') : __('titre'), 'body' => __('texte'), 'quantity' => __('quantité')]);
 
         $count = $give->handle($this->campaign, array_map('intval', $this->selected), [
             'kind' => $this->kind,
@@ -103,9 +103,9 @@ class Give extends Component
         ]);
 
         $this->flash = match (true) {
-            $count === 0 => 'Ces personnages l\'avaient déjà.',
-            in_array($this->kind, ['entity', 'information', 'rule'], true) => 'Révélé à '.$count.' personnage'.($count > 1 ? 's' : '').'.',
-            default => 'Donné à '.$count.' personnage'.($count > 1 ? 's' : '').'.',
+            $count === 0 => __('Ces personnages l\'avaient déjà.'),
+            in_array($this->kind, ['entity', 'information', 'rule'], true) => trans_choice('Révélé à :count personnage.|Révélé à :count personnages.', $count),
+            default => trans_choice('Donné à :count personnage.|Donné à :count personnages.', $count),
         };
 
         $this->reset(['title', 'body', 'quantity']);

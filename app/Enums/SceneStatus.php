@@ -10,14 +10,15 @@ enum SceneStatus: string
     case Played = 'played';
     case Skipped = 'skipped';
 
-    public function label(): string
+    /** Libellé dans la langue courante, ou dans $locale (« fr » pour l'export et l'import). */
+    public function label(?string $locale = null): string
     {
         return match ($this) {
-            self::Planned => 'Prévue',
-            self::Available => 'Disponible',
-            self::InProgress => 'En cours',
-            self::Played => 'Jouée',
-            self::Skipped => 'Ignorée',
+            self::Planned => __('Prévue', [], $locale),
+            self::Available => __('Disponible', [], $locale),
+            self::InProgress => __('En cours', [], $locale),
+            self::Played => __('Jouée', [], $locale),
+            self::Skipped => __('Ignorée', [], $locale),
         };
     }
 

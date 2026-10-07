@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -48,6 +49,10 @@ class Form extends Component
 
     /** Étiquettes séparées par des virgules. */
     public string $tags = '';
+
+    /** Page d'où l'on vient (ex. Personnages), où revenir après l'enregistrement ou l'annulation. */
+    #[Url(as: 'retour', except: '')]
+    public string $back = '';
 
     /** Champs libres du jeu : [id de définition => saisie]. */
     public array $fields = [];
@@ -115,11 +120,11 @@ class Form extends Component
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240'],
             'tags' => ['nullable', 'string', 'max:1000'],
         ], attributes: [
-            'entityTypeId' => 'type',
-            'summary' => 'résumé',
-            'gmNotes' => 'notes MJ',
-            'scope' => 'portée',
-            'image' => 'image',
+            'entityTypeId' => __('type'),
+            'summary' => __('résumé'),
+            'gmNotes' => __('notes MJ'),
+            'scope' => __('portée'),
+            'image' => __('image'),
         ]);
 
         $values = [];
@@ -129,7 +134,7 @@ class Form extends Component
             [$value, $error] = $definition->parse($this->fields[$definition->id] ?? null);
 
             if ($error !== null) {
-                $errors['fields.'.$definition->id] = $definition->name.' : '.$error.'.';
+                $errors['fields.'.$definition->id] = __(':name : :error.', ['name' => $definition->name, 'error' => $error]);
             }
 
             $values[$definition->id] = $value;
@@ -170,12 +175,19 @@ class Form extends Component
         $entity->save();
         $entity->tags()->sync(Tag::idsFromInput(auth()->user(), $this->tags));
 
-        $this->redirectRoute('entities.show', [$this->campaign, $entity], navigate: true);
+        $back = $this->backUrl();
+        $back ? $this->redirect($back, navigate: true) : $this->redirectRoute('entities.show', [$this->campaign, $entity], navigate: true);
+    }
+
+    /** Adresse de retour, seulement un chemin de ce site (jamais un autre domaine). */
+    public function backUrl(): ?string
+    {
+        return preg_match('#^/(?![/\\\\])[^\s]*$#', $this->back) ? $this->back : null;
     }
 
     public function render()
     {
         return view('livewire.entities.form')
-            ->title($this->entity ? 'Modifier '.$this->entity->name : 'Nouvelle entité');
+            ->title($this->entity ? __('Modifier :name', ['name' => $this->entity->name]) : __('Nouvelle entité'));
     }
 }

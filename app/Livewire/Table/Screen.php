@@ -37,6 +37,6 @@ class Screen extends Component
         return view('livewire.table.screen', [
             'display' => $watching ? TableDisplay::current($this->campaign) : null,
             'stopped' => ! $watching,
-        ])->title('Écran de table · '.$this->campaign->name);
+        ])->title(__('Écran de table · :name', ['name' => $this->campaign->name]));
     }
 }

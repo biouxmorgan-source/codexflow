@@ -8,6 +8,7 @@ use App\Enums\RuleOrigin;
 use App\Enums\RuleStatus;
 use App\Enums\SceneStatus;
 use App\Enums\Zone;
+use App\Support\Locale;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,6 +49,36 @@ class ActivityLog extends Model
     ];
 
     private static ?string $batch = null;
+
+    /** @return array<string, string> libellés traduits des types d'éléments suivis */
+    public static function subjects(): array
+    {
+        return [
+            'entity' => __('Fiche'),
+            'entity_state' => __('Fiche (campagne)'),
+            'scenario' => __('Scénario'),
+            'scene' => __('Scène'),
+            'rule' => __('Règle'),
+            'document' => __('Document'),
+            'field' => __('Champ'),
+            'member' => __('Membre'),
+            'grant' => __('Élément donné'),
+        ];
+    }
+
+    /** @return array<string, string> libellés traduits des attributs (mêmes clés que LABELS) */
+    private static function labels(): array
+    {
+        return [
+            'name' => __('Nom'), 'title' => __('Titre'), 'summary' => __('Résumé'), 'description' => __('Description'),
+            'gm_notes' => __('Notes MJ'), 'entity_type_id' => __('Type'), 'chapter' => __('Chapitre'), 'status' => __('Statut'),
+            'category' => __('Catégorie'), 'procedure' => __('Procédure'), 'source' => __('Source'), 'origin' => __('Origine'),
+            'zone' => __('Zone'), 'group' => __('Groupe'), 'type' => __('Type'), 'options' => __('Choix'), 'original_name' => __('Fichier'),
+            'image_path' => __('Image'), 'scenario_id' => __('Scénario'), 'world_id' => __('Monde'), 'campaign_id' => __('Campagne'),
+            'role' => __('Rôle'), 'character' => __('Personnage'), 'kind' => __('Nature'), 'body' => __('Texte'), 'quantity' => __('Quantité'), 'player_editable' => __('Modifiable par le joueur'),
+            'added_by_player' => __('Ajouté par le joueur'), 'validated' => __('Validé par le MJ'),
+        ];
+    }
 
     protected function casts(): array
     {
@@ -114,10 +145,10 @@ class ActivityLog extends Model
         if ($this->subject_type === 'grant') {
             $kind = $this->diff['kind']['new'] ?? $this->diff['kind']['old'] ?? null;
 
-            return CharacterGrant::KINDS[$kind] ?? self::SUBJECTS['grant'];
+            return CharacterGrant::kinds()[$kind] ?? self::subjects()['grant'];
         }
 
-        return self::SUBJECTS[$this->subject_type] ?? $this->subject_type;
+        return self::subjects()[$this->subject_type] ?? $this->subject_type;
     }
 
     /** Échange entre deux personnages (et non don du MJ) : « Lampe de Harvey à Jack ». */
@@ -137,39 +168,61 @@ class ActivityLog extends Model
     {
         $kind = $this->diff['kind']['new'] ?? null;
 
-        return $this->subjectName().(in_array($kind, ['entity', 'information', 'rule'], true) ? ' transmise' : ' transmis');
+        return in_array($kind, ['entity', 'information', 'rule'], true)
+            ? __(':subject transmise', ['subject' => $this->subjectName()])
+            : __(':subject transmis', ['subject' => $this->subjectName()]);
     }
 
-    public function verb(): string
+    public function verb(?string $locale = null): string
     {
         if ($this->subject_type === 'grant') {
             $kind = $this->diff['kind']['new'] ?? $this->diff['kind']['old'] ?? null;
 
             return match (true) {
-                $this->isExchange() => $kind === 'possession' ? 'a donné' : 'a transmis',
+                $this->isExchange() => $kind === 'possession' ? __('a donné', [], $locale) : __('a transmis', [], $locale),
                 $this->isPlayerAddition() => match ($this->event) {
-                    'deleted' => 'a effacé',
-                    'updated' => 'a validé',
-                    default => $kind === 'possession' ? 'a ajouté' : 'a noté',
+                    'deleted' => __('a effacé', [], $locale),
+                    'updated' => __('a validé', [], $locale),
+                    default => $kind === 'possession' ? __('a ajouté', [], $locale) : __('a noté', [], $locale),
                 },
-                $this->event === 'deleted' => in_array($kind, ['entity', 'rule'], true) ? 'a caché' : 'a repris',
-                in_array($kind, ['entity', 'information', 'rule'], true) => 'a révélé',
-                default => 'a donné',
+                $this->event === 'deleted' => in_array($kind, ['entity', 'rule'], true) ? __('a caché', [], $locale) : __('a repris', [], $locale),
+                in_array($kind, ['entity', 'information', 'rule'], true) => __('a révélé', [], $locale),
+                default => __('a donné', [], $locale),
             };
         }
 
         if ($this->subject_type === 'member') {
             return match ($this->event) {
-                'created' => 'a ajouté',
-                'deleted' => 'a retiré',
-                default => 'a modifié',
+                'created' => __('a ajouté', [], $locale),
+                'deleted' => __('a retiré', [], $locale),
+                default => __('a modifié', [], $locale),
             };
         }
 
         return match ($this->event) {
-            'created' => 'a créé',
-            'deleted' => 'a supprimé',
-            default => 'a modifié',
+            'created' => __('a créé', [], $locale),
+            'deleted' => __('a supprimé', [], $locale),
+            default => __('a modifié', [], $locale),
+        };
+    }
+
+    /** Verbe seul, pour l'affichage compact du journal : « Créé », « Révélé »… */
+    public function compactVerb(): string
+    {
+        return match ($this->verb(Locale::DEFAULT)) {
+            'a donné' => __('Donné'),
+            'a transmis' => __('Transmis'),
+            'a effacé' => __('Effacé'),
+            'a validé' => __('Validé'),
+            'a ajouté' => __('Ajouté'),
+            'a noté' => __('Noté'),
+            'a caché' => __('Caché'),
+            'a repris' => __('Repris'),
+            'a révélé' => __('Révélé'),
+            'a retiré' => __('Retiré'),
+            'a créé' => __('Créé'),
+            'a supprimé' => __('Supprimé'),
+            default => __('Modifié'),
         };
     }
 
@@ -200,7 +253,7 @@ class ActivityLog extends Model
     {
         $plain = fn (mixed $value): string => match (true) {
             $value === null, $value === '' => '',
-            is_bool($value) => $value ? 'Oui' : 'Non',
+            is_bool($value) => $value ? __('Oui') : __('Non'),
             is_array($value) => implode(', ', array_map(fn ($v) => is_scalar($v) ? (string) $v : json_encode($v), $value)),
             default => (string) $value,
         };
@@ -209,7 +262,7 @@ class ActivityLog extends Model
             $definition = $definitions[(int) $match[2]] ?? null;
 
             return [
-                $definition?->name ?? 'Champ supprimé',
+                $definition?->name ?? __('Champ supprimé'),
                 fn (mixed $value) => $value === null || $value === '' || ! $definition ? $plain($value) : $definition->type->format($value),
             ];
         }
@@ -228,33 +281,33 @@ class ActivityLog extends Model
         };
 
         if ($enum) {
-            return [self::LABELS[$key], fn (mixed $value) => is_string($value) && $enum::tryFrom($value) ? $enum::from($value)->label() : $plain($value)];
+            return [self::labels()[$key], fn (mixed $value) => is_string($value) && $enum::tryFrom($value) ? $enum::from($value)->label() : $plain($value)];
         }
 
         if ($key === 'entity_type_id') {
-            return [$this->subject_type === 'field' ? 'Type de fiche' : 'Type', fn (mixed $value) => $value ? (string) EntityType::find($value)?->name : ''];
+            return [$this->subject_type === 'field' ? __('Type de fiche') : __('Type'), fn (mixed $value) => $value ? (string) EntityType::find($value)?->name : ''];
         }
 
         if ($key === 'scenario_id') {
-            return ['Scénario', fn (mixed $value) => $value ? (string) Scenario::find($value)?->name : ''];
+            return [__('Scénario'), fn (mixed $value) => $value ? (string) Scenario::find($value)?->name : ''];
         }
 
         if ($key === 'character') {
-            return ['Personnage', fn (mixed $value) => $value ? (string) PlayerCharacter::with('entity')->find($value)?->entity?->name : ''];
+            return [__('Personnage'), fn (mixed $value) => $value ? (string) PlayerCharacter::with('entity')->find($value)?->entity?->name : ''];
         }
 
         if ($key === 'kind' && $this->subject_type === 'grant') {
-            return ['Nature', fn (mixed $value) => CharacterGrant::KINDS[$value] ?? $plain($value)];
+            return [__('Nature'), fn (mixed $value) => CharacterGrant::kinds()[$value] ?? $plain($value)];
         }
 
         if ($key === 'options') {
-            return ['Choix', fn (mixed $value) => $plain(is_string($value) ? json_decode($value, true) : $value)];
+            return [__('Choix'), fn (mixed $value) => $plain(is_string($value) ? json_decode($value, true) : $value)];
         }
 
         if ($key === 'image_path') {
-            return ['Image', fn (mixed $value) => $value ? 'oui' : 'aucune'];
+            return [__('Image'), fn (mixed $value) => $value ? __('oui') : __('aucune')];
         }
 
-        return [self::LABELS[$key] ?? $key, $plain];
+        return [self::labels()[$key] ?? $key, $plain];
     }
 }

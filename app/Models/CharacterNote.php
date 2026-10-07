@@ -22,6 +22,17 @@ class CharacterNote extends Model
 
     protected $fillable = ['body', 'visibility'];
 
+    /** @return array<string, string> libellés traduits des visibilités (mêmes clés que VISIBILITIES) */
+    public static function visibilities(): array
+    {
+        return [
+            'private' => __('Moi seul'),
+            'gm' => __('Moi et le MJ'),
+            'players' => __('Certains joueurs (et le MJ)'),
+            'group' => __('Toute la table'),
+        ];
+    }
+
     /** @return BelongsTo<PlayerCharacter, $this> */
     public function character(): BelongsTo
     {
@@ -71,6 +82,6 @@ class CharacterNote extends Model
 
     public function visibilityLabel(): string
     {
-        return self::VISIBILITIES[$this->visibility] ?? $this->visibility;
+        return self::visibilities()[$this->visibility] ?? $this->visibility;
     }
 }

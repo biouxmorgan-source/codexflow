@@ -14,7 +14,7 @@
         aria-autocomplete="list"
         :aria-expanded="open"
         aria-controls="{{ $id }}-suggestions"
-        placeholder="Tapez un nom…"
+        placeholder="{{ __('Tapez un nom…') }}"
         class="field"
     >
     <ul id="{{ $id }}-suggestions" x-show="open" x-cloak role="listbox"

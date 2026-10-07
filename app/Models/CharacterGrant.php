@@ -26,6 +26,18 @@ class CharacterGrant extends Model
 
     protected $guarded = ['id'];
 
+    /** @return array<string, string> libellés traduits des natures (mêmes clés que KINDS) */
+    public static function kinds(): array
+    {
+        return [
+            'entity' => __('Fiche'),
+            'information' => __('Information'),
+            'possession' => __('Objet'),
+            'document' => __('Document'),
+            'rule' => __('Règle'),
+        ];
+    }
+
     protected function casts(): array
     {
         return ['quantity' => 'integer', 'added_by_player' => 'boolean', 'validated_at' => 'datetime'];

@@ -29,15 +29,15 @@
     </summary>
     <div class="space-y-3 border-t border-stone-100 px-3 pt-2 pb-3 text-sm">
         @if ($entity->gm_notes)
-            <div class="rounded-md bg-flow/5 p-2 text-stone-700"><span class="font-semibold text-flow">MJ :</span> {{ \App\Support\EntityLinks::render($entity->gm_notes, $campaign) }}</div>
+            <div class="rounded-md bg-flow/5 p-2 text-stone-700"><span class="font-semibold text-flow">{{ __('MJ :') }}</span> {{ \App\Support\EntityLinks::render($entity->gm_notes, $campaign) }}</div>
         @endif
         @if ($state?->gm_notes)
-            <div class="rounded-md bg-stone-50 p-2 text-stone-700"><span class="font-semibold">Dans cette campagne :</span> {{ $state->gm_notes }}</div>
+            <div class="rounded-md bg-stone-50 p-2 text-stone-700"><span class="font-semibold">{{ __('Dans cette campagne :') }}</span> {{ $state->gm_notes }}</div>
         @endif
         @if ($entity->description)
             <div class="text-stone-700">{{ \App\Support\EntityLinks::render($entity->description, $campaign) }}</div>
         @endif
         <x-field-values :definitions="$fields" :entity="$entity" :campaign="$campaign" />
-        <a href="{{ route('entities.show', [$campaign, $entity]) }}" target="_blank" rel="noopener" class="inline-block link">Ouvrir la fiche ↗</a>
+        <a href="{{ route('entities.show', [$campaign, $entity]) }}" target="_blank" rel="noopener" class="inline-block link">{{ __('Ouvrir la fiche ↗') }}</a>
     </div>
 </details>

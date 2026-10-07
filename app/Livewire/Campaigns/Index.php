@@ -7,10 +7,8 @@ use App\Models\Campaign;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 
-#[Title('Mes campagnes')]
 class Index extends Component
 {
     public bool $creating = false;
@@ -78,10 +76,10 @@ class Index extends Component
             'worldChoice' => ['nullable', Rule::in(['', 'new', ...$this->worlds->modelKeys()])],
             'newWorldName' => ['required_if:worldChoice,new', 'nullable', 'string', 'max:255'],
         ], attributes: [
-            'gameChoice' => 'jeu',
-            'worldChoice' => 'monde',
-            'newGameName' => 'nom du nouveau jeu',
-            'newWorldName' => 'nom du nouveau monde',
+            'gameChoice' => __('jeu'),
+            'worldChoice' => __('monde'),
+            'newGameName' => __('nom du nouveau jeu'),
+            'newWorldName' => __('nom du nouveau monde'),
         ]);
 
         $createCampaign->handle($user, [
@@ -100,6 +98,6 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.campaigns.index');
+        return view('livewire.campaigns.index')->title(__('Mes campagnes'));
     }
 }

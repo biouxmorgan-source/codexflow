@@ -10,8 +10,8 @@ enum CampaignStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Active => 'En cours',
-            self::Archived => 'Archivée',
+            self::Active => __('En cours'),
+            self::Archived => __('Archivée'),
         };
     }
 }

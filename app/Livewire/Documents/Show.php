@@ -46,7 +46,7 @@ class Show extends Component
             'description' => ['nullable', 'string', 'max:5000'],
             'zone' => ['required', Rule::enum(Zone::class)],
             'tags' => ['nullable', 'string', 'max:1000'],
-        ], attributes: ['title' => 'titre', 'zone' => 'visibilité']);
+        ], attributes: ['title' => __('titre'), 'zone' => __('visibilité')]);
 
         $this->document->fill([
             'title' => trim($this->title),

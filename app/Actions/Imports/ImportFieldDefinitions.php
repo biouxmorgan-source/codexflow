@@ -93,7 +93,7 @@ class ImportFieldDefinitions
     {
         if (! isset($this->columns['name'])) {
             return [
-                'plan' => ['errors' => ['Le fichier doit avoir une colonne « Nom ».'], 'rows' => [], 'valid' => 0],
+                'plan' => ['errors' => [__('Le fichier doit avoir une colonne « Nom ».')], 'rows' => [], 'valid' => 0],
                 'valid' => [],
             ];
         }
@@ -120,41 +120,41 @@ class ImportFieldDefinitions
                 : [null, null];
 
             if ($name === '') {
-                $errors[] = 'nom manquant';
+                $errors[] = __('nom manquant');
             } elseif (mb_strlen($name) > 100) {
-                $errors[] = 'nom trop long (100 caractères maximum)';
+                $errors[] = __('nom trop long (100 caractères maximum)');
             }
 
             if (mb_strlen($cell('group')) > 100) {
-                $errors[] = 'groupe trop long (100 caractères maximum)';
+                $errors[] = __('groupe trop long (100 caractères maximum)');
             }
 
             if ($type === null) {
-                $errors[] = 'type « '.$cell('type').' » inconnu (texte, texte long, nombre, oui/non, date, liste ou compteur)';
+                $errors[] = __('type « :name » inconnu (texte, texte long, nombre, oui/non, date, liste ou compteur)', ['name' => $cell('type')]);
             } elseif ($type === FieldType::Select && $options === []) {
-                $errors[] = 'une liste a besoin de choix, séparés par |';
+                $errors[] = __('une liste a besoin de choix, séparés par |');
             }
 
             if ($zone === null) {
-                $errors[] = 'zone « '.$cell('zone').' » inconnue (publique ou MJ)';
+                $errors[] = __('zone « :name » inconnue (publique ou MJ)', ['name' => $cell('zone')]);
             }
 
             if ($editableError !== null) {
-                $errors[] = 'modifiable par le joueur : '.$editableError;
+                $errors[] = __('modifiable par le joueur : :error', ['error' => $editableError]);
             }
 
             if ($cell('entity_type') !== '') {
                 $entityType = $types->first(fn (EntityType $candidate) => in_array(Normalize::key($cell('entity_type')), [Normalize::key($candidate->name), Normalize::key((string) $candidate->key)], true));
 
                 if ($entityType === null) {
-                    $errors[] = 'type de fiche « '.$cell('entity_type').' » inconnu';
+                    $errors[] = __('type de fiche « :name » inconnu', ['name' => $cell('entity_type')]);
                 }
             }
 
             $key = $entityType?->id.'|'.mb_strtolower($name);
 
             if ($name !== '' && isset($seen[$key])) {
-                $errors[] = 'déjà présent ligne '.$seen[$key];
+                $errors[] = __('déjà présent ligne :line', ['line' => $seen[$key]]);
             }
 
             $seen[$key] ??= $row['line'];
@@ -165,7 +165,7 @@ class ImportFieldDefinitions
                 'group' => $cell('group'),
                 'type' => $type?->label() ?? $cell('type'),
                 'zone' => $zone?->label() ?? $cell('zone'),
-                'entity_type' => $entityType?->name ?? 'Tous les types',
+                'entity_type' => $entityType?->name ?? __('Tous les types'),
                 'action' => $existing->has($key) ? 'update' : 'create',
                 'errors' => $errors,
             ];

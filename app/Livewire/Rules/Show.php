@@ -54,7 +54,7 @@ class Show extends Component
         $document = $this->pickedDocumentId ? $this->campaign->availableDocuments()->find($this->pickedDocumentId) : null;
 
         if ($document === null) {
-            $this->addError('pickedDocumentId', 'Choisissez un document dans la liste.');
+            $this->addError('pickedDocumentId', __('Choisissez un document dans la liste.'));
 
             return;
         }

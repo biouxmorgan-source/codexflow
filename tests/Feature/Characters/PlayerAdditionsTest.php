@@ -116,4 +116,27 @@ class PlayerAdditionsTest extends TestCase
         $this->sheet($this->alex)->call('startExchange', $gold->id)->set('exchangeTo', (string) $jack->id)->call('exchange')->assertHasErrors('exchange');
         $this->assertSame($this->harvey->id, $gold->fresh()->player_character_id);
     }
+
+    public function test_the_player_is_told_in_their_own_language(): void
+    {
+        $this->alex->forceFill(['preferences' => ['locale' => 'en']])->save();
+        $this->gm->forceFill(['preferences' => ['browser_locale' => 'de']])->save();
+
+        $this->sheet($this->alex)
+            ->call('openAdd', 'possession')
+            ->set('addTitle', 'Revolver .38')
+            ->set('addQuantity', 1)
+            ->call('addOwn');
+
+        // Chacun reçoit le texte dans sa langue, quelle que soit celle de l'auteur.
+        $this->assertSame(
+            __(':name a ajouté un objet à valider : :label.', ['name' => 'Harvey', 'label' => __('« :text »', ['text' => 'Revolver .38'], 'de')], 'de'),
+            $this->gm->notifications()->sole()->data['text'],
+        );
+
+        $this->sheet($this->gm)->call('validateGrant', $this->harvey->grants()->sole()->id);
+        $text = $this->alex->notifications()->latest('id')->first()->data['text'];
+        $this->assertSame(__('Le MJ a validé « :label ».', ['label' => 'Revolver .38'], 'en'), $text);
+        $this->assertStringNotContainsString('a validé', $text);
+    }
 }
