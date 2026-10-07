@@ -1356,5 +1356,16 @@
     "Une archive .zip avec le jeu (champs, règles), le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Pour la sauvegarder ou la confier à un autre MJ, qui l’importe depuis « Mes campagnes ». Les joueurs, leurs personnages, les séances et le journal n’y sont pas.": "Ein .zip-Archiv mit dem Spiel (Felder, Regeln), der Welt, den Einträgen, Szenarien, Dokumenten, Karten, Geheimnissen und der Zeitleiste, Dateien inbegriffen. Zum Sichern oder zum Übergeben an eine andere SL, die es über „Meine Kampagnen“ importiert. Die Spieler, ihre Charaktere, die Sitzungen und das Journal sind nicht dabei.",
     "archive": "Archiv",
     "modèle": "Vorlage",
-    "Taille maximale acceptée par ce serveur : :size Mo.": "Vom Server zugelassene Höchstgröße: :size MB."
+    "Taille maximale acceptée par ce serveur : :size Mo.": "Vom Server zugelassene Höchstgröße: :size MB.",
+    "Ambiance de l’écran": "Bildschirm-Stimmung",
+    "Ardoise": "Schiefer",
+    "Cartes, indices et aides en PDF ou en image, à lier aux scènes.": "Karten, Hinweise und Handouts als PDF oder Bild, mit Szenen verknüpfbar.",
+    "Grimoire": "Grimoire",
+    "Importer un fichier": "Datei importieren",
+    "La campagne découpée en scénarios et en scènes, avec leur statut.": "Die Kampagne in Szenarien und Szenen, mit ihrem Status.",
+    "Les personnages des joueurs : à qui ils sont confiés, leur feuille, leurs compteurs.": "Die Charaktere der Spieler: wem sie anvertraut sind, ihr Bogen, ihre Zähler.",
+    "Nuit": "Nacht",
+    "Outils de la campagne": "Werkzeuge der Kampagne",
+    "Parchemin": "Pergament",
+    "Règles du jeu, règles maison et glossaire, à retrouver en pleine partie.": "Spielregeln, Hausregeln und Glossar, mitten im Spiel auffindbar."
 }

@@ -18,6 +18,7 @@ use App\Models\Tag;
 use App\Models\TimelineEvent;
 use App\Models\User;
 use App\Support\EntityLinks;
+use App\Support\TableTheme;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -156,6 +157,9 @@ final class CampaignImport
         $campaign->owner()->associate($this->user);
         $campaign->gameSystem()->associate($gameSystem);
         $campaign->world()->associate($world);
+        $campaign->table_theme = array_key_exists($campaignData['table_theme'] ?? null, TableTheme::THEMES)
+            ? $campaignData['table_theme']
+            : TableTheme::DEFAULT;
         $campaign->save();
         $campaign->members()->attach($this->user, ['role' => CampaignRole::GameMaster->value]);
 

@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.10.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Una pagina di campagna più chiara',
+        'items' => [
+            'La pagina della campagna riordinata: la modalità Sessione in evidenza, quattro aree di preparazione e gli altri strumenti come piccoli pulsanti con icona.',
+            'Atmosfera dello schermo del tavolo, da scegliere dal telecomando: Notte, Pergamena, Ardesia o Grimorio.',
+        ],
+    ],
+
     '0.9.0' => [
         'date' => '2026-10-11',
         'title' => 'Portarsi via la campagna',

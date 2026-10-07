@@ -89,6 +89,13 @@ class Remote extends Component
         TableDisplay::share($this->campaign, ! $this->campaign->table_shared);
     }
 
+    public function setTheme(string $theme): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableDisplay::theme($this->campaign, $theme);
+    }
+
     public function announce(): void
     {
         $this->authorize('update', $this->campaign);

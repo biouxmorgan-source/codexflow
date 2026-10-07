@@ -1356,5 +1356,16 @@
     "Une archive .zip avec le jeu (champs, règles), le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Pour la sauvegarder ou la confier à un autre MJ, qui l’importe depuis « Mes campagnes ». Les joueurs, leurs personnages, les séances et le journal n’y sont pas.": "Un archivo .zip con el juego (campos, reglas), el mundo, las fichas, escenarios, documentos, mapas, secretos y la cronología, archivos incluidos. Para guardarla o confiarla a otro DJ, que la importa desde «Mis campañas». Los jugadores, sus personajes, las sesiones y el diario no están.",
     "archive": "archivo",
     "modèle": "plantilla",
-    "Taille maximale acceptée par ce serveur : :size Mo.": "Tamaño máximo aceptado por este servidor: :size MB."
+    "Taille maximale acceptée par ce serveur : :size Mo.": "Tamaño máximo aceptado por este servidor: :size MB.",
+    "Ambiance de l’écran": "Ambiente de la pantalla",
+    "Ardoise": "Pizarra",
+    "Cartes, indices et aides en PDF ou en image, à lier aux scènes.": "Mapas, pistas y ayudas en PDF o imagen, para enlazar a las escenas.",
+    "Grimoire": "Grimorio",
+    "Importer un fichier": "Importar un archivo",
+    "La campagne découpée en scénarios et en scènes, avec leur statut.": "La campaña dividida en escenarios y escenas, con su estado.",
+    "Les personnages des joueurs : à qui ils sont confiés, leur feuille, leurs compteurs.": "Los personajes de los jugadores: a quién se confían, su hoja, sus contadores.",
+    "Nuit": "Noche",
+    "Outils de la campagne": "Herramientas de la campaña",
+    "Parchemin": "Pergamino",
+    "Règles du jeu, règles maison et glossaire, à retrouver en pleine partie.": "Reglas del juego, reglas caseras y glosario, para encontrar en plena partida."
 }

@@ -1356,5 +1356,16 @@
     "Une archive .zip avec le jeu (champs, règles), le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Pour la sauvegarder ou la confier à un autre MJ, qui l’importe depuis « Mes campagnes ». Les joueurs, leurs personnages, les séances et le journal n’y sont pas.": "Een .zip-archief met het spel (velden, regels), de wereld, de kaarten, scenario’s, documenten, plattegronden, geheimen en de tijdlijn, bestanden inbegrepen. Om te bewaren of door te geven aan een andere SL, die het via ‘Mijn campagnes’ importeert. De spelers, hun personages, de sessies en het journaal zitten er niet in.",
     "archive": "archief",
     "modèle": "sjabloon",
-    "Taille maximale acceptée par ce serveur : :size Mo.": "Maximale grootte die deze server aanvaardt: :size MB."
+    "Taille maximale acceptée par ce serveur : :size Mo.": "Maximale grootte die deze server aanvaardt: :size MB.",
+    "Ambiance de l’écran": "Sfeer van het scherm",
+    "Ardoise": "Leisteen",
+    "Cartes, indices et aides en PDF ou en image, à lier aux scènes.": "Kaarten, aanwijzingen en hand-outs in PDF of afbeelding, te koppelen aan scènes.",
+    "Grimoire": "Grimoire",
+    "Importer un fichier": "Een bestand importeren",
+    "La campagne découpée en scénarios et en scènes, avec leur statut.": "De campagne opgedeeld in scenario’s en scènes, met hun status.",
+    "Les personnages des joueurs : à qui ils sont confiés, leur feuille, leurs compteurs.": "De personages van de spelers: aan wie ze zijn toevertrouwd, hun blad, hun tellers.",
+    "Nuit": "Nacht",
+    "Outils de la campagne": "Hulpmiddelen van de campagne",
+    "Parchemin": "Perkament",
+    "Règles du jeu, règles maison et glossaire, à retrouver en pleine partie.": "Spelregels, huisregels en woordenlijst, terug te vinden midden in het spel."
 }
