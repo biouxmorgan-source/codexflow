@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1d2633">
+    <title>Hors ligne · CodexFlow</title>
+    <link rel="icon" href="/favicon.ico">
+    <style>
+        body { margin: 0; min-height: 100vh; background: #faf8f4; color: #1d2633; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+        main { max-width: 36rem; margin: 0 auto; padding: 3rem 1rem; }
+        .logo { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
+        .logo span { color: #a0522d; }
+        h1 { font-size: 1.5rem; margin: 2rem 0 0.5rem; }
+        p { color: #57534e; line-height: 1.5; }
+        ul { list-style: none; padding: 0; margin: 1.5rem 0; }
+        li a { display: block; margin-bottom: 0.5rem; padding: 0.75rem 1rem; border: 1px solid #e7e5e4; border-radius: 0.75rem; background: #fff; color: #2e5b6e; font-weight: 500; text-decoration: none; }
+        li a:hover { background: #e6eef1; }
+        button { border: 0; border-radius: 0.5rem; padding: 0.5rem 1rem; background: #2e5b6e; color: #fff; font: inherit; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="logo">CODEX<span>FLOW</span></div>
+        <h1>Vous êtes hors ligne</h1>
+        <p>Cette page n'a pas encore été ouverte sur cet appareil. Les fiches de personnage déjà consultées restent lisibles sans connexion.</p>
+        <ul id="sheets"></ul>
+        <button type="button" onclick="location.reload()">Réessayer</button>
+    </main>
+    <script>
+        // Liste les fiches de personnage gardées sur cet appareil par le service worker.
+        (async () => {
+            if (!('caches' in window)) return;
+            const cache = await caches.open('codexflow-pages');
+            const list = document.getElementById('sheets');
+            for (const request of await cache.keys()) {
+                const url = new URL(request.url);
+                if (!/^\/campagnes\/\d+\/personnages\/\d+$/.test(url.pathname)) continue;
+                const response = await cache.match(request);
+                const page = new DOMParser().parseFromString(await response.text(), 'text/html');
+                const link = document.createElement('a');
+                link.href = url.pathname;
+                link.textContent = page.title.split(' · ')[0] || url.pathname;
+                const item = document.createElement('li');
+                item.append(link);
+                list.append(item);
+            }
+        })();
+    </script>
+</body>
+</html>

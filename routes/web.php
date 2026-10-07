@@ -6,6 +6,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\ImportExampleController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PushSubscriptionController;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
@@ -40,6 +41,8 @@ Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('
 Route::middleware('auth')->group(function () {
     Route::post('/invitation/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::livewire('/campagnes', CampaignIndex::class)->name('campaigns.index');
+    Route::post('/push/abonnement', [PushSubscriptionController::class, 'store'])->name('push.store');
+    Route::delete('/push/abonnement', [PushSubscriptionController::class, 'destroy'])->name('push.destroy');
     Route::livewire('/notifications', NotificationIndex::class)->name('notifications.index');
     Route::get('/notifications/{notification}', [NotificationController::class, 'open'])->name('notifications.open')->whereUuid('notification');
     Route::livewire('/types-de-fiche', EntityTypesManage::class)->name('entity-types.index');
@@ -64,12 +67,12 @@ Route::middleware('auth')->group(function () {
 
     Route::livewire('/campagnes/{campaign}/recherche', SearchIndex::class)->name('search.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/personnages', CharacterIndex::class)->name('characters.index')->whereNumber('campaign');
-    Route::livewire('/campagnes/{campaign}/personnages/{character}', CharacterShow::class)->name('characters.show')->whereNumber(['campaign', 'character']);
-    Route::get('/campagnes/{campaign}/personnages/{character}/feuille.pdf', [FileController::class, 'characterSheet'])->name('characters.sheet')->whereNumber(['campaign', 'character']);
-    Route::get('/campagnes/{campaign}/personnages/{character}/portrait', [FileController::class, 'characterPortrait'])->name('characters.portrait')->whereNumber(['campaign', 'character']);
-    Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}', [CharacterKnowledgeController::class, 'entity'])->name('characters.entity')->whereNumber(['campaign', 'character', 'entity']);
-    Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}/image', [CharacterKnowledgeController::class, 'entityImage'])->name('characters.entity-image')->whereNumber(['campaign', 'character', 'entity']);
-    Route::get('/campagnes/{campaign}/personnages/{character}/documents/{document}', [CharacterKnowledgeController::class, 'document'])->name('characters.document')->whereNumber(['campaign', 'character', 'document']);
+    Route::livewire('/campagnes/{campaign}/personnages/{character}', CharacterShow::class)->name('characters.show')->middleware('offline')->whereNumber(['campaign', 'character']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/feuille.pdf', [FileController::class, 'characterSheet'])->name('characters.sheet')->middleware('offline')->whereNumber(['campaign', 'character']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/portrait', [FileController::class, 'characterPortrait'])->name('characters.portrait')->middleware('offline')->whereNumber(['campaign', 'character']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}', [CharacterKnowledgeController::class, 'entity'])->name('characters.entity')->middleware('offline')->whereNumber(['campaign', 'character', 'entity']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}/image', [CharacterKnowledgeController::class, 'entityImage'])->name('characters.entity-image')->middleware('offline')->whereNumber(['campaign', 'character', 'entity']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/documents/{document}', [CharacterKnowledgeController::class, 'document'])->name('characters.document')->middleware('offline')->whereNumber(['campaign', 'character', 'document']);
     Route::livewire('/campagnes/{campaign}/joueurs', MemberIndex::class)->name('members.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/messages', MessageIndex::class)->name('messages.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/journal', JournalIndex::class)->name('journal.index')->whereNumber('campaign');
