@@ -5,6 +5,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ImportExampleController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\NotificationController;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
@@ -19,6 +20,7 @@ use App\Livewire\Imports\Create as ImportCreate;
 use App\Livewire\Journal\Index as JournalIndex;
 use App\Livewire\Members\Index as MemberIndex;
 use App\Livewire\Messages\Index as MessageIndex;
+use App\Livewire\Notifications\Index as NotificationIndex;
 use App\Livewire\Rules\Form as RuleForm;
 use App\Livewire\Rules\Index as RuleIndex;
 use App\Livewire\Rules\Show as RuleShow;
@@ -38,6 +40,8 @@ Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('
 Route::middleware('auth')->group(function () {
     Route::post('/invitation/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::livewire('/campagnes', CampaignIndex::class)->name('campaigns.index');
+    Route::livewire('/notifications', NotificationIndex::class)->name('notifications.index');
+    Route::get('/notifications/{notification}', [NotificationController::class, 'open'])->name('notifications.open')->whereUuid('notification');
     Route::livewire('/types-de-fiche', EntityTypesManage::class)->name('entity-types.index');
     Route::livewire('/campagnes/{campaign}', CampaignShow::class)->name('campaigns.show')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/entites/nouvelle', EntityForm::class)->name('entities.create')->whereNumber('campaign');

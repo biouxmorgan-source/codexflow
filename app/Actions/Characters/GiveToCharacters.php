@@ -7,6 +7,7 @@ use App\Models\ActivityLog;
 use App\Models\Campaign;
 use App\Models\CharacterGrant;
 use App\Models\PlayerCharacter;
+use App\Support\Notify;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -66,6 +67,7 @@ class GiveToCharacters
 
                 $grant = $character->grants()->create($attributes + ['granted_by' => auth()->id()]);
                 self::record($grant, $character, 'created');
+                Notify::grant($grant, $character);
                 $given++;
             }
 
@@ -78,6 +80,7 @@ class GiveToCharacters
         DB::transaction(function () use ($grant) {
             $grant->delete();
             self::record($grant, $grant->character, 'deleted');
+            Notify::grant($grant, $grant->character, revoked: true);
         });
     }
 

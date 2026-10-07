@@ -257,9 +257,17 @@ class Index extends Component
         unset($this->messages, $this->characters, $this->knowledge);
     }
 
-    /** Ce qui s'affiche est lu. */
+    /** Ce qui s'affiche est lu, avec les notifications de ces messages. */
     private function markRead(): void
     {
+        auth()->user()->unreadNotifications()
+            ->whereRaw("data->>'kind' = 'message'")
+            ->whereRaw("(data->>'campaign_id')::bigint = ?", [$this->campaign->id])
+            ->when($this->isGameMaster, fn ($q) => $this->conversation === ''
+                ? $q->whereRaw("data->>'character_id' is null")
+                : $q->whereRaw("(data->>'character_id')::bigint = ?", [(int) $this->conversation]))
+            ->update(['read_at' => now()]);
+
         $unread = $this->messages->filter(fn (Message $message) => $message->sender_id !== auth()->id())->modelKeys();
 
         if ($unread === []) {

@@ -6,6 +6,7 @@ use App\Actions\Characters\GiveToCharacters;
 use App\Models\Campaign;
 use App\Models\Message;
 use App\Models\User;
+use App\Support\Notify;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -53,7 +54,7 @@ class SendMessage
 
             $targets = $characters === [] ? [null] : $characters;
 
-            return collect($targets)->map(function (?int $characterId) use ($campaign, $sender, $body, $reference) {
+            $messages = collect($targets)->map(function (?int $characterId) use ($campaign, $sender, $body, $reference) {
                 $message = new Message(['body' => trim($body)]);
                 $message->campaign()->associate($campaign);
                 $message->sender()->associate($sender);
@@ -69,6 +70,31 @@ class SendMessage
 
                 return $message;
             });
+
+            $this->notify($campaign, $sender, $messages, $body);
+
+            return $messages;
         });
+    }
+
+    /** @param  Collection<int, Message>  $messages */
+    private function notify(Campaign $campaign, User $sender, Collection $messages, string $body): void
+    {
+        $excerpt = Notify::excerpt($body);
+
+        if (! $campaign->isGameMaster($sender)) {
+            $character = $messages->first()->character()->with('entity')->first();
+            Notify::gameMasters($campaign, 'message', $character->entity->name.' : '.$excerpt, route('messages.index', [$campaign, 'personnage' => $character->id]), $character);
+
+            return;
+        }
+
+        foreach ($messages as $message) {
+            if ($message->isForGroup()) {
+                Notify::players($campaign, 'message', 'Message du MJ au groupe : '.$excerpt, route('messages.index', $campaign));
+            } else {
+                Notify::player($message->character, 'message', 'Message du MJ : '.$excerpt, route('messages.index', $campaign));
+            }
+        }
     }
 }
