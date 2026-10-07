@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.11.1' => [
+        'date' => '2026-10-13',
+        'title' => 'The demonstration in your language',
+        'items' => [
+            'The demonstration campaign now exists in all eight interface languages. It loads in yours, or in the one chosen next to the button.',
+        ],
+    ],
+
     '0.11.0' => [
         'date' => '2026-10-13',
         'title' => 'A demonstration campaign',

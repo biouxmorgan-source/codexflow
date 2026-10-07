@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.11.1' => [
+        'date' => '2026-10-13',
+        'title' => 'De demo in jouw taal',
+        'items' => [
+            'De demo-campagne bestaat in alle acht talen van de interface. Ze wordt in jouw taal geladen, of in de taal die je naast de knop kiest.',
+        ],
+    ],
+
     '0.11.0' => [
         'date' => '2026-10-13',
         'title' => 'Een demo-campagne',

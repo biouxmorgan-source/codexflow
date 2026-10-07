@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.11.1' => [
+        'date' => '2026-10-13',
+        'title' => 'A demonstração no seu idioma',
+        'items' => [
+            'A campanha de demonstração existe nos oito idiomas da interface. Carrega-se no seu, ou no escolhido ao lado do botão.',
+        ],
+    ],
+
     '0.11.0' => [
         'date' => '2026-10-13',
         'title' => 'Uma campanha de demonstração',

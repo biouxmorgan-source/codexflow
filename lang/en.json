@@ -1375,5 +1375,6 @@
     "Charger la démonstration": "Load the demonstration",
     "Campagne de démonstration chargée : « :name ». Vous en êtes le MJ : modifiez, dupliquez ou supprimez-la librement.": "Demonstration campaign loaded: “:name”. You are its GM: edit, duplicate or delete it as you like.",
     "Ou chargez la campagne de démonstration : un jeu inventé et une intrigue complète, pour visiter l’application sans rien préparer.": "Or load the demonstration campaign: an invented game and a complete plot, to tour the application without preparing anything.",
-    "Sans archive sous la main, chargez la campagne de démonstration : un jeu inventé, une intrigue de trois séances, des fiches, une carte, des secrets et une chronologie.": "Without an archive at hand, load the demonstration campaign: an invented game, a three-session plot, entries, a map, secrets and a timeline."
+    "Sans archive sous la main, chargez la campagne de démonstration : un jeu inventé, une intrigue de trois séances, des fiches, une carte, des secrets et une chronologie.": "Without an archive at hand, load the demonstration campaign: an invented game, a three-session plot, entries, a map, secrets and a timeline.",
+    "Langue de la démonstration": "Demonstration language"
 }

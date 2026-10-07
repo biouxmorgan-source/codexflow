@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.11.1' => [
+        'date' => '2026-10-13',
+        'title' => 'La dimostrazione nella tua lingua',
+        'items' => [
+            'La campagna dimostrativa esiste nelle otto lingue dell’interfaccia. Si carica nella tua, o in quella scelta accanto al pulsante.',
+        ],
+    ],
+
     '0.11.0' => [
         'date' => '2026-10-13',
         'title' => 'Una campagna dimostrativa',

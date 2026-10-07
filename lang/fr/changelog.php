@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.11.1' => [
+        'date' => '2026-10-13',
+        'title' => 'La démonstration dans votre langue',
+        'items' => [
+            'La campagne de démonstration existe dans les huit langues de l’interface. Elle se charge dans la vôtre, ou dans celle choisie à côté du bouton.',
+        ],
+    ],
+
     '0.11.0' => [
         'date' => '2026-10-13',
         'title' => 'Une campagne de démonstration',
