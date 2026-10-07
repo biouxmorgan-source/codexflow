@@ -27,6 +27,13 @@
                 <button type="submit" class="btn-primary" wire:loading.attr="disabled" wire:target="archive,importArchive">{{ __('Importer') }}</button>
                 <button type="button" wire:click="$set('importing', false)" class="btn-secondary">{{ __('Annuler') }}</button>
             </div>
+            <p class="border-t border-stone-200 pt-4 text-sm text-stone-600">
+                {{ __('Sans archive sous la main, chargez la campagne de démonstration : un jeu inventé, une intrigue de trois séances, des fiches, une carte, des secrets et une chronologie.') }}
+                <button type="button" wire:click="loadDemo" wire:loading.attr="disabled" wire:target="loadDemo" class="font-medium text-codex hover:underline">
+                    <span wire:loading.remove wire:target="loadDemo">{{ __('Charger la démonstration') }}</span>
+                    <span wire:loading wire:target="loadDemo">{{ __('Chargement…') }}</span>
+                </button>
+            </p>
         </form>
     @endif
 
@@ -94,6 +101,11 @@
         <div class="rounded-xl border border-dashed border-stone-300 bg-white p-10 text-center">
             <p class="text-lg font-medium">{{ __("Aucune campagne pour l'instant.") }}</p>
             <p class="mt-1 text-stone-600">{{ __('Créez votre première campagne pour commencer à préparer vos parties.') }}</p>
+            <p class="mt-4 text-stone-600">{{ __('Ou chargez la campagne de démonstration : un jeu inventé et une intrigue complète, pour visiter l’application sans rien préparer.') }}</p>
+            <button type="button" wire:click="loadDemo" wire:loading.attr="disabled" wire:target="loadDemo" class="btn-secondary mt-3">
+                <span wire:loading.remove wire:target="loadDemo">{{ __('Charger la démonstration') }}</span>
+                <span wire:loading wire:target="loadDemo">{{ __('Chargement…') }}</span>
+            </button>
         </div>
     @else
         <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

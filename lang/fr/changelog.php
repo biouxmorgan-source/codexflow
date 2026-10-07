@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.11.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Une campagne de démonstration',
+        'items' => [
+            'Campagne de démonstration à charger en un clic depuis « Mes campagnes » : un jeu inventé, « Brume & Serment », et une intrigue complète de trois séances, avec fiches, portraits, relations, carte, secrets, règles, chronologie et prétirés.',
+            'Les petits boutons à icône de la page de campagne ne bougent plus au survol : le nom s’affiche en infobulle, au-dessus du reste.',
+            'Les tags se saisissent de la même façon partout, et une fiche propose « Ajouter un tag » directement sous son titre.',
+        ],
+    ],
+
     '0.10.0' => [
         'date' => '2026-10-12',
         'title' => 'Une page de campagne plus claire',

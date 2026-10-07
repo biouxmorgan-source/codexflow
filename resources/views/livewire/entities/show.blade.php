@@ -17,13 +17,16 @@
                     {{ $entity->type->name }} ·
                     {{ $entity->isWorldEntity() ? __('Monde « :name »', ['name' => $entity->world->name]) : __('Propre à cette campagne') }}
                 </p>
-                @if ($entity->tags->isNotEmpty())
-                    <p class="mt-2 flex flex-wrap gap-1">
-                        @foreach ($entity->tags as $entityTag)
-                            <x-tag :tag="$entityTag" :href="route('campaigns.show', [$campaign, 'tag' => $entityTag->id])" class="text-xs" />
-                        @endforeach
-                    </p>
-                @endif
+                <p class="mt-2 flex flex-wrap items-center gap-1">
+                    @foreach ($entity->tags as $entityTag)
+                        <x-tag :tag="$entityTag" :href="route('campaigns.show', [$campaign, 'tag' => $entityTag->id])" class="text-xs" />
+                    @endforeach
+                    @can('update', $entity)
+                        <a href="{{ route('entities.edit', [$campaign, $entity]) }}#tags" class="rounded-full border border-dashed border-stone-300 px-2 py-0.5 text-xs text-stone-500 hover:border-codex hover:text-codex" wire:navigate>
+                            {{ $entity->tags->isEmpty() ? __('Ajouter un tag') : __('Modifier les tags') }}
+                        </a>
+                    @endcan
+                </p>
             </div>
         </div>
         <div class="flex flex-wrap gap-2">

@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.11.0' => [
+        'date' => '2026-10-13',
+        'title' => 'A demonstration campaign',
+        'items' => [
+            'A demonstration campaign to load in one click from “My campaigns”: an invented game, “Brume & Serment”, and a complete three-session plot, with entries, portraits, relations, a map, secrets, rules, a timeline and pre-generated characters.',
+            'The small icon buttons on the campaign page no longer move when hovered: the name appears in a tooltip, above everything else.',
+            'Tags are entered the same way everywhere, and an entry offers “Add a tag” right under its title.',
+        ],
+    ],
+
     '0.10.0' => [
         'date' => '2026-10-12',
         'title' => 'A clearer campaign page',

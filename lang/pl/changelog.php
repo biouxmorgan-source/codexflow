@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.11.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Kampania demonstracyjna',
+        'items' => [
+            'Kampania demonstracyjna wczytywana jednym kliknięciem z „Moich kampanii”: wymyślona gra „Brume & Serment” i pełna intryga na trzy sesje, z kartami, portretami, relacjami, mapą, sekretami, zasadami, osią czasu i gotowymi postaciami.',
+            'Małe przyciski z ikonami na stronie kampanii nie przesuwają się już po najechaniu myszą: nazwa pojawia się w dymku, nad resztą.',
+            'Tagi wpisuje się wszędzie tak samo, a karta proponuje „Dodaj tag” tuż pod tytułem.',
+        ],
+    ],
+
     '0.10.0' => [
         'date' => '2026-10-12',
         'title' => 'Czytelniejsza strona kampanii',

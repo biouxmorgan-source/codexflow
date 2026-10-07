@@ -3,6 +3,7 @@
 namespace App\Livewire\Campaigns;
 
 use App\Actions\Campaigns\CreateCampaign;
+use App\Actions\Demo\LoadDemoCampaign;
 use App\Actions\Duplication\DuplicateCampaign;
 use App\Models\Campaign;
 use App\Support\Archive\ArchiveException;
@@ -106,6 +107,15 @@ class Index extends Component
         $this->reset(['creating', 'name', 'description', 'newGameName', 'worldChoice', 'newWorldName']);
         unset($this->campaigns, $this->gameSystems, $this->worlds);
         $this->mount();
+    }
+
+    /** Charge la campagne de démonstration : un contenu complet, pour visiter l'application sans rien préparer. */
+    public function loadDemo(LoadDemoCampaign $loadDemo): void
+    {
+        $campaign = $loadDemo->handle(auth()->user());
+
+        session()->flash('status', __('Campagne de démonstration chargée : « :name ». Vous en êtes le MJ : modifiez, dupliquez ou supprimez-la librement.', ['name' => $campaign->name]));
+        $this->redirectRoute('campaigns.show', $campaign, navigate: true);
     }
 
     public function duplicate(int $id, DuplicateCampaign $duplicateCampaign): void
