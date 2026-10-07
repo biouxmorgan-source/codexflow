@@ -1,7 +1,7 @@
 <div class="fixed inset-x-2 bottom-2 z-40 sm:inset-x-auto sm:right-4 sm:bottom-4 sm:w-96">
     @if (! $open)
         <div class="flex justify-end">
-            <button type="button" wire:click="toggle" class="flex items-center gap-2 rounded-full bg-codex px-4 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-ink">
+            <button type="button" wire:click="toggle" class="flex items-center gap-2 rounded-full bg-codex px-4 py-2.5 text-sm font-semibold text-on-accent shadow-lg hover:bg-ink">
                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>
                 Discussion
                 @if ($this->unread > 0)
@@ -20,11 +20,11 @@
             <nav class="flex gap-1 overflow-x-auto border-b border-stone-200 px-2 py-1.5" aria-label="Conversations">
                 @foreach ($this->tabs as $item)
                     <button type="button" wire:key="tab-{{ $item['key'] }}" wire:click="select('{{ $item['key'] }}')"
-                        @class(['flex shrink-0 items-center gap-1 rounded-md px-2 py-1 text-xs', 'bg-codex text-white' => $tab === $item['key'], 'text-stone-700 hover:bg-codex-soft' => $tab !== $item['key'], 'font-semibold' => $item['unread'] > 0])
+                        @class(['flex shrink-0 items-center gap-1 rounded-md px-2 py-1 text-xs', 'bg-codex text-on-accent' => $tab === $item['key'], 'text-stone-700 hover:bg-codex-soft' => $tab !== $item['key'], 'font-semibold' => $item['unread'] > 0])
                         @if ($tab === $item['key']) aria-current="true" @endif>
                         {{ $item['label'] }}
                         @if ($item['unread'] > 0 && $tab !== $item['key'])
-                            <span class="rounded-full bg-flow px-1.5 text-[10px] text-white">{{ $item['unread'] }}</span>
+                            <span class="rounded-full bg-flow px-1.5 text-[10px] text-on-accent">{{ $item['unread'] }}</span>
                         @endif
                     </button>
                 @endforeach

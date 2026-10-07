@@ -40,7 +40,7 @@
             <a href="{{ route('messages.index', $campaign) }}" class="btn-secondary" wire:navigate>
                 Messages
                 @if ($unread > 0)
-                    <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-white">{{ $unread }} <span class="sr-only">non lus</span></span>
+                    <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-on-accent">{{ $unread }} <span class="sr-only">non lus</span></span>
                 @endif
             </a>
             @if ($campaign->table_shared)

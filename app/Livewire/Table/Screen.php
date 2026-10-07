@@ -11,7 +11,7 @@ use Livewire\Component;
  * Écran de table : une fenêtre plein écran, à glisser sur le second écran (télé, projecteur).
  * Le MJ y pousse une carte, une image, une fiche ou une annonce depuis le mode Session.
  */
-#[Layout('components.layouts.base')]
+#[Layout('components.layouts.base', ['plain' => true])]
 class Screen extends Component
 {
     public Campaign $campaign;

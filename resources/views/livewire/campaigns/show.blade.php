@@ -43,7 +43,7 @@
         <a href="{{ route('messages.index', $campaign) }}" class="tile" wire:navigate>
             <span class="font-semibold text-codex">Messages →
                 @if ($unread > 0)
-                    <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-white">{{ $unread }} <span class="sr-only">non lus</span></span>
+                    <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-on-accent">{{ $unread }} <span class="sr-only">non lus</span></span>
                 @endif
             </span>
             <span class="mt-1 text-sm text-stone-600">Écrire à un joueur en privé ou à tout le groupe, avec une fiche ou un document joint.</span>

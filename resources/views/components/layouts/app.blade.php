@@ -19,7 +19,7 @@
                     <a href="{{ route('entity-types.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('entity-types.*')]) wire:navigate>Types de fiche</a>
                 @endif
                 @livewire(\App\Livewire\HeaderBadges::class, ['campaign' => $searchCampaign instanceof \App\Models\Campaign ? $searchCampaign : null])
-                <span class="hidden text-stone-500 sm:inline">{{ auth()->user()->name }}</span>
+                <a href="{{ route('preferences') }}" @class(['hidden rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink sm:inline', 'bg-stone-100' => request()->routeIs('preferences')]) title="Préférences" wire:navigate>{{ auth()->user()->name }}</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink">Se déconnecter</button>
@@ -27,9 +27,16 @@
             </nav>
         </div>
     </header>
-    <main class="mx-auto max-w-6xl px-4 pt-8 pb-24">
+    <main class="mx-auto max-w-6xl px-4 pt-8 pb-12">
         {{ $slot }}
     </main>
+    <footer class="mx-auto max-w-6xl px-4 pb-24 text-xs text-stone-500">
+        CodexFlow {{ \App\Support\Changelog::version() }}
+        · <a href="{{ route('changelog') }}" class="hover:text-ink hover:underline" wire:navigate>Quoi de neuf</a>
+        · <a href="{{ route('recommended') }}" class="hover:text-ink hover:underline" wire:navigate>Configuration recommandée</a>
+        · <a href="{{ route('preferences') }}" class="hover:text-ink hover:underline" wire:navigate>Préférences</a>
+    </footer>
+    @livewire(\App\Livewire\WhatsNew::class)
     @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('messages.*') && auth()->user()->can('view', $searchCampaign))
         @persist('chat-'.$searchCampaign->id)
             @livewire(\App\Livewire\ChatDock::class, ['campaign' => $searchCampaign], key('chat-'.$searchCampaign->id))

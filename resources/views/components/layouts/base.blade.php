@@ -1,10 +1,26 @@
-@props(['title' => null])
+@props(['title' => null, 'plain' => false])
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+{{-- Préférences d'affichage (thème, accent, taille) ; l'écran de table garde son affichage propre. --}}
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    @unless ($plain) @foreach (\App\Support\Appearance::attributes(auth()->user()) as $name => $value) {{ $name }}="{{ $value }}" @endforeach @endunless>
     <head>
+        <script>
+            // Thème résolu avant l'affichage, pour éviter un flash clair en mode sombre.
+            (() => {
+                const root = document.documentElement;
+                const media = window.matchMedia('(prefers-color-scheme: dark)');
+                const apply = () => {
+                    const choice = root.dataset.themeChoice;
+                    root.dataset.theme = choice === 'dark' || (choice === 'system' && media.matches) ? 'dark' : 'light';
+                };
+                apply();
+                media.addEventListener('change', apply);
+            })();
+        </script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#1d2633">
+        <meta name="color-scheme" content="light dark">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         @guest
             <meta name="codexflow-guest" content="1">
@@ -23,7 +39,7 @@
     </head>
     <body {{ $attributes->merge(['class' => 'min-h-screen bg-parchment font-sans text-ink antialiased']) }}>
         <div x-data="{ online: navigator.onLine }" x-on:online.window="online = true" x-on:offline.window="online = false" x-show="! online" x-cloak role="status"
-            class="sticky top-0 z-50 bg-flow px-4 py-2 text-center text-sm font-medium text-white">
+            class="sticky top-0 z-50 bg-flow px-4 py-2 text-center text-sm font-medium text-on-accent">
             Hors ligne : vous consultez la dernière version enregistrée sur cet appareil.
         </div>
         {{ $slot }}
