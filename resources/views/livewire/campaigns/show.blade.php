@@ -13,70 +13,44 @@
         </div>
     </div>
 
-    {{-- Les grandes zones de la campagne, chacune avec une phrase d'explication. --}}
-    <nav aria-label="{{ __('Zones de la campagne') }}" class="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <a href="{{ route('sessions.live', $campaign) }}" class="tile border-flow/40 bg-flow/5 hover:border-flow" wire:navigate>
-            <span class="font-semibold text-flow">{{ __('Mode Session →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('Pendant la partie : la scène en cours, ses fiches et documents, vos notes rapides.') }}</span>
-        </a>
+    {{-- Le mode Session d'abord, puis les quatre zones de préparation, puis les outils en icônes. --}}
+    <a href="{{ route('sessions.live', $campaign) }}" class="tile mb-3 border-flow/40 bg-flow/5 hover:border-flow sm:flex-row sm:items-center sm:gap-4" wire:navigate>
+        <span class="text-lg font-semibold text-flow">{{ __('Mode Session →') }}</span>
+        <span class="mt-1 text-sm text-stone-600 sm:mt-0">{{ __('Pendant la partie : la scène en cours, ses fiches et documents, vos notes rapides.') }}</span>
+    </a>
+
+    <nav aria-label="{{ __('Zones de la campagne') }}" class="mb-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <a href="{{ route('scenarios.index', $campaign) }}" class="tile" wire:navigate>
             <span class="font-semibold text-codex">{{ __('Scénarios →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('La campagne découpée en scénarios et en scènes, avec leur statut (prévue, en cours, jouée).') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('La campagne découpée en scénarios et en scènes, avec leur statut.') }}</span>
         </a>
         <a href="{{ route('documents.index', $campaign) }}" class="tile" wire:navigate>
             <span class="font-semibold text-codex">{{ __('Documents →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('Cartes, indices et aides en PDF ou en image, à lier aux scènes et à ouvrir en grand.') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Cartes, indices et aides en PDF ou en image, à lier aux scènes.') }}</span>
         </a>
         <a href="{{ route('rules.index', $campaign) }}" class="tile" wire:navigate>
             <span class="font-semibold text-codex">{{ __('Règles →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('Règles du jeu, règles maison et glossaire, pour retrouver une procédure en pleine partie.') }}</span>
-        </a>
-        <a href="{{ route('secrets.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">{{ __('Secrets →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('Ce que les personnages pourraient découvrir, relié aux fiches et aux scènes, et qui le sait déjà.') }}</span>
-        </a>
-        <a href="{{ route('maps.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">{{ __('Cartes →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __("Une carte sur l'écran de table, avec grille, jetons et règle si besoin, pilotable depuis le téléphone.") }}</span>
-        </a>
-        <a href="{{ route('graph.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">{{ __('Graphe des relations →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('Qui est lié à qui, en entier ou autour d’une fiche, et tel qu’un personnage le connaît.') }}</span>
-        </a>
-        <a href="{{ route('timeline.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">{{ __('Chronologie →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('L’histoire du monde, les événements prévus et ce qui s’est passé en jeu, avec des dates libres.') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Règles du jeu, règles maison et glossaire, à retrouver en pleine partie.') }}</span>
         </a>
         <a href="{{ route('characters.index', $campaign) }}" class="tile" wire:navigate>
             <span class="font-semibold text-codex">{{ __('Personnages →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('Les personnages des joueurs : à qui ils sont confiés, leur feuille PDF, leurs compteurs.') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Les personnages des joueurs : à qui ils sont confiés, leur feuille, leurs compteurs.') }}</span>
         </a>
-        <a href="{{ route('members.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">{{ __('Membres →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('Inviter joueurs, co-MJ et spectateurs par un lien, et voir qui fait partie de la campagne.') }}</span>
-        </a>
-        @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
-        <a href="{{ route('messages.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">{{ __('Messages →') }}
-                @if ($unread > 0)
-                    <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-on-accent">{{ $unread }} <span class="sr-only">{{ __('non lus') }}</span></span>
-                @endif
-            </span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('Écrire à un joueur en privé ou à tout le groupe, avec une fiche ou un document joint.') }}</span>
-        </a>
-        <a href="{{ route('journal.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">{{ __('Journal →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __("Qui a modifié quoi et quand, avec l'ancienne valeur : rien ne se perd.") }}</span>
-        </a>
+    </nav>
+
+    @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
+    <nav aria-label="{{ __('Outils de la campagne') }}" class="mb-8 flex flex-wrap gap-2">
+        <x-tool-link :href="route('secrets.index', $campaign)" icon="secret" :label="__('Secrets')" />
+        <x-tool-link :href="route('maps.index', $campaign)" icon="map" :label="__('Cartes')" />
+        <x-tool-link :href="route('graph.index', $campaign)" icon="graph" :label="__('Graphe')" />
+        <x-tool-link :href="route('timeline.index', $campaign)" icon="timeline" :label="__('Chronologie')" />
+        <x-tool-link :href="route('members.index', $campaign)" icon="members" :label="__('Membres')" />
+        <x-tool-link :href="route('messages.index', $campaign)" icon="messages" :label="__('Messages')" :badge="$unread ?: null" />
+        <x-tool-link :href="route('journal.index', $campaign)" icon="journal" :label="__('Journal')" />
+        <x-tool-link :href="route('table.remote', $campaign)" icon="remote" :label="__('Télécommande')" />
         @can('update', $campaign->gameSystem)
-            <a href="{{ route('fields.index', $campaign) }}" class="tile" wire:navigate>
-                <span class="font-semibold text-codex">{{ __('Champs du jeu →') }}</span>
-                <span class="mt-1 text-sm text-stone-600">{{ __('Les caractéristiques et compétences affichées sur les fiches de :name.', ['name' => $campaign->gameSystem->name]) }}</span>
-            </a>
-            <a href="{{ route('imports.create', $campaign) }}" class="tile" wire:navigate>
-                <span class="font-semibold text-codex">{{ __('Importer →') }}</span>
-                <span class="mt-1 text-sm text-stone-600">{{ __('Ajouter en une fois des fiches, des champs, des règles ou des scènes depuis un fichier CSV.') }}</span>
-            </a>
+            <x-tool-link :href="route('fields.index', $campaign)" icon="fields" :label="__('Champs du jeu')" />
+            <x-tool-link :href="route('imports.create', $campaign)" icon="import" :label="__('Importer un fichier')" />
         @endcan
     </nav>
 

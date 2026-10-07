@@ -1356,5 +1356,16 @@
     "Une archive .zip avec le jeu (champs, règles), le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Pour la sauvegarder ou la confier à un autre MJ, qui l’importe depuis « Mes campagnes ». Les joueurs, leurs personnages, les séances et le journal n’y sont pas.": "Archiwum .zip z grą (pola, zasady), światem, kartami, scenariuszami, dokumentami, mapami, sekretami i osią czasu, wraz z plikami. Do zachowania lub przekazania innemu MG, który zaimportuje je z „Moich kampanii”. Nie ma w nim graczy, ich postaci, sesji ani dziennika.",
     "archive": "archiwum",
     "modèle": "szablon",
-    "Taille maximale acceptée par ce serveur : :size Mo.": "Maksymalny rozmiar akceptowany przez ten serwer: :size MB."
+    "Taille maximale acceptée par ce serveur : :size Mo.": "Maksymalny rozmiar akceptowany przez ten serwer: :size MB.",
+    "Ambiance de l’écran": "Nastrój ekranu",
+    "Ardoise": "Łupek",
+    "Cartes, indices et aides en PDF ou en image, à lier aux scènes.": "Mapy, poszlaki i materiały w PDF lub obrazie, do powiązania ze scenami.",
+    "Grimoire": "Grimuar",
+    "Importer un fichier": "Importuj plik",
+    "La campagne découpée en scénarios et en scènes, avec leur statut.": "Kampania podzielona na scenariusze i sceny, z ich statusem.",
+    "Les personnages des joueurs : à qui ils sont confiés, leur feuille, leurs compteurs.": "Postacie graczy: komu są powierzone, ich karta, ich liczniki.",
+    "Nuit": "Noc",
+    "Outils de la campagne": "Narzędzia kampanii",
+    "Parchemin": "Pergamin",
+    "Règles du jeu, règles maison et glossaire, à retrouver en pleine partie.": "Zasady gry, zasady domowe i słowniczek, do znalezienia w trakcie partii."
 }

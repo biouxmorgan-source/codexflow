@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.10.0' => [
+        'date' => '2026-10-12',
+        'title' => 'A clearer campaign page',
+        'items' => [
+            'The campaign page tidied up: Session mode as a banner, four preparation areas, and the other tools as small icon buttons.',
+            'Table screen ambience, chosen from the remote control: Night, Parchment, Slate or Grimoire.',
+        ],
+    ],
+
     '0.9.0' => [
         'date' => '2026-10-11',
         'title' => 'Taking your campaign with you',

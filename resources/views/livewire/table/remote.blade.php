@@ -21,6 +21,14 @@
             <input type="checkbox" wire:click="toggleShare" @checked($campaign->table_shared)>
             {{ __('Les joueurs suivent l’écran sur leur appareil') }}
         </label>
+        <div class="mt-3">
+            <label for="table-theme" class="label">{{ __('Ambiance de l’écran') }}</label>
+            <select id="table-theme" wire:change="setTheme($event.target.value)" class="field py-1.5 text-sm">
+                @foreach (\App\Support\TableTheme::labels() as $value => $label)
+                    <option value="{{ $value }}" @selected($campaign->table_theme === $value)>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
     </section>
 
     @if ($map)

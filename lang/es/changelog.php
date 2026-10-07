@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.10.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Una página de campaña más clara',
+        'items' => [
+            'La página de campaña ordenada: el modo Sesión como banda, cuatro zonas de preparación y el resto de herramientas como botones pequeños con icono.',
+            'Ambiente de la pantalla de mesa, a elegir desde el mando: Noche, Pergamino, Pizarra o Grimorio.',
+        ],
+    ],
+
     '0.9.0' => [
         'date' => '2026-10-11',
         'title' => 'Llevarse la campaña',

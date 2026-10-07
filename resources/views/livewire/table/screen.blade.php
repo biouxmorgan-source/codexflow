@@ -1,5 +1,6 @@
 {{-- Sans Reverb, l'écran se met à jour tout seul toutes les 10 secondes. --}}
-<div wire:poll.10s class="table-screen fixed inset-0 flex items-center justify-center overflow-hidden bg-black text-stone-100"
+@php($theme = \App\Support\TableTheme::of($campaign->table_theme))
+<div wire:poll.10s @class(['table-screen fixed inset-0 flex items-center justify-center overflow-hidden', $theme['background'], $theme['text'], $theme['font']])
     x-data="{ full: !! document.fullscreenElement }"
     x-on:fullscreenchange.document="full = !! document.fullscreenElement">
     <div wire:key="display-{{ $display['key'] ?? 'empty' }}" class="table-fade flex h-full w-full items-center justify-center">
@@ -23,16 +24,16 @@
                     <div class="min-w-0 flex-1">
                         <h1 class="text-5xl font-semibold tracking-tight lg:text-6xl">{{ $entity->name }}</h1>
                         @if ($entity->summary)
-                            <p class="mt-4 text-2xl text-stone-300 lg:text-3xl">{{ $entity->summary }}</p>
+                            <p @class(['mt-4 text-2xl lg:text-3xl', $theme['muted']])>{{ $entity->summary }}</p>
                         @endif
                         @if ($entity->description)
-                            <div class="mt-6 text-xl leading-relaxed text-stone-200">{{ \App\Support\EntityLinks::plain($entity->description) }}</div>
+                            <div class="mt-6 text-xl leading-relaxed">{{ \App\Support\EntityLinks::plain($entity->description) }}</div>
                         @endif
                         @if ($display['fields']->isNotEmpty())
                             <dl class="mt-8 grid grid-cols-2 gap-x-8 gap-y-2 text-xl">
                                 @foreach ($display['fields'] as $field)
-                                    <div class="flex justify-between gap-4 border-b border-stone-700 pb-1">
-                                        <dt class="text-stone-400">{{ $field['label'] }}</dt>
+                                    <div class="flex justify-between gap-4 border-b border-current/20 pb-1">
+                                        <dt @class($theme['muted'])>{{ $field['label'] }}</dt>
                                         <dd class="font-medium">{{ $field['value'] }}</dd>
                                     </div>
                                 @endforeach
@@ -55,10 +56,10 @@
                 <article class="max-h-full w-full max-w-5xl overflow-y-auto p-12">
                     <h1 class="text-5xl font-semibold tracking-tight lg:text-6xl">{{ $rule->title }}</h1>
                     @if ($rule->summary)
-                        <p class="mt-6 text-3xl text-stone-300">{{ $rule->summary }}</p>
+                        <p @class(['mt-6 text-3xl', $theme['muted']])>{{ $rule->summary }}</p>
                     @endif
                     @if ($rule->procedure)
-                        <div class="mt-8 text-2xl leading-relaxed whitespace-pre-line text-stone-200">{{ \App\Support\EntityLinks::plain($rule->procedure) }}</div>
+                        <div class="mt-8 text-2xl leading-relaxed whitespace-pre-line">{{ \App\Support\EntityLinks::plain($rule->procedure) }}</div>
                     @endif
                 </article>
                 @break
@@ -75,14 +76,14 @@
 
             @default
                 <div class="text-center">
-                    <p class="text-3xl font-semibold tracking-tight text-stone-500" translate="no"><span>CODEX</span><span class="text-flow">FLOW</span></p>
-                    <p class="mt-2 text-xl text-stone-600">{{ $stopped ? __("Le MJ ne partage plus l'écran de table.") : $campaign->name }}</p>
+                    <p @class(['text-3xl font-semibold tracking-tight opacity-60', $theme['muted']]) translate="no"><span>CODEX</span><span @class($theme['accent'])>FLOW</span></p>
+                    <p @class(['mt-2 text-xl opacity-70', $theme['muted']])>{{ $stopped ? __("Le MJ ne partage plus l'écran de table.") : $campaign->name }}</p>
                 </div>
         @endswitch
     </div>
 
     <button type="button" x-show="! full" x-on:click="document.documentElement.requestFullscreen()"
-        class="absolute right-4 bottom-4 rounded-lg bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20">
+        class="absolute right-4 bottom-4 rounded-lg bg-current/10 px-4 py-2 text-sm hover:bg-current/20">
         {{ __('Plein écran') }}
     </button>
 </div>

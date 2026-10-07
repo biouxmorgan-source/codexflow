@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.10.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Czytelniejsza strona kampanii',
+        'items' => [
+            'Uporządkowana strona kampanii: tryb Sesji na banerze, cztery obszary przygotowań, a pozostałe narzędzia jako małe przyciski z ikoną.',
+            'Nastrój ekranu stołu, wybierany z pilota: Noc, Pergamin, Łupek lub Grimuar.',
+        ],
+    ],
+
     '0.9.0' => [
         'date' => '2026-10-11',
         'title' => 'Zabrać kampanię ze sobą',

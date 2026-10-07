@@ -12,6 +12,7 @@ use App\Models\EntityRelation;
 use App\Models\Rule;
 use App\Models\ToPlayItem;
 use App\Models\User;
+use App\Support\TableTheme;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -54,6 +55,7 @@ class DuplicateCampaign
         $campaign->owner()->associate($owner);
         $campaign->gameSystem()->associate($source->game_system_id);
         $campaign->world()->associate($source->world_id);
+        $campaign->table_theme = $source->table_theme ?? TableTheme::DEFAULT;
         $campaign->save();
         $campaign->members()->attach($owner, ['role' => CampaignRole::GameMaster->value]);
 

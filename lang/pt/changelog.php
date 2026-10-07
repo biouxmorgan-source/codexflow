@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.10.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Uma página de campanha mais clara',
+        'items' => [
+            'A página da campanha arrumada: o modo Sessão em destaque, quatro zonas de preparação e as restantes ferramentas como pequenos botões com ícone.',
+            'Ambiente do ecrã de mesa, à escolha no comando: Noite, Pergaminho, Ardósia ou Grimório.',
+        ],
+    ],
+
     '0.9.0' => [
         'date' => '2026-10-11',
         'title' => 'Levar a campanha consigo',

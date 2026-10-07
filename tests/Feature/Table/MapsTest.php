@@ -202,6 +202,13 @@ class MapsTest extends TestCase
         $this->assertSame(280.0, $map->view_x);
         $this->assertFalse($butler->fresh()->hidden);
 
+        // Habillage de l'écran : purement visuel, choisi depuis la télécommande.
+        $remote->call('setTheme', 'parchemin');
+        $this->assertSame('parchemin', $this->campaign->fresh()->table_theme);
+        $this->actingAs($this->gm)->get(route('table.screen', $this->campaign))->assertSee('font-serif', false);
+        Livewire::actingAs($this->gm)->test(Remote::class, ['campaign' => $this->campaign])
+            ->call('setTheme', 'inventé')->assertStatus(422);
+
         $remote->call('fit')->call('clear');
         $this->assertNull($this->campaign->fresh()->table_display);
 

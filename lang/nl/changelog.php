@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.10.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Een overzichtelijkere campagnepagina',
+        'items' => [
+            'De campagnepagina opgeruimd: de Sessiemodus als banner, vier voorbereidingszones en de overige hulpmiddelen als kleine pictogramknoppen.',
+            'Sfeer van het tafelscherm, te kiezen via de afstandsbediening: Nacht, Perkament, Leisteen of Grimoire.',
+        ],
+    ],
+
     '0.9.0' => [
         'date' => '2026-10-11',
         'title' => 'Je campagne meenemen',

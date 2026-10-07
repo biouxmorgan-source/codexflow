@@ -92,6 +92,15 @@ class TableDisplay
         self::broadcast($campaign);
     }
 
+    /** Habillage de l'écran : le changement est envoyé tout de suite aux écrans ouverts. */
+    public static function theme(Campaign $campaign, string $theme): void
+    {
+        abort_unless(array_key_exists($theme, TableTheme::THEMES), 422);
+
+        $campaign->forceFill(['table_theme' => $theme])->save();
+        self::broadcast($campaign);
+    }
+
     /** Le MJ et les spectateurs voient toujours l'écran ; un joueur seulement quand le MJ le partage. */
     public static function canWatch(User $user, Campaign $campaign): bool
     {

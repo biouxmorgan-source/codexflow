@@ -1356,5 +1356,16 @@
     "Une archive .zip avec le jeu (champs, règles), le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Pour la sauvegarder ou la confier à un autre MJ, qui l’importe depuis « Mes campagnes ». Les joueurs, leurs personnages, les séances et le journal n’y sont pas.": "A .zip archive with the game (fields, rules), the world, the entries, scenarios, documents, maps, secrets and the timeline, files included. To back it up or hand it to another GM, who imports it from “My campaigns”. The players, their characters, the sessions and the journal are not in it.",
     "archive": "archive",
     "modèle": "template",
-    "Taille maximale acceptée par ce serveur : :size Mo.": "Maximum size this server accepts: :size MB."
+    "Taille maximale acceptée par ce serveur : :size Mo.": "Maximum size this server accepts: :size MB.",
+    "Ambiance de l’écran": "Screen ambience",
+    "Ardoise": "Slate",
+    "Cartes, indices et aides en PDF ou en image, à lier aux scènes.": "Maps, clues and handouts in PDF or image, to link to scenes.",
+    "Grimoire": "Grimoire",
+    "Importer un fichier": "Import a file",
+    "La campagne découpée en scénarios et en scènes, avec leur statut.": "The campaign split into scenarios and scenes, with their status.",
+    "Les personnages des joueurs : à qui ils sont confiés, leur feuille, leurs compteurs.": "The players’ characters: who they are entrusted to, their sheet, their counters.",
+    "Nuit": "Night",
+    "Outils de la campagne": "Campaign tools",
+    "Parchemin": "Parchment",
+    "Règles du jeu, règles maison et glossaire, à retrouver en pleine partie.": "Game rules, house rules and glossary, to find mid-game."
 }

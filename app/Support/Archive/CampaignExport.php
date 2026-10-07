@@ -138,7 +138,7 @@ final class CampaignExport
                 'description' => $world->description,
                 'image' => $this->file('local', $world->image_path),
             ] : null,
-            'campaign' => ['name' => $campaign->name, 'description' => $campaign->description],
+            'campaign' => ['name' => $campaign->name, 'description' => $campaign->description, 'table_theme' => $campaign->table_theme],
             'entity_types' => DB::table('entity_types')->whereIn('id', $typeIds)->orderBy('id')->get(['id', 'key', 'name'])
                 ->map(fn ($type) => (array) $type)->all(),
             'tags' => DB::table('tags')->whereIn('id', $tagIds)->orderBy('id')->get(['id', 'name', 'color'])
