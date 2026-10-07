@@ -1,10 +1,21 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
         <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
+        @if ($isGameMaster)
+            › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
+        @elseif ($myCharacter)
+            › <a href="{{ route('characters.show', [$campaign, $myCharacter]) }}" class="crumb" wire:navigate>{{ $myCharacter->entity->name }}</a>
+        @endif
     </nav>
     <h1 class="text-2xl font-semibold">Recherche</h1>
-    <p class="mt-1 mb-4 text-sm text-stone-600">Cherche dans les fiches, scènes, règles, documents et notes de session de la campagne. Astuce : la touche / place le curseur dans la recherche depuis n'importe quelle page.</p>
+    <p class="mt-1 mb-4 text-sm text-stone-600">
+        @if ($isGameMaster)
+            Cherche dans les fiches, scènes, règles, documents et notes de session de la campagne.
+        @else
+            Cherche dans ce que votre personnage connaît : fiches révélées, informations, objets, documents et notes partagées.
+        @endif
+        Astuce : la touche / place le curseur dans la recherche depuis n'importe quelle page.
+    </p>
 
     <div class="mb-6 flex flex-wrap gap-3">
         <div class="min-w-0 flex-1 basis-64">
@@ -14,7 +25,7 @@
         <label for="kind" class="sr-only">Type de résultat</label>
         <select id="kind" wire:model.live="kind" class="field w-auto">
             <option value="">Tout</option>
-            @foreach (\App\Support\Search\GlobalSearch::KINDS as $value => $label)
+            @foreach ($kinds as $value => $label)
                 <option value="{{ $value }}">{{ $label }}</option>
             @endforeach
         </select>
@@ -40,7 +51,7 @@
         <div class="space-y-6" wire:loading.class="opacity-60">
             @foreach ($this->results as $group => $items)
                 <section wire:key="group-{{ $group }}">
-                    <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ \App\Support\Search\GlobalSearch::KINDS[$group] }} <span class="font-normal">({{ $items->count() }})</span></h2>
+                    <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ $kinds[$group] ?? \App\Support\Search\GlobalSearch::KINDS[$group] }} <span class="font-normal">({{ $items->count() }})</span></h2>
                     <ul class="divide-y divide-stone-100 rounded-xl border border-stone-200 bg-white shadow-sm">
                         @foreach ($items as $result)
                             <li>

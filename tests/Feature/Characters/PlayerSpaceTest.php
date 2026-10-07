@@ -4,6 +4,7 @@ namespace Tests\Feature\Characters;
 
 use App\Actions\Characters\GiveToCharacters;
 use App\Enums\CampaignRole;
+use App\Enums\FieldType;
 use App\Enums\Zone;
 use App\Livewire\Characters\Show;
 use App\Livewire\Sessions\Live;
@@ -15,6 +16,7 @@ use App\Models\PlayerCharacter;
 use App\Models\Rule;
 use App\Models\ToPlayItem;
 use App\Models\User;
+use App\Support\Search\GlobalSearch;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Livewire\Livewire;
@@ -143,5 +145,46 @@ class PlayerSpaceTest extends TestCase
         // Le MJ peut aussi révéler en pleine séance.
         $this->campaign->playSessions()->create(['number' => 1, 'started_at' => now()]);
         $this->actingAs($this->gm)->get(route('sessions.live', $this->campaign))->assertSee('Révéler ou donner');
+    }
+
+    /** Parcours de recette 12 : un joueur ne trouve que ce que son personnage connaît, jamais la zone MJ. */
+    public function test_a_player_searches_only_what_their_character_knows(): void
+    {
+        [$alex, $harvey] = $this->table['Harvey'];
+        [$sam] = $this->table['Jack'];
+        $secretField = $this->campaign->gameSystem->fieldDefinitions()->create(['name' => 'Culte', 'type' => FieldType::Text, 'zone' => Zone::GameMaster]);
+        $publicField = $this->campaign->gameSystem->fieldDefinitions()->create(['name' => 'Métier', 'type' => FieldType::Text, 'zone' => Zone::Public]);
+
+        $elias = Entity::factory()->for($this->gm, 'owner')->for($this->campaign)->create([
+            'name' => 'Jackson Elias', 'summary' => 'Écrivain', 'description' => 'Ami de longue date',
+            'gm_notes' => 'Indicateur secret', 'field_values' => [(string) $secretField->id => 'Langue Sanglante', (string) $publicField->id => 'Romancier'],
+        ]);
+        Entity::factory()->for($this->gm, 'owner')->for($this->campaign)->create(['name' => 'Mukunga', 'summary' => 'Écrivain inconnu']);
+
+        $this->actingAs($this->gm);
+        $give = app(GiveToCharacters::class);
+        $give->handle($this->campaign, [$harvey->id], ['kind' => 'entity', 'entity_id' => $elias->id]);
+        $give->handle($this->campaign, [$harvey->id], ['kind' => 'information', 'title' => 'Adresse à Harlem', 'body' => 'Chez un écrivain']);
+        $this->write('Jack', 'Un écrivain nous suit', 'group');
+        $this->write('Jack', 'Écrivain : mon secret', 'private');
+
+        $search = fn (User $user, string $q) => collect((new GlobalSearch($this->campaign, $user, $q))->run())
+            ->map(fn ($items) => $items->pluck('title')->all())->all();
+
+        $this->assertSame([
+            'entities' => ['Jackson Elias'],
+            'knowledge' => ['Adresse à Harlem'],
+            'notes' => ['Note de Jack'],
+        ], $search($alex, 'écrivain'));
+        $this->assertSame(['entities' => ['Jackson Elias']], $search($alex, 'romancier'));
+        $this->assertSame([], $search($alex, 'indicateur'));
+        $this->assertSame([], $search($alex, 'Sanglante'));
+        $this->assertSame([], $search($alex, 'Mukunga'));
+        $this->assertSame(['notes' => ['Note de Jack', 'Note de Jack']], $search($sam, 'écrivain'), 'Sam lit ses propres notes, Harvey ne connaît rien pour lui.');
+
+        $this->actingAs($alex)->get(route('search.index', [$this->campaign, 'q' => 'écrivain']))
+            ->assertOk()
+            ->assertSee([route('characters.entity', [$this->campaign, $harvey, $elias]), 'Fiches connues'], false)
+            ->assertDontSee(['Mukunga', 'Indicateur', 'mon secret']);
     }
 }
