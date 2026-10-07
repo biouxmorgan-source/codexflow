@@ -2,6 +2,7 @@
 
 namespace App\Actions\Characters;
 
+use App\Enums\Zone;
 use App\Models\ActivityLog;
 use App\Models\Campaign;
 use App\Models\CharacterGrant;
@@ -10,13 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Révèle ou donne un élément à un ou plusieurs personnages de la campagne, et l'inscrit au journal.
- * Une fiche ou un document déjà révélé à un personnage n'est pas dupliqué.
+ * Une fiche, un document ou une règle déjà révélés à un personnage ne sont pas dupliqués.
  */
 class GiveToCharacters
 {
     /**
      * @param  list<int>  $characterIds
-     * @param  array{kind: string, entity_id?: ?int, document_id?: ?int, title?: ?string, body?: ?string, quantity?: ?int}  $data
+     * @param  array{kind: string, entity_id?: ?int, document_id?: ?int, rule_id?: ?int, title?: ?string, body?: ?string, quantity?: ?int}  $data
      * @return int nombre de personnages qui ont reçu l'élément
      */
     public function handle(Campaign $campaign, array $characterIds, array $data): int
@@ -33,6 +34,11 @@ class GiveToCharacters
             abort_unless($campaign->availableDocuments()->whereKey($data['document_id'] ?? 0)->exists(), 404);
         }
 
+        // Une règle de la zone MJ ne s'ouvre jamais aux joueurs.
+        if ($kind === 'rule') {
+            abort_unless($campaign->availableRules()->where('zone', Zone::Public)->whereKey($data['rule_id'] ?? 0)->exists(), 404);
+        }
+
         $characters = $campaign->playerCharacters()->with('entity')->whereKey($characterIds)->get();
 
         return DB::transaction(function () use ($characters, $data, $kind) {
@@ -44,12 +50,13 @@ class GiveToCharacters
                     'kind' => $kind,
                     'entity_id' => $kind === 'entity' ? $data['entity_id'] : null,
                     'document_id' => $kind === 'document' ? $data['document_id'] : null,
+                    'rule_id' => $kind === 'rule' ? $data['rule_id'] : null,
                     'title' => in_array($kind, ['information', 'possession'], true) ? trim((string) $data['title']) : null,
                     'body' => in_array($kind, ['information', 'possession'], true) ? (trim((string) ($data['body'] ?? '')) ?: null) : null,
                     'quantity' => $kind === 'possession' ? ($data['quantity'] ?? null) : null,
                 ];
 
-                if (in_array($kind, ['entity', 'document'], true)) {
+                if (in_array($kind, ['entity', 'document', 'rule'], true)) {
                     $column = $kind.'_id';
 
                     if ($character->grants()->where($column, $attributes[$column])->exists()) {

@@ -34,7 +34,7 @@ final class GlobalSearch
         'rules' => 'Règles',
         'documents' => 'Documents',
         'notes' => 'Notes de session',
-        'knowledge' => 'Informations et objets',
+        'knowledge' => 'Informations, objets et règles',
     ];
 
     /** Ce qu'un joueur peut chercher : seulement ce que son personnage a reçu, et les notes qu'il peut lire. */
@@ -167,16 +167,24 @@ final class GlobalSearch
     /** @return Collection<int, SearchResult> */
     private function receivedItems(PlayerCharacter $character): Collection
     {
+        // Règles ouvertes au personnage : titre, résumé et procédure, jamais les notes MJ.
+        $rule = "(select concat_ws(' ', rules.title, rules.category, rules.summary, rules.procedure) from rules where rules.id = character_grants.rule_id)";
+
         return $character->grants()
-            ->whereIn('kind', ['information', 'possession'])
-            ->tap(fn (Builder $q) => $this->matchAll($q, "concat_ws(' ', character_grants.title, character_grants.body)"))
+            ->where(fn (Builder $q) => $q
+                ->whereIn('kind', ['information', 'possession'])
+                ->orWhere(fn (Builder $q) => $q->where('kind', 'rule')->whereIn('rule_id', Rule::query()->where('zone', Zone::Public)->select('id'))))
+            ->with('rule')
+            ->tap(fn (Builder $q) => $this->matchAll($q, "concat_ws(' ', character_grants.title, character_grants.body, {$rule})"))
             ->limit(self::PER_KIND)
             ->get()
             ->map(fn (CharacterGrant $grant) => new SearchResult(
                 title: $grant->label(),
                 subtitle: CharacterGrant::KINDS[$grant->kind],
                 url: route('characters.show', [$this->campaign, $character]),
-                snippet: $this->snippet(['Texte' => $grant->body], $grant->label()),
+                snippet: $this->snippet($grant->kind === 'rule'
+                    ? ['Résumé' => $grant->rule->summary, 'Procédure' => $grant->rule->procedure]
+                    : ['Texte' => $grant->body], $grant->label()),
             ));
     }
 

@@ -19,7 +19,7 @@ class Give extends Component
     #[Locked]
     public Campaign $campaign;
 
-    /** Nature imposée par la page (entity, document) ; vide = information ou objet au choix. */
+    /** Nature imposée par la page (entity, document, rule) ; vide = information ou objet au choix. */
     #[Locked]
     public string $fixedKind = '';
 
@@ -28,6 +28,9 @@ class Give extends Component
 
     #[Locked]
     public ?int $documentId = null;
+
+    #[Locked]
+    public ?int $ruleId = null;
 
     /** Personnage visé d'office (page d'un personnage). */
     #[Locked]
@@ -66,6 +69,7 @@ class Give extends Component
             ->withExists(['grants as already' => fn ($q) => $q
                 ->when($this->fixedKind === 'entity', fn ($q) => $q->where('entity_id', $this->entityId))
                 ->when($this->fixedKind === 'document', fn ($q) => $q->where('document_id', $this->documentId))
+                ->when($this->fixedKind === 'rule', fn ($q) => $q->where('rule_id', $this->ruleId))
                 ->when($this->fixedKind === '', fn ($q) => $q->whereRaw('false'))])
             ->get()
             ->sortBy(fn (PlayerCharacter $character) => mb_strtolower($character->entity->name))
@@ -92,6 +96,7 @@ class Give extends Component
             'kind' => $this->kind,
             'entity_id' => $this->entityId,
             'document_id' => $this->documentId,
+            'rule_id' => $this->ruleId,
             'title' => $this->title,
             'body' => $this->body,
             'quantity' => $this->quantity === '' ? null : (int) $this->quantity,
@@ -99,7 +104,7 @@ class Give extends Component
 
         $this->flash = match (true) {
             $count === 0 => 'Ces personnages l\'avaient déjà.',
-            $this->kind === 'entity', $this->kind === 'information' => 'Révélé à '.$count.' personnage'.($count > 1 ? 's' : '').'.',
+            in_array($this->kind, ['entity', 'information', 'rule'], true) => 'Révélé à '.$count.' personnage'.($count > 1 ? 's' : '').'.',
             default => 'Donné à '.$count.' personnage'.($count > 1 ? 's' : '').'.',
         };
 

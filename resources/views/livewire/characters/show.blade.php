@@ -115,7 +115,7 @@
             @endif
 
             @php($grants = $this->grants)
-            @foreach (['knowledge' => 'Connaissances', 'possession' => 'Possessions', 'document' => 'Documents'] as $section => $sectionTitle)
+            @foreach (['knowledge' => 'Connaissances', 'possession' => 'Possessions', 'rule' => 'Règles', 'document' => 'Documents'] as $section => $sectionTitle)
                 @php($items = $grants->filter(fn ($grant) => $section === 'knowledge' ? in_array($grant->kind, ['entity', 'information'], true) : $grant->kind === $section))
                 <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm" wire:key="section-{{ $section }}">
                     <h2 class="mb-2 font-semibold">{{ $sectionTitle }}</h2>
@@ -124,6 +124,7 @@
                             @switch($section)
                                 @case('knowledge') Rien de révélé pour l'instant. @break
                                 @case('possession') Aucun objet reçu. @break
+                                @case('rule') Aucune règle ouverte par le MJ. @break
                                 @default Aucun document reçu.
                             @endswitch
                         </p>
@@ -140,6 +141,17 @@
                                                     <p class="text-sm text-stone-600">{{ $grant->entity->summary }}</p>
                                                 @endif
                                                 @break
+                                            @case('rule')
+                                                <details>
+                                                    <summary class="cursor-pointer font-medium text-codex">{{ $grant->rule->title }} @if ($grant->rule->category)<span class="text-xs font-normal text-stone-500">{{ $grant->rule->category }}</span>@endif</summary>
+                                                    @if ($grant->rule->summary)
+                                                        <p class="mt-1 text-sm font-medium text-stone-700">{{ $grant->rule->summary }}</p>
+                                                    @endif
+                                                    @if ($grant->rule->procedure)
+                                                        <div class="mt-1 text-sm text-stone-700">{{ \App\Support\EntityLinks::render($grant->rule->procedure, $campaign, $this->knownLink(...)) }}</div>
+                                                    @endif
+                                                </details>
+                                                @break
                                             @case('document')
                                                 <a href="{{ route('characters.document', [$campaign, $character, $grant->document]) }}" target="_blank" class="link font-medium">{{ $grant->document->title }}</a>
                                                 <span class="text-xs text-stone-500">{{ $grant->document->isPdf() ? 'PDF' : 'Image' }}</span>
@@ -153,7 +165,7 @@
                                         <p class="text-xs text-stone-400">{{ $grant->created_at->locale('fr')->isoFormat('D MMM YYYY, HH:mm') }}</p>
                                     </div>
                                     @if ($this->isGameMaster)
-                                        <button type="button" wire:click="revoke({{ $grant->id }})" wire:confirm="{{ $grant->kind === 'entity' ? 'Cacher à nouveau cette fiche au personnage ?' : 'Retirer cet élément au personnage ?' }}" class="shrink-0 text-xs text-red-700 hover:underline">{{ $grant->kind === 'entity' ? 'Cacher' : 'Retirer' }}</button>
+                                        <button type="button" wire:click="revoke({{ $grant->id }})" wire:confirm="{{ in_array($grant->kind, ['entity', 'rule'], true) ? 'Cacher à nouveau cet élément au personnage ?' : 'Retirer cet élément au personnage ?' }}" class="shrink-0 text-xs text-red-700 hover:underline">{{ in_array($grant->kind, ['entity', 'rule'], true) ? 'Cacher' : 'Retirer' }}</button>
                                     @endif
                                 </li>
                             @endforeach

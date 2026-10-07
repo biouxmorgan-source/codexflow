@@ -12,7 +12,7 @@
         @if ($isGameMaster)
             Cherche dans les fiches, scènes, règles, documents et notes de session de la campagne.
         @else
-            Cherche dans ce que votre personnage connaît : fiches révélées, informations, objets, documents et notes partagées.
+            Cherche dans ce que votre personnage connaît : fiches révélées, informations, objets, règles ouvertes, documents et notes partagées.
         @endif
         Astuce : la touche / place le curseur dans la recherche depuis n'importe quelle page.
     </p>
