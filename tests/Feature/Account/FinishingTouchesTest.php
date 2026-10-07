@@ -55,7 +55,9 @@ class FinishingTouchesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user)->get(route('campaigns.index'))->assertSee('data-theme-choice="system"', false);
+        $this->actingAs($user)->get(route('campaigns.index'))
+            ->assertSee('data-theme-choice="system"', false)
+            ->assertDontSee('data-theme="', false);
 
         Livewire::actingAs($user)->test(Preferences::class)
             ->set('theme', 'dark')
@@ -66,6 +68,8 @@ class FinishingTouchesTest extends TestCase
 
         $this->get(route('campaigns.index'))
             ->assertSee('data-theme-choice="dark"', false)
+            // Rendu côté serveur : la navigation Livewire garde le thème sombre.
+            ->assertSee('data-theme="dark"', false)
             ->assertSee('data-accent="violet"', false)
             ->assertSee('data-size="large"', false);
 
@@ -73,6 +77,6 @@ class FinishingTouchesTest extends TestCase
 
         // L'écran de table garde son affichage propre.
         $campaign = Campaign::factory()->for($user, 'owner')->create();
-        $this->get(route('table.screen', $campaign))->assertOk()->assertDontSee('data-theme-choice', false);
+        $this->get(route('table.screen', $campaign))->assertOk()->assertDontSee('data-theme-choice="', false);
     }
 }

@@ -21,8 +21,12 @@ class Appearance
     /** @return array<string, string> attributs data-* pour <html> */
     public static function attributes(?User $user): array
     {
+        $theme = $user?->preference('theme') ?? self::DEFAULTS['theme'];
+
         return [
-            'data-theme-choice' => $user?->preference('theme') ?? self::DEFAULTS['theme'],
+            'data-theme-choice' => $theme,
+            // Un choix explicite est rendu tel quel : la navigation Livewire recopie les attributs de <html>.
+            ...($theme === 'system' ? [] : ['data-theme' => $theme]),
             'data-accent' => $user?->preference('accent') ?? self::DEFAULTS['accent'],
             'data-size' => $user?->preference('size') ?? self::DEFAULTS['size'],
         ];

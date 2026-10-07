@@ -11,10 +11,15 @@
                 const media = window.matchMedia('(prefers-color-scheme: dark)');
                 const apply = () => {
                     const choice = root.dataset.themeChoice;
-                    root.dataset.theme = choice === 'dark' || (choice === 'system' && media.matches) ? 'dark' : 'light';
+                    const theme = choice === 'dark' || (choice === 'system' && media.matches) ? 'dark' : 'light';
+                    if (root.dataset.theme !== theme) root.dataset.theme = theme;
                 };
                 apply();
                 media.addEventListener('change', apply);
+                // wire:navigate remplace les attributs de <html> par ceux de la page reçue,
+                // qui ne connaît pas le thème du système : on le remet aussitôt.
+                new MutationObserver(apply)
+                    .observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-theme-choice'] });
             })();
         </script>
         <meta charset="utf-8">
