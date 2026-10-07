@@ -74,6 +74,9 @@
                                 <button type="button" wire:click="toggleLock({{ $character->id }})" class="link">{{ $character->locked ? __('Déverrouiller la fiche') : __('Verrouiller la fiche') }}</button>
                                 <button type="button" wire:click="toggleActive({{ $character->id }})" class="link">{{ $character->is_active ? __('Mettre au repos') : __('Rendre actif') }}</button>
                                 <button type="button" wire:click="remove({{ $character->id }})" wire:confirm="{{ __(':name ne sera plus un personnage joueur. Sa fiche reste dans la campagne.', ['name' => $entity->name]) }}" class="ml-auto text-red-700 hover:underline">{{ __('Retirer des personnages') }}</button>
+                                @if ($entity->campaign_id === $campaign->id)
+                                    <button type="button" wire:click="destroy({{ $character->id }})" wire:confirm="{{ __('Supprimer :name et sa fiche ? Ses connaissances, possessions et notes seront supprimées aussi.', ['name' => $entity->name]) }}" class="text-red-700 hover:underline">{{ __('Supprimer avec sa fiche') }}</button>
+                                @endif
                             </div>
                         </li>
                     @endforeach
@@ -97,6 +100,7 @@
                                 </optgroup>
                             @endforeach
                         </select>
+                        @error('entityChoice') <p class="error">{{ $message }}</p> @enderror
                     </div>
                 @endif
                 @if ($entityChoice === 'new')
@@ -119,6 +123,22 @@
                 <button type="submit" class="btn-primary w-full">{{ __('Ajouter le personnage') }}</button>
                 <p class="text-xs text-stone-500">{{ __('Portrait, description et caractéristiques se remplissent ensuite avec « Modifier la fiche ».') }}</p>
             </form>
+
+            @if ($this->unused->isNotEmpty())
+                <section class="mt-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <h2 class="font-semibold">{{ __('Fiches de personnage inutilisées') }}</h2>
+                    <p class="mt-1 text-xs text-stone-500">{{ __('Les fiches de personnages retirés restent dans la campagne. Supprimez les doublons pour qu’ils n’apparaissent plus dans les listes (cartes, recherche…).') }}</p>
+                    <ul class="mt-3 divide-y divide-stone-100 text-sm">
+                        @foreach ($this->unused as $sheet)
+                            <li wire:key="unused-{{ $sheet->id }}" class="flex items-center gap-3 py-2">
+                                <a href="{{ route('entities.show', [$campaign, $sheet]) }}" class="min-w-0 flex-1 truncate link" wire:navigate>{{ $sheet->name }}</a>
+                                <span class="shrink-0 text-xs text-stone-500">{{ $sheet->created_at?->translatedFormat('j M') }}</span>
+                                <button type="button" wire:click="deleteUnused({{ $sheet->id }})" wire:confirm="{{ __('Supprimer la fiche « :name » ?', ['name' => $sheet->name]) }}" class="shrink-0 text-red-700 hover:underline">{{ __('Supprimer') }}</button>
+                            </li>
+                        @endforeach
+                    </ul>
+                </section>
+            @endif
         </aside>
     </div>
 </div>

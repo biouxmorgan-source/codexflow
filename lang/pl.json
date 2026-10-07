@@ -1264,5 +1264,11 @@
     "Échelle : 1 case =": "Skala: 1 pole =",
     "Écran ↗": "Ekran ↗",
     "échelle": "skala",
-    "Mesurer": "Zmierz"
+    "Mesurer": "Zmierz",
+    "Fiches de personnage inutilisées": "Nieużywane karty postaci",
+    "Les fiches de personnages retirés restent dans la campagne. Supprimez les doublons pour qu’ils n’apparaissent plus dans les listes (cartes, recherche…).": "Karty odebranych postaci zostają w kampanii. Usuń duplikaty, aby nie pojawiały się na listach (mapy, wyszukiwanie…).",
+    "Supprimer :name et sa fiche ? Ses connaissances, possessions et notes seront supprimées aussi.": "Usunąć :name wraz z kartą? Wiedza, przedmioty i notatki również zostaną usunięte.",
+    "Supprimer avec sa fiche": "Usuń z kartą",
+    "Supprimer la fiche « :name » ?": "Usunąć kartę „:name”?",
+    "Une fiche « :name » existe déjà : elle est sélectionnée ci-dessus. Créez le personnage avec elle, ou supprimez-la plus bas.": "Karta „:name” już istnieje: jest wybrana powyżej. Utwórz postać z nią albo usuń ją niżej."
 }

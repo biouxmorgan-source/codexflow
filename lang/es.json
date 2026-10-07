@@ -1264,5 +1264,11 @@
     "Échelle : 1 case =": "Escala: 1 casilla =",
     "Écran ↗": "Pantalla ↗",
     "échelle": "escala",
-    "Mesurer": "Medir"
+    "Mesurer": "Medir",
+    "Fiches de personnage inutilisées": "Fichas de personaje sin usar",
+    "Les fiches de personnages retirés restent dans la campagne. Supprimez les doublons pour qu’ils n’apparaissent plus dans les listes (cartes, recherche…).": "Las fichas de los personajes quitados se quedan en la campaña. Borra los duplicados para que dejen de aparecer en las listas (mapas, búsqueda…).",
+    "Supprimer :name et sa fiche ? Ses connaissances, possessions et notes seront supprimées aussi.": "¿Borrar a :name y su ficha? Sus conocimientos, posesiones y notas también se borrarán.",
+    "Supprimer avec sa fiche": "Borrar con su ficha",
+    "Supprimer la fiche « :name » ?": "¿Borrar la ficha «:name»?",
+    "Une fiche « :name » existe déjà : elle est sélectionnée ci-dessus. Créez le personnage avec elle, ou supprimez-la plus bas.": "Ya existe una ficha «:name»: está seleccionada arriba. Crea el personaje con ella, o bórrala más abajo."
 }
