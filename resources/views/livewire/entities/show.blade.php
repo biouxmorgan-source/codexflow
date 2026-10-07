@@ -69,13 +69,15 @@
                 <x-attachment-list :attachments="$gmAttachments" :campaign="$campaign" />
             </section>
 
-            <form wire:submit="addRelation" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+            <form wire:submit="addRelation" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm"
+                x-data="{ inverses: @js($this->relationInverses()) }">
                 <h2 class="mb-1 font-semibold">{{ __('Ajouter une relation') }}</h2>
-                <p class="mb-4 text-sm text-stone-600">{!! __(':name <em>travaille pour</em> la Guilde, <em>habite à</em> Valdaria… Elle apparaît sur les deux fiches.', ['name' => e($entity->name)]) !!}</p>
+                <p class="mb-4 text-sm text-stone-600">{!! __(':name <em>travaille pour</em> la Guilde, <em>habite à</em> Valdaria… Elle apparaît sur les deux fiches.', ['name' => e($entity->name)]) !!} {{ __("L'inverse se remplit tout seul pour les relations connues.") }}</p>
                 <div class="grid gap-4 md:grid-cols-2">
                     <div>
                         <label for="relationLabel" class="label">{{ __('Relation') }}</label>
-                        <input id="relationLabel" type="text" wire:model="relationLabel" list="relation-labels" class="field" placeholder="{{ __('travaille pour') }}">
+                        <input id="relationLabel" type="text" wire:model="relationLabel" list="relation-labels" class="field" placeholder="{{ __('travaille pour') }}"
+                            x-on:change="const inverse = inverses[$event.target.value.trim()]; if (inverse && ! $wire.relationReverse) { $wire.relationReverse = inverse }">
                         <datalist id="relation-labels">
                             @foreach ($relationLabels as $label)
                                 <option value="{{ $label }}">
