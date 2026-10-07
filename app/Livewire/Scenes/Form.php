@@ -94,7 +94,7 @@ class Form extends Component
         $entity = $this->pickedEntityId ? $this->campaign->availableEntities()->with('type')->find($this->pickedEntityId) : null;
 
         if ($entity === null) {
-            $this->addError('pickedEntityId', 'Choisissez une fiche dans la liste.');
+            $this->addError('pickedEntityId', __('Choisissez une fiche dans la liste.'));
 
             return;
         }
@@ -153,9 +153,9 @@ class Form extends Component
             'linked' => ['array', 'max:100'],
             'linked.*.note' => ['nullable', 'string', 'max:150'],
         ], attributes: [
-            'scenarioId' => 'scénario',
-            'chapter' => 'chapitre',
-            'linked.*.note' => 'précision',
+            'scenarioId' => __('scénario'),
+            'chapter' => __('chapitre'),
+            'linked.*.note' => __('précision'),
         ]);
 
         $scene = $this->scene ?? new Scene;
@@ -223,6 +223,6 @@ class Form extends Component
             'scenarios' => $this->campaign->scenarios()->get(),
             'rules' => $this->campaign->availableRules()->orderByRaw('lower(title)')->get(['id', 'title', 'category'])->keyBy('id'),
             'documents' => $this->campaign->availableDocuments()->orderByRaw('lower(title)')->get(['id', 'title', 'mime_type'])->keyBy('id'),
-        ])->title($this->scene ? 'Modifier '.$this->scene->name : 'Nouvelle scène');
+        ])->title($this->scene ? __('Modifier :name', ['name' => $this->scene->name]) : __('Nouvelle scène'));
     }
 }

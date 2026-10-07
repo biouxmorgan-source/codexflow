@@ -155,10 +155,10 @@ class Index extends Component
             'selected.*' => [ValidationRule::in($this->characters->modelKeys())],
             'to' => [ValidationRule::in(['gm', 'group'])],
         ], [
-            'refEntityId.required' => 'Choisissez la fiche à joindre.',
-            'refDocumentId.required' => 'Choisissez le document à joindre.',
-            'refRuleId.required' => 'Choisissez la règle à joindre.',
-        ], ['body' => 'message']);
+            'refEntityId.required' => __('Choisissez la fiche à joindre.'),
+            'refDocumentId.required' => __('Choisissez le document à joindre.'),
+            'refRuleId.required' => __('Choisissez la règle à joindre.'),
+        ], ['body' => __('message')]);
 
         if ($this->isGameMaster) {
             $characterIds = $this->conversation !== '' ? [(int) $this->conversation] : array_map('intval', $this->selected);
@@ -177,7 +177,7 @@ class Index extends Component
         $sent = $send->handle($this->campaign, auth()->user(), $characterIds, $this->body, $reference);
 
         $this->flash = $this->conversation === '' && $this->selected !== []
-            ? 'Message privé envoyé à '.$sent->count().' personnage'.($sent->count() > 1 ? 's' : '').'.'
+            ? trans_choice('Message privé envoyé à :count personnage.|Message privé envoyé à :count personnages.', $sent->count())
             : null;
 
         $this->reset(['body', 'refKind', 'refEntityId', 'refDocumentId', 'refRuleId', 'selected']);
@@ -210,6 +210,6 @@ class Index extends Component
     {
         $this->markRead();
 
-        return view('livewire.messages.index')->title('Messages · '.$this->campaign->name);
+        return view('livewire.messages.index')->title(__('Messages · :name', ['name' => $this->campaign->name]));
     }
 }

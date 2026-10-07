@@ -9,20 +9,20 @@
             @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('search.index') && auth()->user()->can('view', $searchCampaign))
                 <form method="GET" action="{{ route('search.index', $searchCampaign) }}" role="search" class="order-last w-full sm:order-none sm:w-auto sm:max-w-xs sm:flex-1"
                     x-data x-on:keydown.slash.window="if (! ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && ! document.activeElement.isContentEditable) { $event.preventDefault(); $refs.q.focus() }">
-                    <label for="header-search" class="sr-only">Rechercher dans {{ $searchCampaign->name }}</label>
-                    <input id="header-search" x-ref="q" type="search" name="q" class="field py-1.5 text-sm" placeholder="Rechercher…  /" autocomplete="off">
+                    <label for="header-search" class="sr-only">{{ __('Rechercher dans :name', ['name' => $searchCampaign->name]) }}</label>
+                    <input id="header-search" x-ref="q" type="search" name="q" class="field py-1.5 text-sm" placeholder="{{ __('Rechercher…') }}  /" autocomplete="off">
                 </form>
             @endif
             <nav class="flex items-center gap-3 text-sm whitespace-nowrap sm:gap-4">
-                <a href="{{ route('campaigns.index') }}" @class(['rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft', 'bg-codex-soft' => request()->routeIs('campaigns.index')]) wire:navigate>Mes campagnes</a>
+                <a href="{{ route('campaigns.index') }}" @class(['rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft', 'bg-codex-soft' => request()->routeIs('campaigns.index')]) wire:navigate>{{ __('Mes campagnes') }}</a>
                 @if (auth()->user()->gameSystems()->exists())
-                    <a href="{{ route('entity-types.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('entity-types.*')]) wire:navigate>Types de fiche</a>
+                    <a href="{{ route('entity-types.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('entity-types.*')]) wire:navigate>{{ __('Types de fiche') }}</a>
                 @endif
                 @livewire(\App\Livewire\HeaderBadges::class, ['campaign' => $searchCampaign instanceof \App\Models\Campaign ? $searchCampaign : null])
-                <a href="{{ route('preferences') }}" @class(['hidden rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink sm:inline', 'bg-stone-100' => request()->routeIs('preferences')]) title="Préférences" wire:navigate>{{ auth()->user()->name }}</a>
+                <a href="{{ route('preferences') }}" @class(['hidden rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink sm:inline', 'bg-stone-100' => request()->routeIs('preferences')]) title="{{ __('Préférences') }}" wire:navigate>{{ auth()->user()->name }}</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink">Se déconnecter</button>
+                    <button type="submit" class="rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink">{{ __('Se déconnecter') }}</button>
                 </form>
             </nav>
         </div>
@@ -32,9 +32,9 @@
     </main>
     <footer class="mx-auto max-w-6xl px-4 pb-24 text-xs text-stone-500">
         CodexFlow {{ \App\Support\Changelog::version() }}
-        · <a href="{{ route('changelog') }}" class="hover:text-ink hover:underline" wire:navigate>Quoi de neuf</a>
-        · <a href="{{ route('recommended') }}" class="hover:text-ink hover:underline" wire:navigate>Configuration recommandée</a>
-        · <a href="{{ route('preferences') }}" class="hover:text-ink hover:underline" wire:navigate>Préférences</a>
+        · <a href="{{ route('changelog') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Quoi de neuf') }}</a>
+        · <a href="{{ route('recommended') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Configuration recommandée') }}</a>
+        · <a href="{{ route('preferences') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Préférences') }}</a>
     </footer>
     @livewire(\App\Livewire\WhatsNew::class)
     @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('messages.*') && auth()->user()->can('view', $searchCampaign))

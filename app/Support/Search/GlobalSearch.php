@@ -37,6 +37,19 @@ final class GlobalSearch
         'knowledge' => 'Informations, objets et règles',
     ];
 
+    /** @return array<string, string> libellés traduits des catégories (mêmes clés que KINDS) */
+    public static function kinds(): array
+    {
+        return [
+            'entities' => __('Fiches'),
+            'scenes' => __('Scènes'),
+            'rules' => __('Règles'),
+            'documents' => __('Documents'),
+            'notes' => __('Notes de session'),
+            'knowledge' => __('Informations, objets et règles'),
+        ];
+    }
+
     /** Ce qu'un joueur peut chercher : seulement ce que son personnage a reçu, et les notes qu'il peut lire. */
     public const PLAYER_KINDS = ['entities', 'knowledge', 'documents', 'notes'];
 
@@ -160,7 +173,7 @@ final class GlobalSearch
                 title: $entity->name,
                 subtitle: $entity->type->name,
                 url: route('characters.entity', [$this->campaign, $character, $entity]),
-                snippet: $this->snippet(['Résumé' => $entity->summary, 'Description' => $entity->description], $entity->name),
+                snippet: $this->snippet([__('Résumé') => $entity->summary, __('Description') => $entity->description], $entity->name),
             ));
     }
 
@@ -180,11 +193,11 @@ final class GlobalSearch
             ->get()
             ->map(fn (CharacterGrant $grant) => new SearchResult(
                 title: $grant->label(),
-                subtitle: CharacterGrant::KINDS[$grant->kind],
+                subtitle: CharacterGrant::kinds()[$grant->kind],
                 url: route('characters.show', [$this->campaign, $character]),
                 snippet: $this->snippet($grant->kind === 'rule'
-                    ? ['Résumé' => $grant->rule->summary, 'Procédure' => $grant->rule->procedure]
-                    : ['Texte' => $grant->body], $grant->label()),
+                    ? [__('Résumé') => $grant->rule->summary, __('Procédure') => $grant->rule->procedure]
+                    : [__('Texte') => $grant->body], $grant->label()),
             ));
     }
 
@@ -199,9 +212,9 @@ final class GlobalSearch
             ->get()
             ->map(fn (Document $document) => new SearchResult(
                 title: $document->title,
-                subtitle: $document->isPdf() ? 'PDF' : 'Image',
+                subtitle: $document->isPdf() ? 'PDF' : __('Image'),
                 url: route('characters.document', [$this->campaign, $character, $document]),
-                snippet: $this->snippet(['Description' => $document->description], $document->title),
+                snippet: $this->snippet([__('Description') => $document->description], $document->title),
             ));
     }
 
@@ -216,11 +229,11 @@ final class GlobalSearch
             ->limit(self::PER_KIND)
             ->get()
             ->map(fn (CharacterNote $note) => new SearchResult(
-                title: 'Note de '.$note->character->entity->name,
-                subtitle: $note->created_at->format('d/m/Y H:i').' · '.$note->visibilityLabel(),
+                title: __('Note de :name', ['name' => $note->character->entity->name]),
+                subtitle: $note->created_at->isoFormat('L LT').' · '.$note->visibilityLabel(),
                 // Une note partagée par un autre joueur se lit sur la page de son propre personnage.
                 url: route('characters.show', [$this->campaign, $character]),
-                snippet: $this->snippet(['Note' => $note->body], ''),
+                snippet: $this->snippet([__('Note') => $note->body], ''),
             ));
     }
 
@@ -254,11 +267,11 @@ final class GlobalSearch
             subtitle: $entity->type->name,
             url: route('entities.show', [$this->campaign, $entity]),
             snippet: $this->snippet([
-                'Résumé' => $entity->summary,
-                'Description' => $entity->description,
-                'Zone MJ' => $entity->gm_notes,
-                'Tags' => $entity->tags->pluck('name')->implode(', '),
-                'Scènes' => implode(', ', $scenesByEntity[$entity->id] ?? []),
+                __('Résumé') => $entity->summary,
+                __('Description') => $entity->description,
+                __('Zone MJ') => $entity->gm_notes,
+                __('Tags') => $entity->tags->pluck('name')->implode(', '),
+                __('Scènes') => implode(', ', $scenesByEntity[$entity->id] ?? []),
             ], $entity->name),
         ));
     }
@@ -278,7 +291,7 @@ final class GlobalSearch
                 title: $scene->name,
                 subtitle: $scene->scenario->name.' · '.$scene->status->label(),
                 url: route('scenes.show', [$this->campaign, $scene]),
-                snippet: $this->snippet(['Préparation' => $scene->description], $scene->name),
+                snippet: $this->snippet([__('Préparation') => $scene->description], $scene->name),
             ));
     }
 
@@ -299,10 +312,10 @@ final class GlobalSearch
                 subtitle: trim(($rule->category ? $rule->category.' · ' : '').$rule->status->label()),
                 url: route('rules.show', [$this->campaign, $rule]),
                 snippet: $this->snippet([
-                    'Résumé' => $rule->summary,
-                    'Procédure' => $rule->procedure,
-                    'Zone MJ' => $rule->gm_notes,
-                    'Tags' => $rule->tags->pluck('name')->implode(', '),
+                    __('Résumé') => $rule->summary,
+                    __('Procédure') => $rule->procedure,
+                    __('Zone MJ') => $rule->gm_notes,
+                    __('Tags') => $rule->tags->pluck('name')->implode(', '),
                 ], $rule->title),
             ));
     }
@@ -321,11 +334,11 @@ final class GlobalSearch
             ->get()
             ->map(fn (Document $document) => new SearchResult(
                 title: $document->title,
-                subtitle: ($document->isPdf() ? 'PDF' : 'Image').' · '.$document->scopeLabel(),
+                subtitle: ($document->isPdf() ? 'PDF' : __('Image')).' · '.$document->scopeLabel(),
                 url: route('documents.show', [$this->campaign, $document]),
                 snippet: $this->snippet([
-                    'Description' => $document->description,
-                    'Tags' => $document->tags->pluck('name')->implode(', '),
+                    __('Description') => $document->description,
+                    __('Tags') => $document->tags->pluck('name')->implode(', '),
                 ], $document->title),
             ));
     }
@@ -342,9 +355,9 @@ final class GlobalSearch
             ->get()
             ->map(fn (SessionNote $note) => new SearchResult(
                 title: $note->playSession->label().($note->scene ? ' · '.$note->scene->name : ''),
-                subtitle: $note->created_at->format('d/m/Y H:i'),
+                subtitle: $note->created_at->isoFormat('L LT'),
                 url: route('sessions.show', [$this->campaign, $note->playSession]),
-                snippet: $this->snippet(['Note' => $note->body], ''),
+                snippet: $this->snippet([__('Note') => $note->body], ''),
             ));
     }
 
@@ -430,7 +443,7 @@ final class GlobalSearch
         }
 
         foreach ($fields as $label => $text) {
-            if ($label !== 'Zone MJ' && $text !== null && $text !== '') {
+            if ($label !== __('Zone MJ') && $text !== null && $text !== '') {
                 return ['label' => $label, 'text' => Str::limit(trim(preg_replace('/\[\[([^\[\]|]+)(?:\|\d+)?\]\]/u', '$1', $text)), 160)];
             }
         }

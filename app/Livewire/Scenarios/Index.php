@@ -59,7 +59,7 @@ class Index extends Component
         $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'summary' => ['nullable', 'string', 'max:5000'],
-        ], attributes: ['name' => 'nom', 'summary' => 'résumé']);
+        ], attributes: ['name' => __('nom'), 'summary' => __('résumé')]);
 
         $scenario = $this->editingId ? $this->find($this->editingId) : new Scenario([
             'position' => (int) $this->campaign->scenarios()->max('position') + 1,
@@ -143,6 +143,6 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.scenarios.index')->title('Scénarios · '.$this->campaign->name);
+        return view('livewire.scenarios.index')->title(__('Scénarios · :name', ['name' => $this->campaign->name]));
     }
 }

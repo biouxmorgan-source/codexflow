@@ -10,6 +10,7 @@ use App\Models\User;
  */
 class Appearance
 {
+    /** Valeurs possibles de chaque réglage ; libellés traduits : labels(). */
     public const CHOICES = [
         'theme' => ['system' => 'Comme l\'appareil', 'light' => 'Clair', 'dark' => 'Sombre'],
         'accent' => ['codex' => 'Sarcelle', 'blue' => 'Bleu nuit', 'green' => 'Vert forêt', 'violet' => 'Violet', 'red' => 'Bordeaux'],
@@ -17,6 +18,16 @@ class Appearance
     ];
 
     public const DEFAULTS = ['theme' => 'system', 'accent' => 'codex', 'size' => 'normal'];
+
+    /** @return array<string, array<string, string>> les choix de CHOICES, avec leurs libellés traduits */
+    public static function labels(): array
+    {
+        return [
+            'theme' => ['system' => __('Comme l\'appareil'), 'light' => __('Clair'), 'dark' => __('Sombre')],
+            'accent' => ['codex' => __('Sarcelle'), 'blue' => __('Bleu nuit'), 'green' => __('Vert forêt'), 'violet' => __('Violet'), 'red' => __('Bordeaux')],
+            'size' => ['normal' => __('Normale'), 'large' => __('Grande'), 'xlarge' => __('Très grande')],
+        ];
+    }
 
     /** @return array<string, string> attributs data-* pour <html> */
     public static function attributes(?User $user): array

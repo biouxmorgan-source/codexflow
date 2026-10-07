@@ -46,7 +46,7 @@ class Message extends Model
     /** Nom affiché de l'auteur : son personnage pour un joueur, « MJ » sinon. */
     public function senderLabel(): string
     {
-        return $this->senderCharacter?->entity?->name ?? 'MJ';
+        return $this->senderCharacter?->entity?->name ?? __('MJ');
     }
 
     /** @return BelongsTo<Entity, $this> */

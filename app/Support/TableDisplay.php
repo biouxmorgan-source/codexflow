@@ -80,7 +80,7 @@ class TableDisplay
             'document' => $current['document']->title,
             'entity' => $current['entity']->name,
             'text' => '« '.mb_strimwidth($current['text'], 0, 60, '…').' »',
-            default => 'Écran vide',
+            default => __('Écran vide'),
         };
     }
 

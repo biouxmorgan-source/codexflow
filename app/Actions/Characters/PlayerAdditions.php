@@ -49,7 +49,7 @@ class PlayerAdditions
 
         $grant->update(['validated_at' => now()]);
         self::record($grant, $character, 'updated');
-        Notify::player($character, 'grant', 'Le MJ a validé « '.$grant->label().' ».', route('characters.show', [$character->campaign_id, $character]).'#section-possession');
+        Notify::player($character, 'grant', fn (string $locale) => __('Le MJ a validé « :label ».', ['label' => $grant->label()], $locale), route('characters.show', [$character->campaign_id, $character]).'#section-possession');
         Live::character($character->id);
     }
 

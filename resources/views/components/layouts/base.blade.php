@@ -36,6 +36,13 @@
         <link rel="manifest" href="/manifest.webmanifest">
         <link rel="icon" href="/favicon.ico" sizes="any">
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+        <script>
+            // Textes affichés par les scripts (resources/js), dans la langue de la page.
+            window.codexflowText = @json([
+                'pushSubscribeFailed' => __("L'abonnement n'a pas abouti. Réessayez, ou vérifiez les réglages de notification du navigateur."),
+                'pushDisableFailed' => __('La désactivation a échoué. Réessayez.'),
+            ]);
+        </script>
 
         <title>{{ $title ? $title.' · ' : '' }}{{ config('app.name') }}</title>
 
@@ -45,7 +52,7 @@
     <body {{ $attributes->merge(['class' => 'min-h-screen bg-parchment font-sans text-ink antialiased']) }}>
         <div x-data="{ online: navigator.onLine }" x-on:online.window="online = true" x-on:offline.window="online = false" x-show="! online" x-cloak role="status"
             class="sticky top-0 z-50 bg-flow px-4 py-2 text-center text-sm font-medium text-on-accent">
-            Hors ligne : vous consultez la dernière version enregistrée sur cet appareil.
+            {{ __('Hors ligne : vous consultez la dernière version enregistrée sur cet appareil.') }}
         </div>
         {{ $slot }}
     </body>

@@ -1,17 +1,17 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
         › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-semibold">Champs du jeu {{ $this->gameSystem->name }}</h1>
-            <p class="mt-1 text-sm text-stone-600">Nommez vos caractéristiques, compétences ou capacités. Elles apparaîtront sur les fiches de toutes les campagnes de ce jeu.</p>
+            <h1 class="text-2xl font-semibold">{{ __('Champs du jeu :name', ['name' => $this->gameSystem->name]) }}</h1>
+            <p class="mt-1 text-sm text-stone-600">{{ __('Nommez vos caractéristiques, compétences ou capacités. Elles apparaîtront sur les fiches de toutes les campagnes de ce jeu.') }}</p>
         </div>
         <div class="flex flex-wrap gap-2">
-            <a href="{{ route('imports.create', [$campaign, 'mode' => 'fields']) }}" class="btn-secondary" wire:navigate>Importer depuis un fichier</a>
-            <a href="{{ route('exports.download', [$campaign, 'champs']) }}" class="btn-secondary">Exporter</a>
+            <a href="{{ route('imports.create', [$campaign, 'mode' => 'fields']) }}" class="btn-secondary" wire:navigate>{{ __('Importer depuis un fichier') }}</a>
+            <a href="{{ route('exports.download', [$campaign, 'champs']) }}" class="btn-secondary">{{ __('Exporter') }}</a>
         </div>
     </div>
 
@@ -19,8 +19,8 @@
         <section class="lg:col-span-2">
             @if ($this->definitions->isEmpty())
                 <div class="rounded-xl border border-dashed border-stone-300 bg-white p-10 text-center">
-                    <p class="text-lg font-medium">Aucun champ pour l'instant.</p>
-                    <p class="mt-1 text-stone-600">Ajoutez-en un à droite, ou importez toute une liste depuis un fichier.</p>
+                    <p class="text-lg font-medium">{{ __("Aucun champ pour l'instant.") }}</p>
+                    <p class="mt-1 text-stone-600">{{ __('Ajoutez-en un à droite, ou importez toute une liste depuis un fichier.') }}</p>
                 </div>
             @else
                 <div class="space-y-6">
@@ -38,14 +38,14 @@
                                         </span>
                                         <span @class(['shrink-0 rounded-full px-2 py-0.5 text-xs font-medium', 'bg-codex/10 text-codex' => $definition->zone === \App\Enums\Zone::Public, 'bg-flow/10 text-flow' => $definition->zone === \App\Enums\Zone::GameMaster])>{{ $definition->zone->label() }}</span>
                                         @if ($definition->player_editable)
-                                            <span class="shrink-0 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-800">Joueur</span>
+                                            <span class="shrink-0 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-800">{{ __('Joueur') }}</span>
                                         @endif
-                                        <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{{ $definition->entityType?->name ?? 'Tous les types' }}</span>
+                                        <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{{ $definition->entityType?->name ?? __('Tous les types') }}</span>
                                         <span class="flex shrink-0 items-center gap-1 text-sm">
-                                            <button type="button" wire:click="move({{ $definition->id }}, -1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="Monter {{ $definition->name }}">↑</button>
-                                            <button type="button" wire:click="move({{ $definition->id }}, 1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="Descendre {{ $definition->name }}">↓</button>
-                                            <button type="button" wire:click="edit({{ $definition->id }})" class="rounded px-2 py-1 link">Modifier</button>
-                                            <button type="button" wire:click="delete({{ $definition->id }})" wire:confirm="Supprimer le champ {{ $definition->name }} et ses valeurs sur toutes les fiches ?" class="rounded px-2 py-1 text-red-700 hover:underline">Supprimer</button>
+                                            <button type="button" wire:click="move({{ $definition->id }}, -1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="{{ __('Monter :name', ['name' => $definition->name]) }}">↑</button>
+                                            <button type="button" wire:click="move({{ $definition->id }}, 1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="{{ __('Descendre :name', ['name' => $definition->name]) }}">↓</button>
+                                            <button type="button" wire:click="edit({{ $definition->id }})" class="rounded px-2 py-1 link">{{ __('Modifier') }}</button>
+                                            <button type="button" wire:click="delete({{ $definition->id }})" wire:confirm="{{ __('Supprimer le champ :name et ses valeurs sur toutes les fiches ?', ['name' => $definition->name]) }}" class="rounded px-2 py-1 text-red-700 hover:underline">{{ __('Supprimer') }}</button>
                                         </span>
                                     </li>
                                 @endforeach
@@ -58,15 +58,15 @@
 
         <aside>
             <form wire:submit="save" class="space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-                <h2 class="font-semibold">{{ $editingId ? 'Modifier le champ' : 'Nouveau champ' }}</h2>
+                <h2 class="font-semibold">{{ $editingId ? __('Modifier le champ') : __('Nouveau champ') }}</h2>
                 <div>
-                    <label for="name" class="label">Nom</label>
-                    <input id="name" type="text" wire:model="name" class="field" placeholder="Force, Discrétion, Points de vie…">
+                    <label for="name" class="label">{{ __('Nom') }}</label>
+                    <input id="name" type="text" wire:model="name" class="field" placeholder="{{ __('Force, Discrétion, Points de vie…') }}">
                     @error('name') <p class="error">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label for="group" class="label">Groupe <span class="font-normal text-stone-500">(facultatif)</span></label>
-                    <input id="group" type="text" wire:model="group" list="group-suggestions" class="field" placeholder="Caractéristiques, Compétences…">
+                    <label for="group" class="label">{{ __('Groupe') }} <span class="font-normal text-stone-500">{{ __('(facultatif)') }}</span></label>
+                    <input id="group" type="text" wire:model="group" list="group-suggestions" class="field" placeholder="{{ __('Caractéristiques, Compétences…') }}">
                     <datalist id="group-suggestions">
                         @foreach ($this->groups as $existing)
                             <option value="{{ $existing }}">
@@ -75,7 +75,7 @@
                     @error('group') <p class="error">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label for="type" class="label">Type</label>
+                    <label for="type" class="label">{{ __('Type') }}</label>
                     <select id="type" wire:model.live="type" class="field">
                         @foreach (\App\Enums\FieldType::cases() as $fieldType)
                             <option value="{{ $fieldType->value }}">{{ $fieldType->label() }}</option>
@@ -85,28 +85,28 @@
                 </div>
                 @if ($type === \App\Enums\FieldType::Select->value)
                     <div>
-                        <label for="options" class="label">Choix <span class="font-normal text-stone-500">(un par ligne)</span></label>
+                        <label for="options" class="label">{{ __('Choix') }} <span class="font-normal text-stone-500">{{ __('(un par ligne)') }}</span></label>
                         <textarea id="options" wire:model="options" rows="4" class="field"></textarea>
                         @error('options') <p class="error">{{ $message }}</p> @enderror
                     </div>
                 @endif
                 <div>
-                    <label for="zone" class="label">Zone</label>
+                    <label for="zone" class="label">{{ __('Zone') }}</label>
                     <select id="zone" wire:model.live="zone" class="field">
-                        <option value="public">Zone publique</option>
-                        <option value="gm">Zone MJ</option>
+                        <option value="public">{{ __('Zone publique') }}</option>
+                        <option value="gm">{{ __('Zone MJ') }}</option>
                     </select>
                 </div>
                 @if ($zone === 'public')
                     <label class="flex items-start gap-2 text-sm">
                         <input type="checkbox" wire:model="playerEditable" class="mt-1">
-                        <span>Modifiable par le joueur <span class="block text-xs text-stone-500">Sur la fiche de son personnage : PV, munitions, argent…</span></span>
+                        <span>{{ __('Modifiable par le joueur') }} <span class="block text-xs text-stone-500">{{ __('Sur la fiche de son personnage : PV, munitions, argent…') }}</span></span>
                     </label>
                 @endif
                 <div>
-                    <label for="entityTypeId" class="label">Fiches concernées</label>
+                    <label for="entityTypeId" class="label">{{ __('Fiches concernées') }}</label>
                     <select id="entityTypeId" wire:model="entityTypeId" class="field">
-                        <option value="">Tous les types</option>
+                        <option value="">{{ __('Tous les types') }}</option>
                         @foreach ($this->types as $entityType)
                             <option value="{{ $entityType->id }}">{{ $entityType->name }}</option>
                         @endforeach
@@ -114,9 +114,9 @@
                     @error('entityTypeId') <p class="error">{{ $message }}</p> @enderror
                 </div>
                 <div class="flex gap-3">
-                    <button type="submit" class="btn-primary">{{ $editingId ? 'Enregistrer' : 'Ajouter' }}</button>
+                    <button type="submit" class="btn-primary">{{ $editingId ? __('Enregistrer') : __('Ajouter') }}</button>
                     @if ($editingId)
-                        <button type="button" wire:click="cancel" class="btn-secondary">Annuler</button>
+                        <button type="button" wire:click="cancel" class="btn-secondary">{{ __('Annuler') }}</button>
                     @endif
                 </div>
             </form>

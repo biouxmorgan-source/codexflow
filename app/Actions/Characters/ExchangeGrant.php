@@ -27,7 +27,7 @@ class ExchangeGrant
         abort_unless($to->campaign_id === $from->campaign_id && $to->isNot($from) && $to->is_active, 404);
 
         if ($grant->isPending()) {
-            throw ValidationException::withMessages(['exchange' => 'Le MJ doit d\'abord valider cet objet.']);
+            throw ValidationException::withMessages(['exchange' => __('Le MJ doit d\'abord valider cet objet.')]);
         }
         $to->loadMissing('entity');
 
@@ -55,7 +55,7 @@ class ExchangeGrant
         $quantity ??= $owned;
 
         if ($quantity < 1 || $quantity > $owned) {
-            throw ValidationException::withMessages(['exchangeQuantity' => 'Quantité entre 1 et '.$owned.'.']);
+            throw ValidationException::withMessages(['exchangeQuantity' => __('Quantité entre 1 et :max.', ['max' => $owned])]);
         }
 
         // Même objet déjà chez le destinataire : on additionne.
@@ -97,7 +97,7 @@ class ExchangeGrant
         };
 
         if ($known) {
-            throw ValidationException::withMessages(['exchange' => $to->entity->name.' le sait déjà.']);
+            throw ValidationException::withMessages(['exchange' => __(':name le sait déjà.', ['name' => $to->entity->name])]);
         }
 
         return $to->grants()->create($grant->only(['kind', 'entity_id', 'document_id', 'rule_id', 'title', 'body']) + ['granted_by' => auth()->id()]);

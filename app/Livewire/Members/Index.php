@@ -54,7 +54,7 @@ class Index extends Component
         $validated = $this->validate([
             'label' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'max:255'],
-        ], attributes: ['label' => 'nom', 'email' => 'adresse e-mail']);
+        ], attributes: ['label' => __('nom'), 'email' => __('adresse e-mail')]);
 
         $invitation = new CampaignInvitation([
             'label' => $validated['label'] ?: null,
@@ -99,6 +99,6 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.members.index')->title('Joueurs · '.$this->campaign->name);
+        return view('livewire.members.index')->title(__('Joueurs · :name', ['name' => $this->campaign->name]));
     }
 }

@@ -102,18 +102,18 @@ class Document extends Model
     public function scopeLabel(): string
     {
         return match (true) {
-            $this->game_system_id !== null => 'Jeu',
-            $this->world_id !== null => 'Monde',
-            default => 'Campagne',
+            $this->game_system_id !== null => __('Jeu'),
+            $this->world_id !== null => __('Monde'),
+            default => __('Campagne'),
         };
     }
 
     public function humanSize(): string
     {
         return match (true) {
-            $this->size >= 1_048_576 => number_format($this->size / 1_048_576, 1, ',', ' ').' Mo',
-            $this->size >= 1024 => number_format($this->size / 1024, 0, ',', ' ').' Ko',
-            default => $this->size.' o',
+            $this->size >= 1_048_576 => __(':size Mo', ['size' => number_format($this->size / 1_048_576, 1, ',', ' ')]),
+            $this->size >= 1024 => __(':size Ko', ['size' => number_format($this->size / 1024, 0, ',', ' ')]),
+            default => __(':size o', ['size' => $this->size]),
         };
     }
 

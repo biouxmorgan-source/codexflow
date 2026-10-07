@@ -10,5 +10,12 @@
             @endif
             {{ $slot }}
         </div>
+        <nav class="mt-6 flex flex-wrap justify-center gap-x-3 gap-y-1 text-xs text-stone-500" aria-label="{{ __('Langue') }}">
+            @foreach (\App\Support\Locale::available() as $code => $name)
+                <a href="{{ request()->fullUrlWithQuery(['lang' => $code]) }}" lang="{{ $code }}" hreflang="{{ $code }}"
+                    @class(['hover:text-ink hover:underline', 'font-semibold text-ink' => app()->getLocale() === $code])
+                    @if (app()->getLocale() === $code) aria-current="true" @endif>{{ $name }}</a>
+            @endforeach
+        </nav>
     </main>
 </x-layouts.base>

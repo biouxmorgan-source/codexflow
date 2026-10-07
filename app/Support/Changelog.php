@@ -15,7 +15,10 @@ class Changelog
     /** @return array<string, array{date: string, title: string, items: list<string>}> de la plus récente à la plus ancienne */
     public static function all(): array
     {
-        return trans('changelog');
+        $entries = trans('changelog');
+
+        // Langue sans lang/{langue}/changelog.php : on montre les nouveautés en français.
+        return is_array($entries) ? $entries : trans('changelog', [], Locale::DEFAULT);
     }
 
     /**

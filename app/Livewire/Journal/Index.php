@@ -101,6 +101,6 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.journal.index')->title('Journal · '.$this->campaign->name);
+        return view('livewire.journal.index')->title(__('Journal · :name', ['name' => $this->campaign->name]));
     }
 }

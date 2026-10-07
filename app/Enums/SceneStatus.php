@@ -13,11 +13,11 @@ enum SceneStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Planned => 'Prévue',
-            self::Available => 'Disponible',
-            self::InProgress => 'En cours',
-            self::Played => 'Jouée',
-            self::Skipped => 'Ignorée',
+            self::Planned => __('Prévue'),
+            self::Available => __('Disponible'),
+            self::InProgress => __('En cours'),
+            self::Played => __('Jouée'),
+            self::Skipped => __('Ignorée'),
         };
     }
 

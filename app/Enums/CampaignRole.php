@@ -10,8 +10,8 @@ enum CampaignRole: string
     public function label(): string
     {
         return match ($this) {
-            self::GameMaster => 'Maître de jeu',
-            self::Player => 'Joueur',
+            self::GameMaster => __('Maître de jeu'),
+            self::Player => __('Joueur'),
         };
     }
 }

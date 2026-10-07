@@ -94,11 +94,12 @@ class SendMessage
             $character = $message->senderCharacter()->with('entity')->first();
 
             if ($message->isForGroup()) {
-                $text = $character->entity->name.' au groupe : '.$excerpt;
+                $replace = ['name' => $character->entity->name, 'excerpt' => $excerpt];
+                $text = fn (string $locale) => __(':name au groupe : :excerpt', $replace, $locale);
                 Notify::gameMasters($campaign, 'message', $text, route('messages.index', $campaign));
                 Notify::players($campaign, 'message', $text, route('messages.index', $campaign));
             } else {
-                Notify::gameMasters($campaign, 'message', $character->entity->name.' : '.$excerpt, route('messages.index', [$campaign, 'personnage' => $character->id]), $character);
+                Notify::gameMasters($campaign, 'message', fn (string $locale) => __(':name : :excerpt', ['name' => $character->entity->name, 'excerpt' => $excerpt], $locale), route('messages.index', [$campaign, 'personnage' => $character->id]), $character);
             }
 
             return;
@@ -106,9 +107,9 @@ class SendMessage
 
         foreach ($messages as $message) {
             if ($message->isForGroup()) {
-                Notify::players($campaign, 'message', 'Message du MJ au groupe : '.$excerpt, route('messages.index', $campaign));
+                Notify::players($campaign, 'message', fn (string $locale) => __('Message du MJ au groupe : :excerpt', ['excerpt' => $excerpt], $locale), route('messages.index', $campaign));
             } else {
-                Notify::player($message->character, 'message', 'Message du MJ : '.$excerpt, route('messages.index', $campaign));
+                Notify::player($message->character, 'message', fn (string $locale) => __('Message du MJ : :excerpt', ['excerpt' => $excerpt], $locale), route('messages.index', $campaign));
             }
         }
     }

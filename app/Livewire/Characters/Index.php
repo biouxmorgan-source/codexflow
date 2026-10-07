@@ -90,7 +90,7 @@ class Index extends Component
             'entityChoice' => ['required', Rule::in(['new', ...$this->candidates->modelKeys()])],
             'name' => ['required_if:entityChoice,new', 'nullable', 'string', 'max:255'],
             'playerId' => ['nullable', Rule::in($this->players->modelKeys())],
-        ], attributes: ['name' => 'nom', 'playerId' => 'joueur', 'entityChoice' => 'fiche']);
+        ], attributes: ['name' => __('nom'), 'playerId' => __('joueur'), 'entityChoice' => __('fiche')]);
 
         DB::transaction(function () {
             if ($this->entityChoice === 'new') {
@@ -161,7 +161,7 @@ class Index extends Component
     {
         $this->authorize('update', $this->campaign);
 
-        $this->validate(["sheets.$key" => ['file', 'mimes:pdf', 'max:30720']], [], ["sheets.$key" => 'feuille']);
+        $this->validate(["sheets.$key" => ['file', 'mimes:pdf', 'max:30720']], [], ["sheets.$key" => __('feuille')]);
 
         $character = $this->find((int) $key);
         $character->deleteSheet();
@@ -224,6 +224,6 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.characters.index')->title('Personnages · '.$this->campaign->name);
+        return view('livewire.characters.index')->title(__('Personnages · :name', ['name' => $this->campaign->name]));
     }
 }
