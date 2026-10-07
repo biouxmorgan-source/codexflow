@@ -4,8 +4,13 @@
         › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
-    <h1 class="text-2xl font-semibold">Scénarios</h1>
-    <p class="mt-1 mb-6 text-sm text-stone-600">Découpez la campagne en scénarios, regroupez les scènes par chapitre si vous le souhaitez, et suivez ce qui a été joué.</p>
+    <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-semibold">Scénarios</h1>
+            <p class="mt-1 text-sm text-stone-600">Découpez la campagne en scénarios, regroupez les scènes par chapitre si vous le souhaitez, et suivez ce qui a été joué.</p>
+        </div>
+        <a href="{{ route('imports.create', [$campaign, 'mode' => 'scenes']) }}" class="btn-secondary" wire:navigate>Importer</a>
+    </div>
 
     <div class="grid gap-6 lg:grid-cols-3">
         <div class="space-y-6 lg:col-span-2">

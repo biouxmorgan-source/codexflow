@@ -4,6 +4,8 @@ namespace App\Livewire\Imports;
 
 use App\Actions\Imports\ImportEntities;
 use App\Actions\Imports\ImportFieldDefinitions;
+use App\Actions\Imports\ImportRules;
+use App\Actions\Imports\ImportScenes;
 use App\Enums\Zone;
 use App\Models\Campaign;
 use App\Models\EntityType;
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use InvalidArgumentException;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -24,9 +27,12 @@ class Create extends Component
 {
     use WithFileUploads;
 
+    private const MODES = ['entities', 'fields', 'rules', 'scenes'];
+
     public Campaign $campaign;
 
-    /** « entities » : des fiches et leurs valeurs ; « fields » : une liste de champs. */
+    /** « entities » : des fiches et leurs valeurs ; « fields » : une liste de champs ; « rules » : des règles ; « scenes » : des scénarios et leurs scènes. */
+    #[Url(except: 'entities')]
     public string $mode = 'entities';
 
     public ?TemporaryUploadedFile $file = null;
@@ -37,6 +43,9 @@ class Create extends Component
     public string $defaultTypeId = '';
 
     public string $scope = 'campaign';
+
+    /** Rattachement des règles importées : « game » (tout le jeu) ou « campaign ». */
+    public string $ruleScope = 'game';
 
     public bool $updateExisting = true;
 
@@ -53,6 +62,10 @@ class Create extends Component
     {
         $this->authorize('update', $campaign);
         $this->authorize('update', $campaign->gameSystem);
+
+        if (! in_array($this->mode, self::MODES, true)) {
+            $this->mode = 'entities';
+        }
 
         $this->defaultTypeId = (string) $this->types->first()?->getKey();
         $this->scope = $campaign->world_id ? 'world' : 'campaign';
@@ -114,7 +127,8 @@ class Create extends Component
     {
         $this->authorize('update', $this->campaign->gameSystem);
         $this->validate($this->fileRules() + [
-            'mode' => ['required', Rule::in(['entities', 'fields'])],
+            'mode' => ['required', Rule::in(self::MODES)],
+            'ruleScope' => ['required', Rule::in(['game', 'campaign'])],
             'defaultTypeId' => ['required', Rule::in($this->types->modelKeys())],
             'newTypeId' => ['nullable', Rule::in($this->types->modelKeys())],
             'scope' => ['required', Rule::in($this->campaign->world_id ? ['world', 'campaign'] : ['campaign'])],
@@ -136,7 +150,7 @@ class Create extends Component
         unset($this->definitions, $this->table, $this->plan);
     }
 
-    private function action(): ImportEntities|ImportFieldDefinitions|null
+    private function action(): ImportEntities|ImportFieldDefinitions|ImportRules|ImportScenes|null
     {
         $table = $this->table;
 
@@ -146,6 +160,14 @@ class Create extends Component
 
         if ($this->mode === 'fields') {
             return new ImportFieldDefinitions($this->campaign->gameSystem, auth()->user(), $table);
+        }
+
+        if ($this->mode === 'scenes') {
+            return new ImportScenes($this->campaign, $table, $this->updateExisting);
+        }
+
+        if ($this->mode === 'rules') {
+            return new ImportRules($this->campaign, auth()->user(), $table, $this->ruleScope, $this->updateExisting);
         }
 
         return new ImportEntities($this->campaign, auth()->user(), $table, $this->mapping, [

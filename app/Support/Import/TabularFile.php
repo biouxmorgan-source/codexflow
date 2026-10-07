@@ -67,7 +67,8 @@ final class TabularFile
 
         while (($cells = fgetcsv($stream, null, $delimiter, '"', '')) !== false) {
             $line++;
-            $cells = array_map(fn ($cell) => trim((string) $cell), $cells);
+            // Les retours à la ligne Windows (Excel) à l'intérieur d'une cellule deviennent de simples \n.
+            $cells = array_map(fn ($cell) => trim(str_replace("\r\n", "\n", (string) $cell)), $cells);
 
             if (implode('', $cells) === '') {
                 continue;

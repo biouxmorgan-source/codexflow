@@ -148,7 +148,7 @@ class ImportEntities
                 $values = [];
                 foreach ($row['fields'] as $column => $value) {
                     if ($value !== null) {
-                        $values[$columnDefinitions[$column]->id] = $value;
+                        $values[($row['definitions'][$column] ?? $columnDefinitions[$column])->id] = $value;
                     }
                 }
                 $entity->setFieldValues($values);
@@ -220,6 +220,7 @@ class ImportEntities
             $attributes = [];
             $fields = [];
             $fieldColumns = [];
+            $rowDefinitions = [];
             $typeId = $this->options['default_type_id'];
 
             foreach ($this->mapping as $column => $target) {
@@ -251,12 +252,29 @@ class ImportEntities
                 }
             }
 
-            // Un champ réservé à un autre type de fiche ne s'afficherait pas : on le signale.
+            // Un champ réservé à un autre type de fiche ne s'afficherait pas : on prend le champ
+            // du même nom prévu pour ce type s'il existe, sinon on le signale.
             foreach ($fieldColumns as $column) {
                 $fieldTypeId = $columns[$column]->exists ? $columns[$column]->entity_type_id : $this->options['new_type_id'];
 
-                if ($fieldTypeId !== null && $fieldTypeId !== $typeId && isset($fields[$column])) {
-                    unset($fields[$column]);
+                if ($fieldTypeId === null || $fieldTypeId === $typeId) {
+                    continue;
+                }
+
+                unset($fields[$column]);
+                $rowErrors = array_values(array_filter($rowErrors, fn (string $error) => ! str_starts_with($error, $columns[$column]->name.' : ')));
+                $sibling = $this->sibling($columns[$column], $typeId);
+
+                if ($sibling) {
+                    [$value, $error] = $sibling->parse($row['cells'][$column] ?? '');
+
+                    if ($error) {
+                        $rowErrors[] = $sibling->name.' : '.$error;
+                    } else {
+                        $fields[$column] = $value;
+                        $rowDefinitions[$column] = $sibling;
+                    }
+                } elseif (($row['cells'][$column] ?? '') !== '') {
                     $warnings[] = $columns[$column]->name.' ne concerne que les fiches '.$this->types->firstWhere('id', $fieldTypeId)?->name.' : valeur ignorée';
                 }
             }
@@ -285,7 +303,7 @@ class ImportEntities
             ];
 
             if ($rowErrors === []) {
-                $valid[] = ['existing' => $match, 'attributes' => $attributes, 'fields' => $fields];
+                $valid[] = ['existing' => $match, 'attributes' => $attributes, 'fields' => $fields, 'definitions' => $rowDefinitions];
             }
         }
 
@@ -299,5 +317,17 @@ class ImportEntities
             'columns' => $columns,
             'valid' => $errors === [] ? $valid : [],
         ];
+    }
+
+    /**
+     * Champ de même nom propre à un type de fiche (ou commun à tous), pour qu'une même
+     * colonne serve à plusieurs types : FOR d'un personnage et FOR d'une créature.
+     */
+    private function sibling(FieldDefinition $definition, int $typeId): ?FieldDefinition
+    {
+        $candidates = $this->definitions->filter(fn (FieldDefinition $candidate) => Normalize::key($candidate->name) === Normalize::key($definition->name));
+
+        return $candidates->first(fn (FieldDefinition $candidate) => $candidate->entity_type_id === $typeId)
+            ?? $candidates->first(fn (FieldDefinition $candidate) => $candidate->entity_type_id === null);
     }
 }
