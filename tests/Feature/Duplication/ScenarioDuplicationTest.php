@@ -12,6 +12,7 @@ use App\Models\Entity;
 use App\Models\Rule;
 use App\Models\Scenario;
 use App\Models\Scene;
+use App\Models\Tag;
 use App\Models\ToPlayItem;
 use App\Models\User;
 use App\Models\World;
@@ -56,7 +57,7 @@ class ScenarioDuplicationTest extends TestCase
         $hall->entities()->attach($npc, ['note' => 'caché derrière la porte', 'position' => 3]);
         $cellar->rules()->attach($rule, ['position' => 1]);
         $cellar->documents()->attach($document, ['position' => 2]);
-        $hall->tags()->sync(\App\Models\Tag::idsFromInput($this->gm, 'exploration'));
+        $hall->tags()->sync(Tag::idsFromInput($this->gm, 'exploration'));
 
         $pending = new ToPlayItem(['body' => 'Un cri dans la nuit', 'position' => 0]);
         $pending->campaign()->associate($this->campaign);

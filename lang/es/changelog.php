@@ -4,6 +4,18 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.5.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Ordenar mejor, entre varios',
+        'items' => [
+            'Una página «Etiquetas» para renombrar, colorear, fusionar y eliminar tus etiquetas; las escenas también tienen etiquetas.',
+            '«Duplicar» una ficha, un escenario o toda una campaña, para volver a jugar con otra mesa.',
+            'Nuevos roles: co-DJ, que prepara y dirige contigo, y espectador, que mira la pantalla de mesa.',
+            '«Mostrar en la mesa» desde una ficha, un retrato, una ilustración, un documento o una regla.',
+            'Modo Sesión: mostrar una ficha o una regla con un clic, ver la escena siguiente, tecla N para tomar notas.',
+        ],
+    ],
+
     '0.4.1' => [
         'date' => '2026-10-08',
         'title' => 'Ayuda e informes de problemas',

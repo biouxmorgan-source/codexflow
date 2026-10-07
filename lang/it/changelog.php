@@ -4,6 +4,18 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.5.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Mettere in ordine, insieme',
+        'items' => [
+            'Una pagina «Tag» per rinominare, colorare, unire ed eliminare i tuoi tag; anche le scene hanno i tag.',
+            '«Duplica» una scheda, uno scenario o un\'intera campagna, per rigiocare con un altro tavolo.',
+            'Nuovi ruoli: co-Master, che prepara e conduce con te, e spettatore, che guarda lo schermo da tavolo.',
+            '«Mostra al tavolo» da una scheda, un ritratto, un\'illustrazione, un documento o una regola.',
+            'Modalità Sessione: mostra una scheda o una regola con un clic, vedi la scena successiva, tasto N per prendere appunti.',
+        ],
+    ],
+
     '0.4.1' => [
         'date' => '2026-10-08',
         'title' => 'Aiuto e segnalazioni',

@@ -4,6 +4,18 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.5.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Organizar melhor, em grupo',
+        'items' => [
+            'Uma página «Tags» para renomear, colorir, mesclar e excluir suas tags; as cenas também têm tags.',
+            '«Duplicar» uma ficha, um cenário ou uma campanha inteira, para jogar de novo com outra mesa.',
+            'Novos papéis: co-Mestre, que prepara e conduz com você, e espectador, que assiste à tela da mesa.',
+            '«Mostrar na mesa» a partir de uma ficha, um retrato, uma ilustração, um documento ou uma regra.',
+            'Modo Sessão: mostrar uma ficha ou uma regra com um clique, ver a próxima cena, tecla N para anotar.',
+        ],
+    ],
+
     '0.4.1' => [
         'date' => '2026-10-08',
         'title' => 'Ajuda e relatos de problemas',
