@@ -10,7 +10,10 @@
             <h1 class="text-2xl font-semibold">{{ $document->title }}</h1>
             <p class="text-sm text-stone-500">{{ $document->original_name }} · {{ $document->humanSize() }} · {{ $document->scopeLabel() }}</p>
         </div>
-        <a href="{{ route('documents.file', $document) }}" target="_blank" rel="noopener" class="btn-secondary">{{ __('Ouvrir dans un onglet ↗') }}</a>
+        <div class="flex flex-wrap items-center gap-2">
+            <livewire:table.show-button :campaign="$campaign" kind="document" :item-id="$document->id" wire:key="table-document" />
+            <a href="{{ route('documents.file', $document) }}" target="_blank" rel="noopener" class="btn-secondary">{{ __('Ouvrir dans un onglet ↗') }}</a>
+        </div>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-3">

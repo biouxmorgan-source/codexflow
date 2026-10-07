@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Enums\CampaignRole;
 use App\Enums\Zone;
+use App\Models\Attachment;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
@@ -12,10 +13,42 @@ use Illuminate\Support\Collection;
 
 /**
  * Écran de table : ce que le MJ montre aux joueurs sur un second écran (carte, image,
- * zone publique d'une fiche, annonce). Jamais la zone MJ.
+ * portrait, zone publique d'une fiche, règle, annonce). Jamais la zone MJ.
  */
 class TableDisplay
 {
+    /** Ce qu'on peut afficher depuis une page de contenu, avec « Afficher à la table ». */
+    public const KINDS = ['document', 'entity', 'portrait', 'attachment', 'rule'];
+
+    /**
+     * Affiche un élément de la campagne. Faux si l'élément n'y est pas utilisable ou ne s'affiche pas.
+     */
+    public static function show(Campaign $campaign, string $kind, int $id): bool
+    {
+        $displayable = match ($kind) {
+            'document' => $campaign->availableDocuments()->whereKey($id)->exists(),
+            'entity' => $campaign->availableEntities()->whereKey($id)->exists(),
+            'portrait' => $campaign->availableEntities()->whereKey($id)->whereNotNull('image_path')->exists(),
+            'attachment' => self::attachment($campaign, $id) !== null,
+            'rule' => $campaign->availableRules()->whereKey($id)->exists(),
+            default => false,
+        };
+
+        if ($displayable) {
+            self::save($campaign, ['kind' => $kind, 'id' => $id]);
+        }
+
+        return $displayable;
+    }
+
+    /** L'affichage en cours est-il cet élément ? */
+    public static function isShowing(Campaign $campaign, string $kind, int $id): bool
+    {
+        $state = $campaign->table_display;
+
+        return ($state['kind'] ?? null) === $kind && (int) ($state['id'] ?? 0) === $id;
+    }
+
     public static function showDocument(Campaign $campaign, Document $document): void
     {
         self::save($campaign, ['kind' => 'document', 'id' => $document->id]);
@@ -71,9 +104,28 @@ class TableDisplay
             'entity' => ($entity = $campaign->availableEntities()->find($state['id'] ?? 0))
                 ? ['kind' => 'entity', 'entity' => $entity, 'fields' => self::publicFields($campaign, $entity), 'key' => $key]
                 : null,
+            'portrait' => ($entity = $campaign->availableEntities()->whereNotNull('image_path')->find($state['id'] ?? 0))
+                ? ['kind' => 'portrait', 'entity' => $entity, 'key' => $key]
+                : null,
+            'attachment' => ($attachment = self::attachment($campaign, (int) ($state['id'] ?? 0)))
+                ? ['kind' => 'attachment', 'attachment' => $attachment, 'key' => $key]
+                : null,
+            'rule' => ($rule = $campaign->availableRules()->find($state['id'] ?? 0))
+                ? ['kind' => 'rule', 'rule' => $rule, 'key' => $key]
+                : null,
             'text' => filled($state['text'] ?? null) ? ['kind' => 'text', 'text' => $state['text'], 'key' => $key] : null,
             default => null,
         };
+    }
+
+    /** Une illustration jointe à une fiche de la campagne (les images seulement). */
+    private static function attachment(Campaign $campaign, int $id): ?Attachment
+    {
+        return Attachment::query()
+            ->whereKey($id)
+            ->where('mime_type', 'like', 'image/%')
+            ->whereIn('entity_id', $campaign->availableEntities()->select('entities.id'))
+            ->first();
     }
 
     /** Libellé court pour le mode Session. */
@@ -84,6 +136,9 @@ class TableDisplay
         return match ($current['kind'] ?? null) {
             'document' => $current['document']->title,
             'entity' => $current['entity']->name,
+            'portrait' => __('Portrait de :name', ['name' => $current['entity']->name]),
+            'attachment' => $current['attachment']->original_name,
+            'rule' => $current['rule']->title,
             'text' => __('« :text »', ['text' => mb_strimwidth($current['text'], 0, 60, '…')]),
             default => __('Écran vide'),
         };

@@ -29,6 +29,7 @@
             @endif
         </div>
         <div class="flex flex-wrap gap-2">
+            <livewire:table.show-button :campaign="$campaign" kind="rule" :item-id="$rule->id" wire:key="table-rule" />
             @if ($pendingToPlay)
                 <span class="btn-secondary cursor-default text-stone-500">{{ __('Dans « À jouer »') }}</span>
             @else

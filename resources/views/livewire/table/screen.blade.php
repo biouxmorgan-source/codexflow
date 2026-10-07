@@ -42,6 +42,27 @@
                 </article>
                 @break
 
+            @case('portrait')
+                <img src="{{ route('table.image', [$campaign, 'v' => $display['key'].'-'.$display['entity']->updated_at?->timestamp]) }}" alt="" class="h-full w-full object-contain">
+                @break
+
+            @case('attachment')
+                <img src="{{ route('table.file', [$campaign, 'v' => $display['key']]) }}" alt="" class="h-full w-full object-contain">
+                @break
+
+            @case('rule')
+                @php($rule = $display['rule'])
+                <article class="max-h-full w-full max-w-5xl overflow-y-auto p-12">
+                    <h1 class="text-5xl font-semibold tracking-tight lg:text-6xl">{{ $rule->title }}</h1>
+                    @if ($rule->summary)
+                        <p class="mt-6 text-3xl text-stone-300">{{ $rule->summary }}</p>
+                    @endif
+                    @if ($rule->procedure)
+                        <div class="mt-8 text-2xl leading-relaxed whitespace-pre-line text-stone-200">{{ \App\Support\EntityLinks::plain($rule->procedure) }}</div>
+                    @endif
+                </article>
+                @break
+
             @case('text')
                 <p class="max-w-5xl p-12 text-center font-serif text-5xl leading-tight whitespace-pre-line lg:text-6xl">{{ $display['text'] }}</p>
                 @break
