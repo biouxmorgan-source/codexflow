@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Characters;
 
+use App\Actions\Imports\ImportFieldDefinitions;
 use App\Enums\CampaignRole;
 use App\Enums\FieldType;
 use App\Enums\Zone;
@@ -16,6 +17,7 @@ use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
 use App\Models\User;
 use App\Models\World;
+use App\Support\Import\TabularFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -206,6 +208,8 @@ class PlayerCharacterTest extends TestCase
 
         $character = PlayerCharacter::latest('id')->firstOrFail();
         $copy = $character->entity;
+        Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $this->campaign])
+            ->assertDontSee('Fiches du monde');
         $this->assertNotEquals($pregen->id, $copy->id);
         $this->assertSame($this->campaign->id, $copy->campaign_id);
         $this->assertNull($copy->world_id);
@@ -263,6 +267,16 @@ class PlayerCharacterTest extends TestCase
         $this->assertFalse(FieldDefinition::where('name', 'Folie')->sole()->player_editable);
         $this->assertTrue(FieldDefinition::where('name', 'PM')->sole()->player_editable);
 
-        $this->assertStringContainsString('PM;;compteur;publique', $this->actingAs($this->gm)->get(route('exports.download', [$this->campaign, 'champs']))->streamedContent());
+        $export = $this->actingAs($this->gm)->get(route('exports.download', [$this->campaign, 'champs']))->streamedContent();
+        $this->assertStringContainsString('Modifiable par le joueur', $export);
+        $this->assertStringContainsString('PM;;compteur;publique;;;oui', $export);
+        $this->assertStringContainsString('Folie;;compteur;MJ;;;non', $export);
+
+        // Le réglage revient à l'import ; sans la colonne, un champ existant le garde.
+        $import = fn (array $headers, array $cells) => (new ImportFieldDefinitions($this->campaign->gameSystem, $this->gm, new TabularFile($headers, [['line' => 2, 'cells' => $cells]])))->run();
+        $import(['Nom', 'Type', 'Zone', 'Modifiable par le joueur'], ['Munitions', 'compteur', 'publique', 'oui']);
+        $import(['Nom', 'Type', 'Zone'], ['PM', 'compteur', 'publique']);
+        $this->assertTrue(FieldDefinition::where('name', 'Munitions')->sole()->player_editable);
+        $this->assertTrue(FieldDefinition::where('name', 'PM')->sole()->player_editable);
     }
 }

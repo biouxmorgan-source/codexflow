@@ -97,7 +97,7 @@ class ExportController extends Controller
             FieldType::Counter->value => 'compteur',
         ];
 
-        $rows = [['Nom', 'Groupe', 'Type', 'Zone', 'Choix', 'Type de fiche']];
+        $rows = [['Nom', 'Groupe', 'Type', 'Zone', 'Choix', 'Type de fiche', 'Modifiable par le joueur']];
 
         foreach ($campaign->gameSystem->fieldDefinitions()->with('entityType')->ordered()->get() as $definition) {
             $rows[] = [
@@ -107,6 +107,7 @@ class ExportController extends Controller
                 self::zone($definition->zone),
                 implode('|', $definition->options ?? []),
                 (string) $definition->entityType?->name,
+                $definition->player_editable ? 'oui' : 'non',
             ];
         }
 
