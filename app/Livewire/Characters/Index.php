@@ -63,14 +63,15 @@ class Index extends Component
     }
 
     /**
-     * Fiches de personnage de la campagne qui ne sont pas encore des personnages joueurs.
+     * Fiches de personnage de la campagne, ou de son monde (les prétirés), qui ne sont pas
+     * encore des personnages joueurs. Une fiche du monde est copiée dans la campagne au choix.
      *
      * @return Collection<int, Entity>
      */
     #[Computed]
     public function candidates(): Collection
     {
-        return $this->campaign->localEntities()
+        return $this->campaign->availableEntities()
             ->where('entity_type_id', EntityType::standard('character')->id)
             ->whereNotIn('id', $this->campaign->playerCharacters()->select('entity_id'))
             ->orderBy('name')
@@ -96,6 +97,10 @@ class Index extends Component
                 $entity->save();
             } else {
                 $entity = $this->candidates->find((int) $this->entityChoice);
+
+                if ($entity->isWorldEntity()) {
+                    $entity = $entity->copyToCampaign($this->campaign);
+                }
             }
 
             $character = $this->campaign->playerCharacters()->create(['entity_id' => $entity->id, 'is_active' => true]);

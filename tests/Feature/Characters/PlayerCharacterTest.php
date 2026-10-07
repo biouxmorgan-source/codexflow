@@ -15,6 +15,7 @@ use App\Models\EntityType;
 use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
 use App\Models\User;
+use App\Models\World;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -181,6 +182,43 @@ class PlayerCharacterTest extends TestCase
         $this->assertModelExists($npc);
 
         $this->actingAs($this->player)->get(route('characters.index', $this->campaign))->assertForbidden();
+    }
+
+    public function test_a_pregenerated_world_character_is_copied_into_the_campaign(): void
+    {
+        $world = World::factory()->for($this->gm, 'owner')->create();
+        $this->campaign->update(['world_id' => $world->id]);
+        $hp = $this->field('PV', FieldType::Counter, editable: true);
+        Storage::disk(Entity::FILES_DISK)->put('entities/harvey.jpg', 'portrait');
+        $pregen = Entity::factory()->for($this->gm, 'owner')->for($world)->create([
+            'name' => 'Harvey Walters', 'summary' => 'Journaliste', 'gm_notes' => 'Secret',
+            'entity_type_id' => EntityType::standard('character')->id, 'image_path' => 'entities/harvey.jpg',
+        ]);
+        $pregen->setFieldValues([$hp->id => ['value' => 11, 'max' => 11]]);
+        $pregen->save();
+
+        Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $this->campaign])
+            ->assertSee(['Fiches du monde', 'Harvey Walters'])
+            ->set('entityChoice', (string) $pregen->id)
+            ->set('playerId', (string) $this->player->id)
+            ->call('create')
+            ->assertHasNoErrors();
+
+        $character = PlayerCharacter::latest('id')->firstOrFail();
+        $copy = $character->entity;
+        $this->assertNotEquals($pregen->id, $copy->id);
+        $this->assertSame($this->campaign->id, $copy->campaign_id);
+        $this->assertNull($copy->world_id);
+        $this->assertSame(['Harvey Walters', 'Journaliste', 'Secret'], [$copy->name, $copy->summary, $copy->gm_notes]);
+        $this->assertEquals(['value' => 11, 'max' => 11], $copy->fieldValue($hp));
+        $this->assertNotSame($pregen->image_path, $copy->image_path);
+        Storage::disk(Entity::FILES_DISK)->assertExists($copy->image_path);
+
+        // Le joueur abîme sa copie : le prétiré du monde reste intact pour une autre partie.
+        Livewire::actingAs($this->player)->test(Show::class, ['campaign' => $this->campaign, 'character' => $character])
+            ->call('adjust', $hp->id, -3);
+        $this->assertEquals(['value' => 8, 'max' => 11], $copy->fresh()->fieldValue($hp));
+        $this->assertEquals(['value' => 11, 'max' => 11], $pregen->fresh()->fieldValue($hp));
     }
 
     public function test_counter_fields_are_typed_imported_and_exported_like_the_others(): void
