@@ -7,7 +7,7 @@
             [__('Les joueurs voient-ils mes notes de MJ ?'), __('Jamais. La zone MJ d’une fiche ne quitte pas le serveur pour un joueur : il ne voit que ce que vous lui avez révélé ou donné, et seulement pour son personnage.')],
         ],
         __('Pour le MJ') => [
-            [__('Comment inviter mes joueurs ?'), __("Dans la campagne, ouvrez « Membres » et créez un lien d'invitation par joueur. Envoyez-le comme vous voulez (message, Discord, courriel) : le joueur se connecte ou crée son compte, et rejoint la campagne.")],
+            [__('Comment inviter mes joueurs ?'), __("Dans la campagne, ouvrez « Joueurs » et créez un lien d'invitation par joueur. Envoyez-le comme vous voulez (message, Discord, courriel) : le joueur se connecte ou crée son compte, et rejoint la campagne.")],
             [__('Comment attribuer un personnage à un joueur ?'), __('Dans la page « Personnages » de la campagne : créez la fiche ou choisissez un prétiré, puis désignez le joueur. Vous pouvez la réattribuer à tout moment, et joindre la feuille PDF.')],
             [__('Comment révéler une information ou donner un objet ?'), __('Depuis une fiche, un document, une règle ou le mode Session, utilisez « Révéler » ou « Donner » et choisissez les personnages. Ils le reçoivent aussitôt, avec une notification, et tout est noté dans le journal.')],
             [__('Comment montrer une carte ou une image sur la télé ?'), __("En mode Session, ouvrez l'écran de table, glissez la fenêtre sur la télé ou le projecteur et passez en plein écran. Choisissez ensuite ce qui s'affiche ; vous pouvez aussi le partager sur les appareils des joueurs.")],
