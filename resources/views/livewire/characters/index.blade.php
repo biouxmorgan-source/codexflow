@@ -90,8 +90,12 @@
                         <label for="entityChoice" class="label">Fiche</label>
                         <select id="entityChoice" wire:model.live="entityChoice" class="field">
                             <option value="new">Créer une nouvelle fiche</option>
-                            @foreach ($this->candidates as $candidate)
-                                <option value="{{ $candidate->id }}">{{ $candidate->name }}</option>
+                            @foreach ($this->candidates->groupBy(fn ($candidate) => $candidate->isWorldEntity() ? 'Fiches du monde (copiées dans la campagne)' : 'Fiches de la campagne') as $group => $candidates)
+                                <optgroup label="{{ $group }}">
+                                    @foreach ($candidates as $candidate)
+                                        <option value="{{ $candidate->id }}">{{ $candidate->name }}</option>
+                                    @endforeach
+                                </optgroup>
                             @endforeach
                         </select>
                     </div>

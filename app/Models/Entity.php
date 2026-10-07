@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * Fiche d'entité. Zone publique : name, summary, description. Zone MJ : gm_notes.
@@ -178,6 +179,29 @@ class Entity extends Model
 
         // Un objet vide reste un objet JSON, pas un tableau.
         $this->field_values = $current === [] ? new \stdClass : $current;
+    }
+
+    /**
+     * Copie une fiche du monde dans la campagne (un prétiré devient un personnage joueur) :
+     * les modifications de la partie ne touchent jamais la fiche mondiale, réutilisable ailleurs.
+     */
+    public function copyToCampaign(Campaign $campaign): self
+    {
+        $copy = new self($this->only(['entity_type_id', 'name', 'summary', 'description']));
+        $copy->gm_notes = $this->gm_notes;
+        $copy->owner()->associate($campaign->user_id);
+        $copy->campaign()->associate($campaign);
+        $copy->setFieldValues(array_replace($this->field_values ?? [], $this->loadedStateIn($campaign)?->fieldOverrides() ?? []));
+
+        if ($this->hasImage() && Storage::disk(self::FILES_DISK)->exists($this->image_path)) {
+            $copy->image_path = 'entities/'.Str::random(40).'.'.pathinfo($this->image_path, PATHINFO_EXTENSION);
+            Storage::disk(self::FILES_DISK)->copy($this->image_path, $copy->image_path);
+        }
+
+        $copy->save();
+        $copy->tags()->sync($this->tags()->pluck('tags.id'));
+
+        return $copy;
     }
 
     public function isWorldEntity(): bool
