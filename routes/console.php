@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\Demo\LoadDemoCampaign;
 use App\Models\User;
 use App\Support\Locale;
 use App\Support\TranslationKeys;
@@ -35,3 +36,16 @@ Artisan::command('codexflow:admin {email} {--remove}', function (string $email) 
     $user->forceFill(['is_admin' => ! $this->option('remove')])->save();
     $this->info($user->is_admin ? $user->name.' administre CodexFlow.' : $user->name.' n\'administre plus CodexFlow.');
 })->purpose('Donne (ou retire avec --remove) le rôle d\'administrateur à un compte');
+
+Artisan::command('codexflow:demo {email}', function (string $email, LoadDemoCampaign $loadDemo) {
+    $user = User::where('email', $email)->first();
+
+    if ($user === null) {
+        $this->error('Aucun compte avec cette adresse.');
+
+        return 1;
+    }
+
+    $campaign = $loadDemo->handle($user);
+    $this->info('Campagne de démonstration « '.$campaign->name.' » chargée dans le compte de '.$user->name.'.');
+})->purpose('Charge la campagne de démonstration dans un compte');

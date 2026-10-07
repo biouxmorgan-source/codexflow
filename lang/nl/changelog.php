@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.11.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Een demo-campagne',
+        'items' => [
+            'Een demo-campagne die je met één klik laadt vanuit ‘Mijn campagnes’: een verzonnen spel, ‘Brume & Serment’, en een volledige intrige over drie sessies, met fiches, portretten, relaties, een kaart, geheimen, regels, een tijdlijn en voorgemaakte personages.',
+            'De kleine pictogramknoppen op de campagnepagina verspringen niet meer bij het aanwijzen: de naam verschijnt als tooltip, boven de rest.',
+            'Tags vul je overal op dezelfde manier in, en een fiche biedt ‘Een tag toevoegen’ meteen onder de titel.',
+        ],
+    ],
+
     '0.10.0' => [
         'date' => '2026-10-12',
         'title' => 'Een overzichtelijkere campagnepagina',

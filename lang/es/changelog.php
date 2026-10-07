@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.11.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Una campaña de demostración',
+        'items' => [
+            'Campaña de demostración que se carga con un clic desde «Mis campañas»: un juego inventado, «Brume & Serment», y una trama completa de tres sesiones, con fichas, retratos, relaciones, mapa, secretos, reglas, cronología y pregenerados.',
+            'Los botoncitos con icono de la página de campaña ya no se mueven al pasar el ratón: el nombre aparece en una etiqueta flotante, por encima del resto.',
+            'Las etiquetas se escriben igual en todas partes, y una ficha ofrece «Añadir una etiqueta» justo bajo su título.',
+        ],
+    ],
+
     '0.10.0' => [
         'date' => '2026-10-12',
         'title' => 'Una página de campaña más clara',

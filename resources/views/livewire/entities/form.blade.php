@@ -24,18 +24,8 @@
                 <a href="{{ route('entity-types.index') }}" class="mt-1 inline-block text-xs link" wire:navigate>{{ __('Créer un autre type de fiche') }}</a>
             </div>
 
-            <div class="md:col-span-2" x-data>
-                <label for="tags" class="label">{{ __('Tags') }} <span class="font-normal text-stone-500">{{ __('(séparés par des virgules, visibles du MJ seulement)') }}</span></label>
-                <input id="tags" type="text" wire:model="tags" class="field" placeholder="{{ __('taverne, intrigue, acte 1…') }}">
-                @error('tags') <p class="error">{{ $message }}</p> @enderror
-                @if ($this->existingTags)
-                    <p class="mt-2 flex flex-wrap gap-1 text-xs">
-                        @foreach ($this->existingTags as $existing)
-                            <button type="button" class="rounded-full bg-stone-100 px-2 py-0.5 text-stone-700 hover:bg-codex-soft"
-                                x-on:click="$wire.tags = ($wire.tags.trim() ? $wire.tags.replace(/,\s*$/, '') + ', ' : '') + @js($existing)">{{ $existing }}</button>
-                        @endforeach
-                    </p>
-                @endif
+            <div class="md:col-span-2">
+                <x-tags-input :existing="$this->existingTags" :note="__('(séparés par des virgules, visibles du MJ seulement)')" />
             </div>
 
             @if (! $entity && $campaign->world)

@@ -1367,5 +1367,13 @@
     "Nuit": "Noche",
     "Outils de la campagne": "Herramientas de la campaña",
     "Parchemin": "Pergamino",
-    "Règles du jeu, règles maison et glossaire, à retrouver en pleine partie.": "Reglas del juego, reglas caseras y glosario, para encontrar en plena partida."
+    "Règles du jeu, règles maison et glossaire, à retrouver en pleine partie.": "Reglas del juego, reglas caseras y glosario, para encontrar en plena partida.",
+    "Ajouter un tag": "Añadir una etiqueta",
+    "Modifier les tags": "Modificar las etiquetas",
+    "Déjà utilisés :": "Ya usadas:",
+    "Chargement…": "Cargando…",
+    "Charger la démonstration": "Cargar la demostración",
+    "Campagne de démonstration chargée : « :name ». Vous en êtes le MJ : modifiez, dupliquez ou supprimez-la librement.": "Campaña de demostración cargada: «:name». Eres su DJ: modifícala, duplícala o bórrala libremente.",
+    "Ou chargez la campagne de démonstration : un jeu inventé et une intrigue complète, pour visiter l’application sans rien préparer.": "O carga la campaña de demostración: un juego inventado y una trama completa, para recorrer la aplicación sin preparar nada.",
+    "Sans archive sous la main, chargez la campagne de démonstration : un jeu inventé, une intrigue de trois séances, des fiches, une carte, des secrets et une chronologie.": "Si no tienes un archivo a mano, carga la campaña de demostración: un juego inventado, una trama de tres sesiones, fichas, un mapa, secretos y una cronología."
 }
