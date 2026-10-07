@@ -41,6 +41,7 @@ class LanguageTest extends TestCase
 
         $this->actingAs($user)->withHeader('Accept-Language', 'de')->get(route('campaigns.index'))->assertSee('<html lang="de"', false);
         $this->assertSame('de', Locale::for($user->fresh()));
+        app()->setLocale('fr');
 
         Livewire::actingAs($user)->test(Preferences::class)
             ->assertSee('Langue')

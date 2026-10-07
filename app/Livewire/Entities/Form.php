@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -48,6 +49,10 @@ class Form extends Component
 
     /** Étiquettes séparées par des virgules. */
     public string $tags = '';
+
+    /** Page d'où l'on vient (ex. Personnages), où revenir après l'enregistrement ou l'annulation. */
+    #[Url(as: 'retour', except: '')]
+    public string $back = '';
 
     /** Champs libres du jeu : [id de définition => saisie]. */
     public array $fields = [];
@@ -170,7 +175,14 @@ class Form extends Component
         $entity->save();
         $entity->tags()->sync(Tag::idsFromInput(auth()->user(), $this->tags));
 
-        $this->redirectRoute('entities.show', [$this->campaign, $entity], navigate: true);
+        $back = $this->backUrl();
+        $back ? $this->redirect($back, navigate: true) : $this->redirectRoute('entities.show', [$this->campaign, $entity], navigate: true);
+    }
+
+    /** Adresse de retour, seulement un chemin de ce site (jamais un autre domaine). */
+    public function backUrl(): ?string
+    {
+        return preg_match('#^/(?![/\\\\])[^\s]*$#', $this->back) ? $this->back : null;
     }
 
     public function render()

@@ -112,7 +112,7 @@
 
         <div class="flex gap-3">
             <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
-            <a href="{{ $entity ? route('entities.show', [$campaign, $entity]) : route('campaigns.show', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Annuler') }}</a>
+            <a href="{{ $this->backUrl() ?? ($entity ? route('entities.show', [$campaign, $entity]) : route('campaigns.show', $campaign)) }}" class="btn-secondary" wire:navigate>{{ __('Annuler') }}</a>
         </div>
     </form>
 </div>

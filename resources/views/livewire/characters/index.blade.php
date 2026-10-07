@@ -36,7 +36,7 @@
                                         @if ($character->pending_count > 0) · <a href="{{ route('characters.show', [$campaign, $character]) }}#section-possession" class="font-medium text-flow hover:underline" wire:navigate>{{ trans_choice(':count objet à valider|:count objets à valider', $character->pending_count) }}</a> @endif
                                     </p>
                                 </div>
-                                <a href="{{ route('entities.edit', [$campaign, $entity]) }}" class="btn-secondary" wire:navigate>{{ __('Modifier la fiche') }}</a>
+                                <a href="{{ route('entities.edit', [$campaign, $entity, 'retour' => route('characters.index', $campaign, false)]) }}" class="btn-secondary" wire:navigate>{{ __('Modifier la fiche') }}</a>
                             </div>
 
                             <div class="mt-3 grid gap-3 border-t border-stone-100 pt-3 sm:grid-cols-2">

@@ -4,6 +4,18 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.4.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Toutes les langues',
+        'items' => [
+            'L\'interface parle français, anglais, allemand, espagnol, italien, portugais, néerlandais et polonais.',
+            'La langue suit celle du navigateur ; chacun peut la choisir dans « Préférences ».',
+            'Les notifications arrivent dans la langue de celui qui les reçoit.',
+            'Le thème sombre reste en place d\'une page à l\'autre.',
+            'Après avoir modifié une fiche depuis la page Personnages, on y revient directement.',
+        ],
+    ],
+
     '0.3.0' => [
         'date' => '2026-10-08',
         'title' => 'Le lien vivant',
