@@ -27,7 +27,7 @@
                         <button type="button" wire:click="open('')" @class(['flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-codex-soft', 'bg-codex-soft font-semibold text-codex' => $conversation === '']) @if ($conversation === '') aria-current="true" @endif>
                             <span>Tout le groupe</span>
                             @if ($this->groupUnread > 0)
-                                <span class="rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-white">{{ $this->groupUnread }}</span>
+                                <span class="rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-on-accent">{{ $this->groupUnread }}</span>
                             @endif
                         </button>
                     </li>
@@ -39,7 +39,7 @@
                                     <span class="block truncate text-xs font-normal text-stone-500">{{ $character->player?->name ?? 'sans joueur' }}{{ $character->is_active ? '' : ' · archivé' }}</span>
                                 </span>
                                 @if ($character->unread > 0)
-                                    <span class="shrink-0 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-white">{{ $character->unread }}</span>
+                                    <span class="shrink-0 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-on-accent">{{ $character->unread }}</span>
                                 @endif
                             </button>
                         </li>

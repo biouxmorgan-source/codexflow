@@ -13,6 +13,98 @@
     --color-codex-soft: #e6eef1;
     --color-flow: #a0522d;
     --color-parchment: #faf8f4;
+    /* Texte posé sur une couleur d'accent (boutons, pastilles). */
+    --color-on-accent: #ffffff;
+}
+
+/*
+ * Préférences d'affichage (attributs posés sur <html> par le layout) :
+ * couleur d'accent, taille du texte, thème sombre. Le thème sombre redéfinit les
+ * couleurs de base (fond, surfaces, gris, encre) : toutes les pages suivent sans rien changer.
+ */
+[data-accent='blue'] {
+    --color-codex: #2f5d9c;
+    --color-codex-soft: #e5ecf6;
+}
+
+[data-accent='green'] {
+    --color-codex: #3d6b45;
+    --color-codex-soft: #e7f0e8;
+}
+
+[data-accent='violet'] {
+    --color-codex: #5b4a8a;
+    --color-codex-soft: #ece8f5;
+}
+
+[data-accent='red'] {
+    --color-codex: #7a2e3a;
+    --color-codex-soft: #f5e7e9;
+}
+
+[data-size='large'] {
+    font-size: 112.5%;
+}
+
+[data-size='xlarge'] {
+    font-size: 125%;
+}
+
+[data-theme='dark'] {
+    color-scheme: dark;
+    --color-parchment: #151311;
+    --color-white: #1f1c1a;
+    --color-ink: #ece7df;
+    --color-stone-50: #2a2623;
+    --color-stone-100: #302c28;
+    --color-stone-200: #3a3531;
+    --color-stone-300: #4a4440;
+    --color-stone-400: #7d756f;
+    --color-stone-500: #a8a29e;
+    --color-stone-600: #c4beb8;
+    --color-stone-700: #d6d3d1;
+    --color-stone-800: #e7e5e4;
+    --color-stone-900: #f5f5f4;
+    --color-codex: #6aa7bd;
+    --color-codex-soft: #1d3640;
+    --color-flow: #d98f5f;
+    /* Accents éclaircis : le texte posé dessus devient sombre. */
+    --color-on-accent: #121a1d;
+    --color-red-50: #3a1717;
+    --color-red-200: #6b2a2a;
+    --color-red-300: #8a3a3a;
+    --color-red-700: #f19a9a;
+    --color-red-800: #f5b0b0;
+    --color-green-50: #14281a;
+    --color-green-200: #2c5236;
+    --color-green-800: #9ad7a8;
+    --color-emerald-50: #12291f;
+    --color-emerald-700: #7fd1ad;
+    --color-amber-50: #2e2410;
+    --color-amber-100: #3a2d12;
+    --color-amber-200: #5c4a1e;
+    --color-amber-700: #f0c36a;
+    --color-amber-900: #f6d58f;
+}
+
+[data-theme='dark'][data-accent='blue'] {
+    --color-codex: #7ea6dc;
+    --color-codex-soft: #1c2b40;
+}
+
+[data-theme='dark'][data-accent='green'] {
+    --color-codex: #82b58b;
+    --color-codex-soft: #1b2e1f;
+}
+
+[data-theme='dark'][data-accent='violet'] {
+    --color-codex: #a796d6;
+    --color-codex-soft: #2a2340;
+}
+
+[data-theme='dark'][data-accent='red'] {
+    --color-codex: #d68a96;
+    --color-codex-soft: #3a1d22;
 }
 
 @layer components {
@@ -25,7 +117,7 @@
     }
 
     .btn-primary {
-        @apply inline-flex min-h-11 items-center justify-center rounded-md bg-codex px-4 py-2 font-medium text-white hover:bg-ink focus:ring-2 focus:ring-codex/40 focus:outline-none disabled:opacity-60;
+        @apply inline-flex min-h-11 items-center justify-center rounded-md bg-codex px-4 py-2 font-medium text-on-accent hover:bg-ink focus:ring-2 focus:ring-codex/40 focus:outline-none disabled:opacity-60;
     }
 
     .btn-secondary {

@@ -8,6 +8,7 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\TableScreenController;
+use App\Livewire\Account\Preferences;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
@@ -43,6 +44,9 @@ Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('
 Route::middleware('auth')->group(function () {
     Route::post('/invitation/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::livewire('/campagnes', CampaignIndex::class)->name('campaigns.index');
+    Route::livewire('/preferences', Preferences::class)->name('preferences');
+    Route::view('/quoi-de-neuf', 'pages.changelog')->name('changelog');
+    Route::view('/configuration-recommandee', 'pages.recommended')->name('recommended');
     Route::post('/push/abonnement', [PushSubscriptionController::class, 'store'])->name('push.store');
     Route::delete('/push/abonnement', [PushSubscriptionController::class, 'destroy'])->name('push.destroy');
     Route::livewire('/notifications', NotificationIndex::class)->name('notifications.index');

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Support\Appearance;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -30,7 +31,24 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'preferences' => 'array',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        // Un nouveau compte n'a pas besoin de « Quoi de neuf » : il découvre tout.
+        static::creating(function (User $user) {
+            $user->last_seen_version ??= config('codexflow.version');
+        });
+    }
+
+    /** Préférence d'affichage, ou sa valeur par défaut. */
+    public function preference(string $key): string
+    {
+        $value = $this->preferences[$key] ?? null;
+
+        return isset(Appearance::CHOICES[$key][$value]) ? $value : Appearance::DEFAULTS[$key];
     }
 
     /** @return BelongsToMany<Campaign, $this> */

@@ -18,7 +18,7 @@
                 </select>
                 @foreach ($this->tagNames as $tagName)
                     <button type="button" wire:click="$set('tag', @js($tag === $tagName ? '' : $tagName))"
-                        @class(['rounded-full px-2.5 py-0.5 text-sm', 'bg-codex text-white' => $tag === $tagName, 'bg-stone-100 text-stone-700 hover:bg-codex-soft' => $tag !== $tagName])>{{ $tagName }}</button>
+                        @class(['rounded-full px-2.5 py-0.5 text-sm', 'bg-codex text-on-accent' => $tag === $tagName, 'bg-stone-100 text-stone-700 hover:bg-codex-soft' => $tag !== $tagName])>{{ $tagName }}</button>
                 @endforeach
             </div>
 
