@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Scenarios;
 
+use App\Actions\Duplication\DuplicateScenario;
 use App\Enums\SceneStatus;
 use App\Models\Campaign;
 use App\Models\Scenario;
 use App\Models\Scene;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 /**
@@ -17,6 +20,10 @@ use Livewire\Component;
 class Index extends Component
 {
     public Campaign $campaign;
+
+    /** Tag choisi pour ne montrer que les scènes qui le portent. */
+    #[Url]
+    public ?int $tag = null;
 
     public ?int $editingId = null;
 
@@ -33,7 +40,13 @@ class Index extends Component
     #[Computed]
     public function scenarios(): Collection
     {
-        return $this->campaign->scenarios()->with('scenes')->get();
+        return $this->campaign->scenarios()->with('scenes.tags')->get();
+    }
+
+    #[Computed]
+    public function filterTag(): ?Tag
+    {
+        return $this->tag ? Tag::query()->where('user_id', $this->campaign->user_id)->find($this->tag) : null;
     }
 
     public function edit(int $id): void
@@ -76,6 +89,15 @@ class Index extends Component
         $this->authorize('update', $this->campaign);
 
         $this->find($id)->delete();
+
+        unset($this->scenarios);
+    }
+
+    public function duplicate(int $id, DuplicateScenario $duplicateScenario): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $duplicateScenario->handle($this->find($id));
 
         unset($this->scenarios);
     }

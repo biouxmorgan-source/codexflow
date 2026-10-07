@@ -19,6 +19,16 @@ class TableScreenController extends Controller
         abort_unless(TableDisplay::canWatch(auth()->user(), $campaign), 403);
         $display = TableDisplay::current($campaign);
 
+        if (($display['kind'] ?? null) === 'attachment') {
+            $attachment = $display['attachment'];
+
+            return Storage::disk($attachment->disk)->response($attachment->path, $attachment->original_name, [
+                'Content-Type' => $attachment->mime_type,
+                'X-Content-Type-Options' => 'nosniff',
+                'Cache-Control' => 'private, no-store',
+            ], 'inline');
+        }
+
         abort_unless(($display['kind'] ?? null) === 'document', 404);
         $document = $display['document'];
         abort_unless(in_array($document->mime_type, ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'], true), 404);
@@ -35,7 +45,7 @@ class TableScreenController extends Controller
         abort_unless(TableDisplay::canWatch(auth()->user(), $campaign), 403);
         $display = TableDisplay::current($campaign);
 
-        abort_unless(($display['kind'] ?? null) === 'entity' && $display['entity']->hasImage(), 404);
+        abort_unless(in_array($display['kind'] ?? null, ['entity', 'portrait'], true) && $display['entity']->hasImage(), 404);
 
         return Storage::disk(Entity::FILES_DISK)->response($display['entity']->image_path, null, [
             'X-Content-Type-Options' => 'nosniff',

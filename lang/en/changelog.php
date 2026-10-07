@@ -4,6 +4,18 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.5.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Tidier, together',
+        'items' => [
+            'A “Tags” page to rename, colour, merge and delete your tags; scenes have tags too.',
+            '“Duplicate” an entry, a scenario or a whole campaign, to replay with another table.',
+            'New roles: co-GM, who prepares and runs games with you, and spectator, who watches the table screen.',
+            '“Show at the table” from an entry, a portrait, an illustration, a document or a rule.',
+            'Session mode: show an entry or a rule in one click, see the next scene, press N to take a note.',
+        ],
+    ],
+
     '0.4.1' => [
         'date' => '2026-10-08',
         'title' => 'Help and problem reports',

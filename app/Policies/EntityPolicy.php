@@ -4,25 +4,25 @@ namespace App\Policies;
 
 use App\Models\Entity;
 use App\Models\User;
+use App\Support\CoGameMaster;
 
 /**
- * Lot 1 : seul le MJ propriétaire accède aux fiches. La lecture de la zone publique
- * par les joueurs arrivera avec les révélations (lot 2).
+ * Le MJ propriétaire et ses co-MJ accèdent aux fiches ; les joueurs les consultent par leurs personnages.
  */
 class EntityPolicy
 {
     public function view(User $user, Entity $entity): bool
     {
-        return $entity->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $entity, edit: false);
     }
 
     public function update(User $user, Entity $entity): bool
     {
-        return $entity->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $entity);
     }
 
     public function delete(User $user, Entity $entity): bool
     {
-        return $entity->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $entity);
     }
 }

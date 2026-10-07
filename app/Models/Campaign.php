@@ -177,6 +177,34 @@ class Campaign extends Model
         return $this->roleOf($user) === CampaignRole::GameMaster;
     }
 
+    /** Le MJ qui a créé la campagne : lui seul gère les membres et peut la supprimer. */
+    public function isOwnedBy(User $user): bool
+    {
+        return $this->user_id === $user->getKey();
+    }
+
+    /** Libellé du rôle d'un membre, en distinguant le propriétaire de ses co-MJ. */
+    public function roleLabel(User $user, ?CampaignRole $role = null): string
+    {
+        $role ??= $this->roleOf($user);
+
+        return match (true) {
+            $role === CampaignRole::GameMaster && $this->isOwnedBy($user) => __('Maître de jeu'),
+            $role === CampaignRole::GameMaster => __('Co-MJ'),
+            default => (string) $role?->label(),
+        };
+    }
+
+    /**
+     * Les campagnes où ce compte est MJ (propriétaire ou co-MJ).
+     *
+     * @param  Builder<Campaign>  $query
+     */
+    public function scopeRunBy(Builder $query, User $user): void
+    {
+        $query->whereHas('members', fn (Builder $q) => $q->whereKey($user->getKey())->where('campaign_memberships.role', CampaignRole::GameMaster->value));
+    }
+
     /** @param Builder<Campaign> $query */
     public function scopeVisibleTo(Builder $query, User $user): void
     {

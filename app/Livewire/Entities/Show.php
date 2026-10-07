@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Entities;
 
+use App\Actions\Duplication\DuplicateEntity;
 use App\Enums\Zone;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Attachment;
@@ -169,7 +170,7 @@ class Show extends Component
                 'mime_type' => $file->getMimeType() ?? 'application/octet-stream',
                 'size' => $file->getSize(),
             ]);
-            $attachment->owner()->associate(auth()->user());
+            $attachment->owner()->associate($this->campaign->owner);
             $this->entity->attachments()->save($attachment);
         }
 
@@ -193,6 +194,16 @@ class Show extends Component
         $this->entity->delete();
 
         $this->redirectRoute('campaigns.show', $this->campaign, navigate: true);
+    }
+
+    public function duplicate(DuplicateEntity $duplicateEntity): void
+    {
+        $this->authorize('update', $this->campaign);
+        $this->authorize('update', $this->entity);
+
+        $copy = $duplicateEntity->handle($this->entity);
+
+        $this->redirectRoute('entities.show', [$this->campaign, $copy], navigate: true);
     }
 
     public function addRelation(): void
@@ -230,7 +241,7 @@ class Show extends Component
             'reverse_label' => trim($this->relationReverse) ?: null,
             'zone' => $this->relationZone,
         ]);
-        $relation->owner()->associate(auth()->user());
+        $relation->owner()->associate($this->campaign->owner);
         $relation->from()->associate($this->entity);
         $relation->to()->associate($target);
         $relation->campaign()->associate($worldWide ? null : $this->campaign);
@@ -282,7 +293,7 @@ class Show extends Component
         $this->authorize('update', $this->entity);
 
         $relation = $this->entity->relationsIn($this->campaign)->findOrFail($relationId);
-        abort_unless($relation->user_id === auth()->id(), 403);
+        abort_unless($relation->user_id === $this->campaign->user_id, 403);
 
         $relation->delete();
     }
@@ -312,7 +323,7 @@ class Show extends Component
             'publicRelations' => $relations->where('zone', Zone::Public),
             'gmRelations' => $relations->where('zone', Zone::GameMaster),
             'relationLabels' => collect(self::relationLabels())
-                ->merge(EntityRelation::where('user_id', auth()->id())->distinct()->pluck('label'))
+                ->merge(EntityRelation::where('user_id', $this->campaign->user_id)->distinct()->pluck('label'))
                 ->unique()->sort()->values(),
             'otherCampaigns' => $this->entity->isWorldEntity()
                 ? $this->entity->world->campaigns()->whereKeyNot($this->campaign->getKey())->count()

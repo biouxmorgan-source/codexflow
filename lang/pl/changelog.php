@@ -4,6 +4,18 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.5.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Lepszy porządek, razem',
+        'items' => [
+            'Strona „Tagi” do zmiany nazw, kolorów, scalania i usuwania tagów; sceny też mają tagi.',
+            '„Duplikuj” kartę, scenariusz lub całą kampanię, aby rozegrać ją z inną drużyną.',
+            'Nowe role: współ-MG, który przygotowuje i prowadzi razem z tobą, oraz widz, który ogląda ekran stołu.',
+            '„Pokaż przy stole” z karty, portretu, ilustracji, dokumentu lub zasady.',
+            'Tryb sesji: pokaż kartę lub zasadę jednym kliknięciem, zobacz następną scenę, klawisz N do notatek.',
+        ],
+    ],
+
     '0.4.1' => [
         'date' => '2026-10-08',
         'title' => 'Pomoc i zgłoszenia problemów',

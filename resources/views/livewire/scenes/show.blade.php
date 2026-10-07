@@ -19,6 +19,13 @@
                     @endforeach
                 </select>
             </div>
+            @if ($scene->tags->isNotEmpty())
+                <p class="mt-2 flex flex-wrap gap-1 text-xs">
+                    @foreach ($scene->tags as $sceneTag)
+                        <x-tag :tag="$sceneTag" :href="route('scenarios.index', [$campaign, 'tag' => $sceneTag->id])" />
+                    @endforeach
+                </p>
+            @endif
         </div>
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('journal.index', [$campaign, 'sujet' => 'scene:'.$scene->id]) }}" class="btn-secondary" wire:navigate>{{ __('Historique') }}</a>

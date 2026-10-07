@@ -36,8 +36,8 @@
             <span class="mt-1 text-sm text-stone-600">{{ __('Les personnages des joueurs : à qui ils sont confiés, leur feuille PDF, leurs compteurs.') }}</span>
         </a>
         <a href="{{ route('members.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">{{ __('Joueurs →') }}</span>
-            <span class="mt-1 text-sm text-stone-600">{{ __('Inviter vos joueurs par un lien et voir qui fait partie de la campagne.') }}</span>
+            <span class="font-semibold text-codex">{{ __('Membres →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Inviter joueurs, co-MJ et spectateurs par un lien, et voir qui fait partie de la campagne.') }}</span>
         </a>
         @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
         <a href="{{ route('messages.index', $campaign) }}" class="tile" wire:navigate>
@@ -124,7 +124,11 @@
                                     <span class="block truncate text-sm text-stone-600">{{ $entity->summary }}</span>
                                 @endif
                                 @if ($entity->tags->isNotEmpty())
-                                    <span class="block truncate text-xs text-stone-500">{{ $entity->tags->map(fn ($t) => '#'.$t->name)->implode(' ') }}</span>
+                                    <span class="mt-0.5 flex flex-wrap gap-1 text-xs">
+                                        @foreach ($entity->tags as $entityTag)
+                                            <x-tag :tag="$entityTag" compact />
+                                        @endforeach
+                                    </span>
                                 @endif
                             </span>
                             @if ($state?->status)
@@ -139,6 +143,14 @@
             </ul>
         @endif
     </section>
+
+    @can('duplicate', $campaign)
+        <section class="mt-10 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+            <h2 class="mb-2 font-semibold">{{ __('Dupliquer la campagne') }}</h2>
+            <p class="mb-3 text-sm text-stone-600">{{ __('Pour rejouer le même contenu avec une autre table : les fiches, scénarios, scènes, documents et règles de la campagne sont copiés, le jeu et le monde sont partagés. Les joueurs, les personnages, les séances et le journal ne sont pas copiés, et les scènes repartent de « Prévue ».') }}</p>
+            <button type="button" wire:click="duplicate" wire:confirm="{{ __('Dupliquer la campagne ? Le contenu préparé est copié ; les joueurs, les personnages, les séances et le journal ne le sont pas.') }}" class="btn-secondary">{{ __('Dupliquer') }}</button>
+        </section>
+    @endcan
 
     @can('delete', $campaign)
         @php($localCount = $campaign->localEntities()->count())

@@ -84,6 +84,8 @@
                             @php($myCharacter = $campaign->playerCharacters->first())
                             @if ($role === \App\Enums\CampaignRole::GameMaster)
                                 <a href="{{ route('campaigns.show', $campaign) }}" class="text-codex hover:text-ink after:absolute after:inset-0" wire:navigate>{{ $campaign->name }}</a>
+                            @elseif ($role === \App\Enums\CampaignRole::Spectator)
+                                <a href="{{ route('table.screen', $campaign) }}" class="text-codex hover:text-ink after:absolute after:inset-0">{{ $campaign->name }}</a>
                             @elseif ($myCharacter)
                                 <a href="{{ route('characters.show', [$campaign, $myCharacter]) }}" class="text-codex hover:text-ink after:absolute after:inset-0" wire:navigate>{{ $campaign->name }}</a>
                             @else
@@ -99,7 +101,7 @@
                     <dl class="space-y-1 text-sm text-stone-600">
                         <div><dt class="inline font-medium text-ink">{{ __('Jeu :') }}</dt> <dd class="inline">{{ $campaign->gameSystem->name }}</dd></div>
                         <div><dt class="inline font-medium text-ink">{{ __('Monde :') }}</dt> <dd class="inline">{{ $campaign->world?->name ?? __('aucun') }}</dd></div>
-                        <div><dt class="inline font-medium text-ink">{{ __('Rôle :') }}</dt> <dd class="inline">{{ $role->label() }}</dd></div>
+                        <div><dt class="inline font-medium text-ink">{{ __('Rôle :') }}</dt> <dd class="inline">{{ $campaign->roleLabel(auth()->user(), $role) }}</dd></div>
                     </dl>
                     @if ($role === \App\Enums\CampaignRole::Player)
                         <p class="mt-3 text-sm text-stone-600">
@@ -110,10 +112,16 @@
                             @endif
                         </p>
                     @endif
+                    @if ($role === \App\Enums\CampaignRole::Spectator)
+                        <p class="mt-3 text-sm text-stone-600">{{ __("Vous suivez l'écran de table de cette campagne.") }}</p>
+                    @endif
                     @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
                     @if ($unread > 0)
                         <a href="{{ route('messages.index', $campaign) }}" class="relative z-10 mt-3 text-sm font-medium text-flow hover:underline" wire:navigate>{{ trans_choice(':count message non lu|:count messages non lus', $unread) }}</a>
                     @endif
+                    @can('duplicate', $campaign)
+                        <button type="button" wire:click="duplicate({{ $campaign->id }})" wire:confirm="{{ __('Dupliquer la campagne ? Le contenu préparé est copié ; les joueurs, les personnages, les séances et le journal ne le sont pas.') }}" class="relative z-10 mt-3 self-start text-sm link">{{ __('Dupliquer') }}</button>
+                    @endcan
                 </li>
             @endforeach
         </ul>

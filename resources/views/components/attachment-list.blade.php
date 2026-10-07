@@ -1,4 +1,4 @@
-@props(['attachments'])
+@props(['attachments', 'campaign' => null])
 {{-- Images en vignettes, autres fichiers en liste. --}}
 @php($images = $attachments->filter->isImage())
 @php($files = $attachments->reject->isImage())
@@ -10,6 +10,11 @@
                 <a href="{{ route('attachments.show', $attachment) }}" target="_blank" rel="noopener">
                     <img src="{{ route('attachments.show', $attachment) }}" alt="{{ $attachment->original_name }}" loading="lazy" class="aspect-square w-full rounded-lg border border-stone-200 object-cover">
                 </a>
+                @if ($campaign)
+                    <span class="mt-1 block">
+                        <livewire:table.show-button :campaign="$campaign" kind="attachment" :item-id="$attachment->id" :compact="true" :wire:key="'table-attachment-'.$attachment->id" />
+                    </span>
+                @endif
                 <button type="button" wire:click="deleteAttachment({{ $attachment->id }})" wire:confirm="{{ __('Supprimer :name ?', ['name' => $attachment->original_name]) }}" class="absolute top-1 right-1 rounded bg-white/90 px-2 py-0.5 text-xs text-red-700 shadow-sm hover:bg-white" aria-label="{{ __('Supprimer :name', ['name' => $attachment->original_name]) }}">{{ __('Supprimer') }}</button>
             </li>
         @endforeach

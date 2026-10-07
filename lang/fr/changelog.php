@@ -4,6 +4,18 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.5.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Mieux ranger, à plusieurs',
+        'items' => [
+            'Une page « Tags » pour renommer, colorer, fusionner et supprimer vos tags ; les scènes ont aussi des tags.',
+            '« Dupliquer » une fiche, un scénario ou toute une campagne, pour rejouer avec une autre table.',
+            'Nouveaux rôles : co-MJ, qui prépare et mène avec vous, et spectateur, qui regarde l\'écran de table.',
+            '« Afficher à la table » depuis une fiche, un portrait, une illustration, un document ou une règle.',
+            'Mode Session : montrer une fiche ou une règle d\'un clic, voir la scène suivante, touche N pour noter.',
+        ],
+    ],
+
     '0.4.1' => [
         'date' => '2026-10-08',
         'title' => 'Aide et signalements',

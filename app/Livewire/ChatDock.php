@@ -34,7 +34,7 @@ class ChatDock extends Component
 
     public function mount(Campaign $campaign): void
     {
-        $this->authorize('view', $campaign);
+        $this->authorize('play', $campaign);
 
         $saved = session('chat.'.$campaign->id, []);
         $this->open = (bool) ($saved['open'] ?? false);

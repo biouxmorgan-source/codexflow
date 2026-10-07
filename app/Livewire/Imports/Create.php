@@ -76,7 +76,7 @@ class Create extends Component
     #[Computed]
     public function types(): Collection
     {
-        return EntityType::query()->availableTo(auth()->user())->orderBy('id')->get();
+        return EntityType::query()->availableTo($this->campaign->owner)->orderBy('id')->get();
     }
 
     /** @return Collection<int, FieldDefinition> */
@@ -160,7 +160,7 @@ class Create extends Component
         }
 
         if ($this->mode === 'fields') {
-            return new ImportFieldDefinitions($this->campaign->gameSystem, auth()->user(), $table);
+            return new ImportFieldDefinitions($this->campaign->gameSystem, $this->campaign->owner, $table);
         }
 
         if ($this->mode === 'scenes') {
@@ -168,10 +168,10 @@ class Create extends Component
         }
 
         if ($this->mode === 'rules') {
-            return new ImportRules($this->campaign, auth()->user(), $table, $this->ruleScope, $this->updateExisting);
+            return new ImportRules($this->campaign, $this->campaign->owner, $table, $this->ruleScope, $this->updateExisting);
         }
 
-        return new ImportEntities($this->campaign, auth()->user(), $table, $this->mapping, [
+        return new ImportEntities($this->campaign, $this->campaign->owner, $table, $this->mapping, [
             'default_type_id' => (int) $this->defaultTypeId,
             'scope' => $this->scope,
             'update_existing' => $this->updateExisting,

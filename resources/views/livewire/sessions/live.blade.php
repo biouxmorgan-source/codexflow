@@ -6,7 +6,8 @@
         },
     }"
     x-effect="document.body.classList.toggle('focus-mode', focus)"
-    x-on:livewire:navigating.window="document.body.classList.remove('focus-mode')">
+    x-on:livewire:navigating.window="document.body.classList.remove('focus-mode')"
+    x-on:keydown.n.window="if (! ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && ! document.activeElement.isContentEditable && document.getElementById('noteBody')) { $event.preventDefault(); document.getElementById('noteBody').focus() }">
     @php($session = $this->session)
 
     <div class="mb-4 flex flex-wrap items-center gap-3">
@@ -77,6 +78,12 @@
                         @if ($scene->description)
                             <div class="mt-2 text-stone-700">{{ \App\Support\EntityLinks::render($scene->description, $campaign) }}</div>
                         @endif
+                        @if ($this->upcomingScene)
+                            <p class="mt-3 border-t border-stone-100 pt-2 text-sm text-stone-500">
+                                {{ __('Ensuite :') }}
+                                <a href="{{ route('scenes.show', [$campaign, $this->upcomingScene]) }}" target="_blank" rel="noopener" class="font-medium link">{{ $this->upcomingScene->name }}</a>
+                            </p>
+                        @endif
                     @else
                         <p class="text-sm text-stone-500">{{ __('Aucune scène en cours. Choisissez-en une, ou improvisez : vos notes restent rattachées à la session.') }}</p>
                     @endif
@@ -117,7 +124,10 @@
                                             @if ($rule->gm_notes)
                                                 <p class="mt-2 rounded-lg bg-flow/5 p-2 text-sm whitespace-pre-line text-stone-700"><span class="font-medium text-flow">{{ __('MJ :') }}</span> {{ $rule->gm_notes }}</p>
                                             @endif
-                                            <a href="{{ route('rules.show', [$campaign, $rule]) }}" target="_blank" rel="noopener" class="mt-2 inline-block text-xs link">{{ __('Ouvrir la règle ↗') }}</a>
+                                            <span class="mt-2 flex flex-wrap gap-x-4 text-xs">
+                                                <a href="{{ route('rules.show', [$campaign, $rule]) }}" target="_blank" rel="noopener" class="link">{{ __('Ouvrir la règle ↗') }}</a>
+                                                <button type="button" wire:click="showOnTable('rule', {{ $rule->id }})" class="link">{{ __('Montrer à la table') }}</button>
+                                            </span>
                                         </details>
                                     @endforeach
                                 </div>
@@ -148,7 +158,7 @@
                 @endif
 
                 <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-                    <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Notes de session') }}</h2>
+                    <h2 class="mb-2 flex items-baseline gap-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Notes de session') }} <span class="text-xs font-normal tracking-normal normal-case">{{ __('(touche N)') }}</span></h2>
                     <form wire:submit="addNote" class="flex gap-2">
                         <label for="noteBody" class="sr-only">{{ __('Nouvelle note') }}</label>
                         <input id="noteBody" type="text" wire:model="noteBody" class="field" placeholder="{{ __("Noter vite : les joueurs ont promis d'aider Mira…") }}" autocomplete="off">

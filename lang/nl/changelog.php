@@ -4,6 +4,18 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.5.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Beter ordenen, samen',
+        'items' => [
+            'Een pagina ‘Tags’ om je tags te hernoemen, een kleur te geven, samen te voegen en te verwijderen; ook scènes hebben tags.',
+            '‘Dupliceren’ van een fiche, een scenario of een hele campagne, om opnieuw te spelen met een andere tafel.',
+            'Nieuwe rollen: co-SL, die samen met je voorbereidt en meeleidt, en toeschouwer, die naar het tafelscherm kijkt.',
+            '‘Aan tafel tonen’ vanuit een fiche, een portret, een illustratie, een document of een regel.',
+            'Sessiemodus: een fiche of regel met één klik tonen, de volgende scène zien, toets N om te noteren.',
+        ],
+    ],
+
     '0.4.1' => [
         'date' => '2026-10-08',
         'title' => 'Hulp en probleemmeldingen',

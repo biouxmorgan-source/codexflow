@@ -3,6 +3,7 @@
 namespace App\Livewire\Campaigns;
 
 use App\Actions\Campaigns\CreateCampaign;
+use App\Actions\Duplication\DuplicateCampaign;
 use App\Models\Campaign;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
@@ -94,6 +95,17 @@ class Index extends Component
         $this->reset(['creating', 'name', 'description', 'newGameName', 'worldChoice', 'newWorldName']);
         unset($this->campaigns, $this->gameSystems, $this->worlds);
         $this->mount();
+    }
+
+    public function duplicate(int $id, DuplicateCampaign $duplicateCampaign): void
+    {
+        $campaign = Campaign::findOrFail($id);
+        $this->authorize('duplicate', $campaign);
+
+        $copy = $duplicateCampaign->handle($campaign, auth()->user());
+
+        session()->now('status', __('Campagne dupliquée : « :name ».', ['name' => $copy->name]));
+        unset($this->campaigns);
     }
 
     public function render()

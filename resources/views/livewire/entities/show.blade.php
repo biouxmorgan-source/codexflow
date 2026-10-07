@@ -20,16 +20,23 @@
                 @if ($entity->tags->isNotEmpty())
                     <p class="mt-2 flex flex-wrap gap-1">
                         @foreach ($entity->tags as $entityTag)
-                            <a href="{{ route('campaigns.show', [$campaign, 'tag' => $entityTag->id]) }}" class="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-700 hover:bg-codex-soft" wire:navigate>#{{ $entityTag->name }}</a>
+                            <x-tag :tag="$entityTag" :href="route('campaigns.show', [$campaign, 'tag' => $entityTag->id])" class="text-xs" />
                         @endforeach
                     </p>
                 @endif
             </div>
         </div>
         <div class="flex flex-wrap gap-2">
+            <livewire:table.show-button :campaign="$campaign" kind="entity" :item-id="$entity->id" wire:key="table-entity" />
+            @if ($entity->hasImage())
+                <livewire:table.show-button :campaign="$campaign" kind="portrait" :item-id="$entity->id" :label="__('Portrait seul')" wire:key="table-portrait" />
+            @endif
             <button type="button" wire:click="togglePin" class="btn-secondary" aria-pressed="{{ $pinned ? 'true' : 'false' }}">{{ $pinned ? __('Désépingler') : __('Épingler') }}</button>
             <a href="{{ route('journal.index', [$campaign, 'sujet' => 'entity:'.$entity->id]) }}" class="btn-secondary" wire:navigate>{{ __('Historique') }}</a>
             <a href="{{ route('entities.edit', [$campaign, $entity]) }}" class="btn-secondary" wire:navigate>{{ __('Modifier la fiche') }}</a>
+            <button type="button" wire:click="duplicate" wire:confirm="{{ $entity->isWorldEntity()
+                ? __("Dupliquer la fiche ? La copie reprend son contenu, ses champs, son image, ses pièces jointes, ses étiquettes et ses relations, dans le même monde. Les différences propres à chaque campagne ne sont pas copiées.")
+                : __('Dupliquer la fiche ? La copie reprend son contenu, ses champs, son image, ses pièces jointes, ses étiquettes et ses relations, dans cette campagne.') }}" class="btn-secondary">{{ __('Dupliquer') }}</button>
         </div>
     </div>
 
@@ -47,7 +54,7 @@
                 @endif
                 <x-field-values :definitions="$publicFields" :entity="$entity" :campaign="$campaign" />
                 <x-relation-list :relations="$publicRelations" :entity="$entity" :campaign="$campaign" />
-                <x-attachment-list :attachments="$publicAttachments" />
+                <x-attachment-list :attachments="$publicAttachments" :campaign="$campaign" />
             </section>
 
             <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm">
@@ -59,7 +66,7 @@
                 @endif
                 <x-field-values :definitions="$gmFields" :entity="$entity" :campaign="$campaign" />
                 <x-relation-list :relations="$gmRelations" :entity="$entity" :campaign="$campaign" />
-                <x-attachment-list :attachments="$gmAttachments" />
+                <x-attachment-list :attachments="$gmAttachments" :campaign="$campaign" />
             </section>
 
             <form wire:submit="addRelation" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">

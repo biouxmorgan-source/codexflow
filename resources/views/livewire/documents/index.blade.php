@@ -29,8 +29,8 @@
             @else
                 <ul class="grid gap-3 sm:grid-cols-2">
                     @foreach ($this->documents as $document)
-                        <li wire:key="doc-{{ $document->id }}">
-                            <a href="{{ route('documents.show', [$campaign, $document]) }}" class="flex h-full gap-3 rounded-xl border border-stone-200 bg-white p-3 shadow-sm hover:border-codex/40" wire:navigate>
+                        <li wire:key="doc-{{ $document->id }}" class="relative">
+                            <a href="{{ route('documents.show', [$campaign, $document]) }}" class="flex h-full gap-3 rounded-xl border border-stone-200 bg-white p-3 pb-7 shadow-sm hover:border-codex/40" wire:navigate>
                                 @if ($document->isImage())
                                     <img src="{{ route('documents.file', $document) }}" alt="" loading="lazy" class="h-16 w-16 shrink-0 rounded-lg object-cover">
                                 @else
@@ -40,10 +40,19 @@
                                     <span class="block truncate font-medium text-codex">{{ $document->title }}</span>
                                     <span class="block text-xs text-stone-500">{{ $document->scopeLabel() }} · {{ $document->zone === \App\Enums\Zone::Public ? __('Joueurs') : __('MJ seulement') }} · {{ $document->humanSize() }}</span>
                                     @if ($document->tags->isNotEmpty())
-                                        <span class="mt-1 block truncate text-xs text-stone-600">{{ $document->tags->pluck('name')->implode(', ') }}</span>
+                                        <span class="mt-1 flex flex-wrap gap-1 text-xs">
+                                            @foreach ($document->tags as $documentTag)
+                                                <x-tag :tag="$documentTag" compact />
+                                            @endforeach
+                                        </span>
                                     @endif
                                 </span>
                             </a>
+                            @if ($document->isImage() || $document->isPdf())
+                                <span class="absolute right-3 bottom-1.5">
+                                    <livewire:table.show-button :campaign="$campaign" kind="document" :item-id="$document->id" :compact="true" :wire:key="'table-doc-'.$document->id" />
+                                </span>
+                            @endif
                         </li>
                     @endforeach
                 </ul>

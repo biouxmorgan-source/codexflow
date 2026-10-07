@@ -23,12 +23,13 @@
             @if ($rule->tags->isNotEmpty())
                 <p class="mt-2 flex flex-wrap gap-1 text-xs">
                     @foreach ($rule->tags as $tag)
-                        <a href="{{ route('rules.index', [$campaign, 'tag' => $tag->name]) }}" class="rounded-full bg-stone-100 px-2 py-0.5 text-stone-700 hover:bg-codex-soft" wire:navigate>{{ $tag->name }}</a>
+                        <x-tag :tag="$tag" :href="route('rules.index', [$campaign, 'tag' => $tag->name])" />
                     @endforeach
                 </p>
             @endif
         </div>
         <div class="flex flex-wrap gap-2">
+            <livewire:table.show-button :campaign="$campaign" kind="rule" :item-id="$rule->id" wire:key="table-rule" />
             @if ($pendingToPlay)
                 <span class="btn-secondary cursor-default text-stone-500">{{ __('Dans « À jouer »') }}</span>
             @else

@@ -96,7 +96,7 @@ class Index extends Component
             default => null,
         };
 
-        $tagIds = Tag::idsFromInput(auth()->user(), $this->tags);
+        $tagIds = Tag::idsFromInput($this->campaign->owner, $this->tags);
 
         foreach ($this->uploads as $file) {
             $name = mb_substr($file->getClientOriginalName(), 0, 255);
@@ -109,7 +109,7 @@ class Index extends Component
                 'mime_type' => $file->getMimeType() ?? 'application/octet-stream',
                 'size' => $file->getSize(),
             ]);
-            $document->owner()->associate(auth()->user());
+            $document->owner()->associate($this->campaign->owner);
             $document->game_system_id = $this->scope === 'game' ? $this->campaign->game_system_id : null;
             $document->world_id = $this->scope === 'world' ? $this->campaign->world_id : null;
             $document->campaign_id = $this->scope === 'campaign' ? $this->campaign->id : null;

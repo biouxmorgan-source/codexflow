@@ -180,4 +180,23 @@ class SessionModeTest extends TestCase
         $this->actingAs($this->gm)->get(route('sessions.show', [$other, $session]))->assertNotFound();
         $this->actingAs($this->gm)->get(route('sessions.live', $this->campaign))->assertOk();
     }
+
+    public function test_the_session_previews_the_next_scene_and_shows_cards_on_the_table(): void
+    {
+        $live = Livewire::actingAs($this->gm)
+            ->test(Live::class, ['campaign' => $this->campaign])
+            ->call('start')
+            ->assertSee('Ensuite :')
+            ->assertSee('La nuit')
+            ->assertSee('Montrer à la table');
+
+        $live->call('showOnTable', 'entity', $this->aldric->id);
+        $this->assertSame(['entity', $this->aldric->id], [$this->campaign->fresh()->table_display['kind'], $this->campaign->fresh()->table_display['id']]);
+
+        $live->call('nextScene')->assertDontSee('Ensuite :');
+
+        Livewire::actingAs($this->gm)->test(Live::class, ['campaign' => $this->campaign])
+            ->call('showOnTable', 'secret', $this->aldric->id)
+            ->assertNotFound();
+    }
 }

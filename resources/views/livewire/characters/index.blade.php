@@ -49,7 +49,7 @@
                                         @endforeach
                                     </select>
                                     @if ($this->players->isEmpty())
-                                        <p class="mt-1 text-xs text-stone-500">{!! __("Invitez d'abord vos joueurs depuis la page :link.", ['link' => '<a href="'.e(route('members.index', $campaign)).'" class="link" wire:navigate>'.e(__('Joueurs')).'</a>']) !!}</p>
+                                        <p class="mt-1 text-xs text-stone-500">{!! __("Invitez d'abord vos joueurs depuis la page :link.", ['link' => '<a href="'.e(route('members.index', $campaign)).'" class="link" wire:navigate>'.e(__('Membres')).'</a>']) !!}</p>
                                     @endif
                                 </div>
                                 <div>

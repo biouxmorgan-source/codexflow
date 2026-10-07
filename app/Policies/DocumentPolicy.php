@@ -4,24 +4,25 @@ namespace App\Policies;
 
 use App\Models\Document;
 use App\Models\User;
+use App\Support\CoGameMaster;
 
 /**
- * Lot 1 : seul le MJ propriétaire y accède. Les joueurs verront la zone publique au lot 2.
+ * Le MJ propriétaire et ses co-MJ accèdent aux documents ; les joueurs les consultent par leurs personnages.
  */
 class DocumentPolicy
 {
     public function view(User $user, Document $model): bool
     {
-        return $model->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $model, edit: false);
     }
 
     public function update(User $user, Document $model): bool
     {
-        return $model->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $model);
     }
 
     public function delete(User $user, Document $model): bool
     {
-        return $model->user_id === $user->getKey();
+        return CoGameMaster::canPrepare($user, $model);
     }
 }
