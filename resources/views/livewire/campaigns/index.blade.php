@@ -114,6 +114,9 @@
                     @if ($unread > 0)
                         <a href="{{ route('messages.index', $campaign) }}" class="relative z-10 mt-3 text-sm font-medium text-flow hover:underline" wire:navigate>{{ trans_choice(':count message non lu|:count messages non lus', $unread) }}</a>
                     @endif
+                    @can('duplicate', $campaign)
+                        <button type="button" wire:click="duplicate({{ $campaign->id }})" wire:confirm="{{ __('Dupliquer la campagne ? Le contenu préparé est copié ; les joueurs, les personnages, les séances et le journal ne le sont pas.') }}" class="relative z-10 mt-3 self-start text-sm link">{{ __('Dupliquer') }}</button>
+                    @endcan
                 </li>
             @endforeach
         </ul>

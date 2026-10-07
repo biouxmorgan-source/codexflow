@@ -50,6 +50,8 @@ class ActivityLog extends Model
 
     private static ?string $batch = null;
 
+    private static bool $muted = false;
+
     /** @return array<string, string> libellés traduits des types d'éléments suivis */
     public static function subjects(): array
     {
@@ -107,11 +109,31 @@ class ActivityLog extends Model
     }
 
     /**
+     * N'inscrit rien au journal pendant $callback (duplication d'une campagne : la copie
+     * démarre avec un journal vierge, son historique est indépendant de l'original).
+     */
+    public static function muted(callable $callback): mixed
+    {
+        $previous = self::$muted;
+        self::$muted = true;
+
+        try {
+            return $callback();
+        } finally {
+            self::$muted = $previous;
+        }
+    }
+
+    /**
      * @param  array<string, array{old: mixed, new: mixed}>  $changes
      * @param  array{campaign_id?: ?int, world_id?: ?int, game_system_id?: ?int}  $scope
      */
     public static function record(string $type, int $id, string $label, string $event, array $changes, array $scope): void
     {
+        if (self::$muted) {
+            return;
+        }
+
         static::query()->create($scope + [
             'user_id' => auth()->id(),
             'subject_type' => $type,

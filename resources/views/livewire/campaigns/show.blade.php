@@ -140,6 +140,14 @@
         @endif
     </section>
 
+    @can('duplicate', $campaign)
+        <section class="mt-10 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+            <h2 class="mb-2 font-semibold">{{ __('Dupliquer la campagne') }}</h2>
+            <p class="mb-3 text-sm text-stone-600">{{ __('Pour rejouer le même contenu avec une autre table : les fiches, scénarios, scènes, documents et règles de la campagne sont copiés, le jeu et le monde sont partagés. Les joueurs, les personnages, les séances et le journal ne sont pas copiés, et les scènes repartent de « Prévue ».') }}</p>
+            <button type="button" wire:click="duplicate" wire:confirm="{{ __('Dupliquer la campagne ? Le contenu préparé est copié ; les joueurs, les personnages, les séances et le journal ne le sont pas.') }}" class="btn-secondary">{{ __('Dupliquer') }}</button>
+        </section>
+    @endcan
+
     @can('delete', $campaign)
         @php($localCount = $campaign->localEntities()->count())
         <section class="mt-10 rounded-xl border border-red-200 bg-white p-6 shadow-sm">

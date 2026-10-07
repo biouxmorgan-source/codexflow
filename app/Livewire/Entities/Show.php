@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Entities;
 
+use App\Actions\Duplication\DuplicateEntity;
 use App\Enums\Zone;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Attachment;
@@ -193,6 +194,16 @@ class Show extends Component
         $this->entity->delete();
 
         $this->redirectRoute('campaigns.show', $this->campaign, navigate: true);
+    }
+
+    public function duplicate(DuplicateEntity $duplicateEntity): void
+    {
+        $this->authorize('update', $this->campaign);
+        $this->authorize('update', $this->entity);
+
+        $copy = $duplicateEntity->handle($this->entity);
+
+        $this->redirectRoute('entities.show', [$this->campaign, $copy], navigate: true);
     }
 
     public function addRelation(): void
