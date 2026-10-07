@@ -127,6 +127,8 @@
         </div>
 
         <aside class="space-y-6">
+            <livewire:characters.give :campaign="$campaign" fixed-kind="entity" :entity-id="$entity->id" :key="'give-entity-'.$entity->id" />
+
             <form wire:submit="saveState" class="space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <div>
                     <h2 class="font-semibold">Dans cette campagne</h2>

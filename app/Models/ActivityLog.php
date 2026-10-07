@@ -34,6 +34,7 @@ class ActivityLog extends Model
         'document' => 'Document',
         'field' => 'Champ',
         'member' => 'Membre',
+        'grant' => 'Élément donné',
     ];
 
     private const LABELS = [
@@ -42,7 +43,7 @@ class ActivityLog extends Model
         'category' => 'Catégorie', 'procedure' => 'Procédure', 'source' => 'Source', 'origin' => 'Origine',
         'zone' => 'Zone', 'group' => 'Groupe', 'type' => 'Type', 'options' => 'Choix', 'original_name' => 'Fichier',
         'image_path' => 'Image', 'scenario_id' => 'Scénario', 'world_id' => 'Monde', 'campaign_id' => 'Campagne',
-        'role' => 'Rôle', 'player_editable' => 'Modifiable par le joueur',
+        'role' => 'Rôle', 'character' => 'Personnage', 'kind' => 'Nature', 'body' => 'Texte', 'quantity' => 'Quantité', 'player_editable' => 'Modifiable par le joueur',
     ];
 
     private static ?string $batch = null;
@@ -109,11 +110,27 @@ class ActivityLog extends Model
 
     public function subjectName(): string
     {
+        if ($this->subject_type === 'grant') {
+            $kind = $this->diff['kind']['new'] ?? $this->diff['kind']['old'] ?? null;
+
+            return CharacterGrant::KINDS[$kind] ?? self::SUBJECTS['grant'];
+        }
+
         return self::SUBJECTS[$this->subject_type] ?? $this->subject_type;
     }
 
     public function verb(): string
     {
+        if ($this->subject_type === 'grant') {
+            $kind = $this->diff['kind']['new'] ?? $this->diff['kind']['old'] ?? null;
+
+            return match (true) {
+                $this->event === 'deleted' => $kind === 'entity' ? 'a caché' : 'a repris',
+                $kind === 'entity' || $kind === 'information' => 'a révélé',
+                default => 'a donné',
+            };
+        }
+
         if ($this->subject_type === 'member') {
             return match ($this->event) {
                 'created' => 'a ajouté',
@@ -193,6 +210,10 @@ class ActivityLog extends Model
 
         if ($key === 'scenario_id') {
             return ['Scénario', fn (mixed $value) => $value ? (string) Scenario::find($value)?->name : ''];
+        }
+
+        if ($key === 'kind' && $this->subject_type === 'grant') {
+            return ['Nature', fn (mixed $value) => CharacterGrant::KINDS[$value] ?? $plain($value)];
         }
 
         if ($key === 'options') {

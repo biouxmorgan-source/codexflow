@@ -23,6 +23,8 @@
         </section>
 
         <aside class="space-y-6">
+            <livewire:characters.give :campaign="$campaign" fixed-kind="document" :document-id="$document->id" :key="'give-document-'.$document->id" />
+
             <form wire:submit="save" class="space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <div>
                     <label for="title" class="label">Titre</label>

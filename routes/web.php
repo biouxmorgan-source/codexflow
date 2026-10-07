@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CharacterKnowledgeController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ImportExampleController;
@@ -61,6 +62,9 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/personnages/{character}', CharacterShow::class)->name('characters.show')->whereNumber(['campaign', 'character']);
     Route::get('/campagnes/{campaign}/personnages/{character}/feuille.pdf', [FileController::class, 'characterSheet'])->name('characters.sheet')->whereNumber(['campaign', 'character']);
     Route::get('/campagnes/{campaign}/personnages/{character}/portrait', [FileController::class, 'characterPortrait'])->name('characters.portrait')->whereNumber(['campaign', 'character']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}', [CharacterKnowledgeController::class, 'entity'])->name('characters.entity')->whereNumber(['campaign', 'character', 'entity']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}/image', [CharacterKnowledgeController::class, 'entityImage'])->name('characters.entity-image')->whereNumber(['campaign', 'character', 'entity']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/documents/{document}', [CharacterKnowledgeController::class, 'document'])->name('characters.document')->whereNumber(['campaign', 'character', 'document']);
     Route::livewire('/campagnes/{campaign}/joueurs', MemberIndex::class)->name('members.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/journal', JournalIndex::class)->name('journal.index')->whereNumber('campaign');
 

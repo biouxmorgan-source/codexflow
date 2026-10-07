@@ -110,8 +110,60 @@
             @if ($entity->description)
                 <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                     <h2 class="mb-2 font-semibold">Description</h2>
-                    <div class="text-stone-700">{{ \App\Support\EntityLinks::plain($entity->description) }}</div>
+                    <div class="text-stone-700">{{ \App\Support\EntityLinks::render($entity->description, $campaign, $this->knownLink(...)) }}</div>
                 </div>
+            @endif
+
+            @php($grants = $this->grants)
+            @foreach (['knowledge' => 'Connaissances', 'possession' => 'Possessions', 'document' => 'Documents'] as $section => $sectionTitle)
+                @php($items = $grants->filter(fn ($grant) => $section === 'knowledge' ? in_array($grant->kind, ['entity', 'information'], true) : $grant->kind === $section))
+                <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm" wire:key="section-{{ $section }}">
+                    <h2 class="mb-2 font-semibold">{{ $sectionTitle }}</h2>
+                    @if ($items->isEmpty())
+                        <p class="text-sm text-stone-600">
+                            @switch($section)
+                                @case('knowledge') Rien de révélé pour l'instant. @break
+                                @case('possession') Aucun objet reçu. @break
+                                @default Aucun document reçu.
+                            @endswitch
+                        </p>
+                    @else
+                        <ul class="space-y-3">
+                            @foreach ($items as $grant)
+                                <li wire:key="grant-{{ $grant->id }}" class="flex items-start gap-3">
+                                    <div class="min-w-0 flex-1">
+                                        @switch($grant->kind)
+                                            @case('entity')
+                                                <a href="{{ route('characters.entity', [$campaign, $character, $grant->entity]) }}" class="link font-medium" wire:navigate>{{ $grant->entity->name }}</a>
+                                                <span class="text-xs text-stone-500">{{ $grant->entity->type->name }}</span>
+                                                @if ($grant->entity->summary)
+                                                    <p class="text-sm text-stone-600">{{ $grant->entity->summary }}</p>
+                                                @endif
+                                                @break
+                                            @case('document')
+                                                <a href="{{ route('characters.document', [$campaign, $character, $grant->document]) }}" target="_blank" class="link font-medium">{{ $grant->document->title }}</a>
+                                                <span class="text-xs text-stone-500">{{ $grant->document->isPdf() ? 'PDF' : 'Image' }}</span>
+                                                @break
+                                            @default
+                                                <p class="font-medium">{{ $grant->label() }}</p>
+                                                @if ($grant->body)
+                                                    <p class="text-sm text-stone-700">{{ \App\Support\EntityLinks::render($grant->body, $campaign, $this->knownLink(...)) }}</p>
+                                                @endif
+                                        @endswitch
+                                        <p class="text-xs text-stone-400">{{ $grant->created_at->locale('fr')->isoFormat('D MMM YYYY, HH:mm') }}</p>
+                                    </div>
+                                    @if ($this->isGameMaster)
+                                        <button type="button" wire:click="revoke({{ $grant->id }})" wire:confirm="{{ $grant->kind === 'entity' ? 'Cacher à nouveau cette fiche au personnage ?' : 'Retirer cet élément au personnage ?' }}" class="shrink-0 text-xs text-red-700 hover:underline">{{ $grant->kind === 'entity' ? 'Cacher' : 'Retirer' }}</button>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            @endforeach
+
+            @if ($this->isGameMaster)
+                <livewire:characters.give :campaign="$campaign" :character-id="$character->id" :key="'give-character-'.$character->id" />
             @endif
         </section>
 

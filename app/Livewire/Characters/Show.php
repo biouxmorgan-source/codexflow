@@ -2,15 +2,18 @@
 
 namespace App\Livewire\Characters;
 
+use App\Actions\Characters\GiveToCharacters;
 use App\Enums\FieldType;
 use App\Enums\Zone;
 use App\Models\Campaign;
+use App\Models\CharacterGrant;
 use App\Models\Entity;
 use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 /**
@@ -52,6 +55,28 @@ class Show extends Component
             ->where('zone', Zone::Public)
             ->ordered()
             ->get();
+    }
+
+    /** @return Collection<int, CharacterGrant> ce que le personnage a reçu, du plus récent au plus ancien */
+    #[Computed]
+    public function grants(): Collection
+    {
+        return $this->character->grants()->with(['entity.type', 'document'])->get();
+    }
+
+    #[On('character-grants-changed')]
+    public function refreshGrants(): void
+    {
+        unset($this->grants);
+    }
+
+    /** Le MJ reprend un objet ou cache à nouveau une fiche. */
+    public function revoke(int $grantId): void
+    {
+        abort_unless($this->isGameMaster, 403);
+
+        GiveToCharacters::revoke($this->character->grants()->findOrFail($grantId));
+        unset($this->grants);
     }
 
     #[Computed]
@@ -126,6 +151,20 @@ class Show extends Component
 
         $this->editing = false;
         $this->refreshEntity();
+    }
+
+    /**
+     * Adresse d'une fiche citée dans un texte, si le personnage la connaît ; sinon texte simple.
+     */
+    public function knownLink(Entity $linked): ?string
+    {
+        if ($linked->id === $this->entity->id) {
+            return null;
+        }
+
+        return $this->grants->contains(fn (CharacterGrant $grant) => $grant->entity_id === $linked->id)
+            ? route('characters.entity', [$this->campaign, $this->character, $linked])
+            : null;
     }
 
     private function editable(int $definitionId): FieldDefinition

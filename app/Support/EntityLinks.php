@@ -23,8 +23,14 @@ class EntityLinks
     /**
      * Texte échappé, sauts de ligne conservés, liens internes cliquables.
      */
-    public static function render(?string $text, Campaign $campaign): HtmlString
+    /**
+     * @param  (callable(Entity): ?string)|null  $url  adresse du lien, ou null pour du texte simple
+     *                                                 (vue joueur : seules les fiches qu'il connaît)
+     */
+    public static function render(?string $text, Campaign $campaign, ?callable $url = null): HtmlString
     {
+        $url ??= fn (Entity $entity) => route('entities.show', [$campaign, $entity]);
+
         if ($text === null || $text === '') {
             return new HtmlString('');
         }
@@ -41,9 +47,13 @@ class EntityLinks
 
             $entity = $id !== null ? $byId->get((int) $id) : $byName->get(mb_strtolower(trim($label)));
 
-            $html .= $entity === null
-                ? '<span class="text-stone-500" title="Fiche introuvable dans cette campagne">'.e(trim($label)).'</span>'
-                : '<a href="'.e(route('entities.show', [$campaign, $entity])).'" class="font-medium text-codex underline decoration-codex/40 underline-offset-2 hover:decoration-codex" wire:navigate>'.e($entity->name).'</a>';
+            $href = $entity === null ? null : $url($entity);
+
+            $html .= match (true) {
+                $href !== null => '<a href="'.e($href).'" class="font-medium text-codex underline decoration-codex/40 underline-offset-2 hover:decoration-codex" wire:navigate>'.e($entity->name).'</a>',
+                $entity === null && func_num_args() < 3 => '<span class="text-stone-500" title="Fiche introuvable dans cette campagne">'.e(trim($label)).'</span>',
+                default => e(trim($label)),
+            };
         }
 
         $html .= e(substr($text, $offset));
