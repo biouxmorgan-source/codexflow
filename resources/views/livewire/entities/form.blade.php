@@ -1,7 +1,7 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
     <h1 class="mb-6 text-2xl font-semibold">{{ $entity ? 'Modifier '.$entity->name : 'Nouvelle entité' }}</h1>
@@ -21,7 +21,7 @@
                     @endforeach
                 </select>
                 @error('entityTypeId') <p class="error">{{ $message }}</p> @enderror
-                <a href="{{ route('entity-types.index') }}" class="mt-1 inline-block text-xs text-codex hover:underline" wire:navigate>Créer un autre type de fiche</a>
+                <a href="{{ route('entity-types.index') }}" class="mt-1 inline-block text-xs link" wire:navigate>Créer un autre type de fiche</a>
             </div>
 
             <div class="md:col-span-2" x-data>
@@ -92,7 +92,7 @@
                 <x-field-inputs :definitions="$this->fieldDefinitions->where('zone', \App\Enums\Zone::Public)" />
                 @can('update', $campaign->gameSystem)
                     <p class="text-sm text-stone-500">
-                        <a href="{{ route('fields.index', $campaign) }}" class="text-codex hover:underline" wire:navigate>{{ $this->fieldDefinitions->isEmpty() ? 'Ajouter des champs pour ce jeu' : 'Gérer les champs du jeu' }}</a>
+                        <a href="{{ route('fields.index', $campaign) }}" class="link" wire:navigate>{{ $this->fieldDefinitions->isEmpty() ? 'Ajouter des champs pour ce jeu' : 'Gérer les champs du jeu' }}</a>
                         (caractéristiques, compétences, capacités…)
                     </p>
                 @endcan

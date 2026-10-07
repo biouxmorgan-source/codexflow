@@ -22,7 +22,7 @@
     </form>
 
     <div class="mt-6 flex justify-between text-sm">
-        <a href="{{ route('password.request') }}" class="text-codex hover:underline">Mot de passe oublié ?</a>
-        <a href="{{ route('register') }}" class="text-codex hover:underline">Créer un compte</a>
+        <a href="{{ route('password.request') }}" class="link">Mot de passe oublié ?</a>
+        <a href="{{ route('register') }}" class="link">Créer un compte</a>
     </div>
 </x-layouts.guest>

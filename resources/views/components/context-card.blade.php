@@ -38,6 +38,6 @@
             <div class="text-stone-700">{{ \App\Support\EntityLinks::render($entity->description, $campaign) }}</div>
         @endif
         <x-field-values :definitions="$fields" :entity="$entity" :campaign="$campaign" />
-        <a href="{{ route('entities.show', [$campaign, $entity]) }}" target="_blank" rel="noopener" class="inline-block text-codex hover:underline">Ouvrir la fiche ↗</a>
+        <a href="{{ route('entities.show', [$campaign, $entity]) }}" target="_blank" rel="noopener" class="inline-block link">Ouvrir la fiche ↗</a>
     </div>
 </details>

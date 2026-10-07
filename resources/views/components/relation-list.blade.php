@@ -6,7 +6,7 @@
             @php($other = $relation->otherSide($entity))
             <li wire:key="relation-{{ $relation->id }}" class="flex flex-wrap items-center gap-x-2 gap-y-1 px-3 py-2">
                 <span class="text-stone-600">{{ $relation->labelFrom($entity) }}</span>
-                <a href="{{ route('entities.show', [$campaign, $other]) }}" class="font-medium text-codex hover:underline" wire:navigate>{{ $other->name }}</a>
+                <a href="{{ route('entities.show', [$campaign, $other]) }}" class="font-medium link" wire:navigate>{{ $other->name }}</a>
                 <span class="text-xs text-stone-500">{{ $other->type->name }}</span>
                 @if ($relation->campaign_id)
                     <span class="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">cette campagne</span>

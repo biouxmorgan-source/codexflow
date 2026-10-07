@@ -1,8 +1,8 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
-        › <a href="{{ route('rules.index', $campaign) }}" class="hover:text-codex" wire:navigate>Règles</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
+        › <a href="{{ route('rules.index', $campaign) }}" class="crumb" wire:navigate>Règles</a>
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -85,7 +85,7 @@
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-3 font-semibold">Scènes</h2>
                 @forelse ($scenes as $scene)
-                    <a href="{{ route('scenes.show', [$campaign, $scene]) }}" class="block py-1 text-sm text-codex hover:underline" wire:navigate>{{ $scene->name }} <span class="text-stone-500">· {{ $scene->scenario->name }}</span></a>
+                    <a href="{{ route('scenes.show', [$campaign, $scene]) }}" class="block py-1 text-sm link" wire:navigate>{{ $scene->name }} <span class="text-stone-500">· {{ $scene->scenario->name }}</span></a>
                 @empty
                     <p class="text-sm text-stone-500">Liez la règle à une scène depuis la scène : elle s'affichera en mode Session.</p>
                 @endforelse

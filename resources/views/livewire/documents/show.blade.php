@@ -1,8 +1,8 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
-        › <a href="{{ route('documents.index', $campaign) }}" class="hover:text-codex" wire:navigate>Documents</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
+        › <a href="{{ route('documents.index', $campaign) }}" class="crumb" wire:navigate>Documents</a>
     </nav>
 
     <div class="mb-4 flex flex-wrap items-start justify-between gap-4">
@@ -55,13 +55,13 @@
                 @else
                     <ul class="space-y-1 text-sm">
                         @foreach ($scenes as $scene)
-                            <li><span class="text-stone-500">Scène ·</span> <a href="{{ route('scenes.show', [$campaign, $scene]) }}" class="text-codex hover:underline" wire:navigate>{{ $scene->name }}</a></li>
+                            <li><span class="text-stone-500">Scène ·</span> <a href="{{ route('scenes.show', [$campaign, $scene]) }}" class="link" wire:navigate>{{ $scene->name }}</a></li>
                         @endforeach
                         @foreach ($entities as $entity)
-                            <li><span class="text-stone-500">Fiche ·</span> <a href="{{ route('entities.show', [$campaign, $entity]) }}" class="text-codex hover:underline" wire:navigate>{{ $entity->name }}</a></li>
+                            <li><span class="text-stone-500">Fiche ·</span> <a href="{{ route('entities.show', [$campaign, $entity]) }}" class="link" wire:navigate>{{ $entity->name }}</a></li>
                         @endforeach
                         @foreach ($rules as $rule)
-                            <li><span class="text-stone-500">Règle ·</span> <a href="{{ route('rules.show', [$campaign, $rule]) }}" class="text-codex hover:underline" wire:navigate>{{ $rule->title }}</a></li>
+                            <li><span class="text-stone-500">Règle ·</span> <a href="{{ route('rules.show', [$campaign, $rule]) }}" class="link" wire:navigate>{{ $rule->title }}</a></li>
                         @endforeach
                     </ul>
                 @endif

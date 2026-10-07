@@ -1,7 +1,7 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -169,7 +169,7 @@
                                         <span class="font-medium">{{ $definition->name }}</span> : {{ $value === null ? 'vide' : $definition->type->format($value) }}
                                         <span class="block text-xs text-stone-500">Monde : {{ $worldValue === null ? 'vide' : $definition->type->format($worldValue) }}</span>
                                     </span>
-                                    <button type="button" wire:click="removeOverride({{ $definition->id }})" class="shrink-0 text-xs text-codex hover:underline">Valeur du monde</button>
+                                    <button type="button" wire:click="removeOverride({{ $definition->id }})" class="shrink-0 text-xs link">Valeur du monde</button>
                                 </li>
                             @endforeach
                         </ul>
@@ -215,7 +215,7 @@
                     <ul class="space-y-1 text-sm">
                         @foreach ($scenes as $linkedScene)
                             <li class="flex items-center justify-between gap-2">
-                                <a href="{{ route('scenes.show', [$campaign, $linkedScene]) }}" class="text-codex hover:underline" wire:navigate>{{ $linkedScene->name }}</a>
+                                <a href="{{ route('scenes.show', [$campaign, $linkedScene]) }}" class="link" wire:navigate>{{ $linkedScene->name }}</a>
                                 <span class="shrink-0 rounded-full px-2 py-0.5 text-xs {{ $linkedScene->status->badge() }}">{{ $linkedScene->status->label() }}</span>
                             </li>
                         @endforeach
@@ -248,7 +248,7 @@
                 @else
                     <ul class="space-y-1 text-sm">
                         @foreach ($backlinks as $other)
-                            <li><a href="{{ route('entities.show', [$campaign, $other]) }}" class="text-codex hover:underline" wire:navigate>{{ $other->name }}</a></li>
+                            <li><a href="{{ route('entities.show', [$campaign, $other]) }}" class="link" wire:navigate>{{ $other->name }}</a></li>
                         @endforeach
                     </ul>
                 @endif

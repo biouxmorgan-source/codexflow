@@ -1,7 +1,7 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -38,7 +38,7 @@
                                         <span class="flex shrink-0 items-center gap-1 text-sm">
                                             <button type="button" wire:click="move({{ $definition->id }}, -1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="Monter {{ $definition->name }}">↑</button>
                                             <button type="button" wire:click="move({{ $definition->id }}, 1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="Descendre {{ $definition->name }}">↓</button>
-                                            <button type="button" wire:click="edit({{ $definition->id }})" class="rounded px-2 py-1 text-codex hover:underline">Modifier</button>
+                                            <button type="button" wire:click="edit({{ $definition->id }})" class="rounded px-2 py-1 link">Modifier</button>
                                             <button type="button" wire:click="delete({{ $definition->id }})" wire:confirm="Supprimer le champ {{ $definition->name }} et ses valeurs sur toutes les fiches ?" class="rounded px-2 py-1 text-red-700 hover:underline">Supprimer</button>
                                         </span>
                                     </li>

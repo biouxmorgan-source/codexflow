@@ -1,8 +1,8 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $campaign->name }}</a>
-        › <a href="{{ route('scenarios.index', $campaign) }}" class="hover:text-codex" wire:navigate>{{ $scene->scenario->name }}</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
+        › <a href="{{ route('scenarios.index', $campaign) }}" class="crumb" wire:navigate>{{ $scene->scenario->name }}</a>
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -43,7 +43,7 @@
                         @foreach ($entities as $entity)
                             @php($state = $entity->campaignStates->first())
                             <li wire:key="entity-{{ $entity->id }}">
-                                <a href="{{ route('entities.show', [$campaign, $entity]) }}" class="flex items-start gap-3 rounded-lg p-1 hover:bg-stone-50" wire:navigate>
+                                <a href="{{ route('entities.show', [$campaign, $entity]) }}" class="flex items-start gap-3 rounded-lg p-1 hover:bg-codex-soft" wire:navigate>
                                     @if ($entity->hasImage())
                                         <img src="{{ route('entities.image', $entity) }}?v={{ $entity->updated_at?->timestamp }}" alt="" class="h-10 w-10 shrink-0 rounded-lg object-cover">
                                     @else
@@ -71,7 +71,7 @@
                         <h2 class="mb-2 font-semibold">Règles</h2>
                         <ul class="mb-4 space-y-1 text-sm">
                             @foreach ($rules as $rule)
-                                <li wire:key="rule-{{ $rule->id }}"><a href="{{ route('rules.show', [$campaign, $rule]) }}" class="text-codex hover:underline" wire:navigate>{{ $rule->title }}</a></li>
+                                <li wire:key="rule-{{ $rule->id }}"><a href="{{ route('rules.show', [$campaign, $rule]) }}" class="link" wire:navigate>{{ $rule->title }}</a></li>
                             @endforeach
                         </ul>
                     @endif
@@ -103,12 +103,12 @@
 
             <nav class="flex justify-between gap-3 text-sm" aria-label="Scènes voisines">
                 @if ($previous)
-                    <a href="{{ route('scenes.show', [$campaign, $previous]) }}" class="text-codex hover:underline" wire:navigate>← {{ $previous->name }}</a>
+                    <a href="{{ route('scenes.show', [$campaign, $previous]) }}" class="link" wire:navigate>← {{ $previous->name }}</a>
                 @else
                     <span></span>
                 @endif
                 @if ($next)
-                    <a href="{{ route('scenes.show', [$campaign, $next]) }}" class="text-right text-codex hover:underline" wire:navigate>{{ $next->name }} →</a>
+                    <a href="{{ route('scenes.show', [$campaign, $next]) }}" class="text-right link" wire:navigate>{{ $next->name }} →</a>
                 @endif
             </nav>
 

@@ -1,6 +1,6 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -11,22 +11,44 @@
                 · {{ $campaign->world ? 'Monde : '.$campaign->world->name : 'Sans monde partagé' }}
             </p>
         </div>
-        <div class="flex flex-wrap gap-2">
-            <a href="{{ route('sessions.live', $campaign) }}" class="btn-primary bg-flow hover:bg-ink" wire:navigate>Mode Session</a>
-            <a href="{{ route('scenarios.index', $campaign) }}" class="btn-secondary" wire:navigate>Scénarios</a>
-            <a href="{{ route('rules.index', $campaign) }}" class="btn-secondary" wire:navigate>Règles</a>
-            <a href="{{ route('documents.index', $campaign) }}" class="btn-secondary" wire:navigate>Documents</a>
-            @can('update', $campaign->gameSystem)
-                <a href="{{ route('fields.index', $campaign) }}" class="btn-secondary" wire:navigate>Champs du jeu</a>
-                <a href="{{ route('imports.create', $campaign) }}" class="btn-secondary" wire:navigate>Importer</a>
-            @endcan
-            <a href="{{ route('entities.create', $campaign) }}" class="btn-primary" wire:navigate>Nouvelle entité</a>
-        </div>
     </div>
+
+    {{-- Les grandes zones de la campagne, chacune avec une phrase d'explication. --}}
+    <nav aria-label="Zones de la campagne" class="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <a href="{{ route('sessions.live', $campaign) }}" class="tile border-flow/40 bg-flow/5 hover:border-flow" wire:navigate>
+            <span class="font-semibold text-flow">Mode Session →</span>
+            <span class="mt-1 text-sm text-stone-600">Pendant la partie : la scène en cours, ses fiches et documents, vos notes rapides.</span>
+        </a>
+        <a href="{{ route('scenarios.index', $campaign) }}" class="tile" wire:navigate>
+            <span class="font-semibold text-codex">Scénarios →</span>
+            <span class="mt-1 text-sm text-stone-600">La campagne découpée en scénarios et en scènes, avec leur statut (prévue, en cours, jouée).</span>
+        </a>
+        <a href="{{ route('documents.index', $campaign) }}" class="tile" wire:navigate>
+            <span class="font-semibold text-codex">Documents →</span>
+            <span class="mt-1 text-sm text-stone-600">Cartes, indices et aides en PDF ou en image, à lier aux scènes et à ouvrir en grand.</span>
+        </a>
+        <a href="{{ route('rules.index', $campaign) }}" class="tile" wire:navigate>
+            <span class="font-semibold text-codex">Règles →</span>
+            <span class="mt-1 text-sm text-stone-600">Règles du jeu, règles maison et glossaire, pour retrouver une procédure en pleine partie.</span>
+        </a>
+        @can('update', $campaign->gameSystem)
+            <a href="{{ route('fields.index', $campaign) }}" class="tile" wire:navigate>
+                <span class="font-semibold text-codex">Champs du jeu →</span>
+                <span class="mt-1 text-sm text-stone-600">Les caractéristiques et compétences affichées sur les fiches de {{ $campaign->gameSystem->name }}.</span>
+            </a>
+            <a href="{{ route('imports.create', $campaign) }}" class="tile" wire:navigate>
+                <span class="font-semibold text-codex">Importer →</span>
+                <span class="mt-1 text-sm text-stone-600">Ajouter en une fois des fiches, des champs, des règles ou des scènes depuis un fichier CSV.</span>
+            </a>
+        @endcan
+    </nav>
 
     <section>
         <div class="mb-4 flex flex-wrap items-end gap-3">
-            <h2 class="mr-auto text-lg font-semibold">Univers</h2>
+            <div class="mr-auto">
+                <h2 class="text-lg font-semibold">Univers</h2>
+                <p class="text-sm text-stone-600">Personnages, lieux, créatures… Cliquez sur une fiche pour l'ouvrir.</p>
+            </div>
             <div>
                 <label for="search" class="sr-only">Rechercher</label>
                 <input id="search" type="search" wire:model.live.debounce.300ms="search" placeholder="Rechercher par nom…" class="field">
@@ -51,6 +73,7 @@
                     </select>
                 </div>
             @endif
+            <a href="{{ route('entities.create', $campaign) }}" class="btn-primary" wire:navigate>Nouvelle entité</a>
         </div>
 
         @if ($this->entities->isEmpty())
@@ -67,7 +90,7 @@
                 @foreach ($this->entities as $entity)
                     @php($state = $entity->campaignStates->first())
                     <li wire:key="entity-{{ $entity->id }}">
-                        <a href="{{ route('entities.show', [$campaign, $entity]) }}" class="flex items-center gap-3 px-4 py-3 hover:bg-stone-50" wire:navigate>
+                        <a href="{{ route('entities.show', [$campaign, $entity]) }}" class="flex items-center gap-3 px-4 py-3 hover:bg-codex-soft" wire:navigate>
                             @if ($entity->hasImage())
                                 <img src="{{ route('entities.image', $entity) }}?v={{ $entity->updated_at?->timestamp }}" alt="" loading="lazy" class="h-10 w-10 shrink-0 rounded-lg object-cover">
                             @else
@@ -87,6 +110,7 @@
                             @endif
                             <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{{ $entity->type->name }}</span>
                             <span class="shrink-0 text-xs text-stone-500">{{ $entity->isWorldEntity() ? 'Monde' : 'Campagne' }}</span>
+                            <span class="shrink-0 text-codex" aria-hidden="true">›</span>
                         </a>
                     </li>
                 @endforeach

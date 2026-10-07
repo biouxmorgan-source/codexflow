@@ -1,6 +1,6 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="hover:text-codex" wire:navigate>Mes campagnes</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
     </nav>
 
     <h1 class="text-2xl font-semibold">Types de fiche</h1>
@@ -19,7 +19,7 @@
                     @if ($type->isStandard())
                         <span class="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">Standard</span>
                     @else
-                        <button type="button" wire:click="edit({{ $type->id }})" class="text-sm text-codex hover:underline">Renommer</button>
+                        <button type="button" wire:click="edit({{ $type->id }})" class="text-sm link">Renommer</button>
                         <button type="button" wire:click="delete({{ $type->id }})"
                             wire:confirm="Supprimer le type {{ $type->name }}{{ $type->field_definitions_count ? ' et ses '.$type->field_definitions_count.' champ(s) propres' : '' }} ?"
                             class="text-sm text-red-700 hover:underline">Supprimer</button>
