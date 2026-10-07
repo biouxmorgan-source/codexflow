@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Entities;
 
-use App\Enums\FieldType;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
 use App\Models\Entity;
@@ -72,9 +71,7 @@ class Form extends Component
 
             foreach ($campaign->gameSystem->fieldDefinitions as $definition) {
                 $value = $entity->fieldValue($definition);
-                $this->fields[$definition->id] = $definition->type === FieldType::Boolean
-                    ? (bool) $value
-                    : (string) $value;
+                $this->fields[$definition->id] = $definition->type->input($value);
             }
 
             return;

@@ -42,7 +42,7 @@ class ActivityLog extends Model
         'category' => 'Catégorie', 'procedure' => 'Procédure', 'source' => 'Source', 'origin' => 'Origine',
         'zone' => 'Zone', 'group' => 'Groupe', 'type' => 'Type', 'options' => 'Choix', 'original_name' => 'Fichier',
         'image_path' => 'Image', 'scenario_id' => 'Scénario', 'world_id' => 'Monde', 'campaign_id' => 'Campagne',
-        'role' => 'Rôle',
+        'role' => 'Rôle', 'player_editable' => 'Modifiable par le joueur',
     ];
 
     private static ?string $batch = null;

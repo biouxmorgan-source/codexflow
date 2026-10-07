@@ -81,8 +81,11 @@
                 <li wire:key="campaign-{{ $campaign->id }}" class="relative flex flex-col rounded-xl border border-stone-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-codex/50 hover:shadow-md">
                     <div class="mb-2 flex items-start justify-between gap-2">
                         <h2 class="text-lg font-semibold">
+                            @php($myCharacter = $campaign->playerCharacters->first())
                             @if ($role === \App\Enums\CampaignRole::GameMaster)
                                 <a href="{{ route('campaigns.show', $campaign) }}" class="text-codex hover:text-ink after:absolute after:inset-0" wire:navigate>{{ $campaign->name }}</a>
+                            @elseif ($myCharacter)
+                                <a href="{{ route('characters.show', [$campaign, $myCharacter]) }}" class="text-codex hover:text-ink after:absolute after:inset-0" wire:navigate>{{ $campaign->name }}</a>
                             @else
                                 {{ $campaign->name }}
                             @endif
@@ -99,7 +102,13 @@
                         <div><dt class="inline font-medium text-ink">Rôle :</dt> <dd class="inline">{{ $role->label() }}</dd></div>
                     </dl>
                     @if ($role === \App\Enums\CampaignRole::Player)
-                        <p class="mt-3 text-sm text-stone-500">Votre espace joueur (personnage, fiches révélées) arrive avec les prochaines mises à jour.</p>
+                        <p class="mt-3 text-sm text-stone-600">
+                            @if ($myCharacter)
+                                Votre personnage : <span class="font-medium text-codex">{{ $myCharacter->entity->name }}</span>
+                            @else
+                                Votre MJ ne vous a pas encore confié de personnage.
+                            @endif
+                        </p>
                     @endif
                 </li>
             @endforeach

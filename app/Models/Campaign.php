@@ -70,6 +70,12 @@ class Campaign extends Model
         return $this->hasMany(CampaignInvitation::class);
     }
 
+    /** @return HasMany<PlayerCharacter, $this> */
+    public function playerCharacters(): HasMany
+    {
+        return $this->hasMany(PlayerCharacter::class);
+    }
+
     /** @return HasMany<Entity, $this> */
     public function localEntities(): HasMany
     {

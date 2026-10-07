@@ -52,6 +52,17 @@ class EntityLinks
     }
 
     /**
+     * Texte échappé sans aucun lien : les noms cités restent lisibles, sans révéler
+     * de fiche que le lecteur ne peut pas ouvrir.
+     */
+    public static function plain(?string $text): HtmlString
+    {
+        $text = preg_replace_callback(self::PATTERN, fn (array $match) => trim($match[1]), (string) $text);
+
+        return new HtmlString(nl2br(e($text), false));
+    }
+
+    /**
      * Fiches citées dans un texte, dans l'ordre d'apparition et sans doublon.
      *
      * @return Collection<int, Entity>

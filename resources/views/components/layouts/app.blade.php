@@ -6,7 +6,7 @@
                 <span class="text-ink">CODEX</span><span class="text-flow">FLOW</span>
             </a>
             @php($searchCampaign = request()->route('campaign'))
-            @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('search.index'))
+            @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('search.index') && auth()->user()->can('update', $searchCampaign))
                 <form method="GET" action="{{ route('search.index', $searchCampaign) }}" role="search" class="order-last w-full sm:order-none sm:w-auto sm:max-w-xs sm:flex-1"
                     x-data x-on:keydown.slash.window="if (! ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && ! document.activeElement.isContentEditable) { $event.preventDefault(); $refs.q.focus() }">
                     <label for="header-search" class="sr-only">Rechercher dans {{ $searchCampaign->name }}</label>
