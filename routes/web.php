@@ -18,6 +18,7 @@ use App\Livewire\Fields\Manage as FieldsManage;
 use App\Livewire\Imports\Create as ImportCreate;
 use App\Livewire\Journal\Index as JournalIndex;
 use App\Livewire\Members\Index as MemberIndex;
+use App\Livewire\Messages\Index as MessageIndex;
 use App\Livewire\Rules\Form as RuleForm;
 use App\Livewire\Rules\Index as RuleIndex;
 use App\Livewire\Rules\Show as RuleShow;
@@ -66,6 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}/image', [CharacterKnowledgeController::class, 'entityImage'])->name('characters.entity-image')->whereNumber(['campaign', 'character', 'entity']);
     Route::get('/campagnes/{campaign}/personnages/{character}/documents/{document}', [CharacterKnowledgeController::class, 'document'])->name('characters.document')->whereNumber(['campaign', 'character', 'document']);
     Route::livewire('/campagnes/{campaign}/joueurs', MemberIndex::class)->name('members.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/messages', MessageIndex::class)->name('messages.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/journal', JournalIndex::class)->name('journal.index')->whereNumber('campaign');
 
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');

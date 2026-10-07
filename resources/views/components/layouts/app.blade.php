@@ -15,6 +15,15 @@
             @endif
             <nav class="flex items-center gap-3 text-sm whitespace-nowrap sm:gap-4">
                 <a href="{{ route('campaigns.index') }}" @class(['rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft', 'bg-codex-soft' => request()->routeIs('campaigns.index')]) wire:navigate>Mes campagnes</a>
+                @if ($searchCampaign instanceof \App\Models\Campaign && auth()->user()->can('view', $searchCampaign))
+                    @php($unreadMessages = \App\Models\Message::unreadCount(auth()->user(), $searchCampaign))
+                    <a href="{{ route('messages.index', $searchCampaign) }}" @class(['rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft', 'bg-codex-soft' => request()->routeIs('messages.*')]) wire:navigate>
+                        Messages
+                        @if ($unreadMessages > 0)
+                            <span class="ml-1 rounded-full bg-flow px-1.5 py-0.5 text-xs font-semibold text-white">{{ $unreadMessages }} <span class="sr-only">non lus</span></span>
+                        @endif
+                    </a>
+                @endif
                 @if (auth()->user()->gameSystems()->exists())
                     <a href="{{ route('entity-types.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('entity-types.*')]) wire:navigate>Types de fiche</a>
                 @endif

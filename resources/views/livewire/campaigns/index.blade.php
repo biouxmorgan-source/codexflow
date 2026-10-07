@@ -110,6 +110,10 @@
                             @endif
                         </p>
                     @endif
+                    @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
+                    @if ($unread > 0)
+                        <a href="{{ route('messages.index', $campaign) }}" class="relative z-10 mt-3 text-sm font-medium text-flow hover:underline" wire:navigate>{{ $unread }} message{{ $unread > 1 ? 's' : '' }} non lu{{ $unread > 1 ? 's' : '' }}</a>
+                    @endif
                 </li>
             @endforeach
         </ul>

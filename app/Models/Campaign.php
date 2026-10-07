@@ -76,6 +76,12 @@ class Campaign extends Model
         return $this->hasMany(PlayerCharacter::class);
     }
 
+    /** @return HasMany<Message, $this> */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
+
     /** @return HasMany<Entity, $this> */
     public function localEntities(): HasMany
     {

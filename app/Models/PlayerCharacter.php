@@ -63,6 +63,12 @@ class PlayerCharacter extends Model
         return $this->hasMany(CharacterNote::class);
     }
 
+    /** @return HasMany<Message, $this> conversation privée avec le MJ */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
+
     /** @return HasMany<ToPlayItem, $this> intentions du joueur */
     public function intentions(): HasMany
     {

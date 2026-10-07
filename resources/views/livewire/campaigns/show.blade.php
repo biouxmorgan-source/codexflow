@@ -39,6 +39,15 @@
             <span class="font-semibold text-codex">Joueurs →</span>
             <span class="mt-1 text-sm text-stone-600">Inviter vos joueurs par un lien et voir qui fait partie de la campagne.</span>
         </a>
+        @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
+        <a href="{{ route('messages.index', $campaign) }}" class="tile" wire:navigate>
+            <span class="font-semibold text-codex">Messages →
+                @if ($unread > 0)
+                    <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-white">{{ $unread }} <span class="sr-only">non lus</span></span>
+                @endif
+            </span>
+            <span class="mt-1 text-sm text-stone-600">Écrire à un joueur en privé ou à tout le groupe, avec une fiche ou un document joint.</span>
+        </a>
         <a href="{{ route('journal.index', $campaign) }}" class="tile" wire:navigate>
             <span class="font-semibold text-codex">Journal →</span>
             <span class="mt-1 text-sm text-stone-600">Qui a modifié quoi et quand, avec l'ancienne valeur : rien ne se perd.</span>
