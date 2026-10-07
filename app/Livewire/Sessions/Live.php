@@ -303,6 +303,31 @@ class Live extends Component
         unset($this->tableLabel);
     }
 
+    /** « Montrer » depuis une carte, une règle ou un document de la session. */
+    public function showOnTable(string $kind, int $id): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        abort_unless(in_array($kind, TableDisplay::KINDS, true) && TableDisplay::show($this->campaign, $kind, $id), 404);
+        unset($this->tableLabel);
+    }
+
+    /** La scène qui suivra la scène en cours, pour l'anticiper. */
+    #[Computed]
+    public function upcomingScene(): ?Scene
+    {
+        $current = $this->session?->currentScene;
+
+        if ($current === null) {
+            return null;
+        }
+
+        $index = $this->scenes->search(fn (Scene $scene) => $scene->is($current));
+
+        return $index === false ? null : $this->scenes->slice($index + 1)
+            ->first(fn (Scene $scene) => ! in_array($scene->status, [SceneStatus::Played, SceneStatus::Skipped], true));
+    }
+
     public function showEntity(): void
     {
         $this->authorize('update', $this->campaign);
@@ -358,7 +383,7 @@ class Live extends Component
 
     private function refreshAll(): void
     {
-        unset($this->session, $this->scenes, $this->cards, $this->toPlay, $this->notes, $this->pastSessions);
+        unset($this->session, $this->scenes, $this->upcomingScene, $this->cards, $this->toPlay, $this->notes, $this->pastSessions);
     }
 
     /** @return array<string, string> mises à jour en direct (Reverb) */

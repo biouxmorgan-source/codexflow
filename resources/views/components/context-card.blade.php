@@ -38,6 +38,12 @@
             <div class="text-stone-700">{{ \App\Support\EntityLinks::render($entity->description, $campaign) }}</div>
         @endif
         <x-field-values :definitions="$fields" :entity="$entity" :campaign="$campaign" />
-        <a href="{{ route('entities.show', [$campaign, $entity]) }}" target="_blank" rel="noopener" class="inline-block link">{{ __('Ouvrir la fiche ↗') }}</a>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <a href="{{ route('entities.show', [$campaign, $entity]) }}" target="_blank" rel="noopener" class="link">{{ __('Ouvrir la fiche ↗') }}</a>
+            <button type="button" wire:click="showOnTable('entity', {{ $entity->id }})" class="link">{{ __('Montrer à la table') }}</button>
+            @if ($entity->hasImage())
+                <button type="button" wire:click="showOnTable('portrait', {{ $entity->id }})" class="link">{{ __('Portrait seul') }}</button>
+            @endif
+        </div>
     </div>
 </details>
