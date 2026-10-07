@@ -25,6 +25,10 @@ class ExchangeGrant
         Gate::authorize('play', $from);
 
         abort_unless($to->campaign_id === $from->campaign_id && $to->isNot($from) && $to->is_active, 404);
+
+        if ($grant->isPending()) {
+            throw ValidationException::withMessages(['exchange' => 'Le MJ doit d\'abord valider cet objet.']);
+        }
         $to->loadMissing('entity');
 
         [$received, $given] = DB::transaction(fn () => $grant->kind === 'possession'

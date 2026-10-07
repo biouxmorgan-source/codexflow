@@ -28,7 +28,7 @@ class CharacterGrant extends Model
 
     protected function casts(): array
     {
-        return ['quantity' => 'integer'];
+        return ['quantity' => 'integer', 'added_by_player' => 'boolean', 'validated_at' => 'datetime'];
     }
 
     /** @return BelongsTo<PlayerCharacter, $this> */
@@ -59,6 +59,12 @@ class CharacterGrant extends Model
     public function giver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'granted_by');
+    }
+
+    /** Objet ajouté par le joueur que le MJ n'a pas encore validé. */
+    public function isPending(): bool
+    {
+        return $this->added_by_player && $this->kind === 'possession' && $this->validated_at === null;
     }
 
     public function label(): string

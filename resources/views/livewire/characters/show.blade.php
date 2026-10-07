@@ -132,7 +132,39 @@
             @foreach (['knowledge' => 'Connaissances', 'possession' => 'Possessions', 'rule' => 'Règles', 'document' => 'Documents'] as $section => $sectionTitle)
                 @php($items = $grants->filter(fn ($grant) => $section === 'knowledge' ? in_array($grant->kind, ['entity', 'information'], true) : $grant->kind === $section))
                 <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm" id="section-{{ $section }}" wire:key="section-{{ $section }}">
-                    <h2 class="mb-2 font-semibold">{{ $sectionTitle }}</h2>
+                    <div class="mb-2 flex items-center justify-between gap-3">
+                        <h2 class="font-semibold">{{ $sectionTitle }}</h2>
+                        @if ($this->canAdd && in_array($section, ['knowledge', 'possession'], true) && $addKind !== ($section === 'knowledge' ? 'information' : 'possession'))
+                            <button type="button" wire:click="openAdd('{{ $section === 'knowledge' ? 'information' : 'possession' }}')" class="text-sm text-codex hover:underline">{{ $section === 'knowledge' ? '+ Noter' : '+ Ajouter un objet' }}</button>
+                        @endif
+                    </div>
+                    @if ($this->canAdd && $addKind !== '' && $addKind === ($section === 'knowledge' ? 'information' : ($section === 'possession' ? 'possession' : null)))
+                        <form wire:submit="addOwn" class="mb-4 space-y-2 rounded-lg bg-codex-soft p-3">
+                            <div class="flex flex-wrap gap-2">
+                                <div class="min-w-48 flex-1">
+                                    <label for="add-title" class="label">{{ $addKind === 'possession' ? 'Objet' : 'Ce que vous avez appris' }}</label>
+                                    <input id="add-title" type="text" wire:model="addTitle" class="field py-1.5 text-sm" maxlength="200" autocomplete="off" placeholder="{{ $addKind === 'possession' ? 'Revolver .38' : 'Le professeur cache quelque chose' }}">
+                                </div>
+                                @if ($addKind === 'possession')
+                                    <div class="w-24">
+                                        <label for="add-quantity" class="label">Quantité</label>
+                                        <input id="add-quantity" type="number" min="1" wire:model="addQuantity" class="field py-1.5 text-sm">
+                                    </div>
+                                @endif
+                            </div>
+                            <div>
+                                <label for="add-body" class="label">Détail <span class="font-normal text-stone-500">(facultatif)</span></label>
+                                <textarea id="add-body" wire:model="addBody" rows="2" class="field text-sm" maxlength="5000"></textarea>
+                            </div>
+                            @error('addTitle') <p class="error">{{ $message }}</p> @enderror
+                            @error('addQuantity') <p class="error">{{ $message }}</p> @enderror
+                            <div class="flex flex-wrap items-center gap-3">
+                                <button type="submit" class="btn-primary min-h-0 py-1.5 text-sm">{{ $addKind === 'possession' ? 'Ajouter' : 'Noter' }}</button>
+                                <button type="button" wire:click="openAdd('')" class="text-sm text-stone-600 hover:underline">Annuler</button>
+                                <p class="text-xs text-stone-600">{{ $addKind === 'possession' ? 'Le MJ en est informé et le valide.' : 'Le MJ en est informé.' }}</p>
+                            </div>
+                        </form>
+                    @endif
                     @if ($items->isEmpty())
                         <p class="text-sm text-stone-600">
                             @switch($section)
@@ -176,9 +208,22 @@
                                                     <p class="text-sm text-stone-700">{{ \App\Support\EntityLinks::render($grant->body, $campaign, $this->knownLink(...)) }}</p>
                                                 @endif
                                         @endswitch
-                                        <p class="text-xs text-stone-400">{{ $grant->created_at->locale('fr')->isoFormat('D MMM YYYY, HH:mm') }}</p>
+                                        <p class="text-xs text-stone-400">
+                                            {{ $grant->created_at->locale('fr')->isoFormat('D MMM YYYY, HH:mm') }}
+                                            @if ($grant->isPending())
+                                                · <span class="font-medium text-flow">ajouté par le joueur, en attente du MJ</span>
+                                            @elseif ($grant->added_by_player)
+                                                · {{ $grant->kind === 'possession' ? 'ajouté par le joueur, validé' : 'noté par le joueur' }}
+                                            @endif
+                                        </p>
                                     </div>
-                                    @if ($this->canExchange && $exchangeGrantId !== $grant->id)
+                                    @if ($this->isGameMaster && $grant->isPending())
+                                        <button type="button" wire:click="validateGrant({{ $grant->id }})" class="shrink-0 text-xs font-medium text-codex hover:underline">Valider</button>
+                                    @endif
+                                    @if ($this->canAdd && $grant->added_by_player)
+                                        <button type="button" wire:click="removeOwn({{ $grant->id }})" wire:confirm="Effacer « {{ $grant->label() }} » de votre fiche ?" class="shrink-0 text-xs text-stone-500 hover:text-red-700">Effacer</button>
+                                    @endif
+                                    @if ($this->canExchange && $exchangeGrantId !== $grant->id && ! $grant->isPending())
                                         <button type="button" wire:click="startExchange({{ $grant->id }})" class="shrink-0 text-xs text-codex hover:underline">{{ $grant->kind === 'possession' ? 'Donner' : 'Transmettre' }}</button>
                                     @endif
                                     @if ($this->isGameMaster)
@@ -357,6 +402,9 @@
                                 @if ($event->isExchange())
                                     <span>{{ $event->exchangeTitle() }}</span>
                                     <span class="font-medium">{{ $event->subject_label }}</span>
+                                @elseif ($event->isPlayerAddition())
+                                    <span>{{ $event->event === 'updated' ? 'Le MJ a validé' : 'Le joueur '.$event->verb() }} :</span>
+                                    <span class="font-medium">{{ \Illuminate\Support\Str::beforeLast($event->subject_label, ' à '.$entity->name) }}</span>
                                 @else
                                     <span>Le MJ {{ $event->verb() }} {{ mb_strtolower($event->subjectName()) }}</span>
                                     <span class="font-medium">{{ \Illuminate\Support\Str::beforeLast($event->subject_label, ' à '.$entity->name) }}</span>

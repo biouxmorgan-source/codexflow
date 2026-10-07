@@ -96,6 +96,18 @@ class Notify
         self::gameMasters($campaign, 'grant', $from->entity->name.' a '.$verb.' à '.$to->entity->name.'.', $sheet, $to);
     }
 
+    /** Le joueur a noté une connaissance ou ajouté un objet : le MJ le voit, et valide l'objet. */
+    public static function playerAddition(CharacterGrant $grant, PlayerCharacter $character): void
+    {
+        $label = '« '.$grant->label().' »';
+        $section = $grant->kind === 'possession' ? 'possession' : 'knowledge';
+        $text = $grant->kind === 'possession'
+            ? $character->entity->name.' a ajouté un objet à valider : '.$label.'.'
+            : $character->entity->name.' a noté une connaissance : '.$label.'.';
+
+        self::gameMasters($character->campaign, 'grant', $text, route('characters.show', [$character->campaign_id, $character]).'#section-'.$section, $character);
+    }
+
     public static function excerpt(string $text, int $length = 120): string
     {
         $text = trim(preg_replace('/\s+/u', ' ', $text));
