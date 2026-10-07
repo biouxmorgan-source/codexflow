@@ -306,7 +306,7 @@ return [
         'plan' => [
             'title' => 'Map of Pierrecendre harbour',
             'description' => 'The harbour, its quays and the lighthouse point. Safe to show at the table.',
-            'file' => 'plan-du-port',
+            'file' => 'harbour-map',
         ],
     ],
 

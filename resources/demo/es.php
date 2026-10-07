@@ -306,7 +306,7 @@ return [
         'plan' => [
             'title' => 'Plano del puerto de Pierrecendre',
             'description' => 'El puerto, sus muelles y la punta del faro. Se puede mostrar en la mesa.',
-            'file' => 'plan-du-port',
+            'file' => 'plano-del-puerto',
         ],
     ],
 
