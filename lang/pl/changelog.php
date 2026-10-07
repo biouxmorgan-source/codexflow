@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.4.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Pomoc i zgłoszenia problemów',
+        'items' => [
+            'Strona „Pomoc” odpowiada na najczęstsze pytania, zarówno MG, jak i graczy.',
+            '„Zgłoś problem” na dole każdej strony wysyła wiadomość do zespołu wraz z adresem danej strony.',
+        ],
+    ],
+
     '0.4.0' => [
         'date' => '2026-10-08',
         'title' => 'Wszystkie języki',

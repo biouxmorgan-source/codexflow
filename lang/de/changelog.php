@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.4.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Hilfe und Problemmeldungen',
+        'items' => [
+            'Eine „Hilfe“-Seite beantwortet die häufigsten Fragen, für die SL wie für die Spieler.',
+            '„Problem melden“ unten auf jeder Seite schickt Ihre Nachricht mit der betroffenen Seite an das Team.',
+        ],
+    ],
+
     '0.4.0' => [
         'date' => '2026-10-08',
         'title' => 'Alle Sprachen',

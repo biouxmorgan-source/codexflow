@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.4.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Hulp en probleemmeldingen',
+        'items' => [
+            'Een pagina ‘Hulp’ beantwoordt de meest gestelde vragen, voor de SL en voor de spelers.',
+            '‘Een probleem melden’, onderaan elke pagina, stuurt je bericht naar het team, samen met de betreffende pagina.',
+        ],
+    ],
+
     '0.4.0' => [
         'date' => '2026-10-08',
         'title' => 'Alle talen',

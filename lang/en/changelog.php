@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.4.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Help and problem reports',
+        'items' => [
+            'A “Help” page answers the most common questions, for GMs and players alike.',
+            '“Report a problem”, at the bottom of every page, sends your message to the team along with the page concerned.',
+        ],
+    ],
+
     '0.4.0' => [
         'date' => '2026-10-08',
         'title' => 'Every language',
