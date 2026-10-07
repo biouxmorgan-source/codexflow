@@ -14,7 +14,7 @@
             @if ($this->isGameMaster)
                 Écrivez à un personnage en privé ou à tout le groupe. Une fiche, un document ou une règle joints sont révélés aux destinataires.
             @else
-                Vos échanges avec le MJ, et ses messages à tout le groupe. Les autres joueurs ne voient pas vos messages privés.
+                Vos échanges privés avec le MJ et la discussion de tout le groupe. Les autres joueurs ne voient pas vos messages privés.
             @endif
         </p>
     </div>
@@ -71,7 +71,7 @@
                         @php($reference = $this->reference($msg))
                         <li wire:key="message-{{ $msg->id }}" @class(['max-w-[85%] rounded-xl px-4 py-3', 'ml-auto bg-codex-soft' => $mine, 'bg-stone-100' => ! $mine])>
                             <p class="mb-1 text-xs text-stone-500">
-                                <span class="font-medium text-ink">{{ $mine ? 'Vous' : $msg->sender->name }}</span>
+                                <span class="font-medium text-ink">{{ $mine ? 'Vous' : $msg->senderLabel() }}</span>
                                 @if (! $this->isGameMaster && $msg->isForGroup())
                                     · <span class="font-medium text-flow">à tout le groupe</span>
                                 @endif
@@ -93,13 +93,19 @@
                     <div>
                         <label for="message-body" class="label">
                             @if (! $this->isGameMaster)
-                                Écrire au MJ
+                                Écrire {{ $to === 'group' ? 'à tout le groupe' : 'au MJ, en privé' }}
                             @elseif ($this->currentCharacter)
                                 Écrire à {{ $this->currentCharacter->entity->name }}
                             @else
                                 Écrire au groupe
                             @endif
                         </label>
+                        @unless ($this->isGameMaster)
+                            <div class="mb-2 flex gap-4 text-sm" role="radiogroup" aria-label="Destinataire">
+                                <label class="flex items-center gap-2"><input type="radio" wire:model.live="to" value="gm"> Au MJ, en privé</label>
+                                <label class="flex items-center gap-2"><input type="radio" wire:model.live="to" value="group"> À tout le groupe</label>
+                            </div>
+                        @endunless
                         <textarea id="message-body" wire:model="body" rows="3" class="field" maxlength="5000"></textarea>
                         @error('body') <p class="error">{{ $message }}</p> @enderror
                     </div>

@@ -1,6 +1,6 @@
 <span class="flex items-center gap-3 sm:gap-4">
     @if ($campaign)
-        <a href="{{ route('messages.index', $campaign) }}" @class(['rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft', 'bg-codex-soft' => $active === 'messages']) wire:navigate>
+        <a href="{{ route('messages.index', $campaign) }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => $active === 'messages']) wire:navigate>
             Messages
             @if ($unreadMessages > 0)
                 <span class="ml-1 rounded-full bg-flow px-1.5 py-0.5 text-xs font-semibold text-white">{{ $unreadMessages }} <span class="sr-only">non lus</span></span>

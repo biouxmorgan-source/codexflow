@@ -16,14 +16,15 @@ use Illuminate\Support\Facades\DB;
  * - Le MJ écrit à tout le groupe, ou à un ou plusieurs personnages (un message privé par personnage).
  *   Il peut joindre une fiche, un document ou une règle publique : l'élément est révélé aux
  *   personnages destinataires, comme avec « Donner », pour qu'ils puissent l'ouvrir.
- * - Un joueur écrit au MJ depuis la conversation de son personnage, sans pièce jointe.
+ * - Un joueur écrit, au nom de son personnage actif, au MJ en privé ou à tout le groupe,
+ *   sans pièce jointe.
  */
 class SendMessage
 {
     public function __construct(private GiveToCharacters $give) {}
 
     /**
-     * @param  list<int>  $characterIds  personnages destinataires ; vide = tout le groupe (MJ seulement)
+     * @param  list<int>  $characterIds  personnages destinataires ; vide = tout le groupe
      * @param  array{kind: string, id: int}|null  $reference
      * @return Collection<int, Message>
      */
@@ -32,16 +33,21 @@ class SendMessage
         $isGameMaster = $campaign->isGameMaster($sender);
         abort_unless($isGameMaster || $campaign->roleOf($sender) !== null, 403);
 
+        $senderCharacter = null;
+
         if (! $isGameMaster) {
-            // Le joueur n'écrit qu'au MJ, depuis la conversation de l'un de ses personnages.
-            abort_unless(count($characterIds) === 1 && $reference === null, 403);
-            abort_unless($campaign->playerCharacters()->whereKey($characterIds[0])->where('user_id', $sender->id)->exists(), 403);
+            // Le joueur écrit au nom de son personnage : au MJ (sa conversation) ou au groupe.
+            abort_unless(count($characterIds) <= 1 && $reference === null, 403);
+            $senderCharacter = $characterIds === []
+                ? $campaign->playerCharacters()->active()->where('user_id', $sender->id)->first()
+                : $campaign->playerCharacters()->whereKey($characterIds[0])->where('user_id', $sender->id)->first();
+            abort_if($senderCharacter === null, 403);
         }
 
         $characters = $campaign->playerCharacters()->whereKey($characterIds)->pluck('id')->all();
         abort_if(count($characters) !== count(array_unique($characterIds)), 404);
 
-        return DB::transaction(function () use ($campaign, $sender, $characters, $body, $reference) {
+        return DB::transaction(function () use ($campaign, $sender, $senderCharacter, $characters, $body, $reference) {
             if ($reference !== null) {
                 // Pour le groupe : tous les personnages actifs confiés à un joueur.
                 $revealTo = $characters !== [] ? $characters : $campaign->playerCharacters()->active()->whereNotNull('user_id')->pluck('id')->all();
@@ -54,11 +60,12 @@ class SendMessage
 
             $targets = $characters === [] ? [null] : $characters;
 
-            $messages = collect($targets)->map(function (?int $characterId) use ($campaign, $sender, $body, $reference) {
+            $messages = collect($targets)->map(function (?int $characterId) use ($campaign, $sender, $senderCharacter, $body, $reference) {
                 $message = new Message(['body' => trim($body)]);
                 $message->campaign()->associate($campaign);
                 $message->sender()->associate($sender);
                 $message->player_character_id = $characterId;
+                $message->sender_character_id = $senderCharacter?->id;
 
                 if ($reference !== null) {
                     $message->{$reference['kind'].'_id'} = $reference['id'];
@@ -83,8 +90,16 @@ class SendMessage
         $excerpt = Notify::excerpt($body);
 
         if (! $campaign->isGameMaster($sender)) {
-            $character = $messages->first()->character()->with('entity')->first();
-            Notify::gameMasters($campaign, 'message', $character->entity->name.' : '.$excerpt, route('messages.index', [$campaign, 'personnage' => $character->id]), $character);
+            $message = $messages->first();
+            $character = $message->senderCharacter()->with('entity')->first();
+
+            if ($message->isForGroup()) {
+                $text = $character->entity->name.' au groupe : '.$excerpt;
+                Notify::gameMasters($campaign, 'message', $text, route('messages.index', $campaign));
+                Notify::players($campaign, 'message', $text, route('messages.index', $campaign));
+            } else {
+                Notify::gameMasters($campaign, 'message', $character->entity->name.' : '.$excerpt, route('messages.index', [$campaign, 'personnage' => $character->id]), $character);
+            }
 
             return;
         }

@@ -27,7 +27,12 @@
             </nav>
         </div>
     </header>
-    <main class="mx-auto max-w-6xl px-4 py-8">
+    <main class="mx-auto max-w-6xl px-4 pt-8 pb-24">
         {{ $slot }}
     </main>
+    @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('messages.*') && auth()->user()->can('view', $searchCampaign))
+        @persist('chat-'.$searchCampaign->id)
+            @livewire(\App\Livewire\ChatDock::class, ['campaign' => $searchCampaign], key('chat-'.$searchCampaign->id))
+        @endpersist
+    @endif
 </x-layouts.base>
