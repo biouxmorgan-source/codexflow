@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -48,6 +49,19 @@ class PlayerCharacter extends Model
     public function player(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /** @return HasMany<CharacterGrant, $this> */
+    public function grants(): HasMany
+    {
+        return $this->hasMany(CharacterGrant::class)->latest('id');
+    }
+
+    /** Le joueur connaît-il cette fiche (la sienne ou une fiche révélée) ? */
+    public function knows(Entity $entity): bool
+    {
+        return $entity->id === $this->entity_id
+            || $this->grants()->where('kind', 'entity')->where('entity_id', $entity->id)->exists();
     }
 
     /** @param Builder<PlayerCharacter> $query */
