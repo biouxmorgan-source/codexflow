@@ -26,6 +26,7 @@
         </section>
 
         <aside class="space-y-6">
+            <livewire:secrets.panel :campaign="$campaign" :items="['document' => [$document->id]]" :link="'document:'.$document->id" wire:key="secrets-document" />
             <livewire:characters.give :campaign="$campaign" fixed-kind="document" :document-id="$document->id" :key="'give-document-'.$document->id" />
 
             <form wire:submit="save" class="space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">

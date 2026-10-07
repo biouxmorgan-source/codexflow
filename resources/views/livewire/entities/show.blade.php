@@ -69,13 +69,15 @@
                 <x-attachment-list :attachments="$gmAttachments" :campaign="$campaign" />
             </section>
 
-            <form wire:submit="addRelation" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+            <form wire:submit="addRelation" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm"
+                x-data="{ inverses: @js($this->relationInverses()) }">
                 <h2 class="mb-1 font-semibold">{{ __('Ajouter une relation') }}</h2>
-                <p class="mb-4 text-sm text-stone-600">{!! __(':name <em>travaille pour</em> la Guilde, <em>habite à</em> Valdaria… Elle apparaît sur les deux fiches.', ['name' => e($entity->name)]) !!}</p>
+                <p class="mb-4 text-sm text-stone-600">{!! __(':name <em>travaille pour</em> la Guilde, <em>habite à</em> Valdaria… Elle apparaît sur les deux fiches.', ['name' => e($entity->name)]) !!} {{ __("L'inverse se remplit tout seul pour les relations connues.") }}</p>
                 <div class="grid gap-4 md:grid-cols-2">
                     <div>
                         <label for="relationLabel" class="label">{{ __('Relation') }}</label>
-                        <input id="relationLabel" type="text" wire:model="relationLabel" list="relation-labels" class="field" placeholder="{{ __('travaille pour') }}">
+                        <input id="relationLabel" type="text" wire:model="relationLabel" list="relation-labels" class="field" placeholder="{{ __('travaille pour') }}"
+                            x-on:change="const inverse = inverses[$event.target.value.trim()]; if (inverse && ! $wire.relationReverse) { $wire.relationReverse = inverse }">
                         <datalist id="relation-labels">
                             @foreach ($relationLabels as $label)
                                 <option value="{{ $label }}">
@@ -134,6 +136,7 @@
         </div>
 
         <aside class="space-y-6">
+            <livewire:secrets.panel :campaign="$campaign" :items="['entity' => [$entity->id]]" :link="'entity:'.$entity->id" wire:key="secrets-entity" />
             <livewire:characters.give :campaign="$campaign" fixed-kind="entity" :entity-id="$entity->id" :key="'give-entity-'.$entity->id" />
 
             <form wire:submit="saveState" class="space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
@@ -253,12 +256,21 @@
 
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-2 font-semibold">{{ __('Cité dans') }}</h2>
-                @if ($backlinks->isEmpty())
-                    <p class="text-sm text-stone-500">{{ __('Aucune autre fiche ne mentionne :name.', ['name' => $entity->name]) }}</p>
+                @if ($backlinks->isEmpty() && $ruleBacklinks->isEmpty() && $noteBacklinks->isEmpty())
+                    <p class="text-sm text-stone-500">{{ __('Rien ne mentionne encore :name.', ['name' => $entity->name]) }}</p>
                 @else
                     <ul class="space-y-1 text-sm">
                         @foreach ($backlinks as $other)
                             <li><a href="{{ route('entities.show', [$campaign, $other]) }}" class="link" wire:navigate>{{ $other->name }}</a></li>
+                        @endforeach
+                        @foreach ($ruleBacklinks as $citingRule)
+                            <li><span class="text-xs text-stone-500">{{ __('Règle ·') }}</span> <a href="{{ route('rules.show', [$campaign, $citingRule]) }}" class="link" wire:navigate>{{ $citingRule->title }}</a></li>
+                        @endforeach
+                        @foreach ($noteBacklinks as $note)
+                            <li>
+                                <a href="{{ route('sessions.show', [$campaign, $note->playSession]) }}" class="link" wire:navigate>{{ $note->playSession->label() }}</a>
+                                <span class="block truncate text-xs text-stone-500">{{ \App\Support\EntityLinks::plain($note->body) }}</span>
+                            </li>
                         @endforeach
                     </ul>
                 @endif

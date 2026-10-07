@@ -102,6 +102,12 @@ class Campaign extends Model
         return $this->hasManyThrough(Scene::class, Scenario::class);
     }
 
+    /** @return HasMany<Secret, $this> */
+    public function secrets(): HasMany
+    {
+        return $this->hasMany(Secret::class);
+    }
+
     /** @return HasMany<PlaySession, $this> */
     public function playSessions(): HasMany
     {

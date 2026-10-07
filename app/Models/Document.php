@@ -134,6 +134,12 @@ class Document extends Model
         });
     }
 
+    /** @return BelongsToMany<Secret, $this> */
+    public function secrets(): BelongsToMany
+    {
+        return $this->belongsToMany(Secret::class, 'document_secret')->orderBy('title');
+    }
+
     public function activityType(): string
     {
         return 'document';

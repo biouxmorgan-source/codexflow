@@ -4,6 +4,18 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.6.0' => [
+        'date' => '2026-10-09',
+        'title' => 'The campaign’s memory',
+        'items' => [
+            'Secrets: a standalone piece of information, linked to entries, scenes or documents, revealed in one click to a character or to the whole table.',
+            'Reveal history: who learned what, when, during which session and which scene; every reveal can be undone.',
+            '“View as”: the GM sees the campaign exactly as a character does, read-only.',
+            '“Mentioned in” now also shows the rules and session notes that mention an entry.',
+            'Relations: the reverse (“works for” / “employs”) fills itself in.',
+        ],
+    ],
+
     '0.5.0' => [
         'date' => '2026-10-08',
         'title' => 'Tidier, together',

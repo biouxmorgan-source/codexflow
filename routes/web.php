@@ -25,6 +25,7 @@ use App\Livewire\Journal\Index as JournalIndex;
 use App\Livewire\Members\Index as MemberIndex;
 use App\Livewire\Messages\Index as MessageIndex;
 use App\Livewire\Notifications\Index as NotificationIndex;
+use App\Livewire\Reveals\Index as RevealIndex;
 use App\Livewire\Rules\Form as RuleForm;
 use App\Livewire\Rules\Index as RuleIndex;
 use App\Livewire\Rules\Show as RuleShow;
@@ -32,6 +33,7 @@ use App\Livewire\Scenarios\Index as ScenarioIndex;
 use App\Livewire\Scenes\Form as SceneForm;
 use App\Livewire\Scenes\Show as SceneShow;
 use App\Livewire\Search\Index as SearchIndex;
+use App\Livewire\Secrets\Index as SecretIndex;
 use App\Livewire\Sessions\Live as SessionLive;
 use App\Livewire\Sessions\Show as SessionShow;
 use App\Livewire\Support\ReportBug;
@@ -92,6 +94,8 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/joueurs', MemberIndex::class)->name('members.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/messages', MessageIndex::class)->name('messages.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/journal', JournalIndex::class)->name('journal.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/secrets', SecretIndex::class)->name('secrets.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/revelations', RevealIndex::class)->name('reveals.index')->whereNumber('campaign');
 
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/import', ImportCreate::class)->name('imports.create')->whereNumber('campaign');

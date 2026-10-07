@@ -61,6 +61,12 @@ class Scene extends Model
         return $this->belongsToMany(Tag::class)->orderByRaw('lower(name)');
     }
 
+    /** @return BelongsToMany<Secret, $this> */
+    public function secrets(): BelongsToMany
+    {
+        return $this->belongsToMany(Secret::class, 'scene_secret')->orderBy('title');
+    }
+
     public function activityType(): string
     {
         return 'scene';

@@ -4,6 +4,18 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.6.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Het geheugen van de campagne',
+        'items' => [
+            'Geheimen: een losse informatie, gekoppeld aan fiches, scènes of documenten, met één klik onthuld aan een personage of aan de hele tafel.',
+            'Onthullingsgeschiedenis: wie wat te weten kwam, wanneer, in welke sessie en welke scène; elke onthulling kan ongedaan worden gemaakt.',
+            '‘Bekijken als’: de SL ziet de campagne precies zoals een personage, alleen-lezen.',
+            '‘Genoemd in’ toont nu ook de regels en sessienotities die een fiche noemen.',
+            'Relaties: de omgekeerde richting (‘werkt voor’ / ‘heeft in dienst’) vult zichzelf in.',
+        ],
+    ],
+
     '0.5.0' => [
         'date' => '2026-10-08',
         'title' => 'Beter ordenen, samen',

@@ -199,4 +199,21 @@ class RelationsTagsTypesTest extends TestCase
 
         $this->assertModelMissing($relation);
     }
+
+    public function test_the_relation_form_suggests_known_and_previously_used_inverses(): void
+    {
+        $relation = new EntityRelation(['label' => 'mentor de', 'reverse_label' => 'élève de', 'zone' => Zone::GameMaster]);
+        $relation->owner()->associate($this->gm);
+        $relation->from()->associate($this->aldric);
+        $relation->to()->associate($this->guild);
+        $relation->save();
+
+        $inverses = Livewire::actingAs($this->gm)
+            ->test(Show::class, ['campaign' => $this->campaign, 'entity' => $this->aldric])
+            ->instance()
+            ->relationInverses();
+
+        $this->assertSame('élève de', $inverses['mentor de']);
+        $this->assertSame('emploie', $inverses['travaille pour']);
+    }
 }

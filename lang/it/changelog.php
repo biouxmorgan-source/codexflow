@@ -4,6 +4,18 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.6.0' => [
+        'date' => '2026-10-09',
+        'title' => 'La memoria della campagna',
+        'items' => [
+            'Segreti: un’informazione a sé, collegata a schede, scene o documenti, rivelata con un clic a un personaggio o a tutto il tavolo.',
+            'Cronologia delle rivelazioni: chi ha saputo cosa, quando, in quale sessione e in quale scena; ogni rivelazione può essere annullata.',
+            '«Vedi come»: il Master vede la campagna esattamente come un personaggio, in sola lettura.',
+            '«Citato in» mostra anche le regole e le note di sessione che citano una scheda.',
+            'Relazioni: l’inversa («lavora per» / «impiega») si compila da sola.',
+        ],
+    ],
+
     '0.5.0' => [
         'date' => '2026-10-08',
         'title' => 'Mettere in ordine, insieme',

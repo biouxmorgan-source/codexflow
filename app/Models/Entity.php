@@ -235,6 +235,12 @@ class Entity extends Model
         return $this->campaignStates()->firstOrNew(['campaign_id' => $campaign->getKey()]);
     }
 
+    /** @return BelongsToMany<Secret, $this> */
+    public function secrets(): BelongsToMany
+    {
+        return $this->belongsToMany(Secret::class, 'entity_secret')->orderBy('title');
+    }
+
     public function activityType(): string
     {
         return 'entity';

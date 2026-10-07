@@ -30,7 +30,32 @@ class Show extends Component
      */
     public static function relationLabels(): array
     {
-        return [__('connaît'), __('habite à'), __('travaille pour'), __('membre de'), __('possède'), __('allié de'), __('ennemi de'), __('parent de'), __('amoureux de'), __('se trouve à')];
+        return [__('connaît'), __('habite à'), __('travaille pour'), __('membre de'), __('possède'), __('allié de'), __('ennemi de'), __('parent de'), __('amoureux de'), __('se trouve à'), __('sœur de'), __('frère de'), __('ouvre')];
+    }
+
+    /**
+     * Inverses proposés pour les relations courantes, complétés par ceux que le MJ a déjà utilisés.
+     *
+     * @return array<string, string>
+     */
+    public function relationInverses(): array
+    {
+        $known = [
+            __('connaît') => __('connaît'), __('habite à') => __('abrite'), __('travaille pour') => __('emploie'),
+            __('membre de') => __('compte parmi ses membres'), __('possède') => __('appartient à'), __('allié de') => __('allié de'),
+            __('ennemi de') => __('ennemi de'), __('parent de') => __('enfant de'), __('amoureux de') => __('aimé de'),
+            __('se trouve à') => __('contient'), __('sœur de') => __('sœur de'), __('frère de') => __('frère de'), __('ouvre') => __("s'ouvre avec"),
+        ];
+
+        $used = EntityRelation::query()
+            ->where('user_id', $this->campaign->user_id)
+            ->whereNotNull('reverse_label')
+            ->latest('id')
+            ->limit(200)
+            ->pluck('reverse_label', 'label')
+            ->all();
+
+        return $used + $known;
     }
 
     /** Types acceptés en pièce jointe : images, PDF, textes et documents bureautiques courants. */
@@ -331,6 +356,8 @@ class Show extends Component
             'description' => EntityLinks::render($this->entity->description, $this->campaign),
             'gmNotes' => EntityLinks::render($this->entity->gm_notes, $this->campaign),
             'backlinks' => EntityLinks::backlinks($this->entity, $this->campaign),
+            'ruleBacklinks' => EntityLinks::rules($this->entity, $this->campaign),
+            'noteBacklinks' => EntityLinks::sessionNotes($this->entity, $this->campaign),
             'publicAttachments' => $attachments->where('zone', Zone::Public),
             'gmAttachments' => $attachments->where('zone', Zone::GameMaster),
             'publicFields' => $publicFields,

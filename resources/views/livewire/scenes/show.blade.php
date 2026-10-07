@@ -44,6 +44,7 @@
         </section>
 
         <aside class="space-y-6">
+            <livewire:secrets.panel :campaign="$campaign" :items="['scene' => [$scene->id]]" :link="'scene:'.$scene->id" wire:key="secrets-scene" />
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-3 font-semibold">{{ __('Dans cette scène') }}</h2>
                 @if ($entities->isEmpty())

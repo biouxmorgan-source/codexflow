@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 /**
@@ -72,12 +73,34 @@ class Show extends Component
 
     public int $addQuantity = 1;
 
+    /**
+     * Mode « Voir comme… » : le MJ voit la fiche exactement comme le joueur du personnage,
+     * en lecture seule. Toute action qui modifie quelque chose est refusée côté serveur.
+     */
+    #[Url(as: 'comme')]
+    public bool $viewAs = false;
+
     public function mount(Campaign $campaign, PlayerCharacter $character): void
     {
         abort_unless($character->campaign_id === $campaign->id, 404);
         $this->authorize('view', $character);
+        // Réservé au MJ : un joueur n'a rien à « voir comme », il voit déjà sa propre fiche.
+        abort_if($this->viewAs && ! $campaign->isGameMaster(auth()->user()), 403);
 
         $this->fillValues();
+    }
+
+    /** Le MJ en titre, qu'il soit ou non en mode « Voir comme… » (voir isGameMaster). */
+    #[Computed]
+    public function canViewAs(): bool
+    {
+        return $this->campaign->isGameMaster(auth()->user());
+    }
+
+    /** Refuse toute modification en mode « Voir comme… » (le MJ pourrait appeler l'action directement). */
+    private function ensureNotViewingAs(): void
+    {
+        abort_if($this->viewAs, 403);
     }
 
     #[Computed]
@@ -116,6 +139,7 @@ class Show extends Component
     /** Le MJ reprend un objet ou cache à nouveau une fiche. */
     public function revoke(int $grantId): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->isGameMaster, 403);
 
         GiveToCharacters::revoke($this->character->grants()->findOrFail($grantId));
@@ -125,6 +149,7 @@ class Show extends Component
     /** Le joueur ouvre le formulaire « Donner » sous un élément. */
     public function startExchange(?int $grantId): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->canExchange, 403);
 
         $grant = $grantId ? $this->character->grants()->findOrFail($grantId) : null;
@@ -137,6 +162,7 @@ class Show extends Component
     /** Donne l'objet, ou transmet la connaissance, à un autre personnage. */
     public function exchange(): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->canExchange, 403);
 
         $this->validate([
@@ -165,6 +191,7 @@ class Show extends Component
 
     public function openAdd(string $kind): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->canAdd && in_array($kind, ['', ...PlayerAdditions::KINDS], true), 403);
 
         $this->addKind = $kind;
@@ -174,6 +201,7 @@ class Show extends Component
 
     public function addOwn(): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->canAdd && in_array($this->addKind, PlayerAdditions::KINDS, true), 403);
 
         $this->validate([
@@ -191,6 +219,7 @@ class Show extends Component
     /** Le joueur efface ce qu'il avait noté lui-même. */
     public function removeOwn(int $grantId): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->canAdd, 403);
 
         app(PlayerAdditions::class)->remove($this->character->grants()->findOrFail($grantId));
@@ -200,6 +229,7 @@ class Show extends Component
     /** Le MJ valide un objet ajouté par le joueur. */
     public function validateGrant(int $grantId): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->isGameMaster, 403);
 
         app(PlayerAdditions::class)->validate($this->character->grants()->findOrFail($grantId));
@@ -217,7 +247,7 @@ class Show extends Component
     #[Computed]
     public function isOwner(): bool
     {
-        return $this->character->isPlayedBy(auth()->user());
+        return ! $this->viewAs && $this->character->isPlayedBy(auth()->user());
     }
 
     /** @return Collection<int, CharacterNote> notes de la campagne que la personne connectée peut lire */
@@ -225,7 +255,10 @@ class Show extends Component
     public function notes(): Collection
     {
         return CharacterNote::query()
-            ->visibleTo(auth()->user(), $this->campaign)
+            // « Voir comme… » : les notes que lit le joueur du personnage, toutes fiches confondues.
+            ->when($this->viewAs,
+                fn ($q) => $q->visibleToCharacter($this->character),
+                fn ($q) => $q->visibleTo(auth()->user(), $this->campaign))
             ->when($this->isGameMaster, fn ($q) => $q->where('player_character_id', $this->character->id))
             ->with(['character.entity', 'author', 'playSession', 'sharedWith.entity'])
             ->latest('id')
@@ -275,6 +308,7 @@ class Show extends Component
 
     public function saveNote(): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->isOwner, 403);
 
         $this->validate([
@@ -304,6 +338,7 @@ class Show extends Component
 
     public function editNote(int $noteId): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->isOwner, 403);
 
         $note = $this->character->notes()->where('user_id', auth()->id())->findOrFail($noteId);
@@ -322,6 +357,7 @@ class Show extends Component
 
     public function deleteNote(int $noteId): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->isOwner, 403);
 
         $this->character->notes()->where('user_id', auth()->id())->findOrFail($noteId)->delete();
@@ -331,6 +367,7 @@ class Show extends Component
     /** Intention du joueur ou demande de règle : elle arrive dans « À jouer » du MJ. */
     public function addIntention(): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->isOwner, 403);
 
         $this->validate([
@@ -356,18 +393,20 @@ class Show extends Component
     #[Computed]
     public function canPlay(): bool
     {
-        return auth()->user()->can('play', $this->character);
+        return ! $this->viewAs && auth()->user()->can('play', $this->character);
     }
 
+    /** Contrôles du MJ affichés : jamais en mode « Voir comme… ». */
     #[Computed]
     public function isGameMaster(): bool
     {
-        return $this->campaign->isGameMaster(auth()->user());
+        return ! $this->viewAs && $this->canViewAs;
     }
 
     /** Ajuste un compteur modifiable : −1, +1… */
     public function adjust(int $definitionId, int $delta): void
     {
+        $this->ensureNotViewingAs();
         $definition = $this->editable($definitionId);
         abort_unless($definition->type === FieldType::Counter && abs($delta) <= 1000, 422);
 
@@ -383,6 +422,7 @@ class Show extends Component
 
     public function edit(): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->canPlay, 403);
         $this->fillValues();
         $this->editing = true;
@@ -396,6 +436,7 @@ class Show extends Component
 
     public function save(): void
     {
+        $this->ensureNotViewingAs();
         abort_unless($this->canPlay, 403);
 
         $parsed = [];
@@ -437,7 +478,7 @@ class Show extends Component
         }
 
         return $this->grants->contains(fn (CharacterGrant $grant) => $grant->entity_id === $linked->id)
-            ? route('characters.entity', [$this->campaign, $this->character, $linked])
+            ? route('characters.entity', [$this->campaign, $this->character, $linked, ...$this->viewAsQuery()])
             : null;
     }
 
@@ -450,6 +491,12 @@ class Show extends Component
         if (! $this->editing) {
             $this->fillValues();
         }
+    }
+
+    /** @return array<string, int> paramètre qui garde le mode « Voir comme… » dans les liens */
+    public function viewAsQuery(): array
+    {
+        return $this->viewAs ? ['comme' => 1] : [];
     }
 
     private function editable(int $definitionId): FieldDefinition

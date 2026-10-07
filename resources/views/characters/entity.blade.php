@@ -1,7 +1,10 @@
 <x-layouts.app :title="$entity->name.' · '.$campaign->name">
+    @if ($viewAs)
+        <x-view-as-banner :name="$character->entity->name" :exit="route('characters.show', [$campaign, $character])" />
+    @endif
     <nav class="mb-2 text-sm text-stone-500">
         <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
-        › <a href="{{ route('characters.show', [$campaign, $character]) }}" class="crumb" wire:navigate>{{ $character->entity->name }}</a>
+        › <a href="{{ route('characters.show', [$campaign, $character, ...$viewAs]) }}" class="crumb" wire:navigate>{{ $character->entity->name }}</a>
     </nav>
 
     <article class="max-w-3xl rounded-xl border border-stone-200 bg-white p-6 shadow-sm">

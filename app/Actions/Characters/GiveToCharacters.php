@@ -12,13 +12,14 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Révèle ou donne un élément à un ou plusieurs personnages de la campagne, et l'inscrit au journal.
- * Une fiche, un document ou une règle déjà révélés à un personnage ne sont pas dupliqués.
+ * Une fiche, un document, une règle ou un secret déjà révélés à un personnage ne sont pas dupliqués.
+ * Chaque révélation garde la séance et la scène en cours, pour l'historique.
  */
 class GiveToCharacters
 {
     /**
      * @param  list<int>  $characterIds
-     * @param  array{kind: string, entity_id?: ?int, document_id?: ?int, rule_id?: ?int, title?: ?string, body?: ?string, quantity?: ?int}  $data
+     * @param  array{kind: string, entity_id?: ?int, document_id?: ?int, rule_id?: ?int, secret_id?: ?int, title?: ?string, body?: ?string, quantity?: ?int}  $data
      * @return int nombre de personnages qui ont reçu l'élément
      */
     public function handle(Campaign $campaign, array $characterIds, array $data): int
@@ -40,9 +41,20 @@ class GiveToCharacters
             abort_unless($campaign->availableRules()->where('zone', Zone::Public)->whereKey($data['rule_id'] ?? 0)->exists(), 404);
         }
 
-        $characters = $campaign->playerCharacters()->with('entity')->whereKey($characterIds)->get();
+        // Un secret se révèle comme une information, avec son texte du moment.
+        $secret = null;
 
-        return DB::transaction(function () use ($characters, $data, $kind) {
+        if (! empty($data['secret_id'])) {
+            $secret = $campaign->secrets()->findOrFail($data['secret_id']);
+            abort_unless($kind === 'information', 422);
+            $data['title'] = $secret->title;
+            $data['body'] = $secret->body;
+        }
+
+        $characters = $campaign->playerCharacters()->with('entity')->whereKey($characterIds)->get();
+        $session = $campaign->openSession();
+
+        return DB::transaction(function () use ($characters, $data, $kind, $secret, $session) {
             $given = 0;
 
             foreach ($characters as $character) {
@@ -55,7 +67,14 @@ class GiveToCharacters
                     'title' => in_array($kind, ['information', 'possession'], true) ? trim((string) $data['title']) : null,
                     'body' => in_array($kind, ['information', 'possession'], true) ? (trim((string) ($data['body'] ?? '')) ?: null) : null,
                     'quantity' => $kind === 'possession' ? ($data['quantity'] ?? null) : null,
+                    'secret_id' => $secret?->id,
+                    'play_session_id' => $session?->id,
+                    'scene_id' => $session?->current_scene_id,
                 ];
+
+                if ($secret !== null && $character->grants()->where('secret_id', $secret->id)->exists()) {
+                    continue;
+                }
 
                 if (in_array($kind, ['entity', 'document', 'rule'], true)) {
                     $column = $kind.'_id';

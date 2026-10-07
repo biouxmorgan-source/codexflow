@@ -1,10 +1,14 @@
 <div>
+    @if ($asCharacter)
+        <x-view-as-banner :name="$asCharacter->entity->name" :exit="route('characters.show', [$campaign, $asCharacter])" />
+    @endif
+
     <nav class="mb-2 text-sm text-stone-500">
         <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
         @if ($isGameMaster)
             › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
         @elseif ($myCharacter)
-            › <a href="{{ route('characters.show', [$campaign, $myCharacter]) }}" class="crumb" wire:navigate>{{ $myCharacter->entity->name }}</a>
+            › <a href="{{ route('characters.show', [$campaign, $myCharacter, ...($asCharacter ? ['comme' => 1] : [])]) }}" class="crumb" wire:navigate>{{ $myCharacter->entity->name }}</a>
         @endif
     </nav>
     <h1 class="text-2xl font-semibold">{{ __('Recherche') }}</h1>
