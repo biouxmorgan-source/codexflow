@@ -6,6 +6,8 @@ use App\Http\Controllers\ImportExampleController;
 use App\Http\Controllers\InvitationController;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
+use App\Livewire\Characters\Index as CharacterIndex;
+use App\Livewire\Characters\Show as CharacterShow;
 use App\Livewire\Documents\Index as DocumentIndex;
 use App\Livewire\Documents\Show as DocumentShow;
 use App\Livewire\Entities\Form as EntityForm;
@@ -55,6 +57,10 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/documents/{document}', DocumentShow::class)->name('documents.show')->whereNumber(['campaign', 'document']);
 
     Route::livewire('/campagnes/{campaign}/recherche', SearchIndex::class)->name('search.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/personnages', CharacterIndex::class)->name('characters.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/personnages/{character}', CharacterShow::class)->name('characters.show')->whereNumber(['campaign', 'character']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/feuille.pdf', [FileController::class, 'characterSheet'])->name('characters.sheet')->whereNumber(['campaign', 'character']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/portrait', [FileController::class, 'characterPortrait'])->name('characters.portrait')->whereNumber(['campaign', 'character']);
     Route::livewire('/campagnes/{campaign}/joueurs', MemberIndex::class)->name('members.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/journal', JournalIndex::class)->name('journal.index')->whereNumber('campaign');
 

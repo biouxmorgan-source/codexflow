@@ -44,7 +44,11 @@ class Index extends Component
     {
         return Campaign::query()
             ->visibleTo(auth()->user())
-            ->with(['gameSystem', 'world', 'members' => fn ($q) => $q->whereKey(auth()->id())])
+            ->with([
+                'gameSystem', 'world',
+                'members' => fn ($q) => $q->whereKey(auth()->id()),
+                'playerCharacters' => fn ($q) => $q->active()->where('user_id', auth()->id())->with('entity'),
+            ])
             ->orderByRaw("status = 'archived'")
             ->latest('updated_at')
             ->get();

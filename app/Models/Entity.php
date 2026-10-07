@@ -42,6 +42,7 @@ class Entity extends Model
         static::deleting(function (Entity $entity) {
             $entity->attachments->each->delete();
             $entity->deleteImage();
+            PlayerCharacter::where('entity_id', $entity->id)->get()->each->delete();
         });
     }
 

@@ -94,6 +94,7 @@ class ExportController extends Controller
             FieldType::Boolean->value => 'oui/non',
             FieldType::Date->value => 'date',
             FieldType::Select->value => 'liste',
+            FieldType::Counter->value => 'compteur',
         ];
 
         $rows = [['Nom', 'Groupe', 'Type', 'Zone', 'Choix', 'Type de fiche']];

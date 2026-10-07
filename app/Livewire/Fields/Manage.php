@@ -34,6 +34,9 @@ class Manage extends Component
 
     public string $entityTypeId = '';
 
+    /** Le joueur peut modifier ce champ sur la fiche de son personnage. */
+    public bool $playerEditable = false;
+
     public function mount(Campaign $campaign): void
     {
         $this->authorize('update', $campaign);
@@ -79,12 +82,13 @@ class Manage extends Component
         $this->options = implode("\n", $definition->options ?? []);
         $this->zone = $definition->zone->value;
         $this->entityTypeId = (string) $definition->entity_type_id;
+        $this->playerEditable = $definition->player_editable;
     }
 
     public function cancel(): void
     {
         $this->resetValidation();
-        $this->reset('editingId', 'name', 'type', 'options', 'zone', 'entityTypeId');
+        $this->reset('editingId', 'name', 'type', 'options', 'zone', 'entityTypeId', 'playerEditable');
     }
 
     public function save(): void
@@ -124,6 +128,8 @@ class Manage extends Component
             'options' => $this->type === FieldType::Select->value ? FieldDefinition::splitOptions($this->options) : null,
             'zone' => $this->zone,
             'entity_type_id' => $this->entityTypeId ?: null,
+            // La zone MJ reste hors de portée des joueurs.
+            'player_editable' => $this->playerEditable && $this->zone === Zone::Public->value,
         ]);
 
         $this->gameSystem->fieldDefinitions()->save($definition);

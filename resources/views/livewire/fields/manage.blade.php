@@ -37,6 +37,9 @@
                                             </span>
                                         </span>
                                         <span @class(['shrink-0 rounded-full px-2 py-0.5 text-xs font-medium', 'bg-codex/10 text-codex' => $definition->zone === \App\Enums\Zone::Public, 'bg-flow/10 text-flow' => $definition->zone === \App\Enums\Zone::GameMaster])>{{ $definition->zone->label() }}</span>
+                                        @if ($definition->player_editable)
+                                            <span class="shrink-0 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-800">Joueur</span>
+                                        @endif
                                         <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{{ $definition->entityType?->name ?? 'Tous les types' }}</span>
                                         <span class="flex shrink-0 items-center gap-1 text-sm">
                                             <button type="button" wire:click="move({{ $definition->id }}, -1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="Monter {{ $definition->name }}">↑</button>
@@ -89,11 +92,17 @@
                 @endif
                 <div>
                     <label for="zone" class="label">Zone</label>
-                    <select id="zone" wire:model="zone" class="field">
+                    <select id="zone" wire:model.live="zone" class="field">
                         <option value="public">Zone publique</option>
                         <option value="gm">Zone MJ</option>
                     </select>
                 </div>
+                @if ($zone === 'public')
+                    <label class="flex items-start gap-2 text-sm">
+                        <input type="checkbox" wire:model="playerEditable" class="mt-1">
+                        <span>Modifiable par le joueur <span class="block text-xs text-stone-500">Sur la fiche de son personnage : PV, munitions, argent…</span></span>
+                    </label>
+                @endif
                 <div>
                     <label for="entityTypeId" class="label">Fiches concernées</label>
                     <select id="entityTypeId" wire:model="entityTypeId" class="field">

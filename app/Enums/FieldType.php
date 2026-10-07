@@ -16,6 +16,7 @@ enum FieldType: string
     case Boolean = 'boolean';
     case Date = 'date';
     case Select = 'select';
+    case Counter = 'counter';
 
     public function label(): string
     {
@@ -26,6 +27,7 @@ enum FieldType: string
             self::Boolean => 'Oui/non',
             self::Date => 'Date',
             self::Select => 'Liste de choix',
+            self::Counter => 'Compteur (valeur / maximum)',
         };
     }
 
@@ -43,6 +45,7 @@ enum FieldType: string
             'ouinon', 'booleen', 'boolean', 'bool', 'case', 'caseacocher' => self::Boolean,
             'date' => self::Date,
             'liste', 'listedechoix', 'choix', 'select' => self::Select,
+            'compteur', 'jauge', 'counter', 'tracker' => self::Counter,
             default => null,
         };
     }
@@ -72,6 +75,7 @@ enum FieldType: string
             self::Boolean => self::parseBoolean($raw),
             self::Date => self::parseDate($raw),
             self::Select => self::parseChoice($raw, $options ?? []),
+            self::Counter => self::parseCounter($raw),
         };
     }
 
@@ -84,8 +88,41 @@ enum FieldType: string
             self::Number => str_replace('.', ',', (string) $value),
             self::Boolean => $value ? 'Oui' : 'Non',
             self::Date => Carbon::parse($value)->format('d/m/Y'),
+            self::Counter => self::formatNumber($value['value'] ?? 0).(isset($value['max']) ? ' / '.self::formatNumber($value['max']) : ''),
             default => (string) $value,
         };
+    }
+
+    /**
+     * Valeur stockée remise sous forme de saisie (champ de formulaire).
+     */
+    public function input(mixed $value): string|bool
+    {
+        return match (true) {
+            $this === self::Boolean => (bool) $value,
+            $value === null => '',
+            $this === self::Counter => $this->format($value),
+            default => (string) $value,
+        };
+    }
+
+    /**
+     * Compteur ajusté de $delta (PV perdus, munitions dépensées…), sans descendre sous zéro.
+     *
+     * @param  array{value: int|float, max?: int|float|null}|null  $counter
+     * @return array{value: int|float, max?: int|float}
+     */
+    public static function adjustCounter(?array $counter, int|float $delta): array
+    {
+        $counter ??= ['value' => 0];
+        $counter['value'] = max(0, ($counter['value'] ?? 0) + $delta);
+
+        return $counter;
+    }
+
+    private static function formatNumber(int|float $number): string
+    {
+        return str_replace('.', ',', (string) $number);
     }
 
     /**
@@ -157,6 +194,34 @@ enum FieldType: string
         }
 
         return [null, '« '.$raw.' » n\'est pas une date (JJ/MM/AAAA)'];
+    }
+
+    /**
+     * « 12 », « 9/12 » ou « 9 / 12 » : valeur actuelle et maximum facultatif.
+     *
+     * @return array{0: array{value: int|float, max?: int|float}|null, 1: string|null}
+     */
+    private static function parseCounter(string $raw): array
+    {
+        $parts = array_map('trim', explode('/', $raw));
+
+        if (count($parts) > 2) {
+            return [null, '« '.$raw.' » n\'est pas un compteur (valeur ou valeur / maximum)'];
+        }
+
+        $numbers = [];
+
+        foreach ($parts as $part) {
+            [$number, $error] = self::parseNumber($part);
+
+            if ($error !== null) {
+                return [null, '« '.$raw.' » n\'est pas un compteur (valeur ou valeur / maximum)'];
+            }
+
+            $numbers[] = $number;
+        }
+
+        return [isset($numbers[1]) ? ['value' => $numbers[0], 'max' => $numbers[1]] : ['value' => $numbers[0]], null];
     }
 
     /**

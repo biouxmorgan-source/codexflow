@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Champ libre nommé par le MJ pour un jeu. Les valeurs sont stockées dans entities.field_values.
  */
-#[Fillable(['entity_type_id', 'group', 'name', 'type', 'options', 'zone', 'position'])]
+#[Fillable(['entity_type_id', 'group', 'name', 'type', 'options', 'zone', 'position', 'player_editable'])]
 class FieldDefinition extends Model
 {
     use RecordsActivity;
@@ -34,6 +34,7 @@ class FieldDefinition extends Model
             'type' => FieldType::class,
             'zone' => Zone::class,
             'options' => 'array',
+            'player_editable' => 'boolean',
         ];
     }
 
