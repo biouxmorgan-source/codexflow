@@ -52,6 +52,9 @@
                     Une ligne par règle. Colonnes reconnues : Titre, Catégorie, Résumé, Procédure, Notes MJ, Source, Origine (référence, maison, test), Statut, Zone (publique ou MJ), Tags (séparés par des virgules).
                 @endif
                 <a href="{{ route('imports.example', [$campaign, ['entities' => 'fiches', 'fields' => 'champs', 'rules' => 'regles', 'scenes' => 'scenes'][$mode] ?? 'fiches']) }}" class="link">Télécharger un fichier exemple</a>
+                ou
+                <a href="{{ route('exports.download', [$campaign, ['entities' => 'fiches', 'fields' => 'champs', 'rules' => 'regles', 'scenes' => 'scenes'][$mode] ?? 'fiches']) }}" class="link">exporter {{ ['entities' => 'les fiches', 'fields' => 'les champs', 'rules' => 'les règles', 'scenes' => 'les scènes'][$mode] ?? 'les fiches' }} de la campagne</a>
+                dans ce même format, pour vous en servir de modèle.
             </p>
 
             <div>

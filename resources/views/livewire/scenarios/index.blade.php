@@ -9,7 +9,10 @@
             <h1 class="text-2xl font-semibold">Scénarios</h1>
             <p class="mt-1 text-sm text-stone-600">Découpez la campagne en scénarios, regroupez les scènes par chapitre si vous le souhaitez, et suivez ce qui a été joué.</p>
         </div>
-        <a href="{{ route('imports.create', [$campaign, 'mode' => 'scenes']) }}" class="btn-secondary" wire:navigate>Importer</a>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('imports.create', [$campaign, 'mode' => 'scenes']) }}" class="btn-secondary" wire:navigate>Importer</a>
+            <a href="{{ route('exports.download', [$campaign, 'scenes']) }}" class="btn-secondary">Exporter</a>
+        </div>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-3">

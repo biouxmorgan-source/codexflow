@@ -75,7 +75,8 @@ class ImportEntities
             $key = Normalize::key($header);
             $target = collect($aliases)->search(fn (array $names) => in_array($key, $names, true));
 
-            if ($target === false) {
+            // Colonne de base déjà prise (« Notes MJ » puis « Secret ») : un champ du même nom passe avant.
+            if ($target === false || in_array($target, $used, true)) {
                 $definition = $definitions->first(fn (FieldDefinition $definition) => Normalize::key($definition->name) === $key);
                 $target = $definition ? 'field:'.$definition->id : 'new';
             }

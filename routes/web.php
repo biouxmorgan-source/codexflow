@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ImportExampleController;
 use App\Livewire\Campaigns\Index as CampaignIndex;
@@ -51,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/import', ImportCreate::class)->name('imports.create')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/import/exemple-{kind}.csv', ImportExampleController::class)->name('imports.example')->whereNumber('campaign')->whereIn('kind', ['fiches', 'champs', 'regles', 'scenes']);
+    Route::get('/campagnes/{campaign}/export/{kind}.csv', ExportController::class)->name('exports.download')->whereNumber('campaign')->whereIn('kind', ['fiches', 'champs', 'regles', 'scenes']);
 
     Route::get('/fichiers/{attachment}', [FileController::class, 'attachment'])->name('attachments.show')->whereNumber('attachment');
     Route::get('/documents/{document}/fichier', [FileController::class, 'document'])->name('documents.file')->whereNumber('document');

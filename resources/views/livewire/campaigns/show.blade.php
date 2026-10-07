@@ -73,6 +73,7 @@
                     </select>
                 </div>
             @endif
+            <a href="{{ route('exports.download', [$campaign, 'fiches', 'type' => $type ?: null]) }}" class="btn-secondary" title="Fichier CSV réimportable, à utiliser comme modèle">Exporter</a>
             <a href="{{ route('entities.create', $campaign) }}" class="btn-primary" wire:navigate>Nouvelle entité</a>
         </div>
 

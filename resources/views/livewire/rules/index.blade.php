@@ -11,6 +11,7 @@
         </div>
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('imports.create', [$campaign, 'mode' => 'rules']) }}" class="btn-secondary" wire:navigate>Importer</a>
+            <a href="{{ route('exports.download', [$campaign, 'regles']) }}" class="btn-secondary">Exporter</a>
             <a href="{{ route('rules.create', $campaign) }}" class="btn-primary" wire:navigate>Nouvelle règle</a>
         </div>
     </div>
