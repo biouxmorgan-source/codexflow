@@ -43,7 +43,9 @@
                     <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-white">{{ $unread }} <span class="sr-only">non lus</span></span>
                 @endif
             </a>
-            <a href="{{ route('table.screen', $campaign) }}" target="codexflow-table" class="btn-secondary">Écran de table ↗</a>
+            @if ($campaign->table_shared)
+                <a href="{{ route('table.screen', $campaign) }}" target="codexflow-table" class="btn-secondary">Écran de table ↗</a>
+            @endif
         @endif
     </header>
 

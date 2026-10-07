@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Support\TableDisplay;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -17,7 +16,7 @@ class TableScreenController extends Controller
 {
     public function file(Campaign $campaign): StreamedResponse
     {
-        Gate::authorize('view', $campaign);
+        abort_unless(TableDisplay::canWatch(auth()->user(), $campaign), 403);
         $display = TableDisplay::current($campaign);
 
         abort_unless(($display['kind'] ?? null) === 'document', 404);
@@ -33,7 +32,7 @@ class TableScreenController extends Controller
 
     public function image(Campaign $campaign): StreamedResponse
     {
-        Gate::authorize('view', $campaign);
+        abort_unless(TableDisplay::canWatch(auth()->user(), $campaign), 403);
         $display = TableDisplay::current($campaign);
 
         abort_unless(($display['kind'] ?? null) === 'entity' && $display['entity']->hasImage(), 404);

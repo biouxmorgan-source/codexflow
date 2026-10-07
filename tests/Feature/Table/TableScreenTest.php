@@ -52,10 +52,26 @@ class TableScreenTest extends TestCase
             ->assertSee('Plein écran')
             ->assertDontSee('Se déconnecter');
 
+        // Les joueurs suivent l'écran seulement quand le MJ le partage.
+        $this->actingAs($player)->get(route('table.screen', $this->campaign))->assertForbidden();
+        Livewire::actingAs($this->gm)->test(Live::class, ['campaign' => $this->campaign])->call('toggleTableShare');
+        $this->assertTrue($this->campaign->fresh()->table_shared);
         $this->actingAs($player)->get(route('table.screen', $this->campaign))->assertOk();
+
         $this->actingAs(User::factory()->create())->get(route('table.screen', $this->campaign))->assertForbidden();
 
         Livewire::actingAs($player)->test(Live::class, ['campaign' => $this->campaign])->assertForbidden();
+    }
+
+    public function test_a_player_watching_sees_when_the_game_master_stops_sharing(): void
+    {
+        $player = User::factory()->create();
+        $this->campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);
+        $this->campaign->forceFill(['table_shared' => true])->save();
+
+        $screen = Livewire::actingAs($player)->test(Screen::class, ['campaign' => $this->campaign])->assertDontSee('Le MJ ne partage plus');
+        $this->campaign->forceFill(['table_shared' => false])->save();
+        $screen->call('$refresh')->assertSee('Le MJ ne partage plus');
     }
 
     public function test_a_player_gets_only_the_file_shown_right_now(): void
@@ -67,6 +83,7 @@ class TableScreenTest extends TestCase
         $secret = $this->document('Plan du repaire');
         Storage::disk('local')->put($map->path, 'jpeg');
 
+        $this->campaign->forceFill(['table_shared' => true])->save();
         $this->actingAs($player)->get(route('table.file', $this->campaign))->assertNotFound();
         $this->actingAs($player)->get(route('documents.file', $secret))->assertForbidden();
 
@@ -79,6 +96,10 @@ class TableScreenTest extends TestCase
             ->assertDontSeeHtml(route('documents.file', $map));
 
         $this->actingAs($this->gm);
+        TableDisplay::share($this->campaign, false);
+        $this->actingAs($player)->get(route('table.file', $this->campaign))->assertForbidden();
+
+        TableDisplay::share($this->campaign, true);
         TableDisplay::clear($this->campaign);
         $this->actingAs($player)->get(route('table.file', $this->campaign))->assertNotFound();
     }

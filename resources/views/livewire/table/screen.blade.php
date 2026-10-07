@@ -49,7 +49,7 @@
             @default
                 <div class="text-center">
                     <p class="text-3xl font-semibold tracking-tight text-stone-500"><span>CODEX</span><span class="text-flow">FLOW</span></p>
-                    <p class="mt-2 text-xl text-stone-600">{{ $campaign->name }}</p>
+                    <p class="mt-2 text-xl text-stone-600">{{ $stopped ? "Le MJ ne partage plus l'écran de table." : $campaign->name }}</p>
                 </div>
         @endswitch
     </div>

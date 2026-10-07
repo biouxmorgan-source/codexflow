@@ -6,6 +6,7 @@ use App\Enums\Zone;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
+use App\Models\User;
 use Illuminate\Support\Collection;
 
 /**
@@ -32,6 +33,19 @@ class TableDisplay
     public static function clear(Campaign $campaign): void
     {
         self::save($campaign, null);
+    }
+
+    /** Le MJ ouvre ou ferme l'écran de table aux joueurs. */
+    public static function share(Campaign $campaign, bool $shared): void
+    {
+        $campaign->forceFill(['table_shared' => $shared])->save();
+        self::broadcast($campaign);
+    }
+
+    /** Le MJ voit toujours l'écran ; un joueur seulement quand le MJ le partage. */
+    public static function canWatch(User $user, Campaign $campaign): bool
+    {
+        return $campaign->isGameMaster($user) || ($campaign->table_shared && $user->can('view', $campaign));
     }
 
     /**
@@ -83,15 +97,20 @@ class TableDisplay
             ->values();
     }
 
-    /** @param array<string, mixed>|null $state */
-    private static function save(Campaign $campaign, ?array $state): void
+    private static function broadcast(Campaign $campaign): void
     {
-        $campaign->forceFill(['table_display' => $state === null ? null : $state + ['at' => now()->getTimestampMs()]])->save();
-
         // Tous les membres : le MJ sur la télé, les joueurs qui suivent sur leur appareil.
         $campaign->members()->pluck('users.id')
             ->push($campaign->user_id)
             ->unique()
             ->each(fn (int $id) => Live::user($id, 'table', $campaign->id));
+    }
+
+    /** @param array<string, mixed>|null $state */
+    private static function save(Campaign $campaign, ?array $state): void
+    {
+        $campaign->forceFill(['table_display' => $state === null ? null : $state + ['at' => now()->getTimestampMs()]])->save();
+
+        self::broadcast($campaign);
     }
 }

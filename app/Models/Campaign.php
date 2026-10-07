@@ -35,6 +35,7 @@ class Campaign extends Model
             'status' => CampaignStatus::class,
             'archived_at' => 'datetime',
             'table_display' => 'array',
+            'table_shared' => 'boolean',
         ];
     }
 
