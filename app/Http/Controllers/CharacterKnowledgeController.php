@@ -23,9 +23,11 @@ class CharacterKnowledgeController extends Controller
     {
         $this->authorizeKnown($campaign, $character, $entity);
 
+        // Mode « Voir comme… » du MJ : gardé de lien en lien, avec son bandeau.
+        $viewAs = request()->boolean('comme') && $campaign->isGameMaster(request()->user()) ? ['comme' => 1] : [];
         $known = $character->grants()->where('kind', 'entity')->pluck('entity_id')->flip();
         $link = fn (Entity $linked) => isset($known[$linked->id])
-            ? route('characters.entity', [$campaign, $character, $linked])
+            ? route('characters.entity', [$campaign, $character, $linked, ...$viewAs])
             : null;
 
         $fields = $campaign->gameSystem->fieldDefinitions()
@@ -40,6 +42,7 @@ class CharacterKnowledgeController extends Controller
             'character' => $character->load('entity'),
             'entity' => $entity->load('type'),
             'fields' => $fields,
+            'viewAs' => $viewAs,
             'description' => EntityLinks::render($entity->description, $campaign, $link),
         ]);
     }
