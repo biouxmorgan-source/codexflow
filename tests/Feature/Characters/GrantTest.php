@@ -101,7 +101,7 @@ class GrantTest extends TestCase
         $grant = $jack->grants()->sole();
         Livewire::actingAs($this->gm)->test(Show::class, ['campaign' => $this->campaign, 'character' => $jack])
             ->call('revoke', $grant->id);
-        $this->sheet('Jack')->assertDontSee('Balles de .38');
+        $this->sheet('Jack')->assertSee(['Aucun objet reçu.', 'Le MJ a repris objet']);
         $this->assertSame(['created', 'created', 'deleted'], ActivityLog::where('subject_type', 'grant')->orderBy('id')->pluck('event')->all());
 
         // Un joueur ne peut ni donner ni reprendre.

@@ -36,6 +36,12 @@ class ToPlayItem extends Model
         return $this->belongsTo(Rule::class);
     }
 
+    /** @return BelongsTo<PlayerCharacter, $this> personnage dont c'est l'intention */
+    public function character(): BelongsTo
+    {
+        return $this->belongsTo(PlayerCharacter::class, 'player_character_id');
+    }
+
     /** @param Builder<ToPlayItem> $query */
     public function scopePending(Builder $query): void
     {

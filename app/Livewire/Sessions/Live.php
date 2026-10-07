@@ -100,7 +100,7 @@ class Live extends Component
         return $this->campaign->toPlayItems()
             ->pending()
             ->where(fn ($q) => $q->whereNull('scene_id')->when($sceneId, fn ($q) => $q->orWhere('scene_id', $sceneId)))
-            ->with(['scene', 'rule'])
+            ->with(['scene', 'rule', 'character.entity'])
             ->get();
     }
 

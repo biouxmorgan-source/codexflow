@@ -5,13 +5,18 @@ namespace App\Livewire\Characters;
 use App\Actions\Characters\GiveToCharacters;
 use App\Enums\FieldType;
 use App\Enums\Zone;
+use App\Models\ActivityLog;
 use App\Models\Campaign;
 use App\Models\CharacterGrant;
+use App\Models\CharacterNote;
 use App\Models\Entity;
 use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
+use App\Models\Rule;
+use App\Models\ToPlayItem;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -31,6 +36,19 @@ class Show extends Component
 
     /** Champ modifiable en cours d'édition (null = lecture). */
     public bool $editing = false;
+
+    public ?int $editingNoteId = null;
+
+    public string $noteBody = '';
+
+    public string $noteVisibility = 'gm';
+
+    /** @var list<int|string> personnages avec qui partager la note */
+    public array $noteShares = [];
+
+    public string $intentionBody = '';
+
+    public string $intentionRuleId = '';
 
     public function mount(Campaign $campaign, PlayerCharacter $character): void
     {
@@ -77,6 +95,144 @@ class Show extends Component
 
         GiveToCharacters::revoke($this->character->grants()->findOrFail($grantId));
         unset($this->grants);
+    }
+
+    /** Seul le joueur du personnage écrit ses notes et ses intentions. */
+    #[Computed]
+    public function isOwner(): bool
+    {
+        return $this->character->isPlayedBy(auth()->user());
+    }
+
+    /** @return Collection<int, CharacterNote> notes de la campagne que la personne connectée peut lire */
+    #[Computed]
+    public function notes(): Collection
+    {
+        return CharacterNote::query()
+            ->visibleTo(auth()->user(), $this->campaign)
+            ->when($this->isGameMaster, fn ($q) => $q->where('player_character_id', $this->character->id))
+            ->with(['character.entity', 'author', 'playSession', 'sharedWith.entity'])
+            ->latest('id')
+            ->get();
+    }
+
+    /** @return Collection<int, PlayerCharacter> les autres personnages actifs, pour le partage */
+    #[Computed]
+    public function companions(): Collection
+    {
+        return $this->campaign->playerCharacters()->active()->with(['entity', 'player'])
+            ->whereKeyNot($this->character->id)->whereNotNull('user_id')->get();
+    }
+
+    /** @return Collection<int, Rule> règles publiques que le joueur peut demander à tester */
+    #[Computed]
+    public function publicRules(): Collection
+    {
+        return $this->campaign->availableRules()->where('zone', Zone::Public)->orderBy('title')->get(['rules.id', 'title']);
+    }
+
+    /** @return Collection<int, ToPlayItem> */
+    #[Computed]
+    public function intentions(): Collection
+    {
+        return $this->character->intentions()->with('rule')->latest('id')->limit(20)->get();
+    }
+
+    /**
+     * Journal du personnage : ce qui lui a été révélé, donné ou repris. Rien d'autre.
+     *
+     * @return Collection<int, ActivityLog>
+     */
+    #[Computed]
+    public function journal(): Collection
+    {
+        return ActivityLog::query()
+            ->where('campaign_id', $this->campaign->id)
+            ->where('subject_type', 'grant')
+            ->where(fn ($q) => $q
+                ->whereRaw("(diff->'character'->>'new')::bigint = ?", [$this->character->id])
+                ->orWhereRaw("(diff->'character'->>'old')::bigint = ?", [$this->character->id]))
+            ->latest('id')
+            ->limit(30)
+            ->get();
+    }
+
+    public function saveNote(): void
+    {
+        abort_unless($this->isOwner, 403);
+
+        $this->validate([
+            'noteBody' => ['required', 'string', 'max:20000'],
+            'noteVisibility' => [ValidationRule::in(array_keys(CharacterNote::VISIBILITIES))],
+            'noteShares' => [ValidationRule::requiredIf($this->noteVisibility === 'players'), 'array'],
+            'noteShares.*' => [ValidationRule::in($this->companions->modelKeys())],
+        ], ['noteShares.required' => 'Choisissez au moins un personnage.'], ['noteBody' => 'note']);
+
+        $note = $this->editingNoteId
+            ? $this->character->notes()->where('user_id', auth()->id())->findOrFail($this->editingNoteId)
+            : new CharacterNote(['visibility' => 'gm']);
+
+        $note->fill(['body' => trim($this->noteBody), 'visibility' => $this->noteVisibility]);
+
+        if (! $note->exists) {
+            $note->character()->associate($this->character);
+            $note->author()->associate(auth()->user());
+            $note->playSession()->associate($this->campaign->openSession());
+        }
+
+        $note->save();
+        $note->sharedWith()->sync($this->noteVisibility === 'players' ? array_map('intval', $this->noteShares) : []);
+
+        $this->cancelNote();
+    }
+
+    public function editNote(int $noteId): void
+    {
+        abort_unless($this->isOwner, 403);
+
+        $note = $this->character->notes()->where('user_id', auth()->id())->findOrFail($noteId);
+        $this->editingNoteId = $note->id;
+        $this->noteBody = $note->body;
+        $this->noteVisibility = $note->visibility;
+        $this->noteShares = $note->sharedWith()->pluck('player_characters.id')->all();
+    }
+
+    public function cancelNote(): void
+    {
+        $this->resetValidation();
+        $this->reset(['editingNoteId', 'noteBody', 'noteVisibility', 'noteShares']);
+        unset($this->notes);
+    }
+
+    public function deleteNote(int $noteId): void
+    {
+        abort_unless($this->isOwner, 403);
+
+        $this->character->notes()->where('user_id', auth()->id())->findOrFail($noteId)->delete();
+        unset($this->notes);
+    }
+
+    /** Intention du joueur ou demande de règle : elle arrive dans « À jouer » du MJ. */
+    public function addIntention(): void
+    {
+        abort_unless($this->isOwner, 403);
+
+        $this->validate([
+            'intentionBody' => [ValidationRule::requiredIf($this->intentionRuleId === ''), 'nullable', 'string', 'max:450'],
+            'intentionRuleId' => ['nullable', ValidationRule::in($this->publicRules->modelKeys())],
+        ], ['intentionBody.required' => 'Écrivez ce que vous voulez tenter, ou choisissez une règle.'], ['intentionBody' => 'intention']);
+
+        $rule = $this->intentionRuleId === '' ? null : $this->publicRules->find((int) $this->intentionRuleId);
+        $body = trim($this->intentionBody) ?: 'Demande à tester la règle « '.$rule->title.' »';
+
+        $item = new ToPlayItem(['body' => mb_substr($body, 0, 500), 'position' => (int) $this->campaign->toPlayItems()->max('position') + 1]);
+        $item->campaign()->associate($this->campaign);
+        $item->character()->associate($this->character);
+        $item->rule()->associate($rule);
+        $item->save();
+
+        $this->reset(['intentionBody', 'intentionRuleId']);
+        unset($this->intentions);
     }
 
     #[Computed]

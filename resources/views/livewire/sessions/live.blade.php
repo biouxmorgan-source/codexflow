@@ -185,6 +185,9 @@
                                     @else
                                         {{ $item->body }}
                                     @endif
+                                    @if ($item->character)
+                                        <span class="block text-xs font-medium text-flow">Demandé par {{ $item->character->entity->name }}</span>
+                                    @endif
                                     @if ($item->scene)
                                         <span class="block text-xs text-stone-500">{{ $item->scene->name }}</span>
                                     @endif
@@ -206,6 +209,9 @@
                         </div>
                     </form>
                 </section>
+
+                {{-- Révéler une information ou donner un objet en pleine partie. --}}
+                <livewire:characters.give :campaign="$campaign" key="give-session" />
 
                 {{-- Épinglé --}}
                 <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">

@@ -212,6 +212,10 @@ class ActivityLog extends Model
             return ['Scénario', fn (mixed $value) => $value ? (string) Scenario::find($value)?->name : ''];
         }
 
+        if ($key === 'character') {
+            return ['Personnage', fn (mixed $value) => $value ? (string) PlayerCharacter::with('entity')->find($value)?->entity?->name : ''];
+        }
+
         if ($key === 'kind' && $this->subject_type === 'grant') {
             return ['Nature', fn (mixed $value) => CharacterGrant::KINDS[$value] ?? $plain($value)];
         }
