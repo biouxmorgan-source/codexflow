@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.9.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Portarsi via la campagna',
+        'items' => [
+            'Esportare un’intera campagna in un archivio .zip: gioco, mondo, schede, scenari, documenti, mappe, segreti, cronologia e file.',
+            'Importare un archivio da «Le mie campagne»: ricrea la campagna, da te o da un altro master.',
+            'Modelli di gioco condivisibili: tipi di scheda, campi, etichette e regole, senza contenuti di campagna.',
+        ],
+    ],
+
     '0.8.0' => [
         'date' => '2026-10-11',
         'title' => 'Il grafo e la cronologia',

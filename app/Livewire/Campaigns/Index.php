@@ -5,14 +5,25 @@ namespace App\Livewire\Campaigns;
 use App\Actions\Campaigns\CreateCampaign;
 use App\Actions\Duplication\DuplicateCampaign;
 use App\Models\Campaign;
+use App\Support\Archive\ArchiveException;
+use App\Support\Archive\CampaignImport;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\WithFileUploads;
 
 class Index extends Component
 {
+    use WithFileUploads;
+
     public bool $creating = false;
+
+    public bool $importing = false;
+
+    /** Archive .zip exportée depuis CodexFlow. */
+    public ?TemporaryUploadedFile $archive = null;
 
     public string $name = '';
 
@@ -106,6 +117,44 @@ class Index extends Component
 
         session()->now('status', __('Campagne dupliquée : « :name ».', ['name' => $copy->name]));
         unset($this->campaigns);
+    }
+
+    /** Limite réelle du serveur, en kilo-octets : au-delà, le fichier n'arrive même pas à Livewire. */
+    #[Computed]
+    public function maxArchiveSize(): int
+    {
+        $bytes = fn (string $key) => match (true) {
+            ($value = ini_get($key)) === false || $value === '' => PHP_INT_MAX,
+            default => (int) $value * match (strtolower(substr($value, -1))) {
+                'g' => 1024 ** 3,
+                'm' => 1024 ** 2,
+                'k' => 1024,
+                default => 1,
+            },
+        };
+
+        return (int) (min($bytes('upload_max_filesize'), $bytes('post_max_size'), 512 * 1024 * 1024) / 1024);
+    }
+
+    public function importArchive(): void
+    {
+        $this->validate(
+            ['archive' => ['required', 'file', 'mimes:zip', 'max:'.$this->maxArchiveSize]],
+            attributes: ['archive' => __('archive')],
+        );
+
+        try {
+            $campaign = (new CampaignImport(auth()->user()))->handle($this->archive->getRealPath());
+        } catch (ArchiveException $e) {
+            $this->addError('archive', $e->getMessage());
+
+            return;
+        }
+
+        $this->archive->delete();
+        $this->reset('importing', 'archive');
+        session()->flash('status', __('Campagne importée : « :name ».', ['name' => $campaign->name]));
+        $this->redirectRoute('campaigns.show', $campaign, navigate: true);
     }
 
     public function render()

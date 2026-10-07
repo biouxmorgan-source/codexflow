@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.9.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Taking your campaign with you',
+        'items' => [
+            'Export a whole campaign as a .zip archive: game, world, entries, scenarios, documents, maps, secrets, timeline and files.',
+            'Import an archive from “My campaigns”: it recreates the campaign, for you or for another GM.',
+            'Shareable game templates: entry types, fields, tags and rules, without any campaign content.',
+        ],
+    ],
+
     '0.8.0' => [
         'date' => '2026-10-11',
         'title' => 'The graph and the timeline',

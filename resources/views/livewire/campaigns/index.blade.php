@@ -4,10 +4,31 @@
             <h1 class="text-2xl font-semibold">{{ __('Mes campagnes') }}</h1>
             <p class="mt-1 text-sm text-stone-600">{{ __('Cliquez sur une campagne pour ouvrir ses fiches, ses scénarios et le mode Session.') }}</p>
         </div>
-        @unless ($creating)
-            <button type="button" wire:click="$set('creating', true)" class="btn-primary">{{ __('Nouvelle campagne') }}</button>
+        @unless ($creating || $importing)
+            <div class="flex flex-wrap gap-2">
+                <button type="button" wire:click="$set('importing', true)" class="btn-secondary">{{ __('Importer une campagne') }}</button>
+                <button type="button" wire:click="$set('creating', true)" class="btn-primary">{{ __('Nouvelle campagne') }}</button>
+            </div>
         @endunless
     </div>
+
+    @if ($importing)
+        <form wire:submit="importArchive" class="mb-8 space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+            <h2 class="text-lg font-semibold">{{ __('Importer une campagne') }}</h2>
+            <p class="text-sm text-stone-600">{{ __('Choisissez une archive .zip téléchargée depuis « Exporter la campagne ». Elle crée une nouvelle campagne, avec son propre jeu et son propre monde, dont vous êtes le MJ.') }}</p>
+            <div>
+                <label for="archive" class="label">{{ __('Archive') }}</label>
+                <input id="archive" type="file" wire:model="archive" accept=".zip,application/zip" class="block w-full text-sm">
+                <p wire:loading wire:target="archive" class="mt-1 text-sm text-stone-500">{{ __('Envoi du fichier…') }}</p>
+                <p class="mt-1 text-xs text-stone-500">{{ __('Taille maximale acceptée par ce serveur : :size Mo.', ['size' => floor($this->maxArchiveSize / 1024)]) }}</p>
+                @error('archive') <p class="error">{{ $message }}</p> @enderror
+            </div>
+            <div class="flex gap-2">
+                <button type="submit" class="btn-primary" wire:loading.attr="disabled" wire:target="archive,importArchive">{{ __('Importer') }}</button>
+                <button type="button" wire:click="$set('importing', false)" class="btn-secondary">{{ __('Annuler') }}</button>
+            </div>
+        </form>
+    @endif
 
     @if (session('status'))
         <p class="mb-6 rounded-md bg-codex-soft px-3 py-2 text-sm text-codex">{{ session('status') }}</p>

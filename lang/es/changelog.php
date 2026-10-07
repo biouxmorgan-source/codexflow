@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.9.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Llevarse la campaña',
+        'items' => [
+            'Exportar una campaña entera en un archivo .zip: juego, mundo, fichas, escenarios, documentos, mapas, secretos, cronología y archivos.',
+            'Importar un archivo desde «Mis campañas»: recrea la campaña, para ti o para otro DJ.',
+            'Plantillas de juego compartibles: tipos de ficha, campos, etiquetas y reglas, sin contenido de campaña.',
+        ],
+    ],
+
     '0.8.0' => [
         'date' => '2026-10-11',
         'title' => 'El grafo y la cronología',

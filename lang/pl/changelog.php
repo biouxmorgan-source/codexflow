@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.9.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Zabrać kampanię ze sobą',
+        'items' => [
+            'Eksport całej kampanii do archiwum .zip: gra, świat, karty, scenariusze, dokumenty, mapy, sekrety, oś czasu i pliki.',
+            'Import archiwum z „Moich kampanii”: odtwarza kampanię, u ciebie lub u innego MG.',
+            'Szablony gry do udostępnienia: typy kart, pola, etykiety i zasady, bez treści kampanii.',
+        ],
+    ],
+
     '0.8.0' => [
         'date' => '2026-10-11',
         'title' => 'Graf i oś czasu',
