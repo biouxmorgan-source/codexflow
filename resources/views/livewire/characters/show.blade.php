@@ -167,7 +167,7 @@
             @endif
         </section>
 
-        <section class="lg:col-span-3">
+        <section class="space-y-6 lg:col-span-3">
             <div class="rounded-xl border border-stone-200 bg-white shadow-sm">
                 <div class="flex items-center justify-between gap-3 px-4 py-3">
                     <h2 class="font-semibold">Feuille de personnage</h2>
@@ -179,6 +179,125 @@
                     <iframe src="{{ route('characters.sheet', [$campaign, $character]) }}" title="Feuille de {{ $entity->name }}" class="h-[75vh] w-full rounded-b-xl border-t border-stone-200"></iframe>
                 @else
                     <p class="border-t border-stone-100 px-4 py-6 text-sm text-stone-600">Le MJ n'a pas encore joint de feuille PDF.</p>
+                @endif
+            </div>
+
+            {{-- Notes : celles du joueur et celles qu'on a partagées avec lui. --}}
+            <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-1 font-semibold">Notes</h2>
+                @if ($this->isOwner)
+                    <form wire:submit="saveNote" class="mb-4 space-y-3">
+                        <label for="noteBody" class="sr-only">Note</label>
+                        <textarea id="noteBody" wire:model="noteBody" rows="3" class="field" placeholder="Ce qui s'est passé, ce que vous soupçonnez… Citez une fiche connue avec [[Nom]]."></textarea>
+                        @error('noteBody') <p class="error">{{ $message }}</p> @enderror
+                        <fieldset>
+                            <legend class="label">Qui peut la lire ?</legend>
+                            <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                                @foreach (\App\Models\CharacterNote::VISIBILITIES as $value => $label)
+                                    @continue($value === 'players' && $this->companions->isEmpty())
+                                    <label class="flex items-center gap-2"><input type="radio" wire:model.live="noteVisibility" value="{{ $value }}"> {{ $label }}</label>
+                                @endforeach
+                            </div>
+                        </fieldset>
+                        @if ($noteVisibility === 'players')
+                            <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                                @foreach ($this->companions as $companion)
+                                    <label wire:key="share-{{ $companion->id }}" class="flex items-center gap-2"><input type="checkbox" wire:model="noteShares" value="{{ $companion->id }}"> {{ $companion->entity->name }} <span class="text-xs text-stone-500">{{ $companion->player?->name }}</span></label>
+                                @endforeach
+                            </div>
+                            @error('noteShares') <p class="error">{{ $message }}</p> @enderror
+                        @endif
+                        @if ($noteVisibility === 'private')
+                            <p class="text-sm font-medium text-flow">Note privée : personne d'autre, pas même le MJ, ne pourra la lire.</p>
+                        @endif
+                        <div class="flex gap-3">
+                            <button type="submit" class="btn-primary">{{ $editingNoteId ? 'Enregistrer' : 'Ajouter la note' }}</button>
+                            @if ($editingNoteId)
+                                <button type="button" wire:click="cancelNote" class="btn-secondary">Annuler</button>
+                            @endif
+                        </div>
+                    </form>
+                @endif
+
+                @if ($this->notes->isEmpty())
+                    <p class="text-sm text-stone-600">Aucune note pour l'instant.</p>
+                @else
+                    <ul class="space-y-3">
+                        @foreach ($this->notes as $note)
+                            <li wire:key="note-{{ $note->id }}" @class(['rounded-lg border p-3', 'border-flow/40 bg-flow/5' => $note->visibility === 'private', 'border-stone-200' => $note->visibility !== 'private'])>
+                                <div class="mb-1 flex flex-wrap items-baseline gap-x-2 text-xs text-stone-500">
+                                    <span class="font-medium text-ink">{{ $note->character->entity->name }}</span>
+                                    <span>{{ $note->created_at->locale('fr')->isoFormat('D MMM YYYY, HH:mm') }}</span>
+                                    @if ($note->playSession)
+                                        <span>· séance du {{ $note->playSession->started_at?->locale('fr')->isoFormat('D MMM') }}</span>
+                                    @endif
+                                    <span @class(['rounded-full px-1.5 py-0.5 font-medium', 'bg-flow/10 text-flow' => $note->visibility === 'private', 'bg-stone-100 text-stone-600' => $note->visibility !== 'private'])>
+                                        {{ $note->visibility === 'players' ? 'Partagée avec '.$note->sharedWith->map(fn ($c) => $c->entity->name)->implode(', ') : $note->visibilityLabel() }}
+                                    </span>
+                                    @if ($this->isOwner && $note->user_id === auth()->id())
+                                        <span class="ml-auto flex gap-3">
+                                            <button type="button" wire:click="editNote({{ $note->id }})" class="link">Modifier</button>
+                                            <button type="button" wire:click="deleteNote({{ $note->id }})" wire:confirm="Supprimer cette note ?" class="text-red-700 hover:underline">Supprimer</button>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="text-sm text-stone-700">{{ \App\Support\EntityLinks::render($note->body, $campaign, $this->knownLink(...)) }}</div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+
+            {{-- Intentions : ce que le joueur veut tenter ; elles arrivent dans « À jouer » du MJ. --}}
+            <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-1 font-semibold">À jouer</h2>
+                <p class="mb-3 text-sm text-stone-600">{{ $this->isOwner ? 'Dites au MJ ce que vous voulez tenter, ou demandez à tester une règle : il le verra pendant la partie.' : 'Les intentions de ce personnage.' }}</p>
+                @if ($this->isOwner)
+                    <form wire:submit="addIntention" class="mb-4 space-y-3">
+                        <label for="intentionBody" class="sr-only">Intention</label>
+                        <input id="intentionBody" type="text" wire:model="intentionBody" class="field" placeholder="Fouiller le bureau de Jackson…">
+                        @error('intentionBody') <p class="error">{{ $message }}</p> @enderror
+                        @if ($this->publicRules->isNotEmpty())
+                            <label for="intentionRuleId" class="sr-only">Règle à tester</label>
+                            <select id="intentionRuleId" wire:model="intentionRuleId" class="field">
+                                <option value="">Aucune règle</option>
+                                @foreach ($this->publicRules as $rule)
+                                    <option value="{{ $rule->id }}">Tester : {{ $rule->title }}</option>
+                                @endforeach
+                            </select>
+                        @endif
+                        <button type="submit" class="btn-secondary">Envoyer au MJ</button>
+                    </form>
+                @endif
+                @if ($this->intentions->isEmpty())
+                    <p class="text-sm text-stone-600">Aucune intention pour l'instant.</p>
+                @else
+                    <ul class="space-y-1 text-sm">
+                        @foreach ($this->intentions as $intention)
+                            <li wire:key="intention-{{ $intention->id }}" class="flex items-baseline gap-2">
+                                <span @class(['line-through text-stone-400' => $intention->done_at])>{{ $intention->body }}</span>
+                                <span class="ml-auto shrink-0 text-xs {{ $intention->done_at ? 'text-green-800' : 'text-stone-500' }}">{{ $intention->done_at ? 'jouée' : 'en attente' }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+
+            {{-- Journal du personnage : seulement ce qui le concerne. --}}
+            <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-2 font-semibold">Journal</h2>
+                @if ($this->journal->isEmpty())
+                    <p class="text-sm text-stone-600">Rien pour l'instant.</p>
+                @else
+                    <ol class="space-y-1 text-sm">
+                        @foreach ($this->journal as $event)
+                            <li wire:key="journal-{{ $event->id }}" class="flex flex-wrap gap-x-2">
+                                <span class="text-stone-500">{{ $event->created_at->locale('fr')->isoFormat('D MMM, HH:mm') }}</span>
+                                <span>Le MJ {{ $event->verb() }} {{ mb_strtolower($event->subjectName()) }}</span>
+                                <span class="font-medium">{{ \Illuminate\Support\Str::beforeLast($event->subject_label, ' à '.$entity->name) }}</span>
+                            </li>
+                        @endforeach
+                    </ol>
                 @endif
             </div>
         </section>

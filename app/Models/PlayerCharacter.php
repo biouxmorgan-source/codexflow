@@ -57,6 +57,18 @@ class PlayerCharacter extends Model
         return $this->hasMany(CharacterGrant::class)->latest('id');
     }
 
+    /** @return HasMany<CharacterNote, $this> */
+    public function notes(): HasMany
+    {
+        return $this->hasMany(CharacterNote::class);
+    }
+
+    /** @return HasMany<ToPlayItem, $this> intentions du joueur */
+    public function intentions(): HasMany
+    {
+        return $this->hasMany(ToPlayItem::class);
+    }
+
     /** Le joueur connaît-il cette fiche (la sienne ou une fiche révélée) ? */
     public function knows(Entity $entity): bool
     {

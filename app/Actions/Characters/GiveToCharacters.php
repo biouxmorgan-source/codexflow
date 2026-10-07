@@ -78,6 +78,8 @@ class GiveToCharacters
     {
         $values = array_filter([
             'kind' => $grant->kind,
+            // Sert au journal du joueur : il n'y voit que ce qui concerne son personnage.
+            'character' => $character->id,
             'body' => $grant->body,
             'quantity' => $grant->quantity,
         ], fn ($value) => $value !== null);
