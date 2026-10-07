@@ -44,6 +44,7 @@ class ActivityLog extends Model
         'zone' => 'Zone', 'group' => 'Groupe', 'type' => 'Type', 'options' => 'Choix', 'original_name' => 'Fichier',
         'image_path' => 'Image', 'scenario_id' => 'Scénario', 'world_id' => 'Monde', 'campaign_id' => 'Campagne',
         'role' => 'Rôle', 'character' => 'Personnage', 'kind' => 'Nature', 'body' => 'Texte', 'quantity' => 'Quantité', 'player_editable' => 'Modifiable par le joueur',
+        'added_by_player' => 'Ajouté par le joueur', 'validated' => 'Validé par le MJ',
     ];
 
     private static ?string $batch = null;
@@ -125,6 +126,12 @@ class ActivityLog extends Model
         return $this->subject_type === 'grant' && isset($this->diff['character']['old'], $this->diff['character']['new']);
     }
 
+    /** Connaissance notée ou objet ajouté par le joueur lui-même, ou validation par le MJ. */
+    public function isPlayerAddition(): bool
+    {
+        return $this->subject_type === 'grant' && isset($this->diff['added_by_player']);
+    }
+
     /** « Objet transmis », « Information transmise »… pour le journal d'un personnage. */
     public function exchangeTitle(): string
     {
@@ -140,6 +147,11 @@ class ActivityLog extends Model
 
             return match (true) {
                 $this->isExchange() => $kind === 'possession' ? 'a donné' : 'a transmis',
+                $this->isPlayerAddition() => match ($this->event) {
+                    'deleted' => 'a effacé',
+                    'updated' => 'a validé',
+                    default => $kind === 'possession' ? 'a ajouté' : 'a noté',
+                },
                 $this->event === 'deleted' => in_array($kind, ['entity', 'rule'], true) ? 'a caché' : 'a repris',
                 in_array($kind, ['entity', 'information', 'rule'], true) => 'a révélé',
                 default => 'a donné',

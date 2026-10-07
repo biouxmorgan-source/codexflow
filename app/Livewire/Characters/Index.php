@@ -47,6 +47,8 @@ class Index extends Component
     {
         return $this->campaign->playerCharacters()
             ->with(['entity', 'player'])
+            // Objets ajoutés par les joueurs, que le MJ n'a pas encore validés.
+            ->withCount(['grants as pending_count' => fn ($q) => $q->where('kind', 'possession')->where('added_by_player', true)->whereNull('validated_at')])
             ->get()
             ->sortBy(fn (PlayerCharacter $character) => [$character->is_active ? 0 : 1, mb_strtolower($character->entity->name)])
             ->values();

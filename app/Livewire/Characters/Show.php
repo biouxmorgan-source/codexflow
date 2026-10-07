@@ -4,6 +4,7 @@ namespace App\Livewire\Characters;
 
 use App\Actions\Characters\ExchangeGrant;
 use App\Actions\Characters\GiveToCharacters;
+use App\Actions\Characters\PlayerAdditions;
 use App\Enums\FieldType;
 use App\Enums\Zone;
 use App\Models\ActivityLog;
@@ -60,6 +61,15 @@ class Show extends Component
     public int $exchangeQuantity = 1;
 
     public string $flashExchange = '';
+
+    /** Ajout par le joueur en cours : information ou possession ('' = formulaire fermé). */
+    public string $addKind = '';
+
+    public string $addTitle = '';
+
+    public string $addBody = '';
+
+    public int $addQuantity = 1;
 
     public function mount(Campaign $campaign, PlayerCharacter $character): void
     {
@@ -140,6 +150,56 @@ class Show extends Component
 
         $this->exchangeGrantId = null;
         $this->flashExchange = ($grant->kind === 'possession' ? 'Donné à ' : 'Transmis à ').$to->entity->name.'.';
+        unset($this->grants, $this->journal);
+    }
+
+    /** Le joueur note lui-même sur sa fiche : fiche non verrouillée. */
+    #[Computed]
+    public function canAdd(): bool
+    {
+        return $this->isOwner && ! $this->character->locked;
+    }
+
+    public function openAdd(string $kind): void
+    {
+        abort_unless($this->canAdd && in_array($kind, ['', ...PlayerAdditions::KINDS], true), 403);
+
+        $this->addKind = $kind;
+        $this->reset('addTitle', 'addBody', 'addQuantity');
+        $this->resetValidation();
+    }
+
+    public function addOwn(): void
+    {
+        abort_unless($this->canAdd && in_array($this->addKind, PlayerAdditions::KINDS, true), 403);
+
+        $this->validate([
+            'addTitle' => ['required', 'string', 'max:200'],
+            'addBody' => ['nullable', 'string', 'max:5000'],
+            'addQuantity' => ['integer', 'min:1', 'max:1000000'],
+        ], attributes: ['addTitle' => $this->addKind === 'possession' ? 'objet' : 'titre', 'addBody' => 'détail', 'addQuantity' => 'quantité']);
+
+        app(PlayerAdditions::class)->add($this->character, $this->addKind, $this->addTitle, $this->addBody, $this->addQuantity);
+
+        $this->openAdd('');
+        unset($this->grants, $this->journal);
+    }
+
+    /** Le joueur efface ce qu'il avait noté lui-même. */
+    public function removeOwn(int $grantId): void
+    {
+        abort_unless($this->canAdd, 403);
+
+        app(PlayerAdditions::class)->remove($this->character->grants()->findOrFail($grantId));
+        unset($this->grants, $this->journal);
+    }
+
+    /** Le MJ valide un objet ajouté par le joueur. */
+    public function validateGrant(int $grantId): void
+    {
+        abort_unless($this->isGameMaster, 403);
+
+        app(PlayerAdditions::class)->validate($this->character->grants()->findOrFail($grantId));
         unset($this->grants, $this->journal);
     }
 

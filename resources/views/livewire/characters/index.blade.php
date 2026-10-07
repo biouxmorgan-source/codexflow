@@ -36,6 +36,7 @@
                                         {{ $character->player?->name ?? 'Sans joueur' }}
                                         · {{ $character->is_active ? 'actif' : 'au repos' }}
                                         @if ($character->locked) · <span class="font-medium text-flow">fiche verrouillée</span> @endif
+                                        @if ($character->pending_count > 0) · <a href="{{ route('characters.show', [$campaign, $character]) }}#section-possession" class="font-medium text-flow hover:underline" wire:navigate>{{ $character->pending_count }} objet{{ $character->pending_count > 1 ? 's' : '' }} à valider</a> @endif
                                     </p>
                                 </div>
                                 <a href="{{ route('entities.edit', [$campaign, $entity]) }}" class="btn-secondary" wire:navigate>Modifier la fiche</a>
