@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.4.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Ayuda e informes de problemas',
+        'items' => [
+            'Una página «Ayuda» responde a las preguntas más frecuentes, tanto para el DJ como para los jugadores.',
+            '«Informar de un problema», al pie de cada página, envía tu mensaje al equipo junto con la página afectada.',
+        ],
+    ],
+
     '0.4.0' => [
         'date' => '2026-10-08',
         'title' => 'Todos los idiomas',

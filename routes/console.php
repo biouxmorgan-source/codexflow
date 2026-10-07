@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Support\Locale;
 use App\Support\TranslationKeys;
 use Illuminate\Foundation\Inspiring;
@@ -21,3 +22,16 @@ Artisan::command('lang:missing {locale?}', function (?string $locale = null) {
         }
     }
 })->purpose('Liste les textes de l\'interface sans traduction');
+
+Artisan::command('codexflow:admin {email} {--remove}', function (string $email) {
+    $user = User::where('email', $email)->first();
+
+    if ($user === null) {
+        $this->error('Aucun compte avec cette adresse.');
+
+        return 1;
+    }
+
+    $user->forceFill(['is_admin' => ! $this->option('remove')])->save();
+    $this->info($user->is_admin ? $user->name.' administre CodexFlow.' : $user->name.' n\'administre plus CodexFlow.');
+})->purpose('Donne (ou retire avec --remove) le rôle d\'administrateur à un compte');

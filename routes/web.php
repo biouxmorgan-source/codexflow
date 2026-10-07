@@ -9,6 +9,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\TableScreenController;
 use App\Livewire\Account\Preferences;
+use App\Livewire\Admin\BugReports;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
@@ -33,6 +34,7 @@ use App\Livewire\Scenes\Show as SceneShow;
 use App\Livewire\Search\Index as SearchIndex;
 use App\Livewire\Sessions\Live as SessionLive;
 use App\Livewire\Sessions\Show as SessionShow;
+use App\Livewire\Support\ReportBug;
 use App\Livewire\Table\Screen as TableScreen;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/preferences', Preferences::class)->name('preferences');
     Route::view('/quoi-de-neuf', 'pages.changelog')->name('changelog');
     Route::view('/configuration-recommandee', 'pages.recommended')->name('recommended');
+    Route::view('/aide', 'pages.help')->name('help');
+    Route::livewire('/signaler-un-probleme', ReportBug::class)->name('bugs.create');
+    Route::livewire('/problemes-signales', BugReports::class)->name('bugs.index');
     Route::post('/push/abonnement', [PushSubscriptionController::class, 'store'])->name('push.store');
     Route::delete('/push/abonnement', [PushSubscriptionController::class, 'destroy'])->name('push.destroy');
     Route::livewire('/notifications', NotificationIndex::class)->name('notifications.index');

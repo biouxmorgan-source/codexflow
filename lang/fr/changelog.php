@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.4.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Aide et signalements',
+        'items' => [
+            'Une page « Aide » répond aux questions les plus fréquentes, pour le MJ comme pour les joueurs.',
+            '« Signaler un problème », en bas de chaque page, envoie votre message à l\'équipe avec la page concernée.',
+        ],
+    ],
+
     '0.4.0' => [
         'date' => '2026-10-08',
         'title' => 'Toutes les langues',

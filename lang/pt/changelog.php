@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.4.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Ajuda e relatos de problemas',
+        'items' => [
+            'Uma página «Ajuda» responde às perguntas mais frequentes, para o Mestre e para os jogadores.',
+            '«Relatar um problema», no rodapé de cada página, envia sua mensagem à equipe junto com a página em questão.',
+        ],
+    ],
+
     '0.4.0' => [
         'date' => '2026-10-08',
         'title' => 'Todos os idiomas',

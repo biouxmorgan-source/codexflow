@@ -32,6 +32,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'preferences' => 'array',
+            'is_admin' => 'boolean',
         ];
     }
 
@@ -40,6 +41,11 @@ class User extends Authenticatable
         // Un nouveau compte n'a pas besoin de « Quoi de neuf » : il découvre tout.
         static::creating(function (User $user) {
             $user->last_seen_version ??= config('codexflow.version');
+
+            // Le premier compte d'une installation l'administre (problèmes signalés).
+            if (! static::query()->exists()) {
+                $user->is_admin = true;
+            }
         });
     }
 
