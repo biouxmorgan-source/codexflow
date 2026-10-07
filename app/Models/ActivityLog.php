@@ -119,12 +119,27 @@ class ActivityLog extends Model
         return self::SUBJECTS[$this->subject_type] ?? $this->subject_type;
     }
 
+    /** Échange entre deux personnages (et non don du MJ) : « Lampe de Harvey à Jack ». */
+    public function isExchange(): bool
+    {
+        return $this->subject_type === 'grant' && isset($this->diff['character']['old'], $this->diff['character']['new']);
+    }
+
+    /** « Objet transmis », « Information transmise »… pour le journal d'un personnage. */
+    public function exchangeTitle(): string
+    {
+        $kind = $this->diff['kind']['new'] ?? null;
+
+        return $this->subjectName().(in_array($kind, ['entity', 'information', 'rule'], true) ? ' transmise' : ' transmis');
+    }
+
     public function verb(): string
     {
         if ($this->subject_type === 'grant') {
             $kind = $this->diff['kind']['new'] ?? $this->diff['kind']['old'] ?? null;
 
             return match (true) {
+                $this->isExchange() => $kind === 'possession' ? 'a donné' : 'a transmis',
                 $this->event === 'deleted' => in_array($kind, ['entity', 'rule'], true) ? 'a caché' : 'a repris',
                 in_array($kind, ['entity', 'information', 'rule'], true) => 'a révélé',
                 default => 'a donné',

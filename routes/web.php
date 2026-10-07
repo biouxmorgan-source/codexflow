@@ -7,6 +7,7 @@ use App\Http\Controllers\ImportExampleController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PushSubscriptionController;
+use App\Http\Controllers\TableScreenController;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
@@ -58,6 +59,8 @@ Route::middleware('auth')->group(function () {
 
     Route::livewire('/campagnes/{campaign}/session', SessionLive::class)->name('sessions.live')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/ecran-de-table', TableScreen::class)->name('table.screen')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/ecran-de-table/fichier', [TableScreenController::class, 'file'])->name('table.file')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/ecran-de-table/image', [TableScreenController::class, 'image'])->name('table.image')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 
     Route::livewire('/campagnes/{campaign}/regles', RuleIndex::class)->name('rules.index')->whereNumber('campaign');

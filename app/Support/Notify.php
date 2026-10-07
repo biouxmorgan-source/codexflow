@@ -70,6 +70,32 @@ class Notify
         self::player($character, 'grant', $text, $url);
     }
 
+    /** Un personnage donne ou transmet quelque chose à un autre : son joueur et le MJ sont prévenus. */
+    public static function exchange(CharacterGrant $grant, string $label, PlayerCharacter $from, PlayerCharacter $to): void
+    {
+        $campaign = $to->campaign;
+        $label = '« '.$label.' »';
+        $sheet = route('characters.show', [$campaign, $to]);
+        $verb = match ($grant->kind) {
+            'possession' => 'donné '.$label,
+            'entity' => 'montré la fiche '.$label,
+            'document' => 'transmis le document '.$label,
+            'rule' => 'expliqué la règle '.$label,
+            default => 'confié une information : '.$label,
+        };
+
+        $url = match ($grant->kind) {
+            'entity' => route('characters.entity', [$campaign, $to, $grant->entity_id]),
+            'document' => route('characters.document', [$campaign, $to, $grant->document_id]),
+            'possession' => $sheet.'#section-possession',
+            'rule' => $sheet.'#section-rule',
+            default => $sheet.'#section-knowledge',
+        };
+
+        self::player($to, 'grant', $from->entity->name.' vous a '.$verb.'.', $url);
+        self::gameMasters($campaign, 'grant', $from->entity->name.' a '.$verb.' à '.$to->entity->name.'.', $sheet, $to);
+    }
+
     public static function excerpt(string $text, int $length = 120): string
     {
         $text = trim(preg_replace('/\s+/u', ' ', $text));

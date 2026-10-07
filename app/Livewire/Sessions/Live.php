@@ -331,6 +331,13 @@ class Live extends Component
         unset($this->tableLabel);
     }
 
+    public function toggleTableShare(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableDisplay::share($this->campaign, ! $this->campaign->table_shared);
+    }
+
     public function clearTable(): void
     {
         $this->authorize('update', $this->campaign);

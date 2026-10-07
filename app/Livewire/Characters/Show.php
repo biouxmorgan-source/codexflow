@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Characters;
 
+use App\Actions\Characters\ExchangeGrant;
 use App\Actions\Characters\GiveToCharacters;
 use App\Enums\FieldType;
 use App\Enums\Zone;
@@ -51,6 +52,15 @@ class Show extends Component
 
     public string $intentionRuleId = '';
 
+    /** Échange en cours : l'élément que le joueur donne, à qui, combien. */
+    public ?int $exchangeGrantId = null;
+
+    public string $exchangeTo = '';
+
+    public int $exchangeQuantity = 1;
+
+    public string $flashExchange = '';
+
     public function mount(Campaign $campaign, PlayerCharacter $character): void
     {
         abort_unless($character->campaign_id === $campaign->id, 404);
@@ -99,6 +109,45 @@ class Show extends Component
 
         GiveToCharacters::revoke($this->character->grants()->findOrFail($grantId));
         unset($this->grants);
+    }
+
+    /** Le joueur ouvre le formulaire « Donner » sous un élément. */
+    public function startExchange(?int $grantId): void
+    {
+        abort_unless($this->canExchange, 403);
+
+        $grant = $grantId ? $this->character->grants()->findOrFail($grantId) : null;
+        $this->exchangeGrantId = $grant?->id;
+        $this->exchangeTo = (string) ($this->companions->count() === 1 ? $this->companions->first()->id : '');
+        $this->exchangeQuantity = max(1, (int) $grant?->quantity);
+        $this->resetValidation();
+    }
+
+    /** Donne l'objet, ou transmet la connaissance, à un autre personnage. */
+    public function exchange(): void
+    {
+        abort_unless($this->canExchange, 403);
+
+        $this->validate([
+            'exchangeTo' => ['required', ValidationRule::in($this->companions->modelKeys())],
+            'exchangeQuantity' => ['integer', 'min:1'],
+        ], ['exchangeTo.required' => 'Choisissez un personnage.'], ['exchangeTo' => 'destinataire', 'exchangeQuantity' => 'quantité']);
+
+        $grant = $this->character->grants()->findOrFail($this->exchangeGrantId);
+        $to = $this->companions->firstWhere('id', (int) $this->exchangeTo);
+
+        app(ExchangeGrant::class)->handle($grant, $to, $grant->kind === 'possession' ? $this->exchangeQuantity : null);
+
+        $this->exchangeGrantId = null;
+        $this->flashExchange = ($grant->kind === 'possession' ? 'Donné à ' : 'Transmis à ').$to->entity->name.'.';
+        unset($this->grants, $this->journal);
+    }
+
+    /** Le joueur peut donner à un autre personnage : fiche non verrouillée, au moins un compagnon. */
+    #[Computed]
+    public function canExchange(): bool
+    {
+        return $this->isOwner && ! $this->character->locked && $this->companions->isNotEmpty();
     }
 
     /** Seul le joueur du personnage écrit ses notes et ses intentions. */

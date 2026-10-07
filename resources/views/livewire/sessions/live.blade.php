@@ -224,6 +224,10 @@
                         @endif
                     </p>
                     <p class="mt-1 text-xs text-stone-500">Ouvrez l'écran, glissez la fenêtre sur la télé ou le projecteur, puis « Plein écran ».</p>
+                    <label class="mt-2 flex items-center gap-2 text-sm">
+                        <input type="checkbox" wire:click="toggleTableShare" @checked($campaign->table_shared)>
+                        Partager avec les joueurs <span class="text-xs text-stone-500">(sur leur appareil)</span>
+                    </label>
 
                     <div class="mt-3 space-y-2">
                         @if ($this->tableDocuments->isNotEmpty())
