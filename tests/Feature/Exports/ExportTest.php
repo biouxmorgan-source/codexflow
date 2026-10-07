@@ -108,7 +108,7 @@ class ExportTest extends TestCase
         $this->actingAs($this->gm);
 
         $this->assertSame(
-            "\xEF\xBB\xBFNom;Groupe;Type;Zone;Choix;\"Type de fiche\"\n\"Dé de vie\";Caractéristiques;liste;MJ;d6|d8;Personnage\n",
+            "\xEF\xBB\xBFNom;Groupe;Type;Zone;Choix;\"Type de fiche\";\"Modifiable par le joueur\"\n\"Dé de vie\";Caractéristiques;liste;MJ;d6|d8;Personnage;non\n",
             $this->get(route('exports.download', [$this->campaign, 'champs']))->streamedContent(),
         );
 
