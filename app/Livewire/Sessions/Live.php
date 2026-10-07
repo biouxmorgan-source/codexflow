@@ -280,6 +280,12 @@ class Live extends Component
         unset($this->session, $this->scenes, $this->cards, $this->toPlay, $this->notes, $this->pastSessions);
     }
 
+    /** @return array<string, string> mises à jour en direct (Reverb) */
+    public function getListeners(): array
+    {
+        return ['echo-private:users.'.auth()->id().',.activity' => '$refresh'];
+    }
+
     public function render()
     {
         return view('livewire.sessions.live', [

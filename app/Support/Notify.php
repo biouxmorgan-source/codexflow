@@ -26,6 +26,7 @@ class Notify
         }
 
         $player->notify(new CampaignEvent($character->campaign, $kind, $text, $url, ['character_id' => $character->id]));
+        Live::user($player->id, $kind, $character->campaign_id);
     }
 
     /** Les MJ de la campagne, sauf celui qui agit. */
@@ -34,6 +35,7 @@ class Notify
         $gms = $campaign->members()->wherePivot('role', CampaignRole::GameMaster->value)->whereKeyNot(auth()->id() ?? 0)->get();
 
         Notification::send($gms, new CampaignEvent($campaign, $kind, $text, $url, $character ? ['character_id' => $character->id] : []));
+        $gms->each(fn (User $gm) => Live::user($gm->id, $kind, $campaign->id));
     }
 
     /** Tous les joueurs de la campagne, sauf celui qui agit. */
@@ -42,6 +44,7 @@ class Notify
         $players = $campaign->members()->wherePivot('role', CampaignRole::Player->value)->whereKeyNot(auth()->id() ?? 0)->get();
 
         Notification::send($players, new CampaignEvent($campaign, $kind, $text, $url));
+        $players->each(fn (User $player) => Live::user($player->id, $kind, $campaign->id));
     }
 
     /** Élément révélé, donné ou repris par le MJ. */
