@@ -18,7 +18,8 @@ class Screen extends Component
 
     public function mount(Campaign $campaign): void
     {
-        $this->authorize('update', $campaign);
+        // Le MJ l'affiche sur la télé ; chaque joueur peut aussi le suivre sur son appareil.
+        $this->authorize('view', $campaign);
     }
 
     /** @return array<string, string> mises à jour en direct (Reverb) */

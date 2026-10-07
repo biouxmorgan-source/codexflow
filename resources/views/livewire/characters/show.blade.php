@@ -43,6 +43,7 @@
                     <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-white">{{ $unread }} <span class="sr-only">non lus</span></span>
                 @endif
             </a>
+            <a href="{{ route('table.screen', $campaign) }}" target="codexflow-table" class="btn-secondary">Écran de table ↗</a>
         @endif
     </header>
 
@@ -175,15 +176,50 @@
                                         @endswitch
                                         <p class="text-xs text-stone-400">{{ $grant->created_at->locale('fr')->isoFormat('D MMM YYYY, HH:mm') }}</p>
                                     </div>
+                                    @if ($this->canExchange && $exchangeGrantId !== $grant->id)
+                                        <button type="button" wire:click="startExchange({{ $grant->id }})" class="shrink-0 text-xs text-codex hover:underline">{{ $grant->kind === 'possession' ? 'Donner' : 'Transmettre' }}</button>
+                                    @endif
                                     @if ($this->isGameMaster)
                                         <button type="button" wire:click="revoke({{ $grant->id }})" wire:confirm="{{ in_array($grant->kind, ['entity', 'rule'], true) ? 'Cacher à nouveau cet élément au personnage ?' : 'Retirer cet élément au personnage ?' }}" class="shrink-0 text-xs text-red-700 hover:underline">{{ in_array($grant->kind, ['entity', 'rule'], true) ? 'Cacher' : 'Retirer' }}</button>
                                     @endif
                                 </li>
+                                @if ($exchangeGrantId === $grant->id)
+                                    <li wire:key="exchange-{{ $grant->id }}">
+                                        <form wire:submit="exchange" class="flex flex-wrap items-end gap-2 rounded-lg bg-codex-soft p-3">
+                                            <div class="min-w-40 flex-1">
+                                                <label for="exchange-to" class="label">{{ $grant->kind === 'possession' ? 'Donner à' : 'Transmettre à' }}</label>
+                                                <select id="exchange-to" wire:model="exchangeTo" class="field py-1.5 text-sm">
+                                                    <option value="">Choisir…</option>
+                                                    @foreach ($this->companions as $companion)
+                                                        <option value="{{ $companion->id }}">{{ $companion->entity->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @if ($grant->kind === 'possession' && $grant->quantity > 1)
+                                                <div class="w-24">
+                                                    <label for="exchange-quantity" class="label">Combien</label>
+                                                    <input id="exchange-quantity" type="number" min="1" max="{{ $grant->quantity }}" wire:model="exchangeQuantity" class="field py-1.5 text-sm">
+                                                </div>
+                                            @endif
+                                            <button type="submit" class="btn-primary min-h-0 py-1.5 text-sm">{{ $grant->kind === 'possession' ? 'Donner' : 'Transmettre' }}</button>
+                                            <button type="button" wire:click="startExchange(null)" class="text-sm text-stone-600 hover:underline">Annuler</button>
+                                            <p class="w-full text-xs text-stone-600">
+                                                {{ $grant->kind === 'possession' ? "L'objet quitte votre fiche." : 'Vous gardez cette connaissance.' }} Le MJ en est informé.
+                                            </p>
+                                            @error('exchangeTo') <p class="error w-full">{{ $message }}</p> @enderror
+                                            @error('exchangeQuantity') <p class="error w-full">{{ $message }}</p> @enderror
+                                            @error('exchange') <p class="error w-full">{{ $message }}</p> @enderror
+                                        </form>
+                                    </li>
+                                @endif
                             @endforeach
                         </ul>
                     @endif
                 </div>
             @endforeach
+            @if ($flashExchange)
+                <p class="rounded-lg bg-green-50 px-4 py-2 text-sm text-green-800" role="status">{{ $flashExchange }}</p>
+            @endif
 
             @if ($this->isGameMaster)
                 <livewire:characters.give :campaign="$campaign" :character-id="$character->id" :key="'give-character-'.$character->id" />
@@ -316,8 +352,13 @@
                         @foreach ($this->journal as $event)
                             <li wire:key="journal-{{ $event->id }}" class="flex flex-wrap gap-x-2">
                                 <span class="text-stone-500">{{ $event->created_at->locale('fr')->isoFormat('D MMM, HH:mm') }}</span>
-                                <span>Le MJ {{ $event->verb() }} {{ mb_strtolower($event->subjectName()) }}</span>
-                                <span class="font-medium">{{ \Illuminate\Support\Str::beforeLast($event->subject_label, ' à '.$entity->name) }}</span>
+                                @if ($event->isExchange())
+                                    <span>{{ $event->exchangeTitle() }}</span>
+                                    <span class="font-medium">{{ $event->subject_label }}</span>
+                                @else
+                                    <span>Le MJ {{ $event->verb() }} {{ mb_strtolower($event->subjectName()) }}</span>
+                                    <span class="font-medium">{{ \Illuminate\Support\Str::beforeLast($event->subject_label, ' à '.$entity->name) }}</span>
+                                @endif
                             </li>
                         @endforeach
                     </ol>

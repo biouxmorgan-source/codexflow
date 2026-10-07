@@ -2,7 +2,6 @@
 
 namespace App\Support;
 
-use App\Enums\CampaignRole;
 use App\Enums\Zone;
 use App\Models\Campaign;
 use App\Models\Document;
@@ -89,7 +88,8 @@ class TableDisplay
     {
         $campaign->forceFill(['table_display' => $state === null ? null : $state + ['at' => now()->getTimestampMs()]])->save();
 
-        $campaign->members()->wherePivot('role', CampaignRole::GameMaster->value)->pluck('users.id')
+        // Tous les membres : le MJ sur la télé, les joueurs qui suivent sur leur appareil.
+        $campaign->members()->pluck('users.id')
             ->push($campaign->user_id)
             ->unique()
             ->each(fn (int $id) => Live::user($id, 'table', $campaign->id));

@@ -9,7 +9,9 @@ use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\User;
+use App\Support\TableDisplay;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -39,7 +41,7 @@ class TableScreenTest extends TestCase
         return $document;
     }
 
-    public function test_only_the_game_master_opens_the_table_screen(): void
+    public function test_members_follow_the_table_screen_and_only_the_game_master_drives_it(): void
     {
         $player = User::factory()->create();
         $this->campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);
@@ -50,7 +52,35 @@ class TableScreenTest extends TestCase
             ->assertSee('Plein écran')
             ->assertDontSee('Se déconnecter');
 
-        $this->actingAs($player)->get(route('table.screen', $this->campaign))->assertForbidden();
+        $this->actingAs($player)->get(route('table.screen', $this->campaign))->assertOk();
+        $this->actingAs(User::factory()->create())->get(route('table.screen', $this->campaign))->assertForbidden();
+
+        Livewire::actingAs($player)->test(Live::class, ['campaign' => $this->campaign])->assertForbidden();
+    }
+
+    public function test_a_player_gets_only_the_file_shown_right_now(): void
+    {
+        Storage::fake('local');
+        $player = User::factory()->create();
+        $this->campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);
+        $map = $this->document('Carte de Boston');
+        $secret = $this->document('Plan du repaire');
+        Storage::disk('local')->put($map->path, 'jpeg');
+
+        $this->actingAs($player)->get(route('table.file', $this->campaign))->assertNotFound();
+        $this->actingAs($player)->get(route('documents.file', $secret))->assertForbidden();
+
+        $this->actingAs($this->gm);
+        TableDisplay::showDocument($this->campaign, $map);
+
+        $this->actingAs($player)->get(route('table.file', $this->campaign))->assertOk()->assertHeader('Content-Type', 'image/jpeg');
+        Livewire::actingAs($player)->test(Screen::class, ['campaign' => $this->campaign])
+            ->assertSeeHtml('alt="Carte de Boston"')
+            ->assertDontSeeHtml(route('documents.file', $map));
+
+        $this->actingAs($this->gm);
+        TableDisplay::clear($this->campaign);
+        $this->actingAs($player)->get(route('table.file', $this->campaign))->assertNotFound();
     }
 
     public function test_the_game_master_shows_a_map_then_clears_the_screen(): void
@@ -64,14 +94,14 @@ class TableScreenTest extends TestCase
         $this->assertEquals(['kind' => 'document', 'id' => $map->id], array_diff_key($this->campaign->fresh()->table_display, ['at' => 0]));
 
         Livewire::actingAs($this->gm)->test(Screen::class, ['campaign' => $this->campaign])
-            ->assertSeeHtml('src="'.route('documents.file', $map).'"')
+            ->assertSeeHtml('src="'.route('table.file', $this->campaign).'?v=')
             ->assertSeeHtml('alt="Carte de Boston"');
 
         $live->call('clearTable')->assertSeeHtml('<span class="font-medium">Écran vide</span>');
         $this->assertNull($this->campaign->fresh()->table_display);
 
         Livewire::actingAs($this->gm)->test(Screen::class, ['campaign' => $this->campaign])
-            ->assertDontSeeHtml(route('documents.file', $map));
+            ->assertDontSeeHtml(route('table.file', $this->campaign));
     }
 
     public function test_the_game_master_picks_a_document_in_the_list(): void

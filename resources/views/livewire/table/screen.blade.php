@@ -6,9 +6,11 @@
         @switch($display['kind'] ?? null)
             @case('document')
                 @if ($display['document']->isImage())
-                    <img src="{{ route('documents.file', $display['document']) }}" alt="{{ $display['document']->title }}" class="h-full w-full object-contain">
+                    <img src="{{ route('table.file', [$campaign, 'v' => $display['key']]) }}" alt="{{ $display['document']->title }}" class="h-full w-full object-contain">
+                @elseif ($display['document']->isPdf())
+                    <iframe src="{{ route('table.file', [$campaign, 'v' => $display['key']]) }}#toolbar=0&navpanes=0&view=Fit" title="{{ $display['document']->title }}" class="h-full w-full border-0 bg-white"></iframe>
                 @else
-                    <iframe src="{{ route('documents.file', $display['document']) }}#toolbar=0&navpanes=0&view=Fit" title="{{ $display['document']->title }}" class="h-full w-full border-0 bg-white"></iframe>
+                    <p class="p-12 text-center text-4xl font-semibold">{{ $display['document']->title }}</p>
                 @endif
                 @break
 
@@ -16,7 +18,7 @@
                 @php($entity = $display['entity'])
                 <article class="flex max-h-full w-full max-w-6xl items-center gap-12 overflow-y-auto p-12">
                     @if ($entity->hasImage())
-                        <img src="{{ route('entities.image', $entity) }}?v={{ $entity->updated_at?->timestamp }}" alt="" class="max-h-[80vh] max-w-[45%] shrink-0 rounded-2xl object-contain shadow-2xl">
+                        <img src="{{ route('table.image', [$campaign, 'v' => $display['key'].'-'.$entity->updated_at?->timestamp]) }}" alt="" class="max-h-[80vh] max-w-[45%] shrink-0 rounded-2xl object-contain shadow-2xl">
                     @endif
                     <div class="min-w-0 flex-1">
                         <h1 class="text-5xl font-semibold tracking-tight lg:text-6xl">{{ $entity->name }}</h1>
