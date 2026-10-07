@@ -7,7 +7,9 @@ use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\Scene;
+use App\Models\Tag;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -32,6 +34,8 @@ class Form extends Component
     public string $description = '';
 
     public string $status = 'planned';
+
+    public string $tags = '';
 
     /** @var list<array{id: int, name: string, type: string, note: string}> */
     public array $linked = [];
@@ -66,6 +70,7 @@ class Form extends Component
                 ->all();
             $this->ruleIds = $scene->rules()->pluck('rules.id')->all();
             $this->documentIds = $scene->documents()->pluck('documents.id')->all();
+            $this->tags = $scene->tags->pluck('name')->implode(', ');
 
             return;
         }
@@ -87,6 +92,13 @@ class Form extends Component
             ->orderBy('chapter')
             ->pluck('chapter')
             ->all();
+    }
+
+    /** @return list<string> */
+    #[Computed]
+    public function existingTags(): array
+    {
+        return Tag::query()->where('user_id', auth()->id())->has('scenes')->orderByRaw('lower(name)')->pluck('name')->all();
     }
 
     public function addEntity(): void
@@ -150,6 +162,7 @@ class Form extends Component
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:20000'],
             'status' => ['required', Rule::enum(SceneStatus::class)],
+            'tags' => ['nullable', 'string', 'max:1000'],
             'linked' => ['array', 'max:100'],
             'linked.*.note' => ['nullable', 'string', 'max:150'],
         ], attributes: [
@@ -189,6 +202,7 @@ class Form extends Component
             ]])
             ->all());
 
+        $scene->tags()->sync(Tag::idsFromInput(auth()->user(), $this->tags));
         $scene->rules()->sync(self::positions($this->campaign->availableRules()->whereKey($this->ruleIds)->pluck('id')->all(), $this->ruleIds));
         $scene->documents()->sync(self::positions($this->campaign->availableDocuments()->whereKey($this->documentIds)->pluck('id')->all(), $this->documentIds));
 

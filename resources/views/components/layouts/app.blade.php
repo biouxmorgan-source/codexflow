@@ -18,6 +18,9 @@
                 @if (auth()->user()->gameSystems()->exists())
                     <a href="{{ route('entity-types.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('entity-types.*')]) wire:navigate>{{ __('Types de fiche') }}</a>
                 @endif
+                @if (auth()->user()->tags()->exists())
+                    <a href="{{ route('tags.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('tags.*')]) wire:navigate>{{ __('Tags') }}</a>
+                @endif
                 @livewire(\App\Livewire\HeaderBadges::class, ['campaign' => $searchCampaign instanceof \App\Models\Campaign ? $searchCampaign : null])
                 <a href="{{ route('preferences') }}" @class(['hidden rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink sm:inline', 'bg-stone-100' => request()->routeIs('preferences')]) title="{{ __('Préférences') }}" wire:navigate>{{ auth()->user()->name }}</a>
                 <form method="POST" action="{{ route('logout') }}">

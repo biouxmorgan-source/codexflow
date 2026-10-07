@@ -20,7 +20,7 @@
                 @if ($entity->tags->isNotEmpty())
                     <p class="mt-2 flex flex-wrap gap-1">
                         @foreach ($entity->tags as $entityTag)
-                            <a href="{{ route('campaigns.show', [$campaign, 'tag' => $entityTag->id]) }}" class="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-700 hover:bg-codex-soft" wire:navigate>#{{ $entityTag->name }}</a>
+                            <x-tag :tag="$entityTag" :href="route('campaigns.show', [$campaign, 'tag' => $entityTag->id])" class="text-xs" />
                         @endforeach
                     </p>
                 @endif

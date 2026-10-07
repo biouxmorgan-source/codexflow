@@ -66,6 +66,12 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    /** @return HasMany<Tag, $this> */
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
+
     /** @return HasMany<GameSystem, $this> */
     public function gameSystems(): HasMany
     {

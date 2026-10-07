@@ -40,7 +40,11 @@
                                     <span class="block truncate font-medium text-codex">{{ $document->title }}</span>
                                     <span class="block text-xs text-stone-500">{{ $document->scopeLabel() }} · {{ $document->zone === \App\Enums\Zone::Public ? __('Joueurs') : __('MJ seulement') }} · {{ $document->humanSize() }}</span>
                                     @if ($document->tags->isNotEmpty())
-                                        <span class="mt-1 block truncate text-xs text-stone-600">{{ $document->tags->pluck('name')->implode(', ') }}</span>
+                                        <span class="mt-1 flex flex-wrap gap-1 text-xs">
+                                            @foreach ($document->tags as $documentTag)
+                                                <x-tag :tag="$documentTag" compact />
+                                            @endforeach
+                                        </span>
                                     @endif
                                 </span>
                             </a>

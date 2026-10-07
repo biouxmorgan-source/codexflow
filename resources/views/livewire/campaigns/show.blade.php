@@ -124,7 +124,11 @@
                                     <span class="block truncate text-sm text-stone-600">{{ $entity->summary }}</span>
                                 @endif
                                 @if ($entity->tags->isNotEmpty())
-                                    <span class="block truncate text-xs text-stone-500">{{ $entity->tags->map(fn ($t) => '#'.$t->name)->implode(' ') }}</span>
+                                    <span class="mt-0.5 flex flex-wrap gap-1 text-xs">
+                                        @foreach ($entity->tags as $entityTag)
+                                            <x-tag :tag="$entityTag" compact />
+                                        @endforeach
+                                    </span>
                                 @endif
                             </span>
                             @if ($state?->status)

@@ -55,6 +55,12 @@ class Scene extends Model
         return $this->belongsToMany(Document::class)->withPivot('position')->orderByPivot('position');
     }
 
+    /** @return BelongsToMany<Tag, $this> */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class)->orderByRaw('lower(name)');
+    }
+
     public function activityType(): string
     {
         return 'scene';

@@ -36,6 +36,7 @@ use App\Livewire\Sessions\Live as SessionLive;
 use App\Livewire\Sessions\Show as SessionShow;
 use App\Livewire\Support\ReportBug;
 use App\Livewire\Table\Screen as TableScreen;
+use App\Livewire\Tags\Manage as TagsManage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route(auth()->check() ? 'campaigns.index' : 'login'));
@@ -57,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/notifications', NotificationIndex::class)->name('notifications.index');
     Route::get('/notifications/{notification}', [NotificationController::class, 'open'])->name('notifications.open')->whereUuid('notification');
     Route::livewire('/types-de-fiche', EntityTypesManage::class)->name('entity-types.index');
+    Route::livewire('/tags', TagsManage::class)->name('tags.index');
     Route::livewire('/campagnes/{campaign}', CampaignShow::class)->name('campaigns.show')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/entites/nouvelle', EntityForm::class)->name('entities.create')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/entites/{entity}', EntityShow::class)->name('entities.show')->whereNumber(['campaign', 'entity']);

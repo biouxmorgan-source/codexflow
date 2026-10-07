@@ -47,6 +47,9 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="md:col-span-2">
+                    <x-tags-input :existing="$this->existingTags" />
+                </div>
             </div>
 
             <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm">

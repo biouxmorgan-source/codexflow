@@ -6,9 +6,11 @@ use App\Enums\SceneStatus;
 use App\Models\Campaign;
 use App\Models\Scenario;
 use App\Models\Scene;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 /**
@@ -17,6 +19,10 @@ use Livewire\Component;
 class Index extends Component
 {
     public Campaign $campaign;
+
+    /** Tag choisi pour ne montrer que les scènes qui le portent. */
+    #[Url]
+    public ?int $tag = null;
 
     public ?int $editingId = null;
 
@@ -33,7 +39,13 @@ class Index extends Component
     #[Computed]
     public function scenarios(): Collection
     {
-        return $this->campaign->scenarios()->with('scenes')->get();
+        return $this->campaign->scenarios()->with('scenes.tags')->get();
+    }
+
+    #[Computed]
+    public function filterTag(): ?Tag
+    {
+        return $this->tag ? Tag::query()->where('user_id', auth()->id())->find($this->tag) : null;
     }
 
     public function edit(int $id): void
