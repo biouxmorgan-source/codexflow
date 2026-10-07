@@ -4,6 +4,18 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.6.0' => [
+        'date' => '2026-10-09',
+        'title' => 'La mémoire de la campagne',
+        'items' => [
+            'Secrets : une information à part, reliée à des fiches, scènes ou documents, révélée d\'un clic à un personnage ou à toute la table.',
+            'Historique des révélations : qui a appris quoi, quand, pendant quelle séance et quelle scène ; chaque révélation peut être annulée.',
+            '« Voir comme » : le MJ voit la campagne exactement comme un personnage, en lecture seule.',
+            '« Cité dans » montre aussi les règles et les notes de session qui mentionnent une fiche.',
+            'Relations : l\'inverse (« travaille pour » / « emploie ») se remplit tout seul.',
+        ],
+    ],
+
     '0.5.0' => [
         'date' => '2026-10-08',
         'title' => 'Mieux ranger, à plusieurs',
