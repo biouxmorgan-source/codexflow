@@ -16,7 +16,7 @@ class LanguageTest extends TestCase
 
     public function test_the_interface_follows_the_browser_language_and_defaults_to_french(): void
     {
-        $this->get(route('login'))->assertOk()->assertSee('<html lang="fr"', false)->assertSee('Se connecter');
+        $this->withHeader('Accept-Language', 'fr-FR')->get(route('login'))->assertOk()->assertSee('<html lang="fr"', false)->assertSee('Se connecter');
 
         $this->withHeader('Accept-Language', 'en-GB,en;q=0.9')->get(route('login'))
             ->assertSee('<html lang="en"', false)

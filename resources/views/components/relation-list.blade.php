@@ -9,9 +9,9 @@
                 <a href="{{ route('entities.show', [$campaign, $other]) }}" class="font-medium link" wire:navigate>{{ $other->name }}</a>
                 <span class="text-xs text-stone-500">{{ $other->type->name }}</span>
                 @if ($relation->campaign_id)
-                    <span class="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">cette campagne</span>
+                    <span class="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{{ __('cette campagne') }}</span>
                 @endif
-                <button type="button" wire:click="deleteRelation({{ $relation->id }})" wire:confirm="Supprimer cette relation ?" class="ml-auto text-xs text-red-700 hover:underline" aria-label="Supprimer la relation avec {{ $other->name }}">Supprimer</button>
+                <button type="button" wire:click="deleteRelation({{ $relation->id }})" wire:confirm="{{ __('Supprimer cette relation ?') }}" class="ml-auto text-xs text-red-700 hover:underline" aria-label="{{ __('Supprimer la relation avec :name', ['name' => $other->name]) }}">{{ __('Supprimer') }}</button>
             </li>
         @endforeach
     </ul>

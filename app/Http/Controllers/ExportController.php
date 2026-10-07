@@ -75,7 +75,8 @@ class ExportController extends Controller
                 $definition = $group->first(fn (FieldDefinition $candidate) => $candidate->entity_type_id === $entity->entity_type_id)
                     ?? $group->first(fn (FieldDefinition $candidate) => $candidate->entity_type_id === null);
                 $value = $definition ? $entity->fieldValue($definition) : null;
-                $row[] = $value === null || $value === '' ? '' : $definition->type->format($value);
+                // Valeurs en français, comme les en-têtes : le fichier doit pouvoir être réimporté.
+                $row[] = $value === null || $value === '' ? '' : $definition->type->format($value, 'fr');
             }
 
             $rows[] = $row;
@@ -128,8 +129,8 @@ class ExportController extends Controller
                 (string) $rule->procedure,
                 (string) $rule->gm_notes,
                 (string) $rule->source,
-                $rule->origin->label(),
-                $rule->status->label(),
+                $rule->origin->label('fr'),
+                $rule->status->label('fr'),
                 self::zone($rule->zone),
                 $rule->tags->pluck('name')->implode(', '),
             ];
@@ -161,7 +162,7 @@ class ExportController extends Controller
                     (string) $scene->chapter,
                     $scene->name,
                     (string) $scene->description,
-                    $scene->status->label(),
+                    $scene->status->label('fr'),
                     $scene->entities->map(fn (Entity $entity) => $entity->name)->implode(' | '),
                     $scene->documents->pluck('title')->implode(' | '),
                     $scene->rules->pluck('title')->implode(' | '),

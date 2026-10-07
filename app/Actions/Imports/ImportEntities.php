@@ -31,6 +31,23 @@ class ImportEntities
 
     private const LIMITS = ['name' => 255, 'summary' => 500, 'description' => 20000, 'gm_notes' => 20000];
 
+    /**
+     * Libellés traduits des cibles de colonne, dans l'ordre de TARGETS.
+     *
+     * @return array<string, string>
+     */
+    public static function targets(): array
+    {
+        return [
+            'ignore' => __('Ignorer'),
+            'name' => __('Nom'),
+            'type' => __('Type de fiche'),
+            'summary' => __('Résumé'),
+            'description' => __('Description'),
+            'gm_notes' => __('Notes MJ'),
+        ];
+    }
+
     /** @var Collection<int, EntityType> */
     private Collection $types;
 
@@ -181,7 +198,7 @@ class ImportEntities
         $targets = array_count_values($this->mapping);
 
         if (($targets['name'] ?? 0) !== 1) {
-            $errors[] = 'Associez une colonne, et une seule, au nom des fiches.';
+            $errors[] = __('Associez une colonne, et une seule, au nom des fiches.');
         }
 
         // Colonnes de champs libres : définitions existantes ou nouveaux champs (types devinés).
@@ -193,7 +210,7 @@ class ImportEntities
                 $definition = $this->definitions->get((int) substr($target, 6));
 
                 if ($definition === null) {
-                    $errors[] = 'La colonne « '.$this->table->headers[$column].' » vise un champ qui n\'existe plus.';
+                    $errors[] = __("La colonne « :name » vise un champ qui n'existe plus.", ['name' => $this->table->headers[$column]]);
                 } else {
                     $columns[$column] = $definition;
                 }
@@ -231,7 +248,7 @@ class ImportEntities
                     $attributes[$target] = $raw === '' ? null : $raw;
 
                     if (mb_strlen($raw) > self::LIMITS[$target]) {
-                        $rowErrors[] = self::TARGETS[$target].' : dépasse '.self::LIMITS[$target].' caractères';
+                        $rowErrors[] = __(':field : dépasse :max caractères', ['field' => self::targets()[$target], 'max' => self::LIMITS[$target]]);
                     }
                 } elseif ($target === 'type' && $raw !== '') {
                     $type = $this->types->first(fn (EntityType $type) => in_array(Normalize::key($raw), [Normalize::key($type->name), Normalize::key((string) $type->key)], true));
@@ -239,14 +256,15 @@ class ImportEntities
                     if ($type) {
                         $typeId = $type->id;
                     } else {
-                        $rowErrors[] = 'type de fiche « '.$raw.' » inconnu';
+                        $rowErrors[] = __('type de fiche « :name » inconnu', ['name' => $raw]);
                     }
                 } elseif (isset($columns[$column])) {
                     $fieldColumns[] = $column;
                     [$value, $error] = $columns[$column]->parse($raw);
 
                     if ($error) {
-                        $rowErrors[] = $columns[$column]->name.' : '.$error;
+                        // Clé par colonne, pour pouvoir retirer l'erreur si un champ voisin la remplace.
+                        $rowErrors['column:'.$column] = __(':name : :error', ['name' => $columns[$column]->name, 'error' => $error]);
                     } else {
                         $fields[$column] = $value;
                     }
@@ -263,20 +281,20 @@ class ImportEntities
                 }
 
                 unset($fields[$column]);
-                $rowErrors = array_values(array_filter($rowErrors, fn (string $error) => ! str_starts_with($error, $columns[$column]->name.' : ')));
+                unset($rowErrors['column:'.$column]);
                 $sibling = $this->sibling($columns[$column], $typeId);
 
                 if ($sibling) {
                     [$value, $error] = $sibling->parse($row['cells'][$column] ?? '');
 
                     if ($error) {
-                        $rowErrors[] = $sibling->name.' : '.$error;
+                        $rowErrors[] = __(':name : :error', ['name' => $sibling->name, 'error' => $error]);
                     } else {
                         $fields[$column] = $value;
                         $rowDefinitions[$column] = $sibling;
                     }
                 } elseif (($row['cells'][$column] ?? '') !== '') {
-                    $warnings[] = $columns[$column]->name.' ne concerne que les fiches '.$this->types->firstWhere('id', $fieldTypeId)?->name.' : valeur ignorée';
+                    $warnings[] = __(':name ne concerne que les fiches :type : valeur ignorée', ['name' => $columns[$column]->name, 'type' => $this->types->firstWhere('id', $fieldTypeId)?->name]);
                 }
             }
 
@@ -284,13 +302,14 @@ class ImportEntities
             $key = $typeId.'|'.mb_strtolower($name);
 
             if ($name === '') {
-                $rowErrors[] = 'nom manquant';
+                $rowErrors[] = __('nom manquant');
             } elseif (isset($seen[$key])) {
-                $rowErrors[] = 'déjà présente ligne '.$seen[$key];
+                $rowErrors[] = __('déjà présente ligne :line', ['line' => $seen[$key]]);
             } else {
                 $seen[$key] = $row['line'];
             }
 
+            $rowErrors = array_values($rowErrors);
             $match = $this->options['update_existing'] ? $existing->get($key) : null;
             $attributes['entity_type_id'] = $typeId;
 

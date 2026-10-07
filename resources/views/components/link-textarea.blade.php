@@ -14,7 +14,7 @@
         aria-controls="{{ $id }}-suggestions"
         {{ $attributes->merge(['class' => 'field']) }}
     ></textarea>
-    <p class="mt-1 text-xs text-stone-500">Tapez <kbd class="rounded border border-stone-300 bg-stone-50 px-1">[[</kbd> pour lier une autre fiche.</p>
+    <p class="mt-1 text-xs text-stone-500">{!! __('Tapez :keys pour lier une autre fiche.', ['keys' => '<kbd class="rounded border border-stone-300 bg-stone-50 px-1">[[</kbd>']) !!}</p>
 
     <ul
         id="{{ $id }}-suggestions"

@@ -115,11 +115,11 @@ class Form extends Component
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240'],
             'tags' => ['nullable', 'string', 'max:1000'],
         ], attributes: [
-            'entityTypeId' => 'type',
-            'summary' => 'résumé',
-            'gmNotes' => 'notes MJ',
-            'scope' => 'portée',
-            'image' => 'image',
+            'entityTypeId' => __('type'),
+            'summary' => __('résumé'),
+            'gmNotes' => __('notes MJ'),
+            'scope' => __('portée'),
+            'image' => __('image'),
         ]);
 
         $values = [];
@@ -129,7 +129,7 @@ class Form extends Component
             [$value, $error] = $definition->parse($this->fields[$definition->id] ?? null);
 
             if ($error !== null) {
-                $errors['fields.'.$definition->id] = $definition->name.' : '.$error.'.';
+                $errors['fields.'.$definition->id] = __(':name : :error.', ['name' => $definition->name, 'error' => $error]);
             }
 
             $values[$definition->id] = $value;
@@ -176,6 +176,6 @@ class Form extends Component
     public function render()
     {
         return view('livewire.entities.form')
-            ->title($this->entity ? 'Modifier '.$this->entity->name : 'Nouvelle entité');
+            ->title($this->entity ? __('Modifier :name', ['name' => $this->entity->name]) : __('Nouvelle entité'));
     }
 }

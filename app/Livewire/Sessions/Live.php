@@ -200,7 +200,7 @@ class Live extends Component
     {
         $this->authorize('update', $this->campaign);
 
-        $this->validate(['noteBody' => ['required', 'string', 'max:5000']], attributes: ['noteBody' => 'note']);
+        $this->validate(['noteBody' => ['required', 'string', 'max:5000']], attributes: ['noteBody' => __('note')]);
 
         $session = $this->session;
         abort_if($session === null, 404);
@@ -226,7 +226,7 @@ class Live extends Component
     {
         $this->authorize('update', $this->campaign);
 
-        $this->validate(['toPlayBody' => ['required', 'string', 'max:500']], attributes: ['toPlayBody' => 'élément à jouer']);
+        $this->validate(['toPlayBody' => ['required', 'string', 'max:500']], attributes: ['toPlayBody' => __('élément à jouer')]);
 
         $item = new ToPlayItem(['body' => trim($this->toPlayBody), 'position' => (int) $this->campaign->toPlayItems()->max('position') + 1]);
         $item->scene_id = $this->toPlayForScene ? $this->session?->current_scene_id : null;
@@ -251,7 +251,7 @@ class Live extends Component
         $entity = $this->pickedPinId ? $this->campaign->availableEntities()->find($this->pickedPinId) : null;
 
         if ($entity === null) {
-            $this->addError('pickedPinId', 'Choisissez une fiche dans la liste.');
+            $this->addError('pickedPinId', __('Choisissez une fiche dans la liste.'));
 
             return;
         }
@@ -293,7 +293,7 @@ class Live extends Component
         $document = $this->campaign->availableDocuments()->find($documentId ?? (int) $this->tableDocumentId);
 
         if ($document === null) {
-            $this->addError('tableDocumentId', 'Choisissez un document dans la liste.');
+            $this->addError('tableDocumentId', __('Choisissez un document dans la liste.'));
 
             return;
         }
@@ -310,7 +310,7 @@ class Live extends Component
         $entity = $this->tableEntityId ? $this->campaign->availableEntities()->find($this->tableEntityId) : null;
 
         if ($entity === null) {
-            $this->addError('tableEntityId', 'Choisissez une fiche dans la liste.');
+            $this->addError('tableEntityId', __('Choisissez une fiche dans la liste.'));
 
             return;
         }
@@ -324,7 +324,7 @@ class Live extends Component
     {
         $this->authorize('update', $this->campaign);
 
-        $this->validate(['tableText' => ['required', 'string', 'max:500']], attributes: ['tableText' => 'annonce']);
+        $this->validate(['tableText' => ['required', 'string', 'max:500']], attributes: ['tableText' => __('annonce')]);
 
         TableDisplay::showText($this->campaign, trim($this->tableText));
         $this->reset('tableText');
@@ -371,6 +371,6 @@ class Live extends Component
     {
         return view('livewire.sessions.live', [
             'fieldDefinitions' => $this->campaign->gameSystem->fieldDefinitions()->ordered()->get(),
-        ])->title('Session · '.$this->campaign->name);
+        ])->title(__('Session · :name', ['name' => $this->campaign->name]));
     }
 }

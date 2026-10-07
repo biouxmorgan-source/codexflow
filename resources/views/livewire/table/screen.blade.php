@@ -49,13 +49,13 @@
             @default
                 <div class="text-center">
                     <p class="text-3xl font-semibold tracking-tight text-stone-500"><span>CODEX</span><span class="text-flow">FLOW</span></p>
-                    <p class="mt-2 text-xl text-stone-600">{{ $stopped ? "Le MJ ne partage plus l'écran de table." : $campaign->name }}</p>
+                    <p class="mt-2 text-xl text-stone-600">{{ $stopped ? __("Le MJ ne partage plus l'écran de table.") : $campaign->name }}</p>
                 </div>
         @endswitch
     </div>
 
     <button type="button" x-show="! full" x-on:click="document.documentElement.requestFullscreen()"
         class="absolute right-4 bottom-4 rounded-lg bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20">
-        Plein écran
+        {{ __('Plein écran') }}
     </button>
 </div>

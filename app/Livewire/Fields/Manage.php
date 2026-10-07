@@ -109,12 +109,12 @@ class Manage extends Component
             'zone' => ['required', Rule::enum(Zone::class)],
             'entityTypeId' => ['nullable', Rule::in($this->types->modelKeys())],
         ], [
-            'name.unique' => 'Ce jeu a déjà un champ de ce nom pour ce type de fiche.',
-            'options.required' => 'Indiquez au moins un choix, un par ligne.',
+            'name.unique' => __('Ce jeu a déjà un champ de ce nom pour ce type de fiche.'),
+            'options.required' => __('Indiquez au moins un choix, un par ligne.'),
         ], [
-            'name' => 'nom',
-            'group' => 'groupe',
-            'entityTypeId' => 'type de fiche',
+            'name' => __('nom'),
+            'group' => __('groupe'),
+            'entityTypeId' => __('type de fiche'),
         ]);
 
         $definition = $this->editingId ? $this->find($this->editingId) : new FieldDefinition([
@@ -180,6 +180,6 @@ class Manage extends Component
 
     public function render()
     {
-        return view('livewire.fields.manage')->title('Champs du jeu '.$this->gameSystem->name);
+        return view('livewire.fields.manage')->title(__('Champs du jeu :name', ['name' => $this->gameSystem->name]));
     }
 }

@@ -1,17 +1,17 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
         › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-semibold">Scénarios</h1>
-            <p class="mt-1 text-sm text-stone-600">Découpez la campagne en scénarios, regroupez les scènes par chapitre si vous le souhaitez, et suivez ce qui a été joué.</p>
+            <h1 class="text-2xl font-semibold">{{ __('Scénarios') }}</h1>
+            <p class="mt-1 text-sm text-stone-600">{{ __('Découpez la campagne en scénarios, regroupez les scènes par chapitre si vous le souhaitez, et suivez ce qui a été joué.') }}</p>
         </div>
         <div class="flex flex-wrap gap-2">
-            <a href="{{ route('imports.create', [$campaign, 'mode' => 'scenes']) }}" class="btn-secondary" wire:navigate>Importer</a>
-            <a href="{{ route('exports.download', [$campaign, 'scenes']) }}" class="btn-secondary">Exporter</a>
+            <a href="{{ route('imports.create', [$campaign, 'mode' => 'scenes']) }}" class="btn-secondary" wire:navigate>{{ __('Importer') }}</a>
+            <a href="{{ route('exports.download', [$campaign, 'scenes']) }}" class="btn-secondary">{{ __('Exporter') }}</a>
         </div>
     </div>
 
@@ -27,10 +27,10 @@
                             @endif
                         </div>
                         <span class="flex shrink-0 items-center gap-1 text-sm">
-                            <button type="button" wire:click="moveScenario({{ $scenario->id }}, -1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="Monter {{ $scenario->name }}">↑</button>
-                            <button type="button" wire:click="moveScenario({{ $scenario->id }}, 1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="Descendre {{ $scenario->name }}">↓</button>
-                            <button type="button" wire:click="edit({{ $scenario->id }})" class="rounded px-2 py-1 link">Modifier</button>
-                            <button type="button" wire:click="delete({{ $scenario->id }})" wire:confirm="Supprimer le scénario {{ $scenario->name }} et ses {{ $scenario->scenes->count() }} scène(s) ? Les fiches liées sont conservées." class="rounded px-2 py-1 text-red-700 hover:underline">Supprimer</button>
+                            <button type="button" wire:click="moveScenario({{ $scenario->id }}, -1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="{{ __('Monter :name', ['name' => $scenario->name]) }}">↑</button>
+                            <button type="button" wire:click="moveScenario({{ $scenario->id }}, 1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="{{ __('Descendre :name', ['name' => $scenario->name]) }}">↓</button>
+                            <button type="button" wire:click="edit({{ $scenario->id }})" class="rounded px-2 py-1 link">{{ __('Modifier') }}</button>
+                            <button type="button" wire:click="delete({{ $scenario->id }})" wire:confirm="{{ __('Supprimer le scénario :name et ses :count scène(s) ? Les fiches liées sont conservées.', ['name' => $scenario->name, 'count' => $scenario->scenes->count()]) }}" class="rounded px-2 py-1 text-red-700 hover:underline">{{ __('Supprimer') }}</button>
                         </span>
                     </div>
 
@@ -45,14 +45,14 @@
                                         @foreach ($scenes as $scene)
                                             <li wire:key="scene-{{ $scene->id }}" class="flex flex-wrap items-center gap-2 px-3 py-2">
                                                 <a href="{{ route('scenes.show', [$campaign, $scene]) }}" class="min-w-0 flex-1 truncate font-medium link" wire:navigate>{{ $scene->name }}</a>
-                                                <label class="sr-only" for="status-{{ $scene->id }}">Statut de {{ $scene->name }}</label>
+                                                <label class="sr-only" for="status-{{ $scene->id }}">{{ __('Statut de :name', ['name' => $scene->name]) }}</label>
                                                 <select id="status-{{ $scene->id }}" wire:change="setStatus({{ $scene->id }}, $event.target.value)" class="rounded-full border-0 py-0.5 pr-7 pl-2 text-xs font-medium {{ $scene->status->badge() }}">
                                                     @foreach (\App\Enums\SceneStatus::cases() as $status)
                                                         <option value="{{ $status->value }}" @selected($scene->status === $status)>{{ $status->label() }}</option>
                                                     @endforeach
                                                 </select>
-                                                <button type="button" wire:click="moveScene({{ $scene->id }}, -1)" class="rounded px-1.5 text-stone-500 hover:bg-stone-100" aria-label="Monter {{ $scene->name }}">↑</button>
-                                                <button type="button" wire:click="moveScene({{ $scene->id }}, 1)" class="rounded px-1.5 text-stone-500 hover:bg-stone-100" aria-label="Descendre {{ $scene->name }}">↓</button>
+                                                <button type="button" wire:click="moveScene({{ $scene->id }}, -1)" class="rounded px-1.5 text-stone-500 hover:bg-stone-100" aria-label="{{ __('Monter :name', ['name' => $scene->name]) }}">↑</button>
+                                                <button type="button" wire:click="moveScene({{ $scene->id }}, 1)" class="rounded px-1.5 text-stone-500 hover:bg-stone-100" aria-label="{{ __('Descendre :name', ['name' => $scene->name]) }}">↓</button>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -61,32 +61,32 @@
                         </div>
                     @endif
 
-                    <a href="{{ route('scenes.create', [$campaign, 'scenario' => $scenario->id]) }}" class="mt-3 inline-block text-sm font-medium link" wire:navigate>+ Nouvelle scène</a>
+                    <a href="{{ route('scenes.create', [$campaign, 'scenario' => $scenario->id]) }}" class="mt-3 inline-block text-sm font-medium link" wire:navigate>{{ __('+ Nouvelle scène') }}</a>
                 </section>
             @empty
                 <div class="rounded-xl border border-dashed border-stone-300 bg-white p-10 text-center">
-                    <p class="text-lg font-medium">Aucun scénario pour l'instant.</p>
-                    <p class="mt-1 text-stone-600">Créez-en un à droite, puis ajoutez-y des scènes.</p>
+                    <p class="text-lg font-medium">{{ __("Aucun scénario pour l'instant.") }}</p>
+                    <p class="mt-1 text-stone-600">{{ __('Créez-en un à droite, puis ajoutez-y des scènes.') }}</p>
                 </div>
             @endforelse
         </div>
 
         <form wire:submit="save" class="space-y-4 self-start rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 class="font-semibold">{{ $editingId ? 'Modifier le scénario' : 'Nouveau scénario' }}</h2>
+            <h2 class="font-semibold">{{ $editingId ? __('Modifier le scénario') : __('Nouveau scénario') }}</h2>
             <div>
-                <label for="name" class="label">Nom</label>
-                <input id="name" type="text" wire:model="name" class="field" placeholder="L'incendie du Poney fringant">
+                <label for="name" class="label">{{ __('Nom') }}</label>
+                <input id="name" type="text" wire:model="name" class="field" placeholder="{{ __('L\'incendie du Poney fringant') }}">
                 @error('name') <p class="error">{{ $message }}</p> @enderror
             </div>
             <div>
-                <label for="summary" class="label">Résumé <span class="font-normal text-stone-500">(facultatif)</span></label>
+                <label for="summary" class="label">{{ __('Résumé') }} <span class="font-normal text-stone-500">{{ __('(facultatif)') }}</span></label>
                 <textarea id="summary" wire:model="summary" rows="3" class="field"></textarea>
                 @error('summary') <p class="error">{{ $message }}</p> @enderror
             </div>
             <div class="flex gap-3">
-                <button type="submit" class="btn-primary">{{ $editingId ? 'Enregistrer' : 'Créer' }}</button>
+                <button type="submit" class="btn-primary">{{ $editingId ? __('Enregistrer') : __('Créer') }}</button>
                 @if ($editingId)
-                    <button type="button" wire:click="cancel" class="btn-secondary">Annuler</button>
+                    <button type="button" wire:click="cancel" class="btn-secondary">{{ __('Annuler') }}</button>
                 @endif
             </div>
         </form>

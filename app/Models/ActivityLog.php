@@ -8,6 +8,7 @@ use App\Enums\RuleOrigin;
 use App\Enums\RuleStatus;
 use App\Enums\SceneStatus;
 use App\Enums\Zone;
+use App\Support\Locale;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -172,36 +173,56 @@ class ActivityLog extends Model
             : __(':subject transmis', ['subject' => $this->subjectName()]);
     }
 
-    public function verb(): string
+    public function verb(?string $locale = null): string
     {
         if ($this->subject_type === 'grant') {
             $kind = $this->diff['kind']['new'] ?? $this->diff['kind']['old'] ?? null;
 
             return match (true) {
-                $this->isExchange() => $kind === 'possession' ? __('a donné') : __('a transmis'),
+                $this->isExchange() => $kind === 'possession' ? __('a donné', [], $locale) : __('a transmis', [], $locale),
                 $this->isPlayerAddition() => match ($this->event) {
-                    'deleted' => __('a effacé'),
-                    'updated' => __('a validé'),
-                    default => $kind === 'possession' ? __('a ajouté') : __('a noté'),
+                    'deleted' => __('a effacé', [], $locale),
+                    'updated' => __('a validé', [], $locale),
+                    default => $kind === 'possession' ? __('a ajouté', [], $locale) : __('a noté', [], $locale),
                 },
-                $this->event === 'deleted' => in_array($kind, ['entity', 'rule'], true) ? __('a caché') : __('a repris'),
-                in_array($kind, ['entity', 'information', 'rule'], true) => __('a révélé'),
-                default => __('a donné'),
+                $this->event === 'deleted' => in_array($kind, ['entity', 'rule'], true) ? __('a caché', [], $locale) : __('a repris', [], $locale),
+                in_array($kind, ['entity', 'information', 'rule'], true) => __('a révélé', [], $locale),
+                default => __('a donné', [], $locale),
             };
         }
 
         if ($this->subject_type === 'member') {
             return match ($this->event) {
-                'created' => __('a ajouté'),
-                'deleted' => __('a retiré'),
-                default => __('a modifié'),
+                'created' => __('a ajouté', [], $locale),
+                'deleted' => __('a retiré', [], $locale),
+                default => __('a modifié', [], $locale),
             };
         }
 
         return match ($this->event) {
-            'created' => __('a créé'),
-            'deleted' => __('a supprimé'),
-            default => __('a modifié'),
+            'created' => __('a créé', [], $locale),
+            'deleted' => __('a supprimé', [], $locale),
+            default => __('a modifié', [], $locale),
+        };
+    }
+
+    /** Verbe seul, pour l'affichage compact du journal : « Créé », « Révélé »… */
+    public function compactVerb(): string
+    {
+        return match ($this->verb(Locale::DEFAULT)) {
+            'a donné' => __('Donné'),
+            'a transmis' => __('Transmis'),
+            'a effacé' => __('Effacé'),
+            'a validé' => __('Validé'),
+            'a ajouté' => __('Ajouté'),
+            'a noté' => __('Noté'),
+            'a caché' => __('Caché'),
+            'a repris' => __('Repris'),
+            'a révélé' => __('Révélé'),
+            'a retiré' => __('Retiré'),
+            'a créé' => __('Créé'),
+            'a supprimé' => __('Supprimé'),
+            default => __('Modifié'),
         };
     }
 

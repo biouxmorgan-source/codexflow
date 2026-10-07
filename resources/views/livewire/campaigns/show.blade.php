@@ -1,6 +1,6 @@
 <div>
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -8,58 +8,58 @@
             <h1 class="text-2xl font-semibold">{{ $campaign->name }}</h1>
             <p class="mt-1 text-sm text-stone-600">
                 {{ $campaign->gameSystem->name }}
-                · {{ $campaign->world ? 'Monde : '.$campaign->world->name : 'Sans monde partagé' }}
+                · {{ $campaign->world ? __('Monde : :name', ['name' => $campaign->world->name]) : __('Sans monde partagé') }}
             </p>
         </div>
     </div>
 
     {{-- Les grandes zones de la campagne, chacune avec une phrase d'explication. --}}
-    <nav aria-label="Zones de la campagne" class="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <nav aria-label="{{ __('Zones de la campagne') }}" class="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <a href="{{ route('sessions.live', $campaign) }}" class="tile border-flow/40 bg-flow/5 hover:border-flow" wire:navigate>
-            <span class="font-semibold text-flow">Mode Session →</span>
-            <span class="mt-1 text-sm text-stone-600">Pendant la partie : la scène en cours, ses fiches et documents, vos notes rapides.</span>
+            <span class="font-semibold text-flow">{{ __('Mode Session →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Pendant la partie : la scène en cours, ses fiches et documents, vos notes rapides.') }}</span>
         </a>
         <a href="{{ route('scenarios.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">Scénarios →</span>
-            <span class="mt-1 text-sm text-stone-600">La campagne découpée en scénarios et en scènes, avec leur statut (prévue, en cours, jouée).</span>
+            <span class="font-semibold text-codex">{{ __('Scénarios →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('La campagne découpée en scénarios et en scènes, avec leur statut (prévue, en cours, jouée).') }}</span>
         </a>
         <a href="{{ route('documents.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">Documents →</span>
-            <span class="mt-1 text-sm text-stone-600">Cartes, indices et aides en PDF ou en image, à lier aux scènes et à ouvrir en grand.</span>
+            <span class="font-semibold text-codex">{{ __('Documents →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Cartes, indices et aides en PDF ou en image, à lier aux scènes et à ouvrir en grand.') }}</span>
         </a>
         <a href="{{ route('rules.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">Règles →</span>
-            <span class="mt-1 text-sm text-stone-600">Règles du jeu, règles maison et glossaire, pour retrouver une procédure en pleine partie.</span>
+            <span class="font-semibold text-codex">{{ __('Règles →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Règles du jeu, règles maison et glossaire, pour retrouver une procédure en pleine partie.') }}</span>
         </a>
         <a href="{{ route('characters.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">Personnages →</span>
-            <span class="mt-1 text-sm text-stone-600">Les personnages des joueurs : à qui ils sont confiés, leur feuille PDF, leurs compteurs.</span>
+            <span class="font-semibold text-codex">{{ __('Personnages →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Les personnages des joueurs : à qui ils sont confiés, leur feuille PDF, leurs compteurs.') }}</span>
         </a>
         <a href="{{ route('members.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">Joueurs →</span>
-            <span class="mt-1 text-sm text-stone-600">Inviter vos joueurs par un lien et voir qui fait partie de la campagne.</span>
+            <span class="font-semibold text-codex">{{ __('Joueurs →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Inviter vos joueurs par un lien et voir qui fait partie de la campagne.') }}</span>
         </a>
         @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
         <a href="{{ route('messages.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">Messages →
+            <span class="font-semibold text-codex">{{ __('Messages →') }}
                 @if ($unread > 0)
-                    <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-on-accent">{{ $unread }} <span class="sr-only">non lus</span></span>
+                    <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-on-accent">{{ $unread }} <span class="sr-only">{{ __('non lus') }}</span></span>
                 @endif
             </span>
-            <span class="mt-1 text-sm text-stone-600">Écrire à un joueur en privé ou à tout le groupe, avec une fiche ou un document joint.</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Écrire à un joueur en privé ou à tout le groupe, avec une fiche ou un document joint.') }}</span>
         </a>
         <a href="{{ route('journal.index', $campaign) }}" class="tile" wire:navigate>
-            <span class="font-semibold text-codex">Journal →</span>
-            <span class="mt-1 text-sm text-stone-600">Qui a modifié quoi et quand, avec l'ancienne valeur : rien ne se perd.</span>
+            <span class="font-semibold text-codex">{{ __('Journal →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __("Qui a modifié quoi et quand, avec l'ancienne valeur : rien ne se perd.") }}</span>
         </a>
         @can('update', $campaign->gameSystem)
             <a href="{{ route('fields.index', $campaign) }}" class="tile" wire:navigate>
-                <span class="font-semibold text-codex">Champs du jeu →</span>
-                <span class="mt-1 text-sm text-stone-600">Les caractéristiques et compétences affichées sur les fiches de {{ $campaign->gameSystem->name }}.</span>
+                <span class="font-semibold text-codex">{{ __('Champs du jeu →') }}</span>
+                <span class="mt-1 text-sm text-stone-600">{{ __('Les caractéristiques et compétences affichées sur les fiches de :name.', ['name' => $campaign->gameSystem->name]) }}</span>
             </a>
             <a href="{{ route('imports.create', $campaign) }}" class="tile" wire:navigate>
-                <span class="font-semibold text-codex">Importer →</span>
-                <span class="mt-1 text-sm text-stone-600">Ajouter en une fois des fiches, des champs, des règles ou des scènes depuis un fichier CSV.</span>
+                <span class="font-semibold text-codex">{{ __('Importer →') }}</span>
+                <span class="mt-1 text-sm text-stone-600">{{ __('Ajouter en une fois des fiches, des champs, des règles ou des scènes depuis un fichier CSV.') }}</span>
             </a>
         @endcan
     </nav>
@@ -67,17 +67,17 @@
     <section>
         <div class="mb-4 flex flex-wrap items-end gap-3">
             <div class="mr-auto">
-                <h2 class="text-lg font-semibold">Univers</h2>
-                <p class="text-sm text-stone-600">Personnages, lieux, créatures… Cliquez sur une fiche pour l'ouvrir.</p>
+                <h2 class="text-lg font-semibold">{{ __('Univers') }}</h2>
+                <p class="text-sm text-stone-600">{{ __("Personnages, lieux, créatures… Cliquez sur une fiche pour l'ouvrir.") }}</p>
             </div>
             <div>
-                <label for="search" class="sr-only">Rechercher</label>
-                <input id="search" type="search" wire:model.live.debounce.300ms="search" placeholder="Rechercher par nom…" class="field">
+                <label for="search" class="sr-only">{{ __('Rechercher') }}</label>
+                <input id="search" type="search" wire:model.live.debounce.300ms="search" placeholder="{{ __('Rechercher par nom…') }}" class="field">
             </div>
             <div>
-                <label for="type" class="sr-only">Type</label>
+                <label for="type" class="sr-only">{{ __('Type') }}</label>
                 <select id="type" wire:model.live="type" class="field">
-                    <option value="">Tous les types</option>
+                    <option value="">{{ __('Tous les types') }}</option>
                     @foreach ($this->types as $entityType)
                         <option value="{{ $entityType->id }}">{{ $entityType->name }}</option>
                     @endforeach
@@ -85,26 +85,26 @@
             </div>
             @if ($this->tags->isNotEmpty())
                 <div>
-                    <label for="tag" class="sr-only">Tag</label>
+                    <label for="tag" class="sr-only">{{ __('Tag') }}</label>
                     <select id="tag" wire:model.live="tag" class="field">
-                        <option value="">Tous les tags</option>
+                        <option value="">{{ __('Tous les tags') }}</option>
                         @foreach ($this->tags as $existingTag)
                             <option value="{{ $existingTag->id }}">#{{ $existingTag->name }}</option>
                         @endforeach
                     </select>
                 </div>
             @endif
-            <a href="{{ route('exports.download', [$campaign, 'fiches', 'type' => $type ?: null]) }}" class="btn-secondary" title="Fichier CSV réimportable, à utiliser comme modèle">Exporter</a>
-            <a href="{{ route('entities.create', $campaign) }}" class="btn-primary" wire:navigate>Nouvelle entité</a>
+            <a href="{{ route('exports.download', [$campaign, 'fiches', 'type' => $type ?: null]) }}" class="btn-secondary" title="{{ __('Fichier CSV réimportable, à utiliser comme modèle') }}">{{ __('Exporter') }}</a>
+            <a href="{{ route('entities.create', $campaign) }}" class="btn-primary" wire:navigate>{{ __('Nouvelle entité') }}</a>
         </div>
 
         @if ($this->entities->isEmpty())
             <div class="rounded-xl border border-dashed border-stone-300 bg-white p-10 text-center">
                 @if ($search !== '' || $type !== '' || $tag !== '')
-                    <p class="text-stone-600">Aucune entité ne correspond à ces critères.</p>
+                    <p class="text-stone-600">{{ __('Aucune entité ne correspond à ces critères.') }}</p>
                 @else
-                    <p class="text-lg font-medium">Aucune entité pour l'instant.</p>
-                    <p class="mt-1 text-stone-600">Ajoutez des personnages, des lieux, des organisations ou des objets.</p>
+                    <p class="text-lg font-medium">{{ __("Aucune entité pour l'instant.") }}</p>
+                    <p class="mt-1 text-stone-600">{{ __('Ajoutez des personnages, des lieux, des organisations ou des objets.') }}</p>
                 @endif
             </div>
         @else
@@ -131,7 +131,7 @@
                                 <span class="shrink-0 rounded-full bg-flow/10 px-2 py-0.5 text-xs font-medium text-flow">{{ $state->status }}</span>
                             @endif
                             <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{{ $entity->type->name }}</span>
-                            <span class="shrink-0 text-xs text-stone-500">{{ $entity->isWorldEntity() ? 'Monde' : 'Campagne' }}</span>
+                            <span class="shrink-0 text-xs text-stone-500">{{ $entity->isWorldEntity() ? __('Monde') : __('Campagne') }}</span>
                             <span class="shrink-0 text-codex" aria-hidden="true">›</span>
                         </a>
                     </li>
@@ -143,18 +143,18 @@
     @can('delete', $campaign)
         @php($localCount = $campaign->localEntities()->count())
         <section class="mt-10 rounded-xl border border-red-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-2 font-semibold">Supprimer la campagne</h2>
+            <h2 class="mb-2 font-semibold">{{ __('Supprimer la campagne') }}</h2>
             <p class="mb-3 text-sm text-stone-600">
                 @if ($localCount > 0)
-                    Ses {{ $localCount }} fiche{{ $localCount > 1 ? 's' : '' }} propre{{ $localCount > 1 ? 's' : '' }} à la campagne et leurs fichiers seront supprimés.
+                    {{ trans_choice('Ses :count fiche propre à la campagne et leurs fichiers seront supprimés.|Ses :count fiches propres à la campagne et leurs fichiers seront supprimés.', $localCount) }}
                 @else
-                    La campagne et ses notes de campagne seront supprimées.
+                    {{ __('La campagne et ses notes de campagne seront supprimées.') }}
                 @endif
                 @if ($campaign->world)
-                    Les fiches du monde « {{ $campaign->world->name }} » sont conservées.
+                    {{ __('Les fiches du monde « :name » sont conservées.', ['name' => $campaign->world->name]) }}
                 @endif
             </p>
-            <button type="button" wire:click="delete" wire:confirm="Supprimer définitivement la campagne {{ $campaign->name }} ? Cette action est irréversible." class="text-sm font-medium text-red-700 hover:underline">Supprimer la campagne</button>
+            <button type="button" wire:click="delete" wire:confirm="{{ __('Supprimer définitivement la campagne :name ? Cette action est irréversible.', ['name' => $campaign->name]) }}" class="text-sm font-medium text-red-700 hover:underline">{{ __('Supprimer la campagne') }}</button>
         </section>
     @endcan
 </div>

@@ -1,6 +1,6 @@
 <x-layouts.app :title="$entity->name.' · '.$campaign->name">
     <nav class="mb-2 text-sm text-stone-500">
-        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>Mes campagnes</a>
+        <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
         › <a href="{{ route('characters.show', [$campaign, $character]) }}" class="crumb" wire:navigate>{{ $character->entity->name }}</a>
     </nav>
 

@@ -114,7 +114,7 @@ class Create extends Component
     public function updatedFile(): void
     {
         $this->result = null;
-        $this->validateOnly('file', $this->fileRules(), attributes: ['file' => 'fichier']);
+        $this->validateOnly('file', $this->fileRules(), attributes: ['file' => __('fichier')]);
         $this->guess();
     }
 
@@ -136,12 +136,12 @@ class Create extends Component
             'newGroup' => ['nullable', 'string', 'max:100'],
             'newZone' => ['required', Rule::enum(Zone::class)],
             'mapping.*' => ['string', 'max:30'],
-        ], attributes: ['file' => 'fichier', 'newGroup' => 'groupe']);
+        ], attributes: ['file' => __('fichier'), 'newGroup' => __('groupe')]);
 
         $action = $this->action();
 
         if ($action === null || ($action->plan()['valid'] ?? 0) === 0) {
-            $this->addError('file', 'Aucune ligne valide à importer.');
+            $this->addError('file', __('Aucune ligne valide à importer.'));
 
             return;
         }
@@ -200,6 +200,6 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.imports.create')->title('Importer depuis un fichier');
+        return view('livewire.imports.create')->title(__('Importer depuis un fichier'));
     }
 }

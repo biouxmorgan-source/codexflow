@@ -30,15 +30,15 @@ final class TabularFile
         $table = strtolower($extension) === 'json' ? self::fromJson($content) : self::fromCsv($content);
 
         if ($table->headers === []) {
-            throw new InvalidArgumentException('Le fichier ne contient aucune colonne.');
+            throw new InvalidArgumentException(__('Le fichier ne contient aucune colonne.'));
         }
 
         if ($table->rows === []) {
-            throw new InvalidArgumentException('Le fichier ne contient aucune ligne de données.');
+            throw new InvalidArgumentException(__('Le fichier ne contient aucune ligne de données.'));
         }
 
         if (count($table->rows) > self::MAX_ROWS) {
-            throw new InvalidArgumentException('Le fichier dépasse '.self::MAX_ROWS.' lignes : découpez-le en plusieurs imports.');
+            throw new InvalidArgumentException(__('Le fichier dépasse :max lignes : découpez-le en plusieurs imports.', ['max' => self::MAX_ROWS]));
         }
 
         return $table;
@@ -93,7 +93,7 @@ final class TabularFile
         $data = json_decode($content, true);
 
         if (! is_array($data)) {
-            throw new InvalidArgumentException('Le fichier JSON est illisible : '.json_last_error_msg().'.');
+            throw new InvalidArgumentException(__('Le fichier JSON est illisible : :error.', ['error' => json_last_error_msg()]));
         }
 
         // Accepte aussi { "fiches": [ … ] } : un objet qui contient une seule liste.
@@ -102,7 +102,7 @@ final class TabularFile
         }
 
         if (! array_is_list($data) || collect($data)->contains(fn ($item) => ! is_array($item) || array_is_list($item))) {
-            throw new InvalidArgumentException('Le fichier JSON doit contenir une liste d\'objets, par exemple [{"Nom": "…"}].');
+            throw new InvalidArgumentException(__('Le fichier JSON doit contenir une liste d\'objets, par exemple [{"Nom": "…"}].'));
         }
 
         $headers = collect($data)->flatMap(fn (array $item) => array_keys($item))->map(fn ($key) => (string) $key)->unique()->values()->all();
@@ -133,6 +133,6 @@ final class TabularFile
      */
     private static function cleanHeaders(array $headers): array
     {
-        return array_map(fn ($header, $index) => mb_substr(trim($header), 0, 100) ?: 'Colonne '.($index + 1), $headers, array_keys($headers));
+        return array_map(fn ($header, $index) => mb_substr(trim($header), 0, 100) ?: __('Colonne :number', ['number' => $index + 1]), $headers, array_keys($headers));
     }
 }

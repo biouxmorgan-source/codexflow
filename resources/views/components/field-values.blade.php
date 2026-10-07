@@ -13,7 +13,7 @@
                         {{ $definition->name }}
                         @if ($overridden)
                             @php($worldValue = $entity->fieldValue($definition))
-                            <span class="ml-1 rounded-full bg-flow/10 px-1.5 py-0.5 text-[10px] font-medium text-flow" title="Valeur du monde : {{ $worldValue === null ? 'vide' : $definition->type->format($worldValue) }}">campagne</span>
+                            <span class="ml-1 rounded-full bg-flow/10 px-1.5 py-0.5 text-[10px] font-medium text-flow" title="{{ __('Valeur du monde : :value', ['value' => $worldValue === null ? __('vide') : $definition->type->format($worldValue)]) }}">{{ __('campagne') }}</span>
                         @endif
                     </dt>
                     <dd class="font-medium">

@@ -80,7 +80,7 @@ return [
 
     'locale' => env('APP_LOCALE', 'fr'),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    'fallback_locale' => 'fr', // langue source des textes (clés de lang/{langue}.json)
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'fr_FR'),
 

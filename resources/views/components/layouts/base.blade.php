@@ -36,12 +36,13 @@
         <link rel="manifest" href="/manifest.webmanifest">
         <link rel="icon" href="/favicon.ico" sizes="any">
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+        @php($scriptText = [
+            'pushSubscribeFailed' => __("L'abonnement n'a pas abouti. Réessayez, ou vérifiez les réglages de notification du navigateur."),
+            'pushDisableFailed' => __('La désactivation a échoué. Réessayez.'),
+        ])
         <script>
             // Textes affichés par les scripts (resources/js), dans la langue de la page.
-            window.codexflowText = @json([
-                'pushSubscribeFailed' => __("L'abonnement n'a pas abouti. Réessayez, ou vérifiez les réglages de notification du navigateur."),
-                'pushDisableFailed' => __('La désactivation a échoué. Réessayez.'),
-            ]);
+            window.codexflowText = {{ Js::from($scriptText) }};
         </script>
 
         <title>{{ $title ? $title.' · ' : '' }}{{ config('app.name') }}</title>

@@ -31,7 +31,7 @@
                             <input id="{{ $id }}" wire:model="{{ $model }}.{{ $definition->id }}" class="field"
                                 type="{{ $definition->type === \App\Enums\FieldType::Date ? 'date' : 'text' }}"
                                 @if ($definition->type === \App\Enums\FieldType::Number) inputmode="decimal" @endif
-                                @if ($definition->type === \App\Enums\FieldType::Counter) placeholder="valeur / maximum, ex. 9 / 12" @endif>
+                                @if ($definition->type === \App\Enums\FieldType::Counter) placeholder="{{ __('valeur / maximum, ex. 9 / 12') }}" @endif>
                     @endswitch
                     @error($model.'.'.$definition->id) <p class="error">{{ $message }}</p> @enderror
                 </div>

@@ -51,7 +51,7 @@ class EntityLinks
 
             $html .= match (true) {
                 $href !== null => '<a href="'.e($href).'" class="font-medium text-codex underline decoration-codex/40 underline-offset-2 hover:decoration-codex" wire:navigate>'.e($entity->name).'</a>',
-                $entity === null && func_num_args() < 3 => '<span class="text-stone-500" title="Fiche introuvable dans cette campagne">'.e(trim($label)).'</span>',
+                $entity === null && func_num_args() < 3 => '<span class="text-stone-500" title="'.e(__('Fiche introuvable dans cette campagne')).'">'.e(trim($label)).'</span>',
                 default => e(trim($label)),
             };
         }

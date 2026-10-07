@@ -21,13 +21,13 @@ enum FieldType: string
     public function label(): string
     {
         return match ($this) {
-            self::Text => 'Texte court',
-            self::LongText => 'Texte long',
-            self::Number => 'Nombre',
-            self::Boolean => 'Oui/non',
-            self::Date => 'Date',
-            self::Select => 'Liste de choix',
-            self::Counter => 'Compteur (valeur / maximum)',
+            self::Text => __('Texte court'),
+            self::LongText => __('Texte long'),
+            self::Number => __('Nombre'),
+            self::Boolean => __('Oui/non'),
+            self::Date => __('Date'),
+            self::Select => __('Liste de choix'),
+            self::Counter => __('Compteur (valeur / maximum)'),
         };
     }
 
@@ -69,8 +69,8 @@ enum FieldType: string
         }
 
         return match ($this) {
-            self::Text => mb_strlen($raw) > 1000 ? [null, 'dépasse 1000 caractères'] : [$raw, null],
-            self::LongText => mb_strlen($raw) > 20000 ? [null, 'dépasse 20000 caractères'] : [$raw, null],
+            self::Text => mb_strlen($raw) > 1000 ? [null, __('dépasse :max caractères', ['max' => 1000])] : [$raw, null],
+            self::LongText => mb_strlen($raw) > 20000 ? [null, __('dépasse :max caractères', ['max' => 20000])] : [$raw, null],
             self::Number => self::parseNumber($raw),
             self::Boolean => self::parseBoolean($raw),
             self::Date => self::parseDate($raw),
@@ -80,14 +80,14 @@ enum FieldType: string
     }
 
     /**
-     * Valeur lisible en français.
+     * Valeur lisible, dans la langue courante ou dans $locale (« fr » pour l'export réimportable).
      */
-    public function format(mixed $value): string
+    public function format(mixed $value, ?string $locale = null): string
     {
         return match ($this) {
             self::Number => str_replace('.', ',', (string) $value),
-            self::Boolean => $value ? 'Oui' : 'Non',
-            self::Date => Carbon::parse($value)->format('d/m/Y'),
+            self::Boolean => $value ? __('Oui', [], $locale) : __('Non', [], $locale),
+            self::Date => Carbon::parse($value)->locale($locale ?? app()->getLocale())->isoFormat('L'),
             self::Counter => self::formatNumber($value['value'] ?? 0).(isset($value['max']) ? ' / '.self::formatNumber($value['max']) : ''),
             default => (string) $value,
         };
@@ -166,7 +166,7 @@ enum FieldType: string
         $normalized = str_replace([' ', "\u{00A0}", ','], ['', '', '.'], $raw);
 
         if (! is_numeric($normalized)) {
-            return [null, '« '.$raw.' » n\'est pas un nombre'];
+            return [null, __("« :value » n'est pas un nombre", ['value' => $raw])];
         }
 
         return [$normalized + 0, null];
@@ -178,7 +178,7 @@ enum FieldType: string
         return match (Str::of($raw)->ascii()->lower()->toString()) {
             'oui', 'o', 'vrai', 'true', 'yes', 'y', '1', 'x' => [true, null],
             'non', 'n', 'faux', 'false', 'no', '0' => [false, null],
-            default => [null, '« '.$raw.' » n\'est ni oui ni non'],
+            default => [null, __("« :value » n'est ni oui ni non", ['value' => $raw])],
         };
     }
 
@@ -193,7 +193,7 @@ enum FieldType: string
             }
         }
 
-        return [null, '« '.$raw.' » n\'est pas une date (JJ/MM/AAAA)'];
+        return [null, __("« :value » n'est pas une date (JJ/MM/AAAA)", ['value' => $raw])];
     }
 
     /**
@@ -206,7 +206,7 @@ enum FieldType: string
         $parts = array_map('trim', explode('/', $raw));
 
         if (count($parts) > 2) {
-            return [null, '« '.$raw.' » n\'est pas un compteur (valeur ou valeur / maximum)'];
+            return [null, __("« :value » n'est pas un compteur (valeur ou valeur / maximum)", ['value' => $raw])];
         }
 
         $numbers = [];
@@ -215,7 +215,7 @@ enum FieldType: string
             [$number, $error] = self::parseNumber($part);
 
             if ($error !== null) {
-                return [null, '« '.$raw.' » n\'est pas un compteur (valeur ou valeur / maximum)'];
+                return [null, __("« :value » n'est pas un compteur (valeur ou valeur / maximum)", ['value' => $raw])];
             }
 
             $numbers[] = $number;
@@ -236,6 +236,6 @@ enum FieldType: string
             }
         }
 
-        return [null, '« '.$raw.' » ne fait pas partie des choix'];
+        return [null, __('« :value » ne fait pas partie des choix', ['value' => $raw])];
     }
 }

@@ -109,13 +109,13 @@ class Form extends Component
             'scope' => ['required', ValidationRule::in(['game', 'campaign'])],
             'tags' => ['nullable', 'string', 'max:1000'],
         ], attributes: [
-            'title' => 'titre',
-            'category' => 'catégorie',
-            'summary' => 'résumé',
-            'gmNotes' => 'notes MJ',
-            'origin' => 'origine',
-            'zone' => 'visibilité',
-            'scope' => 'rattachement',
+            'title' => __('titre'),
+            'category' => __('catégorie'),
+            'summary' => __('résumé'),
+            'gmNotes' => __('notes MJ'),
+            'origin' => __('origine'),
+            'zone' => __('visibilité'),
+            'scope' => __('rattachement'),
         ]);
 
         $rule = $this->rule ?? new Rule;
@@ -146,6 +146,6 @@ class Form extends Component
 
     public function render()
     {
-        return view('livewire.rules.form')->title($this->rule ? 'Modifier '.$this->rule->title : 'Nouvelle règle');
+        return view('livewire.rules.form')->title($this->rule ? __('Modifier :title', ['title' => $this->rule->title]) : __('Nouvelle règle'));
     }
 }
