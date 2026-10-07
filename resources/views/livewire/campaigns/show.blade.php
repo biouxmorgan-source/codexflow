@@ -39,6 +39,14 @@
             <span class="font-semibold text-codex">{{ __('Cartes →') }}</span>
             <span class="mt-1 text-sm text-stone-600">{{ __("Une carte sur l'écran de table, avec grille, jetons et règle si besoin, pilotable depuis le téléphone.") }}</span>
         </a>
+        <a href="{{ route('graph.index', $campaign) }}" class="tile" wire:navigate>
+            <span class="font-semibold text-codex">{{ __('Graphe des relations →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('Qui est lié à qui, en entier ou autour d’une fiche, et tel qu’un personnage le connaît.') }}</span>
+        </a>
+        <a href="{{ route('timeline.index', $campaign) }}" class="tile" wire:navigate>
+            <span class="font-semibold text-codex">{{ __('Chronologie →') }}</span>
+            <span class="mt-1 text-sm text-stone-600">{{ __('L’histoire du monde, les événements prévus et ce qui s’est passé en jeu, avec des dates libres.') }}</span>
+        </a>
         <a href="{{ route('characters.index', $campaign) }}" class="tile" wire:navigate>
             <span class="font-semibold text-codex">{{ __('Personnages →') }}</span>
             <span class="mt-1 text-sm text-stone-600">{{ __('Les personnages des joueurs : à qui ils sont confiés, leur feuille PDF, leurs compteurs.') }}</span>

@@ -136,4 +136,5 @@ document.addEventListener('alpine:init', () => {
 
 import './echo';
 import './map-editor';
+import './relation-graph';
 import './pwa';

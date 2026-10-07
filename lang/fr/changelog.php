@@ -4,6 +4,17 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.8.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Le graphe et la chronologie',
+        'items' => [
+            'Graphe des relations : toutes les fiches reliées, ou le réseau autour d\'une fiche, avec une profondeur et un filtre par type.',
+            '« Voir comme » dans le graphe : le réseau tel qu\'un personnage le connaît. Les joueurs y accèdent depuis leur personnage.',
+            'Chronologie : histoire du monde, événements prévus et joués, avec des dates libres comme « Jour 3 ».',
+            'Un événement joué noté pendant la séance est rattaché à la séance et à la scène en cours.',
+        ],
+    ],
+
     '0.7.0' => [
         'date' => '2026-10-10',
         'title' => 'Autour de la table',

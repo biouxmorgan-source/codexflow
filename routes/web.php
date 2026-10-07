@@ -20,6 +20,7 @@ use App\Livewire\Entities\Form as EntityForm;
 use App\Livewire\Entities\Show as EntityShow;
 use App\Livewire\EntityTypes\Manage as EntityTypesManage;
 use App\Livewire\Fields\Manage as FieldsManage;
+use App\Livewire\Graph\Index as GraphIndex;
 use App\Livewire\Imports\Create as ImportCreate;
 use App\Livewire\Journal\Index as JournalIndex;
 use App\Livewire\Maps\Index as MapIndex;
@@ -42,6 +43,7 @@ use App\Livewire\Support\ReportBug;
 use App\Livewire\Table\Remote as TableRemote;
 use App\Livewire\Table\Screen as TableScreen;
 use App\Livewire\Tags\Manage as TagsManage;
+use App\Livewire\Timeline\Index as TimelineIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route(auth()->check() ? 'campaigns.index' : 'login'));
@@ -81,6 +83,8 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/telecommande', TableRemote::class)->name('table.remote')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/cartes', MapIndex::class)->name('maps.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/cartes/{map}', MapShow::class)->name('maps.show')->whereNumber(['campaign', 'map']);
+    Route::livewire('/campagnes/{campaign}/chronologie', TimelineIndex::class)->name('timeline.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/graphe', GraphIndex::class)->name('graph.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 
     Route::livewire('/campagnes/{campaign}/regles', RuleIndex::class)->name('rules.index')->whereNumber('campaign');

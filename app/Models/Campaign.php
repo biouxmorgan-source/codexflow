@@ -108,6 +108,12 @@ class Campaign extends Model
         return $this->hasMany(Secret::class);
     }
 
+    /** @return HasMany<TimelineEvent, $this> */
+    public function timelineEvents(): HasMany
+    {
+        return $this->hasMany(TimelineEvent::class);
+    }
+
     /** @return HasMany<TableMap, $this> */
     public function maps(): HasMany
     {

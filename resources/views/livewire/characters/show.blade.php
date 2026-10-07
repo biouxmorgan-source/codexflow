@@ -51,6 +51,8 @@
             @if ($campaign->table_shared)
                 <a href="{{ route('table.screen', $campaign) }}" target="codexflow-table" class="btn-secondary">{{ __('Écran de table ↗') }}</a>
             @endif
+            <a href="{{ route('graph.index', [$campaign, 'comme' => $character->id]) }}" class="btn-secondary" wire:navigate>{{ __('Graphe') }}</a>
+            <a href="{{ route('timeline.index', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Chronologie') }}</a>
         @endif
     </header>
 

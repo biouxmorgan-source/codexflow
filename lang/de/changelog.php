@@ -4,6 +4,17 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.8.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Graph und Zeitleiste',
+        'items' => [
+            'Beziehungsgraph: alle verbundenen Einträge oder das Netz um einen Eintrag, mit Tiefe und Filter nach Typ.',
+            '„Ansehen als“ im Graph: das Netz so, wie ein Charakter es kennt. Spieler öffnen ihn über ihren Charakter.',
+            'Zeitleiste: Weltgeschichte, geplante und gespielte Ereignisse, mit freien Daten wie „Tag 3“.',
+            'Ein während der Sitzung notiertes gespieltes Ereignis wird der Sitzung und der aktuellen Szene zugeordnet.',
+        ],
+    ],
+
     '0.7.0' => [
         'date' => '2026-10-10',
         'title' => 'Rund um den Tisch',

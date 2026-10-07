@@ -28,6 +28,9 @@
         </div>
         <div class="flex flex-wrap gap-2">
             <livewire:table.show-button :campaign="$campaign" kind="entity" :item-id="$entity->id" wire:key="table-entity" />
+            @if ($publicRelations->isNotEmpty() || $gmRelations->isNotEmpty())
+                <a href="{{ route('graph.index', [$campaign, 'fiche' => $entity->id]) }}" class="btn-secondary" wire:navigate>{{ __('Voir dans le graphe') }}</a>
+            @endif
             @if ($entity->hasImage())
                 <livewire:table.show-button :campaign="$campaign" kind="portrait" :item-id="$entity->id" :label="__('Portrait seul')" wire:key="table-portrait" />
             @endif
