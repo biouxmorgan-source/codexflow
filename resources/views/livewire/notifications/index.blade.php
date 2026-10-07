@@ -39,4 +39,40 @@
         </ul>
         <div class="mt-4">{{ $this->notifications->links() }}</div>
     @endif
+    <section x-data="deviceSettings" wire:ignore class="mt-8 rounded-xl border border-stone-200 bg-white p-6 shadow-sm" aria-labelledby="device-title">
+        <h2 id="device-title" class="font-semibold">Sur cet appareil</h2>
+        <p class="mt-1 text-sm text-stone-600">Installez CodexFlow comme une application sur votre téléphone ou votre ordinateur : la fiche de votre personnage reste lisible sans connexion.</p>
+
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+            <template x-if="installed">
+                <p class="text-sm text-green-800">CodexFlow est installé sur cet appareil.</p>
+            </template>
+            <template x-if="! installed && installable">
+                <button type="button" x-on:click="install" class="btn-secondary">Installer l'application</button>
+            </template>
+            <template x-if="! installed && ! installable">
+                <p class="text-sm text-stone-600">Pour l'installer : menu du navigateur › « Installer l'application » ou, sur iPhone, Partager › « Sur l'écran d'accueil ».</p>
+            </template>
+        </div>
+
+        <div class="mt-4 border-t border-stone-100 pt-4">
+            <template x-if="! secure">
+                <p class="text-sm text-stone-600">Les notifications sur l'appareil demandent une adresse sécurisée (https).</p>
+            </template>
+            <template x-if="secure && ! pushSupported">
+                <p class="text-sm text-stone-600">Les notifications sur l'appareil ne sont pas disponibles ici. Sur iPhone, installez d'abord l'application.</p>
+            </template>
+            <template x-if="pushSupported && permission === 'denied'">
+                <p class="text-sm text-stone-600">Les notifications sont bloquées pour ce site : autorisez-les dans les réglages du navigateur.</p>
+            </template>
+            <template x-if="pushSupported && permission !== 'denied'">
+                <div class="flex flex-wrap items-center gap-3">
+                    <p class="text-sm" x-text="subscribed ? 'Vous recevez vos notifications sur cet appareil, même quand CodexFlow est fermé.' : 'Recevez messages et révélations sur cet appareil, même quand CodexFlow est fermé.'"></p>
+                    <button type="button" x-show="! subscribed" x-on:click="enablePush" x-bind:disabled="busy" class="btn-primary">Activer les notifications</button>
+                    <button type="button" x-show="subscribed" x-on:click="disablePush" x-bind:disabled="busy" class="btn-secondary">Désactiver</button>
+                </div>
+            </template>
+            <p x-show="error" x-text="error" class="error mt-2" role="alert"></p>
+        </div>
+    </section>
 </div>

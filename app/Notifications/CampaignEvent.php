@@ -3,7 +3,9 @@
 namespace App\Notifications;
 
 use App\Models\Campaign;
+use App\Notifications\Channels\PushChannel;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushMessage;
 
 /**
  * Événement d'une campagne pour le centre de notifications : un élément reçu ou repris,
@@ -31,7 +33,27 @@ class CampaignEvent extends Notification
     /** @return list<string> */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        $channels = ['database'];
+
+        // Push vers les appareils abonnés (PWA), si les clés VAPID sont configurées.
+        if (PushChannel::enabled() && method_exists($notifiable, 'pushSubscriptions') && $notifiable->pushSubscriptions()->exists()) {
+            $channels[] = PushChannel::class;
+        }
+
+        return $channels;
+    }
+
+    public function toWebPush(object $notifiable, Notification $notification): WebPushMessage
+    {
+        return (new WebPushMessage)
+            ->title($this->campaign->name)
+            ->body(mb_substr($this->text, 0, 200))
+            ->icon('/icons/icon-192.png')
+            ->badge('/icons/badge-96.png')
+            ->tag('codexflow-'.$this->kind.'-'.$this->campaign->id)
+            ->renotify()
+            ->lang('fr')
+            ->data(['url' => route('notifications.open', $this->id, false)]);
     }
 
     /** @return array<string, mixed> */
