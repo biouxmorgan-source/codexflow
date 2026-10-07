@@ -1,4 +1,5 @@
 <x-layouts.guest title="Connexion">
+    @include('auth._invitation')
     @if (session('status'))
         <p class="mb-4 rounded-md bg-codex-soft px-3 py-2 text-sm text-codex">{{ session('status') }}</p>
     @endif

@@ -1,4 +1,5 @@
 <x-layouts.guest title="Créer un compte">
+    @include('auth._invitation')
     <form method="POST" action="{{ route('register') }}" class="space-y-4">
         @csrf
         <div>
@@ -8,7 +9,7 @@
         </div>
         <div>
             <label for="email" class="label">Adresse e-mail</label>
-            <input id="email" name="email" type="email" value="{{ old('email') }}" required autocomplete="username" class="field">
+            <input id="email" name="email" type="email" value="{{ old('email', request('email')) }}" required autocomplete="username" class="field">
             @error('email') <p class="error">{{ $message }}</p> @enderror
         </div>
         <div>

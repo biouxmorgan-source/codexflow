@@ -64,6 +64,12 @@ class Campaign extends Model
             ->withTimestamps();
     }
 
+    /** @return HasMany<CampaignInvitation, $this> */
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(CampaignInvitation::class);
+    }
+
     /** @return HasMany<Entity, $this> */
     public function localEntities(): HasMany
     {
