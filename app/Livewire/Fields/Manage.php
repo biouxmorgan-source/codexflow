@@ -8,16 +8,22 @@ use App\Models\Campaign;
 use App\Models\EntityType;
 use App\Models\FieldDefinition;
 use App\Models\GameSystem;
+use App\Support\Archive\ArchiveException;
+use App\Support\Archive\CampaignImport;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\WithFileUploads;
 
 /**
  * Champs libres d'un jeu, ouverts depuis une campagne de ce jeu.
  */
 class Manage extends Component
 {
+    use WithFileUploads;
+
     public Campaign $campaign;
 
     public ?int $editingId = null;
@@ -36,6 +42,9 @@ class Manage extends Component
 
     /** Le joueur peut modifier ce champ sur la fiche de son personnage. */
     public bool $playerEditable = false;
+
+    /** Modèle de jeu (.json) exporté depuis CodexFlow. */
+    public ?TemporaryUploadedFile $template = null;
 
     public function mount(Campaign $campaign): void
     {
@@ -176,6 +185,28 @@ class Manage extends Component
     private function find(int $id): FieldDefinition
     {
         return $this->gameSystem->fieldDefinitions()->findOrFail($id);
+    }
+
+    public function importTemplate(): void
+    {
+        $this->authorize('update', $this->gameSystem);
+        $this->validate(['template' => ['required', 'file', 'extensions:json', 'max:5120']], attributes: ['template' => __('modèle')]);
+
+        try {
+            $added = (new CampaignImport($this->campaign->owner))->template((string) file_get_contents($this->template->getRealPath()), $this->campaign);
+        } catch (ArchiveException $e) {
+            $this->addError('template', $e->getMessage());
+
+            return;
+        }
+
+        $this->template->delete();
+        $this->reset('template');
+        unset($this->definitions, $this->types, $this->groups);
+        session()->now('status', __('Modèle importé : :fields, :rules.', [
+            'fields' => trans_choice(':count champ ajouté|:count champs ajoutés', $added['fields']),
+            'rules' => trans_choice(':count règle ajoutée|:count règles ajoutées', $added['rules']),
+        ]));
     }
 
     public function render()

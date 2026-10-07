@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.9.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Levar a campanha consigo',
+        'items' => [
+            'Exportar uma campanha inteira num arquivo .zip: jogo, mundo, fichas, cenários, documentos, mapas, segredos, cronologia e ficheiros.',
+            'Importar um arquivo a partir de «As minhas campanhas»: recria a campanha, para si ou para outro mestre.',
+            'Modelos de jogo partilháveis: tipos de ficha, campos, etiquetas e regras, sem conteúdo de campanha.',
+        ],
+    ],
+
     '0.8.0' => [
         'date' => '2026-10-11',
         'title' => 'O grafo e a cronologia',

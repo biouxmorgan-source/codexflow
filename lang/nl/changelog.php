@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.9.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Je campagne meenemen',
+        'items' => [
+            'Een hele campagne exporteren als .zip-archief: spel, wereld, kaarten, scenario’s, documenten, plattegronden, geheimen, tijdlijn en bestanden.',
+            'Een archief importeren via ‘Mijn campagnes’: het maakt de campagne opnieuw aan, bij jou of bij een andere SL.',
+            'Deelbare spelsjablonen: kaarttypes, velden, labels en regels, zonder campagne-inhoud.',
+        ],
+    ],
+
     '0.8.0' => [
         'date' => '2026-10-11',
         'title' => 'De graaf en de tijdlijn',

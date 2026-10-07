@@ -15,6 +15,10 @@
         </div>
     </div>
 
+    @if (session('status'))
+        <p class="mb-6 rounded-md bg-codex-soft px-3 py-2 text-sm text-codex">{{ session('status') }}</p>
+    @endif
+
     <div class="grid gap-6 lg:grid-cols-3">
         <section class="lg:col-span-2">
             @if ($this->definitions->isEmpty())
@@ -120,6 +124,22 @@
                     @endif
                 </div>
             </form>
+
+            <section class="mt-6 space-y-3 rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+                <h2 class="font-semibold">{{ __('Modèle partageable') }}</h2>
+                <p class="text-sm text-stone-600">{{ __('La structure du jeu dans un fichier : types de fiche, champs et étiquettes, et si vous voulez les règles du jeu. Sans fiche, scène ni document. Un autre MJ l’importe ici, dans son propre jeu.') }}</p>
+                <div class="flex flex-wrap gap-2">
+                    <a href="{{ route('archives.template', $campaign) }}" class="btn-secondary">{{ __('Exporter le modèle') }}</a>
+                    <a href="{{ route('archives.template', [$campaign, 'regles' => 1]) }}" class="btn-secondary">{{ __('Avec les règles') }}</a>
+                </div>
+                <form wire:submit="importTemplate" class="space-y-2 border-t border-stone-200 pt-3">
+                    <label for="template" class="label">{{ __('Importer un modèle') }}</label>
+                    <input id="template" type="file" wire:model="template" accept=".json,application/json" class="block w-full text-sm">
+                    @error('template') <p class="error">{{ $message }}</p> @enderror
+                    <p class="text-xs text-stone-500">{{ __('Les champs et règles qui existent déjà sous le même nom ne sont pas touchés.') }}</p>
+                    <button type="submit" class="btn-primary" wire:loading.attr="disabled" wire:target="template,importTemplate">{{ __('Importer') }}</button>
+                </form>
+            </section>
         </aside>
     </div>
 </div>

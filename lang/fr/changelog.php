@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.9.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Emporter sa campagne',
+        'items' => [
+            'Exporter une campagne entière dans une archive .zip : jeu, monde, fiches, scénarios, documents, cartes, secrets, chronologie et fichiers.',
+            'Importer une archive depuis « Mes campagnes » : elle recrée la campagne, chez vous ou chez un autre MJ.',
+            'Modèles de jeu partageables : types de fiche, champs, étiquettes et règles, sans aucun contenu de campagne.',
+        ],
+    ],
+
     '0.8.0' => [
         'date' => '2026-10-11',
         'title' => 'Le graphe et la chronologie',
