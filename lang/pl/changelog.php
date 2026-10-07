@@ -4,6 +4,18 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.6.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Pamięć kampanii',
+        'items' => [
+            'Sekrety: osobna informacja, powiązana z kartami, scenami lub dokumentami, ujawniana jednym kliknięciem postaci lub całemu stołowi.',
+            'Historia ujawnień: kto dowiedział się czego, kiedy, podczas której sesji i której sceny; każde ujawnienie można cofnąć.',
+            '„Zobacz jako”: MG widzi kampanię dokładnie tak jak postać, tylko do odczytu.',
+            '„Wspomniane w” pokazuje też reguły i notatki z sesji, które wspominają kartę.',
+            'Relacje: odwrotna („pracuje dla” / „zatrudnia”) wypełnia się sama.',
+        ],
+    ],
+
     '0.5.0' => [
         'date' => '2026-10-08',
         'title' => 'Lepszy porządek, razem',

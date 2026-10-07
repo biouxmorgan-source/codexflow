@@ -4,6 +4,18 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.6.0' => [
+        'date' => '2026-10-09',
+        'title' => 'La memoria de la campaña',
+        'items' => [
+            'Secretos: una información aparte, vinculada a fichas, escenas o documentos, que se revela con un clic a un personaje o a toda la mesa.',
+            'Historial de revelaciones: quién supo qué, cuándo, en qué sesión y en qué escena; cada revelación se puede deshacer.',
+            '«Ver como»: el DJ ve la campaña exactamente como un personaje, en solo lectura.',
+            '«Citado en» muestra también las reglas y las notas de sesión que mencionan una ficha.',
+            'Relaciones: la inversa («trabaja para» / «emplea a») se rellena sola.',
+        ],
+    ],
+
     '0.5.0' => [
         'date' => '2026-10-08',
         'title' => 'Ordenar mejor, entre varios',

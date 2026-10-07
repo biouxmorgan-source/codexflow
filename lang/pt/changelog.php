@@ -4,6 +4,18 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.6.0' => [
+        'date' => '2026-10-09',
+        'title' => 'A memória da campanha',
+        'items' => [
+            'Segredos: uma informação à parte, vinculada a fichas, cenas ou documentos, revelada com um clique a um personagem ou à mesa toda.',
+            'Histórico de revelações: quem soube o quê, quando, em qual sessão e em qual cena; cada revelação pode ser desfeita.',
+            '«Ver como»: o Mestre vê a campanha exatamente como um personagem, somente leitura.',
+            '«Citado em» também mostra as regras e as notas de sessão que mencionam uma ficha.',
+            'Relações: o inverso («trabalha para» / «emprega») é preenchido automaticamente.',
+        ],
+    ],
+
     '0.5.0' => [
         'date' => '2026-10-08',
         'title' => 'Organizar melhor, em grupo',
