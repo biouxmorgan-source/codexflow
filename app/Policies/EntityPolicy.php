@@ -13,7 +13,7 @@ class EntityPolicy
 {
     public function view(User $user, Entity $entity): bool
     {
-        return CoGameMaster::canPrepare($user, $entity);
+        return CoGameMaster::canPrepare($user, $entity, edit: false);
     }
 
     public function update(User $user, Entity $entity): bool

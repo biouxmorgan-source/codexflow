@@ -10,7 +10,7 @@ class GameSystemPolicy
 {
     public function view(User $user, GameSystem $gameSystem): bool
     {
-        return CoGameMaster::canPrepare($user, $gameSystem);
+        return CoGameMaster::canPrepare($user, $gameSystem, edit: false);
     }
 
     public function update(User $user, GameSystem $gameSystem): bool

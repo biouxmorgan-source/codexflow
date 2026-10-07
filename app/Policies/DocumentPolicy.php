@@ -13,7 +13,7 @@ class DocumentPolicy
 {
     public function view(User $user, Document $model): bool
     {
-        return CoGameMaster::canPrepare($user, $model);
+        return CoGameMaster::canPrepare($user, $model, edit: false);
     }
 
     public function update(User $user, Document $model): bool

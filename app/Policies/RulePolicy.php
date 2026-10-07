@@ -13,7 +13,7 @@ class RulePolicy
 {
     public function view(User $user, Rule $model): bool
     {
-        return CoGameMaster::canPrepare($user, $model);
+        return CoGameMaster::canPrepare($user, $model, edit: false);
     }
 
     public function update(User $user, Rule $model): bool

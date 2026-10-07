@@ -10,7 +10,7 @@ class WorldPolicy
 {
     public function view(User $user, World $world): bool
     {
-        return CoGameMaster::canPrepare($user, $world);
+        return CoGameMaster::canPrepare($user, $world, edit: false);
     }
 
     public function update(User $user, World $world): bool
