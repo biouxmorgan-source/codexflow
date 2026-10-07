@@ -3,6 +3,7 @@
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ImportExampleController;
+use App\Http\Controllers\InvitationController;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Documents\Index as DocumentIndex;
@@ -13,6 +14,7 @@ use App\Livewire\EntityTypes\Manage as EntityTypesManage;
 use App\Livewire\Fields\Manage as FieldsManage;
 use App\Livewire\Imports\Create as ImportCreate;
 use App\Livewire\Journal\Index as JournalIndex;
+use App\Livewire\Members\Index as MemberIndex;
 use App\Livewire\Rules\Form as RuleForm;
 use App\Livewire\Rules\Index as RuleIndex;
 use App\Livewire\Rules\Show as RuleShow;
@@ -26,7 +28,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route(auth()->check() ? 'campaigns.index' : 'login'));
 
+// Ouvert sans être connecté : le visiteur voit l'invitation avant de se connecter ou de s'inscrire.
+Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('invitations.show');
+
 Route::middleware('auth')->group(function () {
+    Route::post('/invitation/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::livewire('/campagnes', CampaignIndex::class)->name('campaigns.index');
     Route::livewire('/types-de-fiche', EntityTypesManage::class)->name('entity-types.index');
     Route::livewire('/campagnes/{campaign}', CampaignShow::class)->name('campaigns.show')->whereNumber('campaign');
@@ -49,6 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/documents/{document}', DocumentShow::class)->name('documents.show')->whereNumber(['campaign', 'document']);
 
     Route::livewire('/campagnes/{campaign}/recherche', SearchIndex::class)->name('search.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/joueurs', MemberIndex::class)->name('members.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/journal', JournalIndex::class)->name('journal.index')->whereNumber('campaign');
 
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');

@@ -31,6 +31,10 @@
             <span class="font-semibold text-codex">Règles →</span>
             <span class="mt-1 text-sm text-stone-600">Règles du jeu, règles maison et glossaire, pour retrouver une procédure en pleine partie.</span>
         </a>
+        <a href="{{ route('members.index', $campaign) }}" class="tile" wire:navigate>
+            <span class="font-semibold text-codex">Joueurs →</span>
+            <span class="mt-1 text-sm text-stone-600">Inviter vos joueurs par un lien et voir qui fait partie de la campagne.</span>
+        </a>
         <a href="{{ route('journal.index', $campaign) }}" class="tile" wire:navigate>
             <span class="font-semibold text-codex">Journal →</span>
             <span class="mt-1 text-sm text-stone-600">Qui a modifié quoi et quand, avec l'ancienne valeur : rien ne se perd.</span>

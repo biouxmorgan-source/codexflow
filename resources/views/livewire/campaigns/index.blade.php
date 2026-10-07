@@ -9,6 +9,10 @@
         @endunless
     </div>
 
+    @if (session('status'))
+        <p class="mb-6 rounded-md bg-codex-soft px-3 py-2 text-sm text-codex">{{ session('status') }}</p>
+    @endif
+
     @if ($creating)
         <form wire:submit="create" class="mb-8 space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 class="text-lg font-semibold">Nouvelle campagne</h2>
@@ -94,6 +98,9 @@
                         <div><dt class="inline font-medium text-ink">Monde :</dt> <dd class="inline">{{ $campaign->world?->name ?? 'aucun' }}</dd></div>
                         <div><dt class="inline font-medium text-ink">Rôle :</dt> <dd class="inline">{{ $role->label() }}</dd></div>
                     </dl>
+                    @if ($role === \App\Enums\CampaignRole::Player)
+                        <p class="mt-3 text-sm text-stone-500">Votre espace joueur (personnage, fiches révélées) arrive avec les prochaines mises à jour.</p>
+                    @endif
                 </li>
             @endforeach
         </ul>
