@@ -331,6 +331,8 @@ class Show extends Component
             'description' => EntityLinks::render($this->entity->description, $this->campaign),
             'gmNotes' => EntityLinks::render($this->entity->gm_notes, $this->campaign),
             'backlinks' => EntityLinks::backlinks($this->entity, $this->campaign),
+            'ruleBacklinks' => EntityLinks::rules($this->entity, $this->campaign),
+            'noteBacklinks' => EntityLinks::sessionNotes($this->entity, $this->campaign),
             'publicAttachments' => $attachments->where('zone', Zone::Public),
             'gmAttachments' => $attachments->where('zone', Zone::GameMaster),
             'publicFields' => $publicFields,

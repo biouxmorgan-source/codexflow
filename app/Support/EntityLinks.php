@@ -4,7 +4,9 @@ namespace App\Support;
 
 use App\Models\Campaign;
 use App\Models\Entity;
+use App\Models\Rule;
 use App\Models\Scene;
+use App\Models\SessionNote;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
@@ -112,6 +114,49 @@ class EntityLinks
             })
             ->orderBy('name')
             ->get();
+    }
+
+    /**
+     * Règles utilisables dans la campagne qui citent la fiche.
+     *
+     * @return Collection<int, Rule>
+     */
+    public static function rules(Entity $entity, Campaign $campaign): Collection
+    {
+        [$byId, $byName] = self::needles($entity);
+
+        return $campaign->availableRules()
+            ->where(function ($q) use ($byId, $byName) {
+                foreach (['summary', 'procedure', 'gm_notes'] as $column) {
+                    $q->orWhere("rules.{$column}", 'like', $byId)->orWhereRaw("lower(rules.{$column}) like ?", [$byName]);
+                }
+            })
+            ->orderByRaw('lower(title)')
+            ->get();
+    }
+
+    /**
+     * Notes de session de la campagne qui citent la fiche, des plus récentes aux plus anciennes.
+     *
+     * @return Collection<int, SessionNote>
+     */
+    public static function sessionNotes(Entity $entity, Campaign $campaign): Collection
+    {
+        [$byId, $byName] = self::needles($entity);
+
+        return SessionNote::query()
+            ->whereHas('playSession', fn ($q) => $q->where('campaign_id', $campaign->getKey()))
+            ->where(fn ($q) => $q->where('body', 'like', $byId)->orWhereRaw('lower(body) like ?', [$byName]))
+            ->with('playSession')
+            ->latest('id')
+            ->limit(20)
+            ->get();
+    }
+
+    /** @return array{0: string, 1: string} motifs LIKE d'un lien [[…|id]] ou [[nom]] vers la fiche */
+    private static function needles(Entity $entity): array
+    {
+        return ['%|'.$entity->getKey().']]%', '%[['.addcslashes(mb_strtolower($entity->name), '%_\\').']]%'];
     }
 
     /**

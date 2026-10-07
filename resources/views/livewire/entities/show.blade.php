@@ -254,12 +254,21 @@
 
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-2 font-semibold">{{ __('Cité dans') }}</h2>
-                @if ($backlinks->isEmpty())
-                    <p class="text-sm text-stone-500">{{ __('Aucune autre fiche ne mentionne :name.', ['name' => $entity->name]) }}</p>
+                @if ($backlinks->isEmpty() && $ruleBacklinks->isEmpty() && $noteBacklinks->isEmpty())
+                    <p class="text-sm text-stone-500">{{ __('Rien ne mentionne encore :name.', ['name' => $entity->name]) }}</p>
                 @else
                     <ul class="space-y-1 text-sm">
                         @foreach ($backlinks as $other)
                             <li><a href="{{ route('entities.show', [$campaign, $other]) }}" class="link" wire:navigate>{{ $other->name }}</a></li>
+                        @endforeach
+                        @foreach ($ruleBacklinks as $citingRule)
+                            <li><span class="text-xs text-stone-500">{{ __('Règle ·') }}</span> <a href="{{ route('rules.show', [$campaign, $citingRule]) }}" class="link" wire:navigate>{{ $citingRule->title }}</a></li>
+                        @endforeach
+                        @foreach ($noteBacklinks as $note)
+                            <li>
+                                <a href="{{ route('sessions.show', [$campaign, $note->playSession]) }}" class="link" wire:navigate>{{ $note->playSession->label() }}</a>
+                                <span class="block truncate text-xs text-stone-500">{{ \App\Support\EntityLinks::plain($note->body) }}</span>
+                            </li>
                         @endforeach
                     </ul>
                 @endif
