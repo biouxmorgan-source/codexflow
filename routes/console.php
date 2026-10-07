@@ -37,7 +37,7 @@ Artisan::command('codexflow:admin {email} {--remove}', function (string $email) 
     $this->info($user->is_admin ? $user->name.' administre CodexFlow.' : $user->name.' n\'administre plus CodexFlow.');
 })->purpose('Donne (ou retire avec --remove) le rôle d\'administrateur à un compte');
 
-Artisan::command('codexflow:demo {email}', function (string $email, LoadDemoCampaign $loadDemo) {
+Artisan::command('codexflow:demo {email} {--lang=fr : langue du contenu}', function (string $email, LoadDemoCampaign $loadDemo) {
     $user = User::where('email', $email)->first();
 
     if ($user === null) {
@@ -46,6 +46,12 @@ Artisan::command('codexflow:demo {email}', function (string $email, LoadDemoCamp
         return 1;
     }
 
-    $campaign = $loadDemo->handle($user);
+    if (! in_array($this->option('lang'), LoadDemoCampaign::locales(), true)) {
+        $this->error('Langues disponibles : '.implode(', ', LoadDemoCampaign::locales()));
+
+        return 1;
+    }
+
+    $campaign = $loadDemo->handle($user, $this->option('lang'));
     $this->info('Campagne de démonstration « '.$campaign->name.' » chargée dans le compte de '.$user->name.'.');
 })->purpose('Charge la campagne de démonstration dans un compte');

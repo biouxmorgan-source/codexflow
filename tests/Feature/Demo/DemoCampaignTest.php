@@ -9,6 +9,7 @@ use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\EntityRelation;
+use App\Models\EntityType;
 use App\Models\MapToken;
 use App\Models\Rule;
 use App\Models\Scene;
@@ -19,7 +20,9 @@ use App\Models\User;
 use App\Support\Archive\CampaignExport;
 use App\Support\Archive\CampaignImport;
 use App\Support\EntityLinks;
+use App\Support\Locale;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -38,11 +41,12 @@ class DemoCampaignTest extends TestCase
     {
         $gm = User::factory()->create();
 
-        $campaign = app(LoadDemoCampaign::class)->handle($gm);
+        $campaign = app(LoadDemoCampaign::class)->handle($gm, 'fr');
+        $text = LoadDemoCampaign::text('fr');
 
-        $this->assertSame(LoadDemoCampaign::CAMPAIGN, $campaign->name);
-        $this->assertSame(LoadDemoCampaign::GAME, $campaign->gameSystem->name);
-        $this->assertSame(LoadDemoCampaign::WORLD, $campaign->world->name);
+        $this->assertSame($text['campaign']['name'], $campaign->name);
+        $this->assertSame($text['game']['name'], $campaign->gameSystem->name);
+        $this->assertSame($text['world']['name'], $campaign->world->name);
         $this->assertTrue($campaign->isGameMaster($gm));
 
         // Des fiches dans le monde, une seule propre à la campagne, avec leurs portraits.
@@ -66,7 +70,7 @@ class DemoCampaignTest extends TestCase
         $fields = $campaign->gameSystem->fieldDefinitions;
         $this->assertGreaterThan(0, $fields->where('zone', Zone::GameMaster)->count());
         $this->assertGreaterThan(0, $fields->where('player_editable', true)->count());
-        $ysane = $world->firstWhere('name', 'Dame Ysane Korr');
+        $ysane = $world->firstWhere('name', $text['entities']['ysane']['name']);
         $this->assertNotEmpty($ysane->field_values);
 
         // Scénario, scènes, documents, règles, secrets, carte et chronologie.
@@ -90,7 +94,7 @@ class DemoCampaignTest extends TestCase
 
     public function test_the_internal_links_of_the_demonstration_all_point_at_a_sheet(): void
     {
-        $campaign = app(LoadDemoCampaign::class)->handle(User::factory()->create());
+        $campaign = app(LoadDemoCampaign::class)->handle(User::factory()->create(), 'fr');
         $scenes = Scene::whereIn('scenario_id', $campaign->scenarios()->pluck('id'))->get();
         $names = Entity::where('world_id', $campaign->world_id)->orWhere('campaign_id', $campaign->id)->pluck('id', 'name');
 
@@ -115,11 +119,12 @@ class DemoCampaignTest extends TestCase
 
         Livewire::actingAs($gm)
             ->test(CampaignIndex::class)
+            ->set('demoLocale', 'fr')
             ->call('loadDemo')
             ->assertRedirect();
 
         $campaign = Campaign::where('user_id', $gm->id)->sole();
-        $this->assertSame(LoadDemoCampaign::CAMPAIGN, $campaign->name);
+        $this->assertSame(LoadDemoCampaign::text('fr')['campaign']['name'], $campaign->name);
 
         // Elle s'ouvre, et le MJ y retrouve ses outils.
         $this->actingAs($gm)->get(route('campaigns.show', $campaign))->assertOk()->assertSee('Pierrecendre');
@@ -129,14 +134,14 @@ class DemoCampaignTest extends TestCase
 
     public function test_the_demonstration_can_be_exported_and_handed_to_another_game_master(): void
     {
-        $campaign = app(LoadDemoCampaign::class)->handle(User::factory()->create());
+        $campaign = app(LoadDemoCampaign::class)->handle(User::factory()->create(), 'fr');
         $other = User::factory()->create();
 
         $path = (new CampaignExport($campaign))->write();
         $imported = (new CampaignImport($other))->handle($path);
         @unlink($path);
 
-        $this->assertSame(LoadDemoCampaign::CAMPAIGN, $imported->name);
+        $this->assertSame(LoadDemoCampaign::text('fr')['campaign']['name'], $imported->name);
         $this->assertSame($campaign->table_theme, $imported->table_theme);
         $this->assertSame(
             Entity::where('world_id', $campaign->world_id)->count(),
@@ -151,5 +156,58 @@ class DemoCampaignTest extends TestCase
             TimelineEvent::where('campaign_id', $imported->id)->count(),
         );
         $this->assertSame(1, TableMap::where('campaign_id', $imported->id)->count());
+    }
+
+    public function test_every_language_has_exactly_the_same_demonstration_content(): void
+    {
+        $reference = LoadDemoCampaign::text('fr');
+        $keys = fn (array $text) => collect(Arr::dot($text))
+            ->keys()
+            // Les lignes d'un PDF peuvent varier en nombre d'une langue à l'autre.
+            ->reject(fn (string $key) => preg_match('/\.lines\.\d+$/', $key))
+            ->sort()->values()->all();
+        $links = fn (array $text) => collect(Arr::dot($text))
+            ->map(fn ($value) => is_string($value) && preg_match_all('/\[\[[a-z0-9_]+\]\]/', $value, $m) ? implode(' ', $m[0]) : null)
+            ->filter()->all();
+
+        $this->assertSame(array_keys(Locale::available()), LoadDemoCampaign::locales());
+
+        foreach (LoadDemoCampaign::locales() as $locale) {
+            $text = LoadDemoCampaign::text($locale);
+            $this->assertSame($keys($reference), $keys($text), "La démonstration en {$locale} n’a pas les mêmes éléments qu’en français.");
+            $this->assertSame($links($reference), $links($text), "Les liens [[…]] de la démonstration en {$locale} diffèrent du français.");
+        }
+    }
+
+    public function test_the_demonstration_loads_in_the_chosen_language(): void
+    {
+        $gm = User::factory()->create();
+
+        foreach (LoadDemoCampaign::locales() as $locale) {
+            $campaign = app(LoadDemoCampaign::class)->handle($gm, $locale);
+            $text = LoadDemoCampaign::text($locale);
+
+            $this->assertSame($text['campaign']['name'], $campaign->name);
+            $this->assertSame($text['types']['pregen'], EntityType::where('user_id', $gm->id)->latest('id')->value('name'));
+            $this->assertSame($text['relations']['ysane_hall'][0], EntityRelation::latest('id')->skip(22)->value('label'));
+        }
+
+        // Sans langue précisée, celle de l'interface ; une langue inconnue retombe sur le français.
+        app()->setLocale('de');
+        $this->assertSame(LoadDemoCampaign::text('de')['campaign']['name'], app(LoadDemoCampaign::class)->handle($gm)->name);
+        $this->assertSame(LoadDemoCampaign::text('fr')['campaign']['name'], app(LoadDemoCampaign::class)->handle($gm, 'xx')->name);
+    }
+
+    public function test_the_campaign_list_offers_the_interface_language_first(): void
+    {
+        // La langue de l'interface, déjà résolue (choix du compte, sinon navigateur) par le middleware.
+        app()->setLocale('it');
+
+        Livewire::actingAs(User::factory()->create())
+            ->test(CampaignIndex::class)
+            ->assertSet('demoLocale', 'it')
+            ->set('demoLocale', 'xx')
+            ->call('loadDemo')
+            ->assertHasErrors('demoLocale');
     }
 }

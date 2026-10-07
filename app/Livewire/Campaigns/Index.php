@@ -40,8 +40,13 @@ class Index extends Component
 
     public string $newWorldName = '';
 
+    /** Langue de la campagne de démonstration ; celle de l'interface par défaut. */
+    public string $demoLocale = '';
+
     public function mount(): void
     {
+        $this->demoLocale = app()->getLocale();
+
         $firstGame = $this->gameSystems->first();
 
         if ($firstGame !== null) {
@@ -112,7 +117,9 @@ class Index extends Component
     /** Charge la campagne de démonstration : un contenu complet, pour visiter l'application sans rien préparer. */
     public function loadDemo(LoadDemoCampaign $loadDemo): void
     {
-        $campaign = $loadDemo->handle(auth()->user());
+        $this->validate(['demoLocale' => ['required', Rule::in(LoadDemoCampaign::locales())]]);
+
+        $campaign = $loadDemo->handle(auth()->user(), $this->demoLocale);
 
         session()->flash('status', __('Campagne de démonstration chargée : « :name ». Vous en êtes le MJ : modifiez, dupliquez ou supprimez-la librement.', ['name' => $campaign->name]));
         $this->redirectRoute('campaigns.show', $campaign, navigate: true);

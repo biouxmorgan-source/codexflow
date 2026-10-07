@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.11.1' => [
+        'date' => '2026-10-13',
+        'title' => 'Die Demo in Ihrer Sprache',
+        'items' => [
+            'Die Demo-Kampagne gibt es jetzt in allen acht Sprachen der Oberfläche. Sie wird in Ihrer Sprache geladen oder in der neben der Schaltfläche gewählten.',
+        ],
+    ],
+
     '0.11.0' => [
         'date' => '2026-10-13',
         'title' => 'Eine Demo-Kampagne',
