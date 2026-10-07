@@ -74,6 +74,8 @@ class Index extends Component
         return $this->campaign->availableEntities()
             ->where('entity_type_id', EntityType::standard('character')->id)
             ->whereNotIn('id', $this->campaign->playerCharacters()->select('entity_id'))
+            // Un prétiré déjà copié pour un personnage n'est plus proposé.
+            ->whereNotIn('id', $this->campaign->playerCharacters()->whereNotNull('source_entity_id')->select('source_entity_id'))
             ->orderBy('name')
             ->get();
     }
@@ -99,11 +101,16 @@ class Index extends Component
                 $entity = $this->candidates->find((int) $this->entityChoice);
 
                 if ($entity->isWorldEntity()) {
+                    $source = $entity;
                     $entity = $entity->copyToCampaign($this->campaign);
                 }
             }
 
-            $character = $this->campaign->playerCharacters()->create(['entity_id' => $entity->id, 'is_active' => true]);
+            $character = $this->campaign->playerCharacters()->create([
+                'entity_id' => $entity->id,
+                'source_entity_id' => isset($source) ? $source->id : null,
+                'is_active' => true,
+            ]);
             $this->assignTo($character, $this->playerId ?: null);
         });
 

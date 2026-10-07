@@ -3,6 +3,7 @@
 namespace App\Actions\Imports;
 
 use App\Enums\FieldType;
+use App\Enums\Zone;
 use App\Models\EntityType;
 use App\Models\FieldDefinition;
 use App\Models\GameSystem;
@@ -13,7 +14,8 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Import d'une liste de champs (une ligne par champ). Colonnes reconnues :
- * Nom, Groupe, Type, Zone, Choix, Type de fiche.
+ * Nom, Groupe, Type, Zone, Choix, Type de fiche, Modifiable par le joueur (facultative :
+ * absente, un champ existant garde son réglage).
  */
 class ImportFieldDefinitions
 {
@@ -24,6 +26,7 @@ class ImportFieldDefinitions
         'zone' => ['zone', 'visibilite'],
         'options' => ['choix', 'options', 'valeurs'],
         'entity_type' => ['typedefiche', 'fiche', 'fiches', 'entite', 'entitytype'],
+        'player_editable' => ['modifiableparlejoueur', 'modifiable', 'editable', 'playereditable'],
     ];
 
     /** @var array<string, int> */
@@ -112,6 +115,9 @@ class ImportFieldDefinitions
             $zone = Normalize::zone($cell('zone'));
             $options = FieldDefinition::splitOptions($cell('options'));
             $entityType = null;
+            [$editable, $editableError] = isset($this->columns['player_editable'])
+                ? FieldType::Boolean->parse($cell('player_editable'))
+                : [null, null];
 
             if ($name === '') {
                 $errors[] = 'nom manquant';
@@ -124,13 +130,17 @@ class ImportFieldDefinitions
             }
 
             if ($type === null) {
-                $errors[] = 'type « '.$cell('type').' » inconnu (texte, texte long, nombre, oui/non, date ou liste)';
+                $errors[] = 'type « '.$cell('type').' » inconnu (texte, texte long, nombre, oui/non, date, liste ou compteur)';
             } elseif ($type === FieldType::Select && $options === []) {
                 $errors[] = 'une liste a besoin de choix, séparés par |';
             }
 
             if ($zone === null) {
                 $errors[] = 'zone « '.$cell('zone').' » inconnue (publique ou MJ)';
+            }
+
+            if ($editableError !== null) {
+                $errors[] = 'modifiable par le joueur : '.$editableError;
             }
 
             if ($cell('entity_type') !== '') {
@@ -168,7 +178,10 @@ class ImportFieldDefinitions
                     'zone' => $zone,
                     'options' => $type === FieldType::Select ? $options : null,
                     'entity_type_id' => $entityType?->id,
-                ];
+                ] + ($editable === null ? [] : [
+                    // La zone MJ reste hors de portée des joueurs.
+                    'player_editable' => $editable && $zone === Zone::Public,
+                ]);
             }
         }
 
