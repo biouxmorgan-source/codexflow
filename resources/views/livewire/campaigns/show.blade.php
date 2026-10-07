@@ -31,6 +31,10 @@
             <span class="font-semibold text-codex">Règles →</span>
             <span class="mt-1 text-sm text-stone-600">Règles du jeu, règles maison et glossaire, pour retrouver une procédure en pleine partie.</span>
         </a>
+        <a href="{{ route('journal.index', $campaign) }}" class="tile" wire:navigate>
+            <span class="font-semibold text-codex">Journal →</span>
+            <span class="mt-1 text-sm text-stone-600">Qui a modifié quoi et quand, avec l'ancienne valeur : rien ne se perd.</span>
+        </a>
         @can('update', $campaign->gameSystem)
             <a href="{{ route('fields.index', $campaign) }}" class="tile" wire:navigate>
                 <span class="font-semibold text-codex">Champs du jeu →</span>

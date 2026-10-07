@@ -12,6 +12,7 @@ use App\Livewire\Entities\Show as EntityShow;
 use App\Livewire\EntityTypes\Manage as EntityTypesManage;
 use App\Livewire\Fields\Manage as FieldsManage;
 use App\Livewire\Imports\Create as ImportCreate;
+use App\Livewire\Journal\Index as JournalIndex;
 use App\Livewire\Rules\Form as RuleForm;
 use App\Livewire\Rules\Index as RuleIndex;
 use App\Livewire\Rules\Show as RuleShow;
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/documents/{document}', DocumentShow::class)->name('documents.show')->whereNumber(['campaign', 'document']);
 
     Route::livewire('/campagnes/{campaign}/recherche', SearchIndex::class)->name('search.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/journal', JournalIndex::class)->name('journal.index')->whereNumber('campaign');
 
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/import', ImportCreate::class)->name('imports.create')->whereNumber('campaign');

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\FieldType;
 use App\Enums\Zone;
+use App\Models\Concerns\RecordsActivity;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 #[Fillable(['entity_type_id', 'group', 'name', 'type', 'options', 'zone', 'position'])]
 class FieldDefinition extends Model
 {
+    use RecordsActivity;
+
     protected static function booted(): void
     {
         static::deleted(function (FieldDefinition $definition) {
@@ -85,5 +88,20 @@ class FieldDefinition extends Model
     public function groupLabel(): string
     {
         return $this->group ?: 'Champs';
+    }
+
+    public function activityType(): string
+    {
+        return 'field';
+    }
+
+    public function activityLabel(): string
+    {
+        return $this->name;
+    }
+
+    public function activityScope(): array
+    {
+        return ['game_system_id' => $this->game_system_id];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\RecordsActivity;
 use Database\Factories\EntityFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -23,6 +24,8 @@ class Entity extends Model
 {
     /** @use HasFactory<EntityFactory> */
     use HasFactory;
+
+    use RecordsActivity;
 
     /** Disque privé : les fichiers ne sont servis qu'après vérification des droits. */
     public const FILES_DISK = 'local';
@@ -199,5 +202,25 @@ class Entity extends Model
     public function stateIn(Campaign $campaign): CampaignEntityState
     {
         return $this->campaignStates()->firstOrNew(['campaign_id' => $campaign->getKey()]);
+    }
+
+    public function activityType(): string
+    {
+        return 'entity';
+    }
+
+    public function activityLabel(): string
+    {
+        return $this->name;
+    }
+
+    public function activityScope(): array
+    {
+        return ['world_id' => $this->world_id, 'campaign_id' => $this->campaign_id];
+    }
+
+    protected function activityJsonAttributes(): array
+    {
+        return ['field_values'];
     }
 }

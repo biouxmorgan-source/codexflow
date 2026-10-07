@@ -28,6 +28,7 @@
         </div>
         <div class="flex flex-wrap gap-2">
             <button type="button" wire:click="togglePin" class="btn-secondary" aria-pressed="{{ $pinned ? 'true' : 'false' }}">{{ $pinned ? 'Désépingler' : 'Épingler' }}</button>
+            <a href="{{ route('journal.index', [$campaign, 'sujet' => 'entity:'.$entity->id]) }}" class="btn-secondary" wire:navigate>Historique</a>
             <a href="{{ route('entities.edit', [$campaign, $entity]) }}" class="btn-secondary" wire:navigate>Modifier la fiche</a>
         </div>
     </div>

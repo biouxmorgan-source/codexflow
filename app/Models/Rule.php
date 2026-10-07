@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\RuleOrigin;
 use App\Enums\RuleStatus;
 use App\Enums\Zone;
+use App\Models\Concerns\RecordsActivity;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'status', 'zone'])]
 class Rule extends Model
 {
+    use RecordsActivity;
+
     protected $attributes = [
         'origin' => 'reference',
         'status' => 'available',
@@ -94,5 +97,20 @@ class Rule extends Model
         $query->where(fn (Builder $q) => $q
             ->where('campaign_id', $campaign->getKey())
             ->orWhere('game_system_id', $campaign->game_system_id));
+    }
+
+    public function activityType(): string
+    {
+        return 'rule';
+    }
+
+    public function activityLabel(): string
+    {
+        return $this->title;
+    }
+
+    public function activityScope(): array
+    {
+        return ['campaign_id' => $this->campaign_id, 'game_system_id' => $this->game_system_id];
     }
 }

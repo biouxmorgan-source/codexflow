@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\RecordsActivity;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Hidden(['gm_notes'])]
 class CampaignEntityState extends Model
 {
+    use RecordsActivity;
+
     protected $attributes = [
         'overrides' => '{}',
     ];
@@ -68,5 +71,25 @@ class CampaignEntityState extends Model
     public function entity(): BelongsTo
     {
         return $this->belongsTo(Entity::class);
+    }
+
+    public function activityType(): string
+    {
+        return 'entity_state';
+    }
+
+    public function activityLabel(): string
+    {
+        return (string) $this->entity?->name;
+    }
+
+    public function activityScope(): array
+    {
+        return ['campaign_id' => $this->campaign_id];
+    }
+
+    protected function activityJsonAttributes(): array
+    {
+        return ['overrides'];
     }
 }
