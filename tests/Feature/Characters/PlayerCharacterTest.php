@@ -221,6 +221,30 @@ class PlayerCharacterTest extends TestCase
         $this->assertEquals(['value' => 11, 'max' => 11], $pregen->fresh()->fieldValue($hp));
     }
 
+    public function test_a_number_field_turned_into_a_counter_keeps_its_values(): void
+    {
+        $hp = $this->field('PV', FieldType::Number);
+        $character = $this->createCharacter();
+        $entity = $character->entity;
+        $entity->setFieldValues([$hp->id => 11]);
+        $entity->save();
+
+        Livewire::actingAs($this->gm)->test(Manage::class, ['campaign' => $this->campaign])
+            ->call('edit', $hp->id)
+            ->set('type', FieldType::Counter->value)
+            ->set('playerEditable', true)
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $this->assertEquals(['value' => 11, 'max' => 11], $entity->fresh()->fieldValue($hp->fresh()));
+        Livewire::actingAs($this->player)->test(Show::class, ['campaign' => $this->campaign, 'character' => $character])
+            ->call('adjust', $hp->id, -2)
+            ->assertSee('9 / 11');
+
+        $hp->fresh()->update(['type' => FieldType::Number]);
+        $this->assertEquals(9, $entity->fresh()->fieldValue($hp));
+    }
+
     public function test_counter_fields_are_typed_imported_and_exported_like_the_others(): void
     {
         $this->assertSame([['value' => 9, 'max' => 12], null], FieldType::Counter->parse(' 9 / 12 '));

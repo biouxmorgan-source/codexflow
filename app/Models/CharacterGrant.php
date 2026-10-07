@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * - entity : fiche révélée, le joueur en voit la zone publique (Connaissances) ;
  * - information : texte libre (Connaissances) ;
  * - possession : objet, avec quantité facultative (Possessions) ;
- * - document : PDF ou image de la bibliothèque (Documents).
+ * - document : PDF ou image de la bibliothèque (Documents) ;
+ * - rule : règle publique ouverte au personnage (Règles), sans les notes MJ.
  */
 class CharacterGrant extends Model
 {
@@ -20,6 +21,7 @@ class CharacterGrant extends Model
         'information' => 'Information',
         'possession' => 'Objet',
         'document' => 'Document',
+        'rule' => 'Règle',
     ];
 
     protected $guarded = ['id'];
@@ -47,6 +49,12 @@ class CharacterGrant extends Model
         return $this->belongsTo(Document::class);
     }
 
+    /** @return BelongsTo<Rule, $this> */
+    public function rule(): BelongsTo
+    {
+        return $this->belongsTo(Rule::class);
+    }
+
     /** @return BelongsTo<User, $this> */
     public function giver(): BelongsTo
     {
@@ -58,6 +66,7 @@ class CharacterGrant extends Model
         return match ($this->kind) {
             'entity' => (string) $this->entity?->name,
             'document' => (string) $this->document?->title,
+            'rule' => (string) $this->rule?->title,
             'possession' => $this->quantity && $this->quantity > 1 ? $this->title.' ×'.$this->quantity : (string) $this->title,
             default => (string) $this->title,
         };

@@ -3,6 +3,7 @@
         @switch($fixedKind)
             @case('entity') Révéler aux joueurs @break
             @case('document') Donner aux joueurs @break
+            @case('rule') Ouvrir aux joueurs @break
             @default Révéler ou donner
         @endswitch
     </h2>
@@ -10,6 +11,7 @@
         @switch($fixedKind)
             @case('entity') Le personnage choisi verra la zone publique de cette fiche, jamais la zone MJ. @break
             @case('document') Le document apparaîtra dans la rubrique Documents du personnage. @break
+            @case('rule') Seuls les personnages choisis pourront lire cette règle (jamais les notes MJ). Les autres ne la voient pas. @break
             @default Une information apparaît dans ses Connaissances, un objet dans ses Possessions.
         @endswitch
     </p>
@@ -58,7 +60,7 @@
                 </fieldset>
             @endunless
 
-            <button type="submit" class="btn-primary w-full">{{ in_array($fixedKind === '' ? $kind : $fixedKind, ['entity', 'information'], true) ? 'Révéler' : 'Donner' }}</button>
+            <button type="submit" class="btn-primary w-full">{{ in_array($fixedKind === '' ? $kind : $fixedKind, ['entity', 'information', 'rule'], true) ? 'Révéler' : 'Donner' }}</button>
             @if ($flash)
                 <p class="text-sm text-green-800" role="status">{{ $flash }}</p>
             @endif

@@ -16,6 +16,7 @@ use App\Models\Document;
 use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\PlayerCharacter;
+use App\Models\Rule;
 use App\Models\User;
 use App\Models\World;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,6 +24,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
 use Livewire\Livewire;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\TestCase;
 
 class GrantTest extends TestCase
@@ -59,6 +61,50 @@ class GrantTest extends TestCase
         [$player, $character] = $this->table[$name];
 
         return $this->actingAs($player)->get(route('characters.show', [$this->campaign, $character]));
+    }
+
+    public function test_a_rule_is_readable_only_by_the_characters_it_was_opened_to(): void
+    {
+        [$alex, $harvey] = $this->table['Harvey'];
+        [$sam] = $this->table['Jack'];
+        $spell = new Rule(['title' => 'Contacter Nyogtha', 'category' => 'Sort', 'zone' => Zone::Public,
+            'summary' => 'Coûte 10 points de magie', 'procedure' => 'Lancer en chantant', 'gm_notes' => 'Le culte surveille']);
+        $spell->owner()->associate($this->gm);
+        $spell->campaign()->associate($this->campaign);
+        $spell->save();
+        $secret = new Rule(['title' => 'Rituel interdit', 'zone' => Zone::GameMaster]);
+        $secret->owner()->associate($this->gm);
+        $secret->campaign()->associate($this->campaign);
+        $secret->save();
+
+        // Rien n'est visible avant que le MJ ouvre la règle.
+        $this->sheet('Harvey')->assertSee('Aucune règle ouverte par le MJ.')->assertDontSee('Contacter Nyogtha');
+
+        $this->actingAs($this->gm)->get(route('rules.show', [$this->campaign, $spell]))->assertSee('Ouvrir aux joueurs');
+        $this->actingAs($this->gm)->get(route('rules.show', [$this->campaign, $secret]))->assertDontSee('Ouvrir aux joueurs');
+        Livewire::actingAs($this->gm)->test(Give::class, ['campaign' => $this->campaign, 'fixedKind' => 'rule', 'ruleId' => $spell->id])
+            ->set('selected', [$harvey->id])
+            ->call('give')
+            ->assertHasNoErrors()
+            ->assertSee('Révélé à 1 personnage.');
+
+        $this->sheet('Harvey')->assertSee(['Règles', 'Contacter Nyogtha', 'Coûte 10 points de magie', 'Lancer en chantant'])->assertDontSee('Le culte surveille');
+        $this->sheet('Jack')->assertDontSee('Contacter Nyogtha');
+        $this->actingAs($alex)->get(route('search.index', [$this->campaign, 'q' => 'chantant']))->assertSee('Contacter Nyogtha');
+        $this->actingAs($sam)->get(route('search.index', [$this->campaign, 'q' => 'chantant']))->assertDontSee('Contacter Nyogtha');
+        $this->actingAs($alex)->get(route('search.index', [$this->campaign, 'q' => 'culte surveille']))->assertDontSee('Contacter Nyogtha');
+        $this->assertSame('a révélé', ActivityLog::where('subject_type', 'grant')->sole()->verb());
+
+        // Une règle MJ ne s'ouvre jamais, et repasser une règle en zone MJ la cache.
+        $this->actingAs($this->gm);
+        try {
+            app(GiveToCharacters::class)->handle($this->campaign, [$harvey->id], ['kind' => 'rule', 'rule_id' => $secret->id]);
+            $this->fail('Une règle MJ a été ouverte.');
+        } catch (NotFoundHttpException) {
+        }
+        $spell->update(['zone' => Zone::GameMaster]);
+        // Le journal du personnage garde la trace de ce qu'il a lu ; la règle elle-même n'est plus affichée.
+        $this->sheet('Harvey')->assertSee('Aucune règle ouverte par le MJ.')->assertDontSee('Lancer en chantant');
     }
 
     public function test_an_information_revealed_to_one_character_reaches_only_that_player_and_the_journal(): void

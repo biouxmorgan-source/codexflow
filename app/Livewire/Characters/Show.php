@@ -79,7 +79,10 @@ class Show extends Component
     #[Computed]
     public function grants(): Collection
     {
-        return $this->character->grants()->with(['entity.type', 'document'])->get();
+        return $this->character->grants()->with(['entity.type', 'document', 'rule'])->get()
+            // Une règle repassée en zone MJ n'est plus lisible, même si elle avait été ouverte.
+            ->reject(fn (CharacterGrant $grant) => $grant->kind === 'rule' && $grant->rule?->zone !== Zone::Public)
+            ->values();
     }
 
     #[On('character-grants-changed')]
@@ -124,11 +127,11 @@ class Show extends Component
             ->whereKeyNot($this->character->id)->whereNotNull('user_id')->get();
     }
 
-    /** @return Collection<int, Rule> règles publiques que le joueur peut demander à tester */
+    /** @return Collection<int, Rule> règles ouvertes au personnage, que le joueur peut demander à tester */
     #[Computed]
     public function publicRules(): Collection
     {
-        return $this->campaign->availableRules()->where('zone', Zone::Public)->orderBy('title')->get(['rules.id', 'title']);
+        return $this->grants->where('kind', 'rule')->map(fn (CharacterGrant $grant) => $grant->rule)->sortBy(fn (Rule $rule) => mb_strtolower($rule->title))->values();
     }
 
     /** @return Collection<int, ToPlayItem> */

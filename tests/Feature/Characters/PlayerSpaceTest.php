@@ -6,6 +6,7 @@ use App\Actions\Characters\GiveToCharacters;
 use App\Enums\CampaignRole;
 use App\Enums\FieldType;
 use App\Enums\Zone;
+use App\Livewire\Characters\Give;
 use App\Livewire\Characters\Show;
 use App\Livewire\Sessions\Live;
 use App\Models\Campaign;
@@ -105,6 +106,12 @@ class PlayerSpaceTest extends TestCase
         $secret->owner()->associate($this->gm);
         $secret->campaign()->associate($this->campaign);
         $secret->save();
+
+        // Seules les règles ouvertes au personnage peuvent être demandées.
+        Livewire::actingAs($alex)->test(Show::class, ['campaign' => $this->campaign, 'character' => $harvey])
+            ->assertDontSee('Tester : Poursuite');
+        Livewire::actingAs($this->gm)->test(Give::class, ['campaign' => $this->campaign, 'fixedKind' => 'rule', 'ruleId' => $chase->id, 'characterId' => $harvey->id])
+            ->call('give');
 
         Livewire::actingAs($alex)->test(Show::class, ['campaign' => $this->campaign, 'character' => $harvey])
             ->assertSee('Tester : Poursuite')

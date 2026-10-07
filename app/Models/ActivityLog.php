@@ -125,8 +125,8 @@ class ActivityLog extends Model
             $kind = $this->diff['kind']['new'] ?? $this->diff['kind']['old'] ?? null;
 
             return match (true) {
-                $this->event === 'deleted' => $kind === 'entity' ? 'a caché' : 'a repris',
-                $kind === 'entity' || $kind === 'information' => 'a révélé',
+                $this->event === 'deleted' => in_array($kind, ['entity', 'rule'], true) ? 'a caché' : 'a repris',
+                in_array($kind, ['entity', 'information', 'rule'], true) => 'a révélé',
                 default => 'a donné',
             };
         }

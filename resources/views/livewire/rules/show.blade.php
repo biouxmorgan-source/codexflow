@@ -18,7 +18,7 @@
                         <option value="{{ $ruleStatus->value }}" @selected($rule->status === $ruleStatus)>{{ $ruleStatus->label() }}</option>
                     @endforeach
                 </select>
-                <span class="text-stone-500">{{ $rule->origin->label() }} · {{ $rule->isShared() ? 'Règle du jeu '.$campaign->gameSystem->name : 'Propre à cette campagne' }} · {{ $rule->zone === \App\Enums\Zone::Public ? 'Consultable par les joueurs' : 'MJ seulement' }}</span>
+                <span class="text-stone-500">{{ $rule->origin->label() }} · {{ $rule->isShared() ? 'Règle du jeu '.$campaign->gameSystem->name : 'Propre à cette campagne' }} · {{ $rule->zone === \App\Enums\Zone::Public ? 'Consultable par les personnages à qui vous l\'ouvrez' : 'MJ seulement' }}</span>
             </div>
             @if ($rule->tags->isNotEmpty())
                 <p class="mt-2 flex flex-wrap gap-1 text-xs">
@@ -65,6 +65,12 @@
         </div>
 
         <aside class="space-y-6">
+            @if ($rule->zone === \App\Enums\Zone::Public)
+                <livewire:characters.give :campaign="$campaign" fixed-kind="rule" :rule-id="$rule->id" :key="'give-rule-'.$rule->id" />
+            @else
+                <p class="rounded-xl border border-dashed border-stone-300 bg-white p-4 text-sm text-stone-600">Règle réservée au MJ : passez-la en « Consultable par les joueurs » pour pouvoir l'ouvrir à certains personnages.</p>
+            @endif
+
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-3 font-semibold">Documents</h2>
                 <x-document-list :documents="$documents" :campaign="$campaign" unlink="unlinkDocument" />
