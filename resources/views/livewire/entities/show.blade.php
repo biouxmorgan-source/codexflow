@@ -34,6 +34,9 @@
             <button type="button" wire:click="togglePin" class="btn-secondary" aria-pressed="{{ $pinned ? 'true' : 'false' }}">{{ $pinned ? __('Désépingler') : __('Épingler') }}</button>
             <a href="{{ route('journal.index', [$campaign, 'sujet' => 'entity:'.$entity->id]) }}" class="btn-secondary" wire:navigate>{{ __('Historique') }}</a>
             <a href="{{ route('entities.edit', [$campaign, $entity]) }}" class="btn-secondary" wire:navigate>{{ __('Modifier la fiche') }}</a>
+            <button type="button" wire:click="duplicate" wire:confirm="{{ $entity->isWorldEntity()
+                ? __("Dupliquer la fiche ? La copie reprend son contenu, ses champs, son image, ses pièces jointes, ses étiquettes et ses relations, dans le même monde. Les différences propres à chaque campagne ne sont pas copiées.")
+                : __('Dupliquer la fiche ? La copie reprend son contenu, ses champs, son image, ses pièces jointes, ses étiquettes et ses relations, dans cette campagne.') }}" class="btn-secondary">{{ __('Dupliquer') }}</button>
         </div>
     </div>
 

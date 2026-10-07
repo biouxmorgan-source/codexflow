@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Scenarios;
 
+use App\Actions\Duplication\DuplicateScenario;
 use App\Enums\SceneStatus;
 use App\Models\Campaign;
 use App\Models\Scenario;
@@ -88,6 +89,15 @@ class Index extends Component
         $this->authorize('update', $this->campaign);
 
         $this->find($id)->delete();
+
+        unset($this->scenarios);
+    }
+
+    public function duplicate(int $id, DuplicateScenario $duplicateScenario): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $duplicateScenario->handle($this->find($id));
 
         unset($this->scenarios);
     }

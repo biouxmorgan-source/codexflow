@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Campaigns;
 
+use App\Actions\Duplication\DuplicateCampaign;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
@@ -67,6 +68,15 @@ class Show extends Component
             ->whereHas('entities', fn ($q) => $q->availableIn($this->campaign))
             ->orderByRaw('lower(name)')
             ->get();
+    }
+
+    public function duplicate(DuplicateCampaign $duplicateCampaign): void
+    {
+        $this->authorize('duplicate', $this->campaign);
+
+        $copy = $duplicateCampaign->handle($this->campaign, auth()->user());
+
+        $this->redirectRoute('campaigns.show', $copy, navigate: true);
     }
 
     public function delete(): void
