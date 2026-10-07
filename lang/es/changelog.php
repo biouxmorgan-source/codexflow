@@ -4,6 +4,17 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.8.0' => [
+        'date' => '2026-10-11',
+        'title' => 'El grafo y la cronología',
+        'items' => [
+            'Grafo de relaciones: todas las fichas relacionadas, o la red alrededor de una ficha, con profundidad y filtro por tipo.',
+            '«Ver como» en el grafo: la red tal como la conoce un personaje. Los jugadores acceden desde su personaje.',
+            'Cronología: historia del mundo, acontecimientos previstos y jugados, con fechas libres como «Día 3».',
+            'Un acontecimiento jugado anotado durante la sesión queda vinculado a la sesión y a la escena en curso.',
+        ],
+    ],
+
     '0.7.0' => [
         'date' => '2026-10-10',
         'title' => 'Alrededor de la mesa',

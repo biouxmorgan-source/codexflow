@@ -4,6 +4,17 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.8.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Graf i oś czasu',
+        'items' => [
+            'Graf relacji: wszystkie powiązane karty lub sieć wokół jednej karty, z głębokością i filtrem według typu.',
+            '„Zobacz jako” w grafie: sieć tak, jak zna ją postać. Gracze otwierają go ze strony swojej postaci.',
+            'Oś czasu: historia świata, zaplanowane i rozegrane wydarzenia, z dowolnymi datami, np. „Dzień 3”.',
+            'Rozegrane wydarzenie zapisane podczas sesji jest przypisywane do sesji i bieżącej sceny.',
+        ],
+    ],
+
     '0.7.0' => [
         'date' => '2026-10-10',
         'title' => 'Wokół stołu',

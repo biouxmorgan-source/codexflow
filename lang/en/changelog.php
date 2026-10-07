@@ -4,6 +4,17 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.8.0' => [
+        'date' => '2026-10-11',
+        'title' => 'The graph and the timeline',
+        'items' => [
+            'Relation graph: all linked entries, or the network around one entry, with a depth and a filter by type.',
+            '“View as” in the graph: the network as a character knows it. Players reach it from their character.',
+            'Timeline: world history, planned and played events, with free-form dates such as “Day 3”.',
+            'A played event noted during the session is attached to the session and the current scene.',
+        ],
+    ],
+
     '0.7.0' => [
         'date' => '2026-10-10',
         'title' => 'Around the table',

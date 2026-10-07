@@ -4,6 +4,17 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.8.0' => [
+        'date' => '2026-10-11',
+        'title' => 'De graaf en de tijdlijn',
+        'items' => [
+            'Relatiegraaf: alle verbonden kaarten, of het netwerk rond één kaart, met een diepte en een filter op type.',
+            '‘Bekijken als’ in de graaf: het netwerk zoals een personage het kent. Spelers openen het vanaf hun personage.',
+            'Tijdlijn: wereldgeschiedenis, geplande en gespeelde gebeurtenissen, met vrije datums zoals ‘Dag 3’.',
+            'Een gespeelde gebeurtenis die tijdens de sessie wordt genoteerd, wordt gekoppeld aan de sessie en de huidige scène.',
+        ],
+    ],
+
     '0.7.0' => [
         'date' => '2026-10-10',
         'title' => 'Rond de tafel',
