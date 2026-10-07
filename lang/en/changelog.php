@@ -4,6 +4,18 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.7.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Around the table',
+        'items' => [
+            'Maps: an image on the table screen that you zoom and move, with an optional square grid and a scale.',
+            'Optional tokens, linked to entries (name and portrait): move, resize, show or hide them from players.',
+            'Temporary ruler: draw a line and the distance appears in squares or in metres.',
+            'Remote control: from your phone, clear the screen, move on to the scene’s next item, control the map.',
+            'Players: whatever the GM reveals or gives you appears right away, without going through notifications.',
+        ],
+    ],
+
     '0.6.0' => [
         'date' => '2026-10-09',
         'title' => 'The campaign’s memory',

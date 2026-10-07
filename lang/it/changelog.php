@@ -4,6 +4,18 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.7.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Intorno al tavolo',
+        'items' => [
+            'Mappe: un’immagine sullo schermo da tavolo, che ingrandisci e sposti, con una griglia quadrata facoltativa e una scala.',
+            'Segnalini facoltativi, collegati alle schede (nome e ritratto): spostarli, ridimensionarli, mostrarli o nasconderli ai giocatori.',
+            'Righello temporaneo: traccia una linea, la distanza appare in caselle o in metri.',
+            'Telecomando: dal tuo telefono, svuota lo schermo, passa all’elemento successivo della scena, controlla la mappa.',
+            'Giocatori: ciò che il Master ti rivela o ti dà appare subito, senza passare dalle notifiche.',
+        ],
+    ],
+
     '0.6.0' => [
         'date' => '2026-10-09',
         'title' => 'La memoria della campagna',

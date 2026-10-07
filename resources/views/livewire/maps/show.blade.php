@@ -21,7 +21,7 @@
             <div class="mb-2 flex flex-wrap items-center gap-2 text-sm">
                 <div class="inline-flex overflow-hidden rounded-lg border border-stone-200" role="group" aria-label="{{ __('Outil') }}">
                     <button type="button" x-on:click="mode = 'move'" :class="mode === 'move' ? 'bg-codex text-white' : 'bg-white text-stone-700'" class="px-3 py-1.5" :aria-pressed="mode === 'move'">{{ __('Déplacer') }}</button>
-                    <button type="button" x-on:click="mode = 'ruler'" :class="mode === 'ruler' ? 'bg-codex text-white' : 'bg-white text-stone-700'" class="border-l border-stone-200 px-3 py-1.5" :aria-pressed="mode === 'ruler'">{{ __('Règle') }}</button>
+                    <button type="button" x-on:click="mode = 'ruler'" :class="mode === 'ruler' ? 'bg-codex text-white' : 'bg-white text-stone-700'" class="border-l border-stone-200 px-3 py-1.5" :aria-pressed="mode === 'ruler'">{{ __('Mesurer') }}</button>
                 </div>
                 <button type="button" x-on:click="zoomBy(1.25)" class="btn-secondary px-3 py-1.5" aria-label="{{ __('Zoomer') }}">+</button>
                 <button type="button" x-on:click="zoomBy(0.8)" class="btn-secondary px-3 py-1.5" aria-label="{{ __('Dézoomer') }}">−</button>

@@ -4,6 +4,18 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.7.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Em volta da mesa',
+        'items' => [
+            'Mapas: uma imagem na tela da mesa, que você amplia e move, com uma grade quadriculada opcional e uma escala.',
+            'Tokens opcionais, vinculados às fichas (nome e retrato): mover, redimensionar, mostrar ou ocultar dos jogadores.',
+            'Régua temporária: trace uma linha e a distância aparece em quadrados ou em metros.',
+            'Controle remoto: pelo celular, limpe a tela, passe para o próximo item da cena, controle o mapa.',
+            'Jogadores: o que o Mestre revela ou dá a você aparece na hora, sem passar pelas notificações.',
+        ],
+    ],
+
     '0.6.0' => [
         'date' => '2026-10-09',
         'title' => 'A memória da campanha',
