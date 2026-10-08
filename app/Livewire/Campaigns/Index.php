@@ -5,6 +5,7 @@ namespace App\Livewire\Campaigns;
 use App\Actions\Campaigns\CreateCampaign;
 use App\Actions\Demo\LoadDemoCampaign;
 use App\Actions\Duplication\DuplicateCampaign;
+use App\Enums\CampaignStatus;
 use App\Models\Campaign;
 use App\Support\Archive\ArchiveException;
 use App\Support\Archive\CampaignImport;
@@ -66,9 +67,25 @@ class Index extends Component
                 'members' => fn ($q) => $q->whereKey(auth()->id()),
                 'playerCharacters' => fn ($q) => $q->active()->where('user_id', auth()->id())->with('entity'),
             ])
+            ->withCount('playSessions')
+            ->withMax('playSessions', 'started_at')
             ->orderByRaw("status = 'archived'")
             ->latest('updated_at')
             ->get();
+    }
+
+    /** Campagne terminée ou en pause : rangée à part, rouvrable à tout moment. */
+    public function toggleArchive(int $id): void
+    {
+        $campaign = Campaign::findOrFail($id);
+        $this->authorize('manage', $campaign);
+
+        $archived = $campaign->status === CampaignStatus::Archived;
+        $campaign->update([
+            'status' => $archived ? CampaignStatus::Active : CampaignStatus::Archived,
+            'archived_at' => $archived ? null : now(),
+        ]);
+        unset($this->campaigns);
     }
 
     #[Computed]

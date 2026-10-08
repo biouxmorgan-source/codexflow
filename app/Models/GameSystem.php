@@ -32,4 +32,16 @@ class GameSystem extends Model
     {
         return $this->hasMany(FieldDefinition::class);
     }
+
+    /** @return HasMany<Rule, $this> règles de référence, communes à toutes ses campagnes */
+    public function rules(): HasMany
+    {
+        return $this->hasMany(Rule::class);
+    }
+
+    /** @return HasMany<Document, $this> */
+    public function documents(): HasMany
+    {
+        return $this->hasMany(Document::class);
+    }
 }

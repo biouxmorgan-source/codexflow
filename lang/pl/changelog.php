@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.18.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Nowa postać, Moje kampanie, strony gry i świata',
+        'items' => [
+            'Gdy gracz dostaje nową postać, MG zaznacza, co przechodzi z poprzedniej: wiedza, informacje, dokumenty i zasady są kopiowane, przedmioty zmieniają właściciela.',
+            'Moje kampanie: przycisk „Wznów”, data ostatniej sesji i zarchiwizowane kampanie osobno.',
+            'Każda gra i każdy świat ma własną stronę: opis, kampanie, zasady, dokumenty, pola lub karty do ponownego użycia.',
+        ],
+    ],
+
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Edytor tekstu i notatki graczy',

@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.18.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Novo personagem, Minhas campanhas, páginas de jogo e de mundo',
+        'items' => [
+            'Quando um jogador recebe um novo personagem, o Mestre marca o que passa do anterior: conhecimentos, informações, documentos e regras são copiados, os itens mudam de mãos.',
+            'Minhas campanhas: botão “Retomar”, data da última sessão e campanhas arquivadas à parte.',
+            'Cada jogo e cada mundo tem sua página: descrição, campanhas, regras, documentos, campos ou fichas reutilizáveis.',
+        ],
+    ],
+
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Editor de texto e notas dos jogadores',

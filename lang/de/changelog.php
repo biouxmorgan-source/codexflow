@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.18.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Neuer Charakter, Meine Kampagnen, Seiten für Spiel und Welt',
+        'items' => [
+            'Bekommt ein Spieler einen neuen Charakter, wählt die SL aus, was vom früheren übergeht: Wissen, Informationen, Dokumente und Regeln werden kopiert, Gegenstände wechseln den Besitzer.',
+            'Meine Kampagnen: Schaltfläche „Fortsetzen“, Datum der letzten Sitzung, archivierte Kampagnen separat.',
+            'Jedes Spiel und jede Welt hat eine eigene Seite: Beschreibung, Kampagnen, Regeln, Dokumente, Felder oder wiederverwendbare Bögen.',
+        ],
+    ],
+
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Formatierter Text und Spielernotizen',

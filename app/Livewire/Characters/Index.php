@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Characters;
 
+use App\Actions\Characters\TransferGrants;
 use App\Enums\CampaignRole;
 use App\Models\Campaign;
+use App\Models\CharacterGrant;
 use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\PlayerCharacter;
@@ -36,6 +38,14 @@ class Index extends Component
 
     /** @var array<int, TemporaryUploadedFile|null> feuilles PDF en cours d'envoi, par personnage */
     public array $sheets = [];
+
+    /** Personnage qui reçoit ce que lui transmet un ancien personnage du même joueur. */
+    public ?int $transferTo = null;
+
+    public string $transferFrom = '';
+
+    /** @var list<int|string> éléments cochés de l'ancien personnage */
+    public array $transferIds = [];
 
     public function mount(Campaign $campaign): void
     {
@@ -115,7 +125,7 @@ class Index extends Component
             return;
         }
 
-        DB::transaction(function () {
+        $character = DB::transaction(function () {
             if ($this->entityChoice === 'new') {
                 $entity = new Entity(['name' => trim($this->name)]);
                 $entity->owner()->associate($this->campaign->user_id);
@@ -137,10 +147,13 @@ class Index extends Component
                 'is_active' => true,
             ]);
             $this->assignTo($character, $this->playerId ?: null);
+
+            return $character;
         });
 
         $this->reset(['entityChoice', 'name', 'playerId']);
         unset($this->characters, $this->candidates);
+        $this->offerTransfer($character);
     }
 
     public function assign(int $characterId, string $playerId): void
@@ -148,8 +161,92 @@ class Index extends Component
         $this->authorize('update', $this->campaign);
         abort_unless($playerId === '' || $this->players->contains('id', (int) $playerId), 422);
 
-        DB::transaction(fn () => $this->assignTo($this->find($characterId), $playerId === '' ? null : (int) $playerId));
+        $character = $this->find($characterId);
+        DB::transaction(fn () => $this->assignTo($character, $playerId === '' ? null : (int) $playerId));
         unset($this->characters);
+        $this->offerTransfer($character);
+    }
+
+    /**
+     * Anciens personnages du même joueur, du plus récemment joué au plus ancien.
+     *
+     * @return Collection<int, PlayerCharacter>
+     */
+    #[Computed]
+    public function transferSources(): Collection
+    {
+        $target = $this->transferTo ? $this->campaign->playerCharacters()->find($this->transferTo) : null;
+
+        if (! $target?->user_id) {
+            return new Collection;
+        }
+
+        return $this->campaign->playerCharacters()->with('entity')
+            ->where('user_id', $target->user_id)
+            ->whereKeyNot($target->id)
+            ->latest('updated_at')
+            ->get();
+    }
+
+    /** @return Collection<int, CharacterGrant> ce que l'ancien personnage choisi peut transmettre */
+    #[Computed]
+    public function transferGrants(): Collection
+    {
+        $source = $this->transferSources->find((int) $this->transferFrom);
+
+        return $source ? TransferGrants::transferable($source) : new Collection;
+    }
+
+    /** Ouvre le choix de ce qui passe d'un ancien personnage du joueur à celui-ci. */
+    public function openTransfer(int $characterId): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $this->transferTo = $this->find($characterId)->id;
+        unset($this->transferSources, $this->transferGrants);
+        $this->transferFrom = (string) ($this->transferSources->first()?->id ?? '');
+        $this->updatedTransferFrom();
+    }
+
+    /** Un autre ancien personnage choisi : tout ce qu'il peut transmettre est coché d'office. */
+    public function updatedTransferFrom(): void
+    {
+        unset($this->transferGrants);
+        $this->transferIds = $this->transferGrants->modelKeys();
+    }
+
+    public function transfer(TransferGrants $action): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $to = $this->find((int) $this->transferTo);
+        $from = $this->transferSources->find((int) $this->transferFrom);
+        abort_unless($from !== null, 404);
+
+        $count = $action->handle($from, $to, $this->transferIds);
+        session()->flash('status', trans_choice(':count élément transmis à :name.|:count éléments transmis à :name.', $count, ['name' => $to->entity->name]));
+
+        $this->closeTransfer();
+    }
+
+    public function closeTransfer(): void
+    {
+        $this->reset(['transferTo', 'transferFrom', 'transferIds']);
+        unset($this->transferSources, $this->transferGrants);
+    }
+
+    /** Nouveau personnage d'un joueur qui en avait un autre : proposer de lui transmettre ses acquis. */
+    private function offerTransfer(PlayerCharacter $character): void
+    {
+        if ($character->user_id === null) {
+            return;
+        }
+
+        $this->openTransfer($character->id);
+
+        if ($this->transferGrants->isEmpty()) {
+            $this->closeTransfer();
+        }
     }
 
     public function toggleActive(int $characterId): void
