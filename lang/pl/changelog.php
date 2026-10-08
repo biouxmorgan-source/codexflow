@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.27.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Publiczna wizytówka',
+        'items' => [
+            'Strona główna przedstawia LoreMundi odwiedzającym i wyszukiwarkom, we wszystkich 8 językach.',
+            'Pomoc jest dostępna bez konta i ma nową sekcję „Twoje konto”: plany, e-mail, hasło, uwierzytelnianie dwuskładnikowe, dane.',
+        ],
+    ],
+
     '0.26.0' => [
         'date' => '2026-10-08',
         'title' => 'Poprawki z testu odbiorczego v0.25.0',

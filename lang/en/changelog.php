@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.27.0' => [
+        'date' => '2026-10-08',
+        'title' => 'A public showcase',
+        'items' => [
+            'A home page presents LoreMundi to visitors and search engines, in all 8 languages.',
+            'Help can be read without an account and gains a “Your account” section: plans, email address, password, two-factor authentication, data.',
+        ],
+    ],
+
     '0.26.0' => [
         'date' => '2026-10-08',
         'title' => 'Fixes from the v0.25.0 acceptance test',

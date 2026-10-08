@@ -11,6 +11,7 @@ use App\Http\Controllers\ImportExampleController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PushSubscriptionController;
+use App\Http\Controllers\SeoController;
 use App\Http\Controllers\TableScreenController;
 use App\Livewire\Account\Preferences;
 use App\Livewire\Admin\Backlog as AdminBacklog;
@@ -58,7 +59,11 @@ use App\Livewire\Tags\Manage as TagsManage;
 use App\Livewire\Timeline\Index as TimelineIndex;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => redirect()->route(auth()->check() ? 'campaigns.index' : 'login'));
+// Accueil public (présentation, référencement) ; un compte connecté va droit à ses campagnes.
+Route::get('/', fn () => auth()->check() ? redirect()->route('campaigns.index') : view('pages.home'))->name('home');
+Route::view('/aide', 'pages.help')->name('help');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 
 // Ouvert sans être connecté : le visiteur voit l'invitation avant de se connecter ou de s'inscrire.
 // Ouvert à tous : confidentialité et mentions légales.
@@ -78,7 +83,6 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/preferences', Preferences::class)->name('preferences');
     Route::view('/quoi-de-neuf', 'pages.changelog')->name('changelog');
     Route::view('/configuration-recommandee', 'pages.recommended')->name('recommended');
-    Route::view('/aide', 'pages.help')->name('help');
     Route::get('/mes-donnees', AccountDataController::class)->name('account.data');
     Route::livewire('/signaler-un-probleme', ReportBug::class)->name('bugs.create');
     // Console d'administration : le mot de passe est redemandé (valable 3 heures).

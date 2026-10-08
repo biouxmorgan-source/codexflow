@@ -26,6 +26,14 @@
             [__('Puis-je brancher ma propre IA ?'), __("Oui : dans « Préférences », bloc « Assistant IA », choisissez Claude, ChatGPT ou Mistral et collez une clé d'API à votre nom. L'assistant propose alors « Analyser directement », sans copier-coller. Les appels sont facturés par le fournisseur sur votre compte : fixez-y une limite de dépense. La clé est chiffrée, jamais réaffichée ni exportée.")],
             [__('Dois-je tout saisir à la main ?'), __("Non : la page « Importer » accepte des fichiers CSV ou JSON pour créer d'un coup fiches, scènes, règles ou champs. Mais tout peut aussi se faire directement dans l'application.")],
         ],
+        __('Votre compte') => [
+            [__('Combien coûte LoreMundi ?'), __("Rejoindre une campagne comme joueur est toujours gratuit. Pour mener vos propres campagnes, un essai Premium commence à votre première campagne ; ensuite, la formule gratuite permet de mener une campagne, et Premium lève les limites et donne plus d'espace pour vos fichiers. Les détails sont dans « Préférences ».")],
+            [__('Comment changer mon adresse e-mail ou mon mot de passe ?'), __("Dans « Préférences », bloc « Mon compte ». Votre mot de passe actuel est demandé, et l'ancienne adresse est prévenue du changement. Mot de passe oublié : utilisez le lien « Mot de passe oublié ? » de la page de connexion.")],
+            [__('Comment protéger mon compte avec la double authentification ?'), __("Dans « Préférences », bloc « Sécurité », activez la double authentification avec une application de votre téléphone (Google Authenticator, Aegis, 1Password…). Gardez les codes de secours affichés à ce moment-là : chacun permet une connexion sans téléphone.")],
+            [__('J’ai perdu mon téléphone et mes codes de secours'), __("Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.")
+                .(filled(config('codexflow.legal.email')) ? ' '.__('Adresse : :email.', ['email' => config('codexflow.legal.email')]) : '')],
+            [__('Puis-je récupérer ou effacer mes données ?'), __("Oui, dans « Préférences », bloc « Mes données » : « Télécharger mes données » donne tout ce que LoreMundi garde sur vous, et « Supprimer mon compte » efface votre compte, vos campagnes et vos fichiers. Pensez à exporter vos campagnes avant.")],
+        ],
         __('Pour les joueurs') => [
             [__('Où trouver la fiche de mon personnage ?'), __('Dans « Mes campagnes », cliquez sur la campagne : vous arrivez directement sur la fiche de votre personnage, avec ses connaissances, ses possessions et vos notes.')],
             [__('Puis-je consulter ma fiche sans réseau ?'), __("Oui, une fois l'application installée et votre fiche ouverte au moins une fois sur l'appareil : elle reste lisible hors ligne.")],
@@ -34,8 +42,9 @@
         ],
     ];
 @endphp
-<x-layouts.app :title="__('Aide')">
-    <div class="max-w-3xl space-y-6">
+{{-- Ouverte aux visiteurs : on peut lire l'aide avant de créer un compte. --}}
+<x-dynamic-component :component="auth()->check() ? 'layouts.app' : 'layouts.public'" :title="__('Aide')">
+    <div @class(['max-w-3xl space-y-6', 'mx-auto px-4 pt-4 pb-16' => auth()->guest()])>
         <div>
             <h1 class="text-2xl font-semibold">{{ __('Aide') }}</h1>
             <p class="mt-1 text-sm text-stone-600">{{ __('Les questions les plus fréquentes. Vous ne trouvez pas la réponse ? Écrivez-nous.') }}</p>
@@ -60,7 +69,13 @@
         <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 class="mb-2 font-semibold">{{ __('Un problème ?') }}</h2>
             <p class="text-stone-700">{{ __("Si quelque chose ne marche pas comme prévu, dites-le-nous : le message arrive directement à l'équipe, avec la page concernée.") }}</p>
-            <a href="{{ route('bugs.create') }}" class="btn-primary mt-3 inline-block" wire:navigate>{{ __('Signaler un problème') }}</a>
+            @auth
+                <a href="{{ route('bugs.create') }}" class="btn-primary mt-3 inline-block" wire:navigate>{{ __('Signaler un problème') }}</a>
+            @else
+                <p class="mt-3 text-stone-700">
+                    <a href="{{ route('login') }}" class="link">{{ __('Connectez-vous pour signaler un problème') }}</a>@if (filled(config('codexflow.legal.email'))), {{ __('ou écrivez à :email', ['email' => config('codexflow.legal.email')]) }}@endif.
+                </p>
+            @endauth
         </section>
     </div>
-</x-layouts.app>
+</x-dynamic-component>

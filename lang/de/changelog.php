@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.27.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Ein öffentliches Schaufenster',
+        'items' => [
+            'Eine Startseite stellt LoreMundi Besuchern und Suchmaschinen vor, in allen 8 Sprachen.',
+            'Die Hilfe ist ohne Konto lesbar und erhält einen Bereich „Ihr Konto“: Angebote, E-Mail-Adresse, Passwort, Zwei-Faktor-Authentifizierung, Daten.',
+        ],
+    ],
+
     '0.26.0' => [
         'date' => '2026-10-08',
         'title' => 'Korrekturen aus dem Abnahmetest v0.25.0',

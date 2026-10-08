@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.27.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Een openbare etalage',
+        'items' => [
+            'Een startpagina stelt LoreMundi voor aan bezoekers en zoekmachines, in alle 8 talen.',
+            'De hulp is zonder account te lezen en krijgt een deel ‘Je account’: abonnementen, e-mailadres, wachtwoord, tweestapsverificatie, gegevens.',
+        ],
+    ],
+
     '0.26.0' => [
         'date' => '2026-10-08',
         'title' => 'Correcties uit de acceptatietest v0.25.0',
