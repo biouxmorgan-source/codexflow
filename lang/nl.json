@@ -1914,5 +1914,9 @@
     "Page précédente": "Vorige pagina",
     "Page suivante": "Volgende pagina",
     "Pages : ": "Pagina's: ",
-    "Télécharger": "Downloaden"
+    "Télécharger": "Downloaden",
+    ":player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.": ":player is terug in de campagne. :character, het vroegere personage, heeft geen speler.",
+    "Lui rendre :name": ":name teruggeven",
+    "Tous les personnages actifs": "Alle actieve personages",
+    "anciennement :name": "voorheen :name"
 }

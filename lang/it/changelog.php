@@ -4,6 +4,18 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.33.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Rifiniture',
+        'items' => [
+            'La ricerca mostra il campo della scheda che contiene la parola trovata, con il suo nome.',
+            'Grafo: nomi ed etichette sovrapposti vengono spostati o nascosti; passando su una scheda riappaiono.',
+            '«Rivela o dai»: una casella «Tutti i personaggi attivi» seleziona tutto il tavolo in un colpo.',
+            'Un giocatore rimosso e poi reinvitato ritrova il suo vecchio personaggio con un clic, dalla pagina Personaggi.',
+            'Senza tempo reale (server Reverb assente o spento), campanella, messaggi e schede si aggiornano ogni 30 secondi.',
+        ],
+    ],
+
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDF e documenti',

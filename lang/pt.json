@@ -1914,5 +1914,9 @@
     "Page précédente": "Página anterior",
     "Page suivante": "Página seguinte",
     "Pages : ": "Páginas: ",
-    "Télécharger": "Transferir"
+    "Télécharger": "Transferir",
+    ":player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.": ":player voltou à campanha. :character, a sua antiga personagem, está sem jogador.",
+    "Lui rendre :name": "Devolver :name",
+    "Tous les personnages actifs": "Todas as personagens ativas",
+    "anciennement :name": "antes :name"
 }

@@ -4,6 +4,18 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.33.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Finishing touches',
+        'items' => [
+            'Search shows the sheet field that holds the word found, with its name.',
+            'Graph: overlapping names and labels are moved or hidden; hovering over an entry brings them back.',
+            '“Reveal or give”: an “All active characters” box ticks the whole table at once.',
+            'A player who was removed and invited again gets their former character back in one click, from the Characters page.',
+            'Without real time (Reverb server missing or down), the bell, messages and sheets refresh every 30 seconds.',
+        ],
+    ],
+
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDFs and documents',

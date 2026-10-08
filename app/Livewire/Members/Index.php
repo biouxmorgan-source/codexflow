@@ -132,7 +132,8 @@ class Index extends Component
      */
     private function releaseCharacters(int $userId): void
     {
-        $this->campaign->playerCharacters()->where('user_id', $userId)->update(['user_id' => null]);
+        $this->campaign->playerCharacters()->where('user_id', $userId)
+            ->update(['user_id' => null, 'previous_user_id' => $userId, 'assigned_at' => null]);
     }
 
     public function render()

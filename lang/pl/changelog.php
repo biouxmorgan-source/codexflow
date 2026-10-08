@@ -4,6 +4,18 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.33.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Wykończenie',
+        'items' => [
+            'Wyszukiwanie pokazuje pole karty zawierające znalezione słowo, wraz z jego nazwą.',
+            'Graf: nachodzące na siebie nazwy i etykiety są przesuwane lub ukrywane; najechanie na kartę przywraca je.',
+            '„Ujawnij lub daj”: pole „Wszystkie aktywne postacie” zaznacza cały stół naraz.',
+            'Gracz usunięty i ponownie zaproszony odzyskuje swoją dawną postać jednym kliknięciem, na stronie Postacie.',
+            'Bez czasu rzeczywistego (brak serwera Reverb lub awaria) dzwonek, wiadomości i karty odświeżają się co 30 sekund.',
+        ],
+    ],
+
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDF i dokumenty',

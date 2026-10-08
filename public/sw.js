@@ -1,8 +1,10 @@
 // Service worker de LoreMundi : application installable, fiche du personnage lisible hors ligne,
-// notifications push. Seules les réponses marquées X-Codexflow-Offline sont gardées, et ce cache
+// notifications push. Seules les réponses marquées X-LoreMundi-Offline sont gardées, et ce cache
 // est vidé dès qu'une page de connexion s'affiche (déconnexion, session expirée).
-const STATIC = 'codexflow-static-v2';
-const PAGES = 'codexflow-pages';
+const STATIC = 'loremundi-static-v1';
+const PAGES = 'loremundi-pages';
+// Caches d'avant le renommage (CodexFlow) : les pages gardées hors ligne sont reprises, le reste effacé.
+const OLD_PAGES = 'codexflow-pages';
 const OFFLINE_URL = '/offline.html';
 
 self.addEventListener('install', (event) => {
@@ -15,11 +17,27 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
     event.waitUntil(
-        caches.keys()
-            .then((keys) => Promise.all(keys.filter((key) => key.startsWith('codexflow-static-') && key !== STATIC).map((key) => caches.delete(key))))
+        moveOldPages()
+            .then(() => caches.keys())
+            .then((keys) => Promise.all(keys
+                .filter((key) => key.startsWith('codexflow-') || (key.startsWith('loremundi-static-') && key !== STATIC))
+                .map((key) => caches.delete(key))))
             .then(() => self.clients.claim()),
     );
 });
+
+async function moveOldPages() {
+    if (!(await caches.has(OLD_PAGES))) {
+        return;
+    }
+    const [from, to] = await Promise.all([caches.open(OLD_PAGES), caches.open(PAGES)]);
+    for (const request of await from.keys()) {
+        const response = await from.match(request);
+        if (response) {
+            await to.put(request, response);
+        }
+    }
+}
 
 self.addEventListener('message', (event) => {
     if (event.data?.type === 'clear-pages') {
@@ -65,7 +83,7 @@ async function cacheFirst(request) {
 async function networkFirst(request) {
     try {
         const response = await fetch(request);
-        if (response.status === 200 && !response.redirected && response.headers.get('X-Codexflow-Offline') === '1') {
+        if (response.status === 200 && !response.redirected && response.headers.get('X-LoreMundi-Offline') === '1') {
             const cache = await caches.open(PAGES);
             cache.put(request, response.clone());
         }
@@ -77,7 +95,7 @@ async function networkFirst(request) {
         if (cached) {
             // Marque la page servie depuis l'appareil : le bandeau « Hors ligne » s'affiche même si
             // l'appareil a du réseau (serveur injoignable).
-            const html = (await cached.text()).replace('<head>', '<head><meta name="codexflow-offline" content="1">');
+            const html = (await cached.text()).replace('<head>', '<head><meta name="loremundi-offline" content="1">');
             return new Response(html, { status: 200, headers: cached.headers });
         }
 

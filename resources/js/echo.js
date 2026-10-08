@@ -16,3 +16,18 @@ if (import.meta.env.VITE_REVERB_APP_KEY) {
         enabledTransports: ['ws', 'wss'],
     });
 }
+
+// Repli sans temps réel : Reverb absent, injoignable ou coupé. Tant que l'onglet est visible,
+// les composants qui écoutent les diffusions (cloche, messages, fiche, fenêtre « reçu »…) se
+// rafraîchissent d'eux-mêmes toutes les 30 secondes. Avec Reverb connecté, rien ne change.
+const FALLBACK_POLL = 30000;
+const listensLive = (component) => (component.originalEffects?.listeners ?? component.effects?.listeners ?? [])
+    .some((listener) => listener.startsWith('echo'));
+
+setInterval(() => {
+    const connected = window.Echo?.connector?.pusher?.connection?.state === 'connected';
+    if (connected || document.hidden || !navigator.onLine || !window.Livewire) {
+        return;
+    }
+    window.Livewire.all().filter(listensLive).forEach((component) => component.$wire.$refresh());
+}, FALLBACK_POLL);

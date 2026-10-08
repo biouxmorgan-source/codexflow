@@ -1914,5 +1914,9 @@
     "Page précédente": "Pagina precedente",
     "Page suivante": "Pagina successiva",
     "Pages : ": "Pagine: ",
-    "Télécharger": "Scarica"
+    "Télécharger": "Scarica",
+    ":player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.": ":player è tornato nella campagna. :character, il suo vecchio personaggio, è senza giocatore.",
+    "Lui rendre :name": "Restituisci :name",
+    "Tous les personnages actifs": "Tutti i personaggi attivi",
+    "anciennement :name": "prima :name"
 }

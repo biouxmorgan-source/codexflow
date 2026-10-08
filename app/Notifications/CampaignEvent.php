@@ -63,7 +63,7 @@ class CampaignEvent extends Notification
             ->body(mb_substr($this->text, 0, 200))
             ->icon('/icons/icon-192.png')
             ->badge('/icons/badge-96.png')
-            ->tag('codexflow-'.$this->kind.'-'.$this->campaign->id)
+            ->tag('loremundi-'.$this->kind.'-'.$this->campaign->id)
             ->renotify()
             ->lang(Locale::for($notifiable instanceof User ? $notifiable : null))
             ->data(['url' => route('notifications.open', $this->id, false)]);
