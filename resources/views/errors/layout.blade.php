@@ -13,9 +13,12 @@
             <p class="text-sm font-medium text-stone-500">{{ __('Erreur :code', ['code' => $code]) }}</p>
             <h1 class="mt-1 text-xl font-semibold">{{ $title }}</h1>
             <p class="mt-3 text-stone-600">{{ $message }}</p>
+            @if (filled($detail ?? null))
+                <p class="mt-2 font-medium text-stone-700">{{ $detail }}</p>
+            @endif
             <div class="mt-6 flex flex-wrap gap-3">
                 <a href="{{ url('/') }}" class="btn-primary">{{ auth()->check() ? __('Mes campagnes') : __('Se connecter') }}</a>
-                <button type="button" class="btn-secondary" onclick="history.length > 1 ? history.back() : location.assign('/')">{{ __('Revenir en arrière') }}</button>
+                <a href="{{ url()->previous() }}" class="btn-secondary">{{ __('Revenir en arrière') }}</a>
             </div>
         </div>
     </main>

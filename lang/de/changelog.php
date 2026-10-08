@@ -4,6 +4,17 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.29.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Kontosicherheit',
+        'items' => [
+            'Eine neue E-Mail-Adresse wird erst übernommen, wenn der an sie gesendete Link angeklickt wurde; danach wird die alte Adresse informiert.',
+            'Versuche in den Kontoformularen werden pro Formular und E-Mail-Adresse gezählt, und die Warteseite nennt die Wartezeit in Sekunden.',
+            'Nur die Skripte von LoreMundi können in den Seiten laufen.',
+            'Beim Löschen des Kontos wird angekündigt, dass Ihre Nachrichten gelöscht werden.',
+        ],
+    ],
+
     '0.28.0' => [
         'date' => '2026-10-08',
         'title' => 'E-Mails in den Farben von LoreMundi',

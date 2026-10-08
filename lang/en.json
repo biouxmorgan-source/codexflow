@@ -1758,7 +1758,6 @@
     "Je comprends que tout sera effacé.": "I understand that everything will be erased.",
     "La date de vos connexions, gardée un an.": "The dates of your logins, kept for one year.",
     "La double authentification est activée.": "Two-factor authentication is on.",
-    "La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur.": "Deletion is permanent. Your campaigns, worlds and games are erased with their files, for all their players. In other people’s campaigns, your characters remain, without a player.",
     "Les données que nous gardons": "The data we keep",
     "LoreMundi est édité par :publisher, nom commercial de :owner (entrepreneur individuel).": "LoreMundi is published by :publisher, trade name of :owner (sole proprietor).",
     "Mes données": "My data",
@@ -1878,5 +1877,15 @@
     "Vos mondes, vos règles": "Your worlds, your rules",
     "Votre compte": "Your account",
     "ou écrivez à :email": "or write to :email",
-    "Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.": "Write to us from your account’s email address: after verification, the administrator removes two-factor authentication, and you can turn it back on."
+    "Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.": "Write to us from your account’s email address: after verification, the administrator removes two-factor authentication, and you can turn it back on.",
+    "La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur, mais vos messages sont effacés.": "Deletion is permanent. Your campaigns, worlds and games are erased with their files, for all their players. In other people’s campaigns, your characters remain, without a player, but your messages are erased.",
+    "Ce lien est valable :minutes minutes. Si vous n’êtes pas à l’origine de cette demande, ignorez ce message : rien ne change.": "This link is valid for :minutes minutes. If you did not make this request, ignore this message: nothing changes.",
+    "Cette adresse est déjà celle de votre compte.": "This address is already your account’s address.",
+    "Cette adresse est désormais utilisée par un autre compte : rien n’a changé.": "This address is now used by another account: nothing has changed.",
+    "Confirmer cette adresse": "Confirm this address",
+    "Confirmez votre nouvelle adresse e-mail LoreMundi": "Confirm your new LoreMundi email address",
+    "Un lien de confirmation a été envoyé à :email. Votre adresse changera quand vous l’ouvrirez.": "A confirmation link has been sent to :email. Your address will change when you open it.",
+    "Votre adresse e-mail est maintenant :email. L’ancienne adresse a été prévenue.": "Your email address is now :email. Your old address has been notified.",
+    "Vous avez demandé à utiliser cette adresse pour votre compte LoreMundi.": "You asked to use this address for your LoreMundi account.",
+    "{1} Réessayez dans une seconde.|[2,*] Réessayez dans :count secondes.": "{1} Try again in one second.|[2,*] Try again in :count seconds."
 }

@@ -1758,7 +1758,6 @@
     "Je comprends que tout sera effacé.": "Compreendo que tudo será apagado.",
     "La date de vos connexions, gardée un an.": "A data dos seus inícios de sessão, guardada durante um ano.",
     "La double authentification est activée.": "A autenticação de dois fatores está ativada.",
-    "La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur.": "A eliminação é definitiva. As suas campanhas, mundos e jogos são apagados com os seus ficheiros, para todos os jogadores. Nas campanhas de outros, as suas personagens ficam, sem jogador.",
     "Les données que nous gardons": "Os dados que guardamos",
     "LoreMundi est édité par :publisher, nom commercial de :owner (entrepreneur individuel).": "O LoreMundi é publicado por :publisher, nome comercial de :owner (empresário em nome individual).",
     "Mes données": "Os meus dados",
@@ -1878,5 +1877,15 @@
     "Vos mondes, vos règles": "Seus mundos, suas regras",
     "Votre compte": "Sua conta",
     "ou écrivez à :email": "ou escreva para :email",
-    "Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.": "Escreva para nós a partir do e-mail da sua conta: após verificação, o administrador remove a autenticação em dois fatores, e você poderá reativá-la."
+    "Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.": "Escreva para nós a partir do e-mail da sua conta: após verificação, o administrador remove a autenticação em dois fatores, e você poderá reativá-la.",
+    "La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur, mais vos messages sont effacés.": "A eliminação é definitiva. As suas campanhas, mundos e jogos são apagados com os seus ficheiros, para todos os jogadores. Nas campanhas de outros, as suas personagens ficam, sem jogador, mas suas mensagens são apagadas.",
+    "Ce lien est valable :minutes minutes. Si vous n’êtes pas à l’origine de cette demande, ignorez ce message : rien ne change.": "Este link é válido por :minutes minutos. Se você não fez este pedido, ignore esta mensagem: nada muda.",
+    "Cette adresse est déjà celle de votre compte.": "Este endereço já é o da sua conta.",
+    "Cette adresse est désormais utilisée par un autre compte : rien n’a changé.": "Este endereço agora é usado por outra conta: nada mudou.",
+    "Confirmer cette adresse": "Confirmar este endereço",
+    "Confirmez votre nouvelle adresse e-mail LoreMundi": "Confirme seu novo e-mail do LoreMundi",
+    "Un lien de confirmation a été envoyé à :email. Votre adresse changera quand vous l’ouvrirez.": "Um link de confirmação foi enviado para :email. Seu endereço mudará quando você abri-lo.",
+    "Votre adresse e-mail est maintenant :email. L’ancienne adresse a été prévenue.": "Seu e-mail agora é :email. O endereço antigo foi avisado.",
+    "Vous avez demandé à utiliser cette adresse pour votre compte LoreMundi.": "Você pediu para usar este endereço na sua conta LoreMundi.",
+    "{1} Réessayez dans une seconde.|[2,*] Réessayez dans :count secondes.": "{1} Tente de novo em um segundo.|[2,*] Tente de novo em :count segundos."
 }

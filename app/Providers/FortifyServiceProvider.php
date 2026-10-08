@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
-use App\Actions\Fortify\UpdateUserPassword;
-use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -33,8 +31,6 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Fortify::createUsersUsing(CreateNewUser::class);
-        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         Fortify::loginView(fn () => view('auth.login'));
@@ -53,7 +49,11 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('two-factor', fn (Request $request) => Limit::perMinute(5)->by((string) $request->session()->get('login.id')));
 
-        // Inscription, mot de passe oublié, réinitialisation : quelques essais par minute et par adresse IP.
-        RateLimiter::for('account-forms', fn (Request $request) => Limit::perMinute(5)->by($request->ip()));
+        // Inscription, mot de passe oublié, réinitialisation : un compteur par formulaire, adresse e-mail
+        // et adresse IP, plus un plafond par formulaire et par IP contre l'essai d'adresses en série.
+        RateLimiter::for('account-forms', fn (Request $request) => [
+            Limit::perMinute(5)->by($request->path().'|'.Str::lower((string) $request->input('email')).'|'.$request->ip()),
+            Limit::perMinute(20)->by($request->path().'|'.$request->ip()),
+        ]);
     }
 }

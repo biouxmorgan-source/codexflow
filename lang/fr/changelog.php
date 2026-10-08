@@ -4,6 +4,17 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.29.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Sécurité du compte',
+        'items' => [
+            'Une nouvelle adresse e-mail n’est adoptée qu’après un clic sur le lien qu’elle reçoit ; l’ancienne adresse est ensuite prévenue.',
+            'Les essais sur les formulaires de compte sont comptés par formulaire et par adresse e-mail, et la page d’attente dit combien de secondes patienter.',
+            'Seuls les scripts de LoreMundi peuvent s’exécuter dans les pages.',
+            'La suppression du compte annonce que vos messages sont effacés.',
+        ],
+    ],
+
     '0.28.0' => [
         'date' => '2026-10-08',
         'title' => 'E-mails aux couleurs de LoreMundi',

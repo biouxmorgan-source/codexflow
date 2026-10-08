@@ -66,7 +66,7 @@
         <details class="rounded-lg border border-red-200 p-4" wire:ignore.self>
             <summary class="cursor-pointer text-sm font-medium text-red-700">{{ __('Supprimer mon compte') }}</summary>
             <form wire:submit="deleteAccount" class="mt-4 space-y-3">
-                <p class="text-sm text-stone-700">{{ __('La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur.') }}</p>
+                <p class="text-sm text-stone-700">{{ __('La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur, mais vos messages sont effacés.') }}</p>
                 @if ($owned > 0)
                     <p class="text-sm font-medium text-red-700">{{ trans_choice('{1} Vous êtes propriétaire d’une campagne : pensez à la télécharger avant.|[2,*] Vous êtes propriétaire de :count campagnes : pensez à les télécharger avant.', $owned, ['count' => $owned]) }}</p>
                 @endif

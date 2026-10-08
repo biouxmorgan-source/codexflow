@@ -1758,7 +1758,6 @@
     "Je comprends que tout sera effacé.": "Capisco che tutto verrà cancellato.",
     "La date de vos connexions, gardée un an.": "La data dei tuoi accessi, conservata per un anno.",
     "La double authentification est activée.": "L’autenticazione a due fattori è attiva.",
-    "La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur.": "L’eliminazione è definitiva. Le tue campagne, i tuoi mondi e giochi vengono cancellati con i loro file, per tutti i giocatori. Nelle campagne altrui i tuoi personaggi restano, senza giocatore.",
     "Les données que nous gardons": "I dati che conserviamo",
     "LoreMundi est édité par :publisher, nom commercial de :owner (entrepreneur individuel).": "LoreMundi è pubblicato da :publisher, nome commerciale di :owner (imprenditore individuale).",
     "Mes données": "I miei dati",
@@ -1878,5 +1877,15 @@
     "Vos mondes, vos règles": "I tuoi mondi, le tue regole",
     "Votre compte": "Il tuo account",
     "ou écrivez à :email": "oppure scrivi a :email",
-    "Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.": "Scrivici dall'indirizzo e-mail del tuo account: dopo la verifica, l'amministratore rimuove l'autenticazione a due fattori e potrai riattivarla."
+    "Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.": "Scrivici dall'indirizzo e-mail del tuo account: dopo la verifica, l'amministratore rimuove l'autenticazione a due fattori e potrai riattivarla.",
+    "La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur, mais vos messages sont effacés.": "L’eliminazione è definitiva. Le tue campagne, i tuoi mondi e giochi vengono cancellati con i loro file, per tutti i giocatori. Nelle campagne altrui i tuoi personaggi restano, senza giocatore, ma i tuoi messaggi vengono cancellati.",
+    "Ce lien est valable :minutes minutes. Si vous n’êtes pas à l’origine de cette demande, ignorez ce message : rien ne change.": "Questo link è valido per :minutes minuti. Se non hai fatto tu questa richiesta, ignora questo messaggio: non cambia nulla.",
+    "Cette adresse est déjà celle de votre compte.": "Questo indirizzo è già quello del tuo account.",
+    "Cette adresse est désormais utilisée par un autre compte : rien n’a changé.": "Questo indirizzo ora è usato da un altro account: non è cambiato nulla.",
+    "Confirmer cette adresse": "Conferma questo indirizzo",
+    "Confirmez votre nouvelle adresse e-mail LoreMundi": "Conferma il tuo nuovo indirizzo e-mail LoreMundi",
+    "Un lien de confirmation a été envoyé à :email. Votre adresse changera quand vous l’ouvrirez.": "Un link di conferma è stato inviato a :email. Il tuo indirizzo cambierà quando lo aprirai.",
+    "Votre adresse e-mail est maintenant :email. L’ancienne adresse a été prévenue.": "Il tuo indirizzo e-mail ora è :email. Il vecchio indirizzo è stato avvisato.",
+    "Vous avez demandé à utiliser cette adresse pour votre compte LoreMundi.": "Hai chiesto di usare questo indirizzo per il tuo account LoreMundi.",
+    "{1} Réessayez dans une seconde.|[2,*] Réessayez dans :count secondes.": "{1} Riprova tra un secondo.|[2,*] Riprova tra :count secondi."
 }

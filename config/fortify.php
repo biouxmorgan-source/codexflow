@@ -165,8 +165,8 @@ return [
         Features::registration(),
         Features::resetPasswords(),
         // Features::emailVerification(),
-        Features::updateProfileInformation(),
-        Features::updatePasswords(),
+        // Nom, adresse et mot de passe se changent dans Préférences (Livewire Account\Profile),
+        // qui redemande le mot de passe et fait confirmer une nouvelle adresse.
         // Double authentification facultative, gérée dans Préférences (mot de passe redemandé).
         Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
     ],

@@ -16,6 +16,7 @@ use App\Models\Message;
 use App\Models\PlayerCharacter;
 use App\Models\User;
 use App\Models\UserLogin;
+use App\Notifications\ConfirmNewEmail;
 use App\Notifications\EmailChanged;
 use App\Support\Notify;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -129,15 +130,30 @@ class SecurityTest extends TestCase
 
     public function test_account_forms_are_throttled_and_pages_send_security_headers(): void
     {
+        // Cinq essais par formulaire et par adresse e-mail ; la page 429 dit combien attendre.
         for ($i = 0; $i < 5; $i++) {
-            $this->post(route('password.email'), ['email' => "x{$i}@exemple.fr"]);
+            $this->post(route('password.email'), ['email' => 'x@exemple.fr']);
         }
-        $this->post(route('password.email'), ['email' => 'y@exemple.fr'])->assertStatus(429);
+        $this->post(route('password.email'), ['email' => 'x@exemple.fr'])->assertStatus(429)->assertSee('Réessayez dans');
+        $this->post(route('password.email'), ['email' => 'y@exemple.fr'])->assertStatus(302);
+        $this->post(route('login'), ['email' => 'x@exemple.fr', 'password' => 'faux'])->assertStatus(302);
+
+        // Au-delà de vingt essais par minute depuis la même adresse IP, même avec des adresses différentes.
+        for ($i = 0; $i < 14; $i++) {
+            $this->post(route('password.email'), ['email' => "z{$i}@exemple.fr"]);
+        }
+        $this->post(route('password.email'), ['email' => 'w@exemple.fr'])->assertStatus(429);
 
         $this->get(route('login'))
             ->assertHeader('X-Frame-Options', 'SAMEORIGIN')
             ->assertHeader('X-Content-Type-Options', 'nosniff')
             ->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+
+        // Seuls les scripts du site et ceux qui portent le nonce de la page s'exécutent.
+        $page = $this->get(route('login'));
+        preg_match("/script-src 'self' 'nonce-([^']+)'/", $page->headers->get('Content-Security-Policy'), $nonce);
+        $this->assertNotEmpty($nonce);
+        $page->assertSee('<script nonce="'.$nonce[1].'">', false)->assertHeaderMissing('X-Powered-By');
     }
 
     public function test_two_factor_authentication_protects_the_login(): void
@@ -239,12 +255,28 @@ class SecurityTest extends TestCase
             ->set('name', 'Alexandra')->call('saveProfile')->assertHasNoErrors();
         $this->assertSame('Alexandra', $this->alex->fresh()->name);
 
-        // L'adresse demande le mot de passe actuel, reste unique, et l'ancienne adresse est prévenue.
+        // L'adresse demande le mot de passe actuel et reste unique ; elle ne change qu'après le lien
+        // de confirmation reçu à la nouvelle adresse, puis l'ancienne adresse est prévenue.
         $page = Livewire::actingAs($this->alex)->test(Profile::class)
             ->set('email', $this->gm->email)->set('currentPassword', 'password')->call('saveProfile')->assertHasErrors('email')
             ->set('email', 'Alex.Nouvelle@Exemple.fr')->set('currentPassword', '')->call('saveProfile')->assertHasErrors('currentPassword')
             ->set('currentPassword', 'faux')->call('saveProfile')->assertHasErrors('currentPassword')
-            ->set('currentPassword', 'password')->call('saveProfile')->assertHasNoErrors();
+            ->set('currentPassword', 'password')->call('saveProfile')->assertHasNoErrors()
+            ->assertSet('email', $old)->assertSee('Un lien de confirmation a été envoyé à alex.nouvelle@exemple.fr.');
+        $this->assertSame($old, $this->alex->fresh()->email);
+        Notification::assertSentOnDemandTimes(EmailChanged::class, 0);
+
+        $url = null;
+        Notification::assertSentOnDemand(ConfirmNewEmail::class, function ($notification, $channels, $notifiable) use (&$url) {
+            $url = $notification->toMail($notifiable)->actionUrl;
+
+            return $notifiable->routes['mail'] === 'alex.nouvelle@exemple.fr';
+        });
+
+        // Le lien est signé : changer l'adresse qu'il contient le rend invalide, et il ne sert qu'à son titulaire.
+        $this->actingAs($this->alex)->get(str_replace('alex.nouvelle', 'pirate', $url))->assertForbidden();
+        $this->actingAs($this->gm)->get($url)->assertForbidden();
+        $this->actingAs($this->alex)->get($url)->assertRedirect(route('preferences'));
         $this->assertSame('alex.nouvelle@exemple.fr', $this->alex->fresh()->email);
         Notification::assertSentOnDemand(EmailChanged::class, fn ($notification, $channels, $notifiable) => $notifiable->routes['mail'] === $old);
 
@@ -254,6 +286,7 @@ class SecurityTest extends TestCase
             ->set('password_confirmation', 'nouveau-secret-42')->call('savePassword')->assertHasNoErrors();
         $this->assertTrue(Hash::check('nouveau-secret-42', $this->alex->fresh()->password));
 
-        $this->actingAs($this->alex)->get(route('preferences'))->assertSee(['Mon compte', 'Changer le mot de passe']);
+        $this->flushSession();
+        $this->actingAs($this->alex->fresh())->get(route('preferences'))->assertSee(['Mon compte', 'Changer le mot de passe']);
     }
 }

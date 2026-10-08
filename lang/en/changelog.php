@@ -4,6 +4,17 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.29.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Account security',
+        'items' => [
+            'A new email address is only adopted after clicking the link it receives; the old address is then notified.',
+            'Attempts on account forms are counted per form and per email address, and the waiting page says how many seconds to wait.',
+            'Only LoreMundi’s own scripts can run in its pages.',
+            'Account deletion now says that your messages are erased.',
+        ],
+    ],
+
     '0.28.0' => [
         'date' => '2026-10-08',
         'title' => 'Emails in LoreMundi colours',

@@ -1758,7 +1758,6 @@
     "Je comprends que tout sera effacé.": "Entiendo que todo se borrará.",
     "La date de vos connexions, gardée un an.": "La fecha de tus inicios de sesión, guardada un año.",
     "La double authentification est activée.": "La verificación en dos pasos está activada.",
-    "La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur.": "La eliminación es definitiva. Tus campañas, mundos y juegos se borran con sus archivos, para todos sus jugadores. En las campañas de otros, tus personajes se quedan, sin jugador.",
     "Les données que nous gardons": "Los datos que guardamos",
     "LoreMundi est édité par :publisher, nom commercial de :owner (entrepreneur individuel).": "LoreMundi está publicado por :publisher, nombre comercial de :owner (empresario individual).",
     "Mes données": "Mis datos",
@@ -1878,5 +1877,15 @@
     "Vos mondes, vos règles": "Tus mundos, tus reglas",
     "Votre compte": "Tu cuenta",
     "ou écrivez à :email": "o escribe a :email",
-    "Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.": "Escríbenos desde la dirección de correo de tu cuenta: tras verificarlo, el administrador quita la autenticación en dos pasos y podrás volver a activarla."
+    "Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.": "Escríbenos desde la dirección de correo de tu cuenta: tras verificarlo, el administrador quita la autenticación en dos pasos y podrás volver a activarla.",
+    "La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur, mais vos messages sont effacés.": "La eliminación es definitiva. Tus campañas, mundos y juegos se borran con sus archivos, para todos sus jugadores. En las campañas de otros, tus personajes se quedan, sin jugador, pero tus mensajes se borran.",
+    "Ce lien est valable :minutes minutes. Si vous n’êtes pas à l’origine de cette demande, ignorez ce message : rien ne change.": "Este enlace es válido durante :minutes minutos. Si no has hecho esta solicitud, ignora este mensaje: nada cambia.",
+    "Cette adresse est déjà celle de votre compte.": "Esta dirección ya es la de tu cuenta.",
+    "Cette adresse est désormais utilisée par un autre compte : rien n’a changé.": "Esta dirección la usa ahora otra cuenta: no ha cambiado nada.",
+    "Confirmer cette adresse": "Confirmar esta dirección",
+    "Confirmez votre nouvelle adresse e-mail LoreMundi": "Confirma tu nueva dirección de correo de LoreMundi",
+    "Un lien de confirmation a été envoyé à :email. Votre adresse changera quand vous l’ouvrirez.": "Se ha enviado un enlace de confirmación a :email. Tu dirección cambiará cuando lo abras.",
+    "Votre adresse e-mail est maintenant :email. L’ancienne adresse a été prévenue.": "Tu dirección de correo es ahora :email. Se ha avisado a la dirección anterior.",
+    "Vous avez demandé à utiliser cette adresse pour votre compte LoreMundi.": "Has pedido usar esta dirección para tu cuenta de LoreMundi.",
+    "{1} Réessayez dans une seconde.|[2,*] Réessayez dans :count secondes.": "{1} Vuelve a intentarlo en un segundo.|[2,*] Vuelve a intentarlo en :count segundos."
 }
