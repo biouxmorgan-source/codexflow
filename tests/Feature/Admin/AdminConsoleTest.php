@@ -37,6 +37,8 @@ class AdminConsoleTest extends TestCase
 
         // Le premier compte de l'installation l'administre.
         $this->admin = User::factory()->create(['name' => 'Morgan', 'email' => 'morgan@example.com']);
+        // Ces tests portent sur la formule gratuite elle-même, hors essai.
+        Plans::save(['trial_weeks' => 0]);
     }
 
     public function test_only_the_administrator_opens_the_console(): void

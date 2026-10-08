@@ -1642,5 +1642,21 @@
     "À traiter": "Pendiente",
     "Écarts constatés ou bug": "Desviaciones detectadas o error",
     "Écran de table et télécommande": "Pantalla de mesa y mando a distancia",
-    "Évolution": "Mejora"
+    "Évolution": "Mejora",
+    "Annuel": "Anual",
+    "Durée (semaines, 0 = pas d’essai)": "Duración (semanas, 0 = sin prueba)",
+    "Dès sa première campagne en tant que MJ, un compte gratuit a toutes les fonctions et le stockage du premium pendant cette durée. Un joueur qui n’est jamais MJ ne l’entame pas. Ensuite, le compte garde ses campagnes mais suit la formule gratuite.": "Desde su primera campaña como DJ, una cuenta gratuita tiene todas las funciones y el almacenamiento Premium durante este tiempo. Un jugador que nunca es DJ no la empieza. Después, la cuenta conserva sus campañas pero sigue el plan gratuito.",
+    "En essai": "En prueba",
+    "Essai": "Prueba",
+    "Essai offert : :count semaine avec toutes les fonctions, à partir de votre première campagne en tant que MJ.|Essai offert : :count semaines avec toutes les fonctions, à partir de votre première campagne en tant que MJ.": "Prueba gratuita: :count semana con todas las funciones, a partir de tu primera campaña como DJ.|Prueba gratuita: :count semanas con todas las funciones, a partir de tu primera campaña como DJ.",
+    "Fin de l’essai": "Fin de la prueba",
+    "Gérer mon abonnement et mes factures": "Gestionar mi suscripción y mis facturas",
+    "Le dernier paiement n’est pas passé : mettez à jour votre moyen de paiement.": "Tu último pago no se ha realizado: actualiza tu método de pago.",
+    "Mensuel": "Mensual",
+    "Merci ! Votre abonnement premium s’active dès que Stripe confirme le paiement, en général en quelques secondes.": "¡Gracias! Tu suscripción Premium se activa en cuanto Stripe confirma el pago, normalmente en unos segundos.",
+    "Paiement sécurisé par Stripe : CodexFlow ne voit jamais votre carte. Résiliable à tout moment, le premium dure jusqu’à la fin de la période payée.": "Pago seguro con Stripe: CodexFlow nunca ve tu tarjeta. Cancela cuando quieras; el Premium dura hasta el final del periodo pagado.",
+    "Passer Premium : :interval": "Pasar a Premium: :interval",
+    "Stripe : :status": "Stripe: :status",
+    "durée de l’essai": "duración de la prueba",
+    "jusqu’au :date": "hasta el :date"
 }

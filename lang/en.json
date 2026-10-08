@@ -1642,5 +1642,21 @@
     "À traiter": "To handle",
     "Écarts constatés ou bug": "Discrepancies found or bug",
     "Écran de table et télécommande": "Table screen and remote control",
-    "Évolution": "Enhancement"
+    "Évolution": "Enhancement",
+    "Annuel": "Yearly",
+    "Durée (semaines, 0 = pas d’essai)": "Duration (weeks, 0 = no trial)",
+    "Dès sa première campagne en tant que MJ, un compte gratuit a toutes les fonctions et le stockage du premium pendant cette durée. Un joueur qui n’est jamais MJ ne l’entame pas. Ensuite, le compte garde ses campagnes mais suit la formule gratuite.": "From their first campaign as GM, a free account gets every feature and premium storage for this long. A player who is never a GM does not start it. Afterwards the account keeps its campaigns but follows the free plan.",
+    "En essai": "On trial",
+    "Essai": "Trial",
+    "Essai offert : :count semaine avec toutes les fonctions, à partir de votre première campagne en tant que MJ.|Essai offert : :count semaines avec toutes les fonctions, à partir de votre première campagne en tant que MJ.": "Free trial: :count week with every feature, starting from your first campaign as GM.|Free trial: :count weeks with every feature, starting from your first campaign as GM.",
+    "Fin de l’essai": "Trial ends",
+    "Gérer mon abonnement et mes factures": "Manage my subscription and invoices",
+    "Le dernier paiement n’est pas passé : mettez à jour votre moyen de paiement.": "Your last payment failed: please update your payment method.",
+    "Mensuel": "Monthly",
+    "Merci ! Votre abonnement premium s’active dès que Stripe confirme le paiement, en général en quelques secondes.": "Thank you! Your premium subscription starts as soon as Stripe confirms the payment, usually within a few seconds.",
+    "Paiement sécurisé par Stripe : CodexFlow ne voit jamais votre carte. Résiliable à tout moment, le premium dure jusqu’à la fin de la période payée.": "Secure payment by Stripe: CodexFlow never sees your card. Cancel any time; premium lasts until the end of the paid period.",
+    "Passer Premium : :interval": "Go Premium: :interval",
+    "Stripe : :status": "Stripe: :status",
+    "durée de l’essai": "trial duration",
+    "jusqu’au :date": "until :date"
 }

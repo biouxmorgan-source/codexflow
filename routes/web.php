@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CharacterKnowledgeController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
@@ -56,7 +57,13 @@ Route::get('/', fn () => redirect()->route(auth()->check() ? 'campaigns.index' :
 // Ouvert sans être connecté : le visiteur voit l'invitation avant de se connecter ou de s'inscrire.
 Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('invitations.show');
 
+// Stripe annonce les paiements ici (signature vérifiée, pas de jeton CSRF).
+Route::post('/stripe/webhook', [BillingController::class, 'webhook'])->name('stripe.webhook');
+
 Route::middleware('auth')->group(function () {
+    Route::post('/abonnement/portail', [BillingController::class, 'portal'])->name('billing.portal');
+    Route::get('/abonnement/merci', [BillingController::class, 'success'])->name('billing.success');
+    Route::post('/abonnement/{interval}', [BillingController::class, 'checkout'])->whereIn('interval', ['monthly', 'yearly'])->name('billing.checkout');
     Route::post('/invitation/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::livewire('/campagnes', CampaignIndex::class)->name('campaigns.index');
     Route::livewire('/preferences', Preferences::class)->name('preferences');

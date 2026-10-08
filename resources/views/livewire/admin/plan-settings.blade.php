@@ -22,6 +22,14 @@
         </section>
 
         <section class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+            <h2 class="font-semibold">{{ __('Essai') }}</h2>
+            <p class="mt-1 mb-3 text-sm text-stone-600">{{ __('Dès sa première campagne en tant que MJ, un compte gratuit a toutes les fonctions et le stockage du premium pendant cette durée. Un joueur qui n’est jamais MJ ne l’entame pas. Ensuite, le compte garde ses campagnes mais suit la formule gratuite.') }}</p>
+            <label for="trial-weeks" class="label">{{ __('Durée (semaines, 0 = pas d’essai)') }}</label>
+            <input id="trial-weeks" type="number" min="0" wire:model="trialWeeks" class="field max-w-40">
+            @error('trialWeeks') <p class="error">{{ $message }}</p> @enderror
+        </section>
+
+        <section class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
             <h2 class="font-semibold">{{ __('Gratuit') }}</h2>
             <p class="mt-1 mb-3 text-sm text-stone-600">{{ __('La formule de tout nouveau compte, y compris les joueurs invités. Jouer, être co-MJ ou spectateur ne compte jamais dans la limite de campagnes.') }}</p>
             <div class="grid gap-4 sm:grid-cols-2">

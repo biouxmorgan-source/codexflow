@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.16.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Abonnement premium et essai gratuit',
+        'items' => [
+            'Passer Premium depuis « Préférences » : paiement mensuel ou annuel sécurisé par Stripe, factures et résiliation dans le portail Stripe. Le premium dure jusqu’à la fin de la période payée.',
+            'Essai offert : six semaines avec toutes les fonctions, à partir de votre première campagne en tant que MJ. Un joueur qui n’est jamais MJ ne l’entame pas. La durée se règle dans la console d’administration.',
+        ],
+    ],
+
     '0.15.0' => [
         'date' => '2026-10-08',
         'title' => 'Console d’administration et formules',

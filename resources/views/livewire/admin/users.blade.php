@@ -12,6 +12,7 @@
         @foreach ([
             __('Comptes') => $totals['accounts'],
             __('Premium') => $totals['premium'],
+            __('En essai') => $totals['trial'],
             __('Gratuit') => $totals['free'],
             __('Administrateurs') => $totals['admins'],
             __('Comptes actifs') => $totals['active'],
@@ -65,7 +66,13 @@
                     <tr wire:key="user-{{ $user->id }}" class="align-top">
                         <td class="px-3 py-2 break-all">{{ $user->email }}</td>
                         <td class="px-3 py-2">
-                            <span @class(['rounded-full px-2 py-0.5 text-xs font-medium', 'bg-codex-soft text-codex' => $row['plan'] === 'admin', 'bg-amber-100 text-amber-900' => $row['plan'] === 'premium', 'bg-stone-100 text-stone-700' => $row['plan'] === 'free'])>{{ $labels[$row['plan']] }}</span>
+                            <span @class(['rounded-full px-2 py-0.5 text-xs font-medium', 'bg-codex-soft text-codex' => $row['plan'] === 'admin', 'bg-amber-100 text-amber-900' => $row['plan'] === 'premium', 'bg-green-100 text-green-900' => $row['plan'] === 'trial', 'bg-stone-100 text-stone-700' => $row['plan'] === 'free'])>{{ $labels[$row['plan']] }}</span>
+                            @if ($user->subscription_status)
+                                <span class="block text-xs text-stone-500">{{ __('Stripe : :status', ['status' => $user->subscription_status]) }}</span>
+                            @endif
+                            @if ($row['plan'] === 'trial')
+                                <span class="block text-xs text-stone-500">{{ __('jusqu’au :date', ['date' => \App\Support\Plans\Plans::trialEndsAt($user)->isoFormat('L')]) }}</span>
+                            @endif
                             @if ($user->plan === 'premium' && $row['plan'] === 'free')
                                 <span class="block text-xs text-red-700">{{ __('premium échu') }}</span>
                             @endif

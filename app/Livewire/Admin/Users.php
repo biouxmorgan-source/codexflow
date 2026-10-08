@@ -117,6 +117,7 @@ class Users extends Component
         return [
             'accounts' => $users->count(),
             'premium' => $plans[Plans::PREMIUM] ?? 0,
+            'trial' => $plans[Plans::TRIAL] ?? 0,
             'free' => $plans[Plans::FREE] ?? 0,
             'admins' => $plans[Plans::ADMIN] ?? 0,
             'active' => UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->distinct('user_id')->count('user_id'),

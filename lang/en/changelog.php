@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.16.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Premium subscription and free trial',
+        'items' => [
+            'Go Premium from “Preferences”: monthly or yearly payment secured by Stripe, with invoices and cancellation in the Stripe portal. Premium lasts until the end of the paid period.',
+            'Free trial: six weeks with every feature, starting from your first campaign as GM. A player who is never a GM does not start it. The length is set in the admin console.',
+        ],
+    ],
+
     '0.15.0' => [
         'date' => '2026-10-08',
         'title' => 'Administration console and plans',

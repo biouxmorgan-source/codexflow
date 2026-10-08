@@ -15,7 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 
 #[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token', 'ai_api_key'])]
+#[Hidden(['password', 'remember_token', 'ai_api_key', 'stripe_customer_id', 'stripe_subscription_id'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -36,6 +36,7 @@ class User extends Authenticatable
             'ai_api_key' => 'encrypted',
             'plan_started_at' => 'date',
             'plan_ends_at' => 'date',
+            'trial_started_at' => 'datetime',
         ];
     }
 

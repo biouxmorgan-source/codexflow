@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.16.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Premium-Abonnement und kostenlose Testphase',
+        'items' => [
+            'Premium über „Einstellungen“: monatliche oder jährliche Zahlung, gesichert durch Stripe, mit Rechnungen und Kündigung im Stripe-Portal. Premium gilt bis zum Ende des bezahlten Zeitraums.',
+            'Kostenlose Testphase: sechs Wochen mit allen Funktionen, ab Ihrer ersten Kampagne als SL. Wer nie SL ist, beginnt sie nicht. Die Dauer wird in der Administration eingestellt.',
+        ],
+    ],
+
     '0.15.0' => [
         'date' => '2026-10-08',
         'title' => 'Verwaltungskonsole und Tarife',

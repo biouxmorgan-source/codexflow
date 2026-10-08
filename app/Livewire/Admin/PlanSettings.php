@@ -15,6 +15,8 @@ class PlanSettings extends Component
 
     public int $freeMaxCampaigns = 0;
 
+    public int $trialWeeks = 0;
+
     /** @var list<string> */
     public array $freeFeatures = [];
 
@@ -26,6 +28,7 @@ class PlanSettings extends Component
         $this->freeStorageMb = (int) $settings['free_storage_mb'];
         $this->premiumStorageMb = (int) $settings['premium_storage_mb'];
         $this->freeMaxCampaigns = (int) $settings['free_max_campaigns'];
+        $this->trialWeeks = (int) $settings['trial_weeks'];
         $this->freeFeatures = array_values($settings['free_features']);
     }
 
@@ -37,18 +40,21 @@ class PlanSettings extends Component
             'freeStorageMb' => ['required', 'integer', 'min:0', 'max:10000000'],
             'premiumStorageMb' => ['required', 'integer', 'min:0', 'max:10000000'],
             'freeMaxCampaigns' => ['required', 'integer', 'min:0', 'max:1000'],
+            'trialWeeks' => ['required', 'integer', 'min:0', 'max:104'],
             'freeFeatures' => ['array'],
             'freeFeatures.*' => [Rule::in(Plans::FEATURES)],
         ], attributes: [
             'freeStorageMb' => __('stockage de la formule gratuite'),
             'premiumStorageMb' => __('stockage de la formule premium'),
             'freeMaxCampaigns' => __('campagnes de la formule gratuite'),
+            'trialWeeks' => __('durée de l’essai'),
         ]);
 
         Plans::save([
             'free_storage_mb' => $this->freeStorageMb,
             'premium_storage_mb' => $this->premiumStorageMb,
             'free_max_campaigns' => $this->freeMaxCampaigns,
+            'trial_weeks' => $this->trialWeeks,
             'free_features' => array_values(array_intersect(Plans::FEATURES, $this->freeFeatures)),
         ]);
 

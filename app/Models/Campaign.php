@@ -22,6 +22,11 @@ class Campaign extends Model
 
     protected static function booted(): void
     {
+        // Sa première campagne fait du compte un MJ : son essai commence.
+        static::created(function (Campaign $campaign) {
+            User::whereKey($campaign->user_id)->whereNull('trial_started_at')->update(['trial_started_at' => now()]);
+        });
+
         // Une à une, pour que chaque entité supprime ses fichiers.
         static::deleting(function (Campaign $campaign) {
             $campaign->localEntities()->each(fn (Entity $entity) => $entity->delete());
