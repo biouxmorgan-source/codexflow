@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AccountDataController;
+use App\Http\Controllers\AiImportPromptController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CharacterKnowledgeController;
@@ -59,6 +61,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn () => redirect()->route(auth()->check() ? 'campaigns.index' : 'login'));
 
 // Ouvert sans être connecté : le visiteur voit l'invitation avant de se connecter ou de s'inscrire.
+// Ouvert à tous : confidentialité et mentions légales.
+Route::view('/confidentialite', 'pages.privacy')->name('privacy');
+
 Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('invitations.show');
 
 // Stripe annonce les paiements ici (signature vérifiée, pas de jeton CSRF).
@@ -74,12 +79,16 @@ Route::middleware('auth')->group(function () {
     Route::view('/quoi-de-neuf', 'pages.changelog')->name('changelog');
     Route::view('/configuration-recommandee', 'pages.recommended')->name('recommended');
     Route::view('/aide', 'pages.help')->name('help');
+    Route::get('/mes-donnees', AccountDataController::class)->name('account.data');
     Route::livewire('/signaler-un-probleme', ReportBug::class)->name('bugs.create');
-    Route::livewire('/admin', AdminUsers::class)->name('admin.users');
-    Route::livewire('/admin/formules', AdminPlans::class)->name('admin.plans');
-    Route::livewire('/admin/backlog', AdminBacklog::class)->name('admin.backlog');
-    Route::livewire('/admin/evolutions', AdminEvolutions::class)->name('admin.evolutions');
-    Route::livewire('/admin/recettes', AdminRecettes::class)->name('admin.recettes');
+    // Console d'administration : le mot de passe est redemandé (valable 3 heures).
+    Route::middleware(['can:admin', 'password.confirm'])->group(function () {
+        Route::livewire('/admin', AdminUsers::class)->name('admin.users');
+        Route::livewire('/admin/formules', AdminPlans::class)->name('admin.plans');
+        Route::livewire('/admin/backlog', AdminBacklog::class)->name('admin.backlog');
+        Route::livewire('/admin/evolutions', AdminEvolutions::class)->name('admin.evolutions');
+        Route::livewire('/admin/recettes', AdminRecettes::class)->name('admin.recettes');
+    });
     Route::redirect('/problemes-signales', '/admin/backlog')->name('bugs.index');
     Route::post('/push/abonnement', [PushSubscriptionController::class, 'store'])->name('push.store');
     Route::delete('/push/abonnement', [PushSubscriptionController::class, 'destroy'])->name('push.destroy');
@@ -135,6 +144,9 @@ Route::middleware('auth')->group(function () {
 
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/import', ImportCreate::class)->name('imports.create')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/import/avec-une-ia', [AiImportPromptController::class, 'show'])->name('imports.ai')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/import/prompt-ia.md', [AiImportPromptController::class, 'markdown'])->name('imports.ai.prompt')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/import/skill-ia.zip', [AiImportPromptController::class, 'skill'])->name('imports.ai.skill')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/import/exemple-{kind}.csv', ImportExampleController::class)->name('imports.example')->whereNumber('campaign')->whereIn('kind', ['fiches', 'champs', 'regles', 'scenes']);
     Route::get('/campagnes/{campaign}/archive.zip', [ArchiveController::class, 'campaign'])->name('archives.campaign')->middleware('feature:archive')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/modele.json', [ArchiveController::class, 'template'])->name('archives.template')->middleware('feature:archive')->whereNumber('campaign');

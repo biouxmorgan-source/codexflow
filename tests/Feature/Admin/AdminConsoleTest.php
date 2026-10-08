@@ -47,6 +47,10 @@ class AdminConsoleTest extends TestCase
     {
         $user = User::factory()->create();
 
+        // La console redemande le mot de passe de l'administrateur.
+        $this->actingAs($this->admin)->get(route('admin.users'))->assertRedirect(route('password.confirm'));
+        $this->withSession(['auth.password_confirmed_at' => time()]);
+
         foreach (['admin.users', 'admin.plans', 'admin.backlog', 'admin.recettes'] as $route) {
             $this->actingAs($user)->get(route($route))->assertForbidden();
             $this->actingAs($this->admin)->get(route($route))->assertOk()->assertSee('Administration');
@@ -223,7 +227,7 @@ class AdminConsoleTest extends TestCase
         $this->get(route('admin.evolutions'))->assertRedirect(route('login'));
         $this->actingAs(User::factory()->create())->get(route('admin.evolutions'))->assertForbidden();
 
-        $this->actingAs($this->admin)->get(route('admin.evolutions'))->assertOk()->assertSee('Évolutions');
+        $this->actingAs($this->admin)->withSession(['auth.password_confirmed_at' => time()])->get(route('admin.evolutions'))->assertOk()->assertSee('Évolutions');
 
         $page = Livewire::actingAs($this->admin)->test(Evolutions::class)
             ->set('newTitle', 'Créer le compte Stripe')

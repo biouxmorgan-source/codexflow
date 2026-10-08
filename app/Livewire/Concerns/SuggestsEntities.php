@@ -16,6 +16,11 @@ trait SuggestsEntities
     #[Renderless]
     public function suggestEntities(string $query): array
     {
+        // Les noms de toutes les fiches relèvent du MJ : un joueur n'en reçoit aucun.
+        if (! $this->campaign->isGameMaster(auth()->user())) {
+            return [];
+        }
+
         $query = trim(mb_substr($query, 0, 60));
 
         return $this->campaign->availableEntities()

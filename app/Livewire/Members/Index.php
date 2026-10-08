@@ -97,6 +97,10 @@ class Index extends Component
         }
 
         $this->campaign->members()->updateExistingPivot($userId, ['role' => $new->value]);
+
+        if ($new !== CampaignRole::Player) {
+            $this->releaseCharacters($userId);
+        }
         ActivityLog::record('member', $member->id, $member->name, 'updated', ['role' => ['old' => $member->pivot->role->value, 'new' => $new->value]], ['campaign_id' => $this->campaign->id]);
 
         unset($this->members);
@@ -116,9 +120,19 @@ class Index extends Component
         }
 
         $this->campaign->members()->detach($userId);
+        $this->releaseCharacters($userId);
         ActivityLog::record('member', $member->id, $member->name, 'deleted', ['role' => ['old' => $member->pivot->role->value, 'new' => null]], ['campaign_id' => $this->campaign->id]);
 
         unset($this->members);
+    }
+
+    /**
+     * Qui n'est plus joueur ne joue plus ses personnages : ils restent dans la campagne,
+     * sans joueur, prêts à être confiés, et plus rien de ce qu'on leur révèle ne lui parvient.
+     */
+    private function releaseCharacters(int $userId): void
+    {
+        $this->campaign->playerCharacters()->where('user_id', $userId)->update(['user_id' => null]);
     }
 
     public function render()

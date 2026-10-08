@@ -19,5 +19,6 @@
                     @if (app()->getLocale() === $code) aria-current="true" @endif>{{ $name }}</a>
             @endforeach
         </nav>
+        <p class="mt-3 text-center text-xs text-stone-500"><a href="{{ route('privacy') }}" class="hover:text-ink hover:underline">{{ __('Confidentialité et mentions légales') }}</a></p>
     </main>
 </x-layouts.base>

@@ -132,6 +132,13 @@ class Form extends Component
 
     public function save(): void
     {
+        // Les droits peuvent avoir changé depuis l'ouverture du formulaire.
+        $this->authorize('update', $this->campaign);
+
+        if ($this->entity !== null) {
+            $this->authorize('update', $this->entity);
+        }
+
         $this->validate([
             'entityTypeId' => ['required', Rule::in($this->types->modelKeys())],
             'name' => ['required', 'string', 'max:255'],

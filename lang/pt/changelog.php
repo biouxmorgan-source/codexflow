@@ -4,6 +4,27 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.25.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Importar um livro de jogo com uma IA',
+        'items' => [
+            'Em «Importar», «Prepare os ficheiros com uma IA» dá-lhe um prompt para colar na IA que escolher com o PDF de um jogo ou cenário: ela prepara os ficheiros de importação (campos, fichas, regras, cenas) e um guia passo a passo. O prompt também existe como skill do Claude.',
+        ],
+    ],
+
+    '0.24.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Segurança e dados pessoais',
+        'items' => [
+            '«A minha conta», em Preferências: mude o nome, o e-mail (o endereço anterior é avisado) e a palavra-passe.',
+            'Autenticação de dois fatores opcional, em Preferências: um código de uma aplicação do seu telemóvel, com códigos de recuperação.',
+            '«Os meus dados», em Preferências: transfira o que o LoreMundi guarda sobre si ou elimine a sua conta.',
+            'Palavras-passe com pelo menos 10 caracteres, com letras e números; mudar a sua termina a sessão nos outros dispositivos. A consola de administração volta a pedir a palavra-passe.',
+            'Nova página «Privacidade e informações legais».',
+            'Um jogador retirado da campanha, ou tornado espectador, deixa de jogar a sua personagem e deixa de receber o que lhe é revelado. Outras verificações de permissões foram reforçadas no servidor.',
+        ],
+    ],
+
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow passa a ser LoreMundi',

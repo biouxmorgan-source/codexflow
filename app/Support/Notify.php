@@ -28,7 +28,7 @@ class Notify
     {
         $player = $character->player;
 
-        if ($player === null || $player->id === auth()->id()) {
+        if ($player === null || $player->id === auth()->id() || $character->campaign->roleOf($player) !== CampaignRole::Player) {
             return;
         }
 

@@ -4,6 +4,27 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.25.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Ein Spielbuch mit einer KI importieren',
+        'items' => [
+            'Unter „Importieren“ liefert „Dateien mit einer KI vorbereiten“ einen Prompt, den Sie mit dem PDF eines Spiels oder Szenarios in die KI Ihrer Wahl einfügen: Sie bereitet die Importdateien (Felder, Karteikarten, Regeln, Szenen) und eine Schritt-für-Schritt-Anleitung vor. Den Prompt gibt es auch als Claude-Skill.',
+        ],
+    ],
+
+    '0.24.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Sicherheit und persönliche Daten',
+        'items' => [
+            '„Mein Konto“ unter Einstellungen: Ändern Sie Ihren Namen, Ihre E-Mail-Adresse (die bisherige Adresse wird benachrichtigt) und Ihr Passwort.',
+            'Optionale Zwei-Faktor-Authentifizierung unter Einstellungen: ein Code aus einer App auf Ihrem Telefon, mit Wiederherstellungscodes.',
+            '„Meine Daten“ unter Einstellungen: Laden Sie herunter, was LoreMundi über Sie speichert, oder löschen Sie Ihr Konto.',
+            'Passwörter mit mindestens 10 Zeichen aus Buchstaben und Ziffern; wer sein Passwort ändert, wird auf seinen anderen Geräten abgemeldet. Die Verwaltungskonsole fragt erneut nach dem Passwort.',
+            'Neue Seite „Datenschutz und Impressum“.',
+            'Ein aus der Kampagne entfernter oder zum Zuschauer gemachter Spieler spielt seinen Charakter nicht mehr und erhält nichts mehr von dem, was diesem enthüllt wird. Weitere Rechteprüfungen auf dem Server wurden verstärkt.',
+        ],
+    ],
+
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow wird zu LoreMundi',

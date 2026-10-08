@@ -10,6 +10,7 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Mots de passe : 10 caractères avec lettres et chiffres ; en production, refus de ceux
+        // déjà apparus dans une fuite connue (vérifié sans envoyer le mot de passe).
+        Password::defaults(fn () => app()->isProduction()
+            ? Password::min(10)->letters()->numbers()->uncompromised()
+            : Password::min(10)->letters()->numbers());
+
         // Administration de l'installation : lecture des problèmes signalés.
         Gate::define('admin', fn (User $user) => $user->is_admin);
 

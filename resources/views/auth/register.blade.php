@@ -15,6 +15,7 @@
         <div>
             <label for="password" class="label">{{ __('Mot de passe') }}</label>
             <input id="password" name="password" type="password" required autocomplete="new-password" class="field">
+            <p class="mt-1 text-xs text-stone-500">{{ __('Au moins 10 caractères, avec des lettres et des chiffres.') }}</p>
             @error('password') <p class="error">{{ $message }}</p> @enderror
         </div>
         <div>

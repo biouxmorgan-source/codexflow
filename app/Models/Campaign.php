@@ -31,6 +31,8 @@ class Campaign extends Model
         static::deleting(function (Campaign $campaign) {
             $campaign->localEntities()->each(fn (Entity $entity) => $entity->delete());
             $campaign->documents()->each(fn (Document $document) => $document->delete());
+            // Personnages joués à partir d'une fiche du monde : leur feuille PDF part avec la campagne.
+            $campaign->playerCharacters()->each(fn (PlayerCharacter $character) => $character->delete());
         });
     }
 

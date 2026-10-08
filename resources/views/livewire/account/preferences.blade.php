@@ -103,6 +103,10 @@
         <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
     </form>
 
+    <livewire:account.profile />
+
     <livewire:account.ai-key />
+
+    <livewire:account.security />
 
 </div>

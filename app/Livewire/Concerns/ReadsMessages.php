@@ -55,6 +55,9 @@ trait ReadsMessages
      */
     public function reference(Message $message): ?array
     {
+        // Appelable depuis le navigateur avec n'importe quel identifiant : on reste dans la campagne.
+        abort_unless($message->campaign_id === $this->campaign->id, 404);
+
         $kind = match (true) {
             $message->entity_id !== null => 'entity',
             $message->document_id !== null => 'document',

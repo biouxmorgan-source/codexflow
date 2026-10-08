@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\CampaignRole;
 use App\Models\CharacterGrant;
 use App\Support\Changelog;
 use Illuminate\Notifications\DatabaseNotification;
@@ -64,7 +65,8 @@ class ReceivedPopup extends Component
         foreach ($pending as $notification) {
             $grant = CharacterGrant::query()
                 ->with(['character.entity', 'entity', 'document', 'rule'])
-                ->whereHas('character', fn ($q) => $q->where('user_id', auth()->id()))
+                ->whereHas('character', fn ($q) => $q->where('user_id', auth()->id())
+                    ->whereHas('campaign.members', fn ($m) => $m->whereKey(auth()->id())->where('campaign_memberships.role', CampaignRole::Player->value)))
                 ->find($notification->data['grant_id']);
 
             if ($grant !== null) {
