@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.12.0' => [
+        'date' => '2026-10-14',
+        'title' => 'Ein KI-Assistent, ohne Abo',
+        'items' => [
+            'Neues Werkzeug „KI-Assistent“ in der Kampagne: CodexFlow bereitet einen Text mit den Sitzungsnotizen und dem Kontext der Kampagne vor, zum Einfügen in die KI Ihrer Wahl. Deren Antwort, hier wieder eingefügt, wird zu Vorschlägen: Zusammenfassung, gespielte Ereignisse, Beziehungen, Status, Kampagnennotizen, Enthüllungen.',
+            'Jeder Vorschlag lässt sich annehmen, ändern oder ablehnen. Ohne Sie ändert sich nichts an der Kampagne, und vorgeschlagene Beziehungen oder Status gelten nur für die Kampagne, ohne die geteilte Welt zu berühren.',
+        ],
+    ],
+
     '0.11.1' => [
         'date' => '2026-10-13',
         'title' => 'Die Demo in Ihrer Sprache',

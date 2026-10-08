@@ -114,6 +114,12 @@ class Campaign extends Model
         return $this->hasMany(TimelineEvent::class);
     }
 
+    /** @return HasMany<AiAnalysis, $this> */
+    public function aiAnalyses(): HasMany
+    {
+        return $this->hasMany(AiAnalysis::class);
+    }
+
     /** @return HasMany<TableMap, $this> */
     public function maps(): HasMany
     {

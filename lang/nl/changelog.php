@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.12.0' => [
+        'date' => '2026-10-14',
+        'title' => 'Een AI-assistent, zonder abonnement',
+        'items' => [
+            'Nieuw hulpmiddel ‘AI-assistent’ in de campagne: CodexFlow maakt een tekst met de sessienotities en de context van de campagne, om te plakken in de AI van uw keuze. Het antwoord, hier teruggeplakt, wordt een reeks voorstellen: samenvatting, gespeelde gebeurtenissen, relaties, statussen, campagnenotities, onthullingen.',
+            'Elk voorstel kunt u accepteren, aanpassen of weigeren. Zonder u verandert er niets in de campagne, en voorgestelde relaties of statussen gelden alleen voor de campagne, zonder de gedeelde wereld aan te raken.',
+        ],
+    ],
+
     '0.11.1' => [
         'date' => '2026-10-13',
         'title' => 'De demo in jouw taal',

@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.12.0' => [
+        'date' => '2026-10-14',
+        'title' => 'An AI assistant, no subscription',
+        'items' => [
+            'New “AI assistant” tool in the campaign: CodexFlow prepares a text with the session notes and the campaign context, to paste into the AI of your choice. Its answer, pasted back, becomes suggestions: summary, played events, relations, statuses, campaign notes, reveals.',
+            'Each suggestion can be accepted, edited or rejected. Nothing changes in the campaign without you, and suggested relations or statuses stay specific to the campaign, without touching the shared world.',
+        ],
+    ],
+
     '0.11.1' => [
         'date' => '2026-10-13',
         'title' => 'The demonstration in your language',

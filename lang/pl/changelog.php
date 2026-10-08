@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.12.0' => [
+        'date' => '2026-10-14',
+        'title' => 'Asystent AI bez abonamentu',
+        'items' => [
+            'Nowe narzędzie „Asystent AI” w kampanii: CodexFlow przygotowuje tekst z notatkami z sesji i kontekstem kampanii do wklejenia w wybranej AI. Jej odpowiedź, wklejona z powrotem, zamienia się w propozycje: streszczenie, rozegrane wydarzenia, relacje, statusy, notatki kampanii, ujawnienia.',
+            'Każdą propozycję można przyjąć, zmienić lub odrzucić. Bez Ciebie nic się w kampanii nie zmienia, a proponowane relacje czy statusy dotyczą tylko kampanii i nie zmieniają wspólnego świata.',
+        ],
+    ],
+
     '0.11.1' => [
         'date' => '2026-10-13',
         'title' => 'Demonstracja w twoim języku',
