@@ -36,7 +36,25 @@
                     <button type="button" class="btn-primary" x-on:click="navigator.clipboard.writeText($refs.prompt.value).then(() => { copied = true; setTimeout(() => copied = false, 2500) }, () => { $refs.prompt.select() })">{{ __('Copier le texte') }}</button>
                     <span x-show="copied" x-cloak class="text-sm text-emerald-700" role="status">{{ __('Copié !') }}</span>
                 </div>
-                <p class="mt-2 text-xs text-stone-500">{{ __('Ce texte contient vos notes MJ et des secrets de la campagne : collez-le seulement dans une IA en laquelle vous avez confiance. CodexFlow n’envoie rien lui-même.') }}</p>
+                <p class="mt-2 text-xs text-stone-500">
+                    @if ($this->directProvider)
+                        {{ __('Ce texte contient vos notes MJ et des secrets de la campagne : collez-le seulement dans une IA en laquelle vous avez confiance. CodexFlow ne l’envoie qu’à votre demande, à l’IA de votre clé.') }}
+                    @else
+                        {{ __('Ce texte contient vos notes MJ et des secrets de la campagne : collez-le seulement dans une IA en laquelle vous avez confiance. CodexFlow n’envoie rien lui-même.') }}
+                    @endif
+                </p>
+            </div>
+            <div class="border-t border-stone-200 pt-4">
+                @if ($this->directProvider)
+                    <button type="button" wire:click="analyseDirectly" wire:loading.attr="disabled" wire:target="analyseDirectly" class="btn-secondary">
+                        <span wire:loading.remove wire:target="analyseDirectly">{{ __('Analyser directement avec :provider', ['provider' => $this->directProvider]) }}</span>
+                        <span wire:loading wire:target="analyseDirectly">{{ __('Analyse en cours… (jusqu’à quelques minutes)') }}</span>
+                    </button>
+                    <p class="mt-1 text-xs text-stone-500">{{ __('Envoie ce texte avec votre clé, à vos frais, sans copier-coller. Les propositions arrivent plus bas.') }}</p>
+                    @error('direct') <p class="error" role="alert">{{ $message }}</p> @enderror
+                @else
+                    <p class="text-xs text-stone-500">{!! __('Vous avez une clé d’API Claude, ChatGPT ou Mistral ? Enregistrez-la dans :link pour analyser sans copier-coller.', ['link' => '<a href="'.route('preferences').'" class="link" wire:navigate>'.e(__('vos préférences')).'</a>']) !!}</p>
+                @endif
             </div>
         </section>
 

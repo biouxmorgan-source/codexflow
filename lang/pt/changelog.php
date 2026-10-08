@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.13.0' => [
+        'date' => '2026-10-14',
+        'title' => 'A sua própria IA, sem copiar e colar',
+        'items' => [
+            'Em «Preferências» pode guardar uma chave de API em seu nome da Claude (Anthropic), ChatGPT (OpenAI) ou Le Chat (Mistral). O assistente IA propõe então «Analisar diretamente»: as propostas chegam sem copiar e colar.',
+            'As chamadas são faturadas pelo fornecedor na sua conta. A chave é cifrada, nunca volta a ser mostrada nem exportada, e o modo «texto a colar» continua gratuito.',
+        ],
+    ],
+
     '0.12.0' => [
         'date' => '2026-10-14',
         'title' => 'Um assistente IA, sem subscrição',

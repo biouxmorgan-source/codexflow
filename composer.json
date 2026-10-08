@@ -11,6 +11,7 @@
     "license": "proprietary",
     "require": {
         "php": "^8.3",
+        "anthropic-ai/sdk": "^0.56.0",
         "laravel-notification-channels/webpush": "^13.0",
         "laravel/fortify": "^1.40",
         "laravel/framework": "^13.17",

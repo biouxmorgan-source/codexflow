@@ -15,7 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 
 #[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+#[Hidden(['password', 'remember_token', 'ai_api_key'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -33,6 +33,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'preferences' => 'array',
             'is_admin' => 'boolean',
+            'ai_api_key' => 'encrypted',
         ];
     }
 
@@ -47,6 +48,12 @@ class User extends Authenticatable
                 $user->is_admin = true;
             }
         });
+    }
+
+    /** Le MJ a branché sa propre IA : l'assistant peut l'appeler directement, à ses frais. */
+    public function hasAiKey(): bool
+    {
+        return $this->ai_provider !== null && filled($this->ai_api_key);
     }
 
     /** Préférence d'affichage, ou sa valeur par défaut. */

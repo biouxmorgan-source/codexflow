@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.13.0' => [
+        'date' => '2026-10-14',
+        'title' => 'Your own AI, no copy-paste',
+        'items' => [
+            'In “Preferences”, you can save an API key in your name with Claude (Anthropic), ChatGPT (OpenAI) or Le Chat (Mistral). The AI assistant then offers “Analyse directly”: suggestions arrive with no copy-paste.',
+            'Calls are billed by the provider to your account. The key is encrypted, never shown again nor exported, and the copy-paste mode stays free.',
+        ],
+    ],
+
     '0.12.0' => [
         'date' => '2026-10-14',
         'title' => 'An AI assistant, no subscription',

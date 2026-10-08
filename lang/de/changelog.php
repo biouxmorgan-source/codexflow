@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.13.0' => [
+        'date' => '2026-10-14',
+        'title' => 'Ihre eigene KI, ohne Kopieren und Einfügen',
+        'items' => [
+            'In „Einstellungen“ können Sie einen API-Schlüssel auf Ihren Namen bei Claude (Anthropic), ChatGPT (OpenAI) oder Le Chat (Mistral) speichern. Der KI-Assistent bietet dann „Direkt analysieren“ an: Die Vorschläge kommen ohne Kopieren und Einfügen.',
+            'Die Aufrufe stellt der Anbieter Ihrem Konto in Rechnung. Der Schlüssel wird verschlüsselt, nie wieder angezeigt oder exportiert, und der Modus „Text zum Einfügen“ bleibt kostenlos.',
+        ],
+    ],
+
     '0.12.0' => [
         'date' => '2026-10-14',
         'title' => 'Ein KI-Assistent, ohne Abo',

@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.13.0' => [
+        'date' => '2026-10-14',
+        'title' => 'Uw eigen AI, zonder kopiëren en plakken',
+        'items' => [
+            'In ‘Voorkeuren’ kunt u een API-sleutel op uw naam opslaan bij Claude (Anthropic), ChatGPT (OpenAI) of Le Chat (Mistral). De AI-assistent biedt dan ‘Direct analyseren’ aan: de voorstellen komen zonder kopiëren en plakken.',
+            'De aanbieder rekent de aanroepen af op uw account. De sleutel wordt versleuteld, nooit opnieuw getoond of geëxporteerd, en de modus ‘tekst om te plakken’ blijft gratis.',
+        ],
+    ],
+
     '0.12.0' => [
         'date' => '2026-10-14',
         'title' => 'Een AI-assistent, zonder abonnement',

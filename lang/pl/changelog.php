@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.13.0' => [
+        'date' => '2026-10-14',
+        'title' => 'Własna AI bez kopiowania i wklejania',
+        'items' => [
+            'W „Ustawieniach” możesz zapisać klucz API na swoje nazwisko u Claude (Anthropic), ChatGPT (OpenAI) lub Le Chat (Mistral). Asystent AI zaproponuje wtedy „Analizuj bezpośrednio”: propozycje pojawią się bez kopiowania i wklejania.',
+            'Wywołania rozlicza dostawca na Twoim koncie. Klucz jest szyfrowany, nigdy ponownie wyświetlany ani eksportowany, a tryb „tekst do wklejenia” pozostaje bezpłatny.',
+        ],
+    ],
+
     '0.12.0' => [
         'date' => '2026-10-14',
         'title' => 'Asystent AI bez abonamentu',

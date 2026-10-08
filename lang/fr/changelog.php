@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.13.0' => [
+        'date' => '2026-10-14',
+        'title' => 'Votre propre IA, sans copier-coller',
+        'items' => [
+            'Dans « Préférences », vous pouvez enregistrer une clé d’API à votre nom chez Claude (Anthropic), ChatGPT (OpenAI) ou Le Chat (Mistral). L’assistant IA propose alors « Analyser directement » : les propositions arrivent sans copier-coller.',
+            'Les appels sont facturés par le fournisseur sur votre compte. La clé est chiffrée, jamais réaffichée ni exportée, et le mode « texte à coller » reste gratuit.',
+        ],
+    ],
+
     '0.12.0' => [
         'date' => '2026-10-14',
         'title' => 'Un assistant IA, sans abonnement',
