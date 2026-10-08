@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.17.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Éditeur riche et notes des joueurs',
+        'items' => [
+            'Les textes longs (descriptions, notes MJ, scènes, règles, chronologie, notes des joueurs) ont un éditeur avec gras, italique, intertitres, listes et citations ; « [[ » propose toujours les fiches à lier.',
+            'Les joueurs lient leurs notes aux fiches que leur personnage connaît, et seulement à celles-là.',
+            'La page d’une séance montre aussi les notes prises par les joueurs pendant celle-ci, sauf celles qu’ils gardent pour eux.',
+        ],
+    ],
+
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Abonnement premium et essai gratuit',

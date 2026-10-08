@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.17.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Editor de texto e notas dos jogadores',
+        'items' => [
+            'Os textos longos (descrições, notas do Mestre, cenas, regras, linha do tempo, notas dos jogadores) têm um editor com negrito, itálico, subtítulos, listas e citações; “[[” continua sugerindo fichas para vincular.',
+            'Os jogadores vinculam suas notas às fichas que o personagem conhece, e só a elas.',
+            'A página de uma sessão mostra também as notas que os jogadores fizeram durante ela, exceto as que guardam para si.',
+        ],
+    ],
+
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Assinatura Premium e teste gratuito',

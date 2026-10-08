@@ -185,12 +185,12 @@
                         @foreach ($this->notes as $note)
                             <li wire:key="note-{{ $note->id }}" class="flex gap-3">
                                 <time class="shrink-0 font-mono text-xs text-stone-500" datetime="{{ $note->created_at->toIso8601String() }}">{{ $note->created_at->timezone(config('app.timezone'))->isoFormat('LT') }}</time>
-                                <span class="min-w-0 flex-1">
+                                <div class="min-w-0 flex-1">
                                     {{ \App\Support\EntityLinks::render($note->body, $campaign) }}
                                     @if ($note->scene)
                                         <span class="text-xs text-stone-500">· {{ $note->scene->name }}</span>
                                     @endif
-                                </span>
+                                </div>
                                 <button type="button" wire:click="deleteNote({{ $note->id }})" wire:confirm="{{ __('Supprimer cette note ?') }}" class="shrink-0 text-xs text-stone-400 hover:text-red-700" aria-label="{{ __('Supprimer la note') }}">✕</button>
                             </li>
                         @endforeach

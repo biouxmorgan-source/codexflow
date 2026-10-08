@@ -10,6 +10,7 @@ use App\Models\SessionNote;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 /**
  * Liens internes entre fiches.
@@ -23,14 +24,15 @@ class EntityLinks
     public const PATTERN = '/\[\[([^\[\]|\n]+?)(?:\|(\d+))?\]\]/u';
 
     /**
-     * Texte échappé, sauts de ligne conservés, liens internes cliquables.
-     */
-    /**
+     * Texte mis en forme (Markdown : gras, italique, titres, listes, citations), liens internes
+     * cliquables. Le HTML saisi est échappé ; un simple saut de ligne reste un saut de ligne.
+     *
      * @param  (callable(Entity): ?string)|null  $url  adresse du lien, ou null pour du texte simple
      *                                                 (vue joueur : seules les fiches qu'il connaît)
      */
-    public static function render(?string $text, Campaign $campaign, ?callable $url = null): HtmlString
+    public static function render(?string $text, Campaign $campaign, ?callable $url = null, bool $inline = false): HtmlString
     {
+        $restricted = $url !== null;
         $url ??= fn (Entity $entity) => route('entities.show', [$campaign, $entity]);
 
         if ($text === null || $text === '') {
@@ -40,38 +42,80 @@ class EntityLinks
         preg_match_all(self::PATTERN, $text, $matches, PREG_SET_ORDER);
         [$byId, $byName] = self::resolve($matches, $campaign);
 
-        $html = '';
-        $offset = 0;
-
-        foreach (self::matchesWithOffsets($text) as [$full, $label, $id, $position]) {
-            $html .= e(substr($text, $offset, $position - $offset));
-            $offset = $position + strlen($full);
-
-            $entity = $id !== null ? $byId->get((int) $id) : $byName->get(mb_strtolower(trim($label)));
-
+        $links = [];
+        $marked = preg_replace_callback(self::PATTERN, function (array $match) use ($byId, $byName, $url, $restricted, &$links) {
+            $label = trim($match[1]);
+            $entity = isset($match[2]) && $match[2] !== '' ? $byId->get((int) $match[2]) : $byName->get(mb_strtolower($label));
             $href = $entity === null ? null : $url($entity);
 
-            $html .= match (true) {
+            $links[] = match (true) {
                 $href !== null => '<a href="'.e($href).'" class="font-medium text-codex underline decoration-codex/40 underline-offset-2 hover:decoration-codex" wire:navigate>'.e($entity->name).'</a>',
-                $entity === null && func_num_args() < 3 => '<span class="text-stone-500" title="'.e(__('Fiche introuvable dans cette campagne')).'">'.e(trim($label)).'</span>',
-                default => e(trim($label)),
+                $entity === null && ! $restricted => '<span class="text-stone-500" title="'.e(__('Fiche introuvable dans cette campagne')).'">'.e($label).'</span>',
+                default => e($label),
             };
-        }
 
-        $html .= e(substr($text, $offset));
+            return self::token(count($links) - 1);
+        }, $text);
 
-        return new HtmlString(nl2br($html, false));
+        return new HtmlString(self::markdown($marked, $links, $inline));
+    }
+
+    /** Une ligne mise en forme (valeur de champ, note courte) : pas de paragraphe ni de liste. */
+    public static function inline(?string $text, Campaign $campaign, ?callable $url = null): HtmlString
+    {
+        return self::render($text, $campaign, $url, inline: true);
     }
 
     /**
-     * Texte échappé sans aucun lien : les noms cités restent lisibles, sans révéler
+     * Texte mis en forme sans aucun lien : les noms cités restent lisibles, sans révéler
      * de fiche que le lecteur ne peut pas ouvrir.
      */
-    public static function plain(?string $text): HtmlString
+    public static function plain(?string $text, bool $inline = false): HtmlString
     {
-        $text = preg_replace_callback(self::PATTERN, fn (array $match) => trim($match[1]), (string) $text);
+        if ($text === null || $text === '') {
+            return new HtmlString('');
+        }
 
-        return new HtmlString(nl2br(e($text), false));
+        $links = [];
+        $marked = preg_replace_callback(self::PATTERN, function (array $match) use (&$links) {
+            $links[] = e(trim($match[1]));
+
+            return self::token(count($links) - 1);
+        }, $text);
+
+        return new HtmlString(self::markdown($marked, $links, $inline));
+    }
+
+    /** Texte brut d'une ligne, sans mise en forme ni lien (aperçus tronqués). */
+    public static function excerpt(?string $text): string
+    {
+        $html = self::plain($text)->toHtml();
+
+        return trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags(str_replace(['<br>', '</p>', '</li>'], ' ', $html)), ENT_QUOTES | ENT_HTML5)));
+    }
+
+    /** Marque provisoire d'un lien, hors de la syntaxe Markdown (zone d'usage privé d'Unicode). */
+    private static function token(int $index): string
+    {
+        return "\u{E000}{$index}\u{E001}";
+    }
+
+    /** @param  list<string>  $links  HTML des liens, remis à la place de leurs marques */
+    private static function markdown(string $text, array $links, bool $inline): string
+    {
+        $options = [
+            'html_input' => 'escape',
+            'allow_unsafe_links' => false,
+            'max_nesting_level' => 10,
+            'renderer' => ['soft_break' => "<br>\n"],
+        ];
+
+        $html = $inline ? Str::inlineMarkdown($text, $options) : Str::markdown($text, $options);
+        // Pas d'image distante : elle préviendrait un site tiers de chaque lecture.
+        $html = preg_replace('/<img\b[^>]*>/i', '', $html);
+        $html = preg_replace_callback('/\x{E000}(\d+)\x{E001}/u', fn (array $m) => $links[(int) $m[1]] ?? '', $html);
+
+        return $inline ? trim($html) : '<div class="rich">'.trim($html).'</div>';
     }
 
     /**
@@ -178,21 +222,6 @@ class EntityLinks
             ->orderBy('scenarios.position')
             ->orderBy('scenes.position')
             ->get();
-    }
-
-    /**
-     * @return list<array{0: string, 1: string, 2: ?string, 3: int}>
-     */
-    private static function matchesWithOffsets(string $text): array
-    {
-        preg_match_all(self::PATTERN, $text, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
-
-        return array_map(fn (array $m) => [
-            $m[0][0],
-            $m[1][0],
-            isset($m[2]) && $m[2][1] !== -1 ? $m[2][0] : null,
-            $m[0][1],
-        ], $matches);
     }
 
     /**

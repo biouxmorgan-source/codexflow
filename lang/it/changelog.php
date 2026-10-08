@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.17.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Editor avanzato e note dei giocatori',
+        'items' => [
+            'I testi lunghi (descrizioni, note del Master, scene, regole, cronologia, note dei giocatori) hanno un editor con grassetto, corsivo, sottotitoli, elenchi e citazioni; «[[» propone sempre le schede da collegare.',
+            'I giocatori collegano le loro note alle schede che il loro personaggio conosce, e solo a quelle.',
+            'La pagina di una sessione mostra anche le note prese dai giocatori durante la sessione, tranne quelle che tengono per sé.',
+        ],
+    ],
+
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Abbonamento Premium e prova gratuita',

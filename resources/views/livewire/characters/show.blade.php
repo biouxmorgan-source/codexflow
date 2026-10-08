@@ -116,7 +116,7 @@
                                     <dt class="text-sm text-stone-600">{{ $definition->name }}</dt>
                                     <dd class="font-medium">
                                         @if ($definition->type === \App\Enums\FieldType::LongText)
-                                            <span class="font-normal text-stone-700">{{ \App\Support\EntityLinks::plain($entity->fieldValue($definition)) }}</span>
+                                            <span class="font-normal text-stone-700">{{ \App\Support\EntityLinks::plain($entity->fieldValue($definition), inline: true) }}</span>
                                         @else
                                             {{ $definition->type->format($entity->fieldValue($definition)) }}
                                         @endif
@@ -212,7 +212,7 @@
                                             @default
                                                 <p class="font-medium">{{ $grant->label() }}</p>
                                                 @if ($grant->body)
-                                                    <p class="text-sm text-stone-700">{{ \App\Support\EntityLinks::render($grant->body, $campaign, $this->knownLink(...)) }}</p>
+                                                    <div class="text-sm text-stone-700">{{ \App\Support\EntityLinks::render($grant->body, $campaign, $this->knownLink(...)) }}</div>
                                                 @endif
                                         @endswitch
                                         <p class="text-xs text-stone-400">
@@ -314,7 +314,7 @@
                 @if ($this->canWrite)
                     <form wire:submit="saveNote" class="mb-4 space-y-3">
                         <label for="noteBody" class="sr-only">{{ __('Note') }}</label>
-                        <textarea id="noteBody" wire:model="noteBody" rows="3" class="field" placeholder="{{ __("Ce qui s'est passé, ce que vous soupçonnez… Citez une fiche connue avec [[Nom]].") }}"></textarea>
+                        <x-link-textarea id="noteBody" model="noteBody" rows="3" :placeholder="__('Ce qui s’est passé, ce que vous soupçonnez…')" />
                         @error('noteBody') <p class="error">{{ $message }}</p> @enderror
                         <fieldset>
                             <legend class="label">{{ __('Qui peut la lire ?') }}</legend>

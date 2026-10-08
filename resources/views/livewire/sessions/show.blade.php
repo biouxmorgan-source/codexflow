@@ -22,12 +22,28 @@
                 @foreach ($sceneNotes as $note)
                     <li class="flex gap-3">
                         <time class="shrink-0 font-mono text-xs text-stone-500">{{ $note->created_at->isoFormat('LT') }}</time>
-                        <span>{{ \App\Support\EntityLinks::render($note->body, $campaign) }}</span>
+                        <div class="min-w-0">{{ \App\Support\EntityLinks::render($note->body, $campaign) }}</div>
                     </li>
                 @endforeach
             </ul>
         @empty
             <p class="text-sm text-stone-500">{{ __('Aucune note prise pendant cette session.') }}</p>
+        @endforelse
+    </section>
+
+    <section class="mt-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm" aria-labelledby="player-notes-title">
+        <h2 id="player-notes-title" class="mb-3 font-semibold">{{ __('Notes des joueurs') }}</h2>
+        @forelse ($playerNotes as $note)
+            <article wire:key="player-note-{{ $note->id }}" class="border-t border-stone-100 py-3 first:border-t-0 first:pt-0">
+                <p class="mb-1 flex flex-wrap items-baseline gap-x-2 text-xs text-stone-500">
+                    <span class="font-semibold text-flow">{{ $note->character->entity->name }}</span>
+                    <time>{{ $note->created_at->isoFormat('LT') }}</time>
+                    <span>· {{ $note->visibilityLabel() }}</span>
+                </p>
+                <div class="text-sm text-stone-700">{{ \App\Support\EntityLinks::render($note->body, $campaign) }}</div>
+            </article>
+        @empty
+            <p class="text-sm text-stone-500">{{ __('Aucune note de joueur pendant cette session.') }}</p>
         @endforelse
     </section>
 </div>

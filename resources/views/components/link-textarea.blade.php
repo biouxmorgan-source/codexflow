@@ -1,40 +1,33 @@
-@props(['id', 'model', 'rows' => 6])
-{{-- Zone de texte avec autocomplétion des liens [[…]] vers les fiches de la campagne. --}}
-<div x-data="entityLinkInput" class="relative" @click.outside="close()">
+@props(['id', 'model', 'rows' => 6, 'placeholder' => null])
+{{--
+    Texte long avec mise en forme (Tiptap) et liens [[…]] vers les fiches : taper « [[ »
+    propose les fiches. Enregistré en Markdown ; sans JavaScript, la zone de texte reste utilisable.
+--}}
+<div x-data="richEditor(@js($model))" class="rich-editor">
+    <div class="mb-1 flex flex-wrap gap-1" role="toolbar" aria-label="{{ __('Mise en forme') }}" x-cloak x-show="ready">
+        @foreach ([
+            'bold' => ['B', __('Gras'), 'font-bold'],
+            'italic' => ['I', __('Italique'), 'italic'],
+            'heading' => ['T', __('Intertitre'), 'font-semibold'],
+            'bulletList' => ['•', __('Liste à puces'), ''],
+            'orderedList' => ['1.', __('Liste numérotée'), ''],
+            'blockquote' => ['❝', __('Citation'), ''],
+        ] as $command => [$symbol, $label, $style])
+            <button type="button" x-on:mousedown.prevent x-on:click="run('{{ $command }}')" :aria-pressed="marks.{{ $command }} ? 'true' : 'false'"
+                :class="marks.{{ $command }} ? 'bg-codex-soft text-codex' : 'text-stone-600 hover:bg-stone-100'"
+                class="min-w-8 rounded-md px-2 py-1 text-sm {{ $style }}" title="{{ $label }}" aria-label="{{ $label }}">{{ $symbol }}</button>
+        @endforeach
+        <button type="button" x-on:mousedown.prevent x-on:click="run('link')" class="rounded-md px-2 py-1 text-sm text-stone-600 hover:bg-stone-100" title="{{ __('Lier une fiche') }}">[[ ]]</button>
+    </div>
+    <div wire:ignore x-ref="editor"></div>
     <textarea
         id="{{ $id }}"
         x-ref="input"
         wire:model="{{ $model }}"
         rows="{{ $rows }}"
-        x-on:input="onInput()"
-        x-on:keydown="onKeydown($event)"
-        role="combobox"
-        aria-autocomplete="list"
-        :aria-expanded="open"
-        aria-controls="{{ $id }}-suggestions"
+        @if ($placeholder) placeholder="{{ $placeholder }}" @endif
+        x-bind:class="ready && 'hidden'"
         {{ $attributes->merge(['class' => 'field']) }}
     ></textarea>
     <p class="mt-1 text-xs text-stone-500">{!! __('Tapez :keys pour lier une autre fiche.', ['keys' => '<kbd class="rounded border border-stone-300 bg-stone-50 px-1">[[</kbd>']) !!}</p>
-
-    <ul
-        id="{{ $id }}-suggestions"
-        x-show="open"
-        x-cloak
-        role="listbox"
-        class="absolute inset-x-0 z-20 mt-1 max-h-64 overflow-auto rounded-md border border-stone-200 bg-white py-1 shadow-lg"
-    >
-        <template x-for="(item, index) in items" :key="item.id">
-            <li
-                role="option"
-                :aria-selected="index === active"
-                x-on:mousedown.prevent="choose(item)"
-                x-on:mouseenter="active = index"
-                :class="index === active ? 'bg-codex-soft' : ''"
-                class="flex cursor-pointer items-center justify-between gap-3 px-3 py-2"
-            >
-                <span x-text="item.name" class="font-medium"></span>
-                <span x-text="item.type" class="text-xs text-stone-500"></span>
-            </li>
-        </template>
-    </ul>
 </div>

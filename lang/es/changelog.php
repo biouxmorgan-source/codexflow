@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.17.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Editor enriquecido y notas de los jugadores',
+        'items' => [
+            'Los textos largos (descripciones, notas del DJ, escenas, reglas, cronología, notas de los jugadores) tienen un editor con negrita, cursiva, subtítulos, listas y citas; «[[» sigue proponiendo fichas para enlazar.',
+            'Los jugadores enlazan sus notas a las fichas que conoce su personaje, y solo a esas.',
+            'La página de una sesión muestra también las notas que tomaron los jugadores durante ella, salvo las que se guardan para sí.',
+        ],
+    ],
+
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Suscripción Premium y prueba gratuita',

@@ -74,7 +74,21 @@ class EntityLinksTest extends TestCase
         $this->assertStringNotContainsString('<script>', $html);
         $this->assertStringNotContainsString('<b>', $html);
         $this->assertStringContainsString('&lt;script&gt;', $html);
-        $this->assertStringContainsString('<br>', $html);
+
+        // Un simple saut de ligne reste un saut de ligne, comme avant la mise en forme.
+        $this->assertStringContainsString('Première ligne<br>', (string) EntityLinks::render("Première ligne\nSeconde ligne", $this->campaign));
+    }
+
+    public function test_formatting_is_rendered_without_html_or_remote_images(): void
+    {
+        $html = (string) EntityLinks::render("## Indices\n\n- **Gras** et *italique*\n- [[Personne]]\n\n> Citation\n\n![pisteur](https://example.com/x.png) [site](javascript:alert(1))", $this->campaign);
+
+        $this->assertStringContainsString('<h2>Indices</h2>', $html);
+        $this->assertStringContainsString('<li><strong>Gras</strong> et <em>italique</em></li>', $html);
+        $this->assertStringContainsString('<blockquote>', $html);
+        $this->assertStringNotContainsString('<img', $html);
+        $this->assertStringNotContainsString('javascript:', $html);
+        $this->assertSame('Indices Gras et italique Personne Citation site', EntityLinks::excerpt("## Indices\n\n- **Gras** et *italique*\n- [[Personne]]\n\n> Citation\n\n[site](https://example.com)"));
     }
 
     public function test_suggestions_list_entities_of_the_campaign_only(): void

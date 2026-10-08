@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.17.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Opgemaakte tekst en notities van spelers',
+        'items' => [
+            'Lange teksten (beschrijvingen, SL-notities, scènes, regels, tijdlijn, spelersnotities) krijgen een editor met vet, cursief, tussenkoppen, lijsten en citaten; ‘[[’ stelt nog steeds fiches voor om te koppelen.',
+            'Spelers koppelen hun notities aan de fiches die hun personage kent, en alleen aan die.',
+            'De pagina van een sessie toont ook de notities die spelers toen maakten, behalve die ze voor zichzelf houden.',
+        ],
+    ],
+
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium-abonnement en gratis proefperiode',

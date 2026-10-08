@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.17.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Edytor tekstu i notatki graczy',
+        'items' => [
+            'Długie teksty (opisy, notatki MG, sceny, zasady, oś czasu, notatki graczy) mają edytor z pogrubieniem, kursywą, śródtytułami, listami i cytatami; „[[” nadal podpowiada karty do połączenia.',
+            'Gracze łączą swoje notatki z kartami, które zna ich postać, i tylko z nimi.',
+            'Strona sesji pokazuje też notatki graczy z tej sesji, poza tymi, które zachowują dla siebie.',
+        ],
+    ],
+
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Subskrypcja Premium i darmowy okres próbny',

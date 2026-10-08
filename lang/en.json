@@ -1671,5 +1671,16 @@
     "À venir": "Upcoming",
     "Échéance": "Target",
     "Évolutions": "Roadmap",
-    "échéance": "target"
+    "échéance": "target",
+    "Aucune note de joueur pendant cette session.": "No player note during this session.",
+    "Ce qui s’est passé, ce que vous soupçonnez…": "What happened, what you suspect…",
+    "Citation": "Quote",
+    "Gras": "Bold",
+    "Intertitre": "Subheading",
+    "Italique": "Italic",
+    "Lier une fiche": "Link a sheet",
+    "Liste numérotée": "Numbered list",
+    "Liste à puces": "Bulleted list",
+    "Mise en forme": "Formatting",
+    "Notes des joueurs": "Player notes"
 }
