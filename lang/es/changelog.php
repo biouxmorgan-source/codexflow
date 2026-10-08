@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.20.0' => [
+        'date' => '2026-10-08',
+        'title' => '«Citado en» completo, duplicación sin estados',
+        'items' => [
+            '«Citado en» muestra también la cronología, los secretos y los campos de otras fichas que mencionan la ficha.',
+            'Una campaña duplicada parte de las fichas originales: el estado «muerto» o «prisionero» ya no se copia, salvo que marques la casilla para conservarlo.',
+        ],
+    ],
+
     '0.19.0' => [
         'date' => '2026-10-08',
         'title' => 'Secretos y nuevos campos',

@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.20.0' => [
+        'date' => '2026-10-08',
+        'title' => '«Citato in» completo, duplicazione senza stati',
+        'items' => [
+            '«Citato in» mostra anche la cronologia, i segreti e i campi di altre schede che menzionano la scheda.',
+            'Una campagna duplicata riparte dalle schede originali: lo stato «morto» o «prigioniero» non viene più copiato, a meno che tu non spunti la casella per mantenerlo.',
+        ],
+    ],
+
     '0.19.0' => [
         'date' => '2026-10-08',
         'title' => 'Segreti e nuovi campi',

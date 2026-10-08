@@ -269,7 +269,7 @@
 
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-2 font-semibold">{{ __('Cité dans') }}</h2>
-                @if ($backlinks->isEmpty() && $ruleBacklinks->isEmpty() && $noteBacklinks->isEmpty())
+                @if ($backlinks->isEmpty() && $ruleBacklinks->isEmpty() && $noteBacklinks->isEmpty() && $timelineBacklinks->isEmpty() && $secretBacklinks->isEmpty())
                     <p class="text-sm text-stone-500">{{ __('Rien ne mentionne encore :name.', ['name' => $entity->name]) }}</p>
                 @else
                     <ul class="space-y-1 text-sm">
@@ -278,6 +278,12 @@
                         @endforeach
                         @foreach ($ruleBacklinks as $citingRule)
                             <li><span class="text-xs text-stone-500">{{ __('Règle ·') }}</span> <a href="{{ route('rules.show', [$campaign, $citingRule]) }}" class="link" wire:navigate>{{ $citingRule->title }}</a></li>
+                        @endforeach
+                        @foreach ($timelineBacklinks as $event)
+                            <li><span class="text-xs text-stone-500">{{ __('Chronologie ·') }}</span> <a href="{{ route('timeline.index', $campaign) }}#evenement-{{ $event->id }}" class="link">{{ $event->title }}</a></li>
+                        @endforeach
+                        @foreach ($secretBacklinks as $citingSecret)
+                            <li><span class="text-xs text-stone-500">{{ __('Secret ·') }}</span> <a href="{{ route('secrets.index', $campaign) }}#secret-{{ $citingSecret->id }}" class="link">{{ $citingSecret->title }}</a></li>
                         @endforeach
                         @foreach ($noteBacklinks as $note)
                             <li>

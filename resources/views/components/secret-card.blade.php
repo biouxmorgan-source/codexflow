@@ -1,7 +1,7 @@
 @props(['secret', 'campaign', 'characters', 'compact' => false])
 {{-- Un secret, ce à quoi il est relié, et qui le connaît : un clic sur un personnage le lui révèle ou le lui fait oublier. --}}
 @php($knownBy = $secret->grants->pluck('player_character_id')->all())
-<div {{ $attributes->merge(['class' => 'rounded-lg border border-flow/30 bg-white p-3']) }} wire:key="secret-{{ $secret->id }}">
+<div {{ $attributes->merge(['class' => 'scroll-mt-20 rounded-lg border border-flow/30 bg-white p-3']) }} id="secret-{{ $secret->id }}" wire:key="secret-{{ $secret->id }}">
     <div class="flex items-start gap-2">
         <span class="mt-0.5 text-flow" aria-hidden="true">🔒</span>
         <div class="min-w-0 flex-1">

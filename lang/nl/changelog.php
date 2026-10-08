@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.20.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Volledig ‘Genoemd in’, dupliceren zonder status',
+        'items' => [
+            '‘Genoemd in’ toont ook de tijdlijn, de geheimen en de velden van andere fiches die de fiche noemen.',
+            'Een gedupliceerde campagne begint opnieuw vanaf de oorspronkelijke fiches: de status ‘dood’ of ‘gevangen’ wordt niet meer overgenomen, tenzij je het vakje aanvinkt om hem te behouden.',
+        ],
+    ],
+
     '0.19.0' => [
         'date' => '2026-10-08',
         'title' => 'Geheimen en nieuwe velden',

@@ -176,9 +176,9 @@ class CampaignDuplicationTest extends TestCase
         $this->assertTrue($relations->contains(fn ($r) => $r->from_entity_id === $aldric->id && $r->to_entity_id === $hideout->id && $r->label === 'habite à'));
         $this->assertTrue($relations->contains(fn ($r) => $r->from_entity_id === $aldric->id && $r->to_entity_id === $this->worldNpc->id));
 
-        // État de campagne de la fiche du monde.
+        // État de campagne de la fiche du monde : la note reste, le statut repart de la fiche d'origine.
         $state = $this->worldNpc->campaignStates()->where('campaign_id', $copy->id)->sole();
-        $this->assertSame(['Prisonnier', 'Dans la tour'], [$state->status, $state->gm_notes]);
+        $this->assertSame([null, 'Dans la tour'], [$state->status, $state->gm_notes]);
 
         // Documents (nouveau fichier) et règles de campagne, avec leurs liens.
         $document = $copy->documents()->sole();

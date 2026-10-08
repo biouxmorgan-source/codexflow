@@ -1724,5 +1724,9 @@
     "« :value » : choisissez un document de la campagne": "‘:value’: kies een document van de campagne",
     "« :value » n'est pas un nom de fiche": "‘:value’ is geen naam van een fiche",
     "« :value » n'est pas une adresse web": "‘:value’ is geen webadres",
-    "État": "Staat"
+    "État": "Staat",
+    "Chronologie ·": "Tijdlijn ·",
+    "Secret ·": "Geheim ·",
+    "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Status van de fiches in deze campagne behouden (dood, gevangen…)",
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Anders begint de kopie opnieuw vanaf de oorspronkelijke fiches; notities en waarden van de campagne blijven behouden."
 }

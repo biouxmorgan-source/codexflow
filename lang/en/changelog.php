@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.20.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Complete “Mentioned in”, duplication without statuses',
+        'items' => [
+            '“Mentioned in” also shows the timeline, the secrets and the fields of other sheets that mention the sheet.',
+            'A duplicated campaign starts again from the original sheets: a “dead” or “prisoner” status is no longer copied, unless you tick the box to keep it.',
+        ],
+    ],
+
     '0.19.0' => [
         'date' => '2026-10-08',
         'title' => 'Secrets and new fields',

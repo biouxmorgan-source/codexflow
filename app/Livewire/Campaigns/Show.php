@@ -86,6 +86,9 @@ class Show extends Component
             ->get();
     }
 
+    /** À la duplication : garder les statuts des fiches (« mort »…) plutôt que repartir des fiches d'origine. */
+    public bool $keepStatuses = false;
+
     public function duplicate(DuplicateCampaign $duplicateCampaign): void
     {
         $this->authorize('duplicate', $this->campaign);
@@ -93,7 +96,7 @@ class Show extends Component
         Plans::ensureCanCreateCampaign(auth()->user());
         Plans::ensureRoom(auth()->user(), 0, 'plan');
 
-        $copy = $duplicateCampaign->handle($this->campaign, auth()->user());
+        $copy = $duplicateCampaign->handle($this->campaign, auth()->user(), $this->keepStatuses);
 
         $this->redirectRoute('campaigns.show', $copy, navigate: true);
     }

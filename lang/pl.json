@@ -1724,5 +1724,9 @@
     "« :value » : choisissez un document de la campagne": "„:value”: wybierz dokument kampanii",
     "« :value » n'est pas un nom de fiche": "„:value” nie jest nazwą karty",
     "« :value » n'est pas une adresse web": "„:value” nie jest adresem internetowym",
-    "État": "Stan"
+    "État": "Stan",
+    "Chronologie ·": "Oś czasu ·",
+    "Secret ·": "Sekret ·",
+    "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Zachowaj status kart w tej kampanii (martwy, więzień…)",
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "W przeciwnym razie kopia zaczyna od oryginalnych kart; notatki i wartości właściwe dla kampanii zostają zachowane."
 }

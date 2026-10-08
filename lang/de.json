@@ -1724,5 +1724,9 @@
     "« :value » : choisissez un document de la campagne": "„:value“: Wählen Sie ein Dokument der Kampagne",
     "« :value » n'est pas un nom de fiche": "„:value“ ist kein Eintragsname",
     "« :value » n'est pas une adresse web": "„:value“ ist keine Webadresse",
-    "État": "Zustand"
+    "État": "Zustand",
+    "Chronologie ·": "Zeitleiste ·",
+    "Secret ·": "Geheimnis ·",
+    "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Status der Einträge in dieser Kampagne behalten (tot, gefangen…)",
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Sonst beginnt die Kopie wieder mit den ursprünglichen Einträgen; kampagneneigene Notizen und Werte bleiben erhalten."
 }
