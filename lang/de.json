@@ -1733,5 +1733,8 @@
     "Cherche dans toutes vos campagnes, leurs mondes et leurs jeux : en MJ, dans tout leur contenu ; en joueur, dans ce que votre personnage connaît.": "Durchsucht alle Ihre Kampagnen, ihre Welten und Spiele: als SL den gesamten Inhalt, als Spieler das, was Ihr Charakter kennt.",
     "Rechercher dans toutes mes campagnes": "In allen meinen Kampagnen suchen",
     "Rechercher partout…": "Überall suchen…",
-    "Voir les :count résultats": "Alle :count Ergebnisse anzeigen"
+    "Voir les :count résultats": "Alle :count Ergebnisse anzeigen",
+    "La même archive avec la table : personnages et leurs fiches, ce qu’ils ont reçu, séances, notes de séance, notes partagées des joueurs, messages et journal. Les notes « Moi seul » et les adresses e-mail n’y figurent jamais. À l’import, les personnages reviennent sans joueur, prêts à être confiés ; messages et journal restent lisibles dans l’archive.": "Dasselbe Archiv mit der Runde: Charaktere und ihre Einträge, was sie erhalten haben, Sitzungen, Sitzungsnotizen, geteilte Notizen der Spieler, Nachrichten und Protokoll. Notizen „Nur ich“ und E-Mail-Adressen sind nie enthalten. Beim Import kommen die Charaktere ohne Spieler zurück, bereit zur Vergabe; Nachrichten und Protokoll bleiben im Archiv lesbar.",
+    "Sauvegarde complète": "Vollständige Sicherung",
+    "Télécharger la sauvegarde complète": "Vollständige Sicherung herunterladen"
 }

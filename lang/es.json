@@ -1733,5 +1733,8 @@
     "Cherche dans toutes vos campagnes, leurs mondes et leurs jeux : en MJ, dans tout leur contenu ; en joueur, dans ce que votre personnage connaît.": "Busca en todas tus campañas, sus mundos y sus juegos: como DJ, en todo su contenido; como jugador, en lo que conoce tu personaje.",
     "Rechercher dans toutes mes campagnes": "Buscar en todas mis campañas",
     "Rechercher partout…": "Buscar en todo…",
-    "Voir les :count résultats": "Ver los :count resultados"
+    "Voir les :count résultats": "Ver los :count resultados",
+    "La même archive avec la table : personnages et leurs fiches, ce qu’ils ont reçu, séances, notes de séance, notes partagées des joueurs, messages et journal. Les notes « Moi seul » et les adresses e-mail n’y figurent jamais. À l’import, les personnages reviennent sans joueur, prêts à être confiés ; messages et journal restent lisibles dans l’archive.": "El mismo archivo con la mesa: personajes y sus fichas, lo que recibieron, sesiones, notas de sesión, notas compartidas de los jugadores, mensajes y registro. Las notas «Solo yo» y las direcciones de correo nunca se incluyen. Al importar, los personajes vuelven sin jugador, listos para asignarse; los mensajes y el registro siguen legibles en el archivo.",
+    "Sauvegarde complète": "Copia de seguridad completa",
+    "Télécharger la sauvegarde complète": "Descargar la copia de seguridad completa"
 }

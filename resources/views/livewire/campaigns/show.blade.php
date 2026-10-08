@@ -170,6 +170,9 @@
             <h2 class="mb-2 font-semibold">{{ __('Exporter la campagne') }}</h2>
             <p class="mb-3 text-sm text-stone-600">{{ __('Une archive .zip avec le jeu (champs, règles), le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Pour la sauvegarder ou la confier à un autre MJ, qui l’importe depuis « Mes campagnes ». Les joueurs, leurs personnages, les séances et le journal n’y sont pas.') }}</p>
             <a href="{{ route('archives.campaign', $campaign) }}" class="btn-secondary">{{ __('Télécharger l’archive') }}</a>
+            <h3 class="mt-5 mb-1 text-sm font-semibold">{{ __('Sauvegarde complète') }}</h3>
+            <p class="mb-3 text-sm text-stone-600">{{ __('La même archive avec la table : personnages et leurs fiches, ce qu’ils ont reçu, séances, notes de séance, notes partagées des joueurs, messages et journal. Les notes « Moi seul » et les adresses e-mail n’y figurent jamais. À l’import, les personnages reviennent sans joueur, prêts à être confiés ; messages et journal restent lisibles dans l’archive.') }}</p>
+            <a href="{{ route('archives.campaign', [$campaign, 'complete' => 1]) }}" class="btn-secondary">{{ __('Télécharger la sauvegarde complète') }}</a>
         </section>
         @endcan
     @endcan

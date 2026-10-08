@@ -12,13 +12,15 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class ArchiveController extends Controller
 {
     /** Archive complète de la campagne, pour la sauvegarder ou la confier à un autre MJ. */
-    public function campaign(Campaign $campaign): BinaryFileResponse
+    public function campaign(Request $request, Campaign $campaign): BinaryFileResponse
     {
+        // Propriétaire seulement, sauvegarde complète comprise.
         Gate::authorize('duplicate', $campaign);
+        $complete = $request->boolean('complete');
 
-        $path = (new CampaignExport($campaign))->write();
+        $path = (new CampaignExport($campaign, $complete))->write();
 
-        return response()->download($path, 'codexflow-'.str($campaign->name)->slug().'.zip', ['Content-Type' => 'application/zip'])
+        return response()->download($path, 'codexflow-'.str($campaign->name)->slug().($complete ? '-sauvegarde-complete' : '').'.zip', ['Content-Type' => 'application/zip'])
             ->deleteFileAfterSend();
     }
 

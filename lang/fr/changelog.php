@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.22.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Sauvegarde complète',
+        'items' => [
+            'Le propriétaire peut télécharger une sauvegarde complète : l’archive de la campagne avec la table (personnages, ce qu’ils ont reçu, séances, notes, messages et journal), sans note « Moi seul » ni adresse e-mail. À l’import, les personnages reviennent sans joueur, prêts à être confiés.',
+        ],
+    ],
+
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Recherche depuis l’accueil',

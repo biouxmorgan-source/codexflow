@@ -1733,5 +1733,8 @@
     "Cherche dans toutes vos campagnes, leurs mondes et leurs jeux : en MJ, dans tout leur contenu ; en joueur, dans ce que votre personnage connaît.": "Searches all your campaigns, their worlds and their games: as GM, in all their content; as a player, in what your character knows.",
     "Rechercher dans toutes mes campagnes": "Search all my campaigns",
     "Rechercher partout…": "Search everywhere…",
-    "Voir les :count résultats": "See all :count results"
+    "Voir les :count résultats": "See all :count results",
+    "La même archive avec la table : personnages et leurs fiches, ce qu’ils ont reçu, séances, notes de séance, notes partagées des joueurs, messages et journal. Les notes « Moi seul » et les adresses e-mail n’y figurent jamais. À l’import, les personnages reviennent sans joueur, prêts à être confiés ; messages et journal restent lisibles dans l’archive.": "The same archive with the table: characters and their sheets, what they received, sessions, session notes, players’ shared notes, messages and log. “Only me” notes and email addresses are never included. On import, characters come back without a player, ready to be assigned; messages and log stay readable in the archive.",
+    "Sauvegarde complète": "Complete backup",
+    "Télécharger la sauvegarde complète": "Download the complete backup"
 }

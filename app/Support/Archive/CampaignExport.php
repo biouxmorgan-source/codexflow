@@ -13,8 +13,13 @@ use ZipArchive;
  * Archive complète d'une campagne (.zip) : son jeu (champs, règles, documents), son monde
  * (fiches, relations, documents) et son contenu préparé, avec les fichiers.
  *
- * Comme pour la duplication, rien de ce qui appartient à la table n'est exporté : ni membres,
+ * Par défaut, comme pour la duplication, rien de ce qui appartient à la table n'est exporté : ni membres,
  * ni personnages joueurs et leurs fiches, ni connaissances, notes, messages, séances ou journal.
+ *
+ * Sauvegarde complète ($complete, réservée au propriétaire) : la table en plus, telle que le MJ la voit
+ * dans l'application. Personnages et leurs fiches, ce qu'ils ont reçu, séances et notes, notes des
+ * joueurs partagées (jamais les notes « Moi seul »), messages et journal. Des joueurs, seul le nom
+ * figure, jamais l'adresse e-mail.
  *
  * Les identifiants du fichier sont ceux de la base d'origine ; ils ne servent qu'à relier
  * les éléments entre eux (et dans les liens [[Nom|id]]) et sont tous recalculés à l'import.
@@ -31,7 +36,7 @@ final class CampaignExport
 
     private int $files = 0;
 
-    public function __construct(private Campaign $campaign) {}
+    public function __construct(private Campaign $campaign, private bool $complete = false) {}
 
     /** Écrit l'archive dans un fichier temporaire et renvoie son chemin. */
     public function write(): string
@@ -57,12 +62,12 @@ final class CampaignExport
         $gameSystem = DB::table('game_systems')->find($campaign->game_system_id);
         $world = $campaign->world_id ? DB::table('worlds')->find($campaign->world_id) : null;
 
-        // Fiches des personnages joueurs : elles restent à la table d'origine.
+        // Fiches des personnages joueurs : elles restent à la table d'origine, sauf sauvegarde complète.
         $playerSheets = DB::table('player_characters')->where('campaign_id', $campaign->id)->pluck('entity_id')->all();
 
         $entities = DB::table('entities')
             ->where(fn ($q) => $q->where('campaign_id', $campaign->id)->when($world, fn ($q) => $q->orWhere('world_id', $world->id)))
-            ->whereNotIn('id', $playerSheets)
+            ->when(! $this->complete, fn ($q) => $q->whereNotIn('id', $playerSheets))
             ->orderBy('id')
             ->get();
         $entityIds = $entities->pluck('id')->all();
@@ -227,6 +232,7 @@ final class CampaignExport
                 ->orderBy('position')->orderBy('id')->get()
                 ->map(fn ($item) => ['body' => $item->body, 'scene_id' => $item->scene_id, 'rule_id' => $item->rule_id])->all(),
             'secrets' => $secrets->map(fn ($secret) => [
+                'id' => $secret->id,
                 'title' => $secret->title,
                 'body' => $secret->body,
                 'kind' => $secret->kind,
@@ -239,7 +245,64 @@ final class CampaignExport
                 'tokens' => $tokens->get($map->id, collect())->map(fn ($token) => collect((array) $token)->only(['entity_id', 'label', 'color', 'x', 'y', 'size', 'hidden', 'show_label'])->all())->values()->all(),
             ])->all(),
             'timeline' => DB::table('timeline_events')->where('campaign_id', $campaign->id)->orderBy('position')->orderBy('id')->get()
-                ->map(fn ($event) => collect((array) $event)->only(['kind', 'date_label', 'title', 'description', 'zone'])->all())->all(),
+                ->map(fn ($event) => collect((array) $event)->only(['kind', 'date_label', 'title', 'description', 'zone', 'scene_id', ...($this->complete ? ['play_session_id'] : [])])->all())->all(),
+            ...($this->complete ? ['table' => $this->table($playerSheets)] : []),
+        ];
+    }
+
+    /**
+     * La table, pour une sauvegarde complète : ce que le MJ en voit dans l'application.
+     *
+     * @param  list<int>  $playerSheets
+     * @return array<string, mixed>
+     */
+    private function table(array $playerSheets): array
+    {
+        $campaign = $this->campaign;
+        $names = fn (iterable $ids) => DB::table('users')->whereIn('id', collect($ids)->filter()->unique())->pluck('name', 'id');
+
+        $characters = DB::table('player_characters')->where('campaign_id', $campaign->id)->orderBy('id')->get();
+        $characterIds = $characters->pluck('id')->all();
+        $sessions = DB::table('play_sessions')->where('campaign_id', $campaign->id)->orderBy('number')->get();
+        $notes = DB::table('character_notes')->whereIn('player_character_id', $characterIds)->where('visibility', '!=', 'private')->orderBy('id')->get();
+        $shares = $this->pivot('character_note_shares', 'character_note_id', $notes->pluck('id')->all(), 'player_character_id');
+        $messages = DB::table('messages')->where('campaign_id', $campaign->id)->orderBy('id')->get();
+        $journal = DB::table('activity_logs')->where('campaign_id', $campaign->id)->orderBy('id')->get();
+        $people = $names($characters->pluck('user_id')->merge($messages->pluck('sender_id'))->merge($notes->pluck('user_id'))->merge($journal->pluck('user_id')));
+
+        return [
+            'player_sheets' => $playerSheets,
+            'characters' => $characters->map(fn ($character) => [
+                'id' => $character->id,
+                'entity_id' => $character->entity_id,
+                'player' => $people[$character->user_id] ?? null,
+                'is_active' => (bool) $character->is_active,
+                'locked' => (bool) $character->locked,
+                'sheet' => $this->file('local', $character->sheet_path),
+                'sheet_name' => $character->sheet_name,
+            ])->all(),
+            'grants' => DB::table('character_grants')->whereIn('player_character_id', $characterIds)->orderBy('id')->get()
+                ->map(fn ($grant) => [
+                    'character_id' => $grant->player_character_id,
+                    ...collect((array) $grant)->only(['kind', 'entity_id', 'document_id', 'rule_id', 'secret_id', 'play_session_id', 'scene_id', 'title', 'body', 'quantity', 'added_by_player', 'validated_at', 'created_at'])->all(),
+                ])->all(),
+            'sessions' => $sessions->map(fn ($session) => collect((array) $session)->only(['id', 'number', 'title', 'started_at', 'ended_at'])->all())->all(),
+            'session_notes' => DB::table('session_notes')->whereIn('play_session_id', $sessions->pluck('id'))->orderBy('id')->get()
+                ->map(fn ($note) => collect((array) $note)->only(['play_session_id', 'scene_id', 'body', 'created_at'])->all())->all(),
+            'character_notes' => $notes->map(fn ($note) => [
+                'character_id' => $note->player_character_id,
+                'author' => $people[$note->user_id] ?? null,
+                'shared_with' => $shares->get($note->id, collect())->all(),
+                ...collect((array) $note)->only(['play_session_id', 'visibility', 'body', 'created_at'])->all(),
+            ])->all(),
+            'messages' => $messages->map(fn ($message) => [
+                'sender' => $people[$message->sender_id] ?? null,
+                ...collect((array) $message)->only(['player_character_id', 'sender_character_id', 'body', 'entity_id', 'document_id', 'rule_id', 'created_at'])->all(),
+            ])->all(),
+            'journal' => $journal->map(fn ($entry) => [
+                'user' => $people[$entry->user_id] ?? null,
+                ...collect((array) $entry)->only(['event', 'subject_type', 'subject_id', 'subject_label', 'created_at'])->all(),
+            ])->all(),
         ];
     }
 

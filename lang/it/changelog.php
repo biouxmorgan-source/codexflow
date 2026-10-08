@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.22.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Backup completo',
+        'items' => [
+            'Il proprietario può scaricare un backup completo: l’archivio della campagna con il tavolo (personaggi, ciò che hanno ricevuto, sessioni, note, messaggi e registro), senza note «Solo io» né indirizzi email. All’importazione i personaggi tornano senza giocatore, pronti da assegnare.',
+        ],
+    ],
+
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Ricerca dalla home',
