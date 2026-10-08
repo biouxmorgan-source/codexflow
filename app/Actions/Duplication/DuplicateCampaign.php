@@ -16,6 +16,7 @@ use App\Models\Secret;
 use App\Models\TimelineEvent;
 use App\Models\ToPlayItem;
 use App\Models\User;
+use App\Support\CampaignFeatures;
 use App\Support\EntityLinks;
 use App\Support\TableTheme;
 use Illuminate\Support\Facades\DB;
@@ -68,6 +69,7 @@ class DuplicateCampaign
         $campaign->world()->associate($source->world_id);
         $campaign->table_theme = $source->table_theme ?? TableTheme::DEFAULT;
         $campaign->exchanges_need_approval = $source->exchanges_need_approval ?? true;
+        $campaign->disabled_features = CampaignFeatures::clean($source->disabled_features);
         $campaign->save();
         $campaign->members()->attach($owner, ['role' => CampaignRole::GameMaster->value]);
 

@@ -13,6 +13,7 @@ use App\Models\Scene;
 use App\Models\SessionNote;
 use App\Models\TableMap;
 use App\Models\ToPlayItem;
+use App\Support\CampaignFeatures;
 use App\Support\SessionContext;
 use App\Support\TableDisplay;
 use Illuminate\Database\Eloquent\Collection;
@@ -306,7 +307,7 @@ class Live extends Component
     #[Computed]
     public function tableMaps(): Collection
     {
-        return $this->campaign->maps()->get(['id', 'name', 'campaign_id']);
+        return CampaignFeatures::enabled($this->campaign, 'maps') ? $this->campaign->maps()->get(['id', 'name', 'campaign_id']) : collect();
     }
 
     #[Computed]

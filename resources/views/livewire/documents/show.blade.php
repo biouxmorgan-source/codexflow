@@ -12,7 +12,7 @@
         </div>
         <div class="flex flex-wrap items-center gap-2">
             <livewire:table.show-button :campaign="$campaign" kind="document" :item-id="$document->id" wire:key="table-document" />
-            @if ($document->isImage())
+            @if ($document->isImage() && \App\Support\CampaignFeatures::usable($campaign, 'maps'))
                 <a href="{{ route('maps.index', [$campaign, 'document' => $document->id]) }}" class="btn-secondary" wire:navigate>{{ __('En faire une carte') }}</a>
             @endif
             <a href="{{ route('documents.file', $document) }}" target="_blank" rel="noopener" class="btn-secondary">{{ __('Ouvrir dans un onglet ↗') }}</a>

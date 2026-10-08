@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.34.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Funciones por campaña',
+        'items' => [
+            'En la página de la campaña, el DJ marca las funciones que necesita su mesa: pantalla de mesa, mapas, intercambios entre jugadores, grafo, cronología, asistente de IA. Una función desmarcada desaparece para todos sin borrar nada; vuelve en cuanto se marca de nuevo.',
+        ],
+    ],
+
     '0.33.0' => [
         'date' => '2026-10-08',
         'title' => 'Retoques',

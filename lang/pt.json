@@ -1918,5 +1918,18 @@
     ":player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.": ":player voltou à campanha. :character, a sua antiga personagem, está sem jogador.",
     "Lui rendre :name": "Devolver :name",
     "Tous les personnages actifs": "Todas as personagens ativas",
-    "anciennement :name": "antes :name"
+    "anciennement :name": "antes :name",
+    "Cartes avec grille, jetons et règle.": "Mapas com grelha, fichas e régua.",
+    "Décochez ce dont cette table n’a pas besoin : la fonction disparaît pour vous comme pour les joueurs. Rien n’est effacé, tout revient quand vous la recochez.": "Desmarque o que esta mesa não precisa: a função desaparece para si e para os jogadores. Nada é apagado; tudo volta quando a voltar a marcar.",
+    "Fonctions de la campagne": "Funções da campanha",
+    "La carte des liens entre les fiches.": "O mapa das ligações entre as fichas.",
+    "Le second écran montré aux joueurs, « Afficher à la table » et la télécommande.": "O segundo ecrã mostrado aos jogadores, «Mostrar à mesa» e o comando.",
+    "Les joueurs se donnent objets et connaissances.": "Os jogadores dão uns aos outros objetos e conhecimentos.",
+    "Les événements du monde, prévus et joués.": "Os acontecimentos do mundo, previstos e jogados.",
+    "Non comprise dans la formule actuelle : elle reste grisée même cochée.": "Não incluída no plano atual: fica a cinzento mesmo marcada.",
+    "Résumés de séance et suggestions de mise à jour des fiches.": "Resumos de sessão e sugestões de atualização das fichas.",
+    "Échanges entre joueurs": "Trocas entre jogadores",
+    "Fonction désactivée": "Função desativada",
+    "Le MJ a désactivé cette fonction dans cette campagne. Il peut la réactiver depuis la page de la campagne.": "O Mestre desativou esta função nesta campanha. Pode reativá-la na página da campanha.",
+    "Cette fonction est désactivée dans cette campagne.": "Esta função está desativada nesta campanha."
 }

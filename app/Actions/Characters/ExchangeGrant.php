@@ -6,6 +6,7 @@ use App\Models\ActivityLog;
 use App\Models\CharacterGrant;
 use App\Models\ExchangeRequest;
 use App\Models\PlayerCharacter;
+use App\Support\CampaignFeatures;
 use App\Support\Live;
 use App\Support\Notify;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,7 @@ class ExchangeGrant
     {
         $from = $grant->character()->with(['entity', 'campaign'])->firstOrFail();
         Gate::authorize('play', $from);
+        abort_unless(CampaignFeatures::enabled($from->campaign, 'exchanges'), 403, CampaignFeatures::DISABLED);
 
         abort_unless($to->campaign_id === $from->campaign_id && $to->isNot($from) && $to->is_active, 404);
 

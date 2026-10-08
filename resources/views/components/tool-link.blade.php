@@ -5,7 +5,9 @@
     Sur petit écran, où il n'y a pas de survol, le nom est écrit à côté de l'icône.
     Avec $feature : étoile ✦ si la fonction est Premium, et grisé sans lien si la formule du
     propriétaire de la campagne ne la comprend pas (ses données restent, rien n'est effacé).
+    Une fonction que le MJ a coupée dans cette campagne n'apparaît pas du tout.
 --}}
+@if ($feature === null || $campaign === null || \App\Support\CampaignFeatures::enabled($campaign, $feature))
 @php($locked = $feature !== null && ! \App\Support\Plans\Plans::allows($campaign?->owner ?? auth()->user(), $feature))
 @php($tooltip = $locked ? __(':label : fonction Premium, non comprise ici', ['label' => $label]) : $label)
 @if ($locked)
@@ -28,4 +30,5 @@
     </span>
 @else
     </a>
+@endif
 @endif

@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.34.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Functies per campagne',
+        'items' => [
+            'Op de campagnepagina vinkt de SL de functies aan die de tafel nodig heeft: tafelscherm, kaarten, uitwisselingen tussen spelers, graaf, tijdlijn, AI-assistent. Een uitgevinkte functie verdwijnt voor iedereen zonder iets te wissen; ze komt terug zodra ze weer wordt aangevinkt.',
+        ],
+    ],
+
     '0.33.0' => [
         'date' => '2026-10-08',
         'title' => 'Afwerking',

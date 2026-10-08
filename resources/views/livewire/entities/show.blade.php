@@ -31,7 +31,7 @@
         </div>
         <div class="flex flex-wrap gap-2">
             <livewire:table.show-button :campaign="$campaign" kind="entity" :item-id="$entity->id" wire:key="table-entity" />
-            @if ($publicRelations->isNotEmpty() || $gmRelations->isNotEmpty())
+            @if (($publicRelations->isNotEmpty() || $gmRelations->isNotEmpty()) && \App\Support\CampaignFeatures::enabled($campaign, 'graph'))
                 <a href="{{ route('graph.index', [$campaign, 'fiche' => $entity->id]) }}" class="btn-secondary" wire:navigate>{{ __('Voir dans le graphe') }}</a>
             @endif
             @if ($entity->hasImage())
@@ -283,7 +283,7 @@
                         @foreach ($ruleBacklinks as $citingRule)
                             <li><span class="text-xs text-stone-500">{{ __('Règle ·') }}</span> <a href="{{ route('rules.show', [$campaign, $citingRule]) }}" class="link" wire:navigate>{{ $citingRule->title }}</a></li>
                         @endforeach
-                        @foreach ($timelineBacklinks as $event)
+                        @foreach (\App\Support\CampaignFeatures::enabled($campaign, 'timeline') ? $timelineBacklinks : [] as $event)
                             <li><span class="text-xs text-stone-500">{{ __('Chronologie ·') }}</span> <a href="{{ route('timeline.index', $campaign) }}#evenement-{{ $event->id }}" class="link">{{ $event->title }}</a></li>
                         @endforeach
                         @foreach ($secretBacklinks as $citingSecret)

@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.34.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Fonctions par campagne',
+        'items' => [
+            'Sur la page de la campagne, le MJ coche les fonctions dont sa table a besoin : écran de table, cartes, échanges entre joueurs, graphe, chronologie, assistant IA. Une fonction décochée disparaît pour tous, sans rien effacer ; elle revient dès qu’on la recoche.',
+        ],
+    ],
+
     '0.33.0' => [
         'date' => '2026-10-08',
         'title' => 'Finitions',

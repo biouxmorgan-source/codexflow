@@ -4,6 +4,7 @@ namespace App\Livewire\Table;
 
 use App\Models\Campaign;
 use App\Models\TableMap;
+use App\Support\CampaignFeatures;
 use App\Support\SessionContext;
 use App\Support\TableDisplay;
 use Illuminate\Support\Collection;
@@ -187,7 +188,7 @@ class Remote extends Component
             'shown' => TableDisplay::current($this->campaign) !== null,
             'scene' => $this->campaign->openSession()?->currentScene,
             'map' => $map,
-            'maps' => $this->campaign->maps()->get(['id', 'name', 'campaign_id']),
+            'maps' => CampaignFeatures::enabled($this->campaign, 'maps') ? $this->campaign->maps()->get(['id', 'name', 'campaign_id']) : collect(),
             'position' => $this->shownIndex(),
             'atLastItem' => $this->atLastItem(),
         ])->title(__('Télécommande · :name', ['name' => $this->campaign->name]));

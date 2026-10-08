@@ -1918,5 +1918,18 @@
     ":player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.": ":player ist zurück in der Kampagne. :character, der frühere Charakter, hat keinen Spieler.",
     "Lui rendre :name": ":name zurückgeben",
     "Tous les personnages actifs": "Alle aktiven Charaktere",
-    "anciennement :name": "früher :name"
+    "anciennement :name": "früher :name",
+    "Cartes avec grille, jetons et règle.": "Karten mit Raster, Spielmarken und Lineal.",
+    "Décochez ce dont cette table n’a pas besoin : la fonction disparaît pour vous comme pour les joueurs. Rien n’est effacé, tout revient quand vous la recochez.": "Entfernen Sie den Haken bei allem, was dieser Tisch nicht braucht: Die Funktion verschwindet für Sie und die Spieler. Nichts wird gelöscht, alles kommt zurück, wenn Sie den Haken wieder setzen.",
+    "Fonctions de la campagne": "Funktionen der Kampagne",
+    "La carte des liens entre les fiches.": "Die Karte der Verbindungen zwischen den Einträgen.",
+    "Le second écran montré aux joueurs, « Afficher à la table » et la télécommande.": "Der zweite Bildschirm für die Spieler, „Am Tisch zeigen“ und die Fernbedienung.",
+    "Les joueurs se donnent objets et connaissances.": "Die Spieler geben sich gegenseitig Gegenstände und Wissen.",
+    "Les événements du monde, prévus et joués.": "Die Ereignisse der Welt, geplant und gespielt.",
+    "Non comprise dans la formule actuelle : elle reste grisée même cochée.": "Nicht im aktuellen Tarif enthalten: Sie bleibt ausgegraut, auch wenn sie angehakt ist.",
+    "Résumés de séance et suggestions de mise à jour des fiches.": "Sitzungszusammenfassungen und Vorschläge zur Aktualisierung der Einträge.",
+    "Échanges entre joueurs": "Tausch zwischen Spielern",
+    "Fonction désactivée": "Funktion deaktiviert",
+    "Le MJ a désactivé cette fonction dans cette campagne. Il peut la réactiver depuis la page de la campagne.": "Die Spielleitung hat diese Funktion in dieser Kampagne deaktiviert. Sie kann sie auf der Kampagnenseite wieder aktivieren.",
+    "Cette fonction est désactivée dans cette campagne.": "Diese Funktion ist in dieser Kampagne deaktiviert."
 }

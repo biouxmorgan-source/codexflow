@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.34.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Funzioni per campagna',
+        'items' => [
+            'Nella pagina della campagna, il Master spunta le funzioni che servono al suo tavolo: schermo del tavolo, mappe, scambi tra giocatori, grafo, cronologia, assistente IA. Una funzione senza spunta scompare per tutti senza cancellare nulla; torna appena la si spunta di nuovo.',
+        ],
+    ],
+
     '0.33.0' => [
         'date' => '2026-10-08',
         'title' => 'Rifiniture',

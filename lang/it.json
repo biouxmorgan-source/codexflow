@@ -1918,5 +1918,18 @@
     ":player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.": ":player è tornato nella campagna. :character, il suo vecchio personaggio, è senza giocatore.",
     "Lui rendre :name": "Restituisci :name",
     "Tous les personnages actifs": "Tutti i personaggi attivi",
-    "anciennement :name": "prima :name"
+    "anciennement :name": "prima :name",
+    "Cartes avec grille, jetons et règle.": "Mappe con griglia, segnalini e righello.",
+    "Décochez ce dont cette table n’a pas besoin : la fonction disparaît pour vous comme pour les joueurs. Rien n’est effacé, tout revient quand vous la recochez.": "Togli la spunta a ciò che non serve a questo tavolo: la funzione scompare per te e per i giocatori. Non si cancella nulla, tutto torna quando la rimetti.",
+    "Fonctions de la campagne": "Funzioni della campagna",
+    "La carte des liens entre les fiches.": "La mappa dei legami tra le schede.",
+    "Le second écran montré aux joueurs, « Afficher à la table » et la télécommande.": "Il secondo schermo mostrato ai giocatori, «Mostra al tavolo» e il telecomando.",
+    "Les joueurs se donnent objets et connaissances.": "I giocatori si scambiano oggetti e conoscenze.",
+    "Les événements du monde, prévus et joués.": "Gli eventi del mondo, previsti e giocati.",
+    "Non comprise dans la formule actuelle : elle reste grisée même cochée.": "Non compresa nel piano attuale: resta in grigio anche se spuntata.",
+    "Résumés de séance et suggestions de mise à jour des fiches.": "Riassunti di sessione e suggerimenti per aggiornare le schede.",
+    "Échanges entre joueurs": "Scambi tra giocatori",
+    "Fonction désactivée": "Funzione disattivata",
+    "Le MJ a désactivé cette fonction dans cette campagne. Il peut la réactiver depuis la page de la campagne.": "Il Master ha disattivato questa funzione in questa campagna. Può riattivarla dalla pagina della campagna.",
+    "Cette fonction est désactivée dans cette campagne.": "Questa funzione è disattivata in questa campagna."
 }

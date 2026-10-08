@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.34.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Features per campaign',
+        'items' => [
+            'On the campaign page, the GM ticks the features their table needs: table screen, maps, exchanges between players, graph, timeline, AI assistant. An unticked feature disappears for everyone without deleting anything; it comes back as soon as it is ticked again.',
+        ],
+    ],
+
     '0.33.0' => [
         'date' => '2026-10-08',
         'title' => 'Finishing touches',

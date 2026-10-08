@@ -17,6 +17,7 @@ use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
 use App\Models\Rule;
 use App\Models\ToPlayItem;
+use App\Support\CampaignFeatures;
 use App\Support\Locale;
 use App\Support\Notify;
 use Illuminate\Database\Eloquent\Collection;
@@ -319,7 +320,7 @@ class Show extends Component
     #[Computed]
     public function canExchange(): bool
     {
-        return $this->canAdd && $this->companions->isNotEmpty();
+        return $this->canAdd && $this->companions->isNotEmpty() && CampaignFeatures::enabled($this->campaign, 'exchanges');
     }
 
     /** Seul le joueur du personnage écrit ses notes et ses intentions. */

@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.34.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Funções por campanha',
+        'items' => [
+            'Na página da campanha, o Mestre marca as funções de que a sua mesa precisa: ecrã de mesa, mapas, trocas entre jogadores, grafo, cronologia, assistente de IA. Uma função desmarcada desaparece para todos sem apagar nada; volta assim que for marcada de novo.',
+        ],
+    ],
+
     '0.33.0' => [
         'date' => '2026-10-08',
         'title' => 'Acabamentos',

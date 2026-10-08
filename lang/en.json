@@ -1918,5 +1918,18 @@
     ":player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.": ":player is back in the campaign. :character, their former character, has no player.",
     "Lui rendre :name": "Give :name back",
     "Tous les personnages actifs": "All active characters",
-    "anciennement :name": "formerly :name"
+    "anciennement :name": "formerly :name",
+    "Cartes avec grille, jetons et règle.": "Maps with grid, tokens and ruler.",
+    "Décochez ce dont cette table n’a pas besoin : la fonction disparaît pour vous comme pour les joueurs. Rien n’est effacé, tout revient quand vous la recochez.": "Untick what this table doesn't need: the feature disappears for you and for the players. Nothing is deleted; everything comes back when you tick it again.",
+    "Fonctions de la campagne": "Campaign features",
+    "La carte des liens entre les fiches.": "The map of links between entries.",
+    "Le second écran montré aux joueurs, « Afficher à la table » et la télécommande.": "The second screen shown to the players, “Show at the table” and the remote.",
+    "Les joueurs se donnent objets et connaissances.": "Players give each other items and knowledge.",
+    "Les événements du monde, prévus et joués.": "World events, planned and played.",
+    "Non comprise dans la formule actuelle : elle reste grisée même cochée.": "Not included in the current plan: it stays greyed out even when ticked.",
+    "Résumés de séance et suggestions de mise à jour des fiches.": "Session summaries and suggested entry updates.",
+    "Échanges entre joueurs": "Exchanges between players",
+    "Fonction désactivée": "Feature switched off",
+    "Le MJ a désactivé cette fonction dans cette campagne. Il peut la réactiver depuis la page de la campagne.": "The GM has switched this feature off in this campaign. They can switch it back on from the campaign page.",
+    "Cette fonction est désactivée dans cette campagne.": "This feature is switched off in this campaign."
 }
