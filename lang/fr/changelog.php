@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.25.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Importer un livre de jeu avec une IA',
+        'items' => [
+            'Dans « Importer », « Préparez les fichiers avec une IA » donne un prompt à coller dans l’IA de votre choix avec le PDF d’un jeu ou d’un scénario : elle prépare les fichiers d’import (champs, fiches, règles, scènes) et un guide pas à pas. Le prompt existe aussi en skill Claude.',
+        ],
+    ],
+
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Sécurité et données personnelles',

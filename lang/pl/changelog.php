@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.25.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Import podręcznika gry z pomocą AI',
+        'items' => [
+            'W „Importuj” opcja „Przygotuj pliki z AI” daje prompt do wklejenia w wybranej AI razem z PDF gry lub scenariusza: przygotuje pliki importu (pola, karty, zasady, sceny) i instrukcję krok po kroku. Prompt jest też dostępny jako skill Claude.',
+        ],
+    ],
+
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Bezpieczeństwo i dane osobowe',

@@ -1794,5 +1794,21 @@
     "confirmation": "bevestiging",
     "mot de passe": "wachtwoord",
     "{1} Vous êtes propriétaire d’une campagne : pensez à la télécharger avant.|[2,*] Vous êtes propriétaire de :count campagnes : pensez à les télécharger avant.": "{1} Je bent eigenaar van één campagne: download die eerst.|[2,*] Je bent eigenaar van :count campagnes: download ze eerst.",
-    "À quoi elles servent": "Waarvoor ze dienen"
+    "À quoi elles servent": "Waarvoor ze dienen",
+    "Copier le prompt": "Prompt kopiëren",
+    "Copiez le texte ci-dessous et collez-le dans la conversation. Il décrit les formats d’import et ce que contient déjà cette campagne.": "Kopieer de tekst hieronder en plak hem in het gesprek. Hij beschrijft de importformaten en wat deze campagne al bevat.",
+    "Le skill Claude s’ajoute dans Claude, rubrique Compétences (Skills) : ensuite, il suffit de joindre le PDF et de demander « Prépare l’import LoreMundi ».": "De Claude-skill voeg je toe in Claude, onder Skills: daarna volstaat het de pdf toe te voegen en te vragen ‘Bereid de LoreMundi-import voor’.",
+    "Oui, avec l'IA de votre choix : dans « Importer », ouvrez « Préparez les fichiers avec une IA », copiez le prompt et collez-le dans votre IA avec le PDF. Elle prépare les fichiers à importer (champs, fiches, règles, scènes) et un guide pas à pas. Utilisez uniquement des documents que vous possédez.": "Ja, met de AI van je keuze: open bij ‘Importeren’ de optie ‘Bereid de bestanden voor met een AI’, kopieer de prompt en plak die met de pdf in je AI. Die maakt de importbestanden (velden, kaarten, regels, scènes) en een stapsgewijze handleiding. Gebruik alleen documenten die je bezit.",
+    "Ouvrez votre IA (Claude, ChatGPT, Gemini, Le Chat…) et joignez le ou les fichiers du jeu.": "Open je AI (Claude, ChatGPT, Gemini, Le Chat…) en voeg het bestand of de bestanden van het spel toe.",
+    "Prompt": "Prompt",
+    "Préparer l’import avec une IA": "Import voorbereiden met een AI",
+    "Préparez les fichiers avec une IA": "Bereid de bestanden voor met een AI",
+    "Puis-je importer le contenu d’un livre de jeu ou d’un scénario ?": "Kan ik de inhoud van een spelboek of scenario importeren?",
+    "Suivez le guide : champs, puis fiches, règles, documents, et les scènes en dernier. Chaque import montre un aperçu avant de créer quoi que ce soit.": "Volg de handleiding: velden, dan kaarten, regels, documenten en de scènes als laatste. Elke import toont eerst een voorbeeld voordat er iets wordt aangemaakt.",
+    "Télécharger (.md)": "Downloaden (.md)",
+    "Télécharger comme skill Claude (.zip)": "Downloaden als Claude-skill (.zip)",
+    "Utilisez uniquement des documents que vous possédez, pour votre usage personnel. Le prompt demande des résumés avec la page du livre, pas une copie du texte.": "Gebruik alleen documenten die je bezit, voor persoonlijk gebruik. De prompt vraagt om samenvattingen met de pagina van het boek, geen kopie van de tekst.",
+    "Validez le plan que l’IA propose, puis récupérez les fichiers CSV et le guide GUIDE-IMPORT.md.": "Keur het plan goed dat de AI voorstelt en haal daarna de CSV-bestanden en de handleiding GUIDE-IMPORT.md op.",
+    "Votre IA lit le PDF d’un jeu de rôle (livre de règles, scénario, supplément) et prépare les fichiers à importer dans LoreMundi, avec un guide pas à pas. LoreMundi n’envoie rien : vous utilisez l’IA de votre choix, avec votre compte.": "Je AI leest de pdf van een rollenspel (regelboek, scenario, supplement) en maakt de bestanden om in LoreMundi te importeren, met een stapsgewijze handleiding. LoreMundi verstuurt niets: je gebruikt de AI van je keuze, met je eigen account.",
+    "Vous avez le PDF d’un jeu ou d’un scénario ?": "Heb je de pdf van een spel of scenario?"
 }

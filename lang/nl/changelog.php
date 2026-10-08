@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.25.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Een spelboek importeren met een AI',
+        'items' => [
+            'Bij ‘Importeren’ geeft ‘Bereid de bestanden voor met een AI’ een prompt om met de pdf van een spel of scenario in de AI van je keuze te plakken: die maakt de importbestanden (velden, kaarten, regels, scènes) en een stapsgewijze handleiding. De prompt bestaat ook als Claude-skill.',
+        ],
+    ],
+
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Beveiliging en persoonsgegevens',

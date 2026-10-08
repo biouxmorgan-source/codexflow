@@ -1794,5 +1794,21 @@
     "confirmation": "confirmação",
     "mot de passe": "palavra-passe",
     "{1} Vous êtes propriétaire d’une campagne : pensez à la télécharger avant.|[2,*] Vous êtes propriétaire de :count campagnes : pensez à les télécharger avant.": "{1} É proprietário de uma campanha: lembre-se de a transferir antes.|[2,*] É proprietário de :count campanhas: lembre-se de as transferir antes.",
-    "À quoi elles servent": "Para que servem"
+    "À quoi elles servent": "Para que servem",
+    "Copier le prompt": "Copiar o prompt",
+    "Copiez le texte ci-dessous et collez-le dans la conversation. Il décrit les formats d’import et ce que contient déjà cette campagne.": "Copie o texto abaixo e cole-o na conversa. Descreve os formatos de importação e o que esta campanha já contém.",
+    "Le skill Claude s’ajoute dans Claude, rubrique Compétences (Skills) : ensuite, il suffit de joindre le PDF et de demander « Prépare l’import LoreMundi ».": "O skill do Claude adiciona-se no Claude, na secção Skills: depois basta anexar o PDF e pedir «Prepara a importação LoreMundi».",
+    "Oui, avec l'IA de votre choix : dans « Importer », ouvrez « Préparez les fichiers avec une IA », copiez le prompt et collez-le dans votre IA avec le PDF. Elle prépare les fichiers à importer (champs, fiches, règles, scènes) et un guide pas à pas. Utilisez uniquement des documents que vous possédez.": "Sim, com a IA que escolher: em «Importar», abra «Prepare os ficheiros com uma IA», copie o prompt e cole-o na sua IA com o PDF. Ela prepara os ficheiros a importar (campos, fichas, regras, cenas) e um guia passo a passo. Use apenas documentos que possui.",
+    "Ouvrez votre IA (Claude, ChatGPT, Gemini, Le Chat…) et joignez le ou les fichiers du jeu.": "Abra a sua IA (Claude, ChatGPT, Gemini, Le Chat…) e anexe o ficheiro ou ficheiros do jogo.",
+    "Prompt": "Prompt",
+    "Préparer l’import avec une IA": "Preparar a importação com uma IA",
+    "Préparez les fichiers avec une IA": "Prepare os ficheiros com uma IA",
+    "Puis-je importer le contenu d’un livre de jeu ou d’un scénario ?": "Posso importar o conteúdo de um livro de jogo ou de um cenário?",
+    "Suivez le guide : champs, puis fiches, règles, documents, et les scènes en dernier. Chaque import montre un aperçu avant de créer quoi que ce soit.": "Siga o guia: campos, depois fichas, regras, documentos e as cenas no fim. Cada importação mostra uma pré-visualização antes de criar o que quer que seja.",
+    "Télécharger (.md)": "Transferir (.md)",
+    "Télécharger comme skill Claude (.zip)": "Transferir como skill do Claude (.zip)",
+    "Utilisez uniquement des documents que vous possédez, pour votre usage personnel. Le prompt demande des résumés avec la page du livre, pas une copie du texte.": "Use apenas documentos que possui, para uso pessoal. O prompt pede resumos com a página do livro, não uma cópia do texto.",
+    "Validez le plan que l’IA propose, puis récupérez les fichiers CSV et le guide GUIDE-IMPORT.md.": "Valide o plano que a IA propõe e depois recupere os ficheiros CSV e o guia GUIDE-IMPORT.md.",
+    "Votre IA lit le PDF d’un jeu de rôle (livre de règles, scénario, supplément) et prépare les fichiers à importer dans LoreMundi, avec un guide pas à pas. LoreMundi n’envoie rien : vous utilisez l’IA de votre choix, avec votre compte.": "A sua IA lê o PDF de um jogo de RPG (livro de regras, cenário, suplemento) e prepara os ficheiros a importar no LoreMundi, com um guia passo a passo. O LoreMundi não envia nada: usa a IA que escolher, com a sua conta.",
+    "Vous avez le PDF d’un jeu ou d’un scénario ?": "Tem o PDF de um jogo ou de um cenário?"
 }

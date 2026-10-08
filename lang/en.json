@@ -1794,5 +1794,21 @@
     "confirmation": "confirmation",
     "mot de passe": "password",
     "{1} Vous êtes propriétaire d’une campagne : pensez à la télécharger avant.|[2,*] Vous êtes propriétaire de :count campagnes : pensez à les télécharger avant.": "{1} You own one campaign: remember to download it first.|[2,*] You own :count campaigns: remember to download them first.",
-    "À quoi elles servent": "What they are used for"
+    "À quoi elles servent": "What they are used for",
+    "Copier le prompt": "Copy the prompt",
+    "Copiez le texte ci-dessous et collez-le dans la conversation. Il décrit les formats d’import et ce que contient déjà cette campagne.": "Copy the text below and paste it into the conversation. It describes the import formats and what this campaign already contains.",
+    "Le skill Claude s’ajoute dans Claude, rubrique Compétences (Skills) : ensuite, il suffit de joindre le PDF et de demander « Prépare l’import LoreMundi ».": "Add the Claude skill in Claude, under Skills: then just attach the PDF and ask “Prepare the LoreMundi import”.",
+    "Oui, avec l'IA de votre choix : dans « Importer », ouvrez « Préparez les fichiers avec une IA », copiez le prompt et collez-le dans votre IA avec le PDF. Elle prépare les fichiers à importer (champs, fiches, règles, scènes) et un guide pas à pas. Utilisez uniquement des documents que vous possédez.": "Yes, with the AI of your choice: in “Import”, open “Prepare the files with an AI”, copy the prompt and paste it into your AI with the PDF. It prepares the files to import (fields, sheets, rules, scenes) and a step-by-step guide. Only use documents you own.",
+    "Ouvrez votre IA (Claude, ChatGPT, Gemini, Le Chat…) et joignez le ou les fichiers du jeu.": "Open your AI (Claude, ChatGPT, Gemini, Le Chat…) and attach the game file(s).",
+    "Prompt": "Prompt",
+    "Préparer l’import avec une IA": "Prepare the import with an AI",
+    "Préparez les fichiers avec une IA": "Prepare the files with an AI",
+    "Puis-je importer le contenu d’un livre de jeu ou d’un scénario ?": "Can I import the content of a game book or a scenario?",
+    "Suivez le guide : champs, puis fiches, règles, documents, et les scènes en dernier. Chaque import montre un aperçu avant de créer quoi que ce soit.": "Follow the guide: fields, then sheets, rules, documents, and scenes last. Each import shows a preview before creating anything.",
+    "Télécharger (.md)": "Download (.md)",
+    "Télécharger comme skill Claude (.zip)": "Download as a Claude skill (.zip)",
+    "Utilisez uniquement des documents que vous possédez, pour votre usage personnel. Le prompt demande des résumés avec la page du livre, pas une copie du texte.": "Only use documents you own, for your personal use. The prompt asks for summaries with the book page, not a copy of the text.",
+    "Validez le plan que l’IA propose, puis récupérez les fichiers CSV et le guide GUIDE-IMPORT.md.": "Approve the plan the AI suggests, then get the CSV files and the GUIDE-IMPORT.md guide.",
+    "Votre IA lit le PDF d’un jeu de rôle (livre de règles, scénario, supplément) et prépare les fichiers à importer dans LoreMundi, avec un guide pas à pas. LoreMundi n’envoie rien : vous utilisez l’IA de votre choix, avec votre compte.": "Your AI reads the PDF of a roleplaying game (rulebook, scenario, supplement) and prepares the files to import into LoreMundi, with a step-by-step guide. LoreMundi sends nothing: you use the AI of your choice, with your own account.",
+    "Vous avez le PDF d’un jeu ou d’un scénario ?": "Do you have the PDF of a game or a scenario?"
 }

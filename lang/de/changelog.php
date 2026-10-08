@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.25.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Ein Spielbuch mit einer KI importieren',
+        'items' => [
+            'Unter „Importieren“ liefert „Dateien mit einer KI vorbereiten“ einen Prompt, den Sie mit dem PDF eines Spiels oder Szenarios in die KI Ihrer Wahl einfügen: Sie bereitet die Importdateien (Felder, Karteikarten, Regeln, Szenen) und eine Schritt-für-Schritt-Anleitung vor. Den Prompt gibt es auch als Claude-Skill.',
+        ],
+    ],
+
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Sicherheit und persönliche Daten',

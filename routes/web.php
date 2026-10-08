@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountDataController;
+use App\Http\Controllers\AiImportPromptController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CharacterKnowledgeController;
@@ -143,6 +144,9 @@ Route::middleware('auth')->group(function () {
 
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/import', ImportCreate::class)->name('imports.create')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/import/avec-une-ia', [AiImportPromptController::class, 'show'])->name('imports.ai')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/import/prompt-ia.md', [AiImportPromptController::class, 'markdown'])->name('imports.ai.prompt')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/import/skill-ia.zip', [AiImportPromptController::class, 'skill'])->name('imports.ai.skill')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/import/exemple-{kind}.csv', ImportExampleController::class)->name('imports.example')->whereNumber('campaign')->whereIn('kind', ['fiches', 'champs', 'regles', 'scenes']);
     Route::get('/campagnes/{campaign}/archive.zip', [ArchiveController::class, 'campaign'])->name('archives.campaign')->middleware('feature:archive')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/modele.json', [ArchiveController::class, 'template'])->name('archives.template')->middleware('feature:archive')->whereNumber('campaign');

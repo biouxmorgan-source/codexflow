@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.25.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Import a game book with an AI',
+        'items' => [
+            'In “Import”, “Prepare the files with an AI” gives you a prompt to paste into the AI of your choice with the PDF of a game or scenario: it prepares the import files (fields, sheets, rules, scenes) and a step-by-step guide. The prompt is also available as a Claude skill.',
+        ],
+    ],
+
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Security and personal data',

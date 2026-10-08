@@ -7,6 +7,11 @@
     <h1 class="text-2xl font-semibold">{{ __('Importer depuis un fichier') }}</h1>
     <p class="mt-1 mb-6 text-sm text-stone-600">{{ __("Fichier CSV (Excel, LibreOffice, Google Sheets) ou JSON. Rien n'est créé avant que vous cliquiez sur « Importer ».") }}</p>
 
+    <p class="mb-6 rounded-lg border border-codex/30 bg-codex-soft px-4 py-3 text-sm">
+        {{ __('Vous avez le PDF d’un jeu ou d’un scénario ?') }}
+        <a href="{{ route('imports.ai', $campaign) }}" class="link font-medium" wire:navigate>{{ __('Préparez les fichiers avec une IA') }}</a>
+    </p>
+
     @if ($result)
         <div class="mb-6 rounded-xl border border-codex/30 bg-codex-soft p-4" role="status">
             <p class="font-medium text-codex">{{ __('Import terminé : :summary.', ['summary' => collect([
