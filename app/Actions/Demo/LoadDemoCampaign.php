@@ -31,7 +31,7 @@ use Illuminate\Support\Str;
 /**
  * Campagne de démonstration : « Le Serment de Pierrecendre », pour le jeu inventé « Brume & Serment ».
  *
- * Un contenu entièrement original, écrit pour CodexFlow, qui met en scène chaque fonction : champs
+ * Un contenu entièrement original, écrit pour LoreMundi, qui met en scène chaque fonction : champs
  * libres, zones publique et MJ, relations et graphe, chronologie, scénario et scènes, documents,
  * carte avec grille et jetons, secrets, règles, tags, prétirés.
  *

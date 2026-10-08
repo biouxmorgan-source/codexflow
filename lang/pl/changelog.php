@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.23.0' => [
+        'date' => '2026-10-08',
+        'title' => 'CodexFlow zmienia nazwę na LoreMundi',
+        'items' => [
+            'CodexFlow nazywa się teraz LoreMundi, wydawca: Autistic Intelligence. Every world has a story.',
+            'Twoje kampanie, konta i archiwa się nie zmieniają: kopie zapasowe utworzone w CodexFlow nadal można zaimportować. Pobierane pliki zaczynają się teraz od „loremundi-”.',
+        ],
+    ],
+
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Pełna kopia zapasowa',
@@ -113,7 +122,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Asystent AI bez abonamentu',
         'items' => [
-            'Nowe narzędzie „Asystent AI” w kampanii: CodexFlow przygotowuje tekst z notatkami z sesji i kontekstem kampanii do wklejenia w wybranej AI. Jej odpowiedź, wklejona z powrotem, zamienia się w propozycje: streszczenie, rozegrane wydarzenia, relacje, statusy, notatki kampanii, ujawnienia.',
+            'Nowe narzędzie „Asystent AI” w kampanii: LoreMundi przygotowuje tekst z notatkami z sesji i kontekstem kampanii do wklejenia w wybranej AI. Jej odpowiedź, wklejona z powrotem, zamienia się w propozycje: streszczenie, rozegrane wydarzenia, relacje, statusy, notatki kampanii, ujawnienia.',
             'Każdą propozycję można przyjąć, zmienić lub odrzucić. Bez Ciebie nic się w kampanii nie zmienia, a proponowane relacje czy statusy dotyczą tylko kampanii i nie zmieniają wspólnego świata.',
         ],
     ],
@@ -230,7 +239,7 @@ return [
             'Wiadomości między MG a graczami oraz panel „Czat” zawsze pod ręką (drużyna i rozmowy prywatne).',
             'Powiadomienia: odkrycia, otrzymane przedmioty, wiadomości, z licznikiem w nagłówku.',
             'Wszystko aktualizuje się na żywo: wiadomości, liczniki, odkrycia, bez przeładowywania strony.',
-            'CodexFlow można zainstalować jak aplikację; karta postaci pozostaje dostępna offline; powiadomienia na urządzeniu.',
+            'LoreMundi można zainstalować jak aplikację; karta postaci pozostaje dostępna offline; powiadomienia na urządzeniu.',
             'Ekran stołu: mapy, obrazy, karty i ogłoszenia na telewizorze lub projektorze, udostępniane graczom, jeśli MG tego chce.',
             'Postacie dają sobie przedmioty i przekazują sobie to, co wiedzą.',
             'Gracze notują swoją wiedzę i dodają przedmioty; MG zatwierdza przedmioty.',

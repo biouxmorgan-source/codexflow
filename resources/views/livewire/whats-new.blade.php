@@ -3,7 +3,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" role="dialog" aria-modal="true" aria-labelledby="whats-new-title"
             x-data x-init="$nextTick(() => $refs.ok.focus())" x-on:keydown.escape.window="$wire.dismiss()">
             <div class="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-xl border border-stone-200 bg-white p-6 shadow-xl">
-                <p class="text-sm font-medium text-flow">CodexFlow {{ \App\Support\Changelog::version() }}</p>
+                <p class="text-sm font-medium text-flow">LoreMundi {{ \App\Support\Changelog::version() }}</p>
                 <h2 id="whats-new-title" class="text-xl font-semibold">{{ __('Quoi de neuf ?') }}</h2>
                 @foreach ($versions as $version => $entry)
                     <section class="mt-4">

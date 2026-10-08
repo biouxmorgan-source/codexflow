@@ -52,6 +52,6 @@ class ImportExampleController extends Controller
             }
 
             fclose($out);
-        }, 'codexflow-exemple-'.$kind.'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+        }, 'loremundi-exemple-'.$kind.'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
     }
 }

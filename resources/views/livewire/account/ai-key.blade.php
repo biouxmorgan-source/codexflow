@@ -1,7 +1,7 @@
 <form wire:submit="save" class="mt-8 space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
     <div>
         <h2 class="text-lg font-semibold">{{ __('Assistant IA : votre propre clé') }}</h2>
-        <p class="mt-1 text-sm text-stone-600">{{ __('Facultatif. Avec une clé d’API à votre nom, l’assistant IA analyse vos séances sans copier-coller. Les appels sont facturés par le fournisseur sur votre compte, pas par CodexFlow. Sans clé, le mode « texte à coller » reste gratuit.') }}</p>
+        <p class="mt-1 text-sm text-stone-600">{{ __('Facultatif. Avec une clé d’API à votre nom, l’assistant IA analyse vos séances sans copier-coller. Les appels sont facturés par le fournisseur sur votre compte, pas par LoreMundi. Sans clé, le mode « texte à coller » reste gratuit.') }}</p>
     </div>
 
     @if (session('ai-status'))

@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.23.0' => [
+        'date' => '2026-10-08',
+        'title' => 'CodexFlow becomes LoreMundi',
+        'items' => [
+            'CodexFlow is now called LoreMundi, published by Autistic Intelligence. Every world has a story.',
+            'Your campaigns, accounts and archives stay the same: backups made with CodexFlow still import. Downloaded files now start with “loremundi-”.',
+        ],
+    ],
+
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Complete backup',
@@ -113,7 +122,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'An AI assistant, no subscription',
         'items' => [
-            'New “AI assistant” tool in the campaign: CodexFlow prepares a text with the session notes and the campaign context, to paste into the AI of your choice. Its answer, pasted back, becomes suggestions: summary, played events, relations, statuses, campaign notes, reveals.',
+            'New “AI assistant” tool in the campaign: LoreMundi prepares a text with the session notes and the campaign context, to paste into the AI of your choice. Its answer, pasted back, becomes suggestions: summary, played events, relations, statuses, campaign notes, reveals.',
             'Each suggestion can be accepted, edited or rejected. Nothing changes in the campaign without you, and suggested relations or statuses stay specific to the campaign, without touching the shared world.',
         ],
     ],
@@ -230,7 +239,7 @@ return [
             'Messaging between the GM and their players, and a “Chat” panel always within reach (group and private).',
             'Notifications: reveals, items received, messages, with a counter in the header.',
             'Everything updates live: messages, counters, reveals, without reloading the page.',
-            'CodexFlow installs as an app; the character sheet stays readable offline; notifications on the device.',
+            'LoreMundi installs as an app; the character sheet stays readable offline; notifications on the device.',
             'Table screen: maps, images, entries and announcements on the TV or projector, and shared with the players if the GM wishes.',
             'Characters give each other items and pass on what they know.',
             'Players note their knowledge and add their items; the GM approves the items.',

@@ -6,7 +6,7 @@
 
     <div class="mb-6">
         <h1 class="text-2xl font-semibold">{{ __('Assistant IA') }}</h1>
-        <p class="mt-1 max-w-3xl text-sm text-stone-600">{{ __('L’IA propose, vous décidez. CodexFlow prépare un texte avec le contexte de la séance ; collez-le dans l’IA de votre choix (ChatGPT, Claude, Le Chat, Gemini…), puis collez sa réponse ici. Chaque proposition s’accepte, se modifie ou se rejette : rien ne change dans la campagne sans vous.') }}</p>
+        <p class="mt-1 max-w-3xl text-sm text-stone-600">{{ __('L’IA propose, vous décidez. LoreMundi prépare un texte avec le contexte de la séance ; collez-le dans l’IA de votre choix (ChatGPT, Claude, Le Chat, Gemini…), puis collez sa réponse ici. Chaque proposition s’accepte, se modifie ou se rejette : rien ne change dans la campagne sans vous.') }}</p>
     </div>
 
     @if (session('status'))
@@ -38,9 +38,9 @@
                 </div>
                 <p class="mt-2 text-xs text-stone-500">
                     @if ($this->directProvider)
-                        {{ __('Ce texte contient vos notes MJ et des secrets de la campagne : collez-le seulement dans une IA en laquelle vous avez confiance. CodexFlow ne l’envoie qu’à votre demande, à l’IA de votre clé.') }}
+                        {{ __('Ce texte contient vos notes MJ et des secrets de la campagne : collez-le seulement dans une IA en laquelle vous avez confiance. LoreMundi ne l’envoie qu’à votre demande, à l’IA de votre clé.') }}
                     @else
-                        {{ __('Ce texte contient vos notes MJ et des secrets de la campagne : collez-le seulement dans une IA en laquelle vous avez confiance. CodexFlow n’envoie rien lui-même.') }}
+                        {{ __('Ce texte contient vos notes MJ et des secrets de la campagne : collez-le seulement dans une IA en laquelle vous avez confiance. LoreMundi n’envoie rien lui-même.') }}
                     @endif
                 </p>
             </div>

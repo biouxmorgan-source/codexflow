@@ -76,7 +76,7 @@
 
             @default
                 <div class="text-center">
-                    <p @class(['text-3xl font-semibold tracking-tight opacity-60', $theme['muted']]) translate="no"><span>CODEX</span><span @class($theme['accent'])>FLOW</span></p>
+                    <p @class(['text-3xl font-semibold tracking-tight opacity-60', $theme['muted']]) translate="no"><span>Lore</span><span @class($theme['accent'])>Mundi</span></p>
                     <p @class(['mt-2 text-xl opacity-70', $theme['muted']])>{{ $stopped ? __("Le MJ ne partage plus l'écran de table.") : $campaign->name }}</p>
                 </div>
         @endswitch

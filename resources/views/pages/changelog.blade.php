@@ -1,7 +1,7 @@
 <x-layouts.app :title="__('Quoi de neuf')">
     <div class="max-w-3xl">
         <h1 class="text-2xl font-semibold">{{ __('Quoi de neuf') }}</h1>
-        <p class="mt-1 mb-6 text-sm text-stone-600">{{ __('Vous utilisez CodexFlow :version. CodexFlow est en développement : voici ce qui est arrivé, version après version.', ['version' => \App\Support\Changelog::version()]) }}</p>
+        <p class="mt-1 mb-6 text-sm text-stone-600">{{ __('Vous utilisez LoreMundi :version. LoreMundi est en développement : voici ce qui est arrivé, version après version.', ['version' => \App\Support\Changelog::version()]) }}</p>
 
         <div class="space-y-6">
             @foreach (\App\Support\Changelog::all() as $version => $entry)

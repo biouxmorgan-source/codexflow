@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.23.0' => [
+        'date' => '2026-10-08',
+        'title' => 'CodexFlow diventa LoreMundi',
+        'items' => [
+            'CodexFlow ora si chiama LoreMundi, pubblicato da Autistic Intelligence. Every world has a story.',
+            'Campagne, account e archivi non cambiano: i backup creati con CodexFlow si importano ancora. I file scaricati ora iniziano con «loremundi-».',
+        ],
+    ],
+
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Backup completo',
@@ -113,7 +122,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Un assistente IA, senza abbonamento',
         'items' => [
-            'Nuovo strumento «Assistente IA» nella campagna: CodexFlow prepara un testo con le note della sessione e il contesto della campagna, da incollare nell’IA che preferisci. La sua risposta, incollata qui, diventa un insieme di proposte: riassunto, eventi giocati, relazioni, stati, note di campagna, rivelazioni.',
+            'Nuovo strumento «Assistente IA» nella campagna: LoreMundi prepara un testo con le note della sessione e il contesto della campagna, da incollare nell’IA che preferisci. La sua risposta, incollata qui, diventa un insieme di proposte: riassunto, eventi giocati, relazioni, stati, note di campagna, rivelazioni.',
             'Ogni proposta si accetta, si modifica o si rifiuta. Nulla cambia nella campagna senza di te, e le relazioni o gli stati proposti restano propri della campagna, senza toccare il mondo condiviso.',
         ],
     ],
@@ -230,7 +239,7 @@ return [
             'Messaggistica tra il Master e i suoi giocatori, e pannello «Discussione» sempre a portata di mano (gruppo e privato).',
             'Notifiche: rivelazioni, oggetti ricevuti, messaggi, con un contatore nell\'intestazione.',
             'Tutto si aggiorna in diretta: messaggi, contatori, rivelazioni, senza ricaricare la pagina.',
-            'CodexFlow si installa come un\'applicazione; la scheda del personaggio resta leggibile offline; notifiche sul dispositivo.',
+            'LoreMundi si installa come un\'applicazione; la scheda del personaggio resta leggibile offline; notifiche sul dispositivo.',
             'Schermo da tavolo: mappe, immagini, schede e annunci sulla TV o sul proiettore, e condiviso con i giocatori se il Master lo desidera.',
             'I personaggi si scambiano oggetti e si trasmettono ciò che sanno.',
             'I giocatori annotano le loro conoscenze e aggiungono i loro oggetti; il Master convalida gli oggetti.',

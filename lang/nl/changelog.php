@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.23.0' => [
+        'date' => '2026-10-08',
+        'title' => 'CodexFlow wordt LoreMundi',
+        'items' => [
+            'CodexFlow heet nu LoreMundi, uitgegeven door Autistic Intelligence. Every world has a story.',
+            'Je campagnes, accounts en archieven blijven hetzelfde: back-ups gemaakt met CodexFlow kun je nog steeds importeren. Gedownloade bestanden beginnen nu met “loremundi-”.',
+        ],
+    ],
+
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Volledige back-up',
@@ -113,7 +122,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Een AI-assistent, zonder abonnement',
         'items' => [
-            'Nieuw hulpmiddel ‘AI-assistent’ in de campagne: CodexFlow maakt een tekst met de sessienotities en de context van de campagne, om te plakken in de AI van je keuze. Het antwoord, hier teruggeplakt, wordt een reeks voorstellen: samenvatting, gespeelde gebeurtenissen, relaties, statussen, campagnenotities, onthullingen.',
+            'Nieuw hulpmiddel ‘AI-assistent’ in de campagne: LoreMundi maakt een tekst met de sessienotities en de context van de campagne, om te plakken in de AI van je keuze. Het antwoord, hier teruggeplakt, wordt een reeks voorstellen: samenvatting, gespeelde gebeurtenissen, relaties, statussen, campagnenotities, onthullingen.',
             'Elk voorstel kun je accepteren, aanpassen of weigeren. Zonder jou verandert er niets in de campagne, en voorgestelde relaties of statussen gelden alleen voor de campagne, zonder de gedeelde wereld aan te raken.',
         ],
     ],
@@ -230,7 +239,7 @@ return [
             'Berichten tussen de SL en de spelers, en een ‘Chat’-paneel altijd binnen handbereik (groep en privé).',
             'Meldingen: onthullingen, ontvangen voorwerpen, berichten, met een teller in de kopbalk.',
             'Alles wordt live bijgewerkt: berichten, tellers, onthullingen, zonder de pagina te herladen.',
-            'CodexFlow is als app te installeren; de fiche van het personage blijft offline leesbaar; meldingen op het apparaat.',
+            'LoreMundi is als app te installeren; de fiche van het personage blijft offline leesbaar; meldingen op het apparaat.',
             'Tafelscherm: kaarten, afbeeldingen, fiches en aankondigingen op de tv of de beamer, en gedeeld met de spelers als de SL dat wil.',
             'Personages geven elkaar voorwerpen en geven door wat ze weten.',
             'Spelers noteren hun kennis en voegen hun voorwerpen toe; de SL valideert de voorwerpen.',

@@ -1,4 +1,4 @@
-// Service worker de CodexFlow : application installable, fiche du personnage lisible hors ligne,
+// Service worker de LoreMundi : application installable, fiche du personnage lisible hors ligne,
 // notifications push. Seules les réponses marquées X-Codexflow-Offline sont gardées, et ce cache
 // est vidé dès qu'une page de connexion s'affiche (déconnexion, session expirée).
 const STATIC = 'codexflow-static-v1';
@@ -87,7 +87,7 @@ async function networkFirst(request) {
 self.addEventListener('push', (event) => {
     const data = event.data?.json() ?? {};
 
-    event.waitUntil(self.registration.showNotification(data.title ?? 'CodexFlow', {
+    event.waitUntil(self.registration.showNotification(data.title ?? 'LoreMundi', {
         body: data.body,
         icon: data.icon,
         badge: data.badge,

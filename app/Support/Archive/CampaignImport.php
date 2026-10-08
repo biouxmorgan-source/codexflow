@@ -63,7 +63,7 @@ final class CampaignImport
         $this->zip = new ZipArchive;
 
         if ($this->zip->open($path, ZipArchive::RDONLY) !== true) {
-            throw new ArchiveException(__('Ce fichier n’est pas une archive CodexFlow.'));
+            throw new ArchiveException(__('Ce fichier n’est pas une archive LoreMundi.'));
         }
 
         try {
@@ -95,11 +95,11 @@ final class CampaignImport
         $data = json_decode($json, true);
 
         if (! is_array($data) || ($data['format'] ?? null) !== CampaignExport::TEMPLATE_FORMAT) {
-            throw new ArchiveException(__('Ce fichier n’est pas un modèle CodexFlow.'));
+            throw new ArchiveException(__('Ce fichier n’est pas un modèle LoreMundi.'));
         }
 
         if (! is_int($data['version'] ?? null) || $data['version'] > CampaignExport::VERSION) {
-            throw new ArchiveException(__('Ce modèle vient d’une version plus récente de CodexFlow.'));
+            throw new ArchiveException(__('Ce modèle vient d’une version plus récente de LoreMundi.'));
         }
 
         $this->now = now()->toDateTimeString();
@@ -120,17 +120,17 @@ final class CampaignImport
         $stat = $this->zip->statName('campagne.json');
 
         if ($stat === false || $stat['size'] > self::MAX_JSON) {
-            throw new ArchiveException(__('Ce fichier n’est pas une archive CodexFlow.'));
+            throw new ArchiveException(__('Ce fichier n’est pas une archive LoreMundi.'));
         }
 
         $data = json_decode((string) $this->zip->getFromName('campagne.json'), true);
 
         if (! is_array($data) || ($data['format'] ?? null) !== CampaignExport::FORMAT) {
-            throw new ArchiveException(__('Ce fichier n’est pas une archive CodexFlow.'));
+            throw new ArchiveException(__('Ce fichier n’est pas une archive LoreMundi.'));
         }
 
         if (! is_int($data['version'] ?? null) || $data['version'] > CampaignExport::VERSION) {
-            throw new ArchiveException(__('Cette archive vient d’une version plus récente de CodexFlow.'));
+            throw new ArchiveException(__('Cette archive vient d’une version plus récente de LoreMundi.'));
         }
 
         return $data;
