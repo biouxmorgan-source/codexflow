@@ -51,6 +51,12 @@ class ShowButton extends Component
     #[On('table-changed')]
     public function refresh(): void {}
 
+    /** L'écran change ailleurs (télécommande, autre onglet) : l'indicateur suit en direct. */
+    public function getListeners(): array
+    {
+        return ['echo-private:users.'.auth()->id().',.activity' => 'refresh'];
+    }
+
     public function render()
     {
         return view('livewire.table.show-button', [

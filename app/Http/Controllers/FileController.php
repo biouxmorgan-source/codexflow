@@ -60,8 +60,9 @@ class FileController
 
     public function characterSheet(Campaign $campaign, PlayerCharacter $character): StreamedResponse
     {
-        abort_unless($character->campaign_id === $campaign->id && $character->hasSheet(), 404);
+        abort_unless($character->campaign_id === $campaign->id, 404);
         Gate::authorize('view', $character);
+        abort_unless($character->hasSheet(), 404);
 
         return Storage::disk(PlayerCharacter::DISK)->response($character->sheet_path, $character->sheet_name, [
             'Content-Type' => 'application/pdf',
@@ -73,8 +74,9 @@ class FileController
     /** Portrait du personnage pour son joueur, qui n'a pas accès à la fiche complète. */
     public function characterPortrait(Campaign $campaign, PlayerCharacter $character): StreamedResponse
     {
-        abort_unless($character->campaign_id === $campaign->id && $character->entity->hasImage(), 404);
+        abort_unless($character->campaign_id === $campaign->id, 404);
         Gate::authorize('view', $character);
+        abort_unless($character->entity->hasImage(), 404);
 
         return Storage::disk(Entity::FILES_DISK)->response($character->entity->image_path, null, [
             'X-Content-Type-Options' => 'nosniff',

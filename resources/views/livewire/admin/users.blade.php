@@ -126,6 +126,9 @@
                                     <div class="flex flex-wrap items-center gap-3 sm:col-span-2 lg:col-span-5">
                                         <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
                                         <button type="button" wire:click="sendResetLink({{ $user->id }})" wire:confirm="{{ __('Envoyer à :email un lien pour choisir un nouveau mot de passe ?', ['email' => $user->email]) }}" class="btn-secondary">{{ __('Envoyer un lien de réinitialisation') }}</button>
+                                        @if ($user->two_factor_confirmed_at)
+                                            <button type="button" wire:click="disableTwoFactor({{ $user->id }})" wire:confirm="{{ __('Retirer la double authentification de :email ? Vérifiez d’abord que la demande vient bien de cette personne.', ['email' => $user->email]) }}" class="btn-secondary">{{ __('Retirer la double authentification') }}</button>
+                                        @endif
                                         <span class="text-xs text-stone-500">{{ __('Le mot de passe n’est jamais visible : la personne en choisit un nouveau depuis le lien reçu.') }}</span>
                                     </div>
                                 </form>

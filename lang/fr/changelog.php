@@ -4,6 +4,20 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.26.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Corrections de la recette v0.25.0',
+        'items' => [
+            'Une page restée ouverte revérifie vos droits à chaque action : un joueur retiré ou un co-MJ rétrogradé ne reçoit plus rien de nouveau.',
+            'Le joueur à qui l’on confie un personnage ne lit plus la conversation privée de l’ancien joueur avec le MJ.',
+            'Les prétirés de la campagne de démonstration sont proposés dans « Nouveau personnage ».',
+            'Double authentification : le code de secours marche sur l’écran de connexion, et l’administrateur peut retirer la double authentification d’un compte bloqué.',
+            'Nouvelles icônes LoreMundi (onglet, application installée, notifications).',
+            'Écran de table partagé lisible sur téléphone ; en-têtes de fiche et de page corrigés sur téléphone et tablette, y compris en grande taille de texte.',
+            'Corrections : notifications push sans erreur, boutons de la fenêtre « reçu », référence à une fiche après un renommage, quantité d’un échange, règle de mesure des cartes, bandeau « Hors ligne », messages d’erreur traduits, lien « Aller au contenu ».',
+        ],
+    ],
+
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Importer un livre de jeu avec une IA',

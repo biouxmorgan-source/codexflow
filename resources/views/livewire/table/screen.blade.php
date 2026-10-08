@@ -17,24 +17,25 @@
 
             @case('entity')
                 @php($entity = $display['entity'])
-                <article class="flex max-h-full w-full max-w-6xl items-center gap-12 overflow-y-auto p-12">
+                {{-- « safe » : un contenu plus haut que l'écran (téléphone) défile au lieu d'être coupé en haut. --}}
+                <article class="flex max-h-full w-full max-w-6xl flex-col items-center-safe gap-6 overflow-y-auto p-6 md:flex-row md:gap-12 md:p-12">
                     @if ($entity->hasImage())
-                        <img src="{{ route('table.image', [$campaign, 'v' => $display['key'].'-'.$entity->updated_at?->timestamp]) }}" alt="" class="max-h-[80vh] max-w-[45%] shrink-0 rounded-2xl object-contain shadow-2xl">
+                        <img src="{{ route('table.image', [$campaign, 'v' => $display['key'].'-'.$entity->updated_at?->timestamp]) }}" alt="" class="max-h-[40vh] max-w-full shrink-0 rounded-2xl object-contain shadow-2xl md:max-h-[80vh] md:max-w-[45%]">
                     @endif
-                    <div class="min-w-0 flex-1">
-                        <h1 class="text-5xl font-semibold tracking-tight lg:text-6xl">{{ $entity->name }}</h1>
+                    <div class="w-full min-w-0 md:flex-1">
+                        <h1 class="text-3xl font-semibold tracking-tight break-words md:text-5xl lg:text-6xl">{{ $entity->name }}</h1>
                         @if ($entity->summary)
-                            <p @class(['mt-4 text-2xl lg:text-3xl', $theme['muted']])>{{ $entity->summary }}</p>
+                            <p @class(['mt-4 text-xl md:text-2xl lg:text-3xl', $theme['muted']])>{{ $entity->summary }}</p>
                         @endif
                         @if ($entity->description)
-                            <div class="mt-6 text-xl leading-relaxed">{{ \App\Support\EntityLinks::plain($entity->description) }}</div>
+                            <div class="mt-6 text-lg leading-relaxed break-words md:text-xl">{{ \App\Support\EntityLinks::plain($entity->description) }}</div>
                         @endif
                         @if ($display['fields']->isNotEmpty())
-                            <dl class="mt-8 grid grid-cols-2 gap-x-8 gap-y-2 text-xl">
+                            <dl class="mt-8 grid gap-x-8 gap-y-2 text-lg sm:grid-cols-2 md:text-xl">
                                 @foreach ($display['fields'] as $field)
                                     <div class="flex justify-between gap-4 border-b border-current/20 pb-1">
                                         <dt @class($theme['muted'])>{{ $field['label'] }}</dt>
-                                        <dd class="font-medium">{{ $field['value'] }}</dd>
+                                        <dd class="min-w-0 text-right font-medium break-words">{{ $field['value'] }}</dd>
                                     </div>
                                 @endforeach
                             </dl>
@@ -53,13 +54,13 @@
 
             @case('rule')
                 @php($rule = $display['rule'])
-                <article class="max-h-full w-full max-w-5xl overflow-y-auto p-12">
-                    <h1 class="text-5xl font-semibold tracking-tight lg:text-6xl">{{ $rule->title }}</h1>
+                <article class="max-h-full w-full max-w-5xl overflow-y-auto p-6 md:p-12">
+                    <h1 class="text-3xl font-semibold tracking-tight break-words md:text-5xl lg:text-6xl">{{ $rule->title }}</h1>
                     @if ($rule->summary)
-                        <p @class(['mt-6 text-3xl', $theme['muted']])>{{ $rule->summary }}</p>
+                        <p @class(['mt-6 text-xl md:text-3xl', $theme['muted']])>{{ $rule->summary }}</p>
                     @endif
                     @if ($rule->procedure)
-                        <div class="mt-8 text-2xl leading-relaxed">{{ \App\Support\EntityLinks::plain($rule->procedure) }}</div>
+                        <div class="mt-8 text-lg leading-relaxed break-words md:text-2xl">{{ \App\Support\EntityLinks::plain($rule->procedure) }}</div>
                     @endif
                 </article>
                 @break
@@ -82,7 +83,8 @@
         @endswitch
     </div>
 
-    <button type="button" x-show="! full" x-on:click="document.documentElement.requestFullscreen()"
+    {{-- Masqué là où le plein écran n’existe pas (iPhone). --}}
+    <button type="button" x-show="! full && document.fullscreenEnabled" x-on:click="document.documentElement.requestFullscreen()"
         class="absolute right-4 bottom-4 rounded-lg bg-current/10 px-4 py-2 text-sm hover:bg-current/20">
         {{ __('Plein écran') }}
     </button>

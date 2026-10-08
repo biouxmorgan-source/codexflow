@@ -170,7 +170,9 @@ class EntityPagesTest extends TestCase
         $stranger = User::factory()->create();
 
         foreach ([$player, $stranger] as $user) {
-            $this->actingAs($user)->get(route('campaigns.show', $this->campaignA))->assertForbidden();
+            // Le joueur sans personnage est renvoyé vers ses campagnes ; l'étranger est refusé.
+            $campaignPage = $this->actingAs($user)->get(route('campaigns.show', $this->campaignA));
+            $user->is($player) ? $campaignPage->assertRedirect(route('campaigns.index'))->assertDontSee('Secret absolu') : $campaignPage->assertForbidden();
             $this->actingAs($user)->get(route('entities.show', [$this->campaignA, $npc]))->assertForbidden();
             $this->actingAs($user)->get(route('entities.edit', [$this->campaignA, $npc]))->assertForbidden();
         }

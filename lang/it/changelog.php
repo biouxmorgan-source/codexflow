@@ -4,6 +4,20 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.26.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Correzioni dal collaudo v0.25.0',
+        'items' => [
+            'Una pagina rimasta aperta ricontrolla i vostri permessi a ogni azione: un giocatore rimosso o un co-master declassato non riceve più nulla di nuovo.',
+            'Il giocatore a cui si affida un personaggio non legge più la conversazione privata del giocatore precedente con il master.',
+            'I personaggi pregenerati della campagna dimostrativa sono proposti in «Nuovo personaggio».',
+            'Autenticazione a due fattori: i codici di recupero funzionano all’accesso, e l’amministratore può rimuoverla da un account bloccato.',
+            'Nuove icone LoreMundi (scheda, app installata, notifiche).',
+            'Schermo del tavolo condiviso leggibile sul telefono; intestazioni di schede e pagine corrette su telefono e tablet, anche con testo grande.',
+            'Correzioni: notifiche push senza errori, pulsanti della finestra «ricevuto», riferimenti a schede dopo una ridenominazione, quantità di uno scambio, righello delle mappe, avviso «Offline», messaggi di errore tradotti, link «Vai al contenuto».',
+        ],
+    ],
+
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Importare un manuale di gioco con un’IA',

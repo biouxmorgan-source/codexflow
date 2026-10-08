@@ -188,7 +188,7 @@ class DemoCampaignTest extends TestCase
             $text = LoadDemoCampaign::text($locale);
 
             $this->assertSame($text['campaign']['name'], $campaign->name);
-            $this->assertSame($text['types']['pregen'], EntityType::where('user_id', $gm->id)->latest('id')->value('name'));
+            $this->assertSame($text['types']['faction'], EntityType::where('user_id', $gm->id)->latest('id')->value('name'));
             $this->assertSame($text['relations']['ysane_hall'][0], EntityRelation::latest('id')->skip(22)->value('label'));
         }
 

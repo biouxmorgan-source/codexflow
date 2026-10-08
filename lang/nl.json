@@ -203,7 +203,6 @@
     "LoreMundi fonctionne dans un navigateur récent, sans rien installer. Quelques conseils pour en profiter au mieux.": "LoreMundi werkt in een recente browser, zonder iets te installeren. Een paar tips om er het meeste uit te halen.",
     "Colonne :number": "Kolom :number",
     "Colonnes": "Kolommen",
-    "Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique ou MJ), Choix (séparés par |), Type de fiche.": "Herkende kolommen: Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique of MJ), Choix (gescheiden door |), Type de fiche.",
     "Combien": "Hoeveel",
     "Comme l'appareil": "Zoals het apparaat",
     "Comme le navigateur": "Zoals de browser",
@@ -1782,7 +1781,6 @@
     "Télécharger mes données": "Mijn gegevens downloaden",
     "Téléchargez ce que LoreMundi garde sur vous : compte, connexions, campagnes, personnages, notes, messages et signalements. Le contenu complet d’une campagne se télécharge depuis la campagne.": "Download wat LoreMundi over je bewaart: account, aanmeldingen, campagnes, personages, notities, berichten en meldingen. De volledige inhoud van een campagne download je vanuit de campagne.",
     "Uniquement à faire fonctionner LoreMundi. Elles ne sont ni vendues, ni prêtées, ni utilisées pour de la publicité.": "Alleen om LoreMundi te laten werken. Ze worden niet verkocht, uitgeleend of voor reclame gebruikt.",
-    "Utiliser l’application d’authentification": "Authenticator-app gebruiken",
     "Utiliser un code de secours": "Een herstelcode gebruiken",
     "Vos codes de secours": "Je herstelcodes",
     "Vos droits": "Je rechten",
@@ -1824,5 +1822,15 @@
     "Votre adresse e-mail LoreMundi a changé": "Je LoreMundi-e-mailadres is gewijzigd",
     "Votre nom est visible des autres membres de vos campagnes. Changer d’adresse e-mail ou de mot de passe demande votre mot de passe actuel.": "Je naam is zichtbaar voor de andere leden van je campagnes. Voor een ander e-mailadres of wachtwoord is je huidige wachtwoord nodig.",
     "mot de passe actuel": "huidig wachtwoord",
-    "nouveau mot de passe": "nieuw wachtwoord"
+    "nouveau mot de passe": "nieuw wachtwoord",
+    "The provided two factor authentication code was invalid.": "De tweestapsverificatiecode is ongeldig.",
+    "The provided two factor recovery code was invalid.": "Deze herstelcode is ongeldig (elke code werkt maar één keer).",
+    "The provided password was incorrect.": "Het wachtwoord is onjuist.",
+    "Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste, compteur, lien, fichier, fiche), Zone (publique ou MJ), Choix (séparés par |), Type de fiche, Modifiable par le joueur (oui ou non).": "Herkende kolommen: Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste, compteur, lien, fichier, fiche), Zone (publique of MJ), Choix (gescheiden door |), Type de fiche, Modifiable par le joueur (oui of non).",
+    "Donnez un nom au nouveau jeu.": "Geef het nieuwe spel een naam.",
+    "Donnez un nom au nouveau monde.": "Geef de nieuwe wereld een naam.",
+    "Double authentification retirée pour :email.": "Tweestapsverificatie verwijderd voor :email.",
+    "Retirer la double authentification": "Tweestapsverificatie verwijderen",
+    "Retirer la double authentification de :email ? Vérifiez d’abord que la demande vient bien de cette personne.": "Tweestapsverificatie van :email verwijderen? Controleer eerst of het verzoek echt van deze persoon komt.",
+    "Aller au contenu": "Naar de inhoud"
 }

@@ -37,6 +37,11 @@ class ExchangeRequest extends Model
     /** « Cartouches ×4 », « Le code du coffre »… */
     public function label(): string
     {
-        return $this->grant->kind === 'possession' && $this->quantity > 1 ? $this->grant->title.' ×'.$this->quantity : $this->grant->label();
+        if ($this->grant->kind !== 'possession') {
+            return $this->grant->label();
+        }
+
+        // La quantité proposée, pas celle de toute la pile.
+        return $this->quantity > 1 ? $this->grant->title.' ×'.$this->quantity : $this->grant->title;
     }
 }

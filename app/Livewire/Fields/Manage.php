@@ -166,11 +166,22 @@ class Manage extends Component
     {
         $this->authorize('update', $this->gameSystem);
 
-        $ids = $this->definitions->modelKeys();
+        $definitions = $this->definitions->values();
+        $ids = $definitions->modelKeys();
         $index = array_search($id, $ids, true);
-        $target = $index === false ? false : $index + ($direction < 0 ? -1 : 1);
 
-        if ($target === false || ! isset($ids[$target])) {
+        if ($index === false) {
+            return;
+        }
+
+        // Les champs s'affichent par groupe : on échange avec le voisin du même groupe.
+        $group = $definitions[$index]->groupLabel();
+        $target = $index;
+        do {
+            $target += $direction < 0 ? -1 : 1;
+        } while (isset($ids[$target]) && $definitions[$target]->groupLabel() !== $group);
+
+        if (! isset($ids[$target])) {
             return;
         }
 

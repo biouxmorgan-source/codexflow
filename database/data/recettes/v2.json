@@ -1,0 +1,2043 @@
+{
+    "title": "Cahier de recette v0.25.0",
+    "version": "0.25.0",
+    "tested_on": "2026-10-08",
+    "score": 97.4,
+    "score_before": 90.8,
+    "summary": "La version 0.25.0 passe la recette. Sur 127 fonctionnalités notées, la note moyenne était de 90,8/100 pendant les tests. Elle est de 97,4/100 après les corrections de la version 0.26.0. Aucune fuite de la zone MJ n'a été trouvée à l'ouverture d'une page. La recette a relevé 32 bugs, dont 11 majeurs. Il n'y avait aucun bug bloquant. 31 bugs sont corrigés en 0.26.0, chacun avec un test automatique (RecetteV2Test).\n\nLe point le plus important concernait les pages restées ouvertes. Les droits n'étaient vérifiés qu'à leur ouverture : un joueur retiré ou un co-MJ rétrogradé continuait de recevoir les mises à jour. Depuis 0.26.0, chaque action d'une page revérifie les droits accordés à son ouverture.\n\nMéthode : quatre recetteurs ont testé l'application à l'écran dans Chromium. Ils ont utilisé un bureau (1280 px), une tablette émulée (800×1280, tactile) et un téléphone (390 px). Ils ont joué les rôles de MJ, co-MJ, joueur, spectateur et compte étranger, avec plusieurs navigateurs à la fois et le temps réel Reverb actif. Ils ont ouvert plus de 120 adresses interdites et forcé des appels Livewire. En plus, 327 tests automatiques passent.\n\nLa note de chaque ligne est le résultat obtenu rapporté au résultat attendu (100 = conforme). Quand une correction a changé la note, la note d'origine est conservée à part.\n\n| Zone | Fonctionnalités notées | Note lors des tests | Note après 0.26.0 |\n|---|---|---|---|\n| Préparation et conduite par le MJ | 34 | 93,6 | 97,5 |\n| Joueurs, rôles et droits | 33 | 92,1 | 99,1 |\n| Lien vivant et table | 29 | 91,4 | 98,8 |\n| Transverse : comptes, sécurité, langues, aide, administration | 31 | 85,6 | 94,1 |\n| **Ensemble** | **127** | **90,8** | **97,4** |\n\n### Restent à faire\n\n- Les écarts non traités sont versés au backlog comme évolutions. On y trouve pdf.js, les images de jeu et de monde, l'éditeur riche partout, l'aide publique, la vérification de la nouvelle adresse e-mail, une CSP plus stricte, et des e-mails aux couleurs de LoreMundi.\n- Avant l'ouverture, il faudra renseigner les mentions légales (variables LEGAL_*) et installer l'extension PHP GMP ou BCMath sur le serveur pour les notifications push.\n- Restent aussi les tests sur un vrai téléphone et une vraie tablette.",
+    "sections": [
+        {
+            "name": "Préparation et conduite par le MJ",
+            "items": [
+                {
+                    "feature": "§6.1 Mes campagnes : création",
+                    "expected": "Créer une campagne avec un jeu et un monde nouveaux ou existants ; deux campagnes peuvent partager un monde.",
+                    "tests": "Écran : création « R1 Campagne A » (nouveau jeu, nouveau monde), puis « R1 Campagne B » sur le même monde ; envoi vide. Auto : CampaignIndexTest (6 tests).",
+                    "gaps": "Message d'erreur technique à l'envoi vide : « … obligatoire quand jeu vaut new ».",
+                    "result": "Création et partage du monde conformes ; un message de validation montre une valeur interne. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 92
+                },
+                {
+                    "feature": "§6.1 Mes campagnes : reprise, archivage",
+                    "expected": "Bouton « Reprendre », date de la dernière séance, campagnes archivées rangées à part et réactivables.",
+                    "tests": "Écran : Archiver puis Réactiver « R1 Campagne B » ; carte après une séance ; « Reprendre ▶ » ouvre le mode Session. Appels Livewire toggleArchive/duplicate forcés par un joueur et un autre MJ : refusés. Auto : BacklogV1Test::test_my_campaigns_show_the_last_session…",
+                    "gaps": "",
+                    "result": "Conforme : dernière séance affichée, archives dans un bloc repliable, droits vérifiés côté serveur.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.1 Campagne de démonstration",
+                    "expected": "Charger en un clic une campagne complète dans la langue choisie.",
+                    "tests": "Écran : « Charger la démonstration » (français) depuis le formulaire d'import : chargée en moins d'une seconde avec fiches, portraits, relations, carte, secrets, règles, chronologie, prétirés. Auto : DemoCampaignTest (7 tests).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.2 Page Jeu",
+                    "expected": "Page d'un jeu : description, campagnes, règles, documents, champs ; modifiable par son propriétaire seul.",
+                    "tests": "Écran : /jeux/47 et /jeux/45, renommage et description (HTML échappé). Accès d'un autre MJ et d'un joueur : 403. Auto : BacklogV1Test::test_games_and_worlds_have_their_own_page_for_their_owner.",
+                    "gaps": "Pas d'image pour le jeu.",
+                    "result": "Conforme sauf l'image prévue au cahier.",
+                    "score": 90,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.3 Page Monde et états par campagne",
+                    "expected": "Page d'un monde avec ses fiches réutilisables ; un statut propre à une campagne ne touche ni le monde ni les autres campagnes.",
+                    "tests": "Écran : /mondes/43 et /mondes/41 (renommage) ; statut « mort » sur Garn dans A, absent dans B. Auto : WorldEntityTest, CampaignOverridesTest.",
+                    "gaps": "Pas d'image pour le monde.",
+                    "result": "Conforme.",
+                    "score": 92,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.4 Types de fiche",
+                    "expected": "Six types standards, types personnels à créer, renommer, supprimer ; doublons refusés.",
+                    "tests": "Écran : création « R1 Vaisseau », doublon en minuscules et « Personnage » refusés, renommage, suppression ; suppression de « Faction » utilisée refusée avec message clair. Auto : RelationsTagsTypesTest, RecetteV1Test::test_entity_type_counts_only_include_my_own_sheets.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.4 Champs du jeu : types et zones",
+                    "expected": "Dix types (dont lien, fichier, référence, compteur), zone publique ou MJ, ordre réglable.",
+                    "tests": "Écran : 12 champs créés (tous les types, deux en zone MJ), valeurs invalides refusées avec messages clairs (nombre, compteur, URL), ordre ↑↓. Auto : FieldDefinitionsTest (5), BacklogV1Test::test_fields_can_hold_a_web_link_a_document_or_a_reference_to_a_sheet.",
+                    "gaps": "Les flèches ↑↓ échangent avec le voisin de la liste globale : sans effet visible quand ce voisin est dans un autre groupe. Le type « texte long » reste une zone de texte simple.",
+                    "result": "Saisie et affichage conformes ; réordonnancement trompeur. Corrigé en 0.26.0.",
+                    "score": 95,
+                    "score_before": 85
+                },
+                {
+                    "feature": "§6.4 Champ « Référence à une fiche »",
+                    "expected": "La référence reste liée même si la fiche est renommée.",
+                    "tests": "Écran : Mentor = Guilde, renommage de la Guilde (affichage à jour), puis réouverture de « Modifier » sur Garn et Enregistrer sans rien changer.",
+                    "gaps": "Le formulaire repropose l'ancien nom ; à l'enregistrement la référence perd son identifiant et pointe vers un nom qui n'existe plus.",
+                    "result": "Le lien survit au renommage mais casse à la première modification de la fiche. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 40
+                },
+                {
+                    "feature": "§6.4 Champs modifiables par le joueur",
+                    "expected": "Le joueur ne modifie que les champs publics déclarés modifiables ; jamais la zone MJ.",
+                    "tests": "Écran : case masquée pour un champ MJ ; côté joueur, PV et Mana ajustables. Console : $wire.adjust sur Force et sur « Ruse MJ », save() avec Force=99 : base inchangée. Auto : RecetteV1Test::test_a_resting_character…",
+                    "gaps": "",
+                    "result": "Conforme, contrôlé côté serveur.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.4 Fiche en deux zones et éditeur Tiptap",
+                    "expected": "Zone publique et zone MJ, éditeur riche (gras, listes…), image, pièces jointes rangées par zone.",
+                    "tests": "Écran : création de fiches monde et campagne, gras au clavier, portrait PNG, PDF joint en zone MJ. Côté joueur : aucun mot-témoin MJ (R1ESPION, R1TEMOINGM…) dans le HTML. Auto : EntityPagesTest (12), EntityFilesTest (7).",
+                    "gaps": "Notes MJ des règles en zone de texte simple, sans éditeur ni [[ ]].",
+                    "result": "Conforme pour les fiches.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.4 Liens [[ ]]",
+                    "expected": "« [[ » propose les fiches ; le lien suit le renommage.",
+                    "tests": "Écran : « [[Aub » propose la fiche, Entrée insère une pastille ; renommage de l'auberge : lien à jour côté MJ. Auto : EntityLinksTest (7).",
+                    "gaps": "Côté joueur qui ne connaît pas la fiche liée, le texte affiche l'ancien nom enregistré.",
+                    "result": "Conforme côté MJ.",
+                    "score": 92,
+                    "score_before": null
+                },
+                {
+                    "feature": "Évol. 4.4 « Cité dans »",
+                    "expected": "Liste les fiches, règles, notes, chronologie, secrets et champs qui mentionnent la fiche.",
+                    "tests": "Écran : Garn cité par la règle et par le champ « Allié » de Bran ; la Guilde citée par la chronologie et un secret ; scènes dans le bloc « Scènes ». Auto : BacklinksTest, BacklogV1Test::test_cited_in_lists_the_timeline_the_secrets_and_the_fields….",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Évol. Tags (page /tags, couleurs, fusion)",
+                    "expected": "Renommer, colorer, fusionner, supprimer ; filtrer les fiches par tag.",
+                    "tests": "Écran : tags saisis sans doublon de casse, renommage, couleur verte, renommage vers un nom existant refusé avec renvoi vers « Fusionner », fusion r1-fleuve → r1-acte1, filtre par tag sur la campagne. Auto : TagManagementTest (5).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.4 Relations et inverses",
+                    "expected": "Relation avec inverse proposé, zone publique ou MJ, propre à la campagne ou au monde.",
+                    "tests": "Écran : « travaille pour » → inverse « emploie » rempli seul ; relation MJ « frère de / sœur de » ; affichage sur les deux fiches. Auto : RelationsTagsTypesTest, RecetteV1Test::test_a_relation_without_reverse_label….",
+                    "gaps": "La zone choisie (MJ) reste sélectionnée pour la relation suivante.",
+                    "result": "Conforme, petit risque de saisie. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 92
+                },
+                {
+                    "feature": "Évol. 6.1 Graphe",
+                    "expected": "Graphe des relations, filtre par type, « Voir comme » un personnage.",
+                    "tests": "Écran : graphe de la démo (23 relations) et de R1 Campagne A avec « Voir comme » ; joueur : aucun mot-témoin MJ. Auto : GraphTest (4).",
+                    "gaps": "Libellés qui se chevauchent sur les zones denses.",
+                    "result": "Conforme, lisibilité perfectible.",
+                    "score": 90,
+                    "score_before": null
+                },
+                {
+                    "feature": "Évol. 6.2 Chronologie",
+                    "expected": "Événements histoire/prévu/joué, dates libres, zone MJ, liens [[ ]].",
+                    "tests": "Écran : événement « Jour 3 » avec lien vers la Guilde, filtres ; joueur : page sans mot-témoin MJ. Auto : TimelineTest (3).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.7 Secrets : nature, état, historique",
+                    "expected": "Nature rumeur/indice/vérité, état caché/partiel/révélé, révélation par personnage ou à la table, historique annulable.",
+                    "tests": "Écran : secret « Rumeur » lié à une fiche et un document ; révélé à un PJ → « Partiel », puis à la table → « Révélé » ; filtres nature et état exacts ; historique avec « Annuler ». Auto : SecretsTest (3), BacklogV1Test::test_secrets_have_a_kind_and_a_state….",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.8 Règles",
+                    "expected": "Règles du jeu ou de la campagne, zone, statut, procédure avec liens, ouverture à des personnages.",
+                    "tests": "Écran : règle du jeu avec lien [[Garn]] et note MJ, ouverte à un PJ ; joueur la voit sans la note MJ. Auto : RulesAndDocumentsTest (10).",
+                    "gaps": "Notes MJ sans éditeur riche.",
+                    "result": "Conforme.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.9 Documents",
+                    "expected": "Téléversement PDF/images, visibilité, liens aux scènes, « Utilisé par ».",
+                    "tests": "Écran : PDF et PNG téléversés, page document, « Utilisé par ». Accès direct au fichier par un autre MJ : 403. Auto : RulesAndDocumentsTest.",
+                    "gaps": "PDF affiché par le lecteur du navigateur (pas pdf.js). « Utilisé par » n'indique pas le scénario (deux scènes homonymes indiscernables).",
+                    "result": "Conforme sur l'essentiel.",
+                    "score": 88,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.10 Cartes : grille, jetons, règle",
+                    "expected": "Grille réglable, échelle, jetons liés aux fiches masqués par défaut, règle de mesure.",
+                    "tests": "Écran : carte créée depuis un PNG, grille 50 px, échelle 1,5 m, jeton lié à Garn et jeton libre, montrer/masquer ; mesure de 200 px écran = 8,2 m (juste).",
+                    "gaps": "Pendant le tracé, la ligne jaune est décalée et étirée tant que la vue n'a pas été déplacée ou zoomée. Sur téléphone, la barre d'outils déborde de 11 px.",
+                    "result": "Mesure juste, tracé trompeur. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 80
+                },
+                {
+                    "feature": "§6.5 Scénarios et scènes",
+                    "expected": "Scénarios, chapitres, scènes avec fiches (précision), règles, documents, statut ; duplication.",
+                    "tests": "Écran : scène avec deux fiches, précision, règle, PDF, lien [[ ]] ; statut changé depuis la liste ; duplication du scénario. Auto : ScenesTest (5), ScenarioDuplicationTest (2).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.6 Mode Session",
+                    "expected": "Démarrer, scène en cours, fiches utiles, notes rapides (touche N), panneau de fiche sans quitter la séance, terminer.",
+                    "tests": "Écran : séance 1 démarrée, N place le curseur, note enregistrée, clic sur une fiche ouvre un panneau, « Terminer la session ». Téléphone 390 px sans débordement. Auto : SessionModeTest (7), RecetteV1Test::test_a_sheet_linked_in_the_session_opens_in_a_side_panel.",
+                    "gaps": "La note rapide n'a pas de suggestion « [[ » (lien seulement si on tape le nom exact).",
+                    "result": "Conforme.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "§7 Moteur de contexte / Parcours 3",
+                    "expected": "La scène en cours affiche ses fiches, secrets, règles et documents.",
+                    "tests": "Écran : fiches de la scène avec précision et statut, secret relié, règle et PDF présents. Auto : SessionModeTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.14 Recherche dans la campagne",
+                    "expected": "Nom, tags, zone MJ, secrets, règles ; sans accents ni casse ; rien de la zone MJ pour un joueur.",
+                    "tests": "Écran MJ : mots de la zone MJ, d'un champ MJ, d'une règle, d'un tag, d'un secret trouvés ; casse ignorée. Joueur : R1ESPION, R1TEMOINGM, R1REGLEMJ introuvables. Auto : GlobalSearchTest (8), RecetteV1Test.",
+                    "gaps": "Pour un mot trouvé dans un champ, l'extrait montre le résumé et pas le champ.",
+                    "result": "Conforme, extrait parfois hors sujet.",
+                    "score": 92,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.14 Recherche partout (/recherche)",
+                    "expected": "Recherche dans toutes les campagnes avec les droits de chacune.",
+                    "tests": "Écran MJ : résultats groupés par campagne avec « Voir les 7 résultats » ; joueur : seulement ce que son personnage connaît. Auto : BacklogV1Test::test_the_home_search_looks_into_every_campaign….",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.4 Import CSV (fiches, champs, règles, scènes)",
+                    "expected": "Aperçu avant import, colonnes à associer, erreurs par ligne, mise à jour par nom.",
+                    "tests": "Écran : 4 fichiers au format décrit par le prompt IA (point-virgule, guillemets, [[ ]]) : aperçu, ligne en erreur expliquée et ignorée, « introuvable » signalé, colonne inconnue créée en champ. Auto : ImportTest (10).",
+                    "gaps": "L'aide de l'import de champs ne cite ni compteur, lien, fichier, référence, ni la colonne « Modifiable par le joueur », pourtant reconnus.",
+                    "result": "Conforme, aide incomplète. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 92
+                },
+                {
+                    "feature": "Nouveau : Préparer l'import avec une IA",
+                    "expected": "Prompt à copier, .md et skill .zip ; connaît la campagne ; réservé au MJ.",
+                    "tests": "Écran : « Copier le prompt » (8 141 caractères, bouton « Copié ! »), .md identique, .zip avec SKILL.md ; prompt sans mot-témoin MJ ; joueur et autre MJ : 403 sur les trois adresses. Fichiers produits selon ses consignes importés sans erreur. Auto : AiImportPromptTest (4).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Export CSV",
+                    "expected": "Export réimportable des fiches, champs, règles, scènes.",
+                    "tests": "Écran/HTTP : 4 exports UTF-8 avec BOM, en-têtes identiques à l'import, liens [[Nom|id]] conservés ; autre MJ : 403. Auto : ExportTest (3).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Archive de campagne et sauvegarde complète",
+                    "expected": "Export .zip, sauvegarde avec la table sans e-mail, import qui recrée la campagne.",
+                    "tests": "Écran : archive et sauvegarde complète téléchargées (aucune adresse e-mail), import recrée fiches, secrets révélés, carte et personnages sans joueur ; un .zip étranger est refusé avec message clair. Auto : CampaignArchiveTest (7).",
+                    "gaps": "L'import recrée un jeu et un monde homonymes (deux « R1 Monde renommé » dans les listes).",
+                    "result": "Conforme.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Modèle de jeu .json",
+                    "expected": "Types, champs, tags et règles, sans contenu de campagne.",
+                    "tests": "HTTP : modèle sans et avec règles ; tags limités à ceux du jeu. Auto : CampaignArchiveTest.",
+                    "gaps": "Avec les règles, les procédures gardent des liens [[Nom|id]] vers des fiches de la campagne d'origine.",
+                    "result": "Conforme, petite fuite de noms de fiches. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 90
+                },
+                {
+                    "feature": "Duplication (campagne, fiche, scénario)",
+                    "expected": "Copie du contenu préparé ; statuts gardés seulement si la case est cochée.",
+                    "tests": "Écran : depuis Mes campagnes et depuis la campagne, avec et sans « Garder le statut » : « mort » absent puis présent, secrets, chronologie et scènes copiés ; fiche dupliquée « (copie) ». Auto : CampaignDuplicationTest (5), EntityDuplicationTest (3), BacklogV1Test::test_a_duplicated_campaign_starts_again….",
+                    "gaps": "Copies successives toutes nommées « (copie) », indiscernables.",
+                    "result": "Conforme.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Assistant IA (copier-coller)",
+                    "expected": "Texte à coller avec le contexte, réponse transformée en propositions acceptables une à une.",
+                    "tests": "Écran : prompt avec fiches, PJ et notes ; réponse JSON entourée de texte collée : 6 propositions (les identifiants d'une autre campagne écartés), « Tout accepter » applique statut, relation de campagne et note. Auto : AiAssistantTest (6).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Sécurité, accès directs",
+                    "expected": "Toute page ou action de préparation refusée à un joueur et à un autre MJ.",
+                    "tests": "28 adresses ouvertes par un joueur (fiches, scènes, champs, imports, exports, archives, jeu, monde…) : 403 sauf chronologie et graphe filtrés ; 11 adresses par un autre MJ : 403 ; appels Livewire forcés refusés ; aucun mot-témoin MJ trouvé.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Affichage téléphone (390 px)",
+                    "expected": "Écrans clés utilisables sans défilement horizontal.",
+                    "tests": "16 écrans contrôlés : aucun débordement sauf la carte.",
+                    "gaps": "Carte : barre d'outils 11 px trop large.",
+                    "result": "Quasi conforme. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 92
+                }
+            ]
+        },
+        {
+            "name": "Joueurs, rôles et droits",
+            "items": [
+                {
+                    "feature": "§5 Invitations : lien et rôle",
+                    "expected": "Le propriétaire crée un lien par personne avec un rôle (joueur, co-MJ, spectateur) ; le visiteur se connecte ou crée son compte puis rejoint",
+                    "tests": "7 liens créés à l'écran (joueur ×5, co-MJ, spectateur). Visiteur : lien → « Créer un compte » (e-mail pré-rempli, bandeau d'invitation) → retour sur l'invitation → « Rejoindre ». 4 comptes existants rejoignent. Auto : InvitationTest (5 tests)",
+                    "gaps": "",
+                    "result": "Conforme : chaque compte arrive avec le bon rôle, le co-MJ atterrit sur la campagne, les autres sur Mes campagnes.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§5 Lien à usage unique, annulé, déjà membre",
+                    "expected": "Un lien sert une fois ; annulé il ne marche plus ; un membre qui l'ouvre ne le consomme pas",
+                    "tests": "Lien d'Alice rouvert par un étranger → « déjà été utilisé » ; POST sans jeton → 419. Lien annulé → « n'existe pas ou a été annulé ». Bob (membre) ouvre un autre lien → « Vous faites déjà partie », lien resté utilisable puis utilisé plus tard par Bob retiré. Auto : InvitationTest::test_expired_cancelled_and_unknown_links_do_not_work, test_a_member_keeps_their_role_and_the_link_stays_available",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Inscription par invitation et mot de passe",
+                    "expected": "Mot de passe de 10 caractères avec lettres et chiffres (v0.24.0)",
+                    "tests": "« court1 » refusé avec message en français ; « motdepasse-42 » accepté. Auto : SecurityTest::test_passwords_need_ten_characters_with_letters_and_numbers",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§5 Rôles par campagne et propriétaire",
+                    "expected": "Rôle par campagne ; seul le propriétaire invite, change les rôles, retire ; il reste MJ",
+                    "tests": "Menus de rôle visibles du seul propriétaire. Appels forcés du propriétaire sur lui-même (changeRole, remove) → 403. changeRole avec un rôle inconnu → 500. Auto : RolesTest::test_the_owner_changes_roles_but_stays_game_master, CampaignPolicyTest",
+                    "gaps": "Rôle inconnu → erreur 500 au lieu d'un refus propre (B8).",
+                    "result": "Conforme sur le fond, une erreur 500 sur appel forcé. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 95
+                },
+                {
+                    "feature": "§7 Co-MJ",
+                    "expected": "Prépare et mène (personnages, secrets, séance, journal, Voir comme) sans gérer membres, champs, import, archive",
+                    "tests": "Co-MJ : campagne, personnages, Voir comme, journal, secrets, révélations, session → 200 ; champs, import, archive, modèle, mondes/44, jeux/48 → 403 ; export fiches CSV → 200. Page Membres sans menus ; invite/changeRole/remove/revoke forcés → 403. Auto : RolesTest::test_a_co_gm_prepares_with_the_owner_but_does_not_administer",
+                    "gaps": "Co-MJ rétrogradé avec une page MJ ouverte : il continue de lire la zone MJ (B2). Il ne peut pas ouvrir les pages Monde et Jeu (choix de conception).",
+                    "result": "Conforme tant que le rôle ne change pas ; fuite après rétrogradation. Corrigé en 0.26.0.",
+                    "score": 95,
+                    "score_before": 80
+                },
+                {
+                    "feature": "§7 Spectateur",
+                    "expected": "Ne voit que l'écran de table",
+                    "tests": "83 URL : tout en 403 sauf l'écran de table (200) ; la page de campagne y redirige ; fichiers de l'écran en 404 sans contenu affiché. Recherche globale : aucun résultat de la campagne. Auto : RolesTest::test_a_spectator_only_watches_the_table_screen",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.9 Création, attribution, un actif par joueur",
+                    "expected": "Le MJ crée la fiche ou choisit une fiche existante, l'attribue ; un seul personnage actif par joueur",
+                    "tests": "4 personnages créés (dont un sans joueur). Attribution de « R2 Sans joueur » à Alice : Elara passe au repos ; « Rendre actif » remet l'autre au repos. Auto : PlayerCharacterTest::test_a_player_has_one_active_character_per_campaign",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.9 Prétirés",
+                    "expected": "Les prétirés du monde sont proposés et copiés dans la campagne sans toucher la fiche du monde",
+                    "tests": "Brannoc (fiche du monde) choisi → copie dans la campagne (source_entity_id), fiche du monde intacte. Campagne de démo : les 4 prétirés (type « Prétiré ») n'apparaissent pas dans « Nouveau personnage ». Auto : PlayerCharacterTest::test_a_pregenerated_world_character_is_copied_into_the_campaign",
+                    "gaps": "Les prétirés de la démonstration ne sont pas proposés (B3).",
+                    "result": "Copie conforme, mais les prétirés de la démo sont inutilisables tels quels. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 60
+                },
+                {
+                    "feature": "§6.9 Feuille PDF",
+                    "expected": "Le MJ joint un PDF ; seul le joueur du personnage le consulte",
+                    "tests": "Un .txt est refusé (« doit être un fichier de type : pdf »). PDF envoyé : Alice 200, spectateur et étranger 403. Auto : PlayerCharacterTest::test_the_player_reads_only_the_public_part_of_their_character_and_its_pdf_sheet",
+                    "gaps": "Lecteur natif du navigateur, titre « feuille.pdf » au lieu du nom d'origine (déjà noté en V1). Un personnage sans feuille répond 404 avant le contrôle d'accès (B9).",
+                    "result": "Conforme sur le fond. Corrigé en 0.26.0.",
+                    "score": 95,
+                    "score_before": 90
+                },
+                {
+                    "feature": "Parcours 4 : fiche joueur, zone publique seulement",
+                    "expected": "Aucune donnée de la zone MJ dans le HTML reçu par le joueur",
+                    "tests": "Mots-témoins (ZZMJR2 dans les notes MJ, champs MJ « Serment caché », « Ce qui le ferait trahir ») cherchés sur toutes les pages joueur et réponses Livewire : 0 occurrence. Voir comme : 0. Auto : PlayerCharacterTest, WorldEntityTest",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.9 Compteurs",
+                    "expected": "Compteurs modifiables par le joueur et le MJ",
+                    "tests": "Souffle 5/6 → 4/6 par le bouton −. Appel forcé adjust(866, 5000) → 422. Auto : PlayerCharacterTest::test_counters_and_editable_fields_are_changed_by_the_player_and_kept_in_the_journal",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.9 Champs modifiables par le joueur",
+                    "expected": "Le joueur modifie seulement les champs cochés, sans rien apprendre de plus",
+                    "tests": "Formulaire : Souffle, Serments tenus, Attaches (pas Métier, pas les champs MJ). values.878 (champ MJ) injecté puis save : ignoré. adjust sur un champ MJ ou non modifiable → 403. Champ « référence à une fiche » ajouté : « [[dame ysane korr]] » est reconnu et réécrit « Dame Ysane Korr » alors que le personnage ne la connaît pas",
+                    "gaps": "Le champ référence sert d'oracle sur les noms de fiches de la campagne (B6).",
+                    "result": "Conforme pour les droits d'écriture, petite fuite d'existence. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 85
+                },
+                {
+                    "feature": "Personnage au repos et verrouillage",
+                    "expected": "Au repos ou verrouillé : lecture seule pour le joueur",
+                    "tests": "Elara au repos : plus de ±, ni « + Noter », ni formulaire de note ; adjust forcé → 403. Auto : PlayerAdditionsTest::test_the_player_erases_only_what_they_added_and_not_on_a_locked_sheet, ExchangeTest",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Nouveau personnage : reprise de l'ancien (v0.18.0)",
+                    "expected": "Le MJ coche ce qui passe : connaissances copiées, objets déplacés",
+                    "tests": "Attribution d'un 2e personnage à Alice : formulaire « Ce qui passe à… » proposé, Dague décochée : 6 éléments transmis, la lampe a changé de main, la Dague reste. Auto : BacklogV1Test",
+                    "gaps": "Le journal MJ inscrit la reprise comme « a révélé / a donné » (B12). Sur la nouvelle fiche, les notes de l'ancien personnage affichent « Modifier / Supprimer » qui échouent en 404 (B7). Un joueur retiré puis réinvité ne peut plus reprendre de son ancien personnage (lien perdu).",
+                    "result": "Conforme, avec deux défauts mineurs. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 85
+                },
+                {
+                    "feature": "Parcours 5 : révélation à un seul personnage",
+                    "expected": "Visible chez ce personnage et au journal, nulle part ailleurs",
+                    "tests": "Secret « La meneuse… » révélé à Elara : fenêtre « reçu », fiche, recherche ; Bob et Carl ne le voient pas. Auto : GrantTest::test_an_information_revealed_to_one_character_reaches_only_that_player_and_the_journal, SecretsTest",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Révéler une fiche, une règle, un document",
+                    "expected": "Le joueur voit la zone publique reçue, rien d'autre",
+                    "tests": "Fiche 822 → 200 sans zone MJ ; fiche non révélée 825 → 404 ; fiche du personnage de Bob → 403. Règle ouverte : note MJ « ZZNOTEMJR2 » absente ; règle MJ jamais listée. Document donné 200, non donné 404, fichier direct 403. Auto : GrantTest (5 tests)",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Parcours 7 : « Donner » (individuel et toute la table)",
+                    "expected": "Objet ou information à un personnage ou à toute la table",
+                    "tests": "Lampe ×2 à Elara depuis sa fiche ; « Toute la table » sur un secret (3 personnages actifs) ; information depuis le mode Session en cochant tous les personnages (« Révélé à 3 personnages »). Fenêtres « reçu » chez Alice et Bob. Auto : GrantTest::test_an_object_given_appears_in_possessions_and_can_be_taken_back",
+                    "gaps": "Le « Donner » libre (mode Session) n'a pas de raccourci « toute la table » : il faut cocher chaque personnage.",
+                    "result": "Conforme.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Historique des révélations",
+                    "expected": "Qui a appris quoi, quand ; annulable",
+                    "tests": "Page Révélations : toutes les révélations du test, filtre par personnage, bouton « Annuler ». Auto : SecretsTest",
+                    "gaps": "Annulation non rejouée cette fois.",
+                    "result": "Conforme pour l'affichage.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "§5.4 « Voir comme… »",
+                    "expected": "Le MJ voit comme le personnage, en lecture seule, sans notes « Moi seul »",
+                    "tests": "Bandeau « Lecture seule » ; notes gm et groupe visibles, « Moi seul » absente. adjust, saveNote, revoke, validateGrant, edit, addIntention forcés → 403. Joueur avec ?comme=1 → 403 ; graphe ?comme=22 pour Alice → 404. Auto : ViewAsTest (4 tests)",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.13 Journal",
+                    "expected": "Journal MJ complet ; journal joueur limité à son personnage ; pas de note de joueur",
+                    "tests": "Journal MJ : révélations, échanges, rôles, arrivées, retraits, modifications avant/après. Aucune note de joueur. Journal MJ → 403 pour joueur, spectateur, étranger. Journal du joueur sur sa fiche : seulement son personnage. Auto : JournalTest, PlayerSpaceTest::test_the_player_journal_only_lists_what_concerns_their_character",
+                    "gaps": "Libellé « Le MJ a révélé information » sans article (cosmétique).",
+                    "result": "Conforme.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.10 Notes : moi seul, MJ, certains joueurs, toute la table",
+                    "expected": "Chaque note n'est lue que par ses destinataires ; le MJ ne lit jamais « Moi seul »",
+                    "tests": "4 notes d'Alice. MJ et co-MJ : gm, certains, table ; Bob (partage) : certains, table ; Carl : table seulement ; « Moi seul » absente partout sauf chez Alice, absente de la sauvegarde complète. deleteNote forcé sur une note d'autrui → 404. Auto : PlayerSpaceTest::test_note_sharing_is_enforced_for_each_reader",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Éditeur de notes et liens [[ ]] (v0.17.0)",
+                    "expected": "Mise en forme ; « [[ » ne propose que les fiches connues",
+                    "tests": "Gras enregistré ; « [[ » propose seulement « Le Quai des Lanternes » ; suggestEntities('a') forcé → la seule fiche connue. Lien cliquable dans la note ; note prise en séance marquée « séance du 8 oct. »",
+                    "gaps": "Dans un champ texte long de la fiche (Attaches), « [[Le Quai des Lanternes]] » reste du texte simple alors que la fiche est connue.",
+                    "result": "Conforme dans les notes.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Parcours 6 : intentions « À jouer »",
+                    "expected": "L'intention ou la demande de règle arrive chez le MJ",
+                    "tests": "« R2 Fouiller le quai » et « Tester : Jet de serment » : notification au MJ, présentes dans « À jouer » une fois la session démarrée. Auto : PlayerSpaceTest::test_a_player_asks_to_test_a_rule_and_the_game_master_plays_it",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Ajouts du joueur validés par le MJ",
+                    "expected": "Connaissance notée librement ; objet en attente jusqu'à validation",
+                    "tests": "« R2 Le passeur ment » noté (MJ notifié) ; « R2 Dague » en attente, sans « Donner » ; « 1 objet à valider » côté MJ ; validé, Alice peut la donner. validateGrant forcé par Alice → 403. Auto : PlayerAdditionsTest (5 tests)",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.11 Échanges entre joueurs, validation MJ facultative",
+                    "expected": "Par défaut le MJ valide ; une case autorise d'office",
+                    "tests": "Alice propose 1 lampe sur 2 à Brannoc : en attente, « 1 échange à valider » côté MJ ; answerExchange forcé par Bob → 403 ; le MJ accepte : Alice garde 1, Bob reçoit 1. Case cochée : connaissance transmise aussitôt. Auto : ExchangeApprovalTest (3), ExchangeTest (4)",
+                    "gaps": "Le texte de la proposition et la notification MJ affichent « Lampe tempête R2 ×2 » alors que 1 seule est proposée (B5).",
+                    "result": "Fonctionne, libellé de quantité faux. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 85
+                },
+                {
+                    "feature": "§6.14 Recherche côté joueur",
+                    "expected": "Seulement ce que le personnage connaît",
+                    "tests": "Alice : « ZZMJR2 » → aucun résultat ; « Ysane » → seulement l'information révélée ; recherche globale « tuiles » → idem. Spectateur et étranger : rien. Auto : PlayerSpaceTest::test_a_player_searches_only_what_their_character_knows, GlobalSearchTest",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Messagerie privée et pièces jointes (correctif v0.24.0)",
+                    "expected": "Conversation privée MJ ↔ joueur ; reference() limité à la campagne",
+                    "tests": "Alice ne voit que sa conversation et le groupe (pas PRIVEBOBR2). reference(16) d'une autre campagne → 404 ; reference(18) (conversation de Bob) → null ; open() forcé → 403 ; envoi joueur avec pièce jointe forcée → refusé. Auto : MessagingTest, ChatDockTest",
+                    "gaps": "Le joueur à qui l'on confie un personnage relâché lit toute la conversation privée de l'ancien joueur avec le MJ (B4).",
+                    "result": "Conforme pour les droits, mais la conversation suit le personnage. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 80
+                },
+                {
+                    "feature": "Retrait d'un joueur / passage en spectateur (v0.24.0)",
+                    "expected": "Il ne joue plus son personnage (rendu sans joueur) et ne reçoit plus rien pour lui",
+                    "tests": "Carl retiré, Bob passé spectateur : personnages « Sans joueur », pages en 403, aucune notification ni fenêtre « reçu », recherche vide. Mais avec la fiche restée ouverte, $wire.$refresh() renvoie les fiches, informations (titre et texte) et notes de groupe révélées après le retrait. Auto : SecurityTest::test_a_removed_or_demoted_player_no_longer_plays_their_character, test_only_a_player_of_the_campaign_is_notified_for_their_character",
+                    "gaps": "Fuite par page ouverte (B1). Bob retiré puis réinvité : la page de campagne lui renvoie 403 tant qu'il n'a pas de personnage (B10).",
+                    "result": "Correctif efficace à la navigation, contourné par une page Livewire restée ouverte. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 55
+                },
+                {
+                    "feature": "Attaque : URL interdites",
+                    "expected": "403/404 sans mot-témoin pour joueur, spectateur, étranger",
+                    "tests": "83 URL × 3 comptes (fiches, scènes, règles, documents, fichiers, images, exports CSV, archive, modèle, import IA, admin, autre campagne, mondes, jeux). Aucun mot-témoin MJ. Alice : chronologie et graphe autorisés, sans zone MJ",
+                    "gaps": "Feuille/portrait : 404 avant contrôle d'accès, un étranger apprend si un personnage a une feuille (B9).",
+                    "result": "Conforme, une petite fuite d'existence. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 95
+                },
+                {
+                    "feature": "Attaque : appels Livewire forcés",
+                    "expected": "Toute action interdite refusée côté serveur",
+                    "tests": "Alice : revoke, validateGrant, answerExchange, adjust (MJ / non modifiable), startExchange, removeOwn, cancelExchange, deleteNote → 403/404/422 ; $set('character', 22) et $set('campaign', 53) ignorés ; ReceivedPopup.open d'une notification étrangère → 404 ; suggestEntities sur Messages et Chronologie → []. Pages restées ouvertes après changement de rôle : lecture de nouvelles données MJ ou joueur (B1, B2)",
+                    "gaps": "Autorisation vérifiée seulement au montage des composants (B1, B2).",
+                    "result": "Actions refusées ; lectures possibles sur page ouverte après perte de droits. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 70
+                },
+                {
+                    "feature": "Correctifs d'audit v0.24.0",
+                    "expected": "suggestEntities masqué aux joueurs, reference() bornée, personnages relâchés, formulaire de fiche revérifié, notifications coupées",
+                    "tests": "suggestEntities joueur → [] ; reference autre campagne → 404 ; personnages relâchés au retrait et au passage spectateur/co-MJ ; co-MJ rétrogradé : save du formulaire ouvert → 403 ; Notify et fenêtre « reçu » muets pour l'ancien joueur ; Mes données sans donnée d'autrui",
+                    "gaps": "Les correctifs tiennent, mais le même trou existe sur les autres composants (fiche personnage, fiche, secrets, journal) : seul le formulaire de fiche revérifie (B1, B2).",
+                    "result": "Correctifs effectifs, trou voisin non couvert. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 80
+                },
+                {
+                    "feature": "Espace joueur et MJ sur téléphone (390 px)",
+                    "expected": "Lisible, sans défilement horizontal",
+                    "tests": "Fiche joueur, Messages, Personnages et Membres côté MJ : largeur 390 = 390, boutons ± utilisables",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Sauvegarde complète sans « Moi seul » ni e-mail (v0.22.0)",
+                    "expected": "La table est sauvegardée sans note privée ni adresse",
+                    "tests": "Archive complète téléchargée : notes gm/groupe et messages présents, MOISEULR2, CARLMOISEULR2 et « @test.local » absents. Auto : CampaignArchiveTest",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                }
+            ]
+        },
+        {
+            "name": "Lien vivant et table",
+            "items": [
+                {
+                    "feature": "§6.12 Message privé MJ → joueur avec fiche jointe (parcours 8)",
+                    "expected": "Le joueur reçoit le message en direct et ouvre la zone publique du PNJ, jamais la zone MJ",
+                    "tests": "Écran : MJ écrit à Teska en joignant Dame Ysane Korr (sélecteur de fiche). Chez Alice, déjà sur sa fiche : fenêtre « reçu » en 1,4 s, cloche « 2 non lues ». Lien 📎 → zone publique, aucun mot-témoin MJ (« retirer les tuiles ») dans le HTML. Bruno sur la même URL → 403. Auto : MessagingTest (7)",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.12 Message au groupe et « Seulement à »",
+                    "expected": "Groupe visible de tous ; sélection = messages privés étanches",
+                    "tests": "Message de groupe avec règle jointe vu par Alice et Bruno ; message « Seulement à » Oriel avec document : vu par Bruno seul, flash « Message privé envoyé à 1 personnage ». Auto : MessagingTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.12 Pièces jointes fiche, document, règle",
+                    "expected": "Fiche, document ou règle publique révélés aux destinataires ; règle MJ jamais proposée",
+                    "tests": "Liste « Règle » : 5 règles publiques, la règle MJ « R3 Règle MJ secrète » absente. Document ouvert via /personnages/20/documents/230 par Bruno ; règle → ancre de la fiche. Auto : MessagingTest, GrantTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Droits de la messagerie (appels Livewire)",
+                    "expected": "Joueur sans pièce jointe, sans destinataire forcé ; extérieur refusé",
+                    "tests": "Console : Alice force refKind=entity → rien n'est envoyé ; selected=[20] → rejeté ; open('20') → 403. Compte extérieur sur /messages → 403. Auto : MessagingTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Dock de discussion",
+                    "expected": "Fenêtre flottante, onglets groupe / privé, temps réel, absente de Messages et de la télécommande",
+                    "tests": "Alice écrit au groupe (Entrée) : reçu en direct dans le dock du MJ, badge « 1 non lus » chez Bruno ; réponse privée du MJ vue dans l'onglet « MJ » d'Alice, invisible pour Bruno. Absent de la télécommande. Téléphone : dock de 374×448 px, lisible. Auto : ChatDockTest (4)",
+                    "gaps": "Sur téléphone, le dock ouvert couvre la moitié basse de la fiche (acceptable, se réduit d'un toucher)",
+                    "result": "Conforme",
+                    "score": 97,
+                    "score_before": null
+                },
+                {
+                    "feature": "Dock : droits",
+                    "expected": "Un joueur ne lit ni n'écrit dans la conversation d'un autre personnage",
+                    "tests": "Console : Bruno force tab='19' → « Aucun message », pas de fuite ; send() sur cet onglet → 404",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.13 Cloche et compteurs en direct",
+                    "expected": "Compteur mis à jour sans rechargement, séparé par compte",
+                    "tests": "Cloche d'Alice 0 → « 2 non lues » sans rechargement, celle de Bruno inchangée ; badge Messages sur l'en-tête et le bouton de la fiche. Auto : NotificationTest (5), RealtimeTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§6.13 Page Notifications",
+                    "expected": "Liste, non lues seulement, tout marquer lu, notification d'autrui refusée",
+                    "tests": "9 notifications listées ; « Non lues seulement » et « Tout marquer comme lu » fonctionnent ; Alice ouvre /notifications/{id de Bruno} → 404. Auto : NotificationTest",
+                    "gaps": "Filtre vérifié seulement avec 0 non lue restante",
+                    "result": "Conforme",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Temps réel Reverb, deux navigateurs",
+                    "expected": "Révélations, messages, écran de table reçus en direct ; canaux privés",
+                    "tests": "MJ + Alice + Bruno ouverts ensemble (Echo « connected ») : révélation reçue en 1,4 s, messages du dock, annonce et carte sur l'écran partagé, ambiance changée en direct chez le spectateur. Auto : RealtimeTest (4)",
+                    "gaps": "Repli sans Reverb non retesté (serveur Reverb partagé avec les autres recetteurs)",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Fenêtre « reçu » côté joueur",
+                    "expected": "Fenêtre chez le bon joueur, file d'attente, « C'est noté », « Ouvrir » / « Voir sur ma fiche »",
+                    "tests": "Information + objet donnés en séance : fenêtre chez Alice seule, « 2 en attente », « Suivant », Échap. « Voir sur ma fiche » et « Ouvrir » cliqués depuis la fiche et depuis Messages. Auto : ReceivedPopupTest (2), RecetteV1Test",
+                    "gaps": "« Voir sur ma fiche » / « Ouvrir » ne font rien : erreur JavaScript, la fenêtre reste ouverte (bug)",
+                    "result": "Réception conforme, bouton secondaire cassé. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 60
+                },
+                {
+                    "feature": "PWA : manifeste, icônes, nom",
+                    "expected": "Manifeste LoreMundi, icônes 192/512/maskable, apple-touch-icon, badge",
+                    "tests": "manifest.webmanifest (application/manifest+json, name/short_name LoreMundi, standalone), icônes 192, 512, apple-touch-icon, badge-96 → 200. Auto : PwaTest::the_app_is_installable",
+                    "gaps": "Noms internes encore « codexflow » (caches, en-tête X-Codexflow-Offline, fenêtre cible, tag push), invisibles pour l'utilisateur",
+                    "result": "Conforme",
+                    "score": 97,
+                    "score_before": null
+                },
+                {
+                    "feature": "PWA : installation",
+                    "expected": "Application installable, aide claire",
+                    "tests": "Service worker activé et contrôlant la page ; bloc « Sur cet appareil » avec la marche à suivre (menu du navigateur ou Partager › Écran d'accueil sur iPhone)",
+                    "gaps": "L'invite d'installation réelle n'est pas testable en navigateur automatisé",
+                    "result": "Conforme",
+                    "score": 92,
+                    "score_before": null
+                },
+                {
+                    "feature": "Page hors ligne",
+                    "expected": "Page traduite, liste des fiches gardées, bouton Réessayer",
+                    "tests": "Serveur réellement arrêté (instance de test sur :8124) : Messages et feuille PDF → « Vous êtes hors ligne » avec le lien « Teska la Rameuse » ; 390 px lisible",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Fiche du personnage lisible hors ligne",
+                    "expected": "Fiche et fiches connues relues depuis le cache, cache vidé à la déconnexion",
+                    "tests": "Serveur arrêté : fiche de Teska et fiche Dame Ysane Korr affichées depuis le cache ; après déconnexion, 0 page en cache. Auto : PwaTest::only_the_character_sheet_is_kept_for_offline_reading",
+                    "gaps": "Le bandeau « Hors ligne » ne s'affiche que si l'appareil n'a plus de réseau (navigator.onLine) : serveur injoignable = fiche en cache sans avertissement",
+                    "result": "Conforme. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 93
+                },
+                {
+                    "feature": "Notifications push : inscription",
+                    "expected": "Activer / désactiver ; échec propre sans service push",
+                    "tests": "Permission accordée, « Activer » : Chrome automatisé refuse le Push → « L'abonnement n'a pas abouti… ». API : abonnement 204, endpoint invalide 422, suppression 204, appel anonyme 419. Envoi réel impossible ici (pas d'accès aux services push). Auto : PwaTest (5)",
+                    "gaps": "",
+                    "result": "Conforme pour l'inscription",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Notifications push : robustesse de l'envoi",
+                    "expected": "Un appareil abonné ne casse jamais l'action en cours",
+                    "tests": "Alice abonnée (endpoint simulé), le MJ lui écrit : erreur 500, message perdu (0 en base). Sans abonnement : envoi normal. Auto : PwaTest::an_unreachable_push_service_never_breaks_the_action (ne couvre pas ce cas)",
+                    "gaps": "Sans extension PHP GMP ou BCMath, la création du canal push lève une erreur hors du « rescue » : tout message, révélation ou don vers un joueur abonné échoue (bug)",
+                    "result": "Non conforme sur ce serveur. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 30
+                },
+                {
+                    "feature": "§8 Écran de table : affichage",
+                    "expected": "Fiche (zone publique et champs publics), portrait, document, règle, annonce, jamais la zone MJ",
+                    "tests": "27 affichages (toutes les fiches en fiche et portrait, 3 règles avec notes MJ) : aucun extrait de note MJ dans le HTML du spectateur, aucun bouton de commande. Image du plan affichée. Auto : TableScreenTest (8)",
+                    "gaps": "Le PDF passe par une iframe : vide en navigateur sans lecteur PDF (rendu mobile incertain, pdf.js prévu)",
+                    "result": "Conforme",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Ambiances de l'écran",
+                    "expected": "Nuit, Parchemin, Ardoise, Grimoire appliqués en direct",
+                    "tests": "Depuis la télécommande : les 4 ambiances changent fond, texte et police sur la télé et chez le spectateur sans rechargement",
+                    "gaps": "Pas de test automatique dédié",
+                    "result": "Conforme",
+                    "score": 97,
+                    "score_before": null
+                },
+                {
+                    "feature": "Partage de l'écran aux joueurs",
+                    "expected": "403 avant partage, suivi en direct, écran neutre à l'arrêt, lisible sur l'appareil du joueur",
+                    "tests": "Alice 403 puis 200 ; annonce reçue en direct ; à l'arrêt « Le MJ ne partage plus l'écran de table. » et fichier → 403. Téléphone 390 px : annonce et carte lisibles. Auto : TableScreenTest",
+                    "gaps": "Une fiche affichée sur téléphone est illisible : titre coupé en haut et inaccessible, texte plus large que l'écran (497 px pour 390), champs superposés (bug)",
+                    "result": "Droits conformes, fiche cassée sur téléphone. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 70
+                },
+                {
+                    "feature": "Spectateur",
+                    "expected": "Voit l'écran de table seulement, sans jeton masqué",
+                    "tests": "Spectateur : /campagnes/50 renvoie vers l'écran ; Messages, télécommande, fiche, personnage, carte → 403 ; jeton masqué absent du HTML, image → 404. Auto : RolesTest (3), MapsTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "« Afficher à la table »",
+                    "expected": "Depuis fiche, portrait, règle, document, carte ; confirmation pour un contenu MJ",
+                    "tests": "Fiche Ysane, « Portrait seul », document 230, carte : affichés sur la télé, bouton → « ● À la table ». Règle MJ : confirmation « Ce contenu est réservé au MJ… », Annuler n'affiche rien, OK affiche titre, résumé, procédure sans la note MJ. Id d'une autre campagne → refusé. Auto : ShowOnTableTest (2)",
+                    "gaps": "L'indicateur « À la table » reste affiché quand l'écran change depuis la télécommande ou la session (bug mineur)",
+                    "result": "Conforme, indicateur parfois périmé. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 90
+                },
+                {
+                    "feature": "§9.1 Télécommande sur téléphone (390 px, tactile)",
+                    "expected": "Vider, Suivant, Terminer, partage, ambiance, annonce, au doigt",
+                    "tests": "Touchers : « Suivant » parcourt les 6 éléments de la scène (fiche, document, règle), « Élément n sur 6 », dernier → « Terminer ■ » qui vide l'écran ; annonce, partage, ambiance. Pas de défilement horizontal, pas de dock. Joueur → 403. Auto : MapsTest::the_remote_steps_through_the_scene_and_drives_the_shown_map",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Télécommande : pilotage de la carte",
+                    "expected": "Zoom, déplacement, carte entière, jetons montrés ou masqués",
+                    "tests": "« + » puis « → » : viewBox de la télé 72,50 1454×1000 → 218,150 1163×800 → 509,150 ; jeton Teska masqué d'un toucher : absent chez spectateur et télé, image → 404 ; « Entière » recadre. Auto : MapsTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Cartes à la table : cadrage et jetons masqués",
+                    "expected": "Le cadrage de l'éditeur est celui de la table ; jeton masqué jamais transmis",
+                    "tests": "Page carte : « Zoomer » → télé en 160,110 1280×880 ; « Carte entière » → 0,0 1600×1100 ; jeton « Les Noyeux » masqué absent du HTML de la télé, du spectateur et du joueur. Auto : MapsTest::hidden_tokens_never_reach_the_table_screen",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Page carte du MJ sur téléphone",
+                    "expected": "Préparer une carte sans défilement horizontal",
+                    "tests": "390 px : défilement horizontal de 31 px (barre d'outils et formulaire des jetons). Tablette 800 px : 0",
+                    "gaps": "Débordement horizontal sur téléphone (bug mineur)",
+                    "result": "Utilisable, déborde. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 80
+                },
+                {
+                    "feature": "Confort en séance (Mode Session)",
+                    "expected": "Commande de l'écran, révéler et donner, mode focus, touche N",
+                    "tests": "Tablette 800×1280 : scène, fiches utiles, secrets, règles, documents sans débordement ; « Mode focus » ; touche N → champ de note ; bloc Écran de table (partage, Montrer, annonce, cartes, télécommande). Auto : SessionModeTest, TableScreenTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 98,
+                    "score_before": null
+                },
+                {
+                    "feature": "Ergonomie téléphone 390 px (joueur)",
+                    "expected": "Fiche, Messages, Notifications lisibles, sans débordement",
+                    "tests": "0 défilement horizontal sur fiche, Messages, Notifications ; Messages accessible par « Menu »",
+                    "gaps": "En-tête de la fiche du personnage cassé : nom coupé (« Te »), résumé un mot par ligne, boutons Messages / Graphe par-dessus (bug)",
+                    "result": "Partiel. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 70
+                },
+                {
+                    "feature": "Ergonomie tablette 800×1280",
+                    "expected": "Pages MJ et joueur utilisables au doigt",
+                    "tests": "Fiche, Messages, Notifications (joueur) ; Session, Messages, Télécommande, Carte, Notifications, Écran (MJ) : 0 défilement horizontal",
+                    "gaps": "Joueur : le champ de recherche de l'en-tête est réduit à « Rech »",
+                    "result": "Conforme. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 92
+                },
+                {
+                    "feature": "Droits écran de table, télécommande et cartes",
+                    "expected": "Joueur et extérieur refusés côté serveur",
+                    "tests": "Extérieur : écran, image, fichier, télécommande, carte, fiche → 403. Joueur : télécommande, cartes, session → 403 ; écran → 403 hors partage. Auto : TableScreenTest, MapsTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                }
+            ]
+        },
+        {
+            "name": "Transverse : comptes, sécurité, langues, aide, administration",
+            "items": [
+                {
+                    "feature": "Nom LoreMundi et logo (pages)",
+                    "expected": "LoreMundi et son logo partout : pages invité, en-tête, pied de page, erreurs, écran de table, hors ligne",
+                    "tests": "Captures de connexion, inscription, oubli, confidentialité, 404, 403, en-tête et pied de page, écran de table, offline.html ; recherche de « CodexFlow » dans le texte visible. Auto : FinishingTouchesTest",
+                    "gaps": "Aucun « CodexFlow » visible dans les pages. Le logo est un mot-symbole texte (Lore + Mundi). Seuls des identifiants internes gardent « codexflow » (cache du service worker, en-tête X-Codexflow-Offline, cible de fenêtre), sans effet visible",
+                    "result": "Conforme dans les pages",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Icônes de l'application (favicon, PWA, notifications)",
+                    "expected": "Icône LoreMundi dans l'onglet, sur l'écran d'accueil et dans les notifications push",
+                    "tests": "Ouverture de public/favicon.ico, icons/icon-192.png, icon-512.png, apple-touch-icon.png, badge-96.png",
+                    "gaps": "Toutes les icônes affichent encore « CF » (CodexFlow) : onglet du navigateur, application installée, notifications push",
+                    "result": "Ancien logo partout hors des pages. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 20
+                },
+                {
+                    "feature": "Manifest PWA",
+                    "expected": "Nom LoreMundi, description, icônes",
+                    "tests": "Lecture de /manifest.webmanifest. Auto : PwaTest::test_the_app_is_installable",
+                    "gaps": "Nom et description conformes ; les icônes citées sont celles de CodexFlow",
+                    "result": "Conforme hors icônes. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 75
+                },
+                {
+                    "feature": "E-mails (marque)",
+                    "expected": "Courriels signés LoreMundi, en français, à l'image de la marque",
+                    "tests": "Courriel de réinitialisation et courriel « adresse changée » lus dans storage/logs/laravel.log (MAIL_MAILER=log)",
+                    "gaps": "Nom LoreMundi et français corrects. Gabarit Laravel par défaut : pas de logo, pas de devise, bouton noir sans la couleur de la marque",
+                    "result": "Conforme, présentation générique",
+                    "score": 80,
+                    "score_before": null
+                },
+                {
+                    "feature": "Inscription et règle de mot de passe",
+                    "expected": "10 caractères avec lettres et chiffres, messages clairs, arrivée sur Mes campagnes",
+                    "tests": "Essais « court1 », « motdepasselong », « 1234567890 », confirmation différente, puis compte R4 Alice créé. Auto : SecurityTest::test_passwords_need_ten_characters_with_letters_and_numbers, AuthenticationTest",
+                    "gaps": "La règle n'est pas annoncée sous le champ de l'inscription (elle l'est dans « Mon compte ») : on la découvre par l'erreur",
+                    "result": "Règle appliquée, messages en français",
+                    "score": 92,
+                    "score_before": null
+                },
+                {
+                    "feature": "Connexion et déconnexion",
+                    "expected": "Connexion, erreur claire, déconnexion",
+                    "tests": "Connexions répétées de plusieurs comptes, mauvais mot de passe, déconnexion par l'en-tête. Auto : AuthenticationTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Mot de passe oublié",
+                    "expected": "Même réponse pour une adresse connue ou inconnue ; lien valable une fois",
+                    "tests": "Adresse R4 et adresse inconnue : même texte, même page. Lien du courriel suivi, nouveau mot de passe, réutilisation du lien refusée (« Ce lien de réinitialisation est invalide. »)",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Limitation des essais",
+                    "expected": "Connexion, inscription, oubli et réinitialisation limités",
+                    "tests": "6 connexions fausses par curl : 429 dès le 4e essai (les connexions réussies comptent aussi). Après 5 envois inscription + oubli, la réinitialisation a répondu 429. Auto : SecurityTest::test_account_forms_are_throttled_and_pages_send_security_headers",
+                    "gaps": "Un seul compteur par adresse IP pour inscription, oubli et réinitialisation (5 par minute) : derrière une même box (club, association), une personne peut bloquer les autres ; un oubli suivi d'une réinitialisation peut tomber sur 429. La page 429 ne dit pas combien de temps attendre",
+                    "result": "Limitation effective, un peu large",
+                    "score": 85,
+                    "score_before": null
+                },
+                {
+                    "feature": "Double authentification : mise en place",
+                    "expected": "Mot de passe redemandé, QR code et clé, code TOTP, codes de secours montrés une fois",
+                    "tests": "Mauvais mot de passe refusé ; mauvais code refusé avec message clair ; code calculé par Google2FA accepté ; 8 codes de secours affichés puis masqués au rechargement ; clé absente du HTML après activation",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Double authentification : connexion avec défi",
+                    "expected": "Code de l'application ou code de secours ; codes à usage unique",
+                    "tests": "Accès à /campagnes avant le défi : renvoi vers la connexion. Bon code accepté. Mauvais code : message en anglais. « Utiliser un code de secours » : rien ne se passe. En forçant le champ dans le navigateur, le code de secours marche une fois et est refusé la seconde. Auto : SecurityTest::test_two_factor_authentication_protects_the_login (requêtes HTTP, ne voit pas la page)",
+                    "gaps": "Le lien « Utiliser un code de secours » ne fait rien : Alpine n'est pas chargé sur les pages invité, et le champ reste masqué par x-cloak. Les messages d'erreur du défi sont en anglais dans les 8 langues. Un code déjà utilisé pour l'activation est refusé dans les 30 s qui suivent (anti-rejeu), sans explication",
+                    "result": "Défi avec code conforme, codes de secours inutilisables à l'écran. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 45
+                },
+                {
+                    "feature": "Double authentification : nouveaux codes et désactivation",
+                    "expected": "Mot de passe redemandé ; connexion sans code ensuite",
+                    "tests": "8 nouveaux codes générés ; désactivation sans mot de passe refusée puis acceptée ; connexion suivante sans défi",
+                    "gaps": "Aucun recours si le téléphone est perdu et le lien de secours ne marche pas : l'administrateur ne peut pas retirer la double authentification d'un compte",
+                    "result": "Conforme. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 90
+                },
+                {
+                    "feature": "Mon compte : nom, e-mail, mot de passe",
+                    "expected": "Mot de passe actuel exigé ; ancienne adresse prévenue ; autres appareils déconnectés",
+                    "tests": "Changement d'adresse sans mot de passe refusé, puis accepté : courriel « Votre adresse e-mail LoreMundi a changé » à l'ancienne adresse. Changement de mot de passe : message « Vos autres appareils sont déconnectés », session courante gardée, autre navigateur renvoyé à la connexion. Après une réinitialisation par lien : les deux autres sessions (dont une « se souvenir de moi ») déconnectées. Auto : SecurityTest",
+                    "gaps": "La nouvelle adresse n'est pas vérifiée : une faute de frappe prive du « mot de passe oublié ». Le champ « Mot de passe actuel » sert aux deux formulaires mais est placé dans le premier",
+                    "result": "Conforme",
+                    "score": 92,
+                    "score_before": null
+                },
+                {
+                    "feature": "En-têtes de sécurité",
+                    "expected": "Anti-cadre, nosniff, provenance réduite, permissions, HTTPS imposé en production",
+                    "tests": "curl -I /login : X-Frame-Options SAMEORIGIN, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, CSP frame-ancestors/object-src/base-uri ; cookies httponly samesite=lax. HSTS seulement en production (code lu)",
+                    "gaps": "CSP sans script-src (pas de protection contre l'injection de script). X-Powered-By: PHP/8.3.6 exposé (réglage du serveur, à couper en production)",
+                    "result": "Conforme au minimum attendu",
+                    "score": 85,
+                    "score_before": null
+                },
+                {
+                    "feature": "Mes données (export JSON)",
+                    "expected": "JSON téléchargé, complet pour la personne, sans secret ni clé",
+                    "tests": "Téléchargement loremundi-mes-donnees.json après enregistrement d'une clé d'IA et d'un signalement : compte, préférences, connexions, campagnes, personnages, notes, messages, signalements. Ni clé, ni hash, ni secret 2FA. Auto : SecurityTest::test_a_user_downloads_their_data_without_secrets",
+                    "gaps": "Campagnes et mondes réduits à leur nom (le contenu passe par la sauvegarde de campagne, annoncé) ; messages reçus, notifications et appareils push absents",
+                    "result": "Conforme, périmètre restreint",
+                    "score": 85,
+                    "score_before": null
+                },
+                {
+                    "feature": "Suppression du compte : garde-fous",
+                    "expected": "Refus si seul administrateur ou abonnement actif ; mot de passe et case exigés",
+                    "tests": "R4 Carol (abonnement « active ») ; R4 Bob sans rien, mauvais mot de passe, sans case. Seul administrateur testé par l'action dans une transaction annulée. Auto : SecurityTest::test_the_only_administrator_or_a_paying_subscriber_cannot_delete_their_account",
+                    "gaps": "Les refus sont bien posés, mais invisibles : après l'envoi, le bloc repliable « Supprimer mon compte » se referme et masque le message d'erreur. Le bouton semble ne rien faire",
+                    "result": "Garde-fous effectifs, messages cachés. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 60
+                },
+                {
+                    "feature": "Suppression du compte : effets",
+                    "expected": "Campagnes, mondes, jeux et fichiers effacés ; personnages joués chez les autres conservés sans joueur",
+                    "tests": "R4 Bob propriétaire d'une campagne de démo et joueur chez R4 Alice : campagne, monde, jeu, fiches et fichiers disque supprimés ; connexions supprimées ; personnage gardé sans joueur, adhésion retirée ; nouvelle connexion refusée ; message « Votre compte et vos données ont été supprimés ». Auto : SecurityTest::test_a_user_deletes_their_account_and_their_campaigns, test_a_deleted_player_leaves_their_character_without_a_player",
+                    "gaps": "Les messages envoyés par le joueur sont effacés (cascade SQL) : le MJ garde ses propres réponses sans les questions. À annoncer dans le texte, ou garder les messages sans auteur",
+                    "result": "Conforme",
+                    "score": 90,
+                    "score_before": null
+                },
+                {
+                    "feature": "Confidentialité et mentions légales",
+                    "expected": "Page publique : éditeur, données, finalités, droits, hébergeur, contact",
+                    "tests": "Page ouverte connecté et non connecté, en 390 px. Auto : SecurityTest::test_privacy_page_is_public_and_old_logins_are_pruned",
+                    "gaps": "Sans variables LEGAL_* renseignées, la page affiche « nom commercial de — » et omet SIRET, adresse, contact et hébergeur. « Écrivez-nous » sans adresse. À remplir avant l'ouverture",
+                    "result": "Contenu clair, identité de l'éditeur à compléter",
+                    "score": 75,
+                    "score_before": null
+                },
+                {
+                    "feature": "Préférences d'affichage",
+                    "expected": "Thème sombre, accent, taille du texte, sur tous les appareils",
+                    "tests": "Sombre + Violet + Très grande enregistrés, retrouvés dans un autre navigateur (data-theme dark, 20 px). Auto : FinishingTouchesTest::test_display_preferences_are_saved_and_applied",
+                    "gaps": "Aucun aperçu avant « Enregistrer », et un choix non enregistré est perdu sans avertissement",
+                    "result": "Conforme",
+                    "score": 92,
+                    "score_before": null
+                },
+                {
+                    "feature": "Thème sombre et contrastes",
+                    "expected": "Pages lisibles en sombre, contrastes suffisants",
+                    "tests": "Calcul des contrastes de chaque texte visible (mes campagnes, préférences, campagne, aide, quoi de neuf, notifications) en clair et en sombre ; console d'administration en sombre",
+                    "gaps": "Aucun texte sous 4,5:1 en sombre. En clair, seul « Mundi » du logo est à 4,15:1 (logo, toléré). La page hors ligne n'a pas de thème sombre",
+                    "result": "Conforme",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Langues (8)",
+                    "expected": "Changer de langue ; aucun texte d'interface non traduit",
+                    "tests": "Les 7 autres langues choisies dans Préférences ; comparaison des textes de 10 pages avec le français (seules les données de la démo restent en français, normal) ; liens de langue des pages invité, Accept-Language. Scan des 1 759 textes du code : tous présents dans en.json. Auto : LanguageTest (dont test_every_language_has_every_text)",
+                    "gaps": "Textes de Fortify non traduits, en anglais pour toutes les langues : « The provided two factor authentication code was invalid. », « The provided two factor recovery code was invalid. », « The provided password was incorrect. » (console d'administration). « This action is unauthorized. » absent des 7 autres langues. Le test automatique ne voit pas les textes des paquets",
+                    "result": "Interface traduite, 4 messages de sécurité en anglais. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 85
+                },
+                {
+                    "feature": "Aide / FAQ",
+                    "expected": "Réponses aux questions courantes, accessibles",
+                    "tests": "Page /aide connecté ; non connecté. Auto : HelpAndBugReportTest",
+                    "gaps": "Toujours inaccessible sans compte (renvoi à la connexion), déjà relevé en V1. Rien sur le compte : double authentification, téléphone perdu, mot de passe, Mes données, suppression, formules et essai",
+                    "result": "Bonne FAQ de jeu, volet compte absent",
+                    "score": 75,
+                    "score_before": null
+                },
+                {
+                    "feature": "Quoi de neuf et changelog",
+                    "expected": "Fenêtre une fois après mise à jour ; page complète",
+                    "tests": "last_seen_version mis à 0.23.0 : fenêtre à la connexion avec 0.24.0 et 0.25.0, focus sur « C'est noté », Échap ferme, ne revient pas. Page /quoi-de-neuf de 0.25.0 à 0.1.0. Auto : FinishingTouchesTest::test_whats_new_shows_once_after_an_update_and_never_to_a_new_account",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Signaler un problème",
+                    "expected": "Message envoyé avec la page, visible dans le backlog",
+                    "tests": "Signalement R4 envoyé : confirmation, arrivée dans Administration > Backlog (Nouveau). Le lien du pied de page joint la page (?page=). Auto : HelpAndBugReportTest",
+                    "gaps": "Ouvert depuis l'aide (bouton) ou par l'URL directe, la page concernée n'est pas jointe (url vide)",
+                    "result": "Conforme",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Console d'administration : accès",
+                    "expected": "Réservée aux administrateurs, mot de passe redemandé",
+                    "tests": "R4 Alice : 403 sur les 5 onglets. Administrateur : passage par /user/confirm-password, mauvais mot de passe refusé, puis accès. Auto : AdminConsoleTest::test_only_the_administrator_opens_the_console",
+                    "gaps": "Message d'erreur du mot de passe en anglais (« The provided password was incorrect. »)",
+                    "result": "Conforme. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 90
+                },
+                {
+                    "feature": "Console : comptes",
+                    "expected": "Indicateurs, formule, stockage, IA, campagnes, connexions ; gérer formule et administrateurs ; lien de réinitialisation",
+                    "tests": "Liste et compteurs lus ; fiche « Gérer » : formule, dates, quota, case administrateur (désactivée pour soi), lien de réinitialisation. Auto : AdminConsoleTest",
+                    "gaps": "Le stockage affiché est mis en cache 10 minutes (R4 Alice à 0 o juste après la démo). Pas d'action pour retirer la double authentification d'un compte bloqué",
+                    "result": "Conforme. Corrigé en 0.26.0.",
+                    "score": 95,
+                    "score_before": 90
+                },
+                {
+                    "feature": "Console : formules, backlog, évolutions, recettes",
+                    "expected": "Réglage des formules et de l'essai ; suivi du backlog, des évolutions et des cahiers de recette",
+                    "tests": "Lecture des 4 onglets (sans modifier les réglages partagés) : formules et essai de 6 semaines, backlog avec filtres et le signalement R4, évolution « Créer le compte Stripe », cahier V1. Auto : AdminConsoleTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Formules et essai",
+                    "expected": "Gratuit par défaut ; essai à la 1re campagne MJ ; formule dans Préférences",
+                    "tests": "R4 Alice : « Gratuit », 0/1 campagne et texte d'essai ; après la démo : « Essai jusqu'au 19/11/2026 » (6 semaines). Auto : BillingTest, AdminConsoleTest",
+                    "gaps": "Paiement Stripe non configuré ici : boutons « Passer Premium » non testables",
+                    "result": "Conforme",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "Clé d'API IA personnelle",
+                    "expected": "Clé chiffrée, jamais renvoyée au navigateur ni exportée",
+                    "tests": "Clé témoin enregistrée : absente du HTML, des réponses Livewire et de l'état du composant, champ vide après rechargement ; absente de Mes données (seulement ai_api_key_saved: true). Cast « encrypted » et attribut Hidden vérifiés. Auto : AiKeyTest",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "Accessibilité de base",
+                    "expected": "Navigation clavier, libellés, focus visible",
+                    "tests": "Contrôle des champs sans libellé et des liens ou boutons sans nom sur 11 pages : aucun ; un seul h1 ; parcours au clavier de l'en-tête : focus visible sur chaque élément",
+                    "gaps": "Pas de lien « Aller au contenu » : il faut traverser tout l'en-tête à chaque page. Sur téléphone, 18 cibles de moins de 24 px dans Préférences",
+                    "result": "Bon niveau de base. Corrigé en 0.26.0.",
+                    "score": 92,
+                    "score_before": 88
+                },
+                {
+                    "feature": "Téléphone 390 px",
+                    "expected": "Pas de défilement horizontal ; écrans clés utilisables",
+                    "tests": "Connexion, inscription, confidentialité, 404, mes campagnes, préférences, aide, quoi de neuf, campagne, signalement, console : 390 px sans débordement en taille normale",
+                    "gaps": "En taille « Grande » ou « Très grande », l'en-tête déborde (438 px et 486 px) : « Se déconnecter » sort de l'écran et la page défile de côté",
+                    "result": "Conforme en taille normale. Corrigé en 0.26.0.",
+                    "score": 100,
+                    "score_before": 80
+                },
+                {
+                    "feature": "Pages d'erreur 403, 404, 429",
+                    "expected": "Pages traduites, au thème, avec retour",
+                    "tests": "404 non connecté (bouton Se connecter + retour), 403 sur une campagne d'un autre compte, 429 : titres LoreMundi, en français, en italien par Accept-Language",
+                    "gaps": "",
+                    "result": "Conforme",
+                    "score": 100,
+                    "score_before": null
+                }
+            ]
+        }
+    ],
+    "bugs": [
+        {
+            "number": 1,
+            "title": "Un champ « Référence à une fiche » se casse quand on réenregistre la fiche après un renommage",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 2,
+            "title": "Règle de mesure : la ligne tracée est décalée et étirée pendant le tracé",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 3,
+            "title": "Flèches ↑/↓ des champs du jeu sans effet visible",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 4,
+            "title": "Message de validation avec une valeur interne : « quand jeu vaut new »",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 5,
+            "title": "Aide de l'import de champs incomplète",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 6,
+            "title": "Carte sur téléphone : barre d'outils trop large",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 7,
+            "title": "Le modèle de jeu avec règles emporte des liens vers des fiches de campagne",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 8,
+            "title": "Côté joueur, un lien vers une fiche inconnue affiche l'ancien nom",
+            "severity": "Mineure",
+            "status": "Non corrigé : Laissé tel quel : le joueur garde le nom sous lequel il a connu la mention ; afficher le nouveau nom révélerait un renommage fait par le MJ (par exemple un nom démasqué)."
+        },
+        {
+            "number": 9,
+            "title": "Joueur retiré ou passé spectateur : sa fiche restée ouverte continue de recevoir ce qu'on révèle à son ancien personnage",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 10,
+            "title": "Co-MJ rétrogradé (joueur ou spectateur) : ses pages MJ restées ouvertes affichent la zone MJ mise à jour",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 11,
+            "title": "Les prétirés de la campagne de démonstration ne sont pas proposés dans « Nouveau personnage »",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 12,
+            "title": "Le nouveau joueur d'un personnage lit la conversation privée de l'ancien joueur avec le MJ",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 13,
+            "title": "Échange proposé : la quantité affichée est celle de la pile, pas celle proposée",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 14,
+            "title": "Un champ « référence à une fiche » modifiable par le joueur révèle quelles fiches existent",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 15,
+            "title": "Notes de l'ancien personnage : « Modifier » et « Supprimer » affichés mais en erreur 404",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 16,
+            "title": "Changement de rôle avec une valeur inconnue : erreur 500",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 17,
+            "title": "Feuille PDF et portrait : 404 avant le contrôle d'accès",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 18,
+            "title": "Joueur sans personnage : la page de campagne répond 403",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 19,
+            "title": "Reprise d'un ancien personnage inscrite au journal comme une révélation du MJ",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 20,
+            "title": "Push : un joueur abonné fait échouer tout message ou révélation qui lui est destiné (erreur 500, message perdu)",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 21,
+            "title": "Fenêtre « reçu » : « Voir sur ma fiche » et « Ouvrir » ne font rien",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 22,
+            "title": "Écran de table partagé : une fiche est illisible sur téléphone",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 23,
+            "title": "Fiche du personnage sur téléphone : en-tête écrasé",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 24,
+            "title": "Page carte du MJ : défilement horizontal sur téléphone",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 25,
+            "title": "Indicateur « À la table » périmé",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 26,
+            "title": "Pas de bandeau « Hors ligne » quand le serveur est injoignable",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 27,
+            "title": "Tablette joueur : champ de recherche réduit à « Rech »",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 28,
+            "title": "Codes de secours inutilisables sur l'écran de double authentification",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 29,
+            "title": "Messages d'erreur de Fortify en anglais",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 30,
+            "title": "Icônes encore aux couleurs de CodexFlow (« CF »)",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 31,
+            "title": "Suppression du compte : le message de refus est caché",
+            "severity": "Majeure",
+            "status": "Corrigé 0.26.0"
+        },
+        {
+            "number": 32,
+            "title": "L'en-tête déborde sur téléphone en grande taille de texte",
+            "severity": "Mineure",
+            "status": "Corrigé 0.26.0"
+        }
+    ],
+    "gaps": [
+        {
+            "title": "Image d'un jeu et d'un monde",
+            "reference": "§6.2, §6.3",
+            "proposal": "Ajouter une image sur les pages Jeu et Monde."
+        },
+        {
+            "title": "Lecteur PDF intégré",
+            "reference": "§6.9 (pdf.js prévu)",
+            "proposal": "Afficher les PDF avec pdf.js pour un rendu identique partout, y compris tablette."
+        },
+        {
+            "title": "Suggestions [[ ]] dans la note rapide de séance",
+            "reference": "§6.6",
+            "proposal": "Brancher la suggestion de fiches sur le champ de note rapide."
+        },
+        {
+            "title": "Éditeur riche partout",
+            "reference": "Évol. 0.17.0",
+            "proposal": "Notes MJ des règles et champs « texte long » avec l'éditeur Tiptap et les liens [[ ]]."
+        },
+        {
+            "title": "Homonymes après copie ou import",
+            "reference": "Duplication, archives",
+            "proposal": "Numéroter « (copie 2) » et signaler qu'un jeu ou monde du même nom existe déjà à l'import."
+        },
+        {
+            "title": "Formulaire de relation",
+            "reference": "§6.4 relations",
+            "proposal": "Remettre la zone sur « publique » après chaque ajout."
+        },
+        {
+            "title": "Extrait de recherche",
+            "reference": "§6.14",
+            "proposal": "Montrer le champ qui contient le mot trouvé (nom du champ et valeur)."
+        },
+        {
+            "title": "Lisibilité du graphe",
+            "reference": "Évol. 6.1",
+            "proposal": "Décaler ou masquer les libellés qui se chevauchent."
+        },
+        {
+            "title": "« Utilisé par » d'un document",
+            "reference": "§6.9",
+            "proposal": "Ajouter le nom du scénario à côté de la scène."
+        },
+        {
+            "title": "Revérifier les droits à chaque requête Livewire",
+            "reference": "Règle « visibilité vérifiée côté serveur, toujours »",
+            "proposal": "Un trait commun avec boot()/hydrate() qui rejoue la policy du mount (view personnage, update campagne) sur tous les composants."
+        },
+        {
+            "title": "Conversation privée d'un personnage confié à un autre joueur",
+            "reference": "§6.12 Messagerie, v0.24.0",
+            "proposal": "Ne montrer au nouveau joueur que les messages postérieurs à l'attribution, ou archiver la conversation au relâchement."
+        },
+        {
+            "title": "Liens [[ ]] dans les champs texte long de la fiche joueur",
+            "reference": "v0.17.0 liens vers les fiches connues",
+            "proposal": "Rendre les champs texte long avec EntityLinks et knownLink, comme les notes."
+        },
+        {
+            "title": "Feuille PDF par pdf.js avec son nom d'origine",
+            "reference": "§9 feuille PDF",
+            "proposal": "Afficher avec pdf.js (déjà prévu dans la stack) ; titre = nom du fichier envoyé."
+        },
+        {
+            "title": "Raccourci « toute la table » dans le Donner libre",
+            "reference": "§6.11 Donner à toute la table",
+            "proposal": "Une case « Tous les personnages actifs » au-dessus des cases à cocher."
+        },
+        {
+            "title": "Reprendre d'un ancien personnage après un retrait",
+            "reference": "v0.18.0 nouveau personnage",
+            "proposal": "Garder l'ancien joueur (previous_user_id) pour proposer la reprise à un joueur réinvité."
+        },
+        {
+            "title": "Page d'attente pour un joueur sans personnage",
+            "reference": "§6.10 Espace joueur",
+            "proposal": "Remplacer le 403 par une page « Votre MJ ne vous a pas encore confié de personnage » avec Messages."
+        },
+        {
+            "title": "Pas de test navigateur des boutons de la fenêtre « reçu »",
+            "reference": "Fenêtre de révélation",
+            "proposal": "Ajouter un test de bout en bout (Dusk ou Playwright) qui clique « Voir sur ma fiche »"
+        },
+        {
+            "title": "Envoi push réel non vérifiable ici, prérequis non documenté",
+            "reference": "Notifications push (PWA)",
+            "proposal": "Exiger GMP ou BCMath dans « Configuration recommandée », créer le canal dans le rescue, envoyer le push en file d'attente"
+        },
+        {
+            "title": "PDF à la table via l'iframe du navigateur",
+            "reference": "§8 Écran de table",
+            "proposal": "Afficher les PDF avec pdf.js (prévu), indispensable pour les joueurs sur téléphone"
+        },
+        {
+            "title": "Bouton « Plein écran » sans effet sur iPhone",
+            "reference": "§8 Écran de table partagé",
+            "proposal": "Masquer le bouton quand requestFullscreen n'existe pas"
+        },
+        {
+            "title": "Repli sans Reverb non retesté",
+            "reference": "Temps réel",
+            "proposal": "À recontrôler sur une instance isolée (seul l'écran de table a un wire:poll de 10 s)"
+        },
+        {
+            "title": "Noms internes « codexflow »",
+            "reference": "Renommage LoreMundi",
+            "proposal": "Renommer caches, en-tête X-Codexflow-Offline, fenêtre codexflow-table et tags push, avec migration du cache"
+        },
+        {
+            "title": "Retirer la double authentification d'un compte",
+            "reference": "Console d'administration, 2FA",
+            "proposal": "Action « Désactiver la double authentification » dans « Gérer », pour la personne qui a perdu son téléphone et ses codes"
+        },
+        {
+            "title": "Règle du mot de passe annoncée à l'inscription",
+            "reference": "Inscription",
+            "proposal": "Afficher « Au moins 10 caractères, avec des lettres et des chiffres » sous le champ, comme dans Mon compte"
+        },
+        {
+            "title": "Limiteur des formulaires de compte trop large",
+            "reference": "Limitation des essais",
+            "proposal": "Un compteur par formulaire et par adresse e-mail + IP, et indiquer le délai sur la page 429"
+        },
+        {
+            "title": "Mentions légales à compléter",
+            "reference": "Confidentialité et mentions légales",
+            "proposal": "Renseigner LEGAL_OWNER, LEGAL_SIRET, LEGAL_ADDRESS, LEGAL_EMAIL, LEGAL_HOST avant l'ouverture ; masquer « — » si vide"
+        },
+        {
+            "title": "Aide publique et volet compte",
+            "reference": "Aide / FAQ",
+            "proposal": "Ouvrir /aide sans compte ; ajouter double authentification, téléphone perdu, Mes données, suppression, formules et essai"
+        },
+        {
+            "title": "Messages du joueur supprimé",
+            "reference": "Suppression du compte",
+            "proposal": "Garder les messages sans auteur (comme le personnage), ou l'annoncer dans le texte de suppression"
+        },
+        {
+            "title": "Vérification de la nouvelle adresse e-mail",
+            "reference": "Mon compte",
+            "proposal": "Envoyer un lien de confirmation à la nouvelle adresse avant de l'adopter"
+        },
+        {
+            "title": "CSP plus stricte",
+            "reference": "En-têtes de sécurité",
+            "proposal": "Ajouter script-src 'self' (avec nonce pour les scripts en ligne) ; couper X-Powered-By en production"
+        },
+        {
+            "title": "Lien d'évitement",
+            "reference": "Accessibilité",
+            "proposal": "Ajouter « Aller au contenu » en tête de page"
+        },
+        {
+            "title": "E-mails à l'image de LoreMundi",
+            "reference": "Marque",
+            "proposal": "Publier les gabarits de mail (vendor:publish --tag=laravel-mail) avec logo, devise et couleur d'accent"
+        }
+    ],
+    "backlog": [
+        {
+            "kind": "bug",
+            "title": "Un champ « Référence à une fiche » se casse quand on réenregistre la fiche après un renommage",
+            "message": "Un champ « Référence à une fiche » se casse quand on réenregistre la fiche après un renommage (app/Enums/FieldType.php:120 (input() renvoie le nom enregistré via format(), ligne 107) puis parseReference() ligne 202 qui ne retrouve plus l'identifiant)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Règle de mesure : la ligne tracée est décalée et étirée pendant le tracé",
+            "message": "Règle de mesure : la ligne tracée est décalée et étirée pendant le tracé (resources/views/livewire/maps/show.blade.php:42 (le SVG de tracé n'a pas de viewBox avant le premier setViewBox de resources/js/map-editor.js))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Flèches ↑/↓ des champs du jeu sans effet visible",
+            "message": "Flèches ↑/↓ des champs du jeu sans effet visible (app/Livewire/Fields/Manage.php:165 (move échange avec le voisin de la liste globale, pas du groupe))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Message de validation avec une valeur interne : « quand jeu vaut new »",
+            "message": "Message de validation avec une valeur interne : « quand jeu vaut new » (app/Livewire/Campaigns/Index.php:111-113 (required_if sans message dédié))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Aide de l'import de champs incomplète",
+            "message": "Aide de l'import de champs incomplète (resources/views/livewire/imports/create.blade.php:52)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Carte sur téléphone : barre d'outils trop large",
+            "message": "Carte sur téléphone : barre d'outils trop large (resources/views/livewire/maps/show.blade.php (barre Déplacer/Mesurer/+/−/Carte entière))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Le modèle de jeu avec règles emporte des liens vers des fiches de campagne",
+            "message": "Le modèle de jeu avec règles emporte des liens vers des fiches de campagne (app/Support/Archive/CampaignExport.php:351 (template, procédure copiée telle quelle))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Côté joueur, un lien vers une fiche inconnue affiche l'ancien nom",
+            "message": "Côté joueur, un lien vers une fiche inconnue affiche l'ancien nom (app/Support/EntityLinks.php (rendu des liens non connus))",
+            "status": "rejected",
+            "priority": "low",
+            "fixed_in": null
+        },
+        {
+            "kind": "bug",
+            "title": "Joueur retiré ou passé spectateur : sa fiche restée ouverte continue de recevoir ce qu'on révèle à son ancien personnage",
+            "message": "Joueur retiré ou passé spectateur : sa fiche restée ouverte continue de recevoir ce qu'on révèle à son ancien personnage (app/Livewire/Characters/Show.php:85 (authorize seulement dans mount) ; CharacterNote::scopeVisibleTo ne vérifie pas l'appartenance à la campagne)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Co-MJ rétrogradé (joueur ou spectateur) : ses pages MJ restées ouvertes affichent la zone MJ mise à jour",
+            "message": "Co-MJ rétrogradé (joueur ou spectateur) : ses pages MJ restées ouvertes affichent la zone MJ mise à jour (app/Livewire/Entities/Show.php, app/Livewire/Secrets/Index.php, app/Livewire/Journal/Index.php (autorisation dans mount seulement) ; même cause que B1, prévoir un boot()/hydrate() qui revérifie la policy)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Les prétirés de la campagne de démonstration ne sont pas proposés dans « Nouveau personnage »",
+            "message": "Les prétirés de la campagne de démonstration ne sont pas proposés dans « Nouveau personnage » (app/Livewire/Characters/Index.php:97 (filtre EntityType::standard('character')) ; app/Actions/Demo/LoadDemoCampaign.php:136)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Le nouveau joueur d'un personnage lit la conversation privée de l'ancien joueur avec le MJ",
+            "message": "Le nouveau joueur d'un personnage lit la conversation privée de l'ancien joueur avec le MJ (app/Models/Message.php scopeVisibleTo (filtre par personnage, pas par joueur))",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Échange proposé : la quantité affichée est celle de la pile, pas celle proposée",
+            "message": "Échange proposé : la quantité affichée est celle de la pile, pas celle proposée (app/Models/ExchangeRequest.php:40 (quantité 1 → retombe sur grant->label() qui inclut ×2))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Un champ « référence à une fiche » modifiable par le joueur révèle quelles fiches existent",
+            "message": "Un champ « référence à une fiche » modifiable par le joueur révèle quelles fiches existent (app/Models/FieldDefinition.php:122 ; app/Livewire/Characters/Show.php save() ne limite que les champs Fichier aux éléments connus)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Notes de l'ancien personnage : « Modifier » et « Supprimer » affichés mais en erreur 404",
+            "message": "Notes de l'ancien personnage : « Modifier » et « Supprimer » affichés mais en erreur 404 (resources/views/livewire/characters/show.blade.php:358 (condition sur l'auteur) vs app/Livewire/Characters/Show.php editNote/deleteNote ($this->character->notes()))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Changement de rôle avec une valeur inconnue : erreur 500",
+            "message": "Changement de rôle avec une valeur inconnue : erreur 500 (app/Livewire/Members/Index.php:91 (CampaignRole::from))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Feuille PDF et portrait : 404 avant le contrôle d'accès",
+            "message": "Feuille PDF et portrait : 404 avant le contrôle d'accès (app/Http/Controllers/FileController.php:64 et :77 (abort_unless avant Gate::authorize))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Joueur sans personnage : la page de campagne répond 403",
+            "message": "Joueur sans personnage : la page de campagne répond 403 (app/Livewire/Campaigns/Show.php:45)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Reprise d'un ancien personnage inscrite au journal comme une révélation du MJ",
+            "message": "Reprise d'un ancien personnage inscrite au journal comme une révélation du MJ (app/Actions/Characters/TransferGrants.php (passe par GiveToCharacters::record))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Push : un joueur abonné fait échouer tout message ou révélation qui lui est destiné (erreur 500, message perdu)",
+            "message": "Push : un joueur abonné fait échouer tout message ou révélation qui lui est destiné (erreur 500, message perdu) (app/Notifications/Channels/PushChannel.php:14 (constructeur) ; vendor/minishlink/web-push/src/Utils.php:70)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Fenêtre « reçu » : « Voir sur ma fiche » et « Ouvrir » ne font rien",
+            "message": "Fenêtre « reçu » : « Voir sur ma fiche » et « Ouvrir » ne font rien (resources/views/livewire/received-popup.blade.php:35)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Écran de table partagé : une fiche est illisible sur téléphone",
+            "message": "Écran de table partagé : une fiche est illisible sur téléphone (resources/views/livewire/table/screen.blade.php:19-42)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Fiche du personnage sur téléphone : en-tête écrasé",
+            "message": "Fiche du personnage sur téléphone : en-tête écrasé (resources/views/livewire/characters/show.blade.php:27-56)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Page carte du MJ : défilement horizontal sur téléphone",
+            "message": "Page carte du MJ : défilement horizontal sur téléphone (resources/views/livewire/maps/show.blade.php:20-30)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Indicateur « À la table » périmé",
+            "message": "Indicateur « À la table » périmé (app/Livewire/Table/ShowButton.php:50 (pas d'écoute Reverb))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Pas de bandeau « Hors ligne » quand le serveur est injoignable",
+            "message": "Pas de bandeau « Hors ligne » quand le serveur est injoignable (resources/views/components/layouts/base.blade.php:54 (navigator.onLine seul))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Tablette joueur : champ de recherche réduit à « Rech »",
+            "message": "Tablette joueur : champ de recherche réduit à « Rech » (en-tête du layout de l'application)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Codes de secours inutilisables sur l'écran de double authentification",
+            "message": "Codes de secours inutilisables sur l'écran de double authentification (resources/views/auth/two-factor-challenge.blade.php:2-23 (x-data/x-show/x-cloak sans Alpine dans le gabarit invité))",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Messages d'erreur de Fortify en anglais",
+            "message": "Messages d'erreur de Fortify en anglais (lang/*.json (clés absentes) ; vendor/laravel/fortify/src/Http/Responses/FailedTwoFactorLoginResponse.php:21-22)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Icônes encore aux couleurs de CodexFlow (« CF »)",
+            "message": "Icônes encore aux couleurs de CodexFlow (« CF ») (public/favicon.ico, public/icons/*)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Suppression du compte : le message de refus est caché",
+            "message": "Suppression du compte : le message de refus est caché (resources/views/livewire/account/security.blade.php:72 (<details> sans état ouvert conservé))",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "bug",
+            "title": "L'en-tête déborde sur téléphone en grande taille de texte",
+            "message": "L'en-tête déborde sur téléphone en grande taille de texte (resources/views/components/layouts/app.blade.php (nav « flex items-center gap-3 whitespace-nowrap »))",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Image d'un jeu et d'un monde",
+            "message": "Ajouter une image sur les pages Jeu et Monde. (référence : §6.2, §6.3)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Lecteur PDF intégré",
+            "message": "Afficher les PDF avec pdf.js pour un rendu identique partout, y compris tablette. (référence : §6.9 (pdf.js prévu))",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Suggestions [[ ]] dans la note rapide de séance",
+            "message": "Brancher la suggestion de fiches sur le champ de note rapide. (référence : §6.6)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Éditeur riche partout",
+            "message": "Notes MJ des règles et champs « texte long » avec l'éditeur Tiptap et les liens [[ ]]. (référence : Évol. 0.17.0)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Homonymes après copie ou import",
+            "message": "Numéroter « (copie 2) » et signaler qu'un jeu ou monde du même nom existe déjà à l'import. (référence : Duplication, archives)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Formulaire de relation",
+            "message": "Remettre la zone sur « publique » après chaque ajout. (référence : §6.4 relations)",
+            "status": "fixed",
+            "priority": "normal",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Extrait de recherche",
+            "message": "Montrer le champ qui contient le mot trouvé (nom du champ et valeur). (référence : §6.14)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Lisibilité du graphe",
+            "message": "Décaler ou masquer les libellés qui se chevauchent. (référence : Évol. 6.1)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "« Utilisé par » d'un document",
+            "message": "Ajouter le nom du scénario à côté de la scène. (référence : §6.9)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Revérifier les droits à chaque requête Livewire",
+            "message": "Un trait commun avec boot()/hydrate() qui rejoue la policy du mount (view personnage, update campagne) sur tous les composants. (référence : Règle « visibilité vérifiée côté serveur, toujours »)",
+            "status": "fixed",
+            "priority": "normal",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Conversation privée d'un personnage confié à un autre joueur",
+            "message": "Ne montrer au nouveau joueur que les messages postérieurs à l'attribution, ou archiver la conversation au relâchement. (référence : §6.12 Messagerie, v0.24.0)",
+            "status": "fixed",
+            "priority": "normal",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Liens [[ ]] dans les champs texte long de la fiche joueur",
+            "message": "Rendre les champs texte long avec EntityLinks et knownLink, comme les notes. (référence : v0.17.0 liens vers les fiches connues)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Feuille PDF par pdf.js avec son nom d'origine",
+            "message": "Afficher avec pdf.js (déjà prévu dans la stack) ; titre = nom du fichier envoyé. (référence : §9 feuille PDF)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Raccourci « toute la table » dans le Donner libre",
+            "message": "Une case « Tous les personnages actifs » au-dessus des cases à cocher. (référence : §6.11 Donner à toute la table)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Reprendre d'un ancien personnage après un retrait",
+            "message": "Garder l'ancien joueur (previous_user_id) pour proposer la reprise à un joueur réinvité. (référence : v0.18.0 nouveau personnage)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Page d'attente pour un joueur sans personnage",
+            "message": "Remplacer le 403 par une page « Votre MJ ne vous a pas encore confié de personnage » avec Messages. (référence : §6.10 Espace joueur)",
+            "status": "fixed",
+            "priority": "normal",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Pas de test navigateur des boutons de la fenêtre « reçu »",
+            "message": "Ajouter un test de bout en bout (Dusk ou Playwright) qui clique « Voir sur ma fiche » (référence : Fenêtre de révélation)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Envoi push réel non vérifiable ici, prérequis non documenté",
+            "message": "Exiger GMP ou BCMath dans « Configuration recommandée », créer le canal dans le rescue, envoyer le push en file d'attente (référence : Notifications push (PWA))",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "PDF à la table via l'iframe du navigateur",
+            "message": "Afficher les PDF avec pdf.js (prévu), indispensable pour les joueurs sur téléphone (référence : §8 Écran de table)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Bouton « Plein écran » sans effet sur iPhone",
+            "message": "Masquer le bouton quand requestFullscreen n'existe pas (référence : §8 Écran de table partagé)",
+            "status": "fixed",
+            "priority": "normal",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Repli sans Reverb non retesté",
+            "message": "À recontrôler sur une instance isolée (seul l'écran de table a un wire:poll de 10 s) (référence : Temps réel)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Noms internes « codexflow »",
+            "message": "Renommer caches, en-tête X-Codexflow-Offline, fenêtre codexflow-table et tags push, avec migration du cache (référence : Renommage LoreMundi)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Retirer la double authentification d'un compte",
+            "message": "Action « Désactiver la double authentification » dans « Gérer », pour la personne qui a perdu son téléphone et ses codes (référence : Console d'administration, 2FA)",
+            "status": "fixed",
+            "priority": "normal",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Règle du mot de passe annoncée à l'inscription",
+            "message": "Afficher « Au moins 10 caractères, avec des lettres et des chiffres » sous le champ, comme dans Mon compte (référence : Inscription)",
+            "status": "fixed",
+            "priority": "normal",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Limiteur des formulaires de compte trop large",
+            "message": "Un compteur par formulaire et par adresse e-mail + IP, et indiquer le délai sur la page 429 (référence : Limitation des essais)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Mentions légales à compléter",
+            "message": "Renseigner LEGAL_OWNER, LEGAL_SIRET, LEGAL_ADDRESS, LEGAL_EMAIL, LEGAL_HOST avant l'ouverture ; masquer « — » si vide (référence : Confidentialité et mentions légales)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Aide publique et volet compte",
+            "message": "Ouvrir /aide sans compte ; ajouter double authentification, téléphone perdu, Mes données, suppression, formules et essai (référence : Aide / FAQ)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Messages du joueur supprimé",
+            "message": "Garder les messages sans auteur (comme le personnage), ou l'annoncer dans le texte de suppression (référence : Suppression du compte)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Vérification de la nouvelle adresse e-mail",
+            "message": "Envoyer un lien de confirmation à la nouvelle adresse avant de l'adopter (référence : Mon compte)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "CSP plus stricte",
+            "message": "Ajouter script-src 'self' (avec nonce pour les scripts en ligne) ; couper X-Powered-By en production (référence : En-têtes de sécurité)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Lien d'évitement",
+            "message": "Ajouter « Aller au contenu » en tête de page (référence : Accessibilité)",
+            "status": "fixed",
+            "priority": "normal",
+            "fixed_in": "0.26.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "E-mails à l'image de LoreMundi",
+            "message": "Publier les gabarits de mail (vendor:publish --tag=laravel-mail) avec logo, devise et couleur d'accent (référence : Marque)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        }
+    ]
+}

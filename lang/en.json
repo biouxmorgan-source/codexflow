@@ -203,7 +203,6 @@
     "LoreMundi fonctionne dans un navigateur récent, sans rien installer. Quelques conseils pour en profiter au mieux.": "LoreMundi runs in a recent browser, with nothing to install. A few tips to get the most out of it.",
     "Colonne :number": "Column :number",
     "Colonnes": "Columns",
-    "Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique ou MJ), Choix (séparés par |), Type de fiche.": "Recognised columns: Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique or MJ), Choix (separated by |), Type de fiche.",
     "Combien": "How many",
     "Comme l'appareil": "Same as device",
     "Comme le navigateur": "Same as browser",
@@ -1782,7 +1781,6 @@
     "Télécharger mes données": "Download my data",
     "Téléchargez ce que LoreMundi garde sur vous : compte, connexions, campagnes, personnages, notes, messages et signalements. Le contenu complet d’une campagne se télécharge depuis la campagne.": "Download what LoreMundi keeps about you: account, logins, campaigns, characters, notes, messages and reports. A campaign’s full content is downloaded from the campaign.",
     "Uniquement à faire fonctionner LoreMundi. Elles ne sont ni vendues, ni prêtées, ni utilisées pour de la publicité.": "Only to run LoreMundi. They are never sold, lent or used for advertising.",
-    "Utiliser l’application d’authentification": "Use the authenticator app",
     "Utiliser un code de secours": "Use a recovery code",
     "Vos codes de secours": "Your recovery codes",
     "Vos droits": "Your rights",
@@ -1824,5 +1822,15 @@
     "Votre adresse e-mail LoreMundi a changé": "Your LoreMundi email address has changed",
     "Votre nom est visible des autres membres de vos campagnes. Changer d’adresse e-mail ou de mot de passe demande votre mot de passe actuel.": "Your name is visible to the other members of your campaigns. Changing your email address or password requires your current password.",
     "mot de passe actuel": "current password",
-    "nouveau mot de passe": "new password"
+    "nouveau mot de passe": "new password",
+    "The provided two factor authentication code was invalid.": "The provided two factor authentication code was invalid.",
+    "The provided two factor recovery code was invalid.": "The provided two factor recovery code was invalid.",
+    "The provided password was incorrect.": "The provided password was incorrect.",
+    "Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste, compteur, lien, fichier, fiche), Zone (publique ou MJ), Choix (séparés par |), Type de fiche, Modifiable par le joueur (oui ou non).": "Recognised columns: Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste, compteur, lien, fichier, fiche), Zone (publique or MJ), Choix (separated by |), Type de fiche, Modifiable par le joueur (oui or non).",
+    "Donnez un nom au nouveau jeu.": "Give the new game a name.",
+    "Donnez un nom au nouveau monde.": "Give the new world a name.",
+    "Double authentification retirée pour :email.": "Two-factor authentication removed for :email.",
+    "Retirer la double authentification": "Remove two-factor authentication",
+    "Retirer la double authentification de :email ? Vérifiez d’abord que la demande vient bien de cette personne.": "Remove two-factor authentication from :email? First make sure the request really comes from this person.",
+    "Aller au contenu": "Skip to content"
 }

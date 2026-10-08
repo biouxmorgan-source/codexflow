@@ -522,8 +522,18 @@ class Show extends Component
         $parsed = [];
         $errors = [];
 
+        $known = collect($this->fieldChoices['entities'])->map(fn (string $name) => mb_strtolower($name));
+
         foreach ($this->fields->where('player_editable', true) as $definition) {
-            [$value, $error] = $definition->parse($this->values[$definition->id] ?? null, $this->campaign);
+            $raw = $this->values[$definition->id] ?? null;
+            // Une fiche que le personnage ne connaît pas n'est pas liée : le texte reste tel quel,
+            // sans révéler qu'une fiche de ce nom existe dans la campagne.
+            $refName = $definition->type === FieldType::EntityRef && is_string($raw)
+                ? mb_strtolower(trim(preg_match('/^\[\[([^|\]]+)/u', trim($raw), $match) ? $match[1] : str_replace(['[', ']', '|'], '', $raw)))
+                : '';
+            $unknownRef = $refName !== '' && ! $known->contains($refName)
+                && $raw !== $definition->type->input($this->entity->fieldValue($definition));
+            [$value, $error] = $definition->parse($raw, $unknownRef ? null : $this->campaign);
 
             // Un document que le personnage ne connaît pas ne peut pas être choisi (sauf s'il y était déjà).
             if ($error === null && $value !== null && $definition->type === FieldType::File

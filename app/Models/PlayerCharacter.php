@@ -29,11 +29,18 @@ class PlayerCharacter extends Model
             'is_active' => 'boolean',
             'locked' => 'boolean',
             'sheet_size' => 'integer',
+            'assigned_at' => 'datetime',
         ];
     }
 
     protected static function booted(): void
     {
+        // Confié à un (nouveau) joueur : sa conversation avec le MJ commence maintenant.
+        static::saving(function (PlayerCharacter $character) {
+            if ($character->isDirty('user_id')) {
+                $character->assigned_at = $character->user_id === null ? null : now();
+            }
+        });
         static::deleted(fn (PlayerCharacter $character) => $character->deleteSheet());
         static::updated(fn (PlayerCharacter $character) => Live::character($character->id));
     }

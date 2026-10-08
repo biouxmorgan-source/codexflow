@@ -52,6 +52,8 @@ document.addEventListener('alpine:init', () => {
             this.$refs.stage.setPointerCapture(event.pointerId);
 
             if (this.mode === 'ruler') {
+                // Le calque de la règle prend le cadrage actuel de la carte (rendu par le serveur).
+                this.$refs.overlay.setAttribute('viewBox', this.svg().getAttribute('viewBox'));
                 this.drag = { type: 'ruler', x1: p.x, y1: p.y, x2: p.x, y2: p.y };
                 this.drawRuler();
                 this.ruler = true;

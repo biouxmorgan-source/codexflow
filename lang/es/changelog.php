@@ -4,6 +4,20 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.26.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Correcciones de la prueba de aceptación v0.25.0',
+        'items' => [
+            'Una página que sigue abierta vuelve a comprobar sus permisos en cada acción: un jugador retirado o un co-DJ degradado ya no recibe nada nuevo.',
+            'El jugador al que se confía un personaje ya no lee la conversación privada del jugador anterior con el DJ.',
+            'Los personajes pregenerados de la campaña de demostración aparecen en «Nuevo personaje».',
+            'Autenticación en dos pasos: los códigos de recuperación funcionan al iniciar sesión, y el administrador puede retirarla de una cuenta bloqueada.',
+            'Nuevos iconos de LoreMundi (pestaña, aplicación instalada, notificaciones).',
+            'Pantalla de mesa compartida legible en el móvil; cabeceras de fichas y páginas corregidas en móvil y tableta, también con texto grande.',
+            'Correcciones: notificaciones push sin errores, botones de la ventana «recibido», referencias a fichas tras un cambio de nombre, cantidad de un intercambio, regla de medir de los mapas, aviso «Sin conexión», mensajes de error traducidos, enlace «Ir al contenido».',
+        ],
+    ],
+
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Importar un libro de juego con una IA',

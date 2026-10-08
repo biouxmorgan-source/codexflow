@@ -133,12 +133,14 @@ class LoadDemoCampaign
             $this->types[$key] = EntityType::standard($key);
         }
 
-        foreach (['faction', 'pregen'] as $key) {
-            $type = new EntityType(['name' => $this->text['types'][$key]]);
-            $type->user_id = $this->gm->id;
-            $type->save();
-            $this->types[$key] = $type;
-        }
+        $type = new EntityType(['name' => $this->text['types']['faction']]);
+        $type->user_id = $this->gm->id;
+        $type->save();
+        $this->types['faction'] = $type;
+
+        // Les prétirés sont des fiches de personnage (tag « prétiré ») : ainsi « Nouveau
+        // personnage » les propose aux joueurs.
+        $this->types['pregen'] = $this->types['character'];
     }
 
     /** Les champs du jeu : quatre caractéristiques, un profil, et deux champs réservés au MJ. */
@@ -160,7 +162,7 @@ class LoadDemoCampaign
         ];
 
         foreach ($definitions as $position => [$key, $group, $type, $options, $zone, $playerEditable]) {
-            foreach (['character', 'pregen'] as $for) {
+            foreach (['character'] as $for) {
                 $this->fields[$for.'.'.$key] = $this->campaign->gameSystem->fieldDefinitions()->create([
                     'name' => $this->text['fields'][$key],
                     'group' => $this->text['groups'][$group],
@@ -246,9 +248,8 @@ class LoadDemoCampaign
             $values = ($structure['scores'] ?? []) + ($text['fields'] ?? []);
 
             if ($values !== []) {
-                $prefix = $structure['type'] === 'pregen' ? 'pregen.' : 'character.';
                 $entity->setFieldValues(collect($values)
-                    ->mapWithKeys(fn (mixed $value, string $field) => [$this->fields[$prefix.$field]->id => $value])
+                    ->mapWithKeys(fn (mixed $value, string $field) => [$this->fields['character.'.$field]->id => $value])
                     ->all());
                 $entity->save();
             }

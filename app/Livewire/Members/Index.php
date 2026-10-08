@@ -90,7 +90,7 @@ class Index extends Component
         abort_if($userId === $this->campaign->user_id, 403);
 
         $member = $this->campaign->members()->whereKey($userId)->firstOrFail();
-        $new = CampaignRole::from($role);
+        $new = CampaignRole::tryFrom($role) ?? abort(422);
 
         if ($member->pivot->role === $new) {
             return;

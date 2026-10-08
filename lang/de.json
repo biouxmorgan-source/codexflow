@@ -203,7 +203,6 @@
     "LoreMundi fonctionne dans un navigateur récent, sans rien installer. Quelques conseils pour en profiter au mieux.": "LoreMundi läuft in einem aktuellen Browser, ohne Installation. Ein paar Tipps, um das Beste daraus zu machen.",
     "Colonne :number": "Spalte :number",
     "Colonnes": "Spalten",
-    "Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique ou MJ), Choix (séparés par |), Type de fiche.": "Erkannte Spalten: Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique oder MJ), Choix (getrennt durch |), Type de fiche.",
     "Combien": "Wie viel",
     "Comme l'appareil": "Wie das Gerät",
     "Comme le navigateur": "Wie der Browser",
@@ -1782,7 +1781,6 @@
     "Télécharger mes données": "Meine Daten herunterladen",
     "Téléchargez ce que LoreMundi garde sur vous : compte, connexions, campagnes, personnages, notes, messages et signalements. Le contenu complet d’une campagne se télécharge depuis la campagne.": "Laden Sie herunter, was LoreMundi über Sie speichert: Konto, Anmeldungen, Kampagnen, Charaktere, Notizen, Nachrichten und Meldungen. Den vollständigen Inhalt einer Kampagne laden Sie in der Kampagne herunter.",
     "Uniquement à faire fonctionner LoreMundi. Elles ne sont ni vendues, ni prêtées, ni utilisées pour de la publicité.": "Nur für den Betrieb von LoreMundi. Sie werden weder verkauft noch weitergegeben noch für Werbung genutzt.",
-    "Utiliser l’application d’authentification": "Authenticator-App verwenden",
     "Utiliser un code de secours": "Wiederherstellungscode verwenden",
     "Vos codes de secours": "Ihre Wiederherstellungscodes",
     "Vos droits": "Ihre Rechte",
@@ -1824,5 +1822,15 @@
     "Votre adresse e-mail LoreMundi a changé": "Ihre LoreMundi-E-Mail-Adresse wurde geändert",
     "Votre nom est visible des autres membres de vos campagnes. Changer d’adresse e-mail ou de mot de passe demande votre mot de passe actuel.": "Ihr Name ist für die anderen Mitglieder Ihrer Kampagnen sichtbar. Für eine neue E-Mail-Adresse oder ein neues Passwort ist Ihr aktuelles Passwort nötig.",
     "mot de passe actuel": "aktuelles Passwort",
-    "nouveau mot de passe": "neues Passwort"
+    "nouveau mot de passe": "neues Passwort",
+    "The provided two factor authentication code was invalid.": "Der Code der Zwei-Faktor-Authentifizierung ist ungültig.",
+    "The provided two factor recovery code was invalid.": "Dieser Wiederherstellungscode ist ungültig (jeder Code gilt nur einmal).",
+    "The provided password was incorrect.": "Das Passwort ist falsch.",
+    "Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste, compteur, lien, fichier, fiche), Zone (publique ou MJ), Choix (séparés par |), Type de fiche, Modifiable par le joueur (oui ou non).": "Erkannte Spalten: Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste, compteur, lien, fichier, fiche), Zone (publique oder MJ), Choix (getrennt durch |), Type de fiche, Modifiable par le joueur (oui oder non).",
+    "Donnez un nom au nouveau jeu.": "Geben Sie dem neuen Spiel einen Namen.",
+    "Donnez un nom au nouveau monde.": "Geben Sie der neuen Welt einen Namen.",
+    "Double authentification retirée pour :email.": "Zwei-Faktor-Authentifizierung für :email entfernt.",
+    "Retirer la double authentification": "Zwei-Faktor-Authentifizierung entfernen",
+    "Retirer la double authentification de :email ? Vérifiez d’abord que la demande vient bien de cette personne.": "Zwei-Faktor-Authentifizierung von :email entfernen? Prüfen Sie zuerst, dass die Anfrage wirklich von dieser Person kommt.",
+    "Aller au contenu": "Zum Inhalt springen"
 }

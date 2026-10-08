@@ -3,6 +3,7 @@
 namespace App\Enums;
 
 use App\Models\Document;
+use App\Models\Entity;
 use App\Support\EntityLinks;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -117,9 +118,25 @@ enum FieldType: string
         return match (true) {
             $this === self::Boolean => (bool) $value,
             $value === null => '',
-            $this === self::Counter, $this === self::EntityRef => $this->format($value),
+            $this === self::EntityRef => self::currentReference((string) $value),
+            $this === self::Counter => $this->format($value),
             default => (string) $value,
         };
+    }
+
+    /**
+     * Fiche citée, sous son nom actuel : réenregistrer après un renommage garde le lien.
+     * Le nom n'est pas une fuite : la fiche est déjà liée par son identifiant.
+     */
+    private static function currentReference(string $value): string
+    {
+        if (! preg_match(EntityLinks::PATTERN, $value, $match)) {
+            return $value;
+        }
+
+        $name = isset($match[2]) ? Entity::query()->whereKey((int) $match[2])->value('name') : null;
+
+        return $name ?? trim($match[1]);
     }
 
     /**

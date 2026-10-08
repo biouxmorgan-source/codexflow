@@ -4,6 +4,20 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.26.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Korrekturen aus dem Abnahmetest v0.25.0',
+        'items' => [
+            'Eine offen gebliebene Seite prüft Ihre Rechte bei jeder Aktion erneut: Ein entfernter Spieler oder herabgestufter Co-SL erhält nichts Neues mehr.',
+            'Wer einen Charakter übernimmt, liest nicht mehr das private Gespräch des vorherigen Spielers mit der SL.',
+            'Die vorgefertigten Charaktere der Demo-Kampagne werden unter „Neuer Charakter“ angeboten.',
+            'Zwei-Faktor-Authentifizierung: Wiederherstellungscodes funktionieren bei der Anmeldung, und der Administrator kann sie bei einem gesperrten Konto entfernen.',
+            'Neue LoreMundi-Symbole (Browser-Tab, installierte App, Benachrichtigungen).',
+            'Geteilter Tischbildschirm auf dem Handy lesbar; Kopfzeilen von Bögen und Seiten auf Handy und Tablet korrigiert, auch bei großer Schrift.',
+            'Korrekturen: Push-Benachrichtigungen ohne Fehler, Schaltflächen des Fensters „Erhalten“, Bogenverweise nach Umbenennung, Tauschmenge, Kartenlineal, Banner „Offline“, übersetzte Fehlermeldungen, Link „Zum Inhalt springen“.',
+        ],
+    ],
+
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Ein Spielbuch mit einer KI importieren',

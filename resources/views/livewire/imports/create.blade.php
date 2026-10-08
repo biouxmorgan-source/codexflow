@@ -49,7 +49,7 @@
                 @if ($mode === 'entities')
                     {{ __('Une colonne pour le nom, puis une colonne par information : type, résumé, ou vos champs (Force, Discrétion…). Les colonnes inconnues deviennent de nouveaux champs.') }}
                 @elseif ($mode === 'fields')
-                    {{ __('Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique ou MJ), Choix (séparés par |), Type de fiche.') }}
+                    {{ __('Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste, compteur, lien, fichier, fiche), Zone (publique ou MJ), Choix (séparés par |), Type de fiche, Modifiable par le joueur (oui ou non).') }}
                 @elseif ($mode === 'scenes')
                     {{ __("Une ligne par scène. Colonnes reconnues : Scénario, Résumé du scénario, Chapitre, Scène, Description, Statut, puis Fiches, Documents et Règles à lier (noms séparés par |). Importez d'abord les fiches et les documents pour que les liens les trouvent.") }}
                 @else

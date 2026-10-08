@@ -1,7 +1,7 @@
 // Service worker de LoreMundi : application installable, fiche du personnage lisible hors ligne,
 // notifications push. Seules les réponses marquées X-Codexflow-Offline sont gardées, et ce cache
 // est vidé dès qu'une page de connexion s'affiche (déconnexion, session expirée).
-const STATIC = 'codexflow-static-v1';
+const STATIC = 'codexflow-static-v2';
 const PAGES = 'codexflow-pages';
 const OFFLINE_URL = '/offline.html';
 
@@ -74,7 +74,12 @@ async function networkFirst(request) {
     } catch (error) {
         const cache = await caches.open(PAGES);
         const cached = await cache.match(request) ?? await cache.match(request, { ignoreSearch: true });
-        if (cached) return cached;
+        if (cached) {
+            // Marque la page servie depuis l'appareil : le bandeau « Hors ligne » s'affiche même si
+            // l'appareil a du réseau (serveur injoignable).
+            const html = (await cached.text()).replace('<head>', '<head><meta name="codexflow-offline" content="1">');
+            return new Response(html, { status: 200, headers: cached.headers });
+        }
 
         if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
             return caches.match(OFFLINE_URL);
