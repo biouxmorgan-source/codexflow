@@ -140,7 +140,7 @@ class Show extends Component
             return;
         }
 
-        [$value, $error] = $definition->parse($this->overrideValue);
+        [$value, $error] = $definition->parse($this->overrideValue, $this->campaign);
 
         if ($error !== null) {
             $this->addError('overrideValue', __(':name : :error.', ['name' => $definition->name, 'error' => $error]));

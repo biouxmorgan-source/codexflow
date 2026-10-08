@@ -212,6 +212,13 @@
                                         <option value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
+                            @elseif ($picked->type === \App\Enums\FieldType::File)
+                                <select id="overrideValue" wire:model="overrideValue" class="field py-1.5 text-sm">
+                                    <option value="">{{ __('— vide —') }}</option>
+                                    @foreach ($campaign->availableDocuments()->orderByRaw('lower(title)')->pluck('title', 'id') as $documentId => $documentTitle)
+                                        <option value="{{ $documentId }}">{{ $documentTitle }}</option>
+                                    @endforeach
+                                </select>
                             @elseif ($picked->type === \App\Enums\FieldType::Boolean)
                                 <select id="overrideValue" wire:model="overrideValue" class="field py-1.5 text-sm">
                                     <option value="">{{ __('— vide —') }}</option>

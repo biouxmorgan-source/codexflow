@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.19.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Secrets and new fields',
+        'items' => [
+            'Every secret has a kind (rumour, clue or truth) and a state worked out from who knows it: hidden, partial or revealed. Secrets can be filtered by either.',
+            'Three new field types: web link, file (a campaign document) and reference to another sheet, which stays linked even if the sheet is renamed.',
+            'A duplicated campaign keeps the links between its copied sheets.',
+        ],
+    ],
+
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'New character, My campaigns, game and world pages',

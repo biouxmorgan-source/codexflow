@@ -1708,5 +1708,21 @@
     "Rien à transmettre.": "Nothing to pass on.",
     "Règles de référence": "Reference rules",
     "Réactiver": "Reactivate",
-    "Réutilisables dans toutes les campagnes de ce monde ; chaque campagne garde ses propres états et notes.": "Reusable in every campaign of this world; each campaign keeps its own states and notes."
+    "Réutilisables dans toutes les campagnes de ce monde ; chaque campagne garde ses propres états et notes.": "Reusable in every campaign of this world; each campaign keeps its own states and notes.",
+    "Document introuvable": "Document not found",
+    "Fichier (document de la campagne)": "File (campaign document)",
+    "Indice": "Clue",
+    "Lien web": "Web link",
+    "Nom de la fiche": "Sheet name",
+    "Partiel": "Partial",
+    "Rumeur": "Rumour",
+    "Référence à une fiche": "Reference to a sheet",
+    "Tous états": "All states",
+    "Toutes natures": "All kinds",
+    "Vérité": "Truth",
+    "ce document ne fait pas partie de la campagne": "this document is not part of the campaign",
+    "« :value » : choisissez un document de la campagne": "“:value”: choose a campaign document",
+    "« :value » n'est pas un nom de fiche": "“:value” is not a sheet name",
+    "« :value » n'est pas une adresse web": "“:value” is not a web address",
+    "État": "State"
 }

@@ -1708,5 +1708,21 @@
     "Rien à transmettre.": "Niets door te geven.",
     "Règles de référence": "Referentieregels",
     "Réactiver": "Heractiveren",
-    "Réutilisables dans toutes les campagnes de ce monde ; chaque campagne garde ses propres états et notes.": "Herbruikbaar in alle campagnes van deze wereld; elke campagne houdt haar eigen staten en notities."
+    "Réutilisables dans toutes les campagnes de ce monde ; chaque campagne garde ses propres états et notes.": "Herbruikbaar in alle campagnes van deze wereld; elke campagne houdt haar eigen staten en notities.",
+    "Document introuvable": "Document niet gevonden",
+    "Fichier (document de la campagne)": "Bestand (document van de campagne)",
+    "Indice": "Aanwijzing",
+    "Lien web": "Weblink",
+    "Nom de la fiche": "Naam van de fiche",
+    "Partiel": "Gedeeltelijk",
+    "Rumeur": "Gerucht",
+    "Référence à une fiche": "Verwijzing naar een fiche",
+    "Tous états": "Alle staten",
+    "Toutes natures": "Alle soorten",
+    "Vérité": "Waarheid",
+    "ce document ne fait pas partie de la campagne": "dit document hoort niet bij de campagne",
+    "« :value » : choisissez un document de la campagne": "‘:value’: kies een document van de campagne",
+    "« :value » n'est pas un nom de fiche": "‘:value’ is geen naam van een fiche",
+    "« :value » n'est pas une adresse web": "‘:value’ is geen webadres",
+    "État": "Staat"
 }

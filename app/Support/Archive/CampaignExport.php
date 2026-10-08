@@ -229,6 +229,7 @@ final class CampaignExport
             'secrets' => $secrets->map(fn ($secret) => [
                 'title' => $secret->title,
                 'body' => $secret->body,
+                'kind' => $secret->kind,
                 'entities' => $secretLinks['entities']->get($secret->id, collect())->all(),
                 'documents' => $secretLinks['documents']->get($secret->id, collect())->all(),
                 'scenes' => $secretLinks['scenes']->get($secret->id, collect())->all(),

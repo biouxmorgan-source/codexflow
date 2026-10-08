@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Entities;
 
+use App\Enums\FieldType;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
 use App\Models\Entity;
@@ -102,6 +103,26 @@ class Form extends Component
         return $this->campaign->gameSystem->fieldDefinitions()->forType($this->entityTypeId ?: null)->ordered()->get();
     }
 
+    /**
+     * Fiches et documents proposés aux champs de type référence et fichier.
+     *
+     * @return array{entities: list<string>, documents: array<int, string>}
+     */
+    #[Computed]
+    public function fieldChoices(): array
+    {
+        $types = $this->fieldDefinitions->pluck('type');
+
+        return [
+            'entities' => $types->contains(FieldType::EntityRef)
+                ? $this->campaign->availableEntities()->when($this->entity, fn ($q) => $q->whereKeyNot($this->entity->id))->orderByRaw('lower(name)')->limit(500)->pluck('name')->unique()->values()->all()
+                : [],
+            'documents' => $types->contains(FieldType::File)
+                ? $this->campaign->availableDocuments()->orderByRaw('lower(title)')->pluck('title', 'id')->all()
+                : [],
+        ];
+    }
+
     /** @return list<string> */
     #[Computed]
     public function existingTags(): array
@@ -132,7 +153,7 @@ class Form extends Component
         $errors = [];
 
         foreach ($this->fieldDefinitions as $definition) {
-            [$value, $error] = $definition->parse($this->fields[$definition->id] ?? null);
+            [$value, $error] = $definition->parse($this->fields[$definition->id] ?? null, $this->campaign);
 
             if ($error !== null) {
                 $errors['fields.'.$definition->id] = __(':name : :error.', ['name' => $definition->name, 'error' => $error]);

@@ -25,9 +25,17 @@
                 <input id="secret-title" type="text" wire:model="title" class="field" placeholder="{{ __('Morel travaille pour le Culte d’Ambre') }}" autofocus>
                 @error('title') <p class="error">{{ $message }}</p> @enderror
             </div>
+            <fieldset>
+                <legend class="label">{{ __('Nature') }}</legend>
+                <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                    @foreach (\App\Models\Secret::kinds() as $value => $label)
+                        <label class="flex items-center gap-1.5"><input type="radio" wire:model="kind" value="{{ $value }}"> {{ $label }}</label>
+                    @endforeach
+                </div>
+            </fieldset>
             <div>
                 <label for="secret-body" class="label">{{ __('Détails') }} <span class="font-normal text-stone-500">{{ __('(facultatif, révélés avec le secret)') }}</span></label>
-                <textarea id="secret-body" wire:model="body" rows="3" class="field"></textarea>
+                <x-link-textarea id="secret-body" model="body" rows="3" />
                 @error('body') <p class="error">{{ $message }}</p> @enderror
             </div>
 
@@ -85,9 +93,29 @@
         </form>
     @endif
 
-    <div class="mb-4 max-w-sm">
-        <label for="secret-search" class="sr-only">{{ __('Chercher un secret') }}</label>
-        <input id="secret-search" type="search" wire:model.live.debounce.300ms="search" class="field" placeholder="{{ __('Chercher un secret, une fiche…') }}">
+    <div class="mb-4 flex flex-wrap items-end gap-3">
+        <div class="max-w-sm min-w-48 flex-1">
+            <label for="secret-search" class="sr-only">{{ __('Chercher un secret') }}</label>
+            <input id="secret-search" type="search" wire:model.live.debounce.300ms="search" class="field" placeholder="{{ __('Chercher un secret, une fiche…') }}">
+        </div>
+        <div>
+            <label for="secret-kind-filter" class="sr-only">{{ __('Nature') }}</label>
+            <select id="secret-kind-filter" wire:model.live="kindFilter" class="field">
+                <option value="">{{ __('Toutes natures') }}</option>
+                @foreach (\App\Models\Secret::kinds() as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <label for="secret-state-filter" class="sr-only">{{ __('État') }}</label>
+            <select id="secret-state-filter" wire:model.live="stateFilter" class="field">
+                <option value="">{{ __('Tous états') }}</option>
+                @foreach (\App\Models\Secret::states() as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
 
     @if ($this->secrets->isEmpty())

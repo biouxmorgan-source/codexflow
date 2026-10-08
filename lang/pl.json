@@ -1708,5 +1708,21 @@
     "Rien à transmettre.": "Nic do przekazania.",
     "Règles de référence": "Zasady referencyjne",
     "Réactiver": "Przywróć",
-    "Réutilisables dans toutes les campagnes de ce monde ; chaque campagne garde ses propres états et notes.": "Do użycia we wszystkich kampaniach tego świata; każda kampania zachowuje własne stany i notatki."
+    "Réutilisables dans toutes les campagnes de ce monde ; chaque campagne garde ses propres états et notes.": "Do użycia we wszystkich kampaniach tego świata; każda kampania zachowuje własne stany i notatki.",
+    "Document introuvable": "Nie znaleziono dokumentu",
+    "Fichier (document de la campagne)": "Plik (dokument kampanii)",
+    "Indice": "Trop",
+    "Lien web": "Link internetowy",
+    "Nom de la fiche": "Nazwa karty",
+    "Partiel": "Częściowy",
+    "Rumeur": "Plotka",
+    "Référence à une fiche": "Odwołanie do karty",
+    "Tous états": "Wszystkie stany",
+    "Toutes natures": "Wszystkie rodzaje",
+    "Vérité": "Prawda",
+    "ce document ne fait pas partie de la campagne": "ten dokument nie należy do kampanii",
+    "« :value » : choisissez un document de la campagne": "„:value”: wybierz dokument kampanii",
+    "« :value » n'est pas un nom de fiche": "„:value” nie jest nazwą karty",
+    "« :value » n'est pas une adresse web": "„:value” nie jest adresem internetowym",
+    "État": "Stan"
 }

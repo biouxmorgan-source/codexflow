@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.19.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Geheimen en nieuwe velden',
+        'items' => [
+            'Elk geheim heeft een soort (gerucht, aanwijzing of waarheid) en een staat die volgt uit wie het kent: verborgen, gedeeltelijk of onthuld. Je kunt geheimen op beide filteren.',
+            'Drie nieuwe veldtypes: weblink, bestand (een document van de campagne) en verwijzing naar een andere fiche, die gekoppeld blijft ook als de fiche een nieuwe naam krijgt.',
+            'Een gedupliceerde campagne houdt de koppelingen tussen haar gekopieerde fiches.',
+        ],
+    ],
+
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Nieuw personage, Mijn campagnes, pagina’s voor spel en wereld',

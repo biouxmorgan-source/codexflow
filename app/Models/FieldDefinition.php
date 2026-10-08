@@ -106,11 +106,30 @@ class FieldDefinition extends Model
     }
 
     /**
+     * Valeur saisie convertie ; dans une campagne, une fiche citée par son nom est retrouvée
+     * et liée par son identifiant (le lien survit à un renommage), un document doit en faire partie.
+     *
      * @return array{0: mixed, 1: string|null}
      */
-    public function parse(mixed $raw): array
+    public function parse(mixed $raw, ?Campaign $campaign = null): array
     {
-        return $this->type->parse($raw, $this->options);
+        [$value, $error] = $this->type->parse($raw, $this->options);
+
+        if ($campaign === null || $value === null || $error !== null) {
+            return [$value, $error];
+        }
+
+        if ($this->type === FieldType::EntityRef && preg_match('/^\[\[([^|]+)\]\]$/u', $value, $match)) {
+            $entity = $campaign->availableEntities()->whereRaw('lower(name) = ?', [mb_strtolower(trim($match[1]))])->first(['id', 'name']);
+
+            return [$entity ? '[['.$entity->name.'|'.$entity->id.']]' : $value, null];
+        }
+
+        if ($this->type === FieldType::File && ! $campaign->availableDocuments()->whereKey($value)->exists()) {
+            return [null, __('ce document ne fait pas partie de la campagne')];
+        }
+
+        return [$value, null];
     }
 
     /**

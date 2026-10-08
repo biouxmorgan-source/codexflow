@@ -5,12 +5,17 @@ namespace Tests\Feature;
 use App\Actions\Characters\GiveToCharacters;
 use App\Enums\CampaignRole;
 use App\Enums\CampaignStatus;
+use App\Enums\FieldType;
+use App\Enums\Zone;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Characters\Index as CharacterIndex;
 use App\Livewire\Characters\Show as CharacterShow;
+use App\Livewire\Entities\Form as EntityForm;
 use App\Livewire\Library\GameShow;
 use App\Livewire\Library\WorldShow;
+use App\Livewire\Secrets\Index as SecretIndex;
 use App\Models\Campaign;
+use App\Models\Document;
 use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\PlayerCharacter;
@@ -197,5 +202,94 @@ class BacklogV1Test extends TestCase
         // Un joueur de la campagne n'ouvre ni le jeu ni le monde de son MJ.
         $this->actingAs($this->alex)->get(route('worlds.show', $world))->assertForbidden();
         $this->actingAs($this->alex)->get(route('games.show', $game))->assertForbidden();
+    }
+
+    public function test_secrets_have_a_kind_and_a_state_deduced_from_who_knows_them(): void
+    {
+        $lucySheet = Entity::factory()->for($this->gm, 'owner')->for($this->campaign)->create(['name' => 'Lucy', 'entity_type_id' => EntityType::standard('character')->id]);
+        $lucy = $this->campaign->playerCharacters()->create(['entity_id' => $lucySheet->id]);
+
+        $page = Livewire::actingAs($this->gm)->test(SecretIndex::class, ['campaign' => $this->campaign])
+            ->call('create')
+            ->set('title', 'On dit que Morel boit')
+            ->set('kind', 'rumour')
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertSee('Rumeur')
+            ->assertSee('Caché');
+        $secret = $this->campaign->secrets()->firstOrFail();
+        $this->assertSame('rumour', $secret->kind);
+
+        $page->call('revealSecret', $secret->id, $this->harvey->id)->assertSee('Partiel');
+        $page->set('stateFilter', 'hidden')->assertDontSee('On dit que Morel boit');
+        $page->set('stateFilter', 'partial')->assertSee('On dit que Morel boit');
+
+        $page->call('revealSecret', $secret->id, $lucy->id)->set('stateFilter', 'revealed')->assertSee('On dit que Morel boit');
+        $page->set('stateFilter', '')->set('kindFilter', 'truth')->assertDontSee('On dit que Morel boit');
+
+        $page->call('create')->set('title', 'X')->set('kind', 'mensonge')->call('save')->assertHasErrors('kind');
+    }
+
+    public function test_fields_can_hold_a_web_link_a_document_or_a_reference_to_a_sheet(): void
+    {
+        $fields = $this->campaign->gameSystem->fieldDefinitions();
+        $site = $fields->create(['name' => 'Site', 'type' => FieldType::Link, 'zone' => Zone::Public, 'position' => 1]);
+        $plan = $fields->create(['name' => 'Plan', 'type' => FieldType::File, 'zone' => Zone::Public, 'position' => 2, 'player_editable' => true]);
+        $patron = $fields->create(['name' => 'Employeur', 'type' => FieldType::EntityRef, 'zone' => Zone::Public, 'position' => 3, 'player_editable' => true]);
+
+        $document = fn (string $title, Campaign $campaign) => tap(new Document(['title' => $title, 'zone' => Zone::Public, 'disk' => 'local', 'path' => 'documents/x.pdf', 'original_name' => 'x.pdf', 'mime_type' => 'application/pdf', 'size' => 1]), function (Document $document) use ($campaign) {
+            $document->owner()->associate($campaign->owner);
+            $document->campaign()->associate($campaign);
+            $document->save();
+        });
+        $map = $document('Plan du manoir', $this->campaign);
+        $elsewhere = $document('Ailleurs', Campaign::factory()->create());
+
+        $form = Livewire::actingAs($this->gm)->test(EntityForm::class, ['campaign' => $this->campaign, 'entity' => $this->manoir])
+            ->assertSee('Plan du manoir')
+            ->assertDontSee('Ailleurs')
+            ->set("fields.{$site->id}", 'javascript:alert(1)')
+            ->set("fields.{$plan->id}", (string) $elsewhere->id)
+            ->call('save')
+            ->assertHasErrors(["fields.{$site->id}", "fields.{$plan->id}"]);
+
+        $form->set("fields.{$site->id}", 'example.org/manoir')
+            ->set("fields.{$plan->id}", (string) $map->id)
+            ->set("fields.{$patron->id}", 'morel')
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $manoir = $this->manoir->fresh();
+        $this->assertSame('https://example.org/manoir', $manoir->fieldValue($site));
+        $this->assertSame($map->id, $manoir->fieldValue($plan));
+        $this->assertSame("[[Morel|{$this->morel->id}]]", $manoir->fieldValue($patron));
+
+        // Renommée, la fiche citée reste liée.
+        $this->morel->update(['name' => 'Morel aîné']);
+        $this->actingAs($this->gm)->get(route('entities.show', [$this->campaign, $manoir]))
+            ->assertSee('href="https://example.org/manoir"', false)
+            ->assertSee('rel="noopener noreferrer nofollow"', false)
+            ->assertSee(route('documents.show', [$this->campaign, $map]))
+            ->assertSee(route('entities.show', [$this->campaign, $this->morel]))
+            ->assertSee('Morel aîné');
+
+        // Le joueur ne choisit que parmi ce que son personnage connaît.
+        app(GiveToCharacters::class)->handle($this->campaign, [$this->harvey->id], ['kind' => 'entity', 'entity_id' => $this->manoir->id]);
+        $sheet = Livewire::actingAs($this->alex)->test(CharacterShow::class, ['campaign' => $this->campaign, 'character' => $this->harvey])
+            ->call('edit')
+            ->assertSee('Manoir Morgause')
+            ->assertDontSee('Plan du manoir')
+            ->set("values.{$plan->id}", (string) $map->id)
+            ->call('save')
+            ->assertHasErrors("values.{$plan->id}");
+
+        app(GiveToCharacters::class)->handle($this->campaign, [$this->harvey->id], ['kind' => 'document', 'document_id' => $map->id]);
+        $sheet->call('edit')
+            ->set("values.{$plan->id}", (string) $map->id)
+            ->set("values.{$patron->id}", 'Manoir Morgause')
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertSee(route('characters.document', [$this->campaign, $this->harvey, $map]))
+            ->assertDontSee(route('entities.show', [$this->campaign, $this->manoir]));
     }
 }

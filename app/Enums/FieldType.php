@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use App\Models\Document;
+use App\Support\EntityLinks;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
@@ -17,6 +19,9 @@ enum FieldType: string
     case Date = 'date';
     case Select = 'select';
     case Counter = 'counter';
+    case Link = 'link';
+    case File = 'file';
+    case EntityRef = 'entity';
 
     public function label(): string
     {
@@ -28,6 +33,9 @@ enum FieldType: string
             self::Date => __('Date'),
             self::Select => __('Liste de choix'),
             self::Counter => __('Compteur (valeur / maximum)'),
+            self::Link => __('Lien web'),
+            self::File => __('Fichier (document de la campagne)'),
+            self::EntityRef => __('Référence à une fiche'),
         };
     }
 
@@ -46,6 +54,9 @@ enum FieldType: string
             'date' => self::Date,
             'liste', 'listedechoix', 'choix', 'select' => self::Select,
             'compteur', 'jauge', 'counter', 'tracker' => self::Counter,
+            'lien', 'lienweb', 'link', 'url', 'site' => self::Link,
+            'fichier', 'document', 'file' => self::File,
+            'reference', 'referencealunefiche', 'fiche', 'entite', 'entity', 'ref' => self::EntityRef,
             default => null,
         };
     }
@@ -76,6 +87,9 @@ enum FieldType: string
             self::Date => self::parseDate($raw),
             self::Select => self::parseChoice($raw, $options ?? []),
             self::Counter => self::parseCounter($raw),
+            self::Link => self::parseLink($raw),
+            self::File => ctype_digit($raw) ? [(int) $raw, null] : [null, __('« :value » : choisissez un document de la campagne', ['value' => $raw])],
+            self::EntityRef => self::parseReference($raw),
         };
     }
 
@@ -89,6 +103,8 @@ enum FieldType: string
             self::Boolean => $value ? __('Oui', [], $locale) : __('Non', [], $locale),
             self::Date => Carbon::parse($value)->locale($locale ?? app()->getLocale())->isoFormat('L'),
             self::Counter => self::formatNumber($value['value'] ?? 0).(isset($value['max']) ? ' / '.self::formatNumber($value['max']) : ''),
+            self::File => (string) (Document::query()->whereKey($value)->value('title') ?? ''),
+            self::EntityRef => preg_match(EntityLinks::PATTERN, (string) $value, $match) ? trim($match[1]) : (string) $value,
             default => (string) $value,
         };
     }
@@ -101,7 +117,7 @@ enum FieldType: string
         return match (true) {
             $this === self::Boolean => (bool) $value,
             $value === null => '',
-            $this === self::Counter => $this->format($value),
+            $this === self::Counter, $this === self::EntityRef => $this->format($value),
             default => (string) $value,
         };
     }
@@ -158,6 +174,40 @@ enum FieldType: string
         }
 
         return self::Text;
+    }
+
+    /**
+     * Adresse web complète : seuls http et https, jamais javascript: ni data:.
+     *
+     * @return array{0: string|null, 1: string|null}
+     */
+    private static function parseLink(string $raw): array
+    {
+        if (! preg_match('#^https?://#i', $raw)) {
+            $raw = 'https://'.$raw;
+        }
+
+        if (mb_strlen($raw) > 2000 || filter_var($raw, FILTER_VALIDATE_URL) === false || ! preg_match('#^https?://[^\s/]+\.[^\s/]+#i', $raw)) {
+            return [null, __("« :value » n'est pas une adresse web", ['value' => $raw])];
+        }
+
+        return [$raw, null];
+    }
+
+    /**
+     * Fiche citée : « [[Nom|42]] » (choisie dans la liste) ou un simple nom, résolu dans la campagne.
+     *
+     * @return array{0: string|null, 1: string|null}
+     */
+    private static function parseReference(string $raw): array
+    {
+        if (preg_match('/^\[\[[^\[\]|\n]+?(?:\|\d+)?\]\]$/u', $raw)) {
+            return [$raw, null];
+        }
+
+        $name = trim(str_replace(['[', ']', '|'], '', $raw));
+
+        return mb_strlen($name) > 255 || $name === '' ? [null, __("« :value » n'est pas un nom de fiche", ['value' => $raw])] : ['[['.$name.']]', null];
     }
 
     /** @return array{0: int|float|null, 1: string|null} */

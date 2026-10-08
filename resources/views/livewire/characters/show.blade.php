@@ -92,7 +92,7 @@
             @if ($editing)
                 <form wire:submit="save" class="space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                     <h2 class="font-semibold">{{ __('Modifier ma fiche') }}</h2>
-                    <x-field-inputs :definitions="$this->fields->where('player_editable', true)" model="values" />
+                    <x-field-inputs :definitions="$this->fields->where('player_editable', true)" model="values" :entities="$this->fieldChoices['entities']" :documents="$this->fieldChoices['documents']" />
                     <div class="flex gap-3">
                         <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
                         <button type="button" wire:click="cancel" class="btn-secondary">{{ __('Annuler') }}</button>
@@ -114,12 +114,8 @@
                             @foreach ($filled as $definition)
                                 <div @class(['flex justify-between gap-3 border-b border-stone-100 pb-1', 'flex-col' => $definition->type === \App\Enums\FieldType::LongText])>
                                     <dt class="text-sm text-stone-600">{{ $definition->name }}</dt>
-                                    <dd class="font-medium">
-                                        @if ($definition->type === \App\Enums\FieldType::LongText)
-                                            <span class="font-normal text-stone-700">{{ \App\Support\EntityLinks::plain($entity->fieldValue($definition), inline: true) }}</span>
-                                        @else
-                                            {{ $definition->type->format($entity->fieldValue($definition)) }}
-                                        @endif
+                                    <dd class="min-w-0 font-medium">
+                                        <x-field-value :definition="$definition" :value="$entity->fieldValue($definition)" :campaign="$campaign" :character="$character" />
                                     </dd>
                                 </div>
                             @endforeach

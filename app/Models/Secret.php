@@ -15,10 +15,46 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * reliée à plusieurs fiches, documents ou scènes. Chaque personnage le connaît ou non : le révéler
  * crée un élément « secret » dans ses connaissances.
  */
-#[Fillable(['title', 'body'])]
+#[Fillable(['title', 'body', 'kind'])]
 class Secret extends Model
 {
     use RecordsActivity;
+
+    public const KINDS = ['rumour', 'clue', 'truth'];
+
+    /** @return array<string, string> */
+    public static function kinds(): array
+    {
+        return ['rumour' => __('Rumeur'), 'clue' => __('Indice'), 'truth' => __('Vérité')];
+    }
+
+    /** @return array<string, string> */
+    public static function states(): array
+    {
+        return ['hidden' => __('Caché'), 'partial' => __('Partiel'), 'revealed' => __('Révélé')];
+    }
+
+    public function kindLabel(): string
+    {
+        return self::kinds()[$this->kind] ?? self::kinds()['truth'];
+    }
+
+    /**
+     * État du secret à la table, déduit de qui le connaît : caché (aucun personnage actif),
+     * partiel (certains) ou révélé (tous).
+     *
+     * @param  list<int>  $activeCharacterIds
+     */
+    public function state(array $activeCharacterIds): string
+    {
+        $known = count(array_intersect($activeCharacterIds, $this->grants->pluck('player_character_id')->all()));
+
+        return match (true) {
+            $known === 0 => 'hidden',
+            $known < count($activeCharacterIds) => 'partial',
+            default => 'revealed',
+        };
+    }
 
     /** @return BelongsTo<Campaign, $this> */
     public function campaign(): BelongsTo

@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.19.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Geheimnisse und neue Felder',
+        'items' => [
+            'Jedes Geheimnis hat eine Art (Gerücht, Hinweis oder Wahrheit) und einen Zustand, der sich daraus ergibt, wer es kennt: verborgen, teilweise oder enthüllt. Sie können Geheimnisse nach beidem filtern.',
+            'Drei neue Feldtypen: Weblink, Datei (ein Dokument der Kampagne) und Verweis auf einen anderen Eintrag, der auch nach einer Umbenennung verknüpft bleibt.',
+            'Eine kopierte Kampagne behält die Verknüpfungen zwischen ihren kopierten Einträgen.',
+        ],
+    ],
+
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Neuer Charakter, Meine Kampagnen, Seiten für Spiel und Welt',

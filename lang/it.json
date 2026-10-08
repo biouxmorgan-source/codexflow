@@ -1708,5 +1708,21 @@
     "Rien à transmettre.": "Niente da passare.",
     "Règles de référence": "Regole di riferimento",
     "Réactiver": "Riattiva",
-    "Réutilisables dans toutes les campagnes de ce monde ; chaque campagne garde ses propres états et notes.": "Riutilizzabili in tutte le campagne di questo mondo; ogni campagna conserva i propri stati e note."
+    "Réutilisables dans toutes les campagnes de ce monde ; chaque campagne garde ses propres états et notes.": "Riutilizzabili in tutte le campagne di questo mondo; ogni campagna conserva i propri stati e note.",
+    "Document introuvable": "Documento non trovato",
+    "Fichier (document de la campagne)": "File (documento della campagna)",
+    "Indice": "Indizio",
+    "Lien web": "Link web",
+    "Nom de la fiche": "Nome della scheda",
+    "Partiel": "Parziale",
+    "Rumeur": "Voce",
+    "Référence à une fiche": "Riferimento a una scheda",
+    "Tous états": "Tutti gli stati",
+    "Toutes natures": "Tutti i tipi",
+    "Vérité": "Verità",
+    "ce document ne fait pas partie de la campagne": "questo documento non fa parte della campagna",
+    "« :value » : choisissez un document de la campagne": "«:value»: scegli un documento della campagna",
+    "« :value » n'est pas un nom de fiche": "«:value» non è un nome di scheda",
+    "« :value » n'est pas une adresse web": "«:value» non è un indirizzo web",
+    "État": "Stato"
 }
