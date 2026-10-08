@@ -47,7 +47,7 @@
                     </form>
                 @endif
             </div>
-            <p class="mt-2 text-xs text-stone-500">{{ __('Paiement sécurisé par Stripe : CodexFlow ne voit jamais votre carte. Résiliable à tout moment, le premium dure jusqu’à la fin de la période payée.') }}</p>
+            <p class="mt-2 text-xs text-stone-500">{{ __('Paiement sécurisé par Stripe : LoreMundi ne voit jamais votre carte. Résiliable à tout moment, le premium dure jusqu’à la fin de la période payée.') }}</p>
         @endif
         <p class="mt-2 text-xs text-stone-500">{{ __('Jouer, être co-MJ ou spectateur dans la campagne d’un autre ne compte pas : vous profitez alors de la formule de son MJ.') }}</p>
     </section>

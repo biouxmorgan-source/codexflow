@@ -239,7 +239,7 @@ class CampaignArchiveTest extends TestCase
 
         $this->assertSame('Les Ombres', Campaign::where('user_id', $this->other->id)->sole()->name);
 
-        // Un .zip qui n'est pas une archive CodexFlow est refusé sans rien créer.
+        // Un .zip qui n'est pas une archive LoreMundi est refusé sans rien créer.
         $junk = tempnam(sys_get_temp_dir(), 'junk').'.zip';
         $zip = new ZipArchive;
         $zip->open($junk, ZipArchive::CREATE);
@@ -374,7 +374,7 @@ class CampaignArchiveTest extends TestCase
 
         $this->actingAs($player)->get(route('archives.campaign', [$this->campaign, 'complete' => 1]))->assertForbidden();
         $this->actingAs($this->gm)->get(route('archives.campaign', [$this->campaign, 'complete' => 1]))->assertOk()
-            ->assertDownload('codexflow-les-ombres-sauvegarde-complete.zip');
+            ->assertDownload('loremundi-les-ombres-sauvegarde-complete.zip');
 
         $path = (new CampaignExport($this->campaign->fresh(), complete: true))->write();
         $zip->open($path);

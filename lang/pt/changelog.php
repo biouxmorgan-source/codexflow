@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.23.0' => [
+        'date' => '2026-10-08',
+        'title' => 'CodexFlow passa a ser LoreMundi',
+        'items' => [
+            'O CodexFlow chama-se agora LoreMundi, publicado pela Autistic Intelligence. Every world has a story.',
+            'As suas campanhas, contas e arquivos não mudam: as cópias feitas com o CodexFlow continuam a ser importadas. Os ficheiros transferidos começam agora por «loremundi-».',
+        ],
+    ],
+
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Backup completo',
@@ -113,7 +122,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Um assistente IA, sem subscrição',
         'items' => [
-            'Nova ferramenta «Assistente IA» na campanha: o CodexFlow prepara um texto com as notas da sessão e o contexto da campanha, para colar na IA da sua escolha. A resposta, colada de volta, torna-se propostas: resumo, eventos jogados, relações, estados, notas de campanha, revelações.',
+            'Nova ferramenta «Assistente IA» na campanha: o LoreMundi prepara um texto com as notas da sessão e o contexto da campanha, para colar na IA da sua escolha. A resposta, colada de volta, torna-se propostas: resumo, eventos jogados, relações, estados, notas de campanha, revelações.',
             'Cada proposta aceita-se, altera-se ou rejeita-se. Nada muda na campanha sem si, e as relações ou estados propostos ficam próprios da campanha, sem tocar no mundo partilhado.',
         ],
     ],
@@ -230,7 +239,7 @@ return [
             'Mensagens entre o Mestre e os jogadores, e painel «Conversa» sempre à mão (grupo e privado).',
             'Notificações: revelações, objetos recebidos, mensagens, com um contador no cabeçalho.',
             'Tudo se atualiza ao vivo: mensagens, contadores, revelações, sem recarregar a página.',
-            'O CodexFlow pode ser instalado como um aplicativo; a ficha do personagem continua legível offline; notificações no dispositivo.',
+            'O LoreMundi pode ser instalado como um aplicativo; a ficha do personagem continua legível offline; notificações no dispositivo.',
             'Tela da mesa: mapas, imagens, fichas e anúncios na TV ou no projetor, e compartilhada com os jogadores se o Mestre quiser.',
             'Os personagens dão objetos uns aos outros e passam adiante o que sabem.',
             'Os jogadores anotam seus conhecimentos e adicionam seus objetos; o Mestre valida os objetos.',

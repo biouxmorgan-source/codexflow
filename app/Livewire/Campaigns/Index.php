@@ -25,7 +25,7 @@ class Index extends Component
 
     public bool $importing = false;
 
-    /** Archive .zip exportée depuis CodexFlow. */
+    /** Archive .zip exportée depuis LoreMundi. */
     public ?TemporaryUploadedFile $archive = null;
 
     public string $name = '';

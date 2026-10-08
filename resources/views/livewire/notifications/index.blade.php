@@ -41,11 +41,11 @@
     @endif
     <section x-data="deviceSettings" wire:ignore class="mt-8 rounded-xl border border-stone-200 bg-white p-6 shadow-sm" aria-labelledby="device-title">
         <h2 id="device-title" class="font-semibold">{{ __('Sur cet appareil') }}</h2>
-        <p class="mt-1 text-sm text-stone-600">{{ __('Installez CodexFlow comme une application sur votre téléphone ou votre ordinateur : la fiche de votre personnage reste lisible sans connexion.') }}</p>
+        <p class="mt-1 text-sm text-stone-600">{{ __('Installez LoreMundi comme une application sur votre téléphone ou votre ordinateur : la fiche de votre personnage reste lisible sans connexion.') }}</p>
 
         <div class="mt-4 flex flex-wrap items-center gap-3">
             <template x-if="installed">
-                <p class="text-sm text-green-800">{{ __('CodexFlow est installé sur cet appareil.') }}</p>
+                <p class="text-sm text-green-800">{{ __('LoreMundi est installé sur cet appareil.') }}</p>
             </template>
             <template x-if="! installed && installable">
                 <button type="button" x-on:click="install" class="btn-secondary">{{ __("Installer l'application") }}</button>
@@ -67,7 +67,7 @@
             </template>
             <template x-if="pushSupported && permission !== 'denied'">
                 <div class="flex flex-wrap items-center gap-3">
-                    <p class="text-sm" x-text="subscribed ? @js(__('Vous recevez vos notifications sur cet appareil, même quand CodexFlow est fermé.')) : @js(__('Recevez messages et révélations sur cet appareil, même quand CodexFlow est fermé.'))"></p>
+                    <p class="text-sm" x-text="subscribed ? @js(__('Vous recevez vos notifications sur cet appareil, même quand LoreMundi est fermé.')) : @js(__('Recevez messages et révélations sur cet appareil, même quand LoreMundi est fermé.'))"></p>
                     <button type="button" x-show="! subscribed" x-on:click="enablePush" x-bind:disabled="busy" class="btn-primary">{{ __('Activer les notifications') }}</button>
                     <button type="button" x-show="subscribed" x-on:click="disablePush" x-bind:disabled="busy" class="btn-secondary">{{ __('Désactiver') }}</button>
                 </div>

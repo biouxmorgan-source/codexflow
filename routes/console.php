@@ -35,7 +35,7 @@ Artisan::command('codexflow:admin {email} {--remove}', function (string $email) 
     }
 
     $user->forceFill(['is_admin' => ! $this->option('remove')])->save();
-    $this->info($user->is_admin ? $user->name.' administre CodexFlow.' : $user->name.' n\'administre plus CodexFlow.');
+    $this->info($user->is_admin ? $user->name.' administre LoreMundi.' : $user->name.' n\'administre plus LoreMundi.');
 })->purpose('Donne (ou retire avec --remove) le rôle d\'administrateur à un compte');
 
 Artisan::command('codexflow:demo {email} {--lang=fr : langue du contenu}', function (string $email, LoadDemoCampaign $loadDemo) {

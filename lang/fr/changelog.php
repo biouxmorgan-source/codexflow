@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.23.0' => [
+        'date' => '2026-10-08',
+        'title' => 'CodexFlow devient LoreMundi',
+        'items' => [
+            'CodexFlow s’appelle désormais LoreMundi, édité par Autistic Intelligence. Every world has a story.',
+            'Vos campagnes, comptes et archives ne changent pas : les sauvegardes faites avec CodexFlow s’importent toujours. Les fichiers téléchargés commencent désormais par « loremundi- ».',
+        ],
+    ],
+
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Sauvegarde complète',
@@ -113,7 +122,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Un assistant IA, sans abonnement',
         'items' => [
-            'Nouvel outil « Assistant IA » dans la campagne : CodexFlow prépare un texte avec les notes de la séance et le contexte de la campagne, à coller dans l’IA de votre choix. Sa réponse, collée en retour, devient des propositions : résumé, événements joués, relations, statuts, notes de campagne, révélations.',
+            'Nouvel outil « Assistant IA » dans la campagne : LoreMundi prépare un texte avec les notes de la séance et le contexte de la campagne, à coller dans l’IA de votre choix. Sa réponse, collée en retour, devient des propositions : résumé, événements joués, relations, statuts, notes de campagne, révélations.',
             'Chaque proposition s’accepte, se modifie ou se rejette. Rien ne change dans la campagne sans vous, et les relations ou statuts proposés restent propres à la campagne, sans toucher au monde partagé.',
         ],
     ],
@@ -230,7 +239,7 @@ return [
             'Messagerie entre le MJ et ses joueurs, et panneau « Discussion » toujours à portée de main (groupe et privé).',
             'Notifications : révélations, objets reçus, messages, avec un compteur dans l\'en-tête.',
             'Tout se met à jour en direct : messages, compteurs, révélations, sans recharger la page.',
-            'CodexFlow s\'installe comme une application ; la fiche du personnage reste lisible hors ligne ; notifications sur l\'appareil.',
+            'LoreMundi s\'installe comme une application ; la fiche du personnage reste lisible hors ligne ; notifications sur l\'appareil.',
             'Écran de table : cartes, images, fiches et annonces sur la télé ou le projecteur, et partagé aux joueurs si le MJ le souhaite.',
             'Les personnages se donnent des objets et se transmettent ce qu\'ils savent.',
             'Les joueurs notent leurs connaissances et ajoutent leurs objets ; le MJ valide les objets.',

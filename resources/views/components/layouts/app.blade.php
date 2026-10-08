@@ -3,7 +3,7 @@
     <header class="border-b border-stone-200 bg-white">
         <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3">
             <a href="{{ route('campaigns.index') }}" class="text-xl font-semibold tracking-tight" translate="no" wire:navigate>
-                <span class="text-ink">CODEX</span><span class="text-flow">FLOW</span>
+                <span class="text-ink">Lore</span><span class="text-mundi">Mundi</span>
             </a>
             @php($searchCampaign = request()->route('campaign'))
             @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('search.index') && auth()->user()->can('play', $searchCampaign))
@@ -66,7 +66,7 @@
         {{ $slot }}
     </main>
     <footer class="mx-auto max-w-6xl px-4 pb-24 text-xs text-stone-500">
-        CodexFlow {{ \App\Support\Changelog::version() }}
+        LoreMundi {{ \App\Support\Changelog::version() }} · by Autistic Intelligence
         · <a href="{{ route('changelog') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Quoi de neuf') }}</a>
         · <a href="{{ route('recommended') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Configuration recommandée') }}</a>
         · <a href="{{ route('preferences') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Préférences') }}</a>

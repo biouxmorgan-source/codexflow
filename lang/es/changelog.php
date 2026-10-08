@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.23.0' => [
+        'date' => '2026-10-08',
+        'title' => 'CodexFlow pasa a llamarse LoreMundi',
+        'items' => [
+            'CodexFlow ahora se llama LoreMundi, publicado por Autistic Intelligence. Every world has a story.',
+            'Tus campañas, cuentas y archivos no cambian: las copias hechas con CodexFlow se siguen importando. Los archivos descargados empiezan ahora por «loremundi-».',
+        ],
+    ],
+
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Copia de seguridad completa',
@@ -113,7 +122,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Un asistente IA, sin suscripción',
         'items' => [
-            'Nueva herramienta «Asistente IA» en la campaña: CodexFlow prepara un texto con las notas de la sesión y el contexto de la campaña, para pegarlo en la IA que prefieras. Su respuesta, pegada de vuelta, se convierte en propuestas: resumen, eventos jugados, relaciones, estados, notas de campaña, revelaciones.',
+            'Nueva herramienta «Asistente IA» en la campaña: LoreMundi prepara un texto con las notas de la sesión y el contexto de la campaña, para pegarlo en la IA que prefieras. Su respuesta, pegada de vuelta, se convierte en propuestas: resumen, eventos jugados, relaciones, estados, notas de campaña, revelaciones.',
             'Cada propuesta se acepta, se modifica o se rechaza. Nada cambia en la campaña sin ti, y las relaciones o estados propuestos son propios de la campaña, sin tocar el mundo compartido.',
         ],
     ],
@@ -230,7 +239,7 @@ return [
             'Mensajería entre el DJ y sus jugadores, y panel «Conversación» siempre a mano (grupo y privado).',
             'Notificaciones: revelaciones, objetos recibidos, mensajes, con un contador en la cabecera.',
             'Todo se actualiza en directo: mensajes, contadores, revelaciones, sin recargar la página.',
-            'CodexFlow se instala como una aplicación; la ficha del personaje se puede leer sin conexión; notificaciones en el dispositivo.',
+            'LoreMundi se instala como una aplicación; la ficha del personaje se puede leer sin conexión; notificaciones en el dispositivo.',
             'Pantalla de mesa: mapas, imágenes, fichas y anuncios en la tele o el proyector, y compartida con los jugadores si el DJ quiere.',
             'Los personajes se dan objetos entre sí y se transmiten lo que saben.',
             'Los jugadores anotan sus conocimientos y añaden sus objetos; el DJ valida los objetos.',

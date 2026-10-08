@@ -7,8 +7,9 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 
-    /* Couleurs reprises du cahier des charges : encre, sarcelle (Codex) et cuivre (Flow). */
+    /* Couleurs reprises du cahier des charges : encre, sarcelle et cuivre. Mundi : sarcelle du logo LoreMundi. */
     --color-ink: #1d2633;
+    --color-mundi: #1f8a8a;
     --color-codex: #2e5b6e;
     --color-codex-soft: #e6eef1;
     --color-flow: #a0522d;
@@ -68,6 +69,7 @@
     --color-codex: #6aa7bd;
     --color-codex-soft: #1d3640;
     --color-flow: #d98f5f;
+    --color-mundi: #4fc1bd;
     /* Accents éclaircis : le texte posé dessus devient sombre. */
     --color-on-accent: #121a1d;
     --color-red-50: #3a1717;

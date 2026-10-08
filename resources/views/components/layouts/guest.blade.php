@@ -2,7 +2,9 @@
 <x-layouts.base :title="$title">
     <main class="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-10">
         <a href="{{ url('/') }}" class="mb-8 text-center text-3xl font-semibold tracking-tight" translate="no">
-            <span class="text-ink">CODEX</span><span class="text-flow">FLOW</span>
+            <span class="text-ink">Lore</span><span class="text-mundi">Mundi</span>
+            <span class="mt-1 block text-xs font-normal tracking-normal text-stone-500">by Autistic Intelligence</span>
+            <span class="mt-2 block text-sm font-normal italic tracking-normal text-stone-600">Every world has a story.</span>
         </a>
         <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
             @if ($title)

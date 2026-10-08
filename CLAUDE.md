@@ -1,6 +1,6 @@
-# CodexFlow
+# LoreMundi (anciennement CodexFlow)
 
-Assistant Web/PWA pour Maître de Jeu, indépendant de tout système de règles. La référence fonctionnelle est le cahier des charges V1.1, conservé dans les fichiers du projet Claude (`cadrage/CodexFlow_Cahier_des_charges_V1.1_FR.docx`).
+Assistant Web/PWA pour Maître de Jeu, édité par Autistic Intelligence (devise « Every world has a story. »), indépendant de tout système de règles. La référence fonctionnelle est le cahier des charges V1.1, conservé dans les fichiers du projet Claude (`cadrage/CodexFlow_Cahier_des_charges_V1.1_FR.docx`).
 
 ## Stack
 

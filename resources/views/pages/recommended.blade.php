@@ -2,14 +2,14 @@
     <div class="max-w-3xl space-y-6">
         <div>
             <h1 class="text-2xl font-semibold">{{ __('Configuration recommandée') }}</h1>
-            <p class="mt-1 text-sm text-stone-600">{{ __('CodexFlow fonctionne dans un navigateur récent, sans rien installer. Quelques conseils pour en profiter au mieux.') }}</p>
+            <p class="mt-1 text-sm text-stone-600">{{ __('LoreMundi fonctionne dans un navigateur récent, sans rien installer. Quelques conseils pour en profiter au mieux.') }}</p>
         </div>
 
         <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 class="mb-2 font-semibold">{{ __('Navigateur') }}</h2>
             <ul class="list-disc space-y-1 pl-5 text-stone-700">
                 <li>{{ __('Chrome, Edge, Firefox ou Safari, dans une version récente (mis à jour automatiquement en général).') }}</li>
-                <li>{{ __("Pour installer CodexFlow comme une application et recevoir les notifications sur l'appareil : Chrome ou Edge sur ordinateur et Android, Safari sur iPhone et iPad (iOS 16.4 ou plus récent, après « Sur l'écran d'accueil »).") }}</li>
+                <li>{{ __("Pour installer LoreMundi comme une application et recevoir les notifications sur l'appareil : Chrome ou Edge sur ordinateur et Android, Safari sur iPhone et iPad (iOS 16.4 ou plus récent, après « Sur l'écran d'accueil »).") }}</li>
                 <li>{!! __('Les réglages se trouvent dans :link, bloc « Sur cet appareil ».', ['link' => '<a href="'.e(route('notifications.index')).'" class="link" wire:navigate>'.e(__('Notifications')).'</a>']) !!}</li>
             </ul>
         </section>

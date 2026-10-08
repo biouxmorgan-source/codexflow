@@ -1,8 +1,8 @@
-# CodexFlow
+# LoreMundi
 
 **Le monde en mémoire. La partie en mouvement.**
 
-CodexFlow est le poste de pilotage du Maître de Jeu : une application Web (PWA) pour préparer, conduire et mémoriser ses campagnes de jeu de rôle, quel que soit le système de règles.
+LoreMundi est le poste de pilotage du Maître de Jeu : une application Web (PWA) pour préparer, conduire et mémoriser ses campagnes de jeu de rôle, quel que soit le système de règles.
 
 ## Démarrer en local
 

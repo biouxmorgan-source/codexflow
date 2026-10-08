@@ -101,7 +101,7 @@
                         <p class="mt-2 text-xs break-all text-stone-500">
                             {{ $item->user?->email ?? __('Compte supprimé') }}
                             @if ($item->url) · {{ $item->url }} @endif
-                            · {{ $item->locale }} · CodexFlow {{ $item->version }} · {{ $item->user_agent }}
+                            · {{ $item->locale }} · LoreMundi {{ $item->version }} · {{ $item->user_agent }}
                         </p>
                     @endif
                     <div class="mt-3 grid gap-3 sm:grid-cols-4">

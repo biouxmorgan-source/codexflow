@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#1d2633">
-    <title>Hors ligne · CodexFlow</title>
+    <title>Hors ligne · LoreMundi</title>
     <link rel="icon" href="/favicon.ico">
     <style>
         body { margin: 0; min-height: 100vh; background: #faf8f4; color: #1d2633; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
         main { max-width: 36rem; margin: 0 auto; padding: 3rem 1rem; }
         .logo { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
-        .logo span { color: #a0522d; }
+        .logo span { color: #1f8a8a; }
         h1 { font-size: 1.5rem; margin: 2rem 0 0.5rem; }
         p { color: #57534e; line-height: 1.5; }
         ul { list-style: none; padding: 0; margin: 1.5rem 0; }
@@ -21,7 +21,7 @@
 </head>
 <body>
     <main>
-        <div class="logo" translate="no">CODEX<span>FLOW</span></div>
+        <div class="logo" translate="no">Lore<span>Mundi</span></div>
         <h1 data-text="title">Vous êtes hors ligne</h1>
         <p data-text="body">Cette page n'a pas encore été ouverte sur cet appareil. Les fiches de personnage déjà consultées restent lisibles sans connexion.</p>
         <ul id="sheets"></ul>
@@ -43,7 +43,7 @@
             if (!texts[lang]) return;
             const [title, body, retry] = texts[lang];
             document.documentElement.lang = lang;
-            document.title = title + ' · CodexFlow';
+            document.title = title + ' · LoreMundi';
             document.querySelector('[data-text=title]').textContent = title;
             document.querySelector('[data-text=body]').textContent = body;
             document.querySelector('[data-text=retry]').textContent = retry;
