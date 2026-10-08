@@ -39,6 +39,9 @@ class Plans
         'free_max_campaigns' => 1,
         'free_features' => self::FEATURES,
         'trial_weeks' => 6,
+        // Période offerte (Noël…) : fonctions Premium pour les campagnes des comptes gratuits, dates incluses.
+        'gift_starts_on' => null,
+        'gift_ends_on' => null,
     ];
 
     /** @return array<string, string> */
@@ -59,7 +62,7 @@ class Plans
         ];
     }
 
-    /** @return array{free_storage_mb: int, premium_storage_mb: int, free_max_campaigns: int, free_features: list<string>, trial_weeks: int} */
+    /** @return array{free_storage_mb: int, premium_storage_mb: int, free_max_campaigns: int, free_features: list<string>, trial_weeks: int, gift_starts_on: ?string, gift_ends_on: ?string} */
     public static function settings(): array
     {
         $saved = Setting::get('plans', []);
@@ -133,9 +136,26 @@ class Plans
         abort_unless(self::allows($owner, $feature), 403, self::NOT_INCLUDED);
     }
 
+    /** Fonction réservée aux formules payantes (hors de l'offre gratuite choisie dans la console) : marquée ✦. */
+    public static function isPremium(string $feature): bool
+    {
+        return in_array($feature, self::FEATURES, true) && ! in_array($feature, self::settings()['free_features'], true);
+    }
+
     public static function allows(User $owner, string $feature): bool
     {
-        return self::effective($owner) !== self::FREE || in_array($feature, self::settings()['free_features'], true);
+        return self::effective($owner) !== self::FREE || self::giftActive() || in_array($feature, self::settings()['free_features'], true);
+    }
+
+    /**
+     * Période offerte en cours : seulement les fonctions. Le nombre de campagnes et le stockage
+     * restent ceux de l'offre gratuite, pour qu'aucun compte ne se retrouve au-delà à la fin.
+     */
+    public static function giftActive(): bool
+    {
+        ['gift_starts_on' => $start, 'gift_ends_on' => $end] = self::settings();
+
+        return $start !== null && $end !== null && today()->betweenIncluded(Carbon::parse($start), Carbon::parse($end));
     }
 
     /** Avant de créer, importer, dupliquer ou charger une campagne. */

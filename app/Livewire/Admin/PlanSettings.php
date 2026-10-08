@@ -17,6 +17,10 @@ class PlanSettings extends Component
 
     public int $trialWeeks = 0;
 
+    public ?string $giftStartsOn = null;
+
+    public ?string $giftEndsOn = null;
+
     /** @var list<string> */
     public array $freeFeatures = [];
 
@@ -30,6 +34,8 @@ class PlanSettings extends Component
         $this->freeMaxCampaigns = (int) $settings['free_max_campaigns'];
         $this->trialWeeks = (int) $settings['trial_weeks'];
         $this->freeFeatures = array_values($settings['free_features']);
+        $this->giftStartsOn = $settings['gift_starts_on'];
+        $this->giftEndsOn = $settings['gift_ends_on'];
     }
 
     public function save(): void
@@ -43,11 +49,15 @@ class PlanSettings extends Component
             'trialWeeks' => ['required', 'integer', 'min:0', 'max:104'],
             'freeFeatures' => ['array'],
             'freeFeatures.*' => [Rule::in(Plans::FEATURES)],
+            'giftStartsOn' => ['nullable', 'date_format:Y-m-d', 'required_with:giftEndsOn'],
+            'giftEndsOn' => ['nullable', 'date_format:Y-m-d', 'required_with:giftStartsOn', 'after_or_equal:giftStartsOn'],
         ], attributes: [
             'freeStorageMb' => __('stockage de la formule gratuite'),
             'premiumStorageMb' => __('stockage de la formule premium'),
             'freeMaxCampaigns' => __('campagnes de la formule gratuite'),
             'trialWeeks' => __('durée de l’essai'),
+            'giftStartsOn' => __('début de la période offerte'),
+            'giftEndsOn' => __('fin de la période offerte'),
         ]);
 
         Plans::save([
@@ -56,6 +66,8 @@ class PlanSettings extends Component
             'free_max_campaigns' => $this->freeMaxCampaigns,
             'trial_weeks' => $this->trialWeeks,
             'free_features' => array_values(array_intersect(Plans::FEATURES, $this->freeFeatures)),
+            'gift_starts_on' => $this->giftStartsOn ?: null,
+            'gift_ends_on' => $this->giftEndsOn ?: null,
         ]);
 
         session()->now('status', __('Formules enregistrées.'));

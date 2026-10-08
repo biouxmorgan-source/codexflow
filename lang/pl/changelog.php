@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.31.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Funkcje Premium ✦',
+        'items' => [
+            'Mała gwiazdka ✦ oznacza funkcje Premium. Gdy plan właściciela kampanii ich nie obejmuje, pozostają widoczne, wyszarzone, z wyjaśnieniem.',
+            'Po zakończeniu okresu próbnego lub subskrypcji nic nie jest usuwane: kampanie, mapy, wiadomości i pliki zostają, wyłączają się tylko funkcje ✦.',
+            'Administrator może podarować okres (Boże Narodzenie…), w którym darmowe konta mają wszystkie funkcje Premium.',
+        ],
+    ],
+
     '0.30.0' => [
         'date' => '2026-10-08',
         'title' => 'Pisanie i linki',

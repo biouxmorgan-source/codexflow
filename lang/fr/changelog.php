@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.31.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Fonctions Premium ✦',
+        'items' => [
+            'Une petite étoile ✦ signale les fonctions Premium. Quand la formule du propriétaire d’une campagne ne les comprend pas, elles restent visibles, grisées, avec une explication.',
+            'À la fin d’un essai ou d’un abonnement, rien n’est effacé : campagnes, cartes, messages et fichiers restent, seules les fonctions ✦ se coupent.',
+            'L’administrateur peut offrir une période (Noël…) pendant laquelle les comptes gratuits ont toutes les fonctions Premium.',
+        ],
+    ],
+
     '0.30.0' => [
         'date' => '2026-10-08',
         'title' => 'Écriture et liens',

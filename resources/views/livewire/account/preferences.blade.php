@@ -25,6 +25,13 @@
         @if ($plan === 'free' && ! $me->trial_started_at && \App\Support\Plans\Plans::trialWeeks() > 0)
             <p class="mt-2 text-sm">{{ trans_choice('Essai offert : :count semaine avec toutes les fonctions, à partir de votre première campagne en tant que MJ.|Essai offert : :count semaines avec toutes les fonctions, à partir de votre première campagne en tant que MJ.', \App\Support\Plans\Plans::trialWeeks()) }}</p>
         @endif
+        @php($premiumFeatures = collect(\App\Support\Plans\Plans::features())->filter(fn ($label, $key) => \App\Support\Plans\Plans::isPremium($key)))
+        @if ($premiumFeatures->isNotEmpty())
+            <p class="mt-2 text-sm"><x-premium /> {{ __('Fonctions Premium : :list.', ['list' => $premiumFeatures->implode(', ')]) }}</p>
+            @if ($plan === 'free')
+                <p class="mt-1 text-sm text-stone-600">{{ __('Elles sont désactivées dans vos campagnes, mais rien n’est effacé : cartes, messages, fiches et fichiers restent, et tout revient dès le passage à Premium.') }}</p>
+            @endif
+        @endif
         @php($billing = app(\App\Support\Billing\Billing::class))
         @if ($billing->configured() && ! $me->is_admin)
             <div class="mt-4 flex flex-wrap items-center gap-2">

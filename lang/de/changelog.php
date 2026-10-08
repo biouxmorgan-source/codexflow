@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.31.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Premium-Funktionen ✦',
+        'items' => [
+            'Ein kleiner Stern ✦ kennzeichnet Premium-Funktionen. Gehören sie nicht zum Angebot des Kampagneninhabers, bleiben sie sichtbar, ausgegraut, mit einer Erklärung.',
+            'Am Ende einer Testphase oder eines Abos wird nichts gelöscht: Kampagnen, Karten, Nachrichten und Dateien bleiben, nur die ✦-Funktionen werden abgeschaltet.',
+            'Der Administrator kann einen Geschenkzeitraum (Weihnachten…) anbieten, in dem kostenlose Konten alle Premium-Funktionen haben.',
+        ],
+    ],
+
     '0.30.0' => [
         'date' => '2026-10-08',
         'title' => 'Schreiben und Verknüpfungen',

@@ -36,7 +36,9 @@
                             <button type="button" wire:click="moveScenario({{ $scenario->id }}, -1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="{{ __('Monter :name', ['name' => $scenario->name]) }}">↑</button>
                             <button type="button" wire:click="moveScenario({{ $scenario->id }}, 1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="{{ __('Descendre :name', ['name' => $scenario->name]) }}">↓</button>
                             <button type="button" wire:click="edit({{ $scenario->id }})" class="rounded px-2 py-1 link">{{ __('Modifier') }}</button>
-                            <button type="button" wire:click="duplicate({{ $scenario->id }})" wire:confirm="{{ __('Dupliquer le scénario :name ? Ses scènes sont copiées avec leurs fiches, documents et règles liés ; leur statut repart de « Prévue ».', ['name' => $scenario->name]) }}" class="rounded px-2 py-1 link">{{ __('Dupliquer') }}</button>
+                            @can('use-feature', ['duplication', $campaign])
+                                <button type="button" wire:click="duplicate({{ $scenario->id }})" wire:confirm="{{ __('Dupliquer le scénario :name ? Ses scènes sont copiées avec leurs fiches, documents et règles liés ; leur statut repart de « Prévue ».', ['name' => $scenario->name]) }}" class="rounded px-2 py-1 link">{{ __('Dupliquer') }} <x-premium feature="duplication" /></button>
+                            @endcan
                             <button type="button" wire:click="delete({{ $scenario->id }})" wire:confirm="{{ __('Supprimer le scénario :name et ses :count scène(s) ? Les fiches liées sont conservées.', ['name' => $scenario->name, 'count' => $scenario->scenes->count()]) }}" class="rounded px-2 py-1 text-red-700 hover:underline">{{ __('Supprimer') }}</button>
                         </span>
                     </div>

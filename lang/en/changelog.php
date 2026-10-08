@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.31.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Premium features ✦',
+        'items' => [
+            'A small star ✦ marks Premium features. When a campaign owner’s plan does not include them, they stay visible, greyed out, with an explanation.',
+            'When a trial or subscription ends, nothing is erased: campaigns, maps, messages and files remain; only ✦ features switch off.',
+            'The administrator can offer a gift period (Christmas…) during which free accounts get every Premium feature.',
+        ],
+    ],
+
     '0.30.0' => [
         'date' => '2026-10-08',
         'title' => 'Writing and links',
