@@ -44,6 +44,7 @@
         <x-tool-link :href="route('maps.index', $campaign)" icon="map" :label="__('Cartes')" />
         <x-tool-link :href="route('graph.index', $campaign)" icon="graph" :label="__('Graphe')" />
         <x-tool-link :href="route('timeline.index', $campaign)" icon="timeline" :label="__('Chronologie')" />
+        <x-tool-link :href="route('ai.index', $campaign)" icon="ai" :label="__('Assistant IA')" />
         <x-tool-link :href="route('members.index', $campaign)" icon="members" :label="__('Membres')" />
         <x-tool-link :href="route('messages.index', $campaign)" icon="messages" :label="__('Messages')" :badge="$unread ?: null" />
         <x-tool-link :href="route('journal.index', $campaign)" icon="journal" :label="__('Journal')" />

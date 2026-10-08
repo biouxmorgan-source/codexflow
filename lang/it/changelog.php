@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.12.0' => [
+        'date' => '2026-10-14',
+        'title' => 'Un assistente IA, senza abbonamento',
+        'items' => [
+            'Nuovo strumento «Assistente IA» nella campagna: CodexFlow prepara un testo con le note della sessione e il contesto della campagna, da incollare nell’IA che preferisce. La sua risposta, incollata qui, diventa un insieme di proposte: riassunto, eventi giocati, relazioni, stati, note di campagna, rivelazioni.',
+            'Ogni proposta si accetta, si modifica o si rifiuta. Nulla cambia nella campagna senza di lei, e le relazioni o gli stati proposti restano propri della campagna, senza toccare il mondo condiviso.',
+        ],
+    ],
+
     '0.11.1' => [
         'date' => '2026-10-13',
         'title' => 'La dimostrazione nella tua lingua',

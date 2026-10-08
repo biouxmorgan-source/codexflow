@@ -11,6 +11,7 @@ use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\TableScreenController;
 use App\Livewire\Account\Preferences;
 use App\Livewire\Admin\BugReports;
+use App\Livewire\Ai\Index as AiIndex;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
@@ -86,6 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/cartes/{map}', MapShow::class)->name('maps.show')->whereNumber(['campaign', 'map']);
     Route::livewire('/campagnes/{campaign}/chronologie', TimelineIndex::class)->name('timeline.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/graphe', GraphIndex::class)->name('graph.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/assistant-ia', AiIndex::class)->name('ai.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 
     Route::livewire('/campagnes/{campaign}/regles', RuleIndex::class)->name('rules.index')->whereNumber('campaign');
