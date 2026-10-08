@@ -74,7 +74,7 @@ class InvitationTest extends TestCase
         $this->get(route('campaigns.index'))->assertSee(['Vous avez rejoint la campagne « Les Enfants de la Peur ».', 'Joueur']);
 
         // Le joueur n'accède ni à l'espace MJ ni à la gestion des joueurs.
-        $this->get(route('campaigns.show', $this->campaign))->assertForbidden();
+        $this->get(route('campaigns.show', $this->campaign))->assertRedirect(route('campaigns.index'));
         $this->get(route('members.index', $this->campaign))->assertForbidden();
 
         // Le lien ne sert qu'une fois.

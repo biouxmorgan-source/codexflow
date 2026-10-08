@@ -4,6 +4,20 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.26.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Correcties uit de acceptatietest v0.25.0',
+        'items' => [
+            'Een pagina die open blijft, controleert uw rechten bij elke actie opnieuw: een verwijderde speler of teruggezette co-SL krijgt niets nieuws meer.',
+            'Een speler die een personage krijgt, leest niet langer het privégesprek van de vorige speler met de SL.',
+            'De voorgemaakte personages van de democampagne worden aangeboden bij „Nieuw personage”.',
+            'Tweestapsverificatie: herstelcodes werken bij het inloggen, en de beheerder kan ze verwijderen bij een geblokkeerd account.',
+            'Nieuwe LoreMundi-pictogrammen (tabblad, geïnstalleerde app, meldingen).',
+            'Gedeeld tafelscherm leesbaar op de telefoon; kopteksten van fiches en pagina’s gecorrigeerd op telefoon en tablet, ook met grote tekst.',
+            'Correcties: pushmeldingen zonder fouten, knoppen van het venster „ontvangen”, fiche-verwijzingen na hernoemen, hoeveelheid van een ruil, kaartliniaal, banner „Offline”, vertaalde foutmeldingen, link „Naar de inhoud”.',
+        ],
+    ],
+
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Een spelboek importeren met een AI',

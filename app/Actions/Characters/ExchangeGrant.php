@@ -203,14 +203,14 @@ class ExchangeGrant
         return [$received, $quantity];
     }
 
-    /** Une connaissance se partage : le giver la garde. Un secret partagé reste un secret connu. */
     /** Une connaissance se partage : celui qui la transmet la garde. Un secret partagé reste un secret connu. */
     private function share(CharacterGrant $grant, PlayerCharacter $to): CharacterGrant
     {
         return $to->grants()->create($grant->only(['kind', 'entity_id', 'document_id', 'rule_id', 'secret_id', 'title', 'body']) + ['granted_by' => auth()->id()]);
     }
 
-    private function record(CharacterGrant $grant, string $label, ?int $given, PlayerCharacter $from, PlayerCharacter $to): void
+    /** Une ligne de journal « de X à Y », visible dans le journal des deux personnages. */
+    public static function record(CharacterGrant $grant, string $label, ?int $given, PlayerCharacter $from, PlayerCharacter $to): void
     {
         $values = array_filter([
             'kind' => ['old' => null, 'new' => $grant->kind],

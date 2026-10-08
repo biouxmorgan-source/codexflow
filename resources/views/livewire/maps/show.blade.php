@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="grid gap-6 lg:grid-cols-[1fr_20rem]">
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
         {{-- La carte, cadrée comme sur l'écran de table. --}}
         <section x-data="mapEditor" class="min-w-0"
             data-scale="{{ $map->scale_value }}" data-unit="{{ $map->scale_unit }}"

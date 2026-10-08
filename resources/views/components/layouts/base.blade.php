@@ -51,7 +51,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body {{ $attributes->merge(['class' => 'min-h-screen bg-parchment font-sans text-ink antialiased']) }}>
-        <div x-data="{ online: navigator.onLine }" x-on:online.window="online = true" x-on:offline.window="online = false" x-show="! online" x-cloak role="status"
+        <div x-data="{ online: navigator.onLine && ! document.querySelector('meta[name=codexflow-offline]') }" x-on:online.window="online = ! document.querySelector('meta[name=codexflow-offline]')" x-on:offline.window="online = false" x-show="! online" x-cloak role="status"
             class="sticky top-0 z-50 bg-flow px-4 py-2 text-center text-sm font-medium text-on-accent">
             {{ __('Hors ligne : vous consultez la dernière version enregistrée sur cet appareil.') }}
         </div>

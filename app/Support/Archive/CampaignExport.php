@@ -209,7 +209,10 @@ final class CampaignExport
             'rules' => $rules->map(fn ($rule) => [
                 'id' => $rule->id,
                 'in_campaign' => $rule->campaign_id !== null,
-                ...collect((array) $rule)->only(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'status', 'zone'])->all(),
+                ...collect((array) $rule)->only(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'status', 'zone'])
+                    // Un modèle part chez d'autres MJ : les liens gardent le nom, pas l'identifiant d'une fiche d'ici.
+                    ->map(fn ($value) => is_string($value) ? preg_replace('/\[\[([^\[\]|\n]+?)\|\d+\]\]/u', '[[$1]]', $value) : $value)
+                    ->all(),
                 'tags' => $tagLinks['rules']->get($rule->id, collect())->all(),
             ])->all(),
             'scenarios' => $scenarios->map(fn ($scenario) => [
@@ -350,7 +353,10 @@ final class CampaignExport
             ])->all(),
             'rules' => $rules->map(fn ($rule) => [
                 'id' => $rule->id,
-                ...collect((array) $rule)->only(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'status', 'zone'])->all(),
+                ...collect((array) $rule)->only(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'status', 'zone'])
+                    // Un modèle part chez d'autres MJ : les liens gardent le nom, pas l'identifiant d'une fiche d'ici.
+                    ->map(fn ($value) => is_string($value) ? preg_replace('/\[\[([^\[\]|\n]+?)\|\d+\]\]/u', '[[$1]]', $value) : $value)
+                    ->all(),
                 'tags' => $ruleTags->get($rule->id, collect())->pluck('tag_id')->all(),
             ])->all(),
         ];

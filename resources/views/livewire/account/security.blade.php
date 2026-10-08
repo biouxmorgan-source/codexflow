@@ -62,7 +62,8 @@
             <a href="{{ route('privacy') }}" class="link" wire:navigate>{{ __('Confidentialité et mentions légales') }}</a>
         </p>
 
-        <details class="rounded-lg border border-red-200 p-4">
+        {{-- wire:ignore.self : le volet reste ouvert après une réponse du serveur (refus, erreur). --}}
+        <details class="rounded-lg border border-red-200 p-4" wire:ignore.self>
             <summary class="cursor-pointer text-sm font-medium text-red-700">{{ __('Supprimer mon compte') }}</summary>
             <form wire:submit="deleteAccount" class="mt-4 space-y-3">
                 <p class="text-sm text-stone-700">{{ __('La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur.') }}</p>

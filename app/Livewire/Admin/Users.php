@@ -189,6 +189,21 @@ class Users extends Component
             : __('Le lien n’a pas pu être envoyé : un lien a peut-être déjà été demandé il y a peu. Réessayez dans une minute.'));
     }
 
+    /**
+     * Téléphone perdu et codes de secours épuisés : l'administrateur retire la double
+     * authentification ; la personne pourra la réactiver depuis ses préférences.
+     */
+    public function disableTwoFactor(int $id): void
+    {
+        $this->authorize('admin');
+        $user = User::findOrFail($id);
+
+        $user->forceFill(['two_factor_secret' => null, 'two_factor_recovery_codes' => null, 'two_factor_confirmed_at' => null])->save();
+
+        session()->now('status', __('Double authentification retirée pour :email.', ['email' => $user->email]));
+        unset($this->rows);
+    }
+
     public function render()
     {
         return view('livewire.admin.users', [

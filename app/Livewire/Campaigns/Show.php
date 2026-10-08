@@ -42,9 +42,17 @@ class Show extends Component
             match (true) {
                 $role === CampaignRole::Spectator => $this->redirectRoute('table.screen', $campaign),
                 $character !== null => $this->redirectRoute('characters.show', [$campaign, $character], navigate: true),
+                // Joueur encore sans personnage : sa liste de campagnes le lui dit.
+                $role === CampaignRole::Player => $this->redirectToCampaigns(),
                 default => $this->authorize('update', $campaign),
             };
         }
+    }
+
+    private function redirectToCampaigns(): void
+    {
+        session()->flash('status', __('Votre MJ ne vous a pas encore confié de personnage.'));
+        $this->redirectRoute('campaigns.index', navigate: true);
     }
 
     /** @return Collection<int, Entity> */

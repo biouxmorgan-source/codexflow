@@ -111,6 +111,9 @@ class Index extends Component
             'newGameName' => ['required_if:gameChoice,new', 'nullable', 'string', 'max:255'],
             'worldChoice' => ['nullable', Rule::in(['', 'new', ...$this->worlds->modelKeys()])],
             'newWorldName' => ['required_if:worldChoice,new', 'nullable', 'string', 'max:255'],
+        ], [
+            'newGameName.required_if' => __('Donnez un nom au nouveau jeu.'),
+            'newWorldName.required_if' => __('Donnez un nom au nouveau monde.'),
         ], attributes: [
             'gameChoice' => __('jeu'),
             'worldChoice' => __('monde'),

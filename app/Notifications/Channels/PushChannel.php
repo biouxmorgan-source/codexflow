@@ -11,8 +11,6 @@ use NotificationChannels\WebPush\WebPushChannel;
  */
 class PushChannel
 {
-    public function __construct(private WebPushChannel $channel) {}
-
     public static function enabled(): bool
     {
         return filled(config('webpush.vapid.public_key')) && filled(config('webpush.vapid.private_key'));
@@ -21,6 +19,8 @@ class PushChannel
     /** @return array<int, mixed> */
     public function send(mixed $notifiable, Notification $notification): array
     {
-        return rescue(fn () => $this->channel->send($notifiable, $notification), []);
+        // Résolu ici, sous rescue : sans GMP ni BCMath, la bibliothèque web-push
+        // lève une erreur dès sa construction.
+        return rescue(fn () => app(WebPushChannel::class)->send($notifiable, $notification), []);
     }
 }

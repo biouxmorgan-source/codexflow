@@ -4,6 +4,20 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.26.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Fixes from the v0.25.0 acceptance test',
+        'items' => [
+            'A page left open checks your rights again on every action: a removed player or a demoted co-GM no longer receives anything new.',
+            'A player who is given a character no longer reads the previous player’s private conversation with the GM.',
+            'The demo campaign’s pre-generated characters are offered in “New character”.',
+            'Two-factor authentication: recovery codes work on the sign-in screen, and the administrator can remove two-factor authentication from a locked-out account.',
+            'New LoreMundi icons (browser tab, installed app, notifications).',
+            'Shared table screen readable on phones; sheet and page headers fixed on phones and tablets, including with large text.',
+            'Fixes: push notifications without errors, buttons of the “received” popup, sheet references after a rename, exchange quantity, map ruler, “Offline” banner, translated error messages, “Skip to content” link.',
+        ],
+    ],
+
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Import a game book with an AI',

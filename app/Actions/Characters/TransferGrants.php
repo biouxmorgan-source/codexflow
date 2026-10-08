@@ -44,13 +44,13 @@ class TransferGrants
                     $copy = $to->grants()->create($grant->only([
                         'kind', 'entity_id', 'document_id', 'rule_id', 'secret_id', 'title', 'body', 'quantity', 'added_by_player', 'validated_at',
                     ]) + ['granted_by' => auth()->id()]);
-                    GiveToCharacters::record($copy, $to, 'created');
+                    // Inscrit comme une transmission entre les deux personnages, pas comme un don du MJ.
+                    ExchangeGrant::record($copy, $grant->label(), $grant->quantity, $from, $to);
                     $moved++;
                 }
 
                 if ($grant->kind === 'possession') {
                     $grant->delete();
-                    GiveToCharacters::record($grant, $from, 'deleted');
                 }
             }
 

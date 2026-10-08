@@ -28,8 +28,9 @@
         @if ($entity->hasImage())
             <img src="{{ route('characters.portrait', [$campaign, $character]) }}?v={{ $entity->updated_at?->timestamp }}" alt="{{ __('Portrait de :name', ['name' => $entity->name]) }}" class="h-24 w-24 shrink-0 rounded-xl object-cover shadow-sm">
         @endif
-        <div class="min-w-0 flex-1">
-            <h1 class="text-2xl font-semibold">{{ $entity->name }}</h1>
+        {{-- min-w-48 : sur téléphone, les boutons passent à la ligne au lieu d'écraser le nom. --}}
+        <div class="min-w-48 flex-1">
+            <h1 class="text-2xl font-semibold break-words">{{ $entity->name }}</h1>
             @if ($entity->summary)
                 <p class="mt-1 text-stone-700">{{ $entity->summary }}</p>
             @endif
@@ -356,7 +357,7 @@
                                     <span @class(['rounded-full px-1.5 py-0.5 font-medium', 'bg-flow/10 text-flow' => $note->visibility === 'private', 'bg-stone-100 text-stone-600' => $note->visibility !== 'private'])>
                                         {{ $note->visibility === 'players' ? __('Partagée avec :names', ['names' => $note->sharedWith->map(fn ($c) => $c->entity->name)->implode(', ')]) : $note->visibilityLabel() }}
                                     </span>
-                                    @if ($this->canWrite && $note->user_id === auth()->id())
+                                    @if ($this->canWrite && $note->user_id === auth()->id() && $note->player_character_id === $character->id)
                                         <span class="ml-auto flex gap-3">
                                             <button type="button" wire:click="editNote({{ $note->id }})" class="link">{{ __('Modifier') }}</button>
                                             <button type="button" wire:click="deleteNote({{ $note->id }})" wire:confirm="{{ __('Supprimer cette note ?') }}" class="text-red-700 hover:underline">{{ __('Supprimer') }}</button>

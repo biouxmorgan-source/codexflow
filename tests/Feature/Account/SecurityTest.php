@@ -113,10 +113,10 @@ class SecurityTest extends TestCase
     {
         $coGm = User::factory()->create();
         $this->campaign->members()->attach($coGm, ['role' => CampaignRole::GameMaster->value]);
-        $form = Livewire::actingAs($coGm)->test(EntityForm::class, ['campaign' => $this->campaign]);
+        $form = Livewire::actingAs($coGm)->test(EntityForm::class, ['campaign' => $this->campaign])->set('name', 'Intrus');
 
         $this->campaign->members()->detach($coGm);
-        $form->set('name', 'Intrus')->call('save')->assertForbidden();
+        $form->call('save')->assertForbidden();
         $this->assertFalse(Entity::where('name', 'Intrus')->exists());
     }
 

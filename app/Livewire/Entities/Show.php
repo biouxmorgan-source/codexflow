@@ -276,7 +276,7 @@ class Show extends Component
         $relation->campaign()->associate($worldWide ? null : $this->campaign);
         $relation->save();
 
-        $this->reset('relationTargetId', 'relationLabel', 'relationReverse', 'relationCampaignOnly');
+        $this->reset('relationTargetId', 'relationLabel', 'relationReverse', 'relationCampaignOnly', 'relationZone');
     }
 
     public ?int $pickedDocumentId = null;

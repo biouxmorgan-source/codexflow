@@ -203,7 +203,6 @@
     "LoreMundi fonctionne dans un navigateur récent, sans rien installer. Quelques conseils pour en profiter au mieux.": "O LoreMundi funciona em um navegador recente, sem instalar nada. Algumas dicas para aproveitá-lo ao máximo.",
     "Colonne :number": "Coluna :number",
     "Colonnes": "Colunas",
-    "Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique ou MJ), Choix (séparés par |), Type de fiche.": "Colunas reconhecidas: Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste), Zone (publique ou MJ), Choix (separados por |), Type de fiche.",
     "Combien": "Quantos",
     "Comme l'appareil": "Como o dispositivo",
     "Comme le navigateur": "Como o navegador",
@@ -1782,7 +1781,6 @@
     "Télécharger mes données": "Transferir os meus dados",
     "Téléchargez ce que LoreMundi garde sur vous : compte, connexions, campagnes, personnages, notes, messages et signalements. Le contenu complet d’une campagne se télécharge depuis la campagne.": "Transfira o que o LoreMundi guarda sobre si: conta, inícios de sessão, campanhas, personagens, notas, mensagens e relatórios. O conteúdo completo de uma campanha transfere-se a partir da campanha.",
     "Uniquement à faire fonctionner LoreMundi. Elles ne sont ni vendues, ni prêtées, ni utilisées pour de la publicité.": "Apenas para fazer funcionar o LoreMundi. Não são vendidos, nem cedidos, nem usados para publicidade.",
-    "Utiliser l’application d’authentification": "Usar a aplicação de autenticação",
     "Utiliser un code de secours": "Usar um código de recuperação",
     "Vos codes de secours": "Os seus códigos de recuperação",
     "Vos droits": "Os seus direitos",
@@ -1824,5 +1822,15 @@
     "Votre adresse e-mail LoreMundi a changé": "O seu endereço de e-mail LoreMundi mudou",
     "Votre nom est visible des autres membres de vos campagnes. Changer d’adresse e-mail ou de mot de passe demande votre mot de passe actuel.": "O seu nome é visível para os outros membros das suas campanhas. Mudar de e-mail ou de palavra-passe exige a sua palavra-passe atual.",
     "mot de passe actuel": "palavra-passe atual",
-    "nouveau mot de passe": "nova palavra-passe"
+    "nouveau mot de passe": "nova palavra-passe",
+    "The provided two factor authentication code was invalid.": "O código de autenticação de dois fatores não é válido.",
+    "The provided two factor recovery code was invalid.": "Este código de recuperação não é válido (cada código só serve uma vez).",
+    "The provided password was incorrect.": "A senha está incorreta.",
+    "Colonnes reconnues : Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste, compteur, lien, fichier, fiche), Zone (publique ou MJ), Choix (séparés par |), Type de fiche, Modifiable par le joueur (oui ou non).": "Colunas reconhecidas: Nom, Groupe, Type (texte, texte long, nombre, oui/non, date, liste, compteur, lien, fichier, fiche), Zone (publique ou MJ), Choix (separados por |), Type de fiche, Modifiable par le joueur (oui ou non).",
+    "Donnez un nom au nouveau jeu.": "Dê um nome ao novo jogo.",
+    "Donnez un nom au nouveau monde.": "Dê um nome ao novo mundo.",
+    "Double authentification retirée pour :email.": "Autenticação de dois fatores removida para :email.",
+    "Retirer la double authentification": "Remover a autenticação de dois fatores",
+    "Retirer la double authentification de :email ? Vérifiez d’abord que la demande vient bien de cette personne.": "Remover a autenticação de dois fatores de :email? Confirme antes que o pedido vem mesmo dessa pessoa.",
+    "Aller au contenu": "Ir para o conteúdo"
 }

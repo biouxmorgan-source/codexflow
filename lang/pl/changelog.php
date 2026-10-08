@@ -4,6 +4,20 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.26.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Poprawki z testu odbiorczego v0.25.0',
+        'items' => [
+            'Otwarta strona ponownie sprawdza uprawnienia przy każdej akcji: usunięty gracz lub zdegradowany współ-MG nie dostaje już nic nowego.',
+            'Gracz, któremu powierzono postać, nie czyta już prywatnej rozmowy poprzedniego gracza z MG.',
+            'Gotowe postacie z kampanii demonstracyjnej są proponowane w „Nowa postać”.',
+            'Uwierzytelnianie dwuskładnikowe: kody zapasowe działają przy logowaniu, a administrator może je usunąć z zablokowanego konta.',
+            'Nowe ikony LoreMundi (karta przeglądarki, zainstalowana aplikacja, powiadomienia).',
+            'Udostępniony ekran stołu czytelny na telefonie; nagłówki kart i stron poprawione na telefonie i tablecie, także przy dużym tekście.',
+            'Poprawki: powiadomienia push bez błędów, przyciski okna „otrzymano”, odwołania do kart po zmianie nazwy, liczba w wymianie, linijka map, baner „Offline”, przetłumaczone komunikaty błędów, link „Przejdź do treści”.',
+        ],
+    ],
+
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Import podręcznika gry z pomocą AI',

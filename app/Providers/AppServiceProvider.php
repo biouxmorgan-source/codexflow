@@ -6,6 +6,7 @@ use App\Models\Campaign;
 use App\Models\User;
 use App\Models\UserLogin;
 use App\Support\Plans\Plans;
+use App\Support\RechecksAuthorization;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -38,6 +39,9 @@ class AppServiceProvider extends ServiceProvider
 
         // Fonction comprise dans la formule : celle du propriétaire de la campagne, sinon la sienne.
         Gate::define('use-feature', fn (User $user, string $feature, ?Campaign $campaign = null) => Plans::allows($campaign?->owner ?? $user, $feature));
+
+        // Droits revérifiés à chaque requête Livewire, pas seulement à l'ouverture de la page.
+        RechecksAuthorization::register();
 
         // Indicateur de la console d'administration : la date de connexion, rien d'autre.
         Event::listen(Login::class, function (Login $event) {
