@@ -38,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('admin', fn (User $user) => $user->is_admin);
 
         // Fonction comprise dans la formule : celle du propriétaire de la campagne, sinon la sienne.
+        // Formule du propriétaire seulement : une fonction coupée par le MJ se teste avec CampaignFeatures::enabled().
         Gate::define('use-feature', fn (User $user, string $feature, ?Campaign $campaign = null) => Plans::allows($campaign?->owner ?? $user, $feature));
 
         // Droits revérifiés à chaque requête Livewire, pas seulement à l'ouverture de la page.

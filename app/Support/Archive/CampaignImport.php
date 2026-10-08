@@ -19,6 +19,7 @@ use App\Models\Secret;
 use App\Models\Tag;
 use App\Models\TimelineEvent;
 use App\Models\User;
+use App\Support\CampaignFeatures;
 use App\Support\EntityLinks;
 use App\Support\TableTheme;
 use Illuminate\Database\Eloquent\Model;
@@ -193,6 +194,7 @@ final class CampaignImport
             ? $campaignData['table_theme']
             : TableTheme::DEFAULT;
         $campaign->exchanges_need_approval = (bool) ($campaignData['exchanges_need_approval'] ?? true);
+        $campaign->disabled_features = CampaignFeatures::clean($campaignData['disabled_features'] ?? []);
         $campaign->save();
         $campaign->members()->attach($this->user, ['role' => CampaignRole::GameMaster->value]);
 

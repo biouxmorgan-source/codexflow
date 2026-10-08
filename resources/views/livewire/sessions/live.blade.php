@@ -251,7 +251,8 @@
                 </section>
 
                 {{-- Écran de table : ce que voient les joueurs sur le second écran. --}}
-                @cannot('use-feature', ['table', $campaign])
+                @if (! \App\Support\CampaignFeatures::enabled($campaign, 'table'))
+                @elseif (auth()->user()->cannot('use-feature', ['table', $campaign]))
                     <section class="rounded-xl border border-dashed border-stone-300 bg-stone-50 p-4 text-sm text-stone-500">
                         <h2 class="mb-1 flex items-center gap-1 text-sm font-semibold tracking-wide uppercase">{{ __('Écran de table') }} <x-premium /></h2>
                         <p>{{ __('Fonction Premium, non comprise dans la formule du propriétaire de la campagne. Rien n’est effacé : tout revient dès le passage à Premium.') }}</p>
@@ -315,13 +316,13 @@
                         </ul>
                     @endif
                     <p class="mt-3 flex gap-4 text-sm">
-                        @can('use-feature', ['maps', $campaign])
+                        @if (\App\Support\CampaignFeatures::usable($campaign, 'maps'))
                             <a href="{{ route('maps.index', $campaign) }}" class="link" wire:navigate>{{ __('Cartes →') }}</a>
-                        @endcan
+                        @endif
                         <a href="{{ route('table.remote', $campaign) }}" class="link" wire:navigate>{{ __('Télécommande →') }}</a>
                     </p>
                 </section>
-                @endcannot
+                @endif
 
                 {{-- Révéler une information ou donner un objet en pleine partie. --}}
                 <livewire:characters.give :campaign="$campaign" key="give-session" />

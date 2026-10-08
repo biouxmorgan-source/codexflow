@@ -144,6 +144,11 @@ class Plans
 
     public static function allows(User $owner, string $feature): bool
     {
+        // Les fonctions hors formule (graphe, chronologie…) sont comprises partout.
+        if (! in_array($feature, self::FEATURES, true)) {
+            return true;
+        }
+
         return self::effective($owner) !== self::FREE || self::giftActive() || in_array($feature, self::settings()['free_features'], true);
     }
 

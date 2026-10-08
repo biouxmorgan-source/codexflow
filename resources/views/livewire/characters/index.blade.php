@@ -13,10 +13,12 @@
         <p class="mb-4 rounded-lg bg-green-50 px-4 py-2 text-sm text-green-800" role="status">{{ session('status') }}</p>
     @endif
 
+    @if (\App\Support\CampaignFeatures::enabled($campaign, 'exchanges'))
     <label class="mb-6 flex items-start gap-2 text-sm text-stone-700">
         <input type="checkbox" wire:click="toggleExchangeApproval" @checked($campaign->exchanges_need_approval) class="mt-0.5">
         <span>{{ __('Valider les échanges entre joueurs') }} <span class="block text-stone-500">{{ __('Décoché, les joueurs se donnent objets et connaissances sans attendre votre accord ; vous en êtes informé.') }}</span></span>
     </label>
+    @endif
 
     @foreach ($this->returning as $character)
         <div wire:key="returning-{{ $character->id }}" class="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900" role="status">

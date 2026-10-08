@@ -121,8 +121,8 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/telecommande', TableRemote::class)->name('table.remote')->middleware('feature:table')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/cartes', MapIndex::class)->name('maps.index')->middleware('feature:maps')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/cartes/{map}', MapShow::class)->name('maps.show')->middleware('feature:maps')->whereNumber(['campaign', 'map']);
-    Route::livewire('/campagnes/{campaign}/chronologie', TimelineIndex::class)->name('timeline.index')->whereNumber('campaign');
-    Route::livewire('/campagnes/{campaign}/graphe', GraphIndex::class)->name('graph.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/chronologie', TimelineIndex::class)->name('timeline.index')->middleware('feature:timeline')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/graphe', GraphIndex::class)->name('graph.index')->middleware('feature:graph')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/assistant-ia', AiIndex::class)->name('ai.index')->middleware('feature:ai')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 

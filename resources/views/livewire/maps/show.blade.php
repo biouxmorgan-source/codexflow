@@ -9,7 +9,9 @@
         <h1 class="text-2xl font-semibold">{{ $map->name }}</h1>
         <div class="flex flex-wrap items-center gap-2">
             <livewire:table.show-button :campaign="$campaign" kind="map" :item-id="$map->id" :key="'show-map-'.$map->id" />
+            @if (\App\Support\CampaignFeatures::usable($campaign, 'table'))
             <a href="{{ route('table.remote', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Télécommande') }}</a>
+        @endif
         </div>
     </div>
 

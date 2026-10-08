@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.34.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Funkcje w każdej kampanii',
+        'items' => [
+            'Na stronie kampanii MG zaznacza funkcje potrzebne jego stołowi: ekran stołu, mapy, wymiana między graczami, graf, oś czasu, asystent AI. Odznaczona funkcja znika dla wszystkich, nic nie jest usuwane; wraca, gdy tylko zostanie ponownie zaznaczona.',
+        ],
+    ],
+
     '0.33.0' => [
         'date' => '2026-10-08',
         'title' => 'Wykończenie',

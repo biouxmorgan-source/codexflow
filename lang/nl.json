@@ -1918,5 +1918,18 @@
     ":player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.": ":player is terug in de campagne. :character, het vroegere personage, heeft geen speler.",
     "Lui rendre :name": ":name teruggeven",
     "Tous les personnages actifs": "Alle actieve personages",
-    "anciennement :name": "voorheen :name"
+    "anciennement :name": "voorheen :name",
+    "Cartes avec grille, jetons et règle.": "Kaarten met raster, fiches en liniaal.",
+    "Décochez ce dont cette table n’a pas besoin : la fonction disparaît pour vous comme pour les joueurs. Rien n’est effacé, tout revient quand vous la recochez.": "Vink uit wat deze tafel niet nodig heeft: de functie verdwijnt voor jou en voor de spelers. Er wordt niets gewist; alles komt terug zodra je hem weer aanvinkt.",
+    "Fonctions de la campagne": "Functies van de campagne",
+    "La carte des liens entre les fiches.": "De kaart van de verbanden tussen de kaarten.",
+    "Le second écran montré aux joueurs, « Afficher à la table » et la télécommande.": "Het tweede scherm voor de spelers, ‘Aan tafel tonen’ en de afstandsbediening.",
+    "Les joueurs se donnent objets et connaissances.": "Spelers geven elkaar voorwerpen en kennis.",
+    "Les événements du monde, prévus et joués.": "De gebeurtenissen van de wereld, gepland en gespeeld.",
+    "Non comprise dans la formule actuelle : elle reste grisée même cochée.": "Niet inbegrepen in het huidige abonnement: blijft grijs, ook als hij aangevinkt is.",
+    "Résumés de séance et suggestions de mise à jour des fiches.": "Sessiesamenvattingen en voorstellen om kaarten bij te werken.",
+    "Échanges entre joueurs": "Uitwisselingen tussen spelers",
+    "Fonction désactivée": "Functie uitgeschakeld",
+    "Le MJ a désactivé cette fonction dans cette campagne. Il peut la réactiver depuis la page de la campagne.": "De SL heeft deze functie in deze campagne uitgeschakeld. Die kan haar weer inschakelen op de campagnepagina.",
+    "Cette fonction est désactivée dans cette campagne.": "Deze functie is in deze campagne uitgeschakeld."
 }

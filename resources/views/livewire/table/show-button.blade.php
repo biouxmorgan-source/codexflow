@@ -1,5 +1,7 @@
 <span class="inline-flex items-center gap-2">
-    @cannot('use-feature', ['table', $campaign])
+    @if (! \App\Support\CampaignFeatures::enabled($campaign, 'table'))
+        {{-- Écran de table coupé par le MJ dans cette campagne : rien à afficher. --}}
+    @elseif (auth()->user()->cannot('use-feature', ['table', $campaign]))
         {{-- Écran de table hors de la formule du propriétaire : le bouton reste visible, inactif. --}}
         <button type="button" disabled @class(['btn-secondary cursor-not-allowed opacity-60' => ! $compact, 'text-xs text-stone-400' => $compact]) title="{{ __('Fonction Premium, non comprise dans la formule du propriétaire de la campagne') }}">
             {{ $label ?: __('Afficher à la table') }} <x-premium />

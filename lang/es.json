@@ -1918,5 +1918,18 @@
     ":player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.": ":player ha vuelto a la campaña. :character, su antiguo personaje, no tiene jugador.",
     "Lui rendre :name": "Devolverle a :name",
     "Tous les personnages actifs": "Todos los personajes activos",
-    "anciennement :name": "antes :name"
+    "anciennement :name": "antes :name",
+    "Cartes avec grille, jetons et règle.": "Mapas con cuadrícula, fichas y regla.",
+    "Décochez ce dont cette table n’a pas besoin : la fonction disparaît pour vous comme pour les joueurs. Rien n’est effacé, tout revient quand vous la recochez.": "Desmarca lo que esta mesa no necesita: la función desaparece para ti y para los jugadores. No se borra nada; todo vuelve cuando la vuelves a marcar.",
+    "Fonctions de la campagne": "Funciones de la campaña",
+    "La carte des liens entre les fiches.": "El mapa de vínculos entre las fichas.",
+    "Le second écran montré aux joueurs, « Afficher à la table » et la télécommande.": "La segunda pantalla que ven los jugadores, «Mostrar en la mesa» y el mando.",
+    "Les joueurs se donnent objets et connaissances.": "Los jugadores se dan objetos y conocimientos.",
+    "Les événements du monde, prévus et joués.": "Los acontecimientos del mundo, previstos y jugados.",
+    "Non comprise dans la formule actuelle : elle reste grisée même cochée.": "No incluida en el plan actual: sigue en gris aunque esté marcada.",
+    "Résumés de séance et suggestions de mise à jour des fiches.": "Resúmenes de sesión y sugerencias para actualizar las fichas.",
+    "Échanges entre joueurs": "Intercambios entre jugadores",
+    "Fonction désactivée": "Función desactivada",
+    "Le MJ a désactivé cette fonction dans cette campagne. Il peut la réactiver depuis la page de la campagne.": "El DJ ha desactivado esta función en esta campaña. Puede reactivarla desde la página de la campaña.",
+    "Cette fonction est désactivée dans cette campagne.": "Esta función está desactivada en esta campaña."
 }

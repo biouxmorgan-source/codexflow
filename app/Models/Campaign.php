@@ -44,6 +44,7 @@ class Campaign extends Model
             'table_display' => 'array',
             'table_shared' => 'boolean',
             'exchanges_need_approval' => 'boolean',
+            'disabled_features' => 'array',
         ];
     }
 

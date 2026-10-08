@@ -51,8 +51,8 @@
     <nav aria-label="{{ __('Outils de la campagne') }}" class="mb-8 flex flex-wrap gap-2">
         <x-tool-link :href="route('secrets.index', $campaign)" icon="secret" :label="__('Secrets')" />
         <x-tool-link :href="route('maps.index', $campaign)" icon="map" :label="__('Cartes')" feature="maps" :campaign="$campaign" />
-        <x-tool-link :href="route('graph.index', $campaign)" icon="graph" :label="__('Graphe')" />
-        <x-tool-link :href="route('timeline.index', $campaign)" icon="timeline" :label="__('Chronologie')" />
+        <x-tool-link :href="route('graph.index', $campaign)" icon="graph" :label="__('Graphe')" feature="graph" :campaign="$campaign" />
+        <x-tool-link :href="route('timeline.index', $campaign)" icon="timeline" :label="__('Chronologie')" feature="timeline" :campaign="$campaign" />
         <x-tool-link :href="route('ai.index', $campaign)" icon="ai" :label="__('Assistant IA')" feature="ai" :campaign="$campaign" />
         <x-tool-link :href="route('members.index', $campaign)" icon="members" :label="__('Membres')" />
         <x-tool-link :href="route('messages.index', $campaign)" icon="messages" :label="__('Messages')" :badge="$unread ?: null" />
@@ -143,6 +143,27 @@
             </ul>
         @endif
     </section>
+
+    @can('update', $campaign)
+        <section class="mt-10 rounded-xl border border-stone-200 bg-white p-6 shadow-sm" aria-labelledby="campaign-features">
+            <h2 id="campaign-features" class="mb-1 font-semibold">{{ __('Fonctions de la campagne') }}</h2>
+            <p class="mb-3 text-sm text-stone-600">{{ __('Décochez ce dont cette table n’a pas besoin : la fonction disparaît pour vous comme pour les joueurs. Rien n’est effacé, tout revient quand vous la recochez.') }}</p>
+            <div class="grid gap-3 sm:grid-cols-2">
+                @foreach (\App\Support\CampaignFeatures::all() as $key => $feature)
+                    <label wire:key="feature-{{ $key }}" class="flex items-start gap-2 text-sm">
+                        <input type="checkbox" wire:click="toggleFeature('{{ $key }}')" @checked(\App\Support\CampaignFeatures::enabled($campaign, $key)) class="mt-1">
+                        <span>
+                            <span class="inline-flex items-center gap-1 font-medium">{{ $feature['label'] }} <x-premium :feature="$key" /></span>
+                            <span class="block text-xs text-stone-500">{{ $feature['hint'] }}</span>
+                            @unless (\App\Support\Plans\Plans::allows($campaign->owner, $key))
+                                <span class="block text-xs text-amber-700">{{ __('Non comprise dans la formule actuelle : elle reste grisée même cochée.') }}</span>
+                            @endunless
+                        </span>
+                    </label>
+                @endforeach
+            </div>
+        </section>
+    @endcan
 
     @can('duplicate', $campaign)
         @cannot('use-feature', ['duplication'])

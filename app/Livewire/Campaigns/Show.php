@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\Tag;
+use App\Support\CampaignFeatures;
 use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -107,6 +108,13 @@ class Show extends Component
         $copy = $duplicateCampaign->handle($this->campaign, auth()->user(), $this->keepStatuses);
 
         $this->redirectRoute('campaigns.show', $copy, navigate: true);
+    }
+
+    /** Le MJ coupe ou réactive une fonction pour cette campagne : rien n'est effacé. */
+    public function toggleFeature(string $feature): void
+    {
+        $this->authorize('update', $this->campaign);
+        CampaignFeatures::toggle($this->campaign, $feature);
     }
 
     public function delete(): void

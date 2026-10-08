@@ -9,7 +9,9 @@
             <h1 class="text-2xl font-semibold">{{ __('Cartes') }}</h1>
             <p class="mt-1 max-w-2xl text-sm text-stone-600">{{ __("Une image envoyée sur l'écran de table, avec une grille et des jetons si besoin. Vos figurines restent sur la table : la carte est un support, pas une table virtuelle.") }}</p>
         </div>
-        <a href="{{ route('table.remote', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Télécommande') }}</a>
+        @if (\App\Support\CampaignFeatures::usable($campaign, 'table'))
+            <a href="{{ route('table.remote', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Télécommande') }}</a>
+        @endif
     </div>
 
     <form wire:submit="create" class="mb-6 rounded-xl border border-stone-200 bg-white p-5 shadow-sm">

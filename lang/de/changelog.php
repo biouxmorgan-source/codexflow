@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.34.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Funktionen pro Kampagne',
+        'items' => [
+            'Auf der Kampagnenseite hakt die Spielleitung die Funktionen an, die ihr Tisch braucht: Tischbildschirm, Karten, Tausch zwischen Spielern, Graph, Zeitleiste, KI-Assistent. Eine nicht angehakte Funktion verschwindet für alle, ohne dass etwas gelöscht wird; sie kommt zurück, sobald sie wieder angehakt wird.',
+        ],
+    ],
+
     '0.33.0' => [
         'date' => '2026-10-08',
         'title' => 'Feinschliff',

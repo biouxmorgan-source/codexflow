@@ -49,11 +49,15 @@
                     <span class="ml-1 rounded-full bg-flow px-2 py-0.5 text-xs font-semibold text-on-accent">{{ $unread }} <span class="sr-only">{{ __('non lus') }}</span></span>
                 @endif
             </a>
-            @if ($campaign->table_shared)
+            @if ($campaign->table_shared && \App\Support\CampaignFeatures::usable($campaign, 'table'))
                 <a href="{{ route('table.screen', $campaign) }}" target="loremundi-table" class="btn-secondary">{{ __('Écran de table ↗') }}</a>
             @endif
-            <a href="{{ route('graph.index', [$campaign, 'comme' => $character->id]) }}" class="btn-secondary" wire:navigate>{{ __('Graphe') }}</a>
-            <a href="{{ route('timeline.index', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Chronologie') }}</a>
+            @if (\App\Support\CampaignFeatures::enabled($campaign, 'graph'))
+                <a href="{{ route('graph.index', [$campaign, 'comme' => $character->id]) }}" class="btn-secondary" wire:navigate>{{ __('Graphe') }}</a>
+            @endif
+            @if (\App\Support\CampaignFeatures::enabled($campaign, 'timeline'))
+                <a href="{{ route('timeline.index', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Chronologie') }}</a>
+            @endif
         @endif
     </header>
 
