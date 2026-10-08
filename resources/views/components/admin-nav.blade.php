@@ -5,6 +5,7 @@
         'admin.users' => __('Comptes'),
         'admin.plans' => __('Formules'),
         'admin.backlog' => __('Backlog'),
+        'admin.evolutions' => __('Évolutions'),
         'admin.recettes' => __('Recettes'),
     ] as $route => $label)
         <a href="{{ route($route) }}" @class(['rounded-md px-3 py-1.5 font-medium', 'bg-codex-soft text-codex' => request()->routeIs($route), 'text-stone-600 hover:bg-stone-100 hover:text-ink' => ! request()->routeIs($route)]) @if (request()->routeIs($route)) aria-current="page" @endif wire:navigate>

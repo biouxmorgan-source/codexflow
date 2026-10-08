@@ -1658,5 +1658,18 @@
     "Passer Premium : :interval": "Premium werden: :interval",
     "Stripe : :status": "Stripe: :status",
     "durée de l’essai": "Dauer der Testphase",
-    "jusqu’au :date": "bis :date"
+    "jusqu’au :date": "bis :date",
+    "Abandonnée": "Verworfen",
+    "Administration · Évolutions": "Administration · Weiterentwicklung",
+    "Ajouter l’évolution": "Eintrag hinzufügen",
+    "Aucune évolution prévue.": "Keine geplante Weiterentwicklung.",
+    "Ce que vous prévoyez pour la plateforme. Les bugs et les retours de recette restent dans le backlog.": "Was Sie für die Plattform planen. Fehler und Rückmeldungen aus Abnahmetests bleiben im Backlog.",
+    "Faite": "Erledigt",
+    "Idée": "Idee",
+    "Supprimer cette évolution ?": "Diesen Eintrag löschen?",
+    "v1.0, décembre…": "v1.0, Dezember…",
+    "À venir": "Anstehend",
+    "Échéance": "Zieltermin",
+    "Évolutions": "Weiterentwicklung",
+    "échéance": "Zieltermin"
 }

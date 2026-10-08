@@ -1658,5 +1658,18 @@
     "Passer Premium : :interval": "Go Premium: :interval",
     "Stripe : :status": "Stripe: :status",
     "durée de l’essai": "trial duration",
-    "jusqu’au :date": "until :date"
+    "jusqu’au :date": "until :date",
+    "Abandonnée": "Dropped",
+    "Administration · Évolutions": "Administration · Roadmap",
+    "Ajouter l’évolution": "Add the item",
+    "Aucune évolution prévue.": "No planned item.",
+    "Ce que vous prévoyez pour la plateforme. Les bugs et les retours de recette restent dans le backlog.": "What you plan for the platform. Bugs and acceptance-test feedback stay in the backlog.",
+    "Faite": "Done",
+    "Idée": "Idea",
+    "Supprimer cette évolution ?": "Delete this item?",
+    "v1.0, décembre…": "v1.0, December…",
+    "À venir": "Upcoming",
+    "Échéance": "Target",
+    "Évolutions": "Roadmap",
+    "échéance": "target"
 }

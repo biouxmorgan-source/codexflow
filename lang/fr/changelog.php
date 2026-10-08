@@ -10,6 +10,7 @@ return [
         'items' => [
             'Passer Premium depuis « Préférences » : paiement mensuel ou annuel sécurisé par Stripe, factures et résiliation dans le portail Stripe. Le premium dure jusqu’à la fin de la période payée.',
             'Essai offert : six semaines avec toutes les fonctions, à partir de votre première campagne en tant que MJ. Un joueur qui n’est jamais MJ ne l’entame pas. La durée se règle dans la console d’administration.',
+            'Un onglet « Évolutions » dans la console d’administration pour tenir la feuille de route de la plateforme.',
         ],
     ],
 

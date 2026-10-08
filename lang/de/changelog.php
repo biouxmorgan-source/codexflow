@@ -10,6 +10,7 @@ return [
         'items' => [
             'Premium über „Einstellungen“: monatliche oder jährliche Zahlung, gesichert durch Stripe, mit Rechnungen und Kündigung im Stripe-Portal. Premium gilt bis zum Ende des bezahlten Zeitraums.',
             'Kostenlose Testphase: sechs Wochen mit allen Funktionen, ab Ihrer ersten Kampagne als SL. Wer nie SL ist, beginnt sie nicht. Die Dauer wird in der Administration eingestellt.',
+            'Ein Reiter „Weiterentwicklung“ in der Administration für die Planung der Plattform.',
         ],
     ],
 

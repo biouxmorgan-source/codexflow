@@ -12,6 +12,7 @@ use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\TableScreenController;
 use App\Livewire\Account\Preferences;
 use App\Livewire\Admin\Backlog as AdminBacklog;
+use App\Livewire\Admin\Evolutions as AdminEvolutions;
 use App\Livewire\Admin\PlanSettings as AdminPlans;
 use App\Livewire\Admin\Recettes as AdminRecettes;
 use App\Livewire\Admin\Users as AdminUsers;
@@ -74,6 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/admin', AdminUsers::class)->name('admin.users');
     Route::livewire('/admin/formules', AdminPlans::class)->name('admin.plans');
     Route::livewire('/admin/backlog', AdminBacklog::class)->name('admin.backlog');
+    Route::livewire('/admin/evolutions', AdminEvolutions::class)->name('admin.evolutions');
     Route::livewire('/admin/recettes', AdminRecettes::class)->name('admin.recettes');
     Route::redirect('/problemes-signales', '/admin/backlog')->name('bugs.index');
     Route::post('/push/abonnement', [PushSubscriptionController::class, 'store'])->name('push.store');

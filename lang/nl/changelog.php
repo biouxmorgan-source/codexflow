@@ -10,6 +10,7 @@ return [
         'items' => [
             'Premium nemen via ‘Voorkeuren’: maandelijkse of jaarlijkse betaling, beveiligd door Stripe, met facturen en opzeggen in het Stripe-portaal. Premium loopt tot het einde van de betaalde periode.',
             'Gratis proefperiode: zes weken met alle functies, vanaf je eerste campagne als SL. Een speler die nooit SL is, begint er niet aan. De duur stel je in bij het beheer.',
+            'Een tabblad ‘Roadmap’ in het beheer om de plannen voor het platform bij te houden.',
         ],
     ],
 

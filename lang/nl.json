@@ -1658,5 +1658,18 @@
     "Passer Premium : :interval": "Premium nemen: :interval",
     "Stripe : :status": "Stripe: :status",
     "durée de l’essai": "duur van de proefperiode",
-    "jusqu’au :date": "tot :date"
+    "jusqu’au :date": "tot :date",
+    "Abandonnée": "Geschrapt",
+    "Administration · Évolutions": "Beheer · Roadmap",
+    "Ajouter l’évolution": "Item toevoegen",
+    "Aucune évolution prévue.": "Geen gepland item.",
+    "Ce que vous prévoyez pour la plateforme. Les bugs et les retours de recette restent dans le backlog.": "Wat je voor het platform plant. Bugs en feedback uit acceptatietests blijven in de backlog.",
+    "Faite": "Klaar",
+    "Idée": "Idee",
+    "Supprimer cette évolution ?": "Dit item verwijderen?",
+    "v1.0, décembre…": "v1.0, december…",
+    "À venir": "Gepland",
+    "Échéance": "Streefdatum",
+    "Évolutions": "Roadmap",
+    "échéance": "streefdatum"
 }

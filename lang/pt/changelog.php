@@ -10,6 +10,7 @@ return [
         'items' => [
             'Assine o Premium em “Preferências”: pagamento mensal ou anual protegido pelo Stripe, com faturas e cancelamento no portal do Stripe. O Premium dura até o fim do período pago.',
             'Teste gratuito: seis semanas com todas as funções, a partir da sua primeira campanha como Mestre. Um jogador que nunca é Mestre não o inicia. A duração é ajustada no console de administração.',
+            'Uma aba “Evoluções” no console de administração para manter o roteiro da plataforma.',
         ],
     ],
 

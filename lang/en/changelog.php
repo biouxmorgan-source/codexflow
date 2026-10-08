@@ -10,6 +10,7 @@ return [
         'items' => [
             'Go Premium from “Preferences”: monthly or yearly payment secured by Stripe, with invoices and cancellation in the Stripe portal. Premium lasts until the end of the paid period.',
             'Free trial: six weeks with every feature, starting from your first campaign as GM. A player who is never a GM does not start it. The length is set in the admin console.',
+            'A “Roadmap” tab in the admin console to keep the platform’s plans.',
         ],
     ],
 

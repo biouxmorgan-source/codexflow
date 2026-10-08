@@ -10,6 +10,7 @@ return [
         'items' => [
             'Przejdź na Premium w „Preferencjach”: płatność miesięczna lub roczna zabezpieczona przez Stripe, z fakturami i rezygnacją w portalu Stripe. Premium trwa do końca opłaconego okresu.',
             'Darmowy okres próbny: sześć tygodni ze wszystkimi funkcjami, od twojej pierwszej kampanii jako MG. Gracz, który nigdy nie jest MG, go nie zaczyna. Długość ustawia się w panelu administracyjnym.',
+            'Zakładka „Rozwój” w panelu administracyjnym do prowadzenia planów platformy.',
         ],
     ],
 

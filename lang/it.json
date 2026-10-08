@@ -1658,5 +1658,18 @@
     "Passer Premium : :interval": "Passa a Premium: :interval",
     "Stripe : :status": "Stripe: :status",
     "durée de l’essai": "durata della prova",
-    "jusqu’au :date": "fino al :date"
+    "jusqu’au :date": "fino al :date",
+    "Abandonnée": "Abbandonata",
+    "Administration · Évolutions": "Amministrazione · Evoluzioni",
+    "Ajouter l’évolution": "Aggiungi l’evoluzione",
+    "Aucune évolution prévue.": "Nessuna evoluzione prevista.",
+    "Ce que vous prévoyez pour la plateforme. Les bugs et les retours de recette restent dans le backlog.": "Ciò che prevedi per la piattaforma. Bug e riscontri dei collaudi restano nel backlog.",
+    "Faite": "Fatta",
+    "Idée": "Idea",
+    "Supprimer cette évolution ?": "Eliminare questa evoluzione?",
+    "v1.0, décembre…": "v1.0, dicembre…",
+    "À venir": "In arrivo",
+    "Échéance": "Scadenza",
+    "Évolutions": "Evoluzioni",
+    "échéance": "scadenza"
 }

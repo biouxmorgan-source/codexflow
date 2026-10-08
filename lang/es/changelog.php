@@ -10,6 +10,7 @@ return [
         'items' => [
             'Pasa a Premium desde «Preferencias»: pago mensual o anual protegido por Stripe, con facturas y cancelación en el portal de Stripe. El Premium dura hasta el final del periodo pagado.',
             'Prueba gratuita: seis semanas con todas las funciones, a partir de tu primera campaña como DJ. Un jugador que nunca es DJ no la empieza. La duración se ajusta en la consola de administración.',
+            'Una pestaña «Evoluciones» en la consola de administración para llevar la hoja de ruta de la plataforma.',
         ],
     ],
 

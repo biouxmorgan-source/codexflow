@@ -10,6 +10,7 @@ return [
         'items' => [
             'Passa a Premium da «Preferenze»: pagamento mensile o annuale protetto da Stripe, con fatture e disdetta nel portale Stripe. Il Premium dura fino alla fine del periodo pagato.',
             'Prova gratuita: sei settimane con tutte le funzioni, dalla tua prima campagna come Master. Un giocatore che non è mai Master non la inizia. La durata si imposta nella console di amministrazione.',
+            'Una scheda «Evoluzioni» nella console di amministrazione per tenere la tabella di marcia della piattaforma.',
         ],
     ],
 
