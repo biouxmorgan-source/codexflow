@@ -34,6 +34,8 @@ class User extends Authenticatable
             'preferences' => 'array',
             'is_admin' => 'boolean',
             'ai_api_key' => 'encrypted',
+            'plan_started_at' => 'date',
+            'plan_ends_at' => 'date',
         ];
     }
 
@@ -62,6 +64,18 @@ class User extends Authenticatable
         $value = $this->preferences[$key] ?? null;
 
         return isset(Appearance::CHOICES[$key][$value]) ? $value : Appearance::DEFAULTS[$key];
+    }
+
+    /** @return HasMany<Campaign, $this> campagnes dont le compte est propriétaire (MJ) */
+    public function ownedCampaigns(): HasMany
+    {
+        return $this->hasMany(Campaign::class);
+    }
+
+    /** @return HasMany<UserLogin, $this> */
+    public function logins(): HasMany
+    {
+        return $this->hasMany(UserLogin::class);
     }
 
     /** @return BelongsToMany<Campaign, $this> */

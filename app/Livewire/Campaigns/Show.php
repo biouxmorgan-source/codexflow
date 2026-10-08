@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\Tag;
+use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
@@ -88,6 +89,9 @@ class Show extends Component
     public function duplicate(DuplicateCampaign $duplicateCampaign): void
     {
         $this->authorize('duplicate', $this->campaign);
+        Plans::ensure(auth()->user(), 'duplication');
+        Plans::ensureCanCreateCampaign(auth()->user());
+        Plans::ensureRoom(auth()->user(), 0, 'plan');
 
         $copy = $duplicateCampaign->handle($this->campaign, auth()->user());
 

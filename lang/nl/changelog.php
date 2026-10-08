@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.15.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Beheerconsole en abonnementen',
+        'items' => [
+            'Een beheerconsole: de accounts met hun abonnement, abonnementsdata, gebruikte opslag, of er een AI-sleutel is, campagnes en aanmeldingen, zonder persoonsgegevens. De beheerder stelt ieders abonnement in en kan een link sturen om het wachtwoord opnieuw in te stellen, zonder het ooit te zien.',
+            'Drie abonnementen: beheerder, premium en gratis. Opslag, aantal campagnes en de functies van het gratis abonnement stel je in de console in; spelen, co-SL of toeschouwer zijn telt nooit mee.',
+            'De backlog verzamelt gemelde problemen, bugs en verbeteringen, met status, prioriteit en versie van de oplossing; daar worden ook de acceptatietests versie na versie bewaard. Je abonnement staat bij ‘Voorkeuren’.',
+        ],
+    ],
+
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Na de acceptatietest: ruilen goedgekeurd door de SL',

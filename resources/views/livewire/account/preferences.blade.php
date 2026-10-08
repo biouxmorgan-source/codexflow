@@ -6,6 +6,22 @@
         <p class="mb-4 rounded-lg bg-green-50 px-4 py-2 text-sm text-green-800" role="status">{{ session('status') }}</p>
     @endif
 
+    @php($me = auth()->user())
+    @php($plan = \App\Support\Plans\Plans::effective($me))
+    @php($limit = \App\Support\Plans\Plans::storageLimit($me))
+    @php($max = \App\Support\Plans\Plans::maxCampaigns($me))
+    <section class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm" aria-labelledby="plan-title">
+        <h2 id="plan-title" class="font-semibold">{{ __('Votre formule : :plan', ['plan' => \App\Support\Plans\Plans::labels()[$plan]]) }}</h2>
+        <dl class="mt-2 grid gap-2 text-sm sm:grid-cols-3">
+            <div><dt class="text-stone-500">{{ __('Stockage') }}</dt><dd>{{ \App\Support\Plans\StorageUsage::format(\App\Support\Plans\StorageUsage::bytes($me)) }} / {{ $limit === null ? __('illimité') : \App\Support\Plans\StorageUsage::format($limit) }}</dd></div>
+            <div><dt class="text-stone-500">{{ __('Campagnes en tant que MJ') }}</dt><dd>{{ $me->ownedCampaigns()->count() }} / {{ $max ?? __('illimité') }}</dd></div>
+            @if ($me->plan_ends_at && $plan === 'premium')
+                <div><dt class="text-stone-500">{{ __('Fin de l’abonnement') }}</dt><dd>{{ $me->plan_ends_at->isoFormat('LL') }}</dd></div>
+            @endif
+        </dl>
+        <p class="mt-2 text-xs text-stone-500">{{ __('Jouer, être co-MJ ou spectateur dans la campagne d’un autre ne compte pas : vous profitez alors de la formule de son MJ.') }}</p>
+    </section>
+
     <form wire:submit="save" class="space-y-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
         <div>
             <label for="locale" class="label">{{ __('Langue') }}</label>

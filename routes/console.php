@@ -3,6 +3,7 @@
 use App\Actions\Demo\LoadDemoCampaign;
 use App\Models\User;
 use App\Support\Locale;
+use App\Support\RecetteImport;
 use App\Support\TranslationKeys;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -55,3 +56,8 @@ Artisan::command('codexflow:demo {email} {--lang=fr : langue du contenu}', funct
     $campaign = $loadDemo->handle($user, $this->option('lang'));
     $this->info('Campagne de démonstration « '.$campaign->name.' » chargée dans le compte de '.$user->name.'.');
 })->purpose('Charge la campagne de démonstration dans un compte');
+
+Artisan::command('codexflow:recettes', function () {
+    $added = RecetteImport::all();
+    $this->info($added === [] ? 'Aucun nouveau cahier de recette.' : 'Cahiers ajoutés : '.implode(', ', $added));
+})->purpose('Ajoute à la console d\'administration les cahiers de recette livrés (et leurs suites au backlog)');

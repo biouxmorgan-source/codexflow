@@ -10,7 +10,10 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\TableScreenController;
 use App\Livewire\Account\Preferences;
-use App\Livewire\Admin\BugReports;
+use App\Livewire\Admin\Backlog as AdminBacklog;
+use App\Livewire\Admin\PlanSettings as AdminPlans;
+use App\Livewire\Admin\Recettes as AdminRecettes;
+use App\Livewire\Admin\Users as AdminUsers;
 use App\Livewire\Ai\Index as AiIndex;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
@@ -61,7 +64,11 @@ Route::middleware('auth')->group(function () {
     Route::view('/configuration-recommandee', 'pages.recommended')->name('recommended');
     Route::view('/aide', 'pages.help')->name('help');
     Route::livewire('/signaler-un-probleme', ReportBug::class)->name('bugs.create');
-    Route::livewire('/problemes-signales', BugReports::class)->name('bugs.index');
+    Route::livewire('/admin', AdminUsers::class)->name('admin.users');
+    Route::livewire('/admin/formules', AdminPlans::class)->name('admin.plans');
+    Route::livewire('/admin/backlog', AdminBacklog::class)->name('admin.backlog');
+    Route::livewire('/admin/recettes', AdminRecettes::class)->name('admin.recettes');
+    Route::redirect('/problemes-signales', '/admin/backlog')->name('bugs.index');
     Route::post('/push/abonnement', [PushSubscriptionController::class, 'store'])->name('push.store');
     Route::delete('/push/abonnement', [PushSubscriptionController::class, 'destroy'])->name('push.destroy');
     Route::livewire('/notifications', NotificationIndex::class)->name('notifications.index');
@@ -78,16 +85,16 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/scenes/{scene}/modifier', SceneForm::class)->name('scenes.edit')->whereNumber(['campaign', 'scene']);
 
     Route::livewire('/campagnes/{campaign}/session', SessionLive::class)->name('sessions.live')->whereNumber('campaign');
-    Route::livewire('/campagnes/{campaign}/ecran-de-table', TableScreen::class)->name('table.screen')->whereNumber('campaign');
-    Route::get('/campagnes/{campaign}/ecran-de-table/fichier', [TableScreenController::class, 'file'])->name('table.file')->whereNumber('campaign');
-    Route::get('/campagnes/{campaign}/ecran-de-table/image', [TableScreenController::class, 'image'])->name('table.image')->whereNumber('campaign');
-    Route::get('/campagnes/{campaign}/ecran-de-table/jetons/{token}', [TableScreenController::class, 'token'])->name('table.token')->whereNumber(['campaign', 'token']);
-    Route::livewire('/campagnes/{campaign}/telecommande', TableRemote::class)->name('table.remote')->whereNumber('campaign');
-    Route::livewire('/campagnes/{campaign}/cartes', MapIndex::class)->name('maps.index')->whereNumber('campaign');
-    Route::livewire('/campagnes/{campaign}/cartes/{map}', MapShow::class)->name('maps.show')->whereNumber(['campaign', 'map']);
+    Route::livewire('/campagnes/{campaign}/ecran-de-table', TableScreen::class)->name('table.screen')->middleware('feature:table')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/ecran-de-table/fichier', [TableScreenController::class, 'file'])->name('table.file')->middleware('feature:table')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/ecran-de-table/image', [TableScreenController::class, 'image'])->name('table.image')->middleware('feature:table')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/ecran-de-table/jetons/{token}', [TableScreenController::class, 'token'])->name('table.token')->middleware('feature:table')->whereNumber(['campaign', 'token']);
+    Route::livewire('/campagnes/{campaign}/telecommande', TableRemote::class)->name('table.remote')->middleware('feature:table')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/cartes', MapIndex::class)->name('maps.index')->middleware('feature:maps')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/cartes/{map}', MapShow::class)->name('maps.show')->middleware('feature:maps')->whereNumber(['campaign', 'map']);
     Route::livewire('/campagnes/{campaign}/chronologie', TimelineIndex::class)->name('timeline.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/graphe', GraphIndex::class)->name('graph.index')->whereNumber('campaign');
-    Route::livewire('/campagnes/{campaign}/assistant-ia', AiIndex::class)->name('ai.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/assistant-ia', AiIndex::class)->name('ai.index')->middleware('feature:ai')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 
     Route::livewire('/campagnes/{campaign}/regles', RuleIndex::class)->name('rules.index')->whereNumber('campaign');
@@ -114,8 +121,8 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/import', ImportCreate::class)->name('imports.create')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/import/exemple-{kind}.csv', ImportExampleController::class)->name('imports.example')->whereNumber('campaign')->whereIn('kind', ['fiches', 'champs', 'regles', 'scenes']);
-    Route::get('/campagnes/{campaign}/archive.zip', [ArchiveController::class, 'campaign'])->name('archives.campaign')->whereNumber('campaign');
-    Route::get('/campagnes/{campaign}/modele.json', [ArchiveController::class, 'template'])->name('archives.template')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/archive.zip', [ArchiveController::class, 'campaign'])->name('archives.campaign')->middleware('feature:archive')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/modele.json', [ArchiveController::class, 'template'])->name('archives.template')->middleware('feature:archive')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/export/{kind}.csv', ExportController::class)->name('exports.download')->whereNumber('campaign')->whereIn('kind', ['fiches', 'champs', 'regles', 'scenes']);
 
     Route::get('/fichiers/{attachment}', [FileController::class, 'attachment'])->name('attachments.show')->whereNumber('attachment');

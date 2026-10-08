@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.15.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Administration console and plans',
+        'items' => [
+            'An administration console: accounts with their plan, subscription dates, storage used, whether an AI key is set, campaigns and logins, with no personal data. The administrator sets each plan and can send a password reset link, without ever seeing the password.',
+            'Three plans: administrator, premium and free. Storage, number of campaigns and the features of the free plan are set in the console; playing, being co-GM or spectator never counts.',
+            'The backlog gathers reported problems, bugs and improvements, with status, priority and fix version; acceptance reports are kept there version after version. Your plan shows in “Preferences”.',
+        ],
+    ],
+
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Acceptance follow-ups: exchanges approved by the GM',

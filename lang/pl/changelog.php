@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.15.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Konsola administracyjna i plany',
+        'items' => [
+            'Konsola administracyjna: konta z ich planem, datami subskrypcji, zajętym miejscem, informacją o kluczu AI, kampaniami i logowaniami, bez danych osobowych. Administrator ustala plan każdego konta i może wysłać link do zresetowania hasła, nigdy go nie widząc.',
+            'Trzy plany: administrator, premium i darmowy. Miejsce, liczbę kampanii i funkcje planu darmowego ustawia się w konsoli; granie, bycie współ-MG lub widzem nigdy się nie liczy.',
+            'Backlog zbiera zgłoszone problemy, błędy i usprawnienia ze statusem, priorytetem i wersją poprawki; przechowywane są tam też testy odbiorcze, wersja po wersji. Twój plan widać w „Preferencjach”.',
+        ],
+    ],
+
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Po testach odbiorczych: wymiany zatwierdzane przez MG',

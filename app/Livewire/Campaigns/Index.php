@@ -8,6 +8,7 @@ use App\Actions\Duplication\DuplicateCampaign;
 use App\Models\Campaign;
 use App\Support\Archive\ArchiveException;
 use App\Support\Archive\CampaignImport;
+use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
@@ -100,6 +101,8 @@ class Index extends Component
             'newWorldName' => __('nom du nouveau monde'),
         ]);
 
+        Plans::ensureCanCreateCampaign($user);
+
         $createCampaign->handle($user, [
             'name' => $this->name,
             'description' => $this->description ?: null,
@@ -119,6 +122,7 @@ class Index extends Component
     {
         $this->validate(['demoLocale' => ['required', Rule::in(LoadDemoCampaign::locales())]]);
 
+        Plans::ensureCanCreateCampaign(auth()->user());
         $campaign = $loadDemo->handle(auth()->user(), $this->demoLocale);
 
         session()->flash('status', __('Campagne de démonstration chargée : « :name ». Vous en êtes le MJ : modifiez, dupliquez ou supprimez-la librement.', ['name' => $campaign->name]));
@@ -129,6 +133,9 @@ class Index extends Component
     {
         $campaign = Campaign::findOrFail($id);
         $this->authorize('duplicate', $campaign);
+        Plans::ensure(auth()->user(), 'duplication');
+        Plans::ensureCanCreateCampaign(auth()->user());
+        Plans::ensureRoom(auth()->user(), 0, 'plan');
 
         $copy = $duplicateCampaign->handle($campaign, auth()->user());
 
@@ -159,6 +166,10 @@ class Index extends Component
             ['archive' => ['required', 'file', 'mimes:zip', 'max:'.$this->maxArchiveSize]],
             attributes: ['archive' => __('archive')],
         );
+
+        Plans::ensure(auth()->user(), 'archive');
+        Plans::ensureCanCreateCampaign(auth()->user(), 'archive');
+        Plans::ensureRoom(auth()->user(), (int) $this->archive->getSize(), 'archive');
 
         try {
             $campaign = (new CampaignImport(auth()->user()))->handle($this->archive->getRealPath());

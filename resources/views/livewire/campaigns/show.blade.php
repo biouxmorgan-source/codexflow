@@ -41,14 +41,20 @@
     @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
     <nav aria-label="{{ __('Outils de la campagne') }}" class="mb-8 flex flex-wrap gap-2">
         <x-tool-link :href="route('secrets.index', $campaign)" icon="secret" :label="__('Secrets')" />
-        <x-tool-link :href="route('maps.index', $campaign)" icon="map" :label="__('Cartes')" />
+        @can('use-feature', ['maps', $campaign])
+            <x-tool-link :href="route('maps.index', $campaign)" icon="map" :label="__('Cartes')" />
+        @endcan
         <x-tool-link :href="route('graph.index', $campaign)" icon="graph" :label="__('Graphe')" />
         <x-tool-link :href="route('timeline.index', $campaign)" icon="timeline" :label="__('Chronologie')" />
-        <x-tool-link :href="route('ai.index', $campaign)" icon="ai" :label="__('Assistant IA')" />
+        @can('use-feature', ['ai', $campaign])
+            <x-tool-link :href="route('ai.index', $campaign)" icon="ai" :label="__('Assistant IA')" />
+        @endcan
         <x-tool-link :href="route('members.index', $campaign)" icon="members" :label="__('Membres')" />
         <x-tool-link :href="route('messages.index', $campaign)" icon="messages" :label="__('Messages')" :badge="$unread ?: null" />
         <x-tool-link :href="route('journal.index', $campaign)" icon="journal" :label="__('Journal')" />
-        <x-tool-link :href="route('table.remote', $campaign)" icon="remote" :label="__('Télécommande')" />
+        @can('use-feature', ['table', $campaign])
+            <x-tool-link :href="route('table.remote', $campaign)" icon="remote" :label="__('Télécommande')" />
+        @endcan
         @can('update', $campaign->gameSystem)
             <x-tool-link :href="route('fields.index', $campaign)" icon="fields" :label="__('Champs du jeu')" />
             <x-tool-link :href="route('imports.create', $campaign)" icon="import" :label="__('Importer un fichier')" />
@@ -136,17 +142,22 @@
     </section>
 
     @can('duplicate', $campaign)
+        @can('use-feature', ['duplication'])
         <section class="mt-10 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 class="mb-2 font-semibold">{{ __('Dupliquer la campagne') }}</h2>
             <p class="mb-3 text-sm text-stone-600">{{ __('Pour rejouer le même contenu avec une autre table : les fiches, scénarios, scènes, documents et règles de la campagne sont copiés, le jeu et le monde sont partagés. Les joueurs, les personnages, les séances et le journal ne sont pas copiés, et les scènes repartent de « Prévue ».') }}</p>
             <button type="button" wire:click="duplicate" wire:confirm="{{ __('Dupliquer la campagne ? Le contenu préparé est copié ; les joueurs, les personnages, les séances et le journal ne le sont pas.') }}" class="btn-secondary">{{ __('Dupliquer') }}</button>
+            @error('plan') <p class="error mt-2">{{ $message }}</p> @enderror
         </section>
+        @endcan
 
+        @can('use-feature', ['archive', $campaign])
         <section class="mt-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 class="mb-2 font-semibold">{{ __('Exporter la campagne') }}</h2>
             <p class="mb-3 text-sm text-stone-600">{{ __('Une archive .zip avec le jeu (champs, règles), le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Pour la sauvegarder ou la confier à un autre MJ, qui l’importe depuis « Mes campagnes ». Les joueurs, leurs personnages, les séances et le journal n’y sont pas.') }}</p>
             <a href="{{ route('archives.campaign', $campaign) }}" class="btn-secondary">{{ __('Télécharger l’archive') }}</a>
         </section>
+        @endcan
     @endcan
 
     @can('delete', $campaign)
