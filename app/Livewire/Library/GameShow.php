@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Library;
 
+use App\Livewire\Concerns\EditsLibraryImage;
 use App\Models\Campaign;
 use App\Models\GameSystem;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,6 +12,8 @@ use Livewire\Component;
 /** Page d'un jeu : sa description, ses campagnes, ses règles, documents et champs communs. */
 class GameShow extends Component
 {
+    use EditsLibraryImage;
+
     public GameSystem $gameSystem;
 
     public string $name = '';
@@ -45,6 +48,11 @@ class GameShow extends Component
 
         $this->gameSystem->update(['name' => trim($this->name), 'description' => trim($this->description) ?: null]);
         $this->editing = false;
+    }
+
+    protected function libraryItem(): GameSystem
+    {
+        return $this->gameSystem;
     }
 
     public function render()

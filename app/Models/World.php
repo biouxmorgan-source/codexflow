@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasLibraryImage;
 use Database\Factories\WorldFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class World extends Model
 {
     /** @use HasFactory<WorldFactory> */
-    use HasFactory;
+    use HasFactory, HasLibraryImage;
 
     /** @return BelongsTo<User, $this> */
     public function owner(): BelongsTo

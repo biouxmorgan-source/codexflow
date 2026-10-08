@@ -1,5 +1,5 @@
 <div class="max-w-4xl">
-    @include('livewire.library.header', ['kindLabel' => __('Jeu'), 'title' => $gameSystem->name, 'text' => $gameSystem->description])
+    @include('livewire.library.header', ['kindLabel' => __('Jeu'), 'title' => $gameSystem->name, 'text' => $gameSystem->description, 'item' => $gameSystem, 'imageRoute' => 'games.image'])
 
     <div class="grid gap-6 md:grid-cols-2">
         <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">

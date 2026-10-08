@@ -4,6 +4,18 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.32.0' => [
+        'date' => '2026-10-08',
+        'title' => 'PDFs und Dokumente',
+        'items' => [
+            'PDFs öffnen sich in einem integrierten Viewer – gleich auf Computer, Tablet und Smartphone, mit Zoom und Download.',
+            'Auf dem Tischbildschirm wird ein PDF Seite für Seite angezeigt, an den Bildschirm angepasst; mit den Pfeiltasten blättern Sie um.',
+            'Der Charakterbogen behält seinen ursprünglichen Dateinamen.',
+            '„Verwendet von“ nennt das Szenario jeder Szene.',
+            'Spiel- und Weltseiten können ein Bild haben.',
+        ],
+    ],
+
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium-Funktionen ✦',

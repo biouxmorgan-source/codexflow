@@ -4,6 +4,18 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.32.0' => [
+        'date' => '2026-10-08',
+        'title' => 'PDFs and documents',
+        'items' => [
+            'PDFs open in a built-in viewer, the same on computer, tablet and phone, with zoom and download.',
+            'On the table screen, a PDF is shown one page at a time, fitted to the screen; the arrow keys turn the pages.',
+            'The character sheet keeps its original file name.',
+            '“Used by” shows the scenario of each scene.',
+            'Game and world pages can have an image.',
+        ],
+    ],
+
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium features ✦',

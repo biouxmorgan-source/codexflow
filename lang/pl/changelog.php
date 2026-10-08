@@ -4,6 +4,18 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.32.0' => [
+        'date' => '2026-10-08',
+        'title' => 'PDF i dokumenty',
+        'items' => [
+            'Pliki PDF otwierają się we wbudowanej przeglądarce, takiej samej na komputerze, tablecie i telefonie, z powiększaniem i pobieraniem.',
+            'Na ekranie stołu PDF wyświetla się strona po stronie, dopasowany do ekranu; strzałki przewracają strony.',
+            'Karta postaci zachowuje oryginalną nazwę pliku.',
+            '„Używane przez” pokazuje scenariusz każdej sceny.',
+            'Strony gry i świata mogą mieć obraz.',
+        ],
+    ],
+
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Funkcje Premium ✦',

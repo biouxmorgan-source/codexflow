@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Library;
 
+use App\Livewire\Concerns\EditsLibraryImage;
 use App\Models\Campaign;
 use App\Models\World;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,6 +12,8 @@ use Livewire\Component;
 /** Page d'un monde : sa description, ses campagnes, ses fiches et documents réutilisables. */
 class WorldShow extends Component
 {
+    use EditsLibraryImage;
+
     public World $world;
 
     public string $name = '';
@@ -45,6 +48,11 @@ class WorldShow extends Component
 
         $this->world->update(['name' => trim($this->name), 'description' => trim($this->description) ?: null]);
         $this->editing = false;
+    }
+
+    protected function libraryItem(): World
+    {
+        return $this->world;
     }
 
     public function render()

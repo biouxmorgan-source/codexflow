@@ -1905,5 +1905,14 @@
     "Période offerte : les fonctions Premium sont ouvertes dans vos campagnes jusqu’au :date inclus.": "Okres prezentowy: funkcje Premium są otwarte w twoich kampaniach do :date włącznie.",
     "Période offerte en cours.": "Trwa okres prezentowy.",
     "début de la période offerte": "początek okresu prezentowego",
-    "fin de la période offerte": "koniec okresu prezentowego"
+    "fin de la période offerte": "koniec okresu prezentowego",
+    "Agrandir": "Powiększ",
+    "Réduire": "Pomniejsz",
+    "Ce PDF ne peut pas être affiché ici.": "Tego pliku PDF nie można tu wyświetlić.",
+    "Chargement du PDF…": "Wczytywanie pliku PDF…",
+    "L’ouvrir dans le navigateur": "Otwórz go w przeglądarce",
+    "Page précédente": "Poprzednia strona",
+    "Page suivante": "Następna strona",
+    "Pages : ": "Strony: ",
+    "Télécharger": "Pobierz"
 }

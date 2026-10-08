@@ -24,7 +24,7 @@
             @if ($document->isImage())
                 <img src="{{ route('documents.file', $document) }}" alt="{{ $document->title }}" class="mx-auto max-h-[75vh] w-auto">
             @elseif ($document->isPdf())
-                <iframe src="{{ route('documents.file', $document) }}" title="{{ $document->title }}" class="h-[75vh] w-full"></iframe>
+                <x-pdf-viewer :url="route('documents.file', $document)" :title="$document->title" :download="route('documents.file', $document)" class="h-[75vh]" wire:ignore />
             @endif
         </section>
 
@@ -64,7 +64,7 @@
                 @else
                     <ul class="space-y-1 text-sm">
                         @foreach ($scenes as $scene)
-                            <li><span class="text-stone-500">{{ __('Scène ·') }}</span> <a href="{{ route('scenes.show', [$campaign, $scene]) }}" class="link" wire:navigate>{{ $scene->name }}</a></li>
+                            <li><span class="text-stone-500">{{ __('Scène ·') }}</span> <a href="{{ route('scenes.show', [$campaign, $scene]) }}" class="link" wire:navigate>{{ $scene->name }}</a>@if ($scene->scenario) <span class="text-stone-500">({{ $scene->scenario->name }})</span>@endif</li>
                         @endforeach
                         @foreach ($entities as $entity)
                             <li><span class="text-stone-500">{{ __('Fiche ·') }}</span> <a href="{{ route('entities.show', [$campaign, $entity]) }}" class="link" wire:navigate>{{ $entity->name }}</a></li>

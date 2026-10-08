@@ -1,4 +1,4 @@
-{{-- En-tête commun des pages jeu et monde : nom, description mise en forme, modification sur place. --}}
+{{-- En-tête commun des pages jeu et monde : image, nom, description mise en forme, modification sur place. --}}
 <nav class="mb-2 text-sm text-stone-500">
     <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a> › {{ $kindLabel }}
 </nav>
@@ -14,6 +14,22 @@
             <textarea id="library-description" wire:model="description" rows="6" class="field"></textarea>
             @error('description') <p class="error">{{ $message }}</p> @enderror
         </div>
+        <div>
+            <span class="label">{{ __('Image') }}</span>
+            <div class="flex flex-wrap items-center gap-4">
+                @if ($item->hasImage())
+                    <img src="{{ route($imageRoute, $item) }}?v={{ $item->updated_at?->timestamp }}" alt="{{ __('Image actuelle de :name', ['name' => $title]) }}" class="h-24 w-36 rounded-lg object-cover">
+                @endif
+                <div class="space-y-2">
+                    <input id="library-image" type="file" wire:model="image" accept="image/jpeg,image/png,image/webp,image/gif" aria-label="{{ __('Image') }}" class="block text-sm file:mr-3 file:rounded-md file:border-0 file:bg-codex-soft file:px-3 file:py-2 file:font-medium file:text-codex">
+                    @if ($item->hasImage())
+                        <button type="button" wire:click="removeImage" class="link text-sm">{{ __("Retirer l'image") }}</button>
+                    @endif
+                </div>
+            </div>
+            <div wire:loading wire:target="image" class="mt-1 text-sm text-stone-500">{{ __("Envoi de l'image…") }}</div>
+            @error('image') <p class="error">{{ $message }}</p> @enderror
+        </div>
         <div class="flex gap-2">
             <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
             <button type="button" wire:click="$set('editing', false)" class="btn-secondary">{{ __('Annuler') }}</button>
@@ -21,7 +37,10 @@
     </form>
 @else
     <div class="mb-6 flex flex-wrap items-start justify-between gap-3">
-        <div class="min-w-0">
+        @if ($item->hasImage())
+            <img src="{{ route($imageRoute, $item) }}?v={{ $item->updated_at?->timestamp }}" alt="" class="h-32 w-48 shrink-0 rounded-xl object-cover shadow-sm">
+        @endif
+        <div class="min-w-0 flex-1">
             <h1 class="text-2xl font-semibold">{{ $title }}</h1>
             @if ($text)
                 <div class="mt-2 max-w-3xl text-stone-700">{{ \App\Support\EntityLinks::plain($text) }}</div>

@@ -6,7 +6,9 @@ use App\Models\Attachment;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
+use App\Models\GameSystem;
 use App\Models\PlayerCharacter;
+use App\Models\World;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -53,6 +55,28 @@ class FileController
         abort_unless($entity->hasImage(), 404);
 
         return Storage::disk(Entity::FILES_DISK)->response($entity->image_path, null, [
+            'X-Content-Type-Options' => 'nosniff',
+            'Cache-Control' => 'private, max-age=3600',
+        ]);
+    }
+
+    /** Image d'un jeu ou d'un monde : seul son propriétaire voit ces pages. */
+    public function gameImage(GameSystem $gameSystem): StreamedResponse
+    {
+        return $this->libraryImage($gameSystem);
+    }
+
+    public function worldImage(World $world): StreamedResponse
+    {
+        return $this->libraryImage($world);
+    }
+
+    private function libraryImage(GameSystem|World $item): StreamedResponse
+    {
+        abort_unless($item->user_id === auth()->id(), 403);
+        abort_unless($item->hasImage(), 404);
+
+        return Storage::disk($item::IMAGE_DISK)->response($item->image_path, null, [
             'X-Content-Type-Options' => 'nosniff',
             'Cache-Control' => 'private, max-age=3600',
         ]);

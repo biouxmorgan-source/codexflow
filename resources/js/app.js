@@ -131,4 +131,5 @@ import './rich-editor';
 import './echo';
 import './map-editor';
 import './relation-graph';
+import './pdf-viewer';
 import './pwa';
