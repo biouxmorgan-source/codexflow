@@ -86,7 +86,7 @@
                             x-on:change="const inverse = inverses[$event.target.value.trim()]; if (inverse && ! $wire.relationReverse) { $wire.relationReverse = inverse }">
                         <datalist id="relation-labels">
                             @foreach ($relationLabels as $label)
-                                <option value="{{ $label }}">
+                                <option value="{{ $label }}"></option>
                             @endforeach
                         </datalist>
                         @error('relationLabel') <p class="error">{{ $message }}</p> @enderror
@@ -156,7 +156,7 @@
                     <label for="status" class="label">{{ __('Statut') }}</label>
                     <input id="status" type="text" wire:model="status" list="status-suggestions" class="field" placeholder="{{ __('vivant, mort, disparu…') }}">
                     <datalist id="status-suggestions">
-                        <option value="{{ __('vivant') }}"><option value="{{ __('mort') }}"><option value="{{ __('disparu') }}"><option value="{{ __('détruit') }}"><option value="{{ __('inconnu') }}">
+                        <option value="{{ __('vivant') }}"></option><option value="{{ __('mort') }}"></option><option value="{{ __('disparu') }}"></option><option value="{{ __('détruit') }}"></option><option value="{{ __('inconnu') }}"></option>
                     </datalist>
                     @error('status') <p class="error">{{ $message }}</p> @enderror
                 </div>

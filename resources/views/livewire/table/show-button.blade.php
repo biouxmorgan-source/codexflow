@@ -7,7 +7,7 @@
             <a href="{{ route('table.screen', $campaign) }}" target="codexflow-table" class="text-sm link">{{ __("Ouvrir l'écran") }}</a>
         @endunless
     @else
-        <button type="button" wire:click="show" @class(['btn-secondary' => ! $compact, 'text-xs link' => $compact]) title="{{ __("Montrer sur l'écran de table") }}">
+        <button type="button" wire:click="show" @if ($gmOnly) wire:confirm="{{ __('Ce contenu est réservé au MJ. Le montrer à toute la table ?') }}" @endif @class(['btn-secondary' => ! $compact, 'text-xs link' => $compact]) title="{{ __("Montrer sur l'écran de table") }}">
             {{ $label ?: __('Afficher à la table') }}
         </button>
     @endif

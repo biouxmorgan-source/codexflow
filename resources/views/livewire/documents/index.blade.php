@@ -7,7 +7,7 @@
     <h1 class="text-2xl font-semibold">{{ __('Documents') }}</h1>
     <p class="mb-6 text-sm text-stone-600">{{ __('PDF et images de la campagne, de son monde et de son jeu. Liez-les ensuite à une scène, une fiche ou une règle.') }}</p>
 
-    <div class="grid gap-6 lg:grid-cols-3">
+    <div class="grid gap-6 *:min-w-0 lg:grid-cols-3">
         <div class="lg:col-span-2">
             <div class="mb-4 flex flex-wrap items-center gap-3">
                 <label for="kind" class="sr-only">{{ __('Type') }}</label>
@@ -27,7 +27,7 @@
                     <p class="text-stone-600">{{ $kind !== '' || $tag !== '' ? __('Aucun document ne correspond à ce filtre.') : __("Aucun document pour l'instant. Téléversez une carte, une lettre ou un PDF de règles.") }}</p>
                 </div>
             @else
-                <ul class="grid gap-3 sm:grid-cols-2">
+                <ul class="grid gap-3 *:min-w-0 sm:grid-cols-2">
                     @foreach ($this->documents as $document)
                         <li wire:key="doc-{{ $document->id }}" class="relative">
                             <a href="{{ route('documents.show', [$campaign, $document]) }}" class="flex h-full gap-3 rounded-xl border border-stone-200 bg-white p-3 pb-7 shadow-sm hover:border-codex/40" wire:navigate>

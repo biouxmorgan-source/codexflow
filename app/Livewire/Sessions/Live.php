@@ -99,6 +99,28 @@ class Live extends Component
         return $pins;
     }
 
+    /** Fiche ouverte dans le panneau d'aperçu : un lien [[ ]] cliqué en session n'en fait pas sortir. */
+    public ?int $previewId = null;
+
+    #[Computed]
+    public function preview(): ?Entity
+    {
+        $entity = $this->previewId ? $this->campaign->availableEntities()->find($this->previewId) : null;
+
+        if ($entity !== null) {
+            SessionContext::load($this->campaign, collect([$entity]));
+        }
+
+        return $entity;
+    }
+
+    public function openPreview(int $id): void
+    {
+        $this->authorize('update', $this->campaign);
+        $this->previewId = $id;
+        unset($this->preview);
+    }
+
     /** @return Collection<int, ToPlayItem> */
     #[Computed]
     public function toPlay(): Collection

@@ -26,7 +26,7 @@
                 <button type="button" x-on:click="zoomBy(1.25)" class="btn-secondary px-3 py-1.5" aria-label="{{ __('Zoomer') }}">+</button>
                 <button type="button" x-on:click="zoomBy(0.8)" class="btn-secondary px-3 py-1.5" aria-label="{{ __('Dézoomer') }}">−</button>
                 <button type="button" wire:click="resetView" class="btn-secondary px-3 py-1.5">{{ __('Carte entière') }}</button>
-                @if ($map->ruler)
+                @if ($map->activeRuler())
                     <button type="button" wire:click="clearRuler" class="btn-secondary px-3 py-1.5">{{ __('Effacer la règle') }} ({{ $map->rulerLabel() }})</button>
                 @endif
             </div>

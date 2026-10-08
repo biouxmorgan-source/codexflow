@@ -78,7 +78,7 @@ class Index extends Component
         return view('livewire.search.index', [
             'isGameMaster' => $isGameMaster,
             'kinds' => $isGameMaster
-                ? array_diff_key(GlobalSearch::kinds(), ['knowledge' => true])
+                ? array_merge(GlobalSearch::kinds(), ['notes' => __('Notes'), 'knowledge' => __('Secrets et informations données')])
                 : array_intersect_key(['entities' => __('Fiches connues'), 'knowledge' => __('Informations, objets et règles'), 'documents' => __('Documents'), 'notes' => __('Notes')], array_flip(GlobalSearch::PLAYER_KINDS)),
             'asCharacter' => $asCharacter,
             'myCharacter' => $isGameMaster ? null : $asCharacter ?? $this->campaign->playerCharacters()->active()->where('user_id', auth()->id())->with('entity')->first(),

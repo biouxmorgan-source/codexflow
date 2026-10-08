@@ -7,11 +7,14 @@ use App\Models\AiAnalysis;
 use App\Models\AiSuggestion;
 use App\Models\Campaign;
 use App\Models\PlaySession;
+use App\Support\Ai\AiProviders;
+use App\Support\Ai\Clients\AiRequestFailed;
 use App\Support\Ai\SessionPrompt;
 use App\Support\Ai\SuggestionParser;
 use App\Support\Ai\UnreadableResponse;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
@@ -83,6 +86,51 @@ class Index extends Component
             'entities' => $this->campaign->availableEntities()->pluck('name', 'id')->all(),
             'characters' => $this->campaign->playerCharacters()->active()->with('entity')->get()->mapWithKeys(fn ($c) => [$c->id => $c->entity?->name])->all(),
         ];
+    }
+
+    /** Fournisseur de la clé personnelle du MJ, ou null : seul le mode « texte à coller » est proposé. */
+    #[Computed]
+    public function directProvider(): ?string
+    {
+        return auth()->user()->hasAiKey() ? AiProviders::name(auth()->user()->ai_provider) : null;
+    }
+
+    /** Envoie le texte à l'IA du MJ, avec sa clé et à ses frais, puis lit la réponse comme si elle avait été collée. */
+    public function analyseDirectly(): void
+    {
+        $this->authorize('update', $this->campaign);
+        $this->resetValidation();
+        $this->validate(['sessionId' => ['nullable', Rule::in($this->sessions->modelKeys())]]);
+
+        $client = AiProviders::clientFor(auth()->user());
+
+        if ($client === null) {
+            $this->addError('direct', __('Enregistrez d’abord votre clé d’API dans vos préférences.'));
+
+            return;
+        }
+
+        // Chaque appel coûte au MJ : un double clic ou une boucle ne doit pas vider son crédit.
+        $key = 'ai-direct:'.auth()->id();
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $this->addError('direct', __('Trop d’analyses à la suite : patientez une minute.'));
+
+            return;
+        }
+
+        RateLimiter::hit($key, 60);
+        @set_time_limit(240);
+
+        try {
+            $this->response = $client->complete($this->prompt);
+        } catch (AiRequestFailed $e) {
+            $this->addError('direct', $e->getMessage());
+
+            return;
+        }
+
+        $this->analyse();
     }
 
     public function analyse(): void

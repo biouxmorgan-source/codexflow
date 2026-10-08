@@ -10,6 +10,8 @@ use App\Models\Document;
 use App\Models\Entity;
 use App\Models\EntityRelation;
 use App\Models\Rule;
+use App\Models\Secret;
+use App\Models\TimelineEvent;
 use App\Models\ToPlayItem;
 use App\Models\User;
 use App\Support\TableTheme;
@@ -22,10 +24,12 @@ use Illuminate\Support\Facades\DB;
  * Copié : le contenu préparé propre à la campagne — fiches de campagne (sauf celles des personnages
  * joueurs), leurs relations et liens, états de campagne des fiches du monde, scénarios et scènes
  * (statuts remis à « Prévue »), documents (fichiers copiés) et règles de campagne avec leurs liens,
+ * secrets et leurs liens (sans les révélations), chronologie du monde et événements prévus,
  * épingles, cartes et leurs jetons, et éléments « À jouer » du MJ non encore joués.
  *
  * Non copié : les membres autres que le propriétaire, les invitations, les personnages joueurs et
  * tout ce qui leur appartient (connaissances, possessions, notes), les séances et leurs notes,
+ * les événements « joués » de la chronologie,
  * les messages, les notifications, le journal, l'écran de table et la progression des scènes.
  *
  * Le journal n'est pas alimenté : la copie démarre avec un historique vierge, et des centaines
@@ -66,6 +70,7 @@ class DuplicateCampaign
         $rules = $this->copyRules($source, $campaign);
 
         $this->copyLinks($source, $entities, $documents, $rules);
+        $secrets = $this->copySecrets($source, $campaign, $owner, $entities, $documents);
 
         foreach ($source->entityStates()->get() as $state) {
             $copy = $state->replicate();
@@ -77,9 +82,11 @@ class DuplicateCampaign
         $scenes = [];
 
         foreach ($source->scenarios()->get() as $scenario) {
-            [, $map] = $this->scenarios->copyInto($scenario, $campaign, $scenario->name, $scenario->position, $entities, $documents, $rules);
+            [, $map] = $this->scenarios->copyInto($scenario, $campaign, $scenario->name, $scenario->position, $entities, $documents, $rules, $secrets);
             $scenes += $map;
         }
+
+        $this->copyTimeline($source, $campaign, $owner, $scenes);
 
         $this->copyMaps($source, $campaign, $entities, $documents);
 
@@ -128,6 +135,49 @@ class DuplicateCampaign
         }
 
         return $map;
+    }
+
+    /**
+     * Secrets et leurs liens vers les fiches et documents copiés ; personne ne les connaît encore.
+     *
+     * @param  array<int, int>  $entities
+     * @param  array<int, int>  $documents
+     * @return array<int, int>
+     */
+    private function copySecrets(Campaign $source, Campaign $campaign, User $owner, array $entities, array $documents): array
+    {
+        $map = [];
+
+        foreach ($source->secrets()->with(['entities', 'documents'])->orderBy('id')->get() as $secret) {
+            $copy = new Secret($secret->only(['title', 'body']));
+            $copy->campaign()->associate($campaign);
+            $copy->owner()->associate($owner);
+            $copy->save();
+
+            $copy->entities()->attach(array_values(array_filter(array_map(fn (int $id) => $entities[$id] ?? null, $secret->entities->modelKeys()))));
+            $copy->documents()->attach(array_values(array_filter(array_map(fn (int $id) => $documents[$id] ?? null, $secret->documents->modelKeys()))));
+
+            $map[$secret->id] = $copy->id;
+        }
+
+        return $map;
+    }
+
+    /**
+     * Chronologie du monde et événements prévus ; les événements joués racontent la table d'origine.
+     *
+     * @param  array<int, int>  $scenes
+     */
+    private function copyTimeline(Campaign $source, Campaign $campaign, User $owner, array $scenes): void
+    {
+        foreach ($source->timelineEvents()->where('kind', '!=', 'played')->orderBy('position')->get() as $event) {
+            $copy = new TimelineEvent($event->only(['kind', 'date_label', 'title', 'description', 'zone']));
+            $copy->campaign()->associate($campaign);
+            $copy->user_id = $owner->id;
+            $copy->scene_id = $event->scene_id === null ? null : ($scenes[$event->scene_id] ?? null);
+            $copy->position = $event->position;
+            $copy->save();
+        }
     }
 
     /** @return array<int, int> */

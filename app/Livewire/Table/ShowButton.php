@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Table;
 
+use App\Enums\Zone;
+use App\Models\Attachment;
 use App\Models\Campaign;
+use App\Models\Rule as RuleModel;
 use App\Support\TableDisplay;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
@@ -52,6 +55,19 @@ class ShowButton extends Component
     {
         return view('livewire.table.show-button', [
             'showing' => TableDisplay::isShowing($this->campaign->fresh(), $this->kind, $this->itemId),
+            'gmOnly' => $this->isGameMasterOnly(),
         ]);
+    }
+
+    /** Pièce jointe ou règle de la zone MJ : le MJ confirme avant de la montrer à toute la table. */
+    private function isGameMasterOnly(): bool
+    {
+        $model = match ($this->kind) {
+            'attachment' => Attachment::find($this->itemId),
+            'rule' => RuleModel::find($this->itemId),
+            default => null,
+        };
+
+        return $model?->zone === Zone::GameMaster;
     }
 }

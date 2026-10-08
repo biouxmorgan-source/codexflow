@@ -4,8 +4,28 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.13.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Corrections de la recette V1',
+        'items' => [
+            'La recherche du MJ trouve aussi les secrets, les informations et objets donnés, les notes partagées des joueurs et les tags de scène.',
+            'Dupliquer une campagne copie ses secrets et sa chronologie préparée ; un lien vers une fiche ouvert en session s’affiche dans un panneau, sans quitter la session.',
+            'Pages d’erreur traduites, courriel de mot de passe en français, Mode Session et Documents lisibles sur téléphone, menu pour les liens masqués sur petit écran.',
+            'Un personnage au repos et un objet validé par le MJ ne sont plus modifiables par le joueur ; la règle temporaire de la carte s’efface d’elle-même.',
+        ],
+    ],
+
+    '0.13.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Votre propre IA, sans copier-coller',
+        'items' => [
+            'Dans « Préférences », vous pouvez enregistrer une clé d’API à votre nom chez Claude (Anthropic), ChatGPT (OpenAI) ou Le Chat (Mistral). L’assistant IA propose alors « Analyser directement » : les propositions arrivent sans copier-coller.',
+            'Les appels sont facturés par le fournisseur sur votre compte. La clé est chiffrée, jamais réaffichée ni exportée, et le mode « texte à coller » reste gratuit.',
+        ],
+    ],
+
     '0.12.0' => [
-        'date' => '2026-10-14',
+        'date' => '2026-10-08',
         'title' => 'Un assistant IA, sans abonnement',
         'items' => [
             'Nouvel outil « Assistant IA » dans la campagne : CodexFlow prépare un texte avec les notes de la séance et le contexte de la campagne, à coller dans l’IA de votre choix. Sa réponse, collée en retour, devient des propositions : résumé, événements joués, relations, statuts, notes de campagne, révélations.',
@@ -14,7 +34,7 @@ return [
     ],
 
     '0.11.1' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'La démonstration dans votre langue',
         'items' => [
             'La campagne de démonstration existe dans les huit langues de l’interface. Elle se charge dans la vôtre, ou dans celle choisie à côté du bouton.',
@@ -22,7 +42,7 @@ return [
     ],
 
     '0.11.0' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'Une campagne de démonstration',
         'items' => [
             'Campagne de démonstration à charger en un clic depuis « Mes campagnes » : un jeu inventé, « Brume & Serment », et une intrigue complète de trois séances, avec fiches, portraits, relations, carte, secrets, règles, chronologie et prétirés.',
@@ -32,7 +52,7 @@ return [
     ],
 
     '0.10.0' => [
-        'date' => '2026-10-12',
+        'date' => '2026-10-07',
         'title' => 'Une page de campagne plus claire',
         'items' => [
             'Page de campagne remise en ordre : le mode Session en bandeau, quatre zones de préparation, et les autres outils en petits boutons à icône.',
@@ -41,7 +61,7 @@ return [
     ],
 
     '0.9.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'Emporter sa campagne',
         'items' => [
             'Exporter une campagne entière dans une archive .zip : jeu, monde, fiches, scénarios, documents, cartes, secrets, chronologie et fichiers.',
@@ -51,7 +71,7 @@ return [
     ],
 
     '0.8.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'Le graphe et la chronologie',
         'items' => [
             'Graphe des relations : toutes les fiches reliées, ou le réseau autour d\'une fiche, avec une profondeur et un filtre par type.',
@@ -62,7 +82,7 @@ return [
     ],
 
     '0.7.0' => [
-        'date' => '2026-10-10',
+        'date' => '2026-10-07',
         'title' => 'Autour de la table',
         'items' => [
             'Cartes : une image sur l\'écran de table, que vous zoomez et déplacez, avec une grille carrée facultative et une échelle.',
@@ -74,7 +94,7 @@ return [
     ],
 
     '0.6.0' => [
-        'date' => '2026-10-09',
+        'date' => '2026-10-07',
         'title' => 'La mémoire de la campagne',
         'items' => [
             'Secrets : une information à part, reliée à des fiches, scènes ou documents, révélée d\'un clic à un personnage ou à toute la table.',
@@ -86,7 +106,7 @@ return [
     ],
 
     '0.5.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Mieux ranger, à plusieurs',
         'items' => [
             'Une page « Tags » pour renommer, colorer, fusionner et supprimer vos tags ; les scènes ont aussi des tags.',
@@ -98,7 +118,7 @@ return [
     ],
 
     '0.4.1' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Aide et signalements',
         'items' => [
             'Une page « Aide » répond aux questions les plus fréquentes, pour le MJ comme pour les joueurs.',
@@ -107,7 +127,7 @@ return [
     ],
 
     '0.4.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Toutes les langues',
         'items' => [
             'L\'interface parle français, anglais, allemand, espagnol, italien, portugais, néerlandais et polonais.',
@@ -119,7 +139,7 @@ return [
     ],
 
     '0.3.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Le lien vivant',
         'items' => [
             'Messagerie entre le MJ et ses joueurs, et panneau « Discussion » toujours à portée de main (groupe et privé).',

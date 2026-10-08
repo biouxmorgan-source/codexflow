@@ -4,8 +4,28 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.13.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Poprawki z testów odbiorczych V1',
+        'items' => [
+            'Wyszukiwarka MG znajduje też sekrety, przekazane informacje i przedmioty, udostępnione notatki graczy oraz tagi scen.',
+            'Duplikowanie kampanii kopiuje jej sekrety i przygotowaną oś czasu; link do karty otwarty podczas sesji pokazuje się w panelu bocznym, bez opuszczania sesji.',
+            'Przetłumaczone strony błędów, e-mail z hasłem w twoim języku, tryb Sesji i Dokumenty czytelne na telefonie, menu dla ukrytych linków na małych ekranach.',
+            'Odpoczywająca postać i przedmiot zatwierdzony przez MG nie mogą już być zmieniane przez gracza; tymczasowa linijka na mapie znika sama.',
+        ],
+    ],
+
+    '0.13.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Własna AI bez kopiowania i wklejania',
+        'items' => [
+            'W „Ustawieniach” możesz zapisać klucz API na swoje nazwisko u Claude (Anthropic), ChatGPT (OpenAI) lub Le Chat (Mistral). Asystent AI zaproponuje wtedy „Analizuj bezpośrednio”: propozycje pojawią się bez kopiowania i wklejania.',
+            'Wywołania rozlicza dostawca na Twoim koncie. Klucz jest szyfrowany, nigdy ponownie wyświetlany ani eksportowany, a tryb „tekst do wklejenia” pozostaje bezpłatny.',
+        ],
+    ],
+
     '0.12.0' => [
-        'date' => '2026-10-14',
+        'date' => '2026-10-08',
         'title' => 'Asystent AI bez abonamentu',
         'items' => [
             'Nowe narzędzie „Asystent AI” w kampanii: CodexFlow przygotowuje tekst z notatkami z sesji i kontekstem kampanii do wklejenia w wybranej AI. Jej odpowiedź, wklejona z powrotem, zamienia się w propozycje: streszczenie, rozegrane wydarzenia, relacje, statusy, notatki kampanii, ujawnienia.',
@@ -14,7 +34,7 @@ return [
     ],
 
     '0.11.1' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'Demonstracja w twoim języku',
         'items' => [
             'Kampania demonstracyjna istnieje we wszystkich ośmiu językach interfejsu. Wczytuje się w twoim albo w tym, który wybierzesz obok przycisku.',
@@ -22,7 +42,7 @@ return [
     ],
 
     '0.11.0' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'Kampania demonstracyjna',
         'items' => [
             'Kampania demonstracyjna wczytywana jednym kliknięciem z „Moich kampanii”: wymyślona gra „Brume & Serment” i pełna intryga na trzy sesje, z kartami, portretami, relacjami, mapą, sekretami, zasadami, osią czasu i gotowymi postaciami.',
@@ -32,7 +52,7 @@ return [
     ],
 
     '0.10.0' => [
-        'date' => '2026-10-12',
+        'date' => '2026-10-07',
         'title' => 'Czytelniejsza strona kampanii',
         'items' => [
             'Uporządkowana strona kampanii: tryb Sesji na banerze, cztery obszary przygotowań, a pozostałe narzędzia jako małe przyciski z ikoną.',
@@ -41,7 +61,7 @@ return [
     ],
 
     '0.9.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'Zabrać kampanię ze sobą',
         'items' => [
             'Eksport całej kampanii do archiwum .zip: gra, świat, karty, scenariusze, dokumenty, mapy, sekrety, oś czasu i pliki.',
@@ -51,7 +71,7 @@ return [
     ],
 
     '0.8.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'Graf i oś czasu',
         'items' => [
             'Graf relacji: wszystkie powiązane karty lub sieć wokół jednej karty, z głębokością i filtrem według typu.',
@@ -62,7 +82,7 @@ return [
     ],
 
     '0.7.0' => [
-        'date' => '2026-10-10',
+        'date' => '2026-10-07',
         'title' => 'Wokół stołu',
         'items' => [
             'Mapy: obraz na ekranie stołu, który przybliżasz i przesuwasz, z opcjonalną siatką kwadratową i skalą.',
@@ -74,7 +94,7 @@ return [
     ],
 
     '0.6.0' => [
-        'date' => '2026-10-09',
+        'date' => '2026-10-07',
         'title' => 'Pamięć kampanii',
         'items' => [
             'Sekrety: osobna informacja, powiązana z kartami, scenami lub dokumentami, ujawniana jednym kliknięciem postaci lub całemu stołowi.',
@@ -86,7 +106,7 @@ return [
     ],
 
     '0.5.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Lepszy porządek, razem',
         'items' => [
             'Strona „Tagi” do zmiany nazw, kolorów, scalania i usuwania tagów; sceny też mają tagi.',
@@ -98,7 +118,7 @@ return [
     ],
 
     '0.4.1' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Pomoc i zgłoszenia problemów',
         'items' => [
             'Strona „Pomoc” odpowiada na najczęstsze pytania, zarówno MG, jak i graczy.',
@@ -107,7 +127,7 @@ return [
     ],
 
     '0.4.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Wszystkie języki',
         'items' => [
             'Interfejs mówi po francusku, angielsku, niemiecku, hiszpańsku, włosku, portugalsku, niderlandzku i polsku.',
@@ -119,7 +139,7 @@ return [
     ],
 
     '0.3.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Żywa więź',
         'items' => [
             'Wiadomości między MG a graczami oraz panel „Czat” zawsze pod ręką (drużyna i rozmowy prywatne).',

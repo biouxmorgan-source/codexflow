@@ -20,6 +20,9 @@ class PlayerCharacter extends Model
 
     protected $guarded = ['id'];
 
+    /** Mêmes valeurs par défaut qu'en base, pour un personnage tout juste créé. */
+    protected $attributes = ['is_active' => true, 'locked' => false];
+
     protected function casts(): array
     {
         return [

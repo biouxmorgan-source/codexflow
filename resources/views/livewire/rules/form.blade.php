@@ -19,7 +19,7 @@
                 <input id="category" type="text" wire:model="category" list="category-suggestions" class="field" placeholder="{{ __('Voyage, combat, magie…') }}">
                 <datalist id="category-suggestions">
                     @foreach ($this->categories as $existing)
-                        <option value="{{ $existing }}">
+                        <option value="{{ $existing }}"></option>
                     @endforeach
                 </datalist>
                 @error('category') <p class="error">{{ $message }}</p> @enderror

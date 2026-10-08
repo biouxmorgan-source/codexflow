@@ -57,4 +57,6 @@
         <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
     </form>
 
+    <livewire:account.ai-key />
+
 </div>

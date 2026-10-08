@@ -1,8 +1,8 @@
-@props(['entity', 'campaign', 'fieldDefinitions', 'note' => null, 'source' => null])
+@props(['entity', 'campaign', 'fieldDefinitions', 'note' => null, 'source' => null, 'open' => false])
 {{-- Carte de fiche pour l'écran de session : l'essentiel visible, le détail dépliable. --}}
 @php($state = $entity->campaignStates->first())
 @php($fields = $fieldDefinitions->filter(fn ($d) => $d->entity_type_id === null || $d->entity_type_id === $entity->entity_type_id))
-<details class="group rounded-lg border border-stone-200 bg-white" wire:key="card-{{ $entity->id }}-{{ $source }}">
+<details class="group rounded-lg border border-stone-200 bg-white" wire:key="card-{{ $entity->id }}-{{ $source }}" @if ($open) open @endif>
     <summary class="flex cursor-pointer list-none items-start gap-3 p-3">
         @if ($entity->hasImage())
             <img src="{{ route('entities.image', $entity) }}?v={{ $entity->updated_at?->timestamp }}" alt="" class="h-12 w-12 shrink-0 rounded-lg object-cover">

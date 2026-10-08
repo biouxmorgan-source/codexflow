@@ -25,12 +25,26 @@ class ReceivedPopup extends Component
         auth()->user()->unreadNotifications()->whereKey($id)->update(['read_at' => now()]);
     }
 
-    public function open(string $id): void
+    /** @param  string  $currentPath  adresse de la page où se trouve le joueur (window.location.pathname) */
+    public function open(string $id, string $currentPath = ''): void
     {
         $notification = auth()->user()->unreadNotifications()->whereKey($id)->firstOrFail();
         $notification->markAsRead();
 
-        $this->redirect($notification->data['url'], navigate: true);
+        $url = $notification->data['url'];
+        $target = parse_url($url);
+
+        // Déjà sur la bonne page : la fenêtre se ferme et la page défile jusqu'à l'élément,
+        // une navigation vers la même adresse ne ferait que changer l'ancre.
+        if (($target['path'] ?? null) === $currentPath) {
+            if (isset($target['fragment'])) {
+                $this->js('document.getElementById('.json_encode($target['fragment']).')?.scrollIntoView({ behavior: "smooth" })');
+            }
+
+            return;
+        }
+
+        $this->redirect($url, navigate: true);
     }
 
     /**

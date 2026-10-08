@@ -162,5 +162,14 @@ return [
         ],
     ],
     'attributes' => [
+        'name' => 'Name',
+        'email' => 'E-Mail-Adresse',
+        'password' => 'Passwort',
+        'password_confirmation' => 'Passwortbestätigung',
+        'current_password' => 'aktuelles Passwort',
+        'title' => 'Titel',
+        'description' => 'Beschreibung',
+        'body' => 'Text',
+        'message' => 'Nachricht',
     ],
 ];

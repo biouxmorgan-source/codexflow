@@ -1,0 +1,1 @@
+@include('errors.layout', ['code' => 500, 'title' => 'Un problème est survenu', 'message' => 'L’application a rencontré une erreur. Réessayez ; si cela continue, signalez le problème depuis le bas de page.'])

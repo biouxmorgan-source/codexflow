@@ -162,5 +162,14 @@ return [
         ],
     ],
     'attributes' => [
+        'name' => 'naam',
+        'email' => 'e-mailadres',
+        'password' => 'wachtwoord',
+        'password_confirmation' => 'wachtwoordbevestiging',
+        'current_password' => 'huidig wachtwoord',
+        'title' => 'titel',
+        'description' => 'beschrijving',
+        'body' => 'tekst',
+        'message' => 'bericht',
     ],
 ];
