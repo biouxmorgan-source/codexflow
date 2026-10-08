@@ -4,6 +4,18 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.33.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Acabamentos',
+        'items' => [
+            'A pesquisa mostra o campo da ficha que contém a palavra encontrada, com o seu nome.',
+            'Grafo: nomes e etiquetas sobrepostos são deslocados ou ocultados; passar sobre uma ficha fá-los reaparecer.',
+            '«Revelar ou dar»: uma caixa «Todas as personagens ativas» marca toda a mesa de uma vez.',
+            'Um jogador removido e convidado de novo recupera a sua antiga personagem com um clique, na página Personagens.',
+            'Sem tempo real (servidor Reverb ausente ou em baixo), o sino, as mensagens e as fichas atualizam-se a cada 30 segundos.',
+        ],
+    ],
+
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDF e documentos',

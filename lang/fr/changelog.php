@@ -4,6 +4,18 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.33.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Finitions',
+        'items' => [
+            'La recherche montre le champ de la fiche qui contient le mot trouvé, avec son nom.',
+            'Graphe : les noms et libellés qui se chevauchent sont déplacés ou masqués ; survoler une fiche les fait réapparaître.',
+            '« Révéler ou donner » : une case « Tous les personnages actifs » coche toute la table d’un coup.',
+            'Un joueur retiré puis réinvité retrouve son ancien personnage d’un clic, depuis la page Personnages.',
+            'Sans temps réel (serveur Reverb absent ou coupé), cloche, messages et fiches se mettent à jour toutes les 30 secondes.',
+        ],
+    ],
+
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDF et documents',

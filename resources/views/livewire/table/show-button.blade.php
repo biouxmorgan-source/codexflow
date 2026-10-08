@@ -9,7 +9,7 @@
             <span aria-hidden="true">●</span> {{ $label ? __(':label : à la table', ['label' => $label]) : __('À la table') }}
         </span>
         @unless ($compact)
-            <a href="{{ route('table.screen', $campaign) }}" target="codexflow-table" class="text-sm link">{{ __("Ouvrir l'écran") }}</a>
+            <a href="{{ route('table.screen', $campaign) }}" target="loremundi-table" class="text-sm link">{{ __("Ouvrir l'écran") }}</a>
         @endunless
     @else
         <button type="button" wire:click="show" @if ($gmOnly) wire:confirm="{{ __('Ce contenu est réservé au MJ. Le montrer à toute la table ?') }}" @endif @class(['btn-secondary' => ! $compact, 'text-xs link' => $compact]) title="{{ __("Montrer sur l'écran de table") }}">

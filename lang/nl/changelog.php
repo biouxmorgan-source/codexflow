@@ -4,6 +4,18 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.33.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Afwerking',
+        'items' => [
+            'Zoeken toont het veld van de kaart waarin het gevonden woord staat, met zijn naam.',
+            'Graaf: overlappende namen en labels worden verplaatst of verborgen; met de muis over een kaart verschijnen ze weer.',
+            '‘Onthullen of geven’: een vakje ‘Alle actieve personages’ vinkt in één keer de hele tafel aan.',
+            'Een speler die is verwijderd en opnieuw uitgenodigd, krijgt zijn vroegere personage met één klik terug, op de pagina Personages.',
+            'Zonder realtime (Reverb-server ontbreekt of ligt plat) verversen de bel, berichten en kaarten elke 30 seconden.',
+        ],
+    ],
+
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'Pdf’s en documenten',

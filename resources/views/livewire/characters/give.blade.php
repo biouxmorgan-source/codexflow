@@ -48,6 +48,15 @@
                 <fieldset>
                     <legend class="label">{{ __('Personnages') }}</legend>
                     <div class="space-y-1">
+                        @php($open = $this->characters->reject->already->pluck('id')->map(fn ($id) => (string) $id)->values())
+                        @if ($open->count() > 1)
+                            {{-- Raccourci : coche ou décoche d'un coup tous ceux qui peuvent encore recevoir. --}}
+                            <label class="flex items-center gap-2 border-b border-stone-100 pb-1 text-sm font-medium" x-data="{ ids: @js($open) }">
+                                <input type="checkbox" x-bind:checked="ids.every((id) => ($wire.selected ?? []).map(String).includes(id))"
+                                    x-on:change="$wire.selected = $event.target.checked ? [...ids] : []">
+                                {{ __('Tous les personnages actifs') }}
+                            </label>
+                        @endif
                         @foreach ($this->characters as $character)
                             <label wire:key="give-{{ $character->id }}" class="flex items-center gap-2 text-sm">
                                 <input type="checkbox" wire:model="selected" value="{{ $character->id }}" @disabled($character->already)>

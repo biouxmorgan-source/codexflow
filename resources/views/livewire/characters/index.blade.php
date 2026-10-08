@@ -18,6 +18,13 @@
         <span>{{ __('Valider les échanges entre joueurs') }} <span class="block text-stone-500">{{ __('Décoché, les joueurs se donnent objets et connaissances sans attendre votre accord ; vous en êtes informé.') }}</span></span>
     </label>
 
+    @foreach ($this->returning as $character)
+        <div wire:key="returning-{{ $character->id }}" class="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900" role="status">
+            <span>{{ __(':player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.', ['player' => $character->previousPlayer->name, 'character' => $character->entity->name]) }}</span>
+            <button type="button" wire:click="giveBack({{ $character->id }})" class="btn-secondary">{{ __('Lui rendre :name', ['name' => $character->entity->name]) }}</button>
+        </div>
+    @endforeach
+
     <div class="grid gap-6 lg:grid-cols-3">
         <section class="lg:col-span-2">
             @if ($this->characters->isEmpty())
@@ -44,6 +51,7 @@
                                             {{ __(':name (ne fait plus partie de la campagne)', ['name' => $character->player->name]) }}
                                         @else
                                             {{ $character->player?->name ?? __('Sans joueur') }}
+                                            @if (! $character->player && $character->previousPlayer) <span class="text-stone-500">({{ __('anciennement :name', ['name' => $character->previousPlayer->name]) }})</span> @endif
                                         @endif
                                         · {{ $character->is_active ? __('actif') : __('au repos') }}
                                         @if ($character->locked) · <span class="font-medium text-flow">{{ __('fiche verrouillée') }}</span> @endif

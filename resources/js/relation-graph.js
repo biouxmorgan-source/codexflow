@@ -1,5 +1,6 @@
 // Graphe des relations : placement par forces (sans bibliothèque), fiches déplaçables,
 // molette pour zoomer, glisser le fond pour se déplacer. Un clic sur une fiche la met au centre.
+// Les libellés qui se chevauchent sont déplacés ou masqués ; survoler une fiche les fait réapparaître.
 const SVG = 'http://www.w3.org/2000/svg';
 
 function el(name, attributes = {}, parent = null) {
@@ -17,6 +18,7 @@ document.addEventListener('alpine:init', () => {
         labels: false,
         drag: null,
         view: { x: 0, y: 0, w: 1000, h: 600 },
+        declutterFrame: null,
 
         init() {
             const data = JSON.parse(this.$refs.data.textContent);
@@ -112,8 +114,10 @@ document.addEventListener('alpine:init', () => {
                 const radius = node.id === this.focus ? 16 : 11;
                 node.group = el('g', { class: 'cursor-pointer', 'data-node': node.id, tabindex: 0, role: 'button', 'aria-label': node.name }, nodeLayer);
                 el('circle', { r: radius, fill: node.color, stroke: node.id === this.focus ? 'var(--color-ink)' : 'var(--color-white)', 'stroke-width': node.id === this.focus ? 3 : 2 }, node.group);
+                node.radius = radius;
                 const text = el('text', { y: radius + 14, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': node.id === this.focus ? 700 : 500, class: 'fill-stone-800', 'paint-order': 'stroke', stroke: 'var(--color-white)', 'stroke-width': 4, 'stroke-linejoin': 'round' }, node.group);
                 text.textContent = node.name;
+                node.text = text;
                 el('title', {}, node.group).textContent = `${node.name} · ${node.type}`;
 
                 node.group.addEventListener('pointerenter', () => this.highlight(node, true));
@@ -143,14 +147,73 @@ document.addEventListener('alpine:init', () => {
                 text.setAttribute('x', (source.x + target.x) / 2);
                 text.setAttribute('y', (source.y + target.y) / 2 - 4);
             });
+            this.declutter();
+        },
+
+        // Noms des fiches : sous le cercle, sinon au-dessus, sinon masqués. Libellés des liens :
+        // masqués s'ils recouvrent un nom ou un autre libellé. Recalculé au plus une fois par image.
+        declutter() {
+            if (this.declutterFrame) {
+                return;
+            }
+            this.declutterFrame = requestAnimationFrame(() => {
+                this.declutterFrame = null;
+                const kept = [];
+                const overlaps = (box) => kept.some((other) => box.x < other.x + other.width && other.x < box.x + box.width && box.y < other.y + other.height && other.y < box.y + box.height);
+                const boxOf = (text, dx = 0, dy = 0) => {
+                    const box = text.getBBox();
+                    return { x: box.x + dx - 2, y: box.y + dy - 1, width: box.width + 4, height: box.height + 2 };
+                };
+
+                // Les cercles comptent comme occupés ; la fiche centrale passe en premier.
+                this.nodes.forEach((node) => kept.push({ x: node.x - node.radius, y: node.y - node.radius, width: node.radius * 2, height: node.radius * 2 }));
+                [...this.nodes].sort((a, b) => (b.id === this.focus) - (a.id === this.focus)).forEach((node) => {
+                    node.text.style.display = '';
+                    node.labelHidden = false;
+                    for (const y of [node.radius + 14, -node.radius - 6]) {
+                        node.text.setAttribute('y', y);
+                        const box = boxOf(node.text, node.x, node.y);
+                        if (!overlaps(box)) {
+                            kept.push(box);
+                            return;
+                        }
+                    }
+                    node.text.setAttribute('y', node.radius + 14);
+                    node.labelHidden = node.id !== this.focus;
+                    node.text.style.display = node.labelHidden ? 'none' : '';
+                });
+
+                this.edges.forEach((edge) => {
+                    edge.labelHidden = false;
+                    if (!this.labels || !edge.label) {
+                        return;
+                    }
+                    edge.text.style.display = '';
+                    const box = boxOf(edge.text);
+                    edge.labelHidden = overlaps(box);
+                    edge.text.style.display = edge.labelHidden ? 'none' : '';
+                    if (!edge.labelHidden) {
+                        kept.push(box);
+                    }
+                });
+            });
         },
 
         highlight(node, on) {
+            const near = new Set([node]);
             this.edges.forEach((edge) => {
                 const touches = edge.source === node || edge.target === node;
                 edge.group.style.opacity = on && !touches ? 0.15 : 1;
-                if (!this.labels) {
-                    edge.text.style.display = on && touches ? '' : 'none';
+                if (touches) {
+                    near.add(edge.source).add(edge.target);
+                }
+                const shown = this.labels && !edge.labelHidden;
+                edge.text.style.display = shown || (on && touches) ? '' : 'none';
+            });
+            // Les noms masqués faute de place reviennent pour la fiche survolée et ses voisines.
+            this.nodes.forEach((other) => {
+                if (other.labelHidden) {
+                    other.text.style.display = on && near.has(other) ? '' : 'none';
                 }
             });
         },

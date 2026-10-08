@@ -39,6 +39,15 @@ class PlayerCharacter extends Model
         static::saving(function (PlayerCharacter $character) {
             if ($character->isDirty('user_id')) {
                 $character->assigned_at = $character->user_id === null ? null : now();
+
+                // Le joueur qu'on remplace ou qu'on libère est retenu, pour lui rendre son personnage s'il revient.
+                $previous = $character->getOriginal('user_id');
+                if ($previous !== null) {
+                    $character->previous_user_id = $previous;
+                }
+                if ($character->user_id !== null && $character->user_id === $character->previous_user_id) {
+                    $character->previous_user_id = null;
+                }
             }
         });
         static::deleted(fn (PlayerCharacter $character) => $character->deleteSheet());
@@ -61,6 +70,12 @@ class PlayerCharacter extends Model
     public function player(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /** @return BelongsTo<User, $this> dernier joueur, quand le personnage a été libéré ou confié à un autre */
+    public function previousPlayer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'previous_user_id');
     }
 
     /** @return HasMany<CharacterGrant, $this> */

@@ -8,6 +8,7 @@ use App\Models\CharacterGrant;
 use App\Models\CharacterNote;
 use App\Models\Document;
 use App\Models\Entity;
+use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
 use App\Models\Rule;
 use App\Models\Scene;
@@ -59,6 +60,12 @@ final class GlobalSearch
 
     /** @var list<string> */
     private array $words;
+
+    /** @var Collection<int, FieldDefinition>|null champs du jeu, lus une fois par recherche */
+    private ?Collection $fieldDefinitions = null;
+
+    /** @var array<string, true> libellés d'extrait réservés au MJ : jamais montrés par défaut */
+    private array $gmLabels = [];
 
     public function __construct(
         private readonly Campaign $campaign,
@@ -185,7 +192,7 @@ final class GlobalSearch
                 title: $entity->name,
                 subtitle: $entity->type->name,
                 url: route('characters.entity', [$this->campaign, $character, $entity, ...$this->viewAsQuery()]),
-                snippet: $this->snippet([__('Résumé') => $entity->summary, __('Description') => $entity->description], $entity->name),
+                snippet: $this->snippet([__('Résumé') => $entity->summary, __('Description') => $entity->description] + $this->customFields($entity, publicOnly: true), $entity->name),
             ));
     }
 
@@ -286,7 +293,7 @@ final class GlobalSearch
                 __('Zone MJ') => $entity->gm_notes,
                 __('Tags') => $entity->tags->pluck('name')->implode(', '),
                 __('Scènes') => implode(', ', $scenesByEntity[$entity->id] ?? []),
-            ], $entity->name),
+            ] + $this->customFields($entity), $entity->name),
         ));
     }
 
@@ -483,6 +490,37 @@ final class GlobalSearch
     }
 
     /**
+     * Champs du type de fiche remplis, nom => valeur affichée (avec les différences propres à la campagne).
+     * Un joueur ne voit que les champs publics.
+     *
+     * @return array<string, string>
+     */
+    private function customFields(Entity $entity, bool $publicOnly = false): array
+    {
+        $this->fieldDefinitions ??= $this->campaign->gameSystem->fieldDefinitions()->ordered()->get();
+        $fields = [];
+
+        foreach ($this->fieldDefinitions as $definition) {
+            if (($publicOnly && $definition->zone !== Zone::Public)
+                || ($definition->entity_type_id !== null && $definition->entity_type_id !== $entity->entity_type_id)) {
+                continue;
+            }
+
+            $value = $entity->fieldValueIn($definition, $this->campaign);
+
+            if ($value !== null && $value !== '' && $value !== []) {
+                $fields[$definition->name] = (string) $definition->type->format($value);
+
+                if ($definition->zone !== Zone::Public) {
+                    $this->gmLabels[$definition->name] = true;
+                }
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
      * Extrait autour du premier mot trouvé, dans un champ qui n'est pas déjà le titre.
      *
      * @param  array<string, ?string>  $fields
@@ -520,7 +558,7 @@ final class GlobalSearch
         }
 
         foreach ($fields as $label => $text) {
-            if ($label !== __('Zone MJ') && $text !== null && $text !== '') {
+            if ($label !== __('Zone MJ') && ! isset($this->gmLabels[$label]) && $text !== null && $text !== '') {
                 return ['label' => $label, 'text' => Str::limit(trim(preg_replace('/\[\[([^\[\]|]+)(?:\|\d+)?\]\]/u', '$1', $text)), 160)];
             }
         }

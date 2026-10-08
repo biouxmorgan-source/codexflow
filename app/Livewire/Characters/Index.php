@@ -57,7 +57,7 @@ class Index extends Component
     public function characters(): Collection
     {
         return $this->campaign->playerCharacters()
-            ->with(['entity', 'player'])
+            ->with(['entity', 'player', 'previousPlayer'])
             // Objets ajoutés par les joueurs, que le MJ n'a pas encore validés.
             ->withCount(['grants as pending_count' => fn ($q) => $q->where('kind', 'possession')->where('added_by_player', true)->whereNull('validated_at')])
             // Échanges proposés par le joueur, en attente du MJ.
@@ -83,6 +83,35 @@ class Index extends Component
             ->wherePivot('role', CampaignRole::Player->value)
             ->orderBy('name')
             ->get();
+    }
+
+    /**
+     * Personnages sans joueur dont l'ancien joueur est de nouveau dans la campagne
+     * et n'y joue rien d'autre : le MJ peut les lui rendre d'un clic.
+     *
+     * @return Collection<int, PlayerCharacter>
+     */
+    #[Computed]
+    public function returning(): Collection
+    {
+        $playing = $this->characters->whereNotNull('user_id')->where('is_active', true)->pluck('user_id');
+
+        return $this->characters
+            ->filter(fn (PlayerCharacter $character) => $character->user_id === null
+                && $character->previous_user_id !== null
+                && $this->players->contains('id', $character->previous_user_id)
+                && ! $playing->contains($character->previous_user_id))
+            ->values();
+    }
+
+    public function giveBack(int $characterId): void
+    {
+        $this->authorize('update', $this->campaign);
+        $character = $this->find($characterId);
+        abort_unless($character->user_id === null && $this->players->contains('id', $character->previous_user_id), 422);
+
+        DB::transaction(fn () => $this->assignTo($character, $character->previous_user_id));
+        unset($this->characters, $this->returning);
     }
 
     /**

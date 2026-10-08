@@ -17,6 +17,7 @@ cp .env.example .env && php artisan key:generate && php artisan webpush:vapid
 php artisan migrate --seed        # compte démo : mj@codexflow.test / password
 composer run dev                  # serveur + Vite
 php artisan test                  # tests (PostgreSQL, base codexflow_test)
+npm run test:browser              # tests navigateur Playwright (tests/Browser, base de dev)
 vendor/bin/pint                   # style
 ```
 

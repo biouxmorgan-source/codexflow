@@ -4,6 +4,18 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.33.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Feinschliff',
+        'items' => [
+            'Die Suche zeigt das Feld des Eintrags, das das gefundene Wort enthält, mit seinem Namen.',
+            'Graph: Überlappende Namen und Beschriftungen werden verschoben oder ausgeblendet; beim Überfahren eines Eintrags erscheinen sie wieder.',
+            '„Enthüllen oder geben“: Ein Kästchen „Alle aktiven Charaktere“ wählt den ganzen Tisch auf einmal.',
+            'Ein entfernter und erneut eingeladener Spieler erhält seinen früheren Charakter mit einem Klick zurück, auf der Seite Charaktere.',
+            'Ohne Echtzeit (Reverb-Server fehlt oder ist aus) aktualisieren sich Glocke, Nachrichten und Bögen alle 30 Sekunden.',
+        ],
+    ],
+
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDFs und Dokumente',
