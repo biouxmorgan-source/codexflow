@@ -5,6 +5,7 @@ use App\Http\Controllers\AiImportPromptController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CharacterKnowledgeController;
+use App\Http\Controllers\ConfirmEmailChangeController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ImportExampleController;
@@ -84,6 +85,7 @@ Route::middleware('auth')->group(function () {
     Route::view('/quoi-de-neuf', 'pages.changelog')->name('changelog');
     Route::view('/configuration-recommandee', 'pages.recommended')->name('recommended');
     Route::get('/mes-donnees', AccountDataController::class)->name('account.data');
+    Route::get('/compte/{user}/adresse', ConfirmEmailChangeController::class)->middleware('signed')->name('account.email.confirm');
     Route::livewire('/signaler-un-probleme', ReportBug::class)->name('bugs.create');
     // Console d'administration : le mot de passe est redemandé (valable 3 heures).
     Route::middleware(['can:admin', 'password.confirm'])->group(function () {

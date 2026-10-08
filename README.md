@@ -20,6 +20,12 @@ composer run dev
 
 Puis ouvrir http://localhost:8000 et se connecter avec `mj@codexflow.test` / `password`.
 
+## En production
+
+- PHP avec l'extension **GMP** ou **BCMath** : sans elle, les notifications push (PWA) ne partent pas. Une erreur d'envoi ne bloque jamais l'action qui l'a déclenchée.
+- Un processus `php artisan reverb:start` pour le temps réel (sans lui, les pages se rafraîchissent à la prochaine action).
+- `APP_ENV=production`, HTTPS, et les variables `LEGAL_*` pour la page de confidentialité.
+
 ## Tests
 
 ```sh

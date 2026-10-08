@@ -4,6 +4,17 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.29.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Accountbeveiliging',
+        'items' => [
+            'Een nieuw e-mailadres wordt pas overgenomen na een klik op de link die het ontvangt; daarna krijgt het oude adres bericht.',
+            'Pogingen op de accountformulieren worden per formulier en per e-mailadres geteld, en de wachtpagina zegt hoeveel seconden je moet wachten.',
+            'Alleen de scripts van LoreMundi kunnen in de pagina’s draaien.',
+            'Bij het verwijderen van je account staat nu dat je berichten worden gewist.',
+        ],
+    ],
+
     '0.28.0' => [
         'date' => '2026-10-08',
         'title' => 'E-mails in de kleuren van LoreMundi',

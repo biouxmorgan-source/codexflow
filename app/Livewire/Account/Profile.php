@@ -2,16 +2,18 @@
 
 namespace App\Livewire\Account;
 
-use App\Notifications\EmailChanged;
+use App\Notifications\ConfirmNewEmail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 
 /**
  * « Mon compte » dans Préférences : nom, adresse e-mail et mot de passe.
- * Changer l'adresse ou le mot de passe redemande le mot de passe actuel ; l'ancienne adresse
- * est prévenue, et un nouveau mot de passe déconnecte les autres appareils (AuthenticateSession).
+ * Changer l'adresse ou le mot de passe redemande le mot de passe actuel. Une nouvelle adresse
+ * n'est adoptée qu'après le lien de confirmation qu'elle reçoit (ConfirmEmailChangeController),
+ * et un nouveau mot de passe déconnecte les autres appareils (AuthenticateSession).
  */
 class Profile extends Component
 {
@@ -43,15 +45,18 @@ class Profile extends Component
             'currentPassword' => $changingEmail ? ['required', 'current_password'] : ['nullable'],
         ], attributes: ['name' => __('nom'), 'email' => __('adresse e-mail'), 'currentPassword' => __('mot de passe actuel')]);
 
-        $old = $user->email;
-        $user->forceFill(['name' => trim($this->name), 'email' => $this->email])->save();
+        $user->forceFill(['name' => trim($this->name)])->save();
 
         if ($changingEmail) {
-            Notification::route('mail', $old)->notify(new EmailChanged($this->email));
+            $url = URL::temporarySignedRoute('account.email.confirm', now()->addMinutes(60), ['user' => $user, 'email' => $this->email]);
+            Notification::route('mail', $this->email)->notify(new ConfirmNewEmail($url));
+            session()->now('profile-status', __('Un lien de confirmation a été envoyé à :email. Votre adresse changera quand vous l’ouvrirez.', ['email' => $this->email]));
+            $this->email = $user->email;
+        } else {
+            session()->now('profile-status', __('Compte enregistré.'));
         }
 
         $this->reset('currentPassword');
-        session()->now('profile-status', $changingEmail ? __('Compte enregistré. Votre ancienne adresse a été prévenue du changement.') : __('Compte enregistré.'));
     }
 
     public function savePassword(): void

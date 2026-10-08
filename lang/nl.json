@@ -1758,7 +1758,6 @@
     "Je comprends que tout sera effacé.": "Ik begrijp dat alles gewist wordt.",
     "La date de vos connexions, gardée un an.": "De data van je aanmeldingen, een jaar bewaard.",
     "La double authentification est activée.": "Tweestapsverificatie is ingeschakeld.",
-    "La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur.": "Verwijderen is definitief. Je campagnes, werelden en spellen worden met hun bestanden gewist, voor al hun spelers. In de campagnes van anderen blijven je personages bestaan, zonder speler.",
     "Les données que nous gardons": "De gegevens die we bewaren",
     "LoreMundi est édité par :publisher, nom commercial de :owner (entrepreneur individuel).": "LoreMundi wordt uitgegeven door :publisher, handelsnaam van :owner (eenmanszaak).",
     "Mes données": "Mijn gegevens",
@@ -1878,5 +1877,15 @@
     "Vos mondes, vos règles": "Jouw werelden, jouw regels",
     "Votre compte": "Je account",
     "ou écrivez à :email": "of schrijf naar :email",
-    "Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.": "Schrijf ons vanaf het e-mailadres van je account: na controle verwijdert de beheerder de tweestapsverificatie en kun je die opnieuw aanzetten."
+    "Écrivez-nous depuis l'adresse e-mail de votre compte : après vérification, l'administrateur retire la double authentification, et vous pourrez la réactiver.": "Schrijf ons vanaf het e-mailadres van je account: na controle verwijdert de beheerder de tweestapsverificatie en kun je die opnieuw aanzetten.",
+    "La suppression est définitive. Vos campagnes, mondes et jeux sont effacés avec leurs fichiers, pour tous leurs joueurs. Dans les campagnes des autres, vos personnages restent, sans joueur, mais vos messages sont effacés.": "Verwijderen is definitief. Je campagnes, werelden en spellen worden met hun bestanden gewist, voor al hun spelers. In de campagnes van anderen blijven je personages bestaan, zonder speler, maar je berichten worden gewist.",
+    "Ce lien est valable :minutes minutes. Si vous n’êtes pas à l’origine de cette demande, ignorez ce message : rien ne change.": "Deze link is :minutes minuten geldig. Heb je dit niet aangevraagd, negeer dan dit bericht: er verandert niets.",
+    "Cette adresse est déjà celle de votre compte.": "Dit adres is al het adres van je account.",
+    "Cette adresse est désormais utilisée par un autre compte : rien n’a changé.": "Dit adres wordt nu door een ander account gebruikt: er is niets veranderd.",
+    "Confirmer cette adresse": "Dit adres bevestigen",
+    "Confirmez votre nouvelle adresse e-mail LoreMundi": "Bevestig je nieuwe LoreMundi-e-mailadres",
+    "Un lien de confirmation a été envoyé à :email. Votre adresse changera quand vous l’ouvrirez.": "Er is een bevestigingslink naar :email gestuurd. Je adres verandert zodra je hem opent.",
+    "Votre adresse e-mail est maintenant :email. L’ancienne adresse a été prévenue.": "Je e-mailadres is nu :email. Het oude adres is op de hoogte gebracht.",
+    "Vous avez demandé à utiliser cette adresse pour votre compte LoreMundi.": "Je hebt gevraagd dit adres voor je LoreMundi-account te gebruiken.",
+    "{1} Réessayez dans une seconde.|[2,*] Réessayez dans :count secondes.": "{1} Probeer het over een seconde opnieuw.|[2,*] Probeer het over :count seconden opnieuw."
 }

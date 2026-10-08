@@ -4,6 +4,17 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.29.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Seguridad de la cuenta',
+        'items' => [
+            'Una nueva dirección de correo solo se adopta tras pulsar el enlace que recibe; después se avisa a la dirección anterior.',
+            'Los intentos en los formularios de cuenta se cuentan por formulario y por dirección de correo, y la página de espera indica cuántos segundos esperar.',
+            'Solo los scripts de LoreMundi pueden ejecutarse en sus páginas.',
+            'La eliminación de la cuenta indica que tus mensajes se borran.',
+        ],
+    ],
+
     '0.28.0' => [
         'date' => '2026-10-08',
         'title' => 'Correos con los colores de LoreMundi',

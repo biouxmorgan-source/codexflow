@@ -4,7 +4,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     @unless ($plain) @foreach (\App\Support\Appearance::attributes(auth()->user()) as $name => $value) {{ $name }}="{{ $value }}" @endforeach @endunless>
     <head>
-        <script>
+        <script nonce="{{ Vite::cspNonce() }}">
             // Thème résolu avant l'affichage, pour éviter un flash clair en mode sombre.
             (() => {
                 const root = document.documentElement;
@@ -42,7 +42,7 @@
             'pushSubscribeFailed' => __("L'abonnement n'a pas abouti. Réessayez, ou vérifiez les réglages de notification du navigateur."),
             'pushDisableFailed' => __('La désactivation a échoué. Réessayez.'),
         ])
-        <script>
+        <script nonce="{{ Vite::cspNonce() }}">
             // Textes affichés par les scripts (resources/js), dans la langue de la page.
             window.codexflowText = {{ Js::from($scriptText) }};
         </script>
