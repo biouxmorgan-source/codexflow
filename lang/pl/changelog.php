@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.22.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Pełna kopia zapasowa',
+        'items' => [
+            'Właściciel może pobrać pełną kopię zapasową: archiwum kampanii wraz ze stołem (postacie, to, co otrzymały, sesje, notatki, wiadomości i dziennik), bez notatek „Tylko ja” i adresów e-mail. Przy imporcie postacie wracają bez gracza, gotowe do przydzielenia.',
+        ],
+    ],
+
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Wyszukiwanie ze strony głównej',

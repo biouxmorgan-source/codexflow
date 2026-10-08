@@ -348,4 +348,54 @@ class CampaignArchiveTest extends TestCase
         // Seule l'image de la campagne d'origine est sur le disque : rien n'a été écrit par l'import.
         $this->assertSame([$this->worldNpc->image_path], Storage::disk('local')->files('entities'));
     }
+
+    /** Sauvegarde complète : la table voyage aussi, telle que le MJ la voit, sans compte ni note « Moi seul ». */
+    public function test_a_complete_backup_carries_the_table_without_private_notes_or_emails(): void
+    {
+        $player = User::factory()->create(['name' => 'Alex', 'email' => 'alex.prive@example.com']);
+        $this->campaign->members()->attach($player, ['role' => 'player']);
+        $sheet = Entity::factory()->for($this->gm, 'owner')->for($this->campaign)->create(['name' => 'Lucy', 'entity_type_id' => EntityType::standard('character')->id]);
+        $harvey = $this->campaign->playerCharacters()->create(['entity_id' => $sheet->id, 'user_id' => $player->id]);
+        CharacterGrant::create(['player_character_id' => $harvey->id, 'kind' => 'entity', 'entity_id' => $this->localNpc->id, 'granted_by' => $this->gm->id]);
+        CharacterGrant::create(['player_character_id' => $harvey->id, 'kind' => 'possession', 'title' => 'Lanterne', 'quantity' => 2, 'granted_by' => $this->gm->id]);
+
+        $session = $this->campaign->playSessions()->create(['number' => 1, 'title' => 'Le bal', 'started_at' => now()->subDay(), 'ended_at' => now()->subDay()->addHours(3)]);
+        $session->notes()->make(['body' => 'Lucy a volé la clé.'])->forceFill(['user_id' => $this->gm->id])->save();
+        foreach (['group' => 'Note de toute la table', 'private' => 'Mon secret à moi'] as $visibility => $body) {
+            $harvey->notes()->make(['body' => $body, 'visibility' => $visibility])->forceFill(['user_id' => $player->id])->save();
+        }
+        $this->campaign->messages()->make(['body' => 'Rendez-vous au port.', 'player_character_id' => $harvey->id])->forceFill(['sender_id' => $this->gm->id])->save();
+
+        // L'archive simple ne contient pas la table.
+        $zip = new ZipArchive;
+        $zip->open($this->archive());
+        $this->assertStringNotContainsString('Lucy', $zip->getFromName('campagne.json'));
+        $zip->close();
+
+        $this->actingAs($player)->get(route('archives.campaign', [$this->campaign, 'complete' => 1]))->assertForbidden();
+        $this->actingAs($this->gm)->get(route('archives.campaign', [$this->campaign, 'complete' => 1]))->assertOk()
+            ->assertDownload('codexflow-les-ombres-sauvegarde-complete.zip');
+
+        $path = (new CampaignExport($this->campaign->fresh(), complete: true))->write();
+        $zip->open($path);
+        $json = $zip->getFromName('campagne.json');
+        $zip->close();
+        $this->assertStringContainsString('Rendez-vous au port.', $json);
+        $this->assertStringContainsString('"player": "Alex"', $json);
+        $this->assertStringNotContainsString('alex.prive@example.com', $json);
+        $this->assertStringNotContainsString('Mon secret à moi', $json);
+
+        $copy = (new CampaignImport($this->other))->handle($path);
+
+        $this->assertSame(2, $copy->playerCharacters()->count());
+        $character = $copy->playerCharacters()->whereHas('entity', fn ($q) => $q->where('name', 'Lucy'))->sole();
+        $this->assertNull($character->user_id);
+        $this->assertSame(['Aldric', 'Lanterne'], $character->grants->map(fn (CharacterGrant $grant) => $grant->entity?->name ?? $grant->title)->sort()->values()->all());
+        $copySession = $copy->playSessions()->sole();
+        $this->assertSame('Le bal', $copySession->title);
+        $this->assertNotNull($copySession->ended_at);
+        $this->assertSame(['Lucy a volé la clé.'], $copySession->notes()->pluck('body')->all());
+        $this->assertSame(['Note de toute la table'], $character->notes()->pluck('body')->all());
+        $this->assertSame(0, $copy->messages()->count());
+    }
 }

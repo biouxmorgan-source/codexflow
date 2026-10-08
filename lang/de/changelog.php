@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.22.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Vollständige Sicherung',
+        'items' => [
+            'Der Eigentümer kann eine vollständige Sicherung herunterladen: das Kampagnenarchiv mit der Runde (Charaktere, was sie erhalten haben, Sitzungen, Notizen, Nachrichten und Protokoll), ohne Notizen „Nur ich“ und ohne E-Mail-Adressen. Beim Import kommen die Charaktere ohne Spieler zurück, bereit zur Vergabe.',
+        ],
+    ],
+
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Suche von der Startseite',

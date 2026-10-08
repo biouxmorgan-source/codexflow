@@ -12,6 +12,7 @@ use App\Enums\Zone;
 use App\Livewire\Entities\Show as EntityShow;
 use App\Models\ActivityLog;
 use App\Models\Campaign;
+use App\Models\CharacterGrant;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\Secret;
@@ -20,6 +21,7 @@ use App\Models\TimelineEvent;
 use App\Models\User;
 use App\Support\EntityLinks;
 use App\Support\TableTheme;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -46,7 +48,7 @@ final class CampaignImport
     private array $written = [];
 
     /** @var array<string, array<int, int>> ancien id => nouvel id, par nature */
-    private array $map = ['types' => [], 'tags' => [], 'fields' => [], 'entities' => [], 'documents' => [], 'rules' => [], 'scenes' => []];
+    private array $map = ['types' => [], 'tags' => [], 'fields' => [], 'entities' => [], 'documents' => [], 'rules' => [], 'scenes' => [], 'secrets' => [], 'sessions' => [], 'characters' => []];
 
     /** @var array<int, FieldType> type de chaque champ créé, par nouvel identifiant */
     private array $fieldTypes = [];
@@ -178,7 +180,17 @@ final class CampaignImport
         $this->documents($this->list($data['documents'] ?? []), $campaign, $world?->id);
         $this->remapFieldValues();
         $this->scenarios($this->list($data['scenarios'] ?? []), $campaign);
+        $table = isset($data['table']) ? $this->array($data['table']) : null;
+
+        if ($table !== null) {
+            $this->sessions($this->list($table['sessions'] ?? []), $campaign);
+        }
+
         $this->campaignItems($data, $campaign);
+
+        if ($table !== null) {
+            $this->table($table, $campaign);
+        }
 
         return $campaign;
     }
@@ -548,7 +560,7 @@ final class CampaignImport
                 continue;
             }
 
-            $secretId = DB::table('secrets')->insertGetId([
+            $secretId = $this->map['secrets'][$this->int($secret['id'] ?? null) ?? -1] = DB::table('secrets')->insertGetId([
                 'campaign_id' => $campaign->id,
                 'user_id' => $this->user->id,
                 'title' => $title,
@@ -630,10 +642,172 @@ final class CampaignImport
                 'title' => $title,
                 'description' => $this->links($this->string($event['description'] ?? null, 20000)),
                 'zone' => $this->zone($event['zone'] ?? null, Zone::GameMaster),
+                'scene_id' => $this->map['scenes'][$this->int($event['scene_id'] ?? null) ?? -1] ?? null,
+                'play_session_id' => $this->map['sessions'][$this->int($event['play_session_id'] ?? null) ?? -1] ?? null,
                 'position' => $position + 1,
                 'created_at' => $this->now,
                 'updated_at' => $this->now,
             ]);
+        }
+    }
+
+    /**
+     * Séances d'une sauvegarde complète. Une seule peut rester ouverte, comme dans l'application.
+     *
+     * @param  list<array<string, mixed>>  $sessions
+     */
+    private function sessions(array $sessions, Campaign $campaign): void
+    {
+        $open = false;
+
+        foreach ($sessions as $session) {
+            $id = $this->int($session['id'] ?? null);
+            $number = $this->int($session['number'] ?? null);
+            $startedAt = $this->date($session['started_at'] ?? null);
+
+            if ($id === null || $number === null || $startedAt === null) {
+                continue;
+            }
+
+            $endedAt = $this->date($session['ended_at'] ?? null);
+
+            if ($endedAt === null && $open) {
+                $endedAt = $startedAt;
+            }
+            $open = $open || $endedAt === null;
+
+            $this->map['sessions'][$id] = DB::table('play_sessions')->insertGetId([
+                'campaign_id' => $campaign->id,
+                'number' => $number,
+                'title' => $this->string($session['title'] ?? null, 255),
+                'started_at' => $startedAt,
+                'ended_at' => $endedAt,
+                'created_at' => $this->now,
+                'updated_at' => $this->now,
+            ]);
+        }
+    }
+
+    /**
+     * La table d'une sauvegarde complète : personnages (sans joueur, à confier de nouveau), ce qu'ils
+     * ont reçu, notes de séance et notes partagées des joueurs. Les comptes ne voyagent pas : ces notes
+     * sont attribuées à la personne qui importe. Messages et journal restent consultables dans l'archive.
+     *
+     * @param  array<string, mixed>  $table
+     */
+    private function table(array $table, Campaign $campaign): void
+    {
+        foreach ($this->list($table['characters'] ?? []) as $character) {
+            $id = $this->int($character['id'] ?? null);
+            $entityId = $this->entity($character['entity_id'] ?? null);
+
+            if ($id === null || $entityId === null || DB::table('player_characters')->where('entity_id', $entityId)->exists()) {
+                continue;
+            }
+
+            $sheet = $this->extract($character['sheet'] ?? null, ['pdf'], 'character-sheets/'.$campaign->id);
+            $this->map['characters'][$id] = DB::table('player_characters')->insertGetId([
+                'campaign_id' => $campaign->id,
+                'entity_id' => $entityId,
+                'user_id' => null,
+                'is_active' => (bool) ($character['is_active'] ?? true),
+                'locked' => (bool) ($character['locked'] ?? false),
+                'sheet_path' => $sheet['path'] ?? null,
+                'sheet_name' => $sheet ? ($this->string($character['sheet_name'] ?? null, 255) ?? 'fiche.pdf') : null,
+                'sheet_size' => $sheet['size'] ?? null,
+                'created_at' => $this->now,
+                'updated_at' => $this->now,
+            ]);
+        }
+
+        $character = fn (mixed $id) => $this->map['characters'][$this->int($id) ?? -1] ?? null;
+        $mapped = fn (string $kind, mixed $id) => $id === null ? null : ($this->map[$kind][$this->int($id) ?? -1] ?? false);
+
+        foreach ($this->list($table['grants'] ?? []) as $grant) {
+            $characterId = $character($grant['character_id'] ?? null);
+            $kind = is_string($grant['kind'] ?? null) && array_key_exists($grant['kind'], CharacterGrant::KINDS) ? $grant['kind'] : null;
+            $targets = [
+                'entity_id' => $mapped('entities', $grant['entity_id'] ?? null),
+                'document_id' => $mapped('documents', $grant['document_id'] ?? null),
+                'rule_id' => $mapped('rules', $grant['rule_id'] ?? null),
+                'secret_id' => $mapped('secrets', $grant['secret_id'] ?? null),
+            ];
+
+            // Ce qui a été donné doit exister dans la copie ; sinon l'élément est abandonné.
+            if ($characterId === null || $kind === null || in_array(false, $targets, true)) {
+                continue;
+            }
+
+            DB::table('character_grants')->insert([
+                'player_character_id' => $characterId,
+                'kind' => $kind,
+                ...$targets,
+                'play_session_id' => $mapped('sessions', $grant['play_session_id'] ?? null) ?: null,
+                'scene_id' => $mapped('scenes', $grant['scene_id'] ?? null) ?: null,
+                'title' => $this->string($grant['title'] ?? null, 255),
+                'body' => $this->links($this->string($grant['body'] ?? null, 20000)),
+                'quantity' => $this->int($grant['quantity'] ?? null),
+                'added_by_player' => (bool) ($grant['added_by_player'] ?? false),
+                'validated_at' => $this->date($grant['validated_at'] ?? null),
+                'granted_by' => $this->user->id,
+                'created_at' => $this->date($grant['created_at'] ?? null) ?? $this->now,
+                'updated_at' => $this->now,
+            ]);
+        }
+
+        foreach ($this->list($table['session_notes'] ?? []) as $note) {
+            $sessionId = $mapped('sessions', $note['play_session_id'] ?? null);
+            $body = $this->string($note['body'] ?? null, 20000);
+
+            if (! $sessionId || $body === null) {
+                continue;
+            }
+
+            DB::table('session_notes')->insert([
+                'play_session_id' => $sessionId,
+                'user_id' => $this->user->id,
+                'scene_id' => $mapped('scenes', $note['scene_id'] ?? null) ?: null,
+                'body' => $this->links($body),
+                'created_at' => $this->date($note['created_at'] ?? null) ?? $this->now,
+                'updated_at' => $this->now,
+            ]);
+        }
+
+        foreach ($this->list($table['character_notes'] ?? []) as $note) {
+            $characterId = $character($note['character_id'] ?? null);
+            $body = $this->string($note['body'] ?? null, 20000);
+            $visibility = in_array($note['visibility'] ?? null, ['group', 'players', 'gm'], true) ? $note['visibility'] : null;
+
+            if ($characterId === null || $body === null || $visibility === null) {
+                continue;
+            }
+
+            $noteId = DB::table('character_notes')->insertGetId([
+                'player_character_id' => $characterId,
+                'user_id' => $this->user->id,
+                'play_session_id' => $mapped('sessions', $note['play_session_id'] ?? null) ?: null,
+                'visibility' => $visibility,
+                'body' => $this->links($body),
+                'created_at' => $this->date($note['created_at'] ?? null) ?? $this->now,
+                'updated_at' => $this->now,
+            ]);
+
+            $shares = collect($this->array($note['shared_with'] ?? []))->map($character)->filter()->unique()
+                ->map(fn (int $shared) => ['character_note_id' => $noteId, 'player_character_id' => $shared]);
+            DB::table('character_note_shares')->insertOrIgnore($shares->all());
+        }
+    }
+
+    private function date(mixed $value): ?string
+    {
+        if (! is_string($value) || $value === '') {
+            return null;
+        }
+
+        try {
+            return Carbon::parse($value)->toDateTimeString();
+        } catch (Throwable) {
+            return null;
         }
     }
 

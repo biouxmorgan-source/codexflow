@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.22.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Volledige back-up',
+        'items' => [
+            'De eigenaar kan een volledige back-up downloaden: het campagne-archief met de tafel (personages, wat ze kregen, sessies, notities, berichten en logboek), zonder notities ‘Alleen ik’ of e-mailadressen. Bij het importeren komen de personages terug zonder speler, klaar om toe te wijzen.',
+        ],
+    ],
+
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Zoeken vanaf de startpagina',

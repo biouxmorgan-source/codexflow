@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.22.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Copia de seguridad completa',
+        'items' => [
+            'El propietario puede descargar una copia de seguridad completa: el archivo de la campaña con la mesa (personajes, lo que recibieron, sesiones, notas, mensajes y registro), sin notas «Solo yo» ni direcciones de correo. Al importar, los personajes vuelven sin jugador, listos para asignarse.',
+        ],
+    ],
+
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Búsqueda desde el inicio',

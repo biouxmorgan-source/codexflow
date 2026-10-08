@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.22.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Complete backup',
+        'items' => [
+            'The owner can download a complete backup: the campaign archive with the table (characters, what they received, sessions, notes, messages and log), without “Only me” notes or email addresses. On import, characters come back without a player, ready to be assigned.',
+        ],
+    ],
+
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Search from the home page',
