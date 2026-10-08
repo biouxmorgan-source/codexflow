@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.21.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Zoeken vanaf de startpagina',
+        'items' => [
+            'Buiten een campagne zoekt de zoekbalk in al je campagnes, hun werelden en spellen, elk met jouw rechten: alles als SL, als speler wat je personage kent.',
+        ],
+    ],
+
     '0.20.0' => [
         'date' => '2026-10-08',
         'title' => 'Volledig ‘Genoemd in’, dupliceren zonder status',

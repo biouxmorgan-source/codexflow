@@ -44,6 +44,7 @@ use App\Livewire\Rules\Show as RuleShow;
 use App\Livewire\Scenarios\Index as ScenarioIndex;
 use App\Livewire\Scenes\Form as SceneForm;
 use App\Livewire\Scenes\Show as SceneShow;
+use App\Livewire\Search\Everywhere as SearchEverywhere;
 use App\Livewire\Search\Index as SearchIndex;
 use App\Livewire\Secrets\Index as SecretIndex;
 use App\Livewire\Sessions\Live as SessionLive;
@@ -117,6 +118,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/documents', DocumentIndex::class)->name('documents.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/documents/{document}', DocumentShow::class)->name('documents.show')->whereNumber(['campaign', 'document']);
 
+    Route::livewire('/recherche', SearchEverywhere::class)->name('search.all');
     Route::livewire('/campagnes/{campaign}/recherche', SearchIndex::class)->name('search.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/personnages', CharacterIndex::class)->name('characters.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/personnages/{character}', CharacterShow::class)->name('characters.show')->middleware('offline')->whereNumber(['campaign', 'character']);

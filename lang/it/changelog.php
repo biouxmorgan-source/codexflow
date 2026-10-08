@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.21.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Ricerca dalla home',
+        'items' => [
+            'Fuori da una campagna, la barra di ricerca cerca in tutte le tue campagne, nei loro mondi e giochi, ciascuna con i tuoi permessi: tutto da Master, ciò che conosce il tuo personaggio da giocatore.',
+        ],
+    ],
+
     '0.20.0' => [
         'date' => '2026-10-08',
         'title' => '«Citato in» completo, duplicazione senza stati',

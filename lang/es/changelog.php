@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.21.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Búsqueda desde el inicio',
+        'items' => [
+            'Fuera de una campaña, la barra de búsqueda busca en todas tus campañas, sus mundos y sus juegos, cada una con tus permisos: todo como DJ, lo que conoce tu personaje como jugador.',
+        ],
+    ],
+
     '0.20.0' => [
         'date' => '2026-10-08',
         'title' => '«Citado en» completo, duplicación sin estados',

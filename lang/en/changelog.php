@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.21.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Search from the home page',
+        'items' => [
+            'Outside a campaign, the search bar looks through all your campaigns, their worlds and their games, each with your own rights: everything as GM, what your character knows as a player.',
+        ],
+    ],
+
     '0.20.0' => [
         'date' => '2026-10-08',
         'title' => 'Complete “Mentioned in”, duplication without statuses',

@@ -18,6 +18,12 @@
                         <input type="hidden" name="comme" value="{{ $viewAsCharacter instanceof \App\Models\PlayerCharacter ? $viewAsCharacter->id : $viewAsCharacter }}">
                     @endif
                 </form>
+            @elseif (! $searchCampaign && ! request()->routeIs('search.all'))
+                <form method="GET" action="{{ route('search.all') }}" role="search" class="order-last w-full sm:order-none sm:w-auto sm:max-w-xs sm:flex-1"
+                    x-data x-on:keydown.slash.window="if (! ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && ! document.activeElement.isContentEditable) { $event.preventDefault(); $refs.q.focus() }">
+                    <label for="header-search" class="sr-only">{{ __('Rechercher dans toutes mes campagnes') }}</label>
+                    <input id="header-search" x-ref="q" type="search" name="q" class="field py-1.5 text-sm" placeholder="{{ __('Rechercher partout…') }}  /" autocomplete="off">
+                </form>
             @endif
             <nav class="flex items-center gap-3 text-sm whitespace-nowrap sm:gap-4">
                 <a href="{{ route('campaigns.index') }}" @class(['rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft', 'bg-codex-soft' => request()->routeIs('campaigns.index')]) wire:navigate>{{ __('Mes campagnes') }}</a>

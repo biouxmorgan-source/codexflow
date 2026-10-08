@@ -1728,5 +1728,10 @@
     "Chronologie ·": "Timeline ·",
     "Secret ·": "Secret ·",
     "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Keep the status of sheets in this campaign (dead, prisoner…)",
-    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Otherwise the copy starts again from the original sheets; notes and values specific to the campaign are kept."
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Otherwise the copy starts again from the original sheets; notes and values specific to the campaign are kept.",
+    ":query · Recherche": ":query · Search",
+    "Cherche dans toutes vos campagnes, leurs mondes et leurs jeux : en MJ, dans tout leur contenu ; en joueur, dans ce que votre personnage connaît.": "Searches all your campaigns, their worlds and their games: as GM, in all their content; as a player, in what your character knows.",
+    "Rechercher dans toutes mes campagnes": "Search all my campaigns",
+    "Rechercher partout…": "Search everywhere…",
+    "Voir les :count résultats": "See all :count results"
 }

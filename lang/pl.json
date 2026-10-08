@@ -1728,5 +1728,10 @@
     "Chronologie ·": "Oś czasu ·",
     "Secret ·": "Sekret ·",
     "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Zachowaj status kart w tej kampanii (martwy, więzień…)",
-    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "W przeciwnym razie kopia zaczyna od oryginalnych kart; notatki i wartości właściwe dla kampanii zostają zachowane."
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "W przeciwnym razie kopia zaczyna od oryginalnych kart; notatki i wartości właściwe dla kampanii zostają zachowane.",
+    ":query · Recherche": ":query · Wyszukiwanie",
+    "Cherche dans toutes vos campagnes, leurs mondes et leurs jeux : en MJ, dans tout leur contenu ; en joueur, dans ce que votre personnage connaît.": "Przeszukuje wszystkie twoje kampanie, ich światy i gry: jako MG całą zawartość, jako gracz to, co zna twoja postać.",
+    "Rechercher dans toutes mes campagnes": "Szukaj we wszystkich moich kampaniach",
+    "Rechercher partout…": "Szukaj wszędzie…",
+    "Voir les :count résultats": "Zobacz wszystkie wyniki (:count)"
 }

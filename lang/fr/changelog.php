@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.21.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Recherche depuis l’accueil',
+        'items' => [
+            'Hors d’une campagne, la barre de recherche cherche dans toutes vos campagnes, leurs mondes et leurs jeux, chacune avec vos droits : tout en MJ, ce que connaît votre personnage en joueur.',
+        ],
+    ],
+
     '0.20.0' => [
         'date' => '2026-10-08',
         'title' => '« Cité dans » complet, duplication sans les statuts',

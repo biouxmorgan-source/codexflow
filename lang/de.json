@@ -1728,5 +1728,10 @@
     "Chronologie ·": "Zeitleiste ·",
     "Secret ·": "Geheimnis ·",
     "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Status der Einträge in dieser Kampagne behalten (tot, gefangen…)",
-    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Sonst beginnt die Kopie wieder mit den ursprünglichen Einträgen; kampagneneigene Notizen und Werte bleiben erhalten."
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Sonst beginnt die Kopie wieder mit den ursprünglichen Einträgen; kampagneneigene Notizen und Werte bleiben erhalten.",
+    ":query · Recherche": ":query · Suche",
+    "Cherche dans toutes vos campagnes, leurs mondes et leurs jeux : en MJ, dans tout leur contenu ; en joueur, dans ce que votre personnage connaît.": "Durchsucht alle Ihre Kampagnen, ihre Welten und Spiele: als SL den gesamten Inhalt, als Spieler das, was Ihr Charakter kennt.",
+    "Rechercher dans toutes mes campagnes": "In allen meinen Kampagnen suchen",
+    "Rechercher partout…": "Überall suchen…",
+    "Voir les :count résultats": "Alle :count Ergebnisse anzeigen"
 }
