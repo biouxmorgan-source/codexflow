@@ -1728,5 +1728,10 @@
     "Chronologie ·": "Cronología ·",
     "Secret ·": "Secreto ·",
     "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Conservar el estado de las fichas en esta campaña (muerto, prisionero…)",
-    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Si no, la copia parte de las fichas originales; se conservan las notas y valores propios de la campaña."
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Si no, la copia parte de las fichas originales; se conservan las notas y valores propios de la campaña.",
+    ":query · Recherche": ":query · Búsqueda",
+    "Cherche dans toutes vos campagnes, leurs mondes et leurs jeux : en MJ, dans tout leur contenu ; en joueur, dans ce que votre personnage connaît.": "Busca en todas tus campañas, sus mundos y sus juegos: como DJ, en todo su contenido; como jugador, en lo que conoce tu personaje.",
+    "Rechercher dans toutes mes campagnes": "Buscar en todas mis campañas",
+    "Rechercher partout…": "Buscar en todo…",
+    "Voir les :count résultats": "Ver los :count resultados"
 }

@@ -1728,5 +1728,10 @@
     "Chronologie ·": "Cronologia ·",
     "Secret ·": "Segreto ·",
     "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Mantieni lo stato delle schede in questa campagna (morto, prigioniero…)",
-    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Altrimenti la copia riparte dalle schede originali; note e valori propri della campagna vengono mantenuti."
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Altrimenti la copia riparte dalle schede originali; note e valori propri della campagna vengono mantenuti.",
+    ":query · Recherche": ":query · Ricerca",
+    "Cherche dans toutes vos campagnes, leurs mondes et leurs jeux : en MJ, dans tout leur contenu ; en joueur, dans ce que votre personnage connaît.": "Cerca in tutte le tue campagne, nei loro mondi e giochi: da Master in tutto il contenuto, da giocatore in ciò che conosce il tuo personaggio.",
+    "Rechercher dans toutes mes campagnes": "Cerca in tutte le mie campagne",
+    "Rechercher partout…": "Cerca ovunque…",
+    "Voir les :count résultats": "Vedi tutti i :count risultati"
 }

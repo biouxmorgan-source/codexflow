@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.21.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Wyszukiwanie ze strony głównej',
+        'items' => [
+            'Poza kampanią pasek wyszukiwania przeszukuje wszystkie twoje kampanie, ich światy i gry, każdą z twoimi uprawnieniami: wszystko jako MG, a jako gracz to, co zna twoja postać.',
+        ],
+    ],
+
     '0.20.0' => [
         'date' => '2026-10-08',
         'title' => 'Pełne „Wspomniane w”, duplikowanie bez statusów',

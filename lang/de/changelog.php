@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.21.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Suche von der Startseite',
+        'items' => [
+            'Außerhalb einer Kampagne durchsucht die Suchleiste alle Ihre Kampagnen, ihre Welten und Spiele, jeweils mit Ihren Rechten: alles als SL, als Spieler das, was Ihr Charakter kennt.',
+        ],
+    ],
+
     '0.20.0' => [
         'date' => '2026-10-08',
         'title' => 'Vollständiges „Erwähnt in“, Kopie ohne Status',

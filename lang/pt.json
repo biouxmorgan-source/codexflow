@@ -1728,5 +1728,10 @@
     "Chronologie ·": "Linha do tempo ·",
     "Secret ·": "Segredo ·",
     "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Manter o status das fichas nesta campanha (morto, prisioneiro…)",
-    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Caso contrário, a cópia parte das fichas originais; as notas e valores próprios da campanha são mantidos."
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Caso contrário, a cópia parte das fichas originais; as notas e valores próprios da campanha são mantidos.",
+    ":query · Recherche": ":query · Pesquisa",
+    "Cherche dans toutes vos campagnes, leurs mondes et leurs jeux : en MJ, dans tout leur contenu ; en joueur, dans ce que votre personnage connaît.": "Pesquisa em todas as suas campanhas, seus mundos e jogos: como Mestre, em todo o conteúdo; como jogador, no que seu personagem conhece.",
+    "Rechercher dans toutes mes campagnes": "Pesquisar em todas as minhas campanhas",
+    "Rechercher partout…": "Pesquisar em tudo…",
+    "Voir les :count résultats": "Ver os :count resultados"
 }

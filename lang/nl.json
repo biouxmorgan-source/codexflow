@@ -1728,5 +1728,10 @@
     "Chronologie ·": "Tijdlijn ·",
     "Secret ·": "Geheim ·",
     "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Status van de fiches in deze campagne behouden (dood, gevangen…)",
-    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Anders begint de kopie opnieuw vanaf de oorspronkelijke fiches; notities en waarden van de campagne blijven behouden."
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Anders begint de kopie opnieuw vanaf de oorspronkelijke fiches; notities en waarden van de campagne blijven behouden.",
+    ":query · Recherche": ":query · Zoeken",
+    "Cherche dans toutes vos campagnes, leurs mondes et leurs jeux : en MJ, dans tout leur contenu ; en joueur, dans ce que votre personnage connaît.": "Zoekt in al je campagnes, hun werelden en spellen: als SL in alle inhoud, als speler in wat je personage kent.",
+    "Rechercher dans toutes mes campagnes": "Zoeken in al mijn campagnes",
+    "Rechercher partout…": "Overal zoeken…",
+    "Voir les :count résultats": "Alle :count resultaten bekijken"
 }

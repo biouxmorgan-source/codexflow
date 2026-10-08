@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.21.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Pesquisa a partir do início',
+        'items' => [
+            'Fora de uma campanha, a barra de pesquisa procura em todas as suas campanhas, seus mundos e jogos, cada uma com suas permissões: tudo como Mestre, o que seu personagem conhece como jogador.',
+        ],
+    ],
+
     '0.20.0' => [
         'date' => '2026-10-08',
         'title' => '“Citado em” completo, duplicação sem status',

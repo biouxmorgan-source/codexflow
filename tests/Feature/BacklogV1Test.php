@@ -14,6 +14,7 @@ use App\Livewire\Characters\Show as CharacterShow;
 use App\Livewire\Entities\Form as EntityForm;
 use App\Livewire\Library\GameShow;
 use App\Livewire\Library\WorldShow;
+use App\Livewire\Search\Everywhere as SearchEverywhere;
 use App\Livewire\Secrets\Index as SecretIndex;
 use App\Models\Campaign;
 use App\Models\Document;
@@ -339,5 +340,33 @@ class BacklogV1Test extends TestCase
         $duplicate(true)->assertHasNoErrors();
         $kept = Campaign::latest('id')->firstOrFail();
         $this->assertSame('Mort', $ghost->campaignStates()->where('campaign_id', $kept->id)->value('status'));
+    }
+
+    public function test_the_home_search_looks_into_every_campaign_with_its_own_rights(): void
+    {
+        $this->morel->update(['gm_notes' => 'Cache la lanterne sous le manoir.']);
+        $other = Campaign::factory()->for($this->alex, 'owner')->create(['name' => 'Table d’Alex']);
+        Entity::factory()->for($this->alex, 'owner')->for($other)->create(['name' => 'Lanterne de Morel']);
+        $stranger = Campaign::factory()->create(['name' => 'Ailleurs']);
+        Entity::factory()->for($stranger->owner, 'owner')->for($stranger)->create(['name' => 'Morel l’inconnu']);
+
+        $this->actingAs($this->gm)->get(route('campaigns.index'))->assertSee(route('search.all'));
+
+        Livewire::actingAs($this->gm)->test(SearchEverywhere::class)
+            ->set('q', 'lanterne')
+            ->assertSee(['Les Ombres', 'Morel'])
+            ->assertDontSee(['Table d’Alex', 'Ailleurs']);
+
+        // Alex est joueur des Ombres, sans rien connaître de Morel, et MJ de sa propre table.
+        Livewire::actingAs($this->alex)->test(SearchEverywhere::class)
+            ->set('q', 'morel')
+            ->assertSee(['Table d’Alex', 'Lanterne de'])
+            ->assertDontSee(['Les Ombres', 'l’inconnu', 'Cache la lanterne']);
+
+        app(GiveToCharacters::class)->handle($this->campaign, [$this->harvey->id], ['kind' => 'entity', 'entity_id' => $this->morel->id]);
+        Livewire::actingAs($this->alex)->test(SearchEverywhere::class)
+            ->set('q', 'morel')
+            ->assertSee(['Les Ombres', 'Table d’Alex'])
+            ->assertDontSee('Cache la lanterne');
     }
 }
