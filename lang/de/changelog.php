@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.15.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Verwaltungskonsole und Tarife',
+        'items' => [
+            'Eine Verwaltungskonsole: die Konten mit ihrem Tarif, den Abodaten, dem belegten Speicher, ob ein KI-Schlüssel hinterlegt ist, den Kampagnen und Anmeldungen, ohne persönliche Daten. Die Verwaltung legt den Tarif jedes Kontos fest und kann einen Link zum Zurücksetzen des Passworts senden, ohne es je zu sehen.',
+            'Drei Tarife: Verwaltung, Premium und kostenlos. Speicher, Anzahl der Kampagnen und Funktionen des kostenlosen Tarifs werden in der Konsole eingestellt; Spielen, Co-SL oder Zuschauer sein zählt nie.',
+            'Das Backlog sammelt gemeldete Probleme, Fehler und Verbesserungen mit Status, Priorität und Korrekturversion; dort werden auch die Abnahmeprotokolle Version für Version aufbewahrt. Ihr Tarif steht unter „Einstellungen“.',
+        ],
+    ],
+
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Nach der Abnahme: Tausch mit Bestätigung der SL',

@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.15.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Console di amministrazione e piani',
+        'items' => [
+            'Una console di amministrazione: gli account con il loro piano, le date dell’abbonamento, lo spazio usato, la presenza di una chiave IA, le campagne e gli accessi, senza dati personali. L’amministratore imposta il piano di ciascuno e può inviare un link per reimpostare la password, senza mai vederla.',
+            'Tre piani: amministratore, premium e gratuito. Spazio, numero di campagne e funzioni del piano gratuito si regolano nella console; giocare, essere co-master o spettatore non conta mai.',
+            'Il backlog raccoglie i problemi segnalati, i bug e le evoluzioni, con stato, priorità e versione della correzione; vi sono conservati anche i collaudi versione dopo versione. Il tuo piano compare in «Preferenze».',
+        ],
+    ],
+
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Dopo il collaudo: scambi convalidati dal master',

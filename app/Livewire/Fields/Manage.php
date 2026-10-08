@@ -10,6 +10,7 @@ use App\Models\FieldDefinition;
 use App\Models\GameSystem;
 use App\Support\Archive\ArchiveException;
 use App\Support\Archive\CampaignImport;
+use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
@@ -191,6 +192,7 @@ class Manage extends Component
     {
         $this->authorize('update', $this->gameSystem);
         $this->validate(['template' => ['required', 'file', 'extensions:json', 'max:5120']], attributes: ['template' => __('modèle')]);
+        Plans::ensure($this->campaign->owner, 'archive');
 
         try {
             $added = (new CampaignImport($this->campaign->owner))->template((string) file_get_contents($this->template->getRealPath()), $this->campaign);

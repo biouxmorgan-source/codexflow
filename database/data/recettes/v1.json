@@ -1,0 +1,1411 @@
+{
+  "title": "Cahier de recette V1",
+  "version": "0.13.1",
+  "tested_on": "2026-10-08",
+  "score": 95.1,
+  "score_before": 91.7,
+  "summary": "La V1 passe la recette : les 12 parcours prioritaires du §12 et les 8 critères de sortie du §13 sont conformes. Sur 98 fonctionnalités notées, la note moyenne est de 95,1/100 après les corrections de la version 0.13.1 ; elle était de 91,7 lors des tests. Aucune fuite de la zone MJ n'a été trouvée.\n\nMéthode : quatre recetteurs ont testé l'application à l'écran dans Chromium, en bureau (1280 px), en tablette Android émulée (800×1280, tactile) et en téléphone (390 px). Ils ont joué les rôles de MJ, joueurs, co-MJ, spectateur et compte étranger, avec plusieurs navigateurs ouverts en même temps et le temps réel Reverb actif. Ils ont ouvert environ 130 URL interdites et forcé une dizaine d'appels Livewire, en cherchant des mots-témoins de la zone MJ dans le HTML. En plus, 261 tests automatiques passent.\n\nLa note de chaque ligne est le résultat obtenu rapporté au résultat attendu (100 = conforme). Quand une correction a changé la note, la note d'origine est indiquée entre parenthèses.\n\n| Zone | Fonctionnalités notées | Note lors des tests | Note après 0.13.1 |\n|---|---|---|---|\n| Préparation et conduite par le MJ | 32 | 88,9 | 91,6 |\n| Joueurs, rôles et droits | 29 | 93,0 | 96,1 |\n| Lien vivant et table | 20 | 97,0 | 99,2 |\n| Transverse | 17 | 88,5 | 95,4 |\n| **Ensemble** | **98** | **91,7** | **95,1** |\n\n### Parcours de recette prioritaires (§12)\n\n| N° | Parcours | Résultat |\n|---|---|---|\n| 1 | Un jeu, un monde, deux campagnes sur le même monde | Conforme |\n| 2 | Une auberge et 3 PNJ du monde, référencés dans les deux campagnes sans duplication | Conforme |\n| 3 | Scène avec 2 PNJ, une information, une règle et un PDF, présents dans le contexte de session | Conforme |\n| 4 | Joueur invité, personnage et feuille PDF, accès limité à ce qui est autorisé | Conforme |\n| 5 | Information révélée à un seul personnage, visible chez lui et au journal seulement | Conforme |\n| 6 | Règle demandée par le joueur, dans « À jouer » du MJ, marquée jouée | Conforme |\n| 7 | Objet donné, présent dans les possessions et journalisé | Conforme |\n| 8 | Message privé lié à un PNJ : zone publique ouverte, zone MJ jamais | Conforme |\n| 9 | Modification par le joueur visible du MJ avec trace d'audit | Conforme |\n| 10 | PNJ retrouvé par son nom, ses tags et ses scènes | Conforme |\n| 11 | PNJ mort dans une campagne, vivant dans l'autre, fiche mondiale intacte | Conforme |\n| 12 | Mot présent seulement en zone MJ : aucun résultat pour un joueur | Conforme |\n\n### Critères de sortie (§13)\n\n| Critère | Résultat | Réserve |\n|---|---|---|\n| Parcours sur navigateur de bureau et tablette Android récente | Conforme | Tablette émulée dans Chromium, pas encore testée sur un vrai appareil |\n| Chaque lot utilisable seul | Conforme | Le lot 1 a été joué sans aucun joueur connecté |\n| Aucun secret MJ par l'espace joueur ou par URL directe | Conforme | Aucune fuite sur environ 130 URL et appels forcés |\n| Campagne de démonstration sans système de règles intégré | Conforme | « Le Serment de Pierrecendre », jeu inventé, en 8 langues |\n| Retrouver une information du contexte sans quitter la session | Conforme | Depuis 0.13.1, un lien vers une fiche s'ouvre dans un panneau |\n| Événements essentiels historisés et consultables | Conforme | L'entrée « objet validé » du journal reste peu lisible |\n| Entités de monde partagées entre campagnes sans duplication | Conforme | Aucune |\n| Données sauvegardées ou exportées | Conforme au minimum | L'archive ne contient ni les joueurs, ni les séances, ni les messages, ni le journal |",
+  "sections": [
+    {
+      "name": "Préparation et conduite par le MJ (lot 1 et évolutions)",
+      "items": [
+        {
+          "feature": "§6.1 Accueil, Mes campagnes",
+          "expected": "Cartes avec jeu, monde, dernière session, état, bouton « Reprendre » ; créer, archiver, dupliquer",
+          "tests": "Liste vide, création de 2 campagnes, duplication depuis la carte. Auto : CampaignIndexTest, CampaignDuplicationTest",
+          "gaps": "Pas de dernière session sur la carte, pas de bouton « Reprendre », aucun moyen d'archiver (le statut existe sans réglage). Le mode Session reprend bien la scène en cours",
+          "result": "Création et duplication conformes ; Reprendre et archiver absents",
+          "score": 55,
+          "score_before": null
+        },
+        {
+          "feature": "§6.2 Jeux",
+          "expected": "Créer un jeu (nom, description, image) ; règles et documents partagés par ses campagnes",
+          "tests": "Jeu créé depuis le formulaire de campagne ; règle et document « au jeu » vus dans deux campagnes. Auto : RulesAndDocumentsTest",
+          "gaps": "Aucune page Jeu : impossible de saisir une description ou une image, ou de renommer un jeu",
+          "result": "Partage conforme, gestion du jeu absente",
+          "score": 55,
+          "score_before": null
+        },
+        {
+          "feature": "§6.3 Mondes (partage, états par campagne, surcharges)",
+          "expected": "Monde indépendant ; fiches réutilisées sans duplication ; notes, état et champs propres à une campagne",
+          "tests": "Deux campagnes sur le même monde ; « mort » et notes dans l'une seulement ; champ surchargé dans l'autre ; modification mondiale propagée sauf champ surchargé. Auto : WorldEntityTest, CampaignOverridesTest",
+          "gaps": "Pas de page Monde : un monde ne se crée qu'avec une campagne, sans renommage ni description",
+          "result": "Mécanique de partage conforme",
+          "score": 80,
+          "score_before": null
+        },
+        {
+          "feature": "Parcours 1 : jeu, monde, deux campagnes",
+          "expected": "Voir §12",
+          "tests": "Script à l'écran. Auto : CampaignIndexTest::two_campaigns_can_share_the_same_world",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Parcours 2 : auberge et 3 PNJ du monde",
+          "expected": "Voir §12",
+          "tests": "Script à l'écran, contrôle en base : une seule fiche « Bertrand ». Auto : EntityPagesTest",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Parcours 11 : PNJ mort dans une seule campagne",
+          "expected": "Voir §12",
+          "tests": "Script à l'écran, fiche mondiale inchangée",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "§6.4 Fiche d'entité (zones, image, tags, pièces jointes)",
+          "expected": "Nom, type, image, tags, visibilité, pièces jointes, zone publique et zone MJ",
+          "tests": "5 fiches complètes ; pièces jointes publique et MJ ; fichier .php refusé ; image retirée ; suppression. Auto : EntityFilesTest, EntityPagesTest",
+          "gaps": "Pas de champ « visibilité » propre à la fiche (la révélation par personnage en tient lieu)",
+          "result": "Conforme hors visibilité",
+          "score": 90,
+          "score_before": null
+        },
+        {
+          "feature": "§6.4 Types de fiche",
+          "expected": "Types standards et personnalisés",
+          "tests": "Type « Divinité » créé et proposé partout. Auto : RelationsTagsTypesTest",
+          "gaps": "La page comptait les fiches de tous les comptes. **Corrigé en 0.13.1**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 85
+        },
+        {
+          "feature": "§6.4 Champs libres du jeu",
+          "expected": "Texte, nombre, date, oui/non, liste, lien, fichier, référence à une fiche ; zone ; groupes",
+          "tests": "3 champs, validation nombre et date, affichage par groupe et par zone. Auto : FieldDefinitionsTest",
+          "gaps": "Types « lien (URL) », « fichier » et « référence à une fiche » absents",
+          "result": "Partiel",
+          "score": 75,
+          "score_before": null
+        },
+        {
+          "feature": "§6.4 Import en masse CSV/JSON",
+          "expected": "Aperçu, colonnes, erreurs ligne par ligne, rien créé avant validation",
+          "tests": "CSV avec une ligne fautive : aperçu, « Ligne 4 : nom manquant », création après validation, exemple téléchargé. Auto : ImportTest",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "§6.4 Liens [[ ]]",
+          "expected": "Autocomplétion, lien par identifiant, renommage sans casse",
+          "tests": "Suggestion à la frappe, lien qui suit le renommage, lien tapé à la main résolu par nom. Auto : EntityLinksTest",
+          "gaps": "L'extrait de recherche montre l'ancien nom ; homonymes non testés à l'écran",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "§6.4 et évol. 4.3 Relations et inverses",
+          "expected": "Relations libres, inverse facultatif proposé, zone, portée campagne",
+          "tests": "Relations avec et sans inverse, inverse connu proposé, relation MJ propre à une campagne. Auto : RelationsTagsTypesTest",
+          "gaps": "Erreur JavaScript à l'ajout et relation sans inverse lue à l'envers. **Corrigé en 0.13.1.** Restent : zone conservée d'une relation à l'autre, fiche courante proposée",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": 85
+        },
+        {
+          "feature": "Évol. 4.4 Backlinks",
+          "expected": "Scènes, documents, relations et fiches qui citent la fiche",
+          "tests": "« Cité dans », bloc Scènes, « Utilisé par » des documents. Auto : BacklinksTest",
+          "gaps": "Les liens dans une scène, un événement de chronologie ou un secret n'apparaissent pas dans « Cité dans »",
+          "result": "Partiel",
+          "score": 80,
+          "score_before": null
+        },
+        {
+          "feature": "Évol. 4.2 Duplication d'une fiche",
+          "expected": "Copie avec contenu, fichiers, tags, relations, sans états de campagne",
+          "tests": "Fiche du monde et fiche de campagne copiées. Auto : EntityDuplicationTest",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Évol. 4.2 Duplication d'un scénario",
+          "expected": "Scènes et liens copiés, statuts remis à « Prévue »",
+          "tests": "Copie avec 2 scènes, fiches, règle, document, tags, « À jouer ». Auto : ScenarioDuplicationTest, RecetteV1Test",
+          "gaps": "Les secrets des scènes ne suivaient pas. **Corrigé en 0.13.1**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 90
+        },
+        {
+          "feature": "Évol. 4.2 Duplication d'une campagne",
+          "expected": "Contenu préparé copié ; historique et progression indépendants",
+          "tests": "Copie depuis la carte, contrôle en base. Auto : CampaignDuplicationTest, RecetteV1Test",
+          "gaps": "Secrets et chronologie n'étaient pas copiés. **Corrigé en 0.13.1.** Reste à trancher : l'état « mort » d'une fiche est copié",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": 70
+        },
+        {
+          "feature": "§6.5 Scénarios et scènes",
+          "expected": "Scénario, chapitres facultatifs, scènes ; 5 statuts ; liens vers lieux, PNJ, informations, règles, documents",
+          "tests": "2 scénarios, scènes liées, tri, statuts, secret relié. Auto : ScenesTest",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Évol. Tags",
+          "expected": "Créer, renommer, colorer, fusionner, supprimer, filtrer",
+          "tests": "Renommage, couleur, fusion, suppression, filtre depuis une fiche et une scène. Auto : TagManagementTest",
+          "gaps": "Tags de scène absents de la recherche. **Corrigé en 0.13.1.** Restent : tags du plan non cliquables, scénarios vides affichés par le filtre",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": 90
+        },
+        {
+          "feature": "§6.6 Mode Session",
+          "expected": "Démarrer, terminer ; Maintenant ; À jouer ; Épinglé ; notes horodatées ; mode Focus",
+          "tests": "Session complète avec notes, liens, épingles, mode Focus, scène suivante, tablette. Auto : SessionModeTest",
+          "gaps": "Le bouton « Discussion » recouvre le haut de la colonne « Épinglé »",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "Parcours 3 : scène préparée dans le contexte",
+          "expected": "Voir §12",
+          "tests": "Script à l'écran",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "§7 Moteur de contexte",
+          "expected": "Scène active vers fiches, notes, documents, informations, règles ; épingles persistantes",
+          "tests": "Cartes dépliables, secrets de la scène, règle vers « À jouer », épingles conservées. Auto : SessionModeTest",
+          "gaps": "Aucun côté MJ",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "§6.7 Informations et secrets",
+          "expected": "Type (vérité, rumeur, mensonge…), états (non découverte → révélée), qui connaît, révéler en un clic",
+          "tests": "Secret relié à une fiche, une scène, un document, affiché partout et en session. Auto : SecretsTest",
+          "gaps": "Secrets absents de la recherche. **Corrigé en 0.13.1.** Restent absents : type d'information et états",
+          "result": "Partiel",
+          "score": 60,
+          "score_before": 55
+        },
+        {
+          "feature": "§6.8 Règles et aides de jeu",
+          "expected": "Fiche de règle complète, origine, cycle expérimental, À jouer",
+          "tests": "Règle maison au jeu, règle MJ à la campagne, passage à « Adoptée », document lié. Auto : RulesAndDocumentsTest",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "§6.9 Documents",
+          "expected": "PDF et images, classement, tags, associations, visibilité",
+          "tests": "Envois, refus d'un .php, portée monde ou campagne, liens. Auto : RulesAndDocumentsTest",
+          "gaps": "PDF affiché par le lecteur du navigateur et non par pdf.js",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "§6.14 Recherche globale",
+          "expected": "Nom, texte, tag, type ; tout le contenu ; filtrée par droits ; accessible partout",
+          "tests": "Touche « / », accents ignorés, cloisonnement entre campagnes, aucun résultat MJ pour un joueur. Auto : GlobalSearchTest, RecetteV1Test",
+          "gaps": "Secrets, objets donnés, notes des joueurs et tags de scène absents. **Corrigé en 0.13.1.** Restent : pas de recherche hors des pages d'une campagne, extrait parfois hors sujet",
+          "result": "Conforme",
+          "score": 90,
+          "score_before": 80
+        },
+        {
+          "feature": "Parcours 10 : PNJ retrouvé",
+          "expected": "Voir §12",
+          "tests": "Nom, tag et scène retrouvent Bertrand. Auto : GlobalSearchTest",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Évol. 6.1 Graphe des relations",
+          "expected": "Graphe complet, filtres, profondeur",
+          "tests": "Graphe, recentrage sur une fiche, profondeur 1 à 3, filtre par type. Auto : GraphTest",
+          "gaps": "Libellés qui se chevauchent sur deux relations parallèles",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "Évol. 6.2 Chronologie",
+          "expected": "Monde, prévu, joué ; dates libres",
+          "tests": "3 événements, filtres, liens. Auto : TimelineTest",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Export et import de campagne (.zip)",
+          "expected": "Archive complète, réimportable par un autre MJ",
+          "tests": "Archive téléchargée puis importée par un autre compte ; refus d'un PDF et d'un accès étranger. Auto : CampaignArchiveTest",
+          "gaps": "Notes de session non exportées (choix annoncé)",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Modèles de jeu (.json)",
+          "expected": "Structure sans contenu, avec ou sans règles",
+          "tests": "Export et import dans un autre compte. Auto : CampaignArchiveTest",
+          "gaps": "Le modèle emporte tous les tags du compte",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "Sécurité, accès directs",
+          "expected": "403 ou 404 pour un étranger ou un joueur, aucune fuite",
+          "tests": "26 URL en étranger, 23 en joueur sans personnage. Auto : EntityPagesTest, EntityFilesTest",
+          "gaps": "Seul le nombre de fiches par type fuyait. **Corrigé en 0.13.1**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 95
+        },
+        {
+          "feature": "Affichage téléphone (390 px)",
+          "expected": "Pas de défilement horizontal",
+          "tests": "8 pages",
+          "gaps": "Noms de fiche très tronqués dans la liste",
+          "result": "Conforme",
+          "score": 90,
+          "score_before": null
+        }
+      ]
+    },
+    {
+      "name": "Joueurs, rôles et droits (lot 2)",
+      "items": [
+        {
+          "feature": "Invitations (lien, rôle, acceptation)",
+          "expected": "Lien à usage unique avec rôle ; un visiteur crée son compte ou se connecte puis rejoint la campagne",
+          "tests": "5 liens créés (joueur ×2, co-MJ, spectateur, 1 annulé). Visiteur : lien → « Créer un compte » (e-mail pré-rempli) → retour sur l'invitation → « Rejoindre ». Comptes existants : connexion → lien → rejoindre. Lien réutilisé et lien annulé testés, retrait d'un membre puis nouvelle invitation. Auto : `InvitationTest::*` (6)",
+          "gaps": "Aucun",
+          "result": "Conforme : lien réutilisé → « déjà utilisé », lien annulé → « n'existe pas ou a été annulé », le membre retiré perd l'accès (403) puis le retrouve avec son personnage, retrait et arrivée tracés dans le journal",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Rôles par campagne (§5)",
+          "expected": "Rôle défini par campagne, un seul type de compte",
+          "tests": "Cartes « Mes campagnes » de chaque compte (rôle affiché). Auto : `CampaignPolicyTest::roles_are_defined_per_campaign_not_per_account`",
+          "gaps": "Le joueur voit les boutons « Nouvelle campagne » et « Importer » : c'est normal, il n'y a qu'un type de compte",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Personnage : création, attribution, un actif par joueur",
+          "expected": "Le MJ crée la fiche, l'attribue à un joueur invité ; un seul personnage actif par joueur",
+          "tests": "Création d'Elara et de Thorn avec un joueur. Kael attribué à Alice : Elara passe automatiquement « au repos ». Auto : `PlayerCharacterTest::a_player_has_one_active_character_per_campaign`",
+          "gaps": "Après le retrait de Bob, la liste affichait encore « Thorn · B-P2 · actif » alors que le menu indiquait « Aucun joueur » (B5). **Corrigé en 0.13.1 : un joueur retiré est signalé « ne fait plus partie de la campagne ».**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 90
+        },
+        {
+          "feature": "Prétirés",
+          "expected": "Une fiche de personnage du monde est copiée dans la campagne, sans modifier la fiche du monde",
+          "tests": "Kael (fiche du monde) choisi dans « Nouveau personnage » → copie dans la campagne ; la fiche du monde est intacte, sa zone MJ reste invisible pour Alice. Auto : `PlayerCharacterTest::a_pregenerated_world_character_is_copied_into_the_campaign`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Feuille PDF",
+          "expected": "Le MJ joint un PDF ; seul le joueur du personnage le consulte",
+          "tests": "PDF générés et envoyés. Un `.txt` est refusé : « doit être un fichier de type : pdf ». Alice reçoit 200 `application/pdf` sur le sien et 403 sur celui de Thorn ; un extérieur reçoit 403. Auto : `PlayerCharacterTest::the_player_reads_only_the_public_part…`",
+          "gaps": "Affichage par le lecteur natif du navigateur et non par pdf.js comme prévu au §9 ; dans le lecteur, le titre est « feuille.pdf » au lieu du nom d'origine",
+          "result": "Conforme sur le fond",
+          "score": 90,
+          "score_before": null
+        },
+        {
+          "feature": "Fiche joueur : zone publique seulement (parcours 4)",
+          "expected": "Le joueur ne voit que la zone publique de son personnage",
+          "tests": "Scan du HTML de la fiche d'Elara et des autres pages joueur : 0 mot-témoin MJ (notes MJ, champ « Faiblesse cachée »). Lien `[[Taverne du Héron]]` (fiche non révélée) affiché en texte simple. Auto : `PlayerCharacterTest`, `WorldEntityTest::gm_notes_are_hidden_from_serialization`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Compteurs configurables (PV, magie, munitions) et argent",
+          "expected": "Compteurs définis par le MJ, modifiables par le joueur et par le MJ",
+          "tests": "Champs « Compteur » créés (PV, Magie, Munitions) et « Argent » en nombre, tous « modifiables par le joueur ». Alice : PV −2, Munitions −1, Magie +1. Le MJ ajoute +1 PV sur une fiche verrouillée. Auto : `PlayerCharacterTest::counters_and_editable_fields_…`",
+          "gaps": "Chaque enregistrement inscrivait au journal des compteurs qui n'avaient pas changé (B2). **Corrigé en 0.13.1.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 90
+        },
+        {
+          "feature": "Champs modifiables choisis par le MJ",
+          "expected": "Le joueur modifie seulement les champs cochés « Modifiable par le joueur »",
+          "tests": "Le formulaire du joueur ne propose que PV, Magie, Munitions, Argent et Humeur (pas « Armure »). Appels Livewire forcés sur « Armure » et sur un champ MJ → 403",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Verrouillage de la fiche",
+          "expected": "Le MJ verrouille ou déverrouille l'écriture du joueur",
+          "tests": "Fiche verrouillée : plus de boutons ±, « Modifier », « + Noter » ni « Donner », un message s'affiche. Appels forcés → 403. Le MJ peut toujours modifier. Auto : `PlayerAdditionsTest`, `ExchangeTest`",
+          "gaps": "Les notes restent possibles sur une fiche verrouillée (acceptable)",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Révélation à un seul personnage (parcours 5)",
+          "expected": "L'information apparaît chez ce personnage et dans le journal, pas chez les autres",
+          "tests": "Secret révélé à Elara en un clic : visible pour Alice (fiche, recherche, fenêtre « reçu ») et dans les journaux MJ et joueur ; Bob ne le voit nulle part (fiche, recherche, URL directe → 403). Auto : `GrantTest`, `SecretsTest`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Révéler une fiche, une règle ou un document",
+          "expected": "Le joueur voit la zone publique de la fiche, la règle ou le document reçu, et rien d'autre",
+          "tests": "Fiche révélée : page publique en 200, sans zone MJ. Règle ouverte à Elara (note MJ invisible), règle non ouverte → 403. Document donné → 200, non donné → 404, fichier en direct → 403. Auto : `GrantTest::*` (5)",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "« Donner » un objet ou une information (parcours 7)",
+          "expected": "L'objet apparaît dans les Possessions et l'opération est journalisée",
+          "tests": "« Lampe tempête ×2 » à Elara, « Corde » à Thorn, puis une information « Rumeur du port ». Chaque don apparaît dans la bonne section, aux journaux et dans les notifications. Auto : `GrantTest`",
+          "gaps": "Pas d'action dédiée pour « donner une note » : l'« Information » (titre + texte) en tient lieu",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "Historique des révélations et annulation (évolution §5.3)",
+          "expected": "Qui, à quel personnage, quand, pendant quelle séance ; annulation visible au journal",
+          "tests": "Page Révélations filtrable par personnage et par séance ; « Session 1 » affichée. L'annulation pour Thorn retire le secret ; journal et notification « Le MJ a repris ». Auto : `SecretsTest`",
+          "gaps": "La scène n'a pas été vérifiée (aucune scène active)",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "« Voir comme » un personnage (évolution §5.4)",
+          "expected": "Le MJ voit exactement ce que voit le personnage, en lecture seule, sous un bandeau visible",
+          "tests": "Bandeau orange « Vous voyez la campagne comme Elara… Lecture seule. Quitter ». Aucun contrôle MJ ni note privée ; fiche, recherche et graphe filtrés. Appels forcés → 403 ; un joueur qui tente le mode → 403. Auto : `ViewAsTest::*` (4)",
+          "gaps": "L'en-tête MJ reste affiché (sans conséquence)",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Journal (§6.13) et trace d'audit (parcours 9)",
+          "expected": "Qui, quoi, quand, ancienne et nouvelle valeur ; le joueur ne voit que ce qui concerne son personnage",
+          "tests": "Journal MJ : modifications d'Alice (Argent 35 → 30, PV 12 → 11 → 10…), ajouts, échanges, validations, rôles, membres. Journal joueur limité à son personnage. Journal MJ → 403 pour les joueurs. Auto : `JournalTest`, `PlayerSpaceTest`",
+          "gaps": "B2 corrigé en 0.13.1. **Reste B3 : l'entrée de validation d'un objet est peu lisible** (« Personnage (vide) → Elara… »)",
+          "result": "Conforme sur le fond",
+          "score": 90,
+          "score_before": 85
+        },
+        {
+          "feature": "Notifications MJ et joueur",
+          "expected": "Centres séparés ; aucune fuite",
+          "tests": "Bob : reçu, repris, transmis par Elara. MJ : intentions, demande de règle, objet à valider, connaissance notée, échanges. Fenêtre « reçu » à l'ouverture de la fiche. Auto : `NotificationTest`, `ReceivedPopupTest`",
+          "gaps": "La page Notifications du MJ affiche un texte destiné aux joueurs (« lisible sans connexion »), cosmétique",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "Notes du joueur : privées, MJ, certains joueurs, toute la table",
+          "expected": "Le niveau de confidentialité est indiqué et respecté pour chaque lecteur",
+          "tests": "4 notes d'Alice. Bob voit « certains joueurs » et « table » seulement ; le MJ voit « MJ », « certains » et « table », jamais « moi seul » (même en « Voir comme »). Appels forcés de modification par Bob → refusés. Auto : `PlayerSpaceTest::note_sharing_is_enforced_for_each_reader`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Notes de session des joueurs (§6.10)",
+          "expected": "Notes rattachées au personnage et à la séance, liens `[[ ]]` vers les fiches connues",
+          "tests": "Une note écrite en séance porte « séance du 8 oct. ». Un lien vers une fiche connue devient cliquable, une fiche inconnue reste du texte",
+          "gaps": "Pas d'autocomplétion `[[` dans les notes du joueur ; pas de vue « par séance » des notes joueurs pour le MJ (B6)",
+          "result": "Partiel",
+          "score": 75,
+          "score_before": null
+        },
+        {
+          "feature": "Intentions « À jouer » et demande de règle (parcours 6)",
+          "expected": "Arrivent dans « À jouer » du MJ, marquables jouées, et le joueur le voit",
+          "tests": "« Fouiller la taverne » et « Tester : Tir précis » envoyés ; en séance, les deux cartes sont dans « À jouer », marquées jouées, Alice les voit barrées. Notification au MJ. Auto : `PlayerSpaceTest`, `NotificationTest`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Ajouts du joueur (connaissance, possession validée par le MJ)",
+          "expected": "Une connaissance est notée librement ; un objet attend la validation du MJ",
+          "tests": "« Le capitaine ment » noté, MJ prévenu. « Dague » en attente : « Donner » absent, « 1 objet à valider » côté MJ ; une fois validée, Alice peut la donner. Auto : `PlayerAdditionsTest::*` (5)",
+          "gaps": "Le joueur pouvait effacer un objet déjà validé (B7). **Corrigé en 0.13.1.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 95
+        },
+        {
+          "feature": "Échanges entre joueurs",
+          "expected": "Transfert simple ; validation par le MJ en option ; journalisé",
+          "tests": "Alice donne 1 lampe sur 2 à Thorn et transmet « Rumeur du port » (elle la garde). Journal et notifications. Appel forcé par un tiers → refusé. Auto : `ExchangeTest::*` (4)",
+          "gaps": "**Pas d'option « validation MJ » pour les transferts** (§6.11, A1)",
+          "result": "Partiel",
+          "score": 80,
+          "score_before": null
+        },
+        {
+          "feature": "Recherche joueur (§6.14, parcours 12)",
+          "expected": "Le joueur ne trouve que ce que son personnage connaît, jamais un mot de la zone MJ",
+          "tests": "Alice : mots de la zone MJ → aucun ; Morel, secret, Lampe, Tir → trouvés. Bob : rien de ce qu'il ne connaît pas ; notes non partagées introuvables. Auto : `GlobalSearchTest`, `PlayerSpaceTest`",
+          "gaps": "La recherche du joueur ne retrouve pas son propre personnage (cosmétique)",
+          "result": "Conforme",
+          "score": 98,
+          "score_before": null
+        },
+        {
+          "feature": "Recherche MJ sur les données joueurs",
+          "expected": "Résultats croisés, informations comprises",
+          "tests": "Secret, objet donné, notes joueurs partagées avec le MJ : aucun résultat lors des tests (B1)",
+          "gaps": "**Corrigé en 0.13.1 : secrets, objets donnés et notes partagées sont trouvés par le MJ.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 50
+        },
+        {
+          "feature": "Archivage du personnage et nouveau personnage",
+          "expected": "L'ancien personnage est archivé avec son historique ; le MJ choisit ce qui est transmis au nouveau",
+          "tests": "« Mettre au repos » conserve l'historique. Kael est attribué ; les connaissances ne sont pas transmises",
+          "gaps": "B8 (personnage au repos encore modifiable) corrigé en 0.13.1. **Reste A2 : aucun écran pour choisir ce qui est transmis au nouveau personnage.**",
+          "result": "Partiel",
+          "score": 75,
+          "score_before": 65
+        },
+        {
+          "feature": "Sécurité : URL directes et appels Livewire forcés (§10, critère de sortie)",
+          "expected": "Aucun secret MJ accessible par l'espace joueur ou par URL directe",
+          "tests": "35 URL testées en joueur, 31 en spectateur, 31 en extérieur → 403 ou 404, sans mot-témoin. 10 appels Livewire forcés → 403",
+          "gaps": "La page 403 affichait un texte anglais brut (B4). **Corrigé en 0.13.1.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 98
+        },
+        {
+          "feature": "Rôle co-MJ (évolution §7)",
+          "expected": "Prépare et mène, accès MJ, sans administration ni changement du système de jeu",
+          "tests": "Accès personnages, « Voir comme », secrets, séance, journal. Champs, import, archive et modèle → 403 ; page Membres en lecture seule ; appels forcés de gestion → refusés. Auto : `RolesTest`, `CampaignDeletionTest`",
+          "gaps": "Le co-MJ peut exporter les fiches en CSV (zone MJ comprise) mais pas l'archive : cohérent, à confirmer",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "Rôle spectateur",
+          "expected": "Écran de table seulement",
+          "tests": "Toutes les URL → 403 sauf l'écran de table. Depuis 0.13.1, la page de campagne l'y redirige. Auto : `RolesTest::a_spectator_only_watches_the_table_screen`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Changement de rôle et retrait par le propriétaire",
+          "expected": "Seul le propriétaire gère les membres ; journalisé",
+          "tests": "Menus de rôle et « Retirer » visibles seulement pour le propriétaire ; retrait au journal. Auto : `RolesTest`, `InvitationTest`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Espace joueur : sections du §6.10 et mobile",
+          "expected": "Feuille, Possessions, Connaissances, Documents, Notes, À jouer, Messages, Journal ; utilisable sur téléphone",
+          "tests": "Toutes les sections présentes. À 390 px : pas de défilement horizontal, boutons ± de 44 px",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        }
+      ]
+    },
+    {
+      "name": "Lien vivant et table (lot 3, évolutions §8 à §11)",
+      "items": [
+        {
+          "feature": "Message privé lié à un PNJ (parcours 8)",
+          "expected": "Le joueur reçoit le message, ouvre la zone publique du PNJ, jamais la zone MJ",
+          "tests": "Le MJ écrit à Aria en joignant la fiche Vargas ; le joueur, déjà sur sa fiche, reçoit cloche et fenêtre en direct ; le lien ouvre résumé et description, aucun mot-témoin MJ dans le HTML. Autre joueur et extérieur sur cette URL → 403. Auto : `MessagingTest::a_private_message_with_an_npc_opens_its_public_zone_to_that_player_only`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Messagerie §6.12 (privé, groupe, sélection, pièces jointes)",
+          "expected": "Privés étanches, groupe pour tous, référence interne jointe (fiche, document, règle publique)",
+          "tests": "Message au groupe, privé joueur → MJ et réponse, envoi « Seulement à » Borin ; les autres joueurs ne voient ni le privé ni la sélection. « Joindre » ne propose que la règle et le document publics ; le joueur n'a pas de sélecteur de pièce jointe ; extérieur → 403. Auto : `MessagingTest` (7)",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Fenêtre de discussion",
+          "expected": "Discussion flottante sur les pages de campagne, onglets, temps réel",
+          "tests": "3 navigateurs ouverts : message de groupe vu en direct par le MJ et l'autre joueur ; badge non lu sur l'onglet privé ; réponse reçue en direct ; fenêtre absente de la page Messages. Auto : `ChatDockTest` (4)",
+          "gaps": "Sur téléphone, le bouton « Discussion » masquait une partie de la télécommande. **Corrigé en 0.13.1 : la discussion n'est plus affichée sur la télécommande.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 95
+        },
+        {
+          "feature": "Notifications §6.13 (cloche, lues, non lues)",
+          "expected": "Centre séparé MJ et joueur, compteur, marquer lu, filtrer, ouvrir",
+          "tests": "La cloche du joueur passe à « 2 non lues » sans rechargement ; ouvrir Messages marque lu ; intention du joueur → cloche MJ en direct ; « Non lues seulement », « Tout marquer comme lu ». Notification du MJ ouverte par un joueur → 404. Auto : `NotificationTest` (5)",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Temps réel (Reverb)",
+          "expected": "Mises à jour en direct ; canaux privés filtrés ; l'application marche sans Reverb",
+          "tests": "Événements reçus sur le canal privé ; autorisation des canaux d'un autre joueur ou personnage → 403. Reverb arrêté : l'envoi fonctionne, la cloche se met à jour au rechargement. Auto : `RealtimeTest` (4)",
+          "gaps": "Aucun (le port Reverb est figé à la compilation, c'est un réglage)",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Fenêtre de révélation chez le joueur",
+          "expected": "Fenêtre à la réception, seulement chez le bon joueur, « C'est noté » ou « Voir sur ma fiche »",
+          "tests": "Information révélée et objet donné en séance : fenêtre en direct chez le bon joueur, rien chez l'autre ; file « 2 en attente », « Suivant », Échap. Auto : `ReceivedPopupTest`",
+          "gaps": "« Voir sur ma fiche » cliqué depuis sa fiche laissait la fenêtre ouverte. **Corrigé en 0.13.1 : la fenêtre se ferme et la page défile jusqu'à l'élément.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 85
+        },
+        {
+          "feature": "PWA : installation",
+          "expected": "Application installable",
+          "tests": "Manifeste servi avec icônes 192, 512 et maskable ; service worker enregistré ; bloc « Sur cet appareil » sur la page Notifications. Auto : `PwaTest::the_app_is_installable`",
+          "gaps": "L'invite d'installation n'est pas testable sans vrai navigateur",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "Fiche du personnage hors ligne",
+          "expected": "Seule la fiche est lisible hors ligne ; cache vidé à la déconnexion",
+          "tests": "Serveur réellement arrêté : fiche du personnage et fiche connue affichées, Messages et PDF → page « Vous êtes hors ligne » ; après déconnexion, cache vide. Auto : `PwaTest::only_the_character_sheet_is_kept_for_offline_reading`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Notifications push (abonnement)",
+          "expected": "Activer ou désactiver ; échec propre sans service push",
+          "tests": "Sans Internet : « L'abonnement n'a pas abouti… » ; service simulé : abonnement enregistré puis supprimé à la désactivation ; envoi anonyme refusé. Aucun envoi réel. Auto : `PwaTest`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Mode Session côté table §8",
+          "expected": "Contrôle de l'écran de table : afficher, vider, partager, annonce, cartes",
+          "tests": "Scène courante et suivante ; document, fiche et annonce affichés ; « Vider » ; lien vers les cartes et la télécommande. Auto : `SessionModeTest`, `TableScreenTest`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Écran de table",
+          "expected": "Plein écran, jamais l'interface ni les secrets MJ",
+          "tests": "Bouton « Plein écran » ; après chaque affichage, aucun mot-témoin MJ ni bouton de contrôle dans le HTML. Auto : `TableScreenTest` (8)",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "« Afficher à la table » (fiche, portrait, pièce jointe, règle, carte, document)",
+          "expected": "Action disponible depuis chaque contenu",
+          "tests": "Fiche publique avec portrait, portrait seul, pièces jointes publique et MJ, règle sans notes MJ, carte. Auto : `ShowOnTableTest` (2)",
+          "gaps": "Rien ne signalait qu'une pièce jointe ou une règle était de la zone MJ. **Corrigé en 0.13.1 : confirmation avant de la montrer.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 95
+        },
+        {
+          "feature": "Partage de l'écran aux joueurs",
+          "expected": "403 tant que non partagé, suivi en direct sinon, écran neutre à l'arrêt",
+          "tests": "Joueur → 403 avant le partage, puis 200 avec l'annonce en direct ; à l'arrêt : « Le MJ ne partage plus l'écran de table. » et fichiers → 403. Même chose depuis la télécommande. Auto : `TableScreenTest`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Spectateur à la table",
+          "expected": "Voit l'écran de table seulement",
+          "tests": "Écran de table suivi en direct, avec seulement les jetons visibles ; toutes les autres pages → 403. Auto : `RolesTest`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Ambiances d'écran",
+          "expected": "Habillage purement visuel",
+          "tests": "Nuit, Parchemin, Ardoise, Grimoire appliqués en direct depuis la télécommande",
+          "gaps": "Pas de test automatique dédié",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "Télécommande mobile du MJ §9.1",
+          "expected": "Afficher, masquer, élément suivant, éléments de la scène, carte",
+          "tests": "Téléphone : pas de défilement horizontal ; « Suivant » parcourt fiche, document, règle ; annonce, partage ; déplacement, zoom et « Entière » sur la carte ; jeton masqué ou affiché d'un toucher. Joueur → 403. Auto : `MapsTest`",
+          "gaps": "Au dernier élément, « Suivant » ne fait plus rien, sans indication",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": null
+        },
+        {
+          "feature": "Cartes : image, zoom, déplacement",
+          "expected": "Le MJ envoie une carte, zoome, déplace",
+          "tests": "Image transformée en carte, affichée à la table, +, −, « Carte entière ». Auto : `MapsTest`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Grille facultative",
+          "expected": "Grille activable, taille, décalage, échelle",
+          "tests": "Grille de 50 et échelle 1,5 visibles sur l'écran. Auto : `MapsTest`",
+          "gaps": "Sans unité, la distance s'affichait « 16,5 » seul. **Corrigé en 0.13.1 : la distance est alors donnée en cases.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 95
+        },
+        {
+          "feature": "Jetons virtuels",
+          "expected": "Lié à une fiche, déplacer, redimensionner, afficher, masquer, supprimer ; un jeton masqué n'arrive jamais chez les joueurs",
+          "tests": "Jeton Vargas avec portrait et « Gobelin 1 » ; masqués, ils sont absents du HTML de l'écran ; glisser-déposer suivi en direct ; image d'un jeton masqué → 404 pour le spectateur. Auto : `MapsTest::hidden_tokens_never_reach_the_table_screen`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Règle de mesure temporaire",
+          "expected": "Ligne entre deux points, distance, disparaît après usage",
+          "tests": "Tracé visible sur l'écran avec la distance ; « Effacer la règle » l'enlève. Auto : `MapsTest`",
+          "gaps": "La ligne restait jusqu'à « Effacer la règle ». **Corrigé en 0.13.1 : elle s'efface seule au bout de 15 secondes.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 85
+        },
+        {
+          "feature": "Dés §11",
+          "expected": "Facultatif",
+          "tests": "Recherche dans le code et l'interface",
+          "gaps": "Absent (facultatif)",
+          "result": "Non réalisé",
+          "score": null,
+          "score_before": null
+        }
+      ]
+    },
+    {
+      "name": "Transverse : comptes, langues, aide, démo, IA, ergonomie",
+      "items": [
+        {
+          "feature": "Inscription",
+          "expected": "Créer un compte, arriver sur « Mes campagnes », erreurs claires",
+          "tests": "Mot de passe trop court, e-mail déjà pris, puis inscription valide → « Mes campagnes ». Auto : `AuthenticationTest`",
+          "gaps": "Les messages citaient le nom technique du champ (« Le champ password… »). **Corrigé en 0.13.1 : nom lisible des champs.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 90
+        },
+        {
+          "feature": "Connexion et déconnexion",
+          "expected": "Connexion, erreur lisible, déconnexion, pages protégées",
+          "tests": "Mauvais mot de passe → « Ces identifiants ne correspondent à aucun compte. » ; déconnexion sur ordinateur, tablette et téléphone ; page protégée en invité → connexion. Auto : `AuthenticationTest`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Mot de passe oublié",
+          "expected": "Lien reçu par courriel, nouveau mot de passe utilisable, courriel dans la langue de l'utilisateur",
+          "tests": "Demande, courriel, lien, nouveau mot de passe, connexion réussie ; limitation de fréquence active. Auto (depuis 0.13.1) : `RecetteV1Test`",
+          "gaps": "Le courriel était en anglais pour un francophone, et le formulaire révélait si une adresse avait un compte. **Corrigé en 0.13.1 : courriel en français, même réponse dans les deux cas.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 75
+        },
+        {
+          "feature": "Premier compte administrateur",
+          "expected": "Le premier compte administre l'installation ; les suivants non",
+          "tests": "Base vide : le premier inscrit est administrateur, le second non ; lien « Problèmes signalés » pour l'administrateur seulement, 403 pour les autres. Auto : `HelpAndBugReportTest`",
+          "gaps": "Pas de moyen de nommer un autre administrateur dans l'interface (prévu avec la console d'administration)",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Langues (8)",
+          "expected": "Interface entièrement traduite, sans français restant ni clé brute",
+          "tests": "Pour chacune des 7 langues traduites, 37 pages parcourues avec détection automatique du français restant et des clés brutes : 0 dans les 7 langues ; sélecteur de langue des pages invité correct. Auto : `LanguageTest`",
+          "gaps": "Courriel de réinitialisation et pages d'erreur en anglais : corrigés en 0.13.1. **Reste : le néerlandais mélange tutoiement et vouvoiement ; l'allemand et le néerlandais appellent parfois les fiches « cartes ».**",
+          "result": "Très bon",
+          "score": 92,
+          "score_before": null
+        },
+        {
+          "feature": "Thème sombre",
+          "expected": "Thème appliqué partout, contraste suffisant",
+          "tests": "30 pages contrôlées, audit automatique de contraste WCAG : 0 élément sous le seuil. Auto : `FinishingTouchesTest`",
+          "gaps": "Les pages d'erreur restaient blanches : corrigé en 0.13.1. **Reste : les libellés de relations du graphe sont serrés.**",
+          "result": "Conforme",
+          "score": 98,
+          "score_before": 95
+        },
+        {
+          "feature": "Clé d'API IA",
+          "expected": "Enregistrement, affichage masqué, effacement, aucun appel réel",
+          "tests": "Clé trop courte refusée ; clé valide → « se terminant par …WXYZ » ; jamais dans le HTML après rechargement ; chiffrée en base ; « Effacer la clé ». Aucune requête sortante. Auto : `AiKeyTest`",
+          "gaps": "Aucun",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": null
+        },
+        {
+          "feature": "Aide et FAQ",
+          "expected": "Page d'aide qui répond aux questions courantes",
+          "tests": "3 rubriques, 26 questions, bouton « Signaler un problème », traduite dans les 7 langues. Auto : `HelpAndBugReportTest`",
+          "gaps": "Aide inaccessible sans être connecté. Sur téléphone, le lien n'était que dans le pied de page (menu ajouté en 0.13.1)",
+          "result": "Conforme",
+          "score": 90,
+          "score_before": null
+        },
+        {
+          "feature": "Signalement de bug et page d'administration",
+          "expected": "Formulaire avec la page d'origine ; l'administrateur liste, règle, rouvre, supprime",
+          "tests": "Page d'origine jointe, contrôles de saisie, texte HTML affiché sans être exécuté ; côté administrateur : page, langue, version, navigateur, « Marquer comme réglé », « Rouvrir », « Supprimer ». Non-administrateur → 403. Auto : `HelpAndBugReportTest`",
+          "gaps": "Le message d'erreur nomme « description » au lieu de « Que s'est-il passé ? » (cosmétique)",
+          "result": "Conforme",
+          "score": 97,
+          "score_before": null
+        },
+        {
+          "feature": "Nouveautés et changelog",
+          "expected": "Fenêtre une fois après une mise à jour, jamais pour un nouveau compte ; page des versions",
+          "tests": "Nouveau compte : pas de fenêtre. Compte resté en 0.10.0 : fenêtre avec les 4 versions suivantes, Échap ferme, plus rien au rechargement ; version dans le pied de page. Auto : `FinishingTouchesTest`",
+          "gaps": "Les dates des dernières versions étaient dans le futur. **Corrigé en 0.13.1 : dates réelles.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 92
+        },
+        {
+          "feature": "Campagne de démonstration",
+          "expected": "Chargement en un clic dans la langue choisie ; contenu cohérent, images, liens valides",
+          "tests": "Chargement en français, anglais et allemand en moins d'une seconde. 204 pages parcourues par langue : 0 erreur, 0 image cassée, 0 lien `[[ ]]` cassé, 0 erreur JavaScript. Auto : `DemoCampaignTest` (7)",
+          "gaps": "Les 12 portraits sont la même silhouette, y compris pour un objet et des créatures ; lieux et factions sans image (en attente de tes images). Le bouton de démo est peu visible une fois une campagne créée",
+          "result": "Conforme sur le fond, images peu parlantes",
+          "score": 88,
+          "score_before": null
+        },
+        {
+          "feature": "Assistant IA, mode « texte à coller »",
+          "expected": "Texte complet à copier ; réponse collée ; propositions acceptées, modifiées ou rejetées ; refus pour un joueur",
+          "tests": "Texte de 4 861 caractères avec la note de séance et les fiches, sans les notes MJ ; « Copier le texte » fidèle. Réponse invalide → message clair. Réponse avec des identifiants étrangers ou inexistants : 6 propositions retenues, les intruses écartées. Relation, statut de campagne (fiche mondiale intacte), événement, résumé et révélation appliqués ; note rejetée sans effet. Joueur → 403. Auto : `AiAssistantTest` (6)",
+          "gaps": "Aucun écart fonctionnel",
+          "result": "Conforme",
+          "score": 98,
+          "score_before": null
+        },
+        {
+          "feature": "Ergonomie tablette Android (800 × 1280, tactile)",
+          "expected": "Pages MJ et joueur utilisables au doigt, sans défilement horizontal",
+          "tests": "26 pages MJ et 10 pages joueur en mode tactile : aucun défilement horizontal, navigation complète, sélecteurs utilisables au toucher",
+          "gaps": "Beaucoup de petites cibles (liens de 20 à 28 px de haut) ; à vérifier sur un vrai appareil",
+          "result": "Conforme",
+          "score": 88,
+          "score_before": null
+        },
+        {
+          "feature": "Ergonomie téléphone (390 × 844)",
+          "expected": "Pages principales lisibles, pas de défilement horizontal",
+          "tests": "Joueur : toutes les pages sans défilement horizontal. MJ : débordement sur Mode Session et Documents, en-tête de séance cassé, liens « Types de fiche » et « Tags » masqués sans remplacement",
+          "gaps": "**Corrigé en 0.13.1 : plus de débordement, en-tête réparé, menu pour les liens masqués. Reste : essai sur un vrai téléphone.**",
+          "result": "Conforme",
+          "score": 90,
+          "score_before": 75
+        },
+        {
+          "feature": "§11 Ergonomie (panneau sans perdre le contexte, actions rapides, codes visuels)",
+          "expected": "Une fiche liée s'ouvre sans quitter la page ; actions rapides ; codes visuels MJ, partagé, secret",
+          "tests": "Fiches utiles dépliables sur place ; épingler, « À jouer », notes, donner, montrer à la table présents ; zone MJ en orange, relations MJ en pointillés",
+          "gaps": "En séance, les liens `[[ ]]` et la recherche faisaient quitter la page. **Corrigé en 0.13.1 : panneau latéral pour les fiches, recherche dans un autre onglet.** Hors séance, les liens ouvrent toujours une page",
+          "result": "Partiel",
+          "score": 90,
+          "score_before": 75
+        },
+        {
+          "feature": "§13 Retrouver une information en quelques interactions sans quitter la séance",
+          "expected": "Quelques interactions, sans quitter la séance",
+          "tests": "Tablette : épingler une fiche = 4 touchers en 2,6 s ; fiches de la scène dépliables en 1 toucher",
+          "gaps": "Même point que ci-dessus. **Corrigé en 0.13.1.**",
+          "result": "Conforme",
+          "score": 95,
+          "score_before": 85
+        },
+        {
+          "feature": "Pages d'erreur 403 et 404",
+          "expected": "Page dans la langue et le thème de l'application, avec retour ; aucune fuite",
+          "tests": "14 URL interdites ou inexistantes avec un compte étranger : codes corrects, aucune fuite de la zone MJ",
+          "gaps": "Pages anglaises brutes, sans thème ni retour ; un joueur ouvrant l'URL de sa campagne tombait sur un 403. **Corrigé en 0.13.1 : pages traduites, au thème, avec retour ; joueur et spectateur renvoyés vers leur page.**",
+          "result": "Conforme",
+          "score": 100,
+          "score_before": 55
+        },
+        {
+          "feature": "Sauvegarde et export (§13)",
+          "expected": "Données exportables dans un format exploitable",
+          "tests": "Archive zip (campagne + fichiers) réimportée à l'identique ; exports CSV compatibles Excel ; modèle de jeu. Refusés à un étranger. Auto : `CampaignArchiveTest` (6), `ExportTest` (3)",
+          "gaps": "L'archive ne contient ni joueurs, ni personnages, ni séances, ni messages, ni journal (annoncé)",
+          "result": "Conforme au minimum demandé",
+          "score": 85,
+          "score_before": null
+        }
+      ]
+    }
+  ],
+  "bugs": [
+    {
+      "number": 1,
+      "title": "La recherche du MJ ne trouvait ni les secrets, ni les objets et informations donnés, ni les notes partagées des joueurs, ni les tags de scène",
+      "severity": "Majeure",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 2,
+      "title": "La duplication d'une campagne ou d'un scénario perdait les secrets et la chronologie",
+      "severity": "Majeure",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 3,
+      "title": "Pages 403 et 404 en anglais, sans thème ni lien de retour ; un joueur ou un spectateur ouvrant l'adresse de sa campagne tombait sur un 403",
+      "severity": "Moyenne",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 4,
+      "title": "Mot de passe oublié : courriel en anglais pour un francophone ; le formulaire révélait si une adresse avait un compte",
+      "severity": "Moyenne",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 5,
+      "title": "Téléphone : débordement horizontal en Mode Session et Documents, en-tête de séance cassé, liens « Types de fiche » et « Tags » inaccessibles, bouton de discussion sur la télécommande",
+      "severity": "Moyenne",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 6,
+      "title": "En séance, un lien vers une fiche ou la recherche faisait quitter la page (§11, §13)",
+      "severity": "Moyenne",
+      "status": "Corrigé 0.13.1 : panneau latéral et recherche dans un autre onglet"
+    },
+    {
+      "number": 7,
+      "title": "Erreur JavaScript à l'ajout d'une relation (listes de suggestions mal fermées) et relation sans inverse lue à l'envers",
+      "severity": "Moyenne",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 8,
+      "title": "Un personnage au repos restait modifiable par le joueur ; un objet validé par le MJ restait effaçable par le joueur",
+      "severity": "Moyenne",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 9,
+      "title": "Le nombre de fiches par type comptait les fiches d'autres comptes",
+      "severity": "Mineure",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 10,
+      "title": "Le journal inscrivait des compteurs inchangés",
+      "severity": "Mineure",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 11,
+      "title": "Un joueur retiré de la campagne restait affiché « actif » sur son personnage",
+      "severity": "Mineure",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 12,
+      "title": "« Voir sur ma fiche » depuis sa fiche laissait la fenêtre de révélation ouverte",
+      "severity": "Mineure",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 13,
+      "title": "La règle de mesure restait sur l'écran de table ; distance sans unité",
+      "severity": "Mineure",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 14,
+      "title": "Aucun avertissement avant de montrer à la table une pièce jointe ou une règle de la zone MJ",
+      "severity": "Mineure",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 15,
+      "title": "Messages d'erreur avec le nom technique des champs (« password »)",
+      "severity": "Mineure",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 16,
+      "title": "Dates du changelog dans le futur ; accord « Ses 1 fiche »",
+      "severity": "Mineure",
+      "status": "Corrigé 0.13.1"
+    },
+    {
+      "number": 17,
+      "title": "L'entrée de journal d'un objet validé est peu lisible",
+      "severity": "Mineure",
+      "status": "Corrigé 0.14.0"
+    },
+    {
+      "number": 18,
+      "title": "Néerlandais : tutoiement et vouvoiement mélangés ; allemand et néerlandais appellent parfois les fiches « cartes »",
+      "severity": "Mineure",
+      "status": "Corrigé 0.14.0"
+    },
+    {
+      "number": 19,
+      "title": "Message d'erreur du signalement de bug : « description » au lieu du libellé du champ ; texte joueur sur la page Notifications du MJ",
+      "severity": "Cosmétique",
+      "status": "Corrigé 0.14.0"
+    },
+    {
+      "number": 20,
+      "title": "Télécommande : « Suivant » ne fait plus rien au dernier élément, sans indication",
+      "severity": "Cosmétique",
+      "status": "Corrigé 0.14.0"
+    }
+  ],
+  "gaps": [
+    {
+      "title": "Pas d'option « validation par le MJ » pour les échanges entre joueurs",
+      "reference": "§6.11",
+      "proposal": "Case par campagne ; l'échange attend alors la validation, comme les objets ajoutés par le joueur"
+    },
+    {
+      "title": "Pas d'écran pour choisir ce qui passe à un nouveau personnage",
+      "reference": "§6.10",
+      "proposal": "Au moment de l'attribution, liste à cocher des connaissances et possessions de l'ancien personnage"
+    },
+    {
+      "title": "Notes des joueurs : pas d'autocomplétion `[[`, pas de vue par séance pour le MJ",
+      "reference": "§6.10",
+      "proposal": "Réutiliser l'autocomplétion des notes MJ ; afficher les notes partagées sur la page de chaque séance"
+    },
+    {
+      "title": "Pas de pdf.js ni d'éditeur riche (Tiptap)",
+      "reference": "§9",
+      "proposal": "Le lecteur natif suffit pour l'instant ; Tiptap à envisager avec l'autocomplétion des liens"
+    },
+    {
+      "title": "Pas d'archivage de campagne, pas de bouton « Reprendre », dernière séance absente des cartes",
+      "reference": "§6.1",
+      "proposal": "Ajouter ces trois éléments à « Mes campagnes »"
+    },
+    {
+      "title": "Pas de page dédiée à un jeu ni à un monde",
+      "reference": "§6.2, §6.3",
+      "proposal": "Pages de synthèse avec campagnes, fiches et modèles rattachés"
+    },
+    {
+      "title": "Secrets sans type ni état",
+      "reference": "§6.7",
+      "proposal": "Type (rumeur, indice, vérité) et état (caché, partiel, révélé)"
+    },
+    {
+      "title": "Champs de type lien, fichier et référence à une fiche absents",
+      "reference": "§6.4",
+      "proposal": "Trois nouveaux types de champ"
+    },
+    {
+      "title": "Rétroliens incomplets : scènes, chronologie et secrets n'y figurent pas",
+      "reference": "Évol. 4.4",
+      "proposal": "Étendre la liste « Citée dans »"
+    },
+    {
+      "title": "Recherche absente hors des pages d'une campagne",
+      "reference": "§6.14",
+      "proposal": "Recherche dans les mondes et les jeux depuis l'accueil"
+    },
+    {
+      "title": "Archive de campagne sans joueurs, séances ni messages",
+      "reference": "§13",
+      "proposal": "Option « sauvegarde complète » réservée au propriétaire"
+    },
+    {
+      "title": "Images de la démo peu parlantes",
+      "reference": "Démo",
+      "proposal": "En attente de tes images"
+    },
+    {
+      "title": "Dés",
+      "reference": "§11 (facultatif)",
+      "proposal": "Hors V1"
+    },
+    {
+      "title": "À trancher : l'état « mort » d'une fiche est copié lors de la duplication d'une campagne",
+      "reference": "Évol. 4.2",
+      "proposal": "Proposer de repartir des états d'origine"
+    },
+    {
+      "title": "Essais sur un vrai téléphone et une vraie tablette Android",
+      "reference": "Ergonomie",
+      "proposal": "À faire de ton côté avec la version 0.13.1"
+    }
+  ],
+  "backlog": [
+    {
+      "kind": "bug",
+      "title": "La recherche du MJ ne trouvait ni les secrets, ni les objets et informations donnés, ni les notes partagées des joueurs, ni les tags de scène",
+      "message": "La recherche du MJ ne trouvait ni les secrets, ni les objets et informations donnés, ni les notes partagées des joueurs, ni les tags de scène",
+      "status": "fixed",
+      "priority": "high",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "La duplication d'une campagne ou d'un scénario perdait les secrets et la chronologie",
+      "message": "La duplication d'une campagne ou d'un scénario perdait les secrets et la chronologie",
+      "status": "fixed",
+      "priority": "high",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Pages 403 et 404 en anglais, sans thème ni lien de retour ; un joueur ou un spectateur ouvrant l'adresse de sa campagne tombait sur un 403",
+      "message": "Pages 403 et 404 en anglais, sans thème ni lien de retour ; un joueur ou un spectateur ouvrant l'adresse de sa campagne tombait sur un 403",
+      "status": "fixed",
+      "priority": "normal",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Mot de passe oublié : courriel en anglais pour un francophone ; le formulaire révélait si une adresse avait un compte",
+      "message": "Mot de passe oublié : courriel en anglais pour un francophone ; le formulaire révélait si une adresse avait un compte",
+      "status": "fixed",
+      "priority": "normal",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Téléphone : débordement horizontal en Mode Session et Documents, en-tête de séance cassé, liens « Types de fiche » et « Tags » inaccessibles, bouton de discussion sur la télécommande",
+      "message": "Téléphone : débordement horizontal en Mode Session et Documents, en-tête de séance cassé, liens « Types de fiche » et « Tags » inaccessibles, bouton de discussion sur la télécommande",
+      "status": "fixed",
+      "priority": "normal",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "En séance, un lien vers une fiche ou la recherche faisait quitter la page (§11, §13)",
+      "message": "En séance, un lien vers une fiche ou la recherche faisait quitter la page (§11, §13)",
+      "status": "fixed",
+      "priority": "normal",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Erreur JavaScript à l'ajout d'une relation (listes de suggestions mal fermées) et relation sans inverse lue à l'envers",
+      "message": "Erreur JavaScript à l'ajout d'une relation (listes de suggestions mal fermées) et relation sans inverse lue à l'envers",
+      "status": "fixed",
+      "priority": "normal",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Un personnage au repos restait modifiable par le joueur ; un objet validé par le MJ restait effaçable par le joueur",
+      "message": "Un personnage au repos restait modifiable par le joueur ; un objet validé par le MJ restait effaçable par le joueur",
+      "status": "fixed",
+      "priority": "normal",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Le nombre de fiches par type comptait les fiches d'autres comptes",
+      "message": "Le nombre de fiches par type comptait les fiches d'autres comptes",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Le journal inscrivait des compteurs inchangés",
+      "message": "Le journal inscrivait des compteurs inchangés",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Un joueur retiré de la campagne restait affiché « actif » sur son personnage",
+      "message": "Un joueur retiré de la campagne restait affiché « actif » sur son personnage",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "« Voir sur ma fiche » depuis sa fiche laissait la fenêtre de révélation ouverte",
+      "message": "« Voir sur ma fiche » depuis sa fiche laissait la fenêtre de révélation ouverte",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "La règle de mesure restait sur l'écran de table ; distance sans unité",
+      "message": "La règle de mesure restait sur l'écran de table ; distance sans unité",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Aucun avertissement avant de montrer à la table une pièce jointe ou une règle de la zone MJ",
+      "message": "Aucun avertissement avant de montrer à la table une pièce jointe ou une règle de la zone MJ",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Messages d'erreur avec le nom technique des champs (« password »)",
+      "message": "Messages d'erreur avec le nom technique des champs (« password »)",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "Dates du changelog dans le futur ; accord « Ses 1 fiche »",
+      "message": "Dates du changelog dans le futur ; accord « Ses 1 fiche »",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.13.1"
+    },
+    {
+      "kind": "bug",
+      "title": "L'entrée de journal d'un objet validé est peu lisible",
+      "message": "L'entrée de journal d'un objet validé est peu lisible",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.14.0"
+    },
+    {
+      "kind": "bug",
+      "title": "Néerlandais : tutoiement et vouvoiement mélangés ; allemand et néerlandais appellent parfois les fiches « cartes »",
+      "message": "Néerlandais : tutoiement et vouvoiement mélangés ; allemand et néerlandais appellent parfois les fiches « cartes »",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.14.0"
+    },
+    {
+      "kind": "bug",
+      "title": "Message d'erreur du signalement de bug : « description » au lieu du libellé du champ ; texte joueur sur la page Notifications du MJ",
+      "message": "Message d'erreur du signalement de bug : « description » au lieu du libellé du champ ; texte joueur sur la page Notifications du MJ",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.14.0"
+    },
+    {
+      "kind": "bug",
+      "title": "Télécommande : « Suivant » ne fait plus rien au dernier élément, sans indication",
+      "message": "Télécommande : « Suivant » ne fait plus rien au dernier élément, sans indication",
+      "status": "fixed",
+      "priority": "low",
+      "fixed_in": "0.14.0"
+    },
+    {
+      "kind": "evolution",
+      "title": "Pas d'option « validation par le MJ » pour les échanges entre joueurs",
+      "message": "Case par campagne ; l'échange attend alors la validation, comme les objets ajoutés par le joueur (référence : §6.11)",
+      "status": "fixed",
+      "priority": "high",
+      "fixed_in": "0.14.0"
+    },
+    {
+      "kind": "evolution",
+      "title": "Pas d'écran pour choisir ce qui passe à un nouveau personnage",
+      "message": "Au moment de l'attribution, liste à cocher des connaissances et possessions de l'ancien personnage (référence : §6.10)",
+      "status": "planned",
+      "priority": "high",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Notes des joueurs : pas d'autocomplétion `[[`, pas de vue par séance pour le MJ",
+      "message": "Réutiliser l'autocomplétion des notes MJ ; afficher les notes partagées sur la page de chaque séance (référence : §6.10)",
+      "status": "planned",
+      "priority": "normal",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Pas de pdf.js ni d'éditeur riche (Tiptap)",
+      "message": "Le lecteur natif suffit pour l'instant ; Tiptap à envisager avec l'autocomplétion des liens (référence : §9)",
+      "status": "planned",
+      "priority": "high",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Pas d'archivage de campagne, pas de bouton « Reprendre », dernière séance absente des cartes",
+      "message": "Ajouter ces trois éléments à « Mes campagnes » (référence : §6.1)",
+      "status": "planned",
+      "priority": "normal",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Pas de page dédiée à un jeu ni à un monde",
+      "message": "Pages de synthèse avec campagnes, fiches et modèles rattachés (référence : §6.2, §6.3)",
+      "status": "planned",
+      "priority": "normal",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Secrets sans type ni état",
+      "message": "Type (rumeur, indice, vérité) et état (caché, partiel, révélé) (référence : §6.7)",
+      "status": "planned",
+      "priority": "normal",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Champs de type lien, fichier et référence à une fiche absents",
+      "message": "Trois nouveaux types de champ (référence : §6.4)",
+      "status": "planned",
+      "priority": "normal",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Rétroliens incomplets : scènes, chronologie et secrets n'y figurent pas",
+      "message": "Étendre la liste « Citée dans » (référence : Évol. 4.4)",
+      "status": "planned",
+      "priority": "normal",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Recherche absente hors des pages d'une campagne",
+      "message": "Recherche dans les mondes et les jeux depuis l'accueil (référence : §6.14)",
+      "status": "planned",
+      "priority": "normal",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Archive de campagne sans joueurs, séances ni messages",
+      "message": "Option « sauvegarde complète » réservée au propriétaire (référence : §13)",
+      "status": "planned",
+      "priority": "normal",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Images de la démo peu parlantes",
+      "message": "En attente de tes images (référence : Démo)",
+      "status": "new",
+      "priority": "normal",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Dés",
+      "message": "Hors V1 (référence : §11 (facultatif))",
+      "status": "new",
+      "priority": "low",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "À trancher : l'état « mort » d'une fiche est copié lors de la duplication d'une campagne",
+      "message": "Proposer de repartir des états d'origine (référence : Évol. 4.2)",
+      "status": "planned",
+      "priority": "normal",
+      "fixed_in": null
+    },
+    {
+      "kind": "evolution",
+      "title": "Essais sur un vrai téléphone et une vraie tablette Android",
+      "message": "À faire de ton côté avec la version 0.13.1 (référence : Ergonomie)",
+      "status": "new",
+      "priority": "normal",
+      "fixed_in": null
+    }
+  ]
+}

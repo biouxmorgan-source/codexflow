@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\Scenario;
 use App\Models\Scene;
 use App\Models\Tag;
+use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Computed;
@@ -96,6 +97,7 @@ class Index extends Component
     public function duplicate(int $id, DuplicateScenario $duplicateScenario): void
     {
         $this->authorize('update', $this->campaign);
+        Plans::ensure($this->campaign->owner, 'duplication');
 
         $duplicateScenario->handle($this->find($id));
 

@@ -6,6 +6,7 @@ use App\Enums\Zone;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Tag;
+use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
@@ -95,6 +96,8 @@ class Index extends Component
             'world' => $this->authorize('update', $this->campaign->world),
             default => null,
         };
+
+        Plans::ensureRoom($this->campaign->owner, array_sum(array_map(fn ($file) => (int) $file->getSize(), $this->uploads)), 'uploads');
 
         $tagIds = Tag::idsFromInput($this->campaign->owner, $this->tags);
 

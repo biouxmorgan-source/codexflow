@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Support;
 
-use App\Livewire\Admin\BugReports;
+use App\Livewire\Admin\Backlog;
 use App\Livewire\Support\ReportBug;
 use App\Models\BugReport;
 use App\Models\User;
@@ -67,22 +67,26 @@ class HelpAndBugReportTest extends TestCase
         $this->assertSame(Changelog::version(), $report->version);
         $this->assertSame('fr', $report->locale);
 
-        // Seul l'administrateur lit les signalements.
-        $this->actingAs($player)->get(route('bugs.index'))->assertForbidden();
-        $this->actingAs($admin)->get(route('campaigns.index'))->assertSee('Problèmes signalés (1)');
+        // Le signalement arrive au backlog de l'administrateur, et lui seul le lit.
+        $this->assertSame('new', $report->status);
+        $this->assertSame('bug', $report->kind);
+        $this->actingAs($player)->get(route('admin.backlog'))->assertForbidden();
+        $this->actingAs($player)->get(route('bugs.index'))->assertRedirect(route('admin.backlog'));
+        $this->actingAs($admin)->get(route('campaigns.index'))->assertSee('Administration (1 nouveau signalement)');
 
-        Livewire::actingAs($admin)->test(BugReports::class)
+        Livewire::actingAs($admin)->test(Backlog::class)
             ->assertSee('La cloche ne se met pas à jour')
             ->assertSee('camille@example.com')
             ->assertSee('/notifications')
-            ->call('toggleResolved', $report->id)
+            ->call('setStatus', $report->id, 'fixed')
             ->assertDontSee('La cloche ne se met pas à jour')
-            ->set('showResolved', true)
-            ->assertSee('La cloche ne se met pas à jour');
+            ->set('status', 'fixed')
+            ->assertSee('La cloche ne se met pas à jour')
+            ->assertSee('corrigé en '.Changelog::version());
 
-        $this->assertNotNull($report->fresh()->resolved_at);
+        $this->assertSame(Changelog::version(), $report->fresh()->fixed_in);
 
-        Livewire::actingAs($player)->test(BugReports::class)->assertForbidden();
+        Livewire::actingAs($player)->test(Backlog::class)->assertForbidden();
     }
 
     public function test_a_page_from_another_site_is_not_kept(): void

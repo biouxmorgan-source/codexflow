@@ -34,6 +34,9 @@
         </form>
     @endif
 
+    @error('plan')
+        <p class="mb-6 rounded-md bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">{{ $message }} <a href="{{ route('preferences') }}" class="underline" wire:navigate>{{ __('Voir ma formule') }}</a></p>
+    @enderror
     @if (session('status'))
         <p class="mb-6 rounded-md bg-codex-soft px-3 py-2 text-sm text-codex">{{ session('status') }}</p>
     @endif
@@ -146,9 +149,9 @@
                     @if ($unread > 0)
                         <a href="{{ route('messages.index', $campaign) }}" class="relative z-10 mt-3 text-sm font-medium text-flow hover:underline" wire:navigate>{{ trans_choice(':count message non lu|:count messages non lus', $unread) }}</a>
                     @endif
-                    @can('duplicate', $campaign)
+                    @if (auth()->user()->can('duplicate', $campaign) && auth()->user()->can('use-feature', ['duplication']))
                         <button type="button" wire:click="duplicate({{ $campaign->id }})" wire:confirm="{{ __('Dupliquer la campagne ? Le contenu préparé est copié ; les joueurs, les personnages, les séances et le journal ne le sont pas.') }}" class="relative z-10 mt-3 self-start text-sm link">{{ __('Dupliquer') }}</button>
-                    @endcan
+                    @endif
                 </li>
             @endforeach
         </ul>

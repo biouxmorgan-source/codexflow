@@ -28,6 +28,9 @@
                     <a href="{{ route('tags.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('tags.*')]) wire:navigate>{{ __('Tags') }}</a>
                 @endif
                 @livewire(\App\Livewire\HeaderBadges::class, ['campaign' => $searchCampaign instanceof \App\Models\Campaign ? $searchCampaign : null])
+                @can('admin')
+                    <a href="{{ route('admin.users') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('admin.*')]) wire:navigate>{{ __('Administration') }}</a>
+                @endcan
                 <a href="{{ route('preferences') }}" @class(['hidden rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink sm:inline', 'bg-stone-100' => request()->routeIs('preferences')]) title="{{ __('Préférences') }}" wire:navigate>{{ auth()->user()->name }}</a>
                 {{-- Sur téléphone, les liens masqués ci-dessus restent accessibles dans ce menu. --}}
                 <details class="relative sm:hidden" x-data x-on:click.outside="$el.removeAttribute('open')">
@@ -39,6 +42,9 @@
                         @if (auth()->user()->tags()->exists())
                             <a href="{{ route('tags.index') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Tags') }}</a>
                         @endif
+                        @can('admin')
+                            <a href="{{ route('admin.users') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Administration') }}</a>
+                        @endcan
                         <a href="{{ route('preferences') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Préférences') }}</a>
                         <a href="{{ route('help') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Aide') }}</a>
                     </div>
@@ -61,8 +67,8 @@
         · <a href="{{ route('help') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Aide') }}</a>
         · <a href="{{ route('bugs.create', request()->routeIs('bugs.*') ? [] : ['page' => '/'.ltrim(request()->path(), '/')]) }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Signaler un problème') }}</a>
         @can('admin')
-            @php($openReports = \App\Models\BugReport::open()->count())
-            · <a href="{{ route('bugs.index') }}" @class(['hover:text-ink hover:underline', 'font-semibold text-flow' => $openReports]) wire:navigate>{{ __('Problèmes signalés') }}@if ($openReports) ({{ $openReports }})@endif</a>
+            @php($newReports = \App\Models\BugReport::where('status', 'new')->count())
+            · <a href="{{ route('admin.users') }}" @class(['hover:text-ink hover:underline', 'font-semibold text-flow' => $newReports]) wire:navigate>{{ __('Administration') }}@if ($newReports) ({{ trans_choice(':count nouveau signalement|:count nouveaux signalements', $newReports) }})@endif</a>
         @endcan
     </footer>
     @livewire(\App\Livewire\WhatsNew::class)

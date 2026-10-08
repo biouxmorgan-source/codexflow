@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.15.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Consola de administración y planes',
+        'items' => [
+            'Una consola de administración: las cuentas con su plan, las fechas de suscripción, el almacenamiento usado, si tienen clave de IA, las campañas y los inicios de sesión, sin datos personales. El administrador fija el plan de cada cuenta y puede enviar un enlace para restablecer la contraseña, sin verla nunca.',
+            'Tres planes: administrador, premium y gratuito. El almacenamiento, el número de campañas y las funciones del plan gratuito se ajustan en la consola; jugar, ser co-DJ o espectador nunca cuenta.',
+            'El backlog reúne los problemas notificados, los errores y las mejoras, con estado, prioridad y versión de corrección; ahí se guardan también las pruebas de aceptación versión tras versión. Tu plan aparece en «Preferencias».',
+        ],
+    ],
+
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Tras la prueba de aceptación: intercambios validados por el DJ',

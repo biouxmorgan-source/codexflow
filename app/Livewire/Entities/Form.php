@@ -8,6 +8,7 @@ use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\FieldDefinition;
 use App\Models\Tag;
+use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -162,6 +163,10 @@ class Form extends Component
             } else {
                 $entity->campaign()->associate($this->campaign);
             }
+        }
+
+        if ($this->image !== null) {
+            Plans::ensureRoom($this->campaign->owner, (int) $this->image->getSize(), 'image');
         }
 
         if ($this->removeImage || $this->image !== null) {

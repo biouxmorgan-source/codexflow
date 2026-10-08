@@ -8,6 +8,7 @@ use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\PlayerCharacter;
 use App\Models\User;
+use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -184,6 +185,7 @@ class Index extends Component
         $this->authorize('update', $this->campaign);
 
         $this->validate(["sheets.$key" => ['file', 'mimes:pdf', 'max:30720']], [], ["sheets.$key" => __('feuille')]);
+        Plans::ensureRoom($this->campaign->owner, (int) $file->getSize(), "sheets.$key");
 
         $character = $this->find((int) $key);
         $character->deleteSheet();

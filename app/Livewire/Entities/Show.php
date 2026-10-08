@@ -12,6 +12,7 @@ use App\Models\Entity;
 use App\Models\EntityRelation;
 use App\Models\FieldDefinition;
 use App\Support\EntityLinks;
+use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -185,6 +186,7 @@ class Show extends Component
             'uploads.*' => ['file', 'mimes:'.self::ATTACHMENT_MIMES, 'max:20480'],
             'uploadZone' => ['required', Rule::enum(Zone::class)],
         ], attributes: ['uploads' => __('fichiers'), 'uploads.*' => __('fichier'), 'uploadZone' => __('zone')]);
+        Plans::ensureRoom($this->entity->owner, array_sum(array_map(fn ($file) => (int) $file->getSize(), $this->uploads)), 'uploads');
 
         foreach ($this->uploads as $file) {
             $attachment = new Attachment([
@@ -225,6 +227,8 @@ class Show extends Component
     {
         $this->authorize('update', $this->campaign);
         $this->authorize('update', $this->entity);
+        Plans::ensure($this->campaign->owner, 'duplication');
+        Plans::ensureRoom($this->entity->owner, 0, 'duplicate');
 
         $copy = $duplicateEntity->handle($this->entity);
 

@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.15.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Console d’administration et formules',
+        'items' => [
+            'Une console d’administration : les comptes avec leur formule, les dates d’abonnement, le stockage utilisé, la présence d’une clé d’IA, les campagnes et les connexions, sans donnée personnelle. L’administrateur règle la formule de chacun et peut envoyer un lien de réinitialisation du mot de passe, sans jamais le voir.',
+            'Trois formules : administrateur, premium et gratuite. Stockage, nombre de campagnes et fonctions de la formule gratuite se règlent dans la console ; jouer, être co-MJ ou spectateur ne compte jamais.',
+            'Le backlog réunit les problèmes signalés, les bugs et les évolutions, avec statut, priorité et version de correction ; les cahiers de recette y sont conservés version après version. Votre formule s’affiche dans « Préférences ».',
+        ],
+    ],
+
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Suites de la recette : échanges validés par le MJ',

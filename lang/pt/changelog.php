@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.15.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Console de administração e planos',
+        'items' => [
+            'Um console de administração: as contas com seu plano, as datas de assinatura, o armazenamento usado, se há chave de IA, as campanhas e os acessos, sem dados pessoais. O administrador define o plano de cada conta e pode enviar um link de redefinição de senha, sem nunca vê-la.',
+            'Três planos: administrador, premium e gratuito. Armazenamento, número de campanhas e funções do plano gratuito são ajustados no console; jogar, ser co-mestre ou espectador nunca conta.',
+            'O backlog reúne os problemas relatados, os bugs e as melhorias, com status, prioridade e versão da correção; as homologações ficam guardadas lá versão após versão. Seu plano aparece em “Preferências”.',
+        ],
+    ],
+
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Após a homologação: trocas validadas pelo mestre',
