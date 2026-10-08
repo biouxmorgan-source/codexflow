@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CharacterKnowledgeController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\TableScreenController;
 use App\Livewire\Account\Preferences;
 use App\Livewire\Admin\Backlog as AdminBacklog;
+use App\Livewire\Admin\Evolutions as AdminEvolutions;
 use App\Livewire\Admin\PlanSettings as AdminPlans;
 use App\Livewire\Admin\Recettes as AdminRecettes;
 use App\Livewire\Admin\Users as AdminUsers;
@@ -56,7 +58,13 @@ Route::get('/', fn () => redirect()->route(auth()->check() ? 'campaigns.index' :
 // Ouvert sans être connecté : le visiteur voit l'invitation avant de se connecter ou de s'inscrire.
 Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('invitations.show');
 
+// Stripe annonce les paiements ici (signature vérifiée, pas de jeton CSRF).
+Route::post('/stripe/webhook', [BillingController::class, 'webhook'])->name('stripe.webhook');
+
 Route::middleware('auth')->group(function () {
+    Route::post('/abonnement/portail', [BillingController::class, 'portal'])->name('billing.portal');
+    Route::get('/abonnement/merci', [BillingController::class, 'success'])->name('billing.success');
+    Route::post('/abonnement/{interval}', [BillingController::class, 'checkout'])->whereIn('interval', ['monthly', 'yearly'])->name('billing.checkout');
     Route::post('/invitation/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::livewire('/campagnes', CampaignIndex::class)->name('campaigns.index');
     Route::livewire('/preferences', Preferences::class)->name('preferences');
@@ -67,6 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/admin', AdminUsers::class)->name('admin.users');
     Route::livewire('/admin/formules', AdminPlans::class)->name('admin.plans');
     Route::livewire('/admin/backlog', AdminBacklog::class)->name('admin.backlog');
+    Route::livewire('/admin/evolutions', AdminEvolutions::class)->name('admin.evolutions');
     Route::livewire('/admin/recettes', AdminRecettes::class)->name('admin.recettes');
     Route::redirect('/problemes-signales', '/admin/backlog')->name('bugs.index');
     Route::post('/push/abonnement', [PushSubscriptionController::class, 'store'])->name('push.store');

@@ -4,10 +4,11 @@ namespace App\Support\Plans;
 
 use App\Models\Setting;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Formules des comptes : administrateur (aucune limite), premium et gratuite.
+ * Formules des comptes : administrateur (aucune limite), premium, essai et gratuite.
  * Quotas et fonctions de la formule gratuite se règlent dans la console d'administration.
  * Les fonctions d'une campagne suivent la formule de son propriétaire : un joueur invité
  * profite de ce que permet le compte de son MJ.
@@ -19,6 +20,9 @@ class Plans
     public const PREMIUM = 'premium';
 
     public const FREE = 'free';
+
+    /** Essai : un compte gratuit récent a toutes les fonctions pendant quelques semaines. */
+    public const TRIAL = 'trial';
 
     /** Formules qu'un administrateur attribue (l'administration est un rôle à part). */
     public const ASSIGNABLE = [self::FREE, self::PREMIUM];
@@ -34,12 +38,13 @@ class Plans
         'premium_storage_mb' => 2048,
         'free_max_campaigns' => 1,
         'free_features' => self::FEATURES,
+        'trial_weeks' => 6,
     ];
 
     /** @return array<string, string> */
     public static function labels(): array
     {
-        return [self::ADMIN => __('Administrateur'), self::PREMIUM => __('Premium'), self::FREE => __('Gratuit')];
+        return [self::ADMIN => __('Administrateur'), self::PREMIUM => __('Premium'), self::TRIAL => __('Essai'), self::FREE => __('Gratuit')];
     }
 
     /** @return array<string, string> */
@@ -54,7 +59,7 @@ class Plans
         ];
     }
 
-    /** @return array{free_storage_mb: int, premium_storage_mb: int, free_max_campaigns: int, free_features: list<string>} */
+    /** @return array{free_storage_mb: int, premium_storage_mb: int, free_max_campaigns: int, free_features: list<string>, trial_weeks: int} */
     public static function settings(): array
     {
         $saved = Setting::get('plans', []);
@@ -67,7 +72,10 @@ class Plans
         Setting::put('plans', array_intersect_key($settings, self::DEFAULTS) + self::settings());
     }
 
-    /** Formule en vigueur : une formule premium échue redevient gratuite. */
+    /**
+     * Formule en vigueur : une formule premium échue redevient gratuite ;
+     * un compte gratuit encore dans sa période d'essai a tout ce qu'a le premium.
+     */
     public static function effective(User $user): string
     {
         if ($user->is_admin) {
@@ -76,7 +84,27 @@ class Plans
 
         $active = $user->plan === self::PREMIUM && ($user->plan_ends_at === null || ! $user->plan_ends_at->isPast() || $user->plan_ends_at->isToday());
 
-        return $active ? self::PREMIUM : self::FREE;
+        if ($active) {
+            return self::PREMIUM;
+        }
+
+        return self::trialEndsAt($user)?->isFuture() ? self::TRIAL : self::FREE;
+    }
+
+    /**
+     * Fin de l'essai, comptée depuis la première campagne possédée : un joueur qui n'a
+     * jamais été MJ garde son essai entier. Null tant qu'il n'a pas commencé ou s'il est désactivé.
+     */
+    public static function trialEndsAt(User $user): ?Carbon
+    {
+        $weeks = self::trialWeeks();
+
+        return $weeks > 0 && $user->trial_started_at ? $user->trial_started_at->copy()->addWeeks($weeks) : null;
+    }
+
+    public static function trialWeeks(): int
+    {
+        return (int) self::settings()['trial_weeks'];
     }
 
     /** Espace de stockage permis, en octets ; null = sans limite. */
@@ -88,7 +116,7 @@ class Plans
             return null;
         }
 
-        $mb = $user->storage_quota_mb ?? self::settings()[$plan === self::PREMIUM ? 'premium_storage_mb' : 'free_storage_mb'];
+        $mb = $user->storage_quota_mb ?? self::settings()[$plan === self::FREE ? 'free_storage_mb' : 'premium_storage_mb'];
 
         return (int) $mb * 1024 * 1024;
     }

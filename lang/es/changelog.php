@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.16.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Suscripción Premium y prueba gratuita',
+        'items' => [
+            'Pasa a Premium desde «Preferencias»: pago mensual o anual protegido por Stripe, con facturas y cancelación en el portal de Stripe. El Premium dura hasta el final del periodo pagado.',
+            'Prueba gratuita: seis semanas con todas las funciones, a partir de tu primera campaña como DJ. Un jugador que nunca es DJ no la empieza. La duración se ajusta en la consola de administración.',
+            'Una pestaña «Evoluciones» en la consola de administración para llevar la hoja de ruta de la plataforma.',
+        ],
+    ],
+
     '0.15.0' => [
         'date' => '2026-10-08',
         'title' => 'Consola de administración y planes',

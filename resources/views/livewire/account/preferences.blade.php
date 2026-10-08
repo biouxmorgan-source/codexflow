@@ -15,10 +15,40 @@
         <dl class="mt-2 grid gap-2 text-sm sm:grid-cols-3">
             <div><dt class="text-stone-500">{{ __('Stockage') }}</dt><dd>{{ \App\Support\Plans\StorageUsage::format(\App\Support\Plans\StorageUsage::bytes($me)) }} / {{ $limit === null ? __('illimité') : \App\Support\Plans\StorageUsage::format($limit) }}</dd></div>
             <div><dt class="text-stone-500">{{ __('Campagnes en tant que MJ') }}</dt><dd>{{ $me->ownedCampaigns()->count() }} / {{ $max ?? __('illimité') }}</dd></div>
+            @if ($plan === 'trial')
+                <div><dt class="text-stone-500">{{ __('Fin de l’essai') }}</dt><dd>{{ \App\Support\Plans\Plans::trialEndsAt($me)->isoFormat('LL') }}</dd></div>
+            @endif
             @if ($me->plan_ends_at && $plan === 'premium')
                 <div><dt class="text-stone-500">{{ __('Fin de l’abonnement') }}</dt><dd>{{ $me->plan_ends_at->isoFormat('LL') }}</dd></div>
             @endif
         </dl>
+        @if ($plan === 'free' && ! $me->trial_started_at && \App\Support\Plans\Plans::trialWeeks() > 0)
+            <p class="mt-2 text-sm">{{ trans_choice('Essai offert : :count semaine avec toutes les fonctions, à partir de votre première campagne en tant que MJ.|Essai offert : :count semaines avec toutes les fonctions, à partir de votre première campagne en tant que MJ.', \App\Support\Plans\Plans::trialWeeks()) }}</p>
+        @endif
+        @php($billing = app(\App\Support\Billing\Billing::class))
+        @if ($billing->configured() && ! $me->is_admin)
+            <div class="mt-4 flex flex-wrap items-center gap-2">
+                @if (in_array($me->subscription_status, \App\Support\Billing\Billing::PAYING, true) && $plan === 'premium')
+                    @if ($me->subscription_status === 'past_due')
+                        <p class="w-full text-sm text-red-700" role="alert">{{ __('Le dernier paiement n’est pas passé : mettez à jour votre moyen de paiement.') }}</p>
+                    @endif
+                @else
+                    @foreach ($billing->prices() as $interval => $price)
+                        <form method="POST" action="{{ route('billing.checkout', $interval) }}">
+                            @csrf
+                            <button type="submit" class="btn-primary">{{ __('Passer Premium : :interval', ['interval' => \App\Support\Billing\Billing::intervals()[$interval]]) }}</button>
+                        </form>
+                    @endforeach
+                @endif
+                @if ($me->stripe_customer_id)
+                    <form method="POST" action="{{ route('billing.portal') }}">
+                        @csrf
+                        <button type="submit" class="btn-secondary">{{ __('Gérer mon abonnement et mes factures') }}</button>
+                    </form>
+                @endif
+            </div>
+            <p class="mt-2 text-xs text-stone-500">{{ __('Paiement sécurisé par Stripe : CodexFlow ne voit jamais votre carte. Résiliable à tout moment, le premium dure jusqu’à la fin de la période payée.') }}</p>
+        @endif
         <p class="mt-2 text-xs text-stone-500">{{ __('Jouer, être co-MJ ou spectateur dans la campagne d’un autre ne compte pas : vous profitez alors de la formule de son MJ.') }}</p>
     </section>
 

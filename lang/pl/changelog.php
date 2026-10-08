@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.16.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Subskrypcja Premium i darmowy okres próbny',
+        'items' => [
+            'Przejdź na Premium w „Preferencjach”: płatność miesięczna lub roczna zabezpieczona przez Stripe, z fakturami i rezygnacją w portalu Stripe. Premium trwa do końca opłaconego okresu.',
+            'Darmowy okres próbny: sześć tygodni ze wszystkimi funkcjami, od twojej pierwszej kampanii jako MG. Gracz, który nigdy nie jest MG, go nie zaczyna. Długość ustawia się w panelu administracyjnym.',
+            'Zakładka „Rozwój” w panelu administracyjnym do prowadzenia planów platformy.',
+        ],
+    ],
+
     '0.15.0' => [
         'date' => '2026-10-08',
         'title' => 'Konsola administracyjna i plany',

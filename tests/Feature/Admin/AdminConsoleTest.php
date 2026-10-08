@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\Enums\CampaignRole;
 use App\Livewire\Admin\Backlog;
+use App\Livewire\Admin\Evolutions;
 use App\Livewire\Admin\PlanSettings;
 use App\Livewire\Admin\Recettes;
 use App\Livewire\Admin\Users;
@@ -12,6 +13,7 @@ use App\Livewire\Documents\Index as DocumentIndex;
 use App\Models\BugReport;
 use App\Models\Campaign;
 use App\Models\Document;
+use App\Models\Evolution;
 use App\Models\Recette;
 use App\Models\User;
 use App\Models\UserLogin;
@@ -37,6 +39,8 @@ class AdminConsoleTest extends TestCase
 
         // Le premier compte de l'installation l'administre.
         $this->admin = User::factory()->create(['name' => 'Morgan', 'email' => 'morgan@example.com']);
+        // Ces tests portent sur la formule gratuite elle-même, hors essai.
+        Plans::save(['trial_weeks' => 0]);
     }
 
     public function test_only_the_administrator_opens_the_console(): void
@@ -212,5 +216,35 @@ class AdminConsoleTest extends TestCase
             ->assertSee('Éditeur Tiptap');
 
         $this->assertSame('admin', BugReport::where('title', 'Éditeur Tiptap')->sole()->source);
+    }
+
+    public function test_the_administrator_keeps_the_planned_evolutions_of_the_platform(): void
+    {
+        $this->get(route('admin.evolutions'))->assertRedirect(route('login'));
+        $this->actingAs(User::factory()->create())->get(route('admin.evolutions'))->assertForbidden();
+
+        $this->actingAs($this->admin)->get(route('admin.evolutions'))->assertOk()->assertSee('Évolutions');
+
+        $page = Livewire::actingAs($this->admin)->test(Evolutions::class)
+            ->set('newTitle', 'Créer le compte Stripe')
+            ->set('newTarget', 'v1.0')
+            ->set('newPriority', 'high')
+            ->call('add')
+            ->assertHasNoErrors()
+            ->assertSee('Créer le compte Stripe')
+            ->assertSee('v1.0');
+
+        $evolution = Evolution::where('title', 'Créer le compte Stripe')->firstOrFail();
+        $this->assertSame('planned', $evolution->status);
+
+        $page->call('saveDetails', $evolution->id, 'Compte Stripe', 'décembre', 'Mode test d’abord')
+            ->call('setStatus', $evolution->id, 'done')
+            ->assertDontSee('Compte Stripe')
+            ->set('status', 'done')
+            ->assertSee('Compte Stripe');
+        $this->assertSame(['décembre', 'Mode test d’abord'], [$evolution->fresh()->target, $evolution->fresh()->detail]);
+
+        $page->call('delete', $evolution->id);
+        $this->assertModelMissing($evolution);
     }
 }
