@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.18.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Nuovo personaggio, Le mie campagne, pagine di gioco e mondo',
+        'items' => [
+            'Quando un giocatore riceve un nuovo personaggio, il Master spunta ciò che passa dal precedente: conoscenze, informazioni, documenti e regole vengono copiati, gli oggetti cambiano di mano.',
+            'Le mie campagne: pulsante «Riprendi», data dell’ultima sessione e campagne archiviate a parte.',
+            'Ogni gioco e ogni mondo ha la sua pagina: descrizione, campagne, regole, documenti, campi o schede riutilizzabili.',
+        ],
+    ],
+
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Editor avanzato e note dei giocatori',

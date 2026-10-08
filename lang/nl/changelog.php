@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.18.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Nieuw personage, Mijn campagnes, pagina’s voor spel en wereld',
+        'items' => [
+            'Krijgt een speler een nieuw personage, dan vinkt de SL aan wat van het vorige overgaat: kennis, informatie, documenten en regels worden gekopieerd, voorwerpen wisselen van eigenaar.',
+            'Mijn campagnes: knop ‘Hervatten’, datum van de laatste sessie, en gearchiveerde campagnes apart.',
+            'Elk spel en elke wereld heeft een eigen pagina: beschrijving, campagnes, regels, documenten, velden of herbruikbare fiches.',
+        ],
+    ],
+
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Opgemaakte tekst en notities van spelers',

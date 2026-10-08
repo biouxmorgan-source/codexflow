@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.18.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Nouveau personnage, Mes campagnes, pages jeu et monde',
+        'items' => [
+            'Quand un joueur reçoit un nouveau personnage, le MJ coche ce qui passe de l’ancien : connaissances, informations, documents et règles sont recopiés, les objets changent de main.',
+            'Mes campagnes : bouton « Reprendre », date de la dernière séance, et les campagnes archivées rangées à part.',
+            'Chaque jeu et chaque monde a sa page : description, campagnes, règles, documents, champs ou fiches réutilisables.',
+        ],
+    ],
+
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Éditeur riche et notes des joueurs',

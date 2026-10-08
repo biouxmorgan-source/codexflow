@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.18.0' => [
+        'date' => '2026-10-08',
+        'title' => 'New character, My campaigns, game and world pages',
+        'items' => [
+            'When a player gets a new character, the GM ticks what passes from the previous one: knowledge, information, documents and rules are copied, items change hands.',
+            'My campaigns: a “Resume” button, the date of the last session, and archived campaigns kept apart.',
+            'Each game and each world has its own page: description, campaigns, rules, documents, fields or reusable sheets.',
+        ],
+    ],
+
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Rich editor and player notes',

@@ -105,8 +105,15 @@
             <div class="mt-3">@include('livewire.campaigns.demo-loader', ['class' => 'btn-secondary'])</div>
         </div>
     @else
+        @php([$archived, $current] = $this->campaigns->partition(fn ($campaign) => $campaign->status === \App\Enums\CampaignStatus::Archived))
+        @foreach (['current' => $current, 'archived' => $archived] as $group => $campaigns)
+        @continue($campaigns->isEmpty())
+        @if ($group === 'archived')
+            <details class="mt-8" @if ($current->isEmpty()) open @endif>
+                <summary class="mb-3 cursor-pointer text-sm font-semibold text-stone-600 hover:text-codex">{{ trans_choice(':count campagne archivée|:count campagnes archivées', $campaigns->count()) }}</summary>
+        @endif
         <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach ($this->campaigns as $campaign)
+            @foreach ($campaigns as $campaign)
                 @php($role = $campaign->members->first()->pivot->role)
                 <li wire:key="campaign-{{ $campaign->id }}" class="relative flex flex-col rounded-xl border border-stone-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-codex/50 hover:shadow-md">
                     <div class="mb-2 flex items-start justify-between gap-2">
@@ -129,8 +136,8 @@
                         ])>{{ $campaign->status->label() }}</span>
                     </div>
                     <dl class="space-y-1 text-sm text-stone-600">
-                        <div><dt class="inline font-medium text-ink">{{ __('Jeu :') }}</dt> <dd class="inline">{{ $campaign->gameSystem->name }}</dd></div>
-                        <div><dt class="inline font-medium text-ink">{{ __('Monde :') }}</dt> <dd class="inline">{{ $campaign->world?->name ?? __('aucun') }}</dd></div>
+                        <div><dt class="inline font-medium text-ink">{{ __('Jeu :') }}</dt> <dd class="inline">@if ($campaign->gameSystem->user_id === auth()->id())<a href="{{ route('games.show', $campaign->gameSystem) }}" class="relative z-10 hover:text-codex hover:underline" wire:navigate>{{ $campaign->gameSystem->name }}</a>@else{{ $campaign->gameSystem->name }}@endif</dd></div>
+                        <div><dt class="inline font-medium text-ink">{{ __('Monde :') }}</dt> <dd class="inline">@if ($campaign->world && $campaign->world->user_id === auth()->id())<a href="{{ route('worlds.show', $campaign->world) }}" class="relative z-10 hover:text-codex hover:underline" wire:navigate>{{ $campaign->world->name }}</a>@else{{ $campaign->world?->name ?? __('aucun') }}@endif</dd></div>
                         <div><dt class="inline font-medium text-ink">{{ __('Rôle :') }}</dt> <dd class="inline">{{ $campaign->roleLabel(auth()->user(), $role) }}</dd></div>
                     </dl>
                     @if ($role === \App\Enums\CampaignRole::Player)
@@ -149,11 +156,30 @@
                     @if ($unread > 0)
                         <a href="{{ route('messages.index', $campaign) }}" class="relative z-10 mt-3 text-sm font-medium text-flow hover:underline" wire:navigate>{{ trans_choice(':count message non lu|:count messages non lus', $unread) }}</a>
                     @endif
-                    @if (auth()->user()->can('duplicate', $campaign) && auth()->user()->can('use-feature', ['duplication']))
-                        <button type="button" wire:click="duplicate({{ $campaign->id }})" wire:confirm="{{ __('Dupliquer la campagne ? Le contenu préparé est copié ; les joueurs, les personnages, les séances et le journal ne le sont pas.') }}" class="relative z-10 mt-3 self-start text-sm link">{{ __('Dupliquer') }}</button>
+                    @if ($campaign->play_sessions_count)
+                        <p class="mt-3 text-sm text-stone-600">{{ trans_choice('Dernière séance le :date (:count séance en tout)|Dernière séance le :date (:count séances en tout)', $campaign->play_sessions_count, ['date' => \Illuminate\Support\Carbon::parse($campaign->play_sessions_max_started_at)->isoFormat('LL')]) }}</p>
                     @endif
+                    <div class="relative z-10 mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-3 text-sm">
+                        @if ($campaign->status === \App\Enums\CampaignStatus::Active)
+                            @if ($role === \App\Enums\CampaignRole::GameMaster)
+                                <a href="{{ route('sessions.live', $campaign) }}" class="btn-primary min-h-9 px-3 py-1 text-sm" wire:navigate>{{ __('Reprendre ▶') }}</a>
+                            @elseif ($myCharacter)
+                                <a href="{{ route('characters.show', [$campaign, $myCharacter]) }}" class="btn-primary min-h-9 px-3 py-1 text-sm" wire:navigate>{{ __('Reprendre ▶') }}</a>
+                            @endif
+                        @endif
+                        @if (auth()->user()->can('duplicate', $campaign) && auth()->user()->can('use-feature', ['duplication']))
+                            <button type="button" wire:click="duplicate({{ $campaign->id }})" wire:confirm="{{ __('Dupliquer la campagne ? Le contenu préparé est copié ; les joueurs, les personnages, les séances et le journal ne le sont pas.') }}" class="link">{{ __('Dupliquer') }}</button>
+                        @endif
+                        @can('manage', $campaign)
+                            <button type="button" wire:click="toggleArchive({{ $campaign->id }})" class="link">{{ $campaign->status === \App\Enums\CampaignStatus::Archived ? __('Réactiver') : __('Archiver') }}</button>
+                        @endcan
+                    </div>
                 </li>
             @endforeach
         </ul>
+        @if ($group === 'archived')
+            </details>
+        @endif
+        @endforeach
     @endif
 </div>

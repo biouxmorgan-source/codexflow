@@ -7,8 +7,17 @@
         <div>
             <h1 class="text-2xl font-semibold">{{ $campaign->name }}</h1>
             <p class="mt-1 text-sm text-stone-600">
-                {{ $campaign->gameSystem->name }}
-                · {{ $campaign->world ? __('Monde : :name', ['name' => $campaign->world->name]) : __('Sans monde partagé') }}
+                @if ($campaign->gameSystem->user_id === auth()->id())
+                    <a href="{{ route('games.show', $campaign->gameSystem) }}" class="crumb" wire:navigate>{{ $campaign->gameSystem->name }}</a>
+                @else
+                    {{ $campaign->gameSystem->name }}
+                @endif
+                ·
+                @if ($campaign->world && $campaign->world->user_id === auth()->id())
+                    <a href="{{ route('worlds.show', $campaign->world) }}" class="crumb" wire:navigate>{{ __('Monde : :name', ['name' => $campaign->world->name]) }}</a>
+                @else
+                    {{ $campaign->world ? __('Monde : :name', ['name' => $campaign->world->name]) : __('Sans monde partagé') }}
+                @endif
             </p>
         </div>
     </div>

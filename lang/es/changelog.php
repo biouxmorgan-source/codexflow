@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.18.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Nuevo personaje, Mis campañas, páginas de juego y de mundo',
+        'items' => [
+            'Cuando un jugador recibe un nuevo personaje, el DJ marca lo que pasa del anterior: conocimientos, informaciones, documentos y reglas se copian, los objetos cambian de manos.',
+            'Mis campañas: botón «Retomar», fecha de la última sesión y las campañas archivadas aparte.',
+            'Cada juego y cada mundo tiene su página: descripción, campañas, reglas, documentos, campos o fichas reutilizables.',
+        ],
+    ],
+
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Editor enriquecido y notas de los jugadores',

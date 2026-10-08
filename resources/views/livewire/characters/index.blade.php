@@ -9,6 +9,10 @@
         {!! __('Chaque personnage est une fiche de la campagne confiée à un joueur. Le joueur voit sa zone publique, sa feuille PDF, et peut modifier les champs que vous avez déclarés « modifiables par le joueur » dans :link (PV, munitions, argent…). Sa zone MJ lui reste toujours cachée.', ['link' => '<a href="'.e(route('fields.index', $campaign)).'" class="link" wire:navigate>'.e(__('Champs du jeu')).'</a>']) !!}
     </p>
 
+    @if (session('status'))
+        <p class="mb-4 rounded-lg bg-green-50 px-4 py-2 text-sm text-green-800" role="status">{{ session('status') }}</p>
+    @endif
+
     <label class="mb-6 flex items-start gap-2 text-sm text-stone-700">
         <input type="checkbox" wire:click="toggleExchangeApproval" @checked($campaign->exchanges_need_approval) class="mt-0.5">
         <span>{{ __('Valider les échanges entre joueurs') }} <span class="block text-stone-500">{{ __('Décoché, les joueurs se donnent objets et connaissances sans attendre votre accord ; vous en êtes informé.') }}</span></span>
@@ -87,11 +91,53 @@
                             <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
                                 <button type="button" wire:click="toggleLock({{ $character->id }})" class="link">{{ $character->locked ? __('Déverrouiller la fiche') : __('Verrouiller la fiche') }}</button>
                                 <button type="button" wire:click="toggleActive({{ $character->id }})" class="link">{{ $character->is_active ? __('Mettre au repos') : __('Rendre actif') }}</button>
+                                @if ($character->user_id && $this->characters->where('user_id', $character->user_id)->count() > 1)
+                                    <button type="button" wire:click="openTransfer({{ $character->id }})" class="link">{{ __('Reprendre d’un ancien personnage…') }}</button>
+                                @endif
                                 <button type="button" wire:click="remove({{ $character->id }})" wire:confirm="{{ __(':name ne sera plus un personnage joueur. Sa fiche reste dans la campagne.', ['name' => $entity->name]) }}" class="ml-auto text-red-700 hover:underline">{{ __('Retirer des personnages') }}</button>
                                 @if ($entity->campaign_id === $campaign->id)
                                     <button type="button" wire:click="destroy({{ $character->id }})" wire:confirm="{{ __('Supprimer :name et sa fiche ? Ses connaissances, possessions et notes seront supprimées aussi.', ['name' => $entity->name]) }}" class="text-red-700 hover:underline">{{ __('Supprimer avec sa fiche') }}</button>
                                 @endif
                             </div>
+                            @if ($transferTo === $character->id)
+                                <form wire:submit="transfer" class="mt-4 rounded-lg border border-codex/30 bg-codex-soft/40 p-4" aria-labelledby="transfer-title-{{ $character->id }}">
+                                    <h3 id="transfer-title-{{ $character->id }}" class="font-semibold">{{ __('Ce qui passe à :name', ['name' => $entity->name]) }}</h3>
+                                    <p class="mt-1 text-sm text-stone-600">{{ __('Connaissances, informations, documents et règles sont recopiés ; les objets changent de main. Décochez ce que le nouveau personnage ne doit pas reprendre.') }}</p>
+                                    @if ($this->transferSources->count() > 1)
+                                        <label for="transfer-from" class="label mt-3">{{ __('Ancien personnage') }}</label>
+                                        <select id="transfer-from" wire:model.live="transferFrom" class="field max-w-xs">
+                                            @foreach ($this->transferSources as $source)
+                                                <option value="{{ $source->id }}">{{ $source->entity->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    @elseif ($this->transferSources->isNotEmpty())
+                                        <p class="mt-2 text-sm">{{ __('Depuis :name', ['name' => $this->transferSources->first()->entity->name]) }}</p>
+                                    @endif
+                                    @if ($this->transferGrants->isEmpty())
+                                        <p class="mt-3 text-sm text-stone-500">{{ __('Rien à transmettre.') }}</p>
+                                    @else
+                                        @foreach ($this->transferGrants->groupBy('kind') as $kind => $grants)
+                                            <fieldset class="mt-3">
+                                                <legend class="text-sm font-semibold text-stone-600">{{ \App\Models\CharacterGrant::kinds()[$kind] ?? $kind }}</legend>
+                                                <div class="mt-1 grid gap-1 sm:grid-cols-2">
+                                                    @foreach ($grants as $grant)
+                                                        <label wire:key="transfer-{{ $grant->id }}" class="flex items-center gap-2 text-sm">
+                                                            <input type="checkbox" value="{{ $grant->id }}" wire:model="transferIds">
+                                                            <span class="min-w-0 truncate">{{ $grant->label() }}</span>
+                                                        </label>
+                                                    @endforeach
+                                                </div>
+                                            </fieldset>
+                                        @endforeach
+                                    @endif
+                                    <div class="mt-4 flex flex-wrap gap-2">
+                                        @if ($this->transferGrants->isNotEmpty())
+                                            <button type="submit" class="btn-primary">{{ __('Transmettre') }}</button>
+                                        @endif
+                                        <button type="button" wire:click="closeTransfer" class="btn-secondary">{{ __('Ne rien reprendre') }}</button>
+                                    </div>
+                                </form>
+                            @endif
                         </li>
                     @endforeach
                 </ul>

@@ -103,7 +103,7 @@ class GiveToCharacters
         });
     }
 
-    private static function record(CharacterGrant $grant, PlayerCharacter $character, string $event): void
+    public static function record(CharacterGrant $grant, PlayerCharacter $character, string $event): void
     {
         $values = array_filter([
             'kind' => $grant->kind,
