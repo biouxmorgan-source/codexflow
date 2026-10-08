@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.17.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Formatierter Text und Spielernotizen',
+        'items' => [
+            'Lange Texte (Beschreibungen, SL-Notizen, Szenen, Regeln, Zeitleiste, Spielernotizen) haben einen Editor mit Fett, Kursiv, Zwischenüberschriften, Listen und Zitaten; „[[“ schlägt weiterhin Bögen zum Verknüpfen vor.',
+            'Spieler verknüpfen ihre Notizen mit den Bögen, die ihr Charakter kennt, und nur mit diesen.',
+            'Die Seite einer Sitzung zeigt auch die Notizen, die die Spieler darin gemacht haben, außer denen, die sie für sich behalten.',
+        ],
+    ],
+
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium-Abonnement und kostenlose Testphase',

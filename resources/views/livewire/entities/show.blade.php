@@ -275,7 +275,7 @@
                         @foreach ($noteBacklinks as $note)
                             <li>
                                 <a href="{{ route('sessions.show', [$campaign, $note->playSession]) }}" class="link" wire:navigate>{{ $note->playSession->label() }}</a>
-                                <span class="block truncate text-xs text-stone-500">{{ \App\Support\EntityLinks::plain($note->body) }}</span>
+                                <span class="block truncate text-xs text-stone-500">{{ \App\Support\EntityLinks::excerpt($note->body) }}</span>
                             </li>
                         @endforeach
                     </ul>

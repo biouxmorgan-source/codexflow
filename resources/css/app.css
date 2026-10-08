@@ -129,6 +129,60 @@
         @apply font-medium text-codex underline decoration-codex/30 underline-offset-2 hover:text-ink hover:decoration-codex;
     }
 
+    /* Texte mis en forme (Markdown rendu ou éditeur riche) : paragraphes, titres, listes, citations. */
+    .rich > * + * {
+        @apply mt-2;
+    }
+
+    .rich h1,
+    .rich h2 {
+        @apply text-lg font-semibold text-ink;
+    }
+
+    .rich h3,
+    .rich h4,
+    .rich h5,
+    .rich h6 {
+        @apply font-semibold text-ink;
+    }
+
+    .rich ul {
+        @apply list-disc pl-6;
+    }
+
+    .rich ol {
+        @apply list-decimal pl-6;
+    }
+
+    .rich li > p {
+        @apply m-0;
+    }
+
+    .rich blockquote {
+        @apply border-l-4 border-stone-300 pl-3 text-stone-600 italic;
+    }
+
+    .rich a:not([class]) {
+        @apply font-medium text-codex underline decoration-codex/30 underline-offset-2 hover:text-ink hover:decoration-codex;
+    }
+
+    /* Éditeur : la zone éditable a l'allure d'un champ ; un lien vers une fiche s'y montre en pastille. */
+    .rich-editor .ProseMirror {
+        @apply min-h-24 whitespace-pre-wrap;
+    }
+
+    .rich-editor .ProseMirror:focus {
+        @apply border-codex ring-2 ring-codex/30 outline-none;
+    }
+
+    .entity-chip {
+        @apply rounded bg-codex-soft px-1 font-medium text-codex;
+    }
+
+    .rich-editor .suggestion {
+        @apply rounded bg-stone-100;
+    }
+
     /* Fil d'Ariane : mêmes repères, en plus léger. */
     .crumb {
         @apply text-codex underline decoration-codex/25 underline-offset-2 hover:text-ink hover:decoration-codex;

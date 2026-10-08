@@ -59,7 +59,7 @@
                         <p @class(['mt-6 text-3xl', $theme['muted']])>{{ $rule->summary }}</p>
                     @endif
                     @if ($rule->procedure)
-                        <div class="mt-8 text-2xl leading-relaxed whitespace-pre-line">{{ \App\Support\EntityLinks::plain($rule->procedure) }}</div>
+                        <div class="mt-8 text-2xl leading-relaxed">{{ \App\Support\EntityLinks::plain($rule->procedure) }}</div>
                     @endif
                 </article>
                 @break

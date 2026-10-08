@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.17.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Rich editor and player notes',
+        'items' => [
+            'Long texts (descriptions, GM notes, scenes, rules, timeline, player notes) get an editor with bold, italic, subheadings, lists and quotes; “[[” still suggests sheets to link.',
+            'Players link their notes to the sheets their character knows, and only those.',
+            'A session’s page also shows the notes players took during it, except the ones they keep to themselves.',
+        ],
+    ],
+
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium subscription and free trial',

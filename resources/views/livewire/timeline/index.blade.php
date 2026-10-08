@@ -137,7 +137,7 @@
                             @endif
                         </div>
                         @if ($event->description)
-                            <div class="mt-2 text-sm whitespace-pre-line text-stone-700">{{ $this->linkedDescription($event) }}</div>
+                            <div class="mt-2 text-sm text-stone-700">{{ $this->linkedDescription($event) }}</div>
                         @endif
                     </div>
                 </li>

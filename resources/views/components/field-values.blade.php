@@ -20,7 +20,7 @@
                         </dt>
                         <dd class="font-medium">
                             @if ($definition->type === \App\Enums\FieldType::LongText)
-                                <span class="font-normal text-stone-700">{{ \App\Support\EntityLinks::render($value, $campaign) }}</span>
+                                <span class="font-normal text-stone-700">{{ \App\Support\EntityLinks::inline($value, $campaign) }}</span>
                             @else
                                 {{ $definition->type->format($value) }}
                             @endif

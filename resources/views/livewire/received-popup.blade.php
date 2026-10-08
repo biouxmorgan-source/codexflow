@@ -25,7 +25,7 @@
                             default => $grant->body,
                         })
                         @if (filled($text))
-                            <p class="mt-2 text-stone-700">{{ \App\Support\EntityLinks::plain($text) }}</p>
+                            <div class="mt-2 text-stone-700">{{ \App\Support\EntityLinks::plain($text) }}</div>
                         @endif
                     </div>
                 </div>

@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -129,6 +130,33 @@ class Show extends Component
             // Une règle repassée en zone MJ n'est plus lisible, même si elle avait été ouverte.
             ->reject(fn (CharacterGrant $grant) => $grant->kind === 'rule' && $grant->rule?->zone !== Zone::Public)
             ->values();
+    }
+
+    /**
+     * Autocomplétion des liens [[…]] dans les notes du joueur : seulement les fiches que
+     * son personnage connaît, jamais le reste de la campagne.
+     *
+     * @return list<array{id: int, name: string, type: string}>
+     */
+    #[Renderless]
+    public function suggestEntities(string $query): array
+    {
+        if (! $this->canWrite) {
+            return [];
+        }
+
+        $query = mb_strtolower(trim(mb_substr($query, 0, 60)));
+
+        return $this->grants
+            ->map(fn (CharacterGrant $grant) => $grant->entity)
+            ->filter()
+            ->unique('id')
+            ->filter(fn (Entity $entity) => $query === '' || str_contains(mb_strtolower($entity->name), $query))
+            ->sortBy(fn (Entity $entity) => [! str_starts_with(mb_strtolower($entity->name), $query), mb_strtolower($entity->name)])
+            ->take(8)
+            ->map(fn (Entity $entity) => ['id' => $entity->id, 'name' => $entity->name, 'type' => $entity->type?->name ?? ''])
+            ->values()
+            ->all();
     }
 
     #[On('character-grants-changed')]
