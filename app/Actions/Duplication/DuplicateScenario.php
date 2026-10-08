@@ -24,7 +24,7 @@ class DuplicateScenario
         return ActivityLog::batch(fn () => DB::transaction(fn () => $this->copyInto(
             $scenario,
             $scenario->campaign,
-            DuplicateEntity::copyName($scenario->name),
+            DuplicateEntity::copyName($scenario->name, fn (string $name) => $scenario->campaign->scenarios()->where('name', $name)->exists()),
             (int) $scenario->campaign->scenarios()->max('position') + 1,
         )[0]));
     }

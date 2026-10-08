@@ -4,6 +4,17 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.30.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Escritura y enlaces',
+        'items' => [
+            'Los campos «texto largo» y las notas del DJ de las reglas tienen el editor enriquecido y los enlaces [[ ]].',
+            'En su ficha, el jugador ve los textos largos con formato y enlaces a las fichas que conoce su personaje.',
+            'La nota rápida de sesión propone fichas en cuanto escribes «[[».',
+            'Las copias se numeran («copia 2», «copia 3») y una importación nunca reutiliza el nombre de un juego, mundo o campaña que ya tengas.',
+        ],
+    ],
+
     '0.29.0' => [
         'date' => '2026-10-08',
         'title' => 'Seguridad de la cuenta',

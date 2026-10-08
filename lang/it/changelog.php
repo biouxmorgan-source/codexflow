@@ -4,6 +4,17 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.30.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Scrittura e collegamenti',
+        'items' => [
+            'I campi «testo lungo» e le note del Master delle regole hanno l’editor ricco e i collegamenti [[ ]].',
+            'Sulla sua scheda il giocatore vede i testi lunghi formattati, con collegamenti alle schede che il suo personaggio conosce.',
+            'La nota rapida di sessione propone le schede appena scrivi «[[».',
+            'Le copie sono numerate («copia 2», «copia 3») e un’importazione non riusa mai il nome di un gioco, mondo o campagna che hai già.',
+        ],
+    ],
+
     '0.29.0' => [
         'date' => '2026-10-08',
         'title' => 'Sicurezza dell’account',

@@ -23,7 +23,8 @@ class DuplicateEntity
     public function handle(Entity $entity): Entity
     {
         return FileCopies::run(fn (FileCopies $files) => ActivityLog::batch(fn () => DB::transaction(function () use ($entity, $files) {
-            $copy = $this->copySheet($entity, $files, self::copyName($entity->name));
+            $siblings = Entity::query()->where($entity->world_id ? 'world_id' : 'campaign_id', $entity->world_id ?? $entity->campaign_id);
+            $copy = $this->copySheet($entity, $files, self::copyName($entity->name, fn (string $name) => (clone $siblings)->where('name', $name)->exists()));
 
             foreach (EntityRelation::where('from_entity_id', $entity->id)->get() as $relation) {
                 $this->copyRelation($relation, $copy->id, $relation->to_entity_id, $relation->campaign_id);
@@ -87,9 +88,24 @@ class DuplicateEntity
         return $copy;
     }
 
-    /** « Nom (copie) », dans la limite de la colonne. */
-    public static function copyName(string $name): string
+    /**
+     * « Nom (copie) », puis « Nom (copie 2) », « Nom (copie 3) »… tant que $taken dit le nom déjà pris
+     * au même endroit. Copier une copie repart du nom d'origine. Dans la limite de la colonne.
+     *
+     * @param  (callable(string): bool)|null  $taken
+     */
+    public static function copyName(string $name, ?callable $taken = null): string
     {
-        return __(':name (copie)', ['name' => Str::limit($name, 240)]);
+        $suffix = preg_quote(trim(__(':name (copie)', ['name' => ''])), '/');
+        $numbered = preg_quote(trim(__(':name (copie :number)', ['name' => '', 'number' => '#'])), '/');
+        $pattern = '/\s+(?:'.$suffix.'|'.str_replace('\\#', '\\d+', $numbered).')$/u';
+        $base = Str::limit(preg_replace($pattern, '', $name) ?: $name, 240);
+
+        $candidate = __(':name (copie)', ['name' => $base]);
+        for ($number = 2; $taken !== null && $taken($candidate) && $number < 1000; $number++) {
+            $candidate = __(':name (copie :number)', ['name' => $base, 'number' => $number]);
+        }
+
+        return $candidate;
     }
 }

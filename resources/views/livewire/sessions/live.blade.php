@@ -138,7 +138,7 @@
                                                 <div class="mt-2 border-t border-stone-100 pt-2 text-sm text-stone-700">{{ \App\Support\EntityLinks::render($rule->procedure, $campaign) }}</div>
                                             @endif
                                             @if ($rule->gm_notes)
-                                                <p class="mt-2 rounded-lg bg-flow/5 p-2 text-sm whitespace-pre-line text-stone-700"><span class="font-medium text-flow">{{ __('MJ :') }}</span> {{ $rule->gm_notes }}</p>
+                                                <div class="mt-2 rounded-lg bg-flow/5 p-2 text-sm text-stone-700"><span class="font-medium text-flow">{{ __('MJ :') }}</span> {{ \App\Support\EntityLinks::render($rule->gm_notes, $campaign) }}</div>
                                             @endif
                                             <span class="mt-2 flex flex-wrap gap-x-4 text-xs">
                                                 <a href="{{ route('rules.show', [$campaign, $rule]) }}" target="_blank" rel="noopener" class="link">{{ __('Ouvrir la règle ↗') }}</a>
@@ -177,7 +177,20 @@
                     <h2 class="mb-2 flex items-baseline gap-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Notes de session') }} <span class="text-xs font-normal tracking-normal normal-case">{{ __('(touche N)') }}</span></h2>
                     <form wire:submit="addNote" class="flex gap-2">
                         <label for="noteBody" class="sr-only">{{ __('Nouvelle note') }}</label>
-                        <input id="noteBody" type="text" wire:model="noteBody" class="field" placeholder="{{ __("Noter vite : les joueurs ont promis d'aider Mira…") }}" autocomplete="off">
+                        {{-- « [[ » propose les fiches de la campagne, comme dans les textes longs. --}}
+                        <div x-data="linkInput" class="relative min-w-0 flex-1" x-on:click.outside="close()">
+                            <input id="noteBody" x-ref="input" type="text" wire:model="noteBody" class="field" placeholder="{{ __("Noter vite : les joueurs ont promis d'aider Mira…") }}" autocomplete="off"
+                                role="combobox" aria-autocomplete="list" aria-controls="noteBody-suggestions" :aria-expanded="open ? 'true' : 'false'"
+                                x-on:input="search()" x-on:keydown="onKeydown($event)">
+                            <ul id="noteBody-suggestions" x-show="open" x-cloak role="listbox" class="absolute inset-x-0 top-full z-20 mt-1 max-h-64 overflow-auto rounded-md border border-stone-200 bg-white py-1 text-sm shadow-lg">
+                                <template x-for="(item, index) in items" :key="item.id">
+                                    <li role="option" :aria-selected="index === active ? 'true' : 'false'" x-on:mousedown.prevent="choose(item)"
+                                        :class="index === active ? 'bg-codex-soft text-codex' : ''" class="flex cursor-pointer justify-between gap-3 px-3 py-1.5">
+                                        <span x-text="item.name"></span><span class="text-stone-500" x-text="item.type"></span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
                         <button type="submit" class="btn-primary">{{ __('Noter') }}</button>
                     </form>
                     @error('noteBody') <p class="error">{{ $message }}</p> @enderror

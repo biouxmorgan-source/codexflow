@@ -4,6 +4,17 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.30.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Pisanie i linki',
+        'items' => [
+            'Pola „długi tekst” i notatki MG w zasadach mają edytor formatowania i linki [[ ]].',
+            'Na swojej karcie gracz widzi sformatowane długie teksty z linkami do kart, które zna jego postać.',
+            'Szybka notatka z sesji podpowiada karty, gdy tylko wpiszesz „[[”.',
+            'Kopie są numerowane („kopia 2”, „kopia 3”), a import nigdy nie powtarza nazwy gry, świata ani kampanii, które już masz.',
+        ],
+    ],
+
     '0.29.0' => [
         'date' => '2026-10-08',
         'title' => 'Bezpieczeństwo konta',

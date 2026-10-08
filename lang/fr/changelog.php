@@ -4,6 +4,17 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.30.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Écriture et liens',
+        'items' => [
+            'Les champs « texte long » et les notes MJ des règles ont l’éditeur riche et les liens [[ ]].',
+            'Sur sa fiche, le joueur voit les textes longs mis en forme, avec des liens vers les fiches que son personnage connaît.',
+            'La note rapide de séance propose les fiches dès « [[ ».',
+            'Les copies sont numérotées (« copie 2 », « copie 3 ») et un import ne reprend jamais le nom d’un jeu, d’un monde ou d’une campagne que vous avez déjà.',
+        ],
+    ],
+
     '0.29.0' => [
         'date' => '2026-10-08',
         'title' => 'Sécurité du compte',
