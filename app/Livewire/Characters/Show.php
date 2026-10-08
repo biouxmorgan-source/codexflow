@@ -12,6 +12,7 @@ use App\Models\Campaign;
 use App\Models\CharacterGrant;
 use App\Models\CharacterNote;
 use App\Models\Entity;
+use App\Models\ExchangeRequest;
 use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
 use App\Models\Rule;
@@ -124,7 +125,7 @@ class Show extends Component
     #[Computed]
     public function grants(): Collection
     {
-        return $this->character->grants()->with(['entity.type', 'document', 'rule'])->get()
+        return $this->character->grants()->with(['entity.type', 'document', 'rule', 'exchangeRequest.to.entity'])->get()
             // Une règle repassée en zone MJ n'est plus lisible, même si elle avait été ouverte.
             ->reject(fn (CharacterGrant $grant) => $grant->kind === 'rule' && $grant->rule?->zone !== Zone::Public)
             ->values();
@@ -173,13 +174,41 @@ class Show extends Component
         $grant = $this->character->grants()->findOrFail($this->exchangeGrantId);
         $to = $this->companions->firstWhere('id', (int) $this->exchangeTo);
 
-        app(ExchangeGrant::class)->handle($grant, $to, $grant->kind === 'possession' ? $this->exchangeQuantity : null);
+        $result = app(ExchangeGrant::class)->handle($grant, $to, $grant->kind === 'possession' ? $this->exchangeQuantity : null);
 
         $this->exchangeGrantId = null;
-        $this->flashExchange = $grant->kind === 'possession'
-            ? __('Donné à :name.', ['name' => $to->entity->name])
-            : __('Transmis à :name.', ['name' => $to->entity->name]);
+        $this->flashExchange = match (true) {
+            $result instanceof ExchangeRequest => __('Proposé à :name : le MJ doit valider l’échange.', ['name' => $to->entity->name]),
+            $grant->kind === 'possession' => __('Donné à :name.', ['name' => $to->entity->name]),
+            default => __('Transmis à :name.', ['name' => $to->entity->name]),
+        };
         unset($this->grants, $this->journal);
+    }
+
+    /** Le joueur retire un échange qu'il avait proposé. */
+    public function cancelExchange(int $grantId): void
+    {
+        $this->ensureNotViewingAs();
+        abort_unless($this->isOwner, 403);
+
+        app(ExchangeGrant::class)->cancel($this->exchangeRequestFor($grantId));
+        unset($this->grants);
+    }
+
+    /** Le MJ accepte ou refuse un échange proposé par le joueur. */
+    public function answerExchange(int $grantId, bool $accept): void
+    {
+        $this->ensureNotViewingAs();
+        abort_unless($this->isGameMaster, 403);
+
+        $request = $this->exchangeRequestFor($grantId);
+        $accept ? app(ExchangeGrant::class)->approve($request) : app(ExchangeGrant::class)->reject($request);
+        unset($this->grants, $this->journal);
+    }
+
+    private function exchangeRequestFor(int $grantId): ExchangeRequest
+    {
+        return ExchangeRequest::where('from_character_id', $this->character->id)->where('character_grant_id', $grantId)->firstOrFail();
     }
 
     /** Le joueur note lui-même sur sa fiche : fiche non verrouillée, personnage actif. */

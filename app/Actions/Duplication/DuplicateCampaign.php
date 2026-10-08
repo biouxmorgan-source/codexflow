@@ -60,6 +60,7 @@ class DuplicateCampaign
         $campaign->gameSystem()->associate($source->game_system_id);
         $campaign->world()->associate($source->world_id);
         $campaign->table_theme = $source->table_theme ?? TableTheme::DEFAULT;
+        $campaign->exchanges_need_approval = $source->exchanges_need_approval ?? true;
         $campaign->save();
         $campaign->members()->attach($owner, ['role' => CampaignRole::GameMaster->value]);
 

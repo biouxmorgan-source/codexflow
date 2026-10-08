@@ -197,7 +197,7 @@ return [
         'teska' => [
             'name' => 'Teska die Ruderin',
             'summary' => 'Rudert seit ihrer Kindheit und kennt die Bucht besser als die Wache.',
-            'description' => 'Du hast deinem Bruder geschworen, Pierrecendre niemals zu verlassen. Er ist letzten Monat gegangen.',
+            'description' => 'Sie haben Ihrem Bruder geschworen, Pierrecendre niemals zu verlassen. Er ist letzten Monat gegangen.',
             'fields' => [
                 'trade' => 'Ruderin',
                 'trait' => 'Sagt alles, und zwar sofort',
@@ -207,7 +207,7 @@ return [
         'oriel' => [
             'name' => 'Oriel Chantegrèle',
             'summary' => 'Berufszeuge: Man bezahlt ihn dafür, Eiden beizuwohnen und sich an sie zu erinnern.',
-            'description' => 'Du hast zweihundert Eide bezeugt. Einen einzigen hast du vergessen, mit Absicht.',
+            'description' => 'Sie haben zweihundert Eide bezeugt. Einen einzigen haben Sie vergessen, mit Absicht.',
             'fields' => [
                 'trade' => 'Zeuge',
                 'trait' => 'Wiederholt wichtige Sätze leise für sich',
@@ -217,7 +217,7 @@ return [
         'dorn' => [
             'name' => 'Dorn Kalteisen',
             'summary' => 'Ehemaliger Wächter, entlassen, weil er sich weigerte, eine Ausgangssperre durchzusetzen.',
-            'description' => 'Du hast geschworen, nie wieder einem Befehl zu gehorchen, den du nicht verstehst.',
+            'description' => 'Sie haben geschworen, nie wieder einem Befehl zu gehorchen, den Sie nicht verstehen.',
             'fields' => [
                 'trade' => 'Entlassener Wächter',
                 'trait' => 'Stellt sich immer zwischen die Tür und die anderen',
@@ -227,7 +227,7 @@ return [
         'lisenn' => [
             'name' => 'Lisenn mit den zwei Namen',
             'summary' => 'Stammt aus den Marken und lebt in der Stadt unter einem Namen, der nicht ihr eigener ist.',
-            'description' => 'Du hast einen Eid gebrochen. Hier weiß es noch niemand.',
+            'description' => 'Sie haben einen Eid gebrochen. Hier weiß es noch niemand.',
             'fields' => [
                 'trade' => 'Führerin durch die Marken',
                 'trait' => 'Schläft nie zwei Nächte am selben Ort',
@@ -320,14 +320,14 @@ return [
             'title' => 'Eidwurf',
             'category' => 'Grundregeln',
             'summary' => 'Eigenschaft + 1W6 gegen eine Schwierigkeit von 4 bis 9.',
-            'procedure' => "1. Nenne die eingesetzte Eigenschaft und was die Figur erreichen will.\n2. Wirf 1W6 und addiere die Eigenschaft.\n3. 4 für eine Aufgabe des eigenen Berufs, 7 für eine schwierige Aufgabe, 9 für das Unmögliche.\n4. Handelt die Figur, um einen Eid zu halten, gibt es +1 pro gehaltenem Eid, höchstens +3.",
+            'procedure' => "1. Nennen Sie die eingesetzte Eigenschaft und was die Figur erreichen will.\n2. Werfen Sie 1W6 und addieren Sie die Eigenschaft.\n3. 4 für eine Aufgabe des eigenen Berufs, 7 für eine schwierige Aufgabe, 9 für das Unmögliche.\n4. Handelt die Figur, um einen Eid zu halten, gibt es +1 pro gehaltenem Eid, höchstens +3.",
             'source' => 'Grundheft, S. 12',
         ],
         'breath' => [
             'title' => 'Atem',
             'category' => 'Grundregeln',
             'summary' => 'Atem ersetzt Lebenspunkte: Man gibt ihn aus, um durchzuhalten, nicht um Schaden einzustecken.',
-            'procedure' => "Gib 1 Atem aus, um einen Würfel neu zu werfen, um trotz einer Verletzung weiterzumachen oder um einem Ertrunkenen zu widerstehen.\nBei 0 hält die Figur inne: Sie ist nicht tot, kann aber bis zur nächsten Rast nichts mehr versprechen.",
+            'procedure' => "Geben Sie 1 Atem aus, um einen Würfel neu zu werfen, um trotz einer Verletzung weiterzumachen oder um einem Ertrunkenen zu widerstehen.\nBei 0 hält die Figur inne: Sie ist nicht tot, kann aber bis zur nächsten Rast nichts mehr versprechen.",
             'source' => 'Grundheft, S. 18',
         ],
         'breaking' => [
@@ -342,14 +342,14 @@ return [
             'title' => 'Nebelzähler',
             'category' => 'Hausregel',
             'summary' => 'Hausregel: Der Nebel steigt mit jeder Sitzung um eine Stufe, bis die Ertrunkenen durch die Stadt gehen.',
-            'procedure' => "Führe einen Zähler von 0 bis 6, für den Tisch sichtbar.\n+1 am Ende jeder Sitzung, +1 jedes Mal, wenn ein Eid vor Zeugen gebrochen wird.\nBei 3 wird die Furt unsicher. Bei 6 betreten die Ertrunkenen Pierrecendre.",
+            'procedure' => "Führen Sie einen Zähler von 0 bis 6, für den Tisch sichtbar.\n+1 am Ende jeder Sitzung, +1 jedes Mal, wenn ein Eid vor Zeugen gebrochen wird.\nBei 3 wird die Furt unsicher. Bei 6 betreten die Ertrunkenen Pierrecendre.",
             'gm_notes' => 'Zähler auf dem Spielleiterschirm, bis 3 geheim.',
         ],
         'word' => [
             'title' => 'Am Tisch gegebenes Wort',
             'category' => 'Hausregel',
             'summary' => 'Zum Testen: Ein Versprechen, das der Spieler laut ausspricht, zählt als Eid.',
-            'procedure' => 'Verspricht ein Spieler einer Figur etwas, notiere es. Hält er es, +1 gehaltener Eid; andernfalls greift die Regel zum Eidbruch.',
+            'procedure' => 'Verspricht ein Spieler einer Figur etwas, notieren Sie es. Hält er es, +1 gehaltener Eid; andernfalls greift die Regel zum Eidbruch.',
             'gm_notes' => 'In Sitzung 2 testen. Risiko: Die Spieler trauen sich nichts mehr zu versprechen.',
         ],
     ],
@@ -370,7 +370,7 @@ return [
         'lantern' => [
             'name' => 'Die dritte Laterne',
             'description' => '[[quay]], in der Abenddämmerung: Die dritte Laterne von Norden will nicht brennen. Die Bekanntmachung der Ausgangssperre klebt noch frisch an der Mauer.',
-            'gm_notes' => 'Damit gibt [[brannoc]] sein Zeichen. Lass die Spieler es herausfinden, indem sie beobachten, wer sich dem Kai nähert.',
+            'gm_notes' => 'Damit gibt [[brannoc]] sein Zeichen. Lassen Sie die Spieler es herausfinden, indem sie beobachten, wer sich dem Kai nähert.',
             'notes' => ['brannoc' => 'kommt übers Wasser, lautlos', 'guard' => 'zwei Mann auf Streife'],
         ],
         'register' => [

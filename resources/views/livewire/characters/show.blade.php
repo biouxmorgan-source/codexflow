@@ -223,6 +223,13 @@
                                                 · {{ $grant->kind === 'possession' ? __('ajouté par le joueur, validé') : __('noté par le joueur') }}
                                             @endif
                                         </p>
+                                        @if ($grant->exchangeRequest && ! $viewAs)
+                                            <p class="mt-1 text-xs font-medium text-flow">
+                                                {{ $grant->kind === 'possession'
+                                                    ? __('Échange proposé : :label à :name, en attente du MJ.', ['label' => $grant->exchangeRequest->setRelation('grant', $grant)->label(), 'name' => $grant->exchangeRequest->to->entity->name])
+                                                    : __('Échange proposé : à :name, en attente du MJ.', ['name' => $grant->exchangeRequest->to->entity->name]) }}
+                                            </p>
+                                        @endif
                                     </div>
                                     @if ($this->isGameMaster && $grant->isPending())
                                         <button type="button" wire:click="validateGrant({{ $grant->id }})" class="shrink-0 text-xs font-medium text-codex hover:underline">{{ __('Valider') }}</button>
@@ -230,7 +237,13 @@
                                     @if ($this->canAdd && $grant->added_by_player && $grant->validated_at === null)
                                         <button type="button" wire:click="removeOwn({{ $grant->id }})" wire:confirm="{{ __('Effacer « :label » de votre fiche ?', ['label' => $grant->label()]) }}" class="shrink-0 text-xs text-stone-500 hover:text-red-700">{{ __('Effacer') }}</button>
                                     @endif
-                                    @if ($this->canExchange && $exchangeGrantId !== $grant->id && ! $grant->isPending())
+                                    @if ($grant->exchangeRequest && $this->isGameMaster)
+                                        <button type="button" wire:click="answerExchange({{ $grant->id }}, true)" class="shrink-0 text-xs font-medium text-codex hover:underline">{{ __('Accepter l’échange') }}</button>
+                                        <button type="button" wire:click="answerExchange({{ $grant->id }}, false)" class="shrink-0 text-xs text-red-700 hover:underline">{{ __('Refuser') }}</button>
+                                    @elseif ($grant->exchangeRequest && $this->isOwner)
+                                        <button type="button" wire:click="cancelExchange({{ $grant->id }})" class="shrink-0 text-xs text-stone-500 hover:text-red-700">{{ __('Annuler l’échange') }}</button>
+                                    @endif
+                                    @if ($this->canExchange && $exchangeGrantId !== $grant->id && ! $grant->isPending() && ! $grant->exchangeRequest)
                                         <button type="button" wire:click="startExchange({{ $grant->id }})" class="shrink-0 text-xs text-codex hover:underline">{{ $grant->kind === 'possession' ? __('Donner') : __('Transmettre') }}</button>
                                     @endif
                                     @if ($this->isGameMaster)
@@ -258,7 +271,7 @@
                                             <button type="submit" class="btn-primary min-h-0 py-1.5 text-sm">{{ $grant->kind === 'possession' ? __('Donner') : __('Transmettre') }}</button>
                                             <button type="button" wire:click="startExchange(null)" class="text-sm text-stone-600 hover:underline">{{ __('Annuler') }}</button>
                                             <p class="w-full text-xs text-stone-600">
-                                                {{ $grant->kind === 'possession' ? __("L'objet quitte votre fiche.") : __('Vous gardez cette connaissance.') }} {{ __('Le MJ en est informé.') }}
+                                                {{ $grant->kind === 'possession' ? __("L'objet quitte votre fiche.") : __('Vous gardez cette connaissance.') }} {{ $campaign->exchanges_need_approval ? __('Le MJ doit valider l’échange.') : __('Le MJ en est informé.') }}
                                             </p>
                                             @error('exchangeTo') <p class="error w-full">{{ $message }}</p> @enderror
                                             @error('exchangeQuantity') <p class="error w-full">{{ $message }}</p> @enderror

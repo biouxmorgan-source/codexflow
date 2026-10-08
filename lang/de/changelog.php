@@ -4,13 +4,23 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.14.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Nach der Abnahme: Tausch mit Bestätigung der SL',
+        'items' => [
+            'Standardmäßig bestätigt die SL den Tausch zwischen Spielern: Gegenstand oder Wissen wechselt erst nach der Annahme den Besitzer. Ein Kästchen unter „Charaktere der Spieler“ erlaubt den Tausch auch ohne Bestätigung.',
+            'Fernbedienung: Beim letzten Element der Szene wird „Weiter“ zu „Beenden“ und leert den Bildschirm.',
+            'Übersichtlicheres Journal für bestätigte Gegenstände, klarere Meldungen unter „Problem melden“ und eine einheitliche Anrede in jeder Sprache.',
+        ],
+    ],
+
     '0.13.1' => [
         'date' => '2026-10-08',
         'title' => 'Korrekturen aus dem V1-Abnahmetest',
         'items' => [
             'Die Suche der SL findet jetzt auch Geheimnisse, weitergegebene Informationen und Gegenstände, geteilte Notizen der Spieler und Szenen-Tags.',
             'Beim Duplizieren einer Kampagne werden Geheimnisse und die vorbereitete Zeitleiste mitkopiert; ein Link auf einen Eintrag öffnet sich in der Sitzung in einem Seitenfenster, ohne die Sitzung zu verlassen.',
-            'Übersetzte Fehlerseiten, Passwort-E-Mail in deiner Sprache, Sitzungsmodus und Dokumente auf dem Handy lesbar, ein Menü für ausgeblendete Links auf kleinen Bildschirmen.',
+            'Übersetzte Fehlerseiten, Passwort-E-Mail in Ihrer Sprache, Sitzungsmodus und Dokumente auf dem Handy lesbar, ein Menü für ausgeblendete Links auf kleinen Bildschirmen.',
             'Ein ruhender Charakter und ein von der SL bestätigter Gegenstand können vom Spieler nicht mehr geändert werden; das temporäre Lineal der Karte verschwindet von selbst.',
         ],
     ],

@@ -182,7 +182,7 @@ class Notify
     }
 
     /** @param  array<string, string>  $replace  la valeur « label » est citée */
-    private static function quoted(array $replace, string $locale): array
+    public static function quoted(array $replace, string $locale): array
     {
         return ['label' => self::quote($replace['label'], $locale)] + $replace;
     }

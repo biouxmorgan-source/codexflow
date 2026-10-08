@@ -31,7 +31,8 @@ class ExchangeTest extends TestCase
         parent::setUp();
 
         $this->gm = User::factory()->create(['name' => 'Morgane']);
-        $this->campaign = Campaign::factory()->for($this->gm, 'owner')->create();
+        // Échanges autorisés d'office : la validation par le MJ est testée dans ExchangeApprovalTest.
+        $this->campaign = Campaign::factory()->for($this->gm, 'owner')->create(['exchanges_need_approval' => false]);
 
         foreach (['Harvey' => 'Alex', 'Jack' => 'Sam'] as $characterName => $playerName) {
             $player = User::factory()->create(['name' => $playerName]);

@@ -15,8 +15,13 @@
         <p class="mt-2 text-sm"><span class="text-stone-500">{{ __('Affiché :') }}</span> <span class="font-medium">{{ $label }}</span></p>
         <div class="mt-3 grid grid-cols-2 gap-2">
             <button type="button" wire:click="clear" @disabled(! $shown) class="btn-secondary justify-center py-3 disabled:opacity-40">{{ __("Vider l'écran") }}</button>
-            <button type="button" wire:click="next" @disabled($this->sceneItems->isEmpty()) class="btn-primary justify-center py-3 disabled:opacity-40">{{ __('Suivant ▶') }}</button>
+            <button type="button" wire:click="next" @disabled($this->sceneItems->isEmpty()) class="btn-primary justify-center py-3 disabled:opacity-40">{{ $atLastItem ? __('Terminer ■') : __('Suivant ▶') }}</button>
         </div>
+        @if ($atLastItem)
+            <p class="mt-2 text-sm text-stone-500" role="status">{{ __('Dernier élément de la scène : « Terminer » vide l’écran.') }}</p>
+        @elseif ($position !== null)
+            <p class="mt-2 text-sm text-stone-500">{{ __('Élément :position sur :count de la scène.', ['position' => $position + 1, 'count' => $this->sceneItems->count()]) }}</p>
+        @endif
         <label class="mt-3 flex items-center gap-2 text-sm text-stone-600">
             <input type="checkbox" wire:click="toggleShare" @checked($campaign->table_shared)>
             {{ __('Les joueurs suivent l’écran sur leur appareil') }}

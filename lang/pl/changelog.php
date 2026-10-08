@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.14.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Po testach odbiorczych: wymiany zatwierdzane przez MG',
+        'items' => [
+            'Domyślnie MG zatwierdza wymiany między graczami: przedmiot lub wiedza zmienia właściciela dopiero po akceptacji. Pole na stronie „Postacie graczy” pozwala zezwalać na nie od razu.',
+            'Pilot: przy ostatnim elemencie sceny „Dalej” zmienia się w „Zakończ” i czyści ekran.',
+            'Czytelniejszy dziennik dla zatwierdzonych przedmiotów, jaśniejsze komunikaty w „Zgłoś problem” i jedna forma zwracania się do ciebie w każdym języku.',
+        ],
+    ],
+
     '0.13.1' => [
         'date' => '2026-10-08',
         'title' => 'Poprawki z testów odbiorczych V1',
@@ -20,7 +30,7 @@ return [
         'title' => 'Własna AI bez kopiowania i wklejania',
         'items' => [
             'W „Ustawieniach” możesz zapisać klucz API na swoje nazwisko u Claude (Anthropic), ChatGPT (OpenAI) lub Le Chat (Mistral). Asystent AI zaproponuje wtedy „Analizuj bezpośrednio”: propozycje pojawią się bez kopiowania i wklejania.',
-            'Wywołania rozlicza dostawca na Twoim koncie. Klucz jest szyfrowany, nigdy ponownie wyświetlany ani eksportowany, a tryb „tekst do wklejenia” pozostaje bezpłatny.',
+            'Wywołania rozlicza dostawca na twoim koncie. Klucz jest szyfrowany, nigdy ponownie wyświetlany ani eksportowany, a tryb „tekst do wklejenia” pozostaje bezpłatny.',
         ],
     ],
 

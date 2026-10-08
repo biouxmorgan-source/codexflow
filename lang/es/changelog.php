@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.14.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Tras la prueba de aceptación: intercambios validados por el DJ',
+        'items' => [
+            'Por defecto, el DJ valida los intercambios entre jugadores: el objeto o el conocimiento solo cambia de manos cuando se acepta. Una casilla en «Personajes de los jugadores» permite autorizarlos directamente.',
+            'Mando a distancia: en el último elemento de la escena, «Siguiente» pasa a «Terminar» y vacía la pantalla.',
+            'Diario más legible para los objetos validados, mensajes más claros en «Reportar un problema» y una sola forma de tratarte en cada idioma.',
+        ],
+    ],
+
     '0.13.1' => [
         'date' => '2026-10-08',
         'title' => 'Correcciones de la prueba de aceptación V1',
@@ -17,10 +27,10 @@ return [
 
     '0.13.0' => [
         'date' => '2026-10-08',
-        'title' => 'Su propia IA, sin copiar y pegar',
+        'title' => 'Tu propia IA, sin copiar y pegar',
         'items' => [
-            'En «Preferencias» puede guardar una clave de API a su nombre de Claude (Anthropic), ChatGPT (OpenAI) o Le Chat (Mistral). El asistente IA ofrece entonces «Analizar directamente»: las propuestas llegan sin copiar y pegar.',
-            'El proveedor factura las llamadas a su cuenta. La clave se cifra, nunca se vuelve a mostrar ni se exporta, y el modo «texto para pegar» sigue siendo gratuito.',
+            'En «Preferencias» puedes guardar una clave de API a tu nombre de Claude (Anthropic), ChatGPT (OpenAI) o Le Chat (Mistral). El asistente IA ofrece entonces «Analizar directamente»: las propuestas llegan sin copiar y pegar.',
+            'El proveedor factura las llamadas a tu cuenta. La clave se cifra, nunca se vuelve a mostrar ni se exporta, y el modo «texto para pegar» sigue siendo gratuito.',
         ],
     ],
 
@@ -28,8 +38,8 @@ return [
         'date' => '2026-10-08',
         'title' => 'Un asistente IA, sin suscripción',
         'items' => [
-            'Nueva herramienta «Asistente IA» en la campaña: CodexFlow prepara un texto con las notas de la sesión y el contexto de la campaña, para pegarlo en la IA que prefiera. Su respuesta, pegada de vuelta, se convierte en propuestas: resumen, eventos jugados, relaciones, estados, notas de campaña, revelaciones.',
-            'Cada propuesta se acepta, se modifica o se rechaza. Nada cambia en la campaña sin usted, y las relaciones o estados propuestos son propios de la campaña, sin tocar el mundo compartido.',
+            'Nueva herramienta «Asistente IA» en la campaña: CodexFlow prepara un texto con las notas de la sesión y el contexto de la campaña, para pegarlo en la IA que prefieras. Su respuesta, pegada de vuelta, se convierte en propuestas: resumen, eventos jugados, relaciones, estados, notas de campaña, revelaciones.',
+            'Cada propuesta se acepta, se modifica o se rechaza. Nada cambia en la campaña sin ti, y las relaciones o estados propuestos son propios de la campaña, sin tocar el mundo compartido.',
         ],
     ],
 

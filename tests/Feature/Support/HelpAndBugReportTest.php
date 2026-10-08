@@ -49,9 +49,12 @@ class HelpAndBugReportTest extends TestCase
             ->assertDontSee('Problèmes signalés');
 
         Livewire::actingAs($player)->withQueryParams(['page' => '/notifications'])->test(ReportBug::class)
+            ->call('send')
+            ->assertSee('Décrivez ce qui s’est passé.')
             ->set('message', 'court')
             ->call('send')
             ->assertHasErrors('message')
+            ->assertSee('Décrivez le problème en au moins 10 caractères.')
             ->set('message', 'La cloche ne se met pas à jour après une révélation.')
             ->call('send')
             ->assertHasNoErrors()

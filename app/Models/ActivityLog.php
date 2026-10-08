@@ -258,6 +258,11 @@ class ActivityLog extends Model
      */
     public function lines(array $definitions = []): array
     {
+        // « Le MJ a validé objet Dague à Elara » se suffit : le détail technique n'apprend rien.
+        if ($this->isPlayerAddition() && $this->event === 'updated') {
+            return [];
+        }
+
         $lines = [];
         $order = array_flip(array_keys(self::LABELS));
         $diff = $this->diff ?? [];

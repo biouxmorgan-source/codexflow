@@ -160,6 +160,7 @@ final class CampaignImport
         $campaign->table_theme = array_key_exists($campaignData['table_theme'] ?? null, TableTheme::THEMES)
             ? $campaignData['table_theme']
             : TableTheme::DEFAULT;
+        $campaign->exchanges_need_approval = (bool) ($campaignData['exchanges_need_approval'] ?? true);
         $campaign->save();
         $campaign->members()->attach($this->user, ['role' => CampaignRole::GameMaster->value]);
 
