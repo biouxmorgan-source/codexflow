@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.28.0' => [
+        'date' => '2026-10-08',
+        'title' => 'E-mails in de kleuren van LoreMundi',
+        'items' => [
+            'E-mails (wachtwoord vergeten, adreswijziging) dragen het logo en de kleuren van LoreMundi.',
+            'Elke e-mail gaat uit in de taal van de ontvanger, ook als de beheerder hem verstuurt.',
+        ],
+    ],
+
     '0.27.0' => [
         'date' => '2026-10-08',
         'title' => 'Een openbare etalage',

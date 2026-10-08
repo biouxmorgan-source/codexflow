@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.28.0' => [
+        'date' => '2026-10-08',
+        'title' => 'E-Mails in den Farben von LoreMundi',
+        'items' => [
+            'E-Mails (Passwort vergessen, Adressänderung) tragen das Logo und die Farben von LoreMundi.',
+            'Jede E-Mail geht in der Sprache des Empfängers hinaus, auch wenn der Administrator sie sendet.',
+        ],
+    ],
+
     '0.27.0' => [
         'date' => '2026-10-08',
         'title' => 'Ein öffentliches Schaufenster',
