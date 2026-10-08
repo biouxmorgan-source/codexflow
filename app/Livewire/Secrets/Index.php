@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\Secret;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -37,6 +38,15 @@ class Index extends Component
     public string $title = '';
 
     public string $body = '';
+
+    public string $kind = 'truth';
+
+    /** Filtres de la liste : nature et état. */
+    #[Url(as: 'nature', except: '')]
+    public string $kindFilter = '';
+
+    #[Url(as: 'etat', except: '')]
+    public string $stateFilter = '';
 
     /** @var list<int> */
     public array $entityIds = [];
@@ -77,8 +87,12 @@ class Index extends Component
             ->with(['entities', 'scenes', 'documents', 'grants'])
             ->when($this->search !== '', fn ($q) => $q->where(fn ($q) => $q->where('title', 'ilike', $like)->orWhere('body', 'ilike', $like)
                 ->orWhereHas('entities', fn ($e) => $e->where('name', 'ilike', $like))))
+            ->when(in_array($this->kindFilter, Secret::KINDS, true), fn ($q) => $q->where('kind', $this->kindFilter))
             ->orderByRaw('lower(title)')
-            ->get();
+            ->get()
+            ->when(array_key_exists($this->stateFilter, Secret::states()), fn ($secrets) => $secrets
+                ->filter(fn (Secret $secret) => $secret->state($this->tableCharacters->modelKeys()) === $this->stateFilter)
+                ->values());
     }
 
     public function create(): void
@@ -96,6 +110,7 @@ class Index extends Component
         $this->editingId = $secret->id;
         $this->title = $secret->title;
         $this->body = (string) $secret->body;
+        $this->kind = $secret->kind;
         $this->entityIds = $secret->entities()->pluck('entities.id')->all();
         $this->sceneIds = $secret->scenes()->pluck('scenes.id')->all();
         $this->documentIds = $secret->documents()->pluck('documents.id')->all();
@@ -151,11 +166,12 @@ class Index extends Component
         $this->validate([
             'title' => ['required', 'string', 'max:255'],
             'body' => ['nullable', 'string', 'max:20000'],
+            'kind' => [ValidationRule::in(Secret::KINDS)],
         ], attributes: ['title' => __('secret'), 'body' => __('détails')]);
 
         DB::transaction(function () {
             $secret = $this->editingId ? $this->campaign->secrets()->findOrFail($this->editingId) : new Secret;
-            $secret->fill(['title' => trim($this->title), 'body' => trim($this->body) ?: null]);
+            $secret->fill(['title' => trim($this->title), 'body' => trim($this->body) ?: null, 'kind' => $this->kind]);
             $secret->campaign()->associate($this->campaign);
 
             if (! $secret->exists) {
@@ -192,7 +208,7 @@ class Index extends Component
     private function resetForm(): void
     {
         $this->resetValidation();
-        $this->reset('editing', 'editingId', 'title', 'body', 'entityIds', 'sceneIds', 'documentIds', 'pickedEntityId', 'pickedSceneId', 'pickedDocumentId');
+        $this->reset('editing', 'editingId', 'title', 'body', 'kind', 'entityIds', 'sceneIds', 'documentIds', 'pickedEntityId', 'pickedSceneId', 'pickedDocumentId');
     }
 
     public function render()

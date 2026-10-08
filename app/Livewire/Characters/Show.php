@@ -133,6 +133,21 @@ class Show extends Component
     }
 
     /**
+     * Ce que le joueur peut choisir dans un champ référence ou fichier : seulement les fiches
+     * et documents que son personnage connaît.
+     *
+     * @return array{entities: list<string>, documents: array<int, string>}
+     */
+    #[Computed]
+    public function fieldChoices(): array
+    {
+        return [
+            'entities' => $this->grants->map(fn (CharacterGrant $grant) => $grant->entity?->name)->filter()->unique()->sort()->values()->all(),
+            'documents' => $this->grants->map(fn (CharacterGrant $grant) => $grant->document)->filter()->sortBy('title')->pluck('title', 'id')->all(),
+        ];
+    }
+
+    /**
      * Autocomplétion des liens [[…]] dans les notes du joueur : seulement les fiches que
      * son personnage connaît, jamais le reste de la campagne.
      *
@@ -503,11 +518,18 @@ class Show extends Component
         $this->ensureNotViewingAs();
         abort_unless($this->canPlay, 403);
 
+        $this->resetValidation();
         $parsed = [];
         $errors = [];
 
         foreach ($this->fields->where('player_editable', true) as $definition) {
-            [$value, $error] = $definition->parse($this->values[$definition->id] ?? null);
+            [$value, $error] = $definition->parse($this->values[$definition->id] ?? null, $this->campaign);
+
+            // Un document que le personnage ne connaît pas ne peut pas être choisi (sauf s'il y était déjà).
+            if ($error === null && $value !== null && $definition->type === FieldType::File
+                && ! array_key_exists($value, $this->fieldChoices['documents']) && $value !== $this->entity->fieldValue($definition)) {
+                $error = __('ce document ne fait pas partie de la campagne');
+            }
 
             if ($error !== null) {
                 $errors['values.'.$definition->id] = __(':field : :error.', ['field' => $definition->name, 'error' => $error]);

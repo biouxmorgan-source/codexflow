@@ -1,5 +1,16 @@
-@props(['definitions', 'model' => 'fields'])
-{{-- Saisie des champs libres d'une zone, regroupés comme dans « Champs du jeu ». --}}
+@props(['definitions', 'model' => 'fields', 'entities' => [], 'documents' => []])
+{{--
+    Saisie des champs libres d'une zone, regroupés comme dans « Champs du jeu ».
+    $entities : noms proposés pour une référence à une fiche ; $documents : [id => titre] des fichiers possibles.
+--}}
+@php($listId = $model.'-entities-'.$definitions->pluck('id')->implode('-'))
+@if ($definitions->contains('type', \App\Enums\FieldType::EntityRef))
+    <datalist id="{{ $listId }}">
+        @foreach ($entities as $entityName)
+            <option value="{{ $entityName }}"></option>
+        @endforeach
+    </datalist>
+@endif
 @foreach ($definitions->groupBy(fn ($definition) => $definition->groupLabel()) as $groupName => $group)
     <fieldset class="rounded-lg border border-stone-200 p-4" wire:key="fields-{{ $groupName }}">
         <legend class="px-1 text-sm font-semibold">{{ $groupName }}</legend>
@@ -25,6 +36,23 @@
                                     <option value="{{ $option }}">{{ $option }}</option>
                                 @endforeach
                             </select>
+                            @break
+                        @case(\App\Enums\FieldType::File)
+                            <label for="{{ $id }}" class="label">{{ $definition->name }}</label>
+                            <select id="{{ $id }}" wire:model="{{ $model }}.{{ $definition->id }}" class="field">
+                                <option value="">—</option>
+                                @foreach ($documents as $documentId => $documentTitle)
+                                    <option value="{{ $documentId }}">{{ $documentTitle }}</option>
+                                @endforeach
+                            </select>
+                            @break
+                        @case(\App\Enums\FieldType::EntityRef)
+                            <label for="{{ $id }}" class="label">{{ $definition->name }}</label>
+                            <input id="{{ $id }}" type="text" wire:model="{{ $model }}.{{ $definition->id }}" class="field" list="{{ $listId }}" autocomplete="off" placeholder="{{ __('Nom de la fiche') }}">
+                            @break
+                        @case(\App\Enums\FieldType::Link)
+                            <label for="{{ $id }}" class="label">{{ $definition->name }}</label>
+                            <input id="{{ $id }}" type="text" wire:model="{{ $model }}.{{ $definition->id }}" class="field" inputmode="url" placeholder="https://…">
                             @break
                         @default
                             <label for="{{ $id }}" class="label">{{ $definition->name }}</label>

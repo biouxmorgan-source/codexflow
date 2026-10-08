@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.19.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Secrets et nouveaux champs',
+        'items' => [
+            'Chaque secret a une nature (rumeur, indice ou vérité) et un état déduit de qui le connaît : caché, partiel ou révélé. On peut filtrer les secrets selon l’une et l’autre.',
+            'Trois nouveaux types de champ : lien web, fichier (un document de la campagne) et référence à une autre fiche, qui reste liée même si la fiche est renommée.',
+            'Une campagne dupliquée garde les liens entre ses fiches copiées.',
+        ],
+    ],
+
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Nouveau personnage, Mes campagnes, pages jeu et monde',

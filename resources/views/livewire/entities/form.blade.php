@@ -79,7 +79,7 @@
                     <x-link-textarea id="description" model="description" />
                     @error('description') <p class="error">{{ $message }}</p> @enderror
                 </div>
-                <x-field-inputs :definitions="$this->fieldDefinitions->where('zone', \App\Enums\Zone::Public)" />
+                <x-field-inputs :definitions="$this->fieldDefinitions->where('zone', \App\Enums\Zone::Public)" :entities="$this->fieldChoices['entities']" :documents="$this->fieldChoices['documents']" />
                 @can('update', $campaign->gameSystem)
                     <p class="text-sm text-stone-500">
                         <a href="{{ route('fields.index', $campaign) }}" class="link" wire:navigate>{{ $this->fieldDefinitions->isEmpty() ? __('Ajouter des champs pour ce jeu') : __('Gérer les champs du jeu') }}</a>
@@ -96,7 +96,7 @@
             <x-link-textarea id="gmNotes" model="gmNotes" />
             @error('gmNotes') <p class="error">{{ $message }}</p> @enderror
             <div class="mt-4 space-y-4">
-                <x-field-inputs :definitions="$this->fieldDefinitions->where('zone', \App\Enums\Zone::GameMaster)" />
+                <x-field-inputs :definitions="$this->fieldDefinitions->where('zone', \App\Enums\Zone::GameMaster)" :entities="$this->fieldChoices['entities']" :documents="$this->fieldChoices['documents']" />
             </div>
         </section>
 

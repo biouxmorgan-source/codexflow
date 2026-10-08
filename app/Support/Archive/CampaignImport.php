@@ -14,6 +14,7 @@ use App\Models\ActivityLog;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
+use App\Models\Secret;
 use App\Models\Tag;
 use App\Models\TimelineEvent;
 use App\Models\User;
@@ -46,6 +47,9 @@ final class CampaignImport
 
     /** @var array<string, array<int, int>> ancien id => nouvel id, par nature */
     private array $map = ['types' => [], 'tags' => [], 'fields' => [], 'entities' => [], 'documents' => [], 'rules' => [], 'scenes' => []];
+
+    /** @var array<int, FieldType> type de chaque champ créé, par nouvel identifiant */
+    private array $fieldTypes = [];
 
     private string $now;
 
@@ -172,6 +176,7 @@ final class CampaignImport
         $this->states($this->list($data['entity_states'] ?? []), $campaign);
         $this->rules($this->list($data['rules'] ?? []), $campaign);
         $this->documents($this->list($data['documents'] ?? []), $campaign, $world?->id);
+        $this->remapFieldValues();
         $this->scenarios($this->list($data['scenarios'] ?? []), $campaign);
         $this->campaignItems($data, $campaign);
 
@@ -258,6 +263,7 @@ final class CampaignImport
                 'created_at' => $this->now,
                 'updated_at' => $this->now,
             ]);
+            $this->fieldTypes[$this->map['fields'][$id]] = $type;
         }
     }
 
@@ -547,6 +553,7 @@ final class CampaignImport
                 'user_id' => $this->user->id,
                 'title' => $title,
                 'body' => $this->links($this->string($secret['body'] ?? null, 20000)),
+                'kind' => in_array($secret['kind'] ?? null, Secret::KINDS, true) ? $secret['kind'] : 'truth',
                 'created_at' => $this->now,
                 'updated_at' => $this->now,
             ]);
@@ -648,6 +655,43 @@ final class CampaignImport
         }
 
         return $result;
+    }
+
+    /**
+     * Valeurs de champs qui désignent une fiche ou un document : recalculées une fois les fiches
+     * et les documents créés. Un document absent de l'archive laisse le champ vide.
+     */
+    private function remapFieldValues(): void
+    {
+        $fields = array_filter($this->fieldTypes, fn (FieldType $type) => in_array($type, [FieldType::LongText, FieldType::EntityRef, FieldType::File], true));
+
+        if ($fields === [] || $this->map['entities'] === []) {
+            return;
+        }
+
+        foreach (DB::table('entities')->whereIn('id', array_values($this->map['entities']))->get(['id', 'field_values']) as $entity) {
+            $values = json_decode((string) $entity->field_values, true) ?: [];
+            $changed = false;
+
+            foreach ($values as $key => $value) {
+                $type = $fields[(int) $key] ?? null;
+
+                if ($type === FieldType::File) {
+                    $document = $this->map['documents'][is_numeric($value) ? (int) $value : -1] ?? null;
+                    $values[$key] = $document;
+                    $changed = true;
+                } elseif ($type !== null && is_string($value)) {
+                    $values[$key] = $this->links($value);
+                    $changed = true;
+                }
+            }
+
+            if ($changed) {
+                DB::table('entities')->where('id', $entity->id)->update([
+                    'field_values' => json_encode(array_filter($values, fn ($value) => $value !== null), JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT),
+                ]);
+            }
+        }
     }
 
     /** Liens [[Nom|id]] vers les nouvelles fiches ; un lien vers une fiche absente garde seulement le nom. */

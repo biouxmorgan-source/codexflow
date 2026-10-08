@@ -96,6 +96,9 @@ class ExportController extends Controller
             FieldType::Date->value => 'date',
             FieldType::Select->value => 'liste',
             FieldType::Counter->value => 'compteur',
+            FieldType::Link->value => 'lien',
+            FieldType::File->value => 'fichier',
+            FieldType::EntityRef->value => 'fiche',
         ];
 
         $rows = [['Nom', 'Groupe', 'Type', 'Zone', 'Choix', 'Type de fiche', 'Modifiable par le joueur']];

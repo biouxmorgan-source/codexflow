@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.19.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Sekrety i nowe pola',
+        'items' => [
+            'Każdy sekret ma rodzaj (plotka, trop lub prawda) i stan wynikający z tego, kto go zna: ukryty, częściowy lub ujawniony. Możesz filtrować sekrety według obu.',
+            'Trzy nowe typy pól: link internetowy, plik (dokument kampanii) i odwołanie do innej karty, które działa nawet po zmianie jej nazwy.',
+            'Zduplikowana kampania zachowuje powiązania między skopiowanymi kartami.',
+        ],
+    ],
+
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Nowa postać, Moje kampanie, strony gry i świata',

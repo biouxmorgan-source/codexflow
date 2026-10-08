@@ -5,9 +5,14 @@
     <div class="flex items-start gap-2">
         <span class="mt-0.5 text-flow" aria-hidden="true">🔒</span>
         <div class="min-w-0 flex-1">
-            <p class="font-medium">{{ $secret->title }}</p>
+            @php($state = $secret->state($characters->modelKeys()))
+            <p class="font-medium">
+                {{ $secret->title }}
+                <span @class(['ml-1 rounded-full px-2 py-0.5 align-middle text-xs font-medium', 'bg-amber-100 text-amber-900' => $secret->kind === 'rumour', 'bg-codex-soft text-codex' => $secret->kind === 'clue', 'bg-stone-100 text-stone-700' => $secret->kind === 'truth'])>{{ $secret->kindLabel() }}</span>
+                <span @class(['ml-1 text-xs font-normal', 'text-stone-500' => $state === 'hidden', 'text-flow' => $state === 'partial', 'text-green-700' => $state === 'revealed'])>· {{ \App\Models\Secret::states()[$state] }}</span>
+            </p>
             @if ($secret->body && ! $compact)
-                <p class="mt-1 text-sm whitespace-pre-line text-stone-700">{{ $secret->body }}</p>
+                <div class="mt-1 text-sm text-stone-700">{{ \App\Support\EntityLinks::render($secret->body, $campaign) }}</div>
             @endif
             @unless ($compact)
                 @php($links = $secret->entities->map(fn ($e) => ['label' => $e->name, 'url' => route('entities.show', [$campaign, $e])])

@@ -4,16 +4,19 @@ namespace App\Actions\Duplication;
 
 use App\Enums\CampaignRole;
 use App\Enums\CampaignStatus;
+use App\Enums\FieldType;
 use App\Models\ActivityLog;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\EntityRelation;
+use App\Models\FieldDefinition;
 use App\Models\Rule;
 use App\Models\Secret;
 use App\Models\TimelineEvent;
 use App\Models\ToPlayItem;
 use App\Models\User;
+use App\Support\EntityLinks;
 use App\Support\TableTheme;
 use Illuminate\Support\Facades\DB;
 
@@ -71,6 +74,7 @@ class DuplicateCampaign
         $rules = $this->copyRules($source, $campaign);
 
         $this->copyLinks($source, $entities, $documents, $rules);
+        $this->relinkEntities($campaign, $entities, $documents);
         $secrets = $this->copySecrets($source, $campaign, $owner, $entities, $documents);
 
         foreach ($source->entityStates()->get() as $state) {
@@ -150,7 +154,7 @@ class DuplicateCampaign
         $map = [];
 
         foreach ($source->secrets()->with(['entities', 'documents'])->orderBy('id')->get() as $secret) {
-            $copy = new Secret($secret->only(['title', 'body']));
+            $copy = new Secret($secret->only(['title', 'body', 'kind']));
             $copy->campaign()->associate($campaign);
             $copy->owner()->associate($owner);
             $copy->save();
@@ -182,6 +186,50 @@ class DuplicateCampaign
     }
 
     /** @return array<int, int> */
+    /**
+     * Les fiches copiées citent les copies : liens [[Nom|id]] du texte et des champs, documents
+     * des champs « fichier ». Un lien vers une fiche non copiée ne garde que le nom.
+     *
+     * @param  array<int, int>  $entities
+     * @param  array<int, int>  $documents
+     */
+    private function relinkEntities(Campaign $campaign, array $entities, array $documents): void
+    {
+        $types = FieldDefinition::where('game_system_id', $campaign->game_system_id)->pluck('type', 'id');
+        $relink = fn (?string $text) => $text === null ? null : preg_replace_callback(EntityLinks::PATTERN, function (array $match) use ($entities) {
+            if (! isset($match[2]) || $match[2] === '') {
+                return $match[0];
+            }
+
+            $id = $entities[(int) $match[2]] ?? null;
+
+            return $id === null ? '[['.$match[1].']]' : '[['.$match[1].'|'.$id.']]';
+        }, $text);
+
+        foreach ($campaign->localEntities()->get() as $entity) {
+            $values = $entity->field_values ?? [];
+
+            foreach ($values as $key => $value) {
+                $values[$key] = match ($types[(int) $key] ?? null) {
+                    FieldType::File => $documents[is_numeric($value) ? (int) $value : -1] ?? null,
+                    FieldType::LongText, FieldType::EntityRef => is_string($value) ? $relink($value) : $value,
+                    default => $value,
+                };
+            }
+
+            $entity->forceFill([
+                'summary' => $relink($entity->summary),
+                'description' => $relink($entity->description),
+                'gm_notes' => $relink($entity->gm_notes),
+                'field_values' => array_filter($values, fn ($value) => $value !== null),
+            ]);
+
+            if ($entity->isDirty()) {
+                $entity->saveQuietly();
+            }
+        }
+    }
+
     private function copyDocuments(Campaign $source, Campaign $campaign, FileCopies $files): array
     {
         $map = Document::query()->availableIn($source)->whereNull('campaign_id')->pluck('id', 'id')->all();

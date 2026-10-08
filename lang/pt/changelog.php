@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.19.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Segredos e novos campos',
+        'items' => [
+            'Cada segredo tem um tipo (boato, pista ou verdade) e um estado que depende de quem o conhece: oculto, parcial ou revelado. Você pode filtrar os segredos pelos dois.',
+            'Três novos tipos de campo: link da web, arquivo (um documento da campanha) e referência a outra ficha, que continua ligada mesmo se a ficha for renomeada.',
+            'Uma campanha duplicada mantém os links entre suas fichas copiadas.',
+        ],
+    ],
+
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Novo personagem, Minhas campanhas, páginas de jogo e de mundo',

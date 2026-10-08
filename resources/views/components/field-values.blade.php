@@ -18,12 +18,8 @@
                                 <span class="ml-1 rounded-full bg-flow/10 px-1.5 py-0.5 text-[10px] font-medium text-flow" title="{{ __('Valeur du monde : :value', ['value' => $worldValue === null ? __('vide') : $definition->type->format($worldValue)]) }}">{{ __('campagne') }}</span>
                             @endif
                         </dt>
-                        <dd class="font-medium">
-                            @if ($definition->type === \App\Enums\FieldType::LongText)
-                                <span class="font-normal text-stone-700">{{ \App\Support\EntityLinks::inline($value, $campaign) }}</span>
-                            @else
-                                {{ $definition->type->format($value) }}
-                            @endif
+                        <dd class="min-w-0 font-medium">
+                            <x-field-value :definition="$definition" :value="$value" :campaign="$campaign" />
                         </dd>
                     </div>
                 @endforeach
