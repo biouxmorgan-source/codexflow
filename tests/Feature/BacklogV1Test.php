@@ -8,6 +8,7 @@ use App\Enums\CampaignStatus;
 use App\Enums\FieldType;
 use App\Enums\Zone;
 use App\Livewire\Campaigns\Index as CampaignIndex;
+use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
 use App\Livewire\Characters\Show as CharacterShow;
 use App\Livewire\Entities\Form as EntityForm;
@@ -19,6 +20,7 @@ use App\Models\Document;
 use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\PlayerCharacter;
+use App\Models\TimelineEvent;
 use App\Models\User;
 use App\Models\World;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -291,5 +293,51 @@ class BacklogV1Test extends TestCase
             ->assertHasNoErrors()
             ->assertSee(route('characters.document', [$this->campaign, $this->harvey, $map]))
             ->assertDontSee(route('entities.show', [$this->campaign, $this->manoir]));
+    }
+
+    public function test_cited_in_lists_the_timeline_the_secrets_and_the_fields_of_other_sheets(): void
+    {
+        $event = new TimelineEvent(['kind' => 'world', 'title' => 'Incendie du moulin', 'description' => "Allumé par [[Morel|{$this->morel->id}]].", 'zone' => Zone::GameMaster]);
+        $event->forceFill(['campaign_id' => $this->campaign->id, 'user_id' => $this->gm->id, 'position' => 1])->save();
+
+        $rumour = $this->campaign->secrets()->make(['title' => 'Il boit', 'body' => 'On dit que [[morel]] boit.']);
+        $rumour->forceFill(['user_id' => $this->gm->id])->save();
+        $linked = $this->campaign->secrets()->make(['title' => 'Déjà relié', 'body' => "[[Morel|{$this->morel->id}]]"]);
+        $linked->forceFill(['user_id' => $this->gm->id])->save();
+        $linked->entities()->attach($this->morel);
+
+        $patron = $this->campaign->gameSystem->fieldDefinitions()->create(['name' => 'Employeur', 'type' => FieldType::EntityRef, 'zone' => Zone::Public, 'position' => 1]);
+        $this->manoir->setFieldValues([$patron->id => "[[Morel|{$this->morel->id}]]"]);
+        $this->manoir->save();
+
+        $page = $this->actingAs($this->gm)->get(route('entities.show', [$this->campaign, $this->morel]))->assertOk();
+        $cited = str($page->getContent())->after('Cité dans')->before('Supprimer la fiche');
+
+        $this->assertStringContainsString('Manoir Morgause', $cited);
+        $this->assertStringContainsString('Incendie du moulin', $cited);
+        $this->assertStringContainsString(route('timeline.index', $this->campaign).'#evenement-'.$event->id, $cited);
+        $this->assertStringContainsString('Il boit', $cited);
+        $this->assertStringNotContainsString('Déjà relié', $cited);
+    }
+
+    public function test_a_duplicated_campaign_starts_again_from_the_original_sheets_unless_asked(): void
+    {
+        $world = World::factory()->for($this->gm, 'owner')->create();
+        $this->campaign->world()->associate($world)->save();
+        $ghost = Entity::factory()->for($this->gm, 'owner')->for($world)->create(['name' => 'Le Fantôme']);
+        $ghost->stateIn($this->campaign)->fill(['status' => 'Mort'])->save();
+
+        $duplicate = fn (bool $keep) => Livewire::actingAs($this->gm)->test(CampaignShow::class, ['campaign' => $this->campaign])
+            ->set('keepStatuses', $keep)
+            ->call('duplicate');
+
+        $duplicate(false)->assertHasNoErrors();
+        $fresh = Campaign::where('id', '!=', $this->campaign->id)->latest('id')->firstOrFail();
+        $this->assertNull($ghost->campaignStates()->where('campaign_id', $fresh->id)->value('status'));
+
+        $this->gm->forceFill(['plan' => 'premium'])->save();
+        $duplicate(true)->assertHasNoErrors();
+        $kept = Campaign::latest('id')->firstOrFail();
+        $this->assertSame('Mort', $ghost->campaignStates()->where('campaign_id', $kept->id)->value('status'));
     }
 }

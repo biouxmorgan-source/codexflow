@@ -99,7 +99,7 @@
     @else
         <ol class="relative ml-3 space-y-5 border-l-2 border-stone-200 pl-6">
             @foreach ($this->events as $event)
-                <li wire:key="event-{{ $event->id }}" class="relative">
+                <li wire:key="event-{{ $event->id }}" id="evenement-{{ $event->id }}" class="relative scroll-mt-20">
                     <span @class([
                         'absolute top-1.5 -left-[33px] size-4 rounded-full border-2 border-white shadow',
                         'bg-stone-500' => $event->kind === 'world',

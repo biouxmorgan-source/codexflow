@@ -1724,5 +1724,9 @@
     "« :value » : choisissez un document de la campagne": "«:value»: elige un documento de la campaña",
     "« :value » n'est pas un nom de fiche": "«:value» no es un nombre de ficha",
     "« :value » n'est pas une adresse web": "«:value» no es una dirección web",
-    "État": "Estado"
+    "État": "Estado",
+    "Chronologie ·": "Cronología ·",
+    "Secret ·": "Secreto ·",
+    "Garder le statut des fiches dans cette campagne (mort, prisonnier…)": "Conservar el estado de las fichas en esta campaña (muerto, prisionero…)",
+    "Sinon, la copie repart des fiches d’origine ; les notes et valeurs propres à la campagne sont gardées.": "Si no, la copia parte de las fichas originales; se conservan las notas y valores propios de la campaña."
 }

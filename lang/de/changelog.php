@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.20.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Vollständiges „Erwähnt in“, Kopie ohne Status',
+        'items' => [
+            '„Erwähnt in“ zeigt auch die Zeitleiste, die Geheimnisse und die Felder anderer Einträge, die den Eintrag nennen.',
+            'Eine kopierte Kampagne beginnt wieder mit den ursprünglichen Einträgen: Der Status „tot“ oder „gefangen“ wird nicht mehr übernommen, außer Sie setzen das Häkchen, um ihn zu behalten.',
+        ],
+    ],
+
     '0.19.0' => [
         'date' => '2026-10-08',
         'title' => 'Geheimnisse und neue Felder',

@@ -6,7 +6,9 @@ use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\Rule;
 use App\Models\Scene;
+use App\Models\Secret;
 use App\Models\SessionNote;
+use App\Models\TimelineEvent;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
@@ -155,6 +157,9 @@ class EntityLinks
                 foreach (['description', 'gm_notes'] as $column) {
                     $q->orWhere($column, 'like', $byId)->orWhereRaw("lower({$column}) like ?", [$byName]);
                 }
+
+                // Champs « référence à une fiche » et textes longs des autres fiches.
+                $q->orWhereRaw('field_values::text like ?', [$byId])->orWhereRaw('lower(field_values::text) like ?', [$byName]);
             })
             ->orderBy('name')
             ->get();
@@ -194,6 +199,38 @@ class EntityLinks
             ->with('playSession')
             ->latest('id')
             ->limit(20)
+            ->get();
+    }
+
+    /**
+     * Événements de la chronologie qui citent la fiche.
+     *
+     * @return Collection<int, TimelineEvent>
+     */
+    public static function timeline(Entity $entity, Campaign $campaign): Collection
+    {
+        [$byId, $byName] = self::needles($entity);
+
+        return TimelineEvent::query()
+            ->where('campaign_id', $campaign->getKey())
+            ->where(fn ($q) => $q->where('description', 'like', $byId)->orWhereRaw('lower(description) like ?', [$byName]))
+            ->ordered()
+            ->get();
+    }
+
+    /**
+     * Secrets de la campagne dont le texte cite la fiche (ceux qui lui sont reliés ont leur propre encadré).
+     *
+     * @return Collection<int, Secret>
+     */
+    public static function secrets(Entity $entity, Campaign $campaign): Collection
+    {
+        [$byId, $byName] = self::needles($entity);
+
+        return $campaign->secrets()
+            ->whereDoesntHave('entities', fn ($q) => $q->whereKey($entity->getKey()))
+            ->where(fn ($q) => $q->where('body', 'like', $byId)->orWhereRaw('lower(body) like ?', [$byName]))
+            ->orderBy('title')
             ->get();
     }
 

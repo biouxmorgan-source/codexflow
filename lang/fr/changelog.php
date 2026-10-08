@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.20.0' => [
+        'date' => '2026-10-08',
+        'title' => '« Cité dans » complet, duplication sans les statuts',
+        'items' => [
+            '« Cité dans » montre aussi la chronologie, les secrets et les champs des autres fiches qui mentionnent la fiche.',
+            'Une campagne dupliquée repart des fiches d’origine : le statut « mort » ou « prisonnier » n’est plus recopié, sauf si vous cochez la case pour le garder.',
+        ],
+    ],
+
     '0.19.0' => [
         'date' => '2026-10-08',
         'title' => 'Secrets et nouveaux champs',

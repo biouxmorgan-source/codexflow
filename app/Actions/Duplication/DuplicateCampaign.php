@@ -45,14 +45,18 @@ class DuplicateCampaign
         private DuplicateScenario $scenarios,
     ) {}
 
-    public function handle(Campaign $campaign, User $owner): Campaign
+    /**
+     * @param  bool  $keepStatuses  garder le statut des fiches dans la campagne (« mort », « prisonnier »…) ;
+     *                              par défaut la copie repart des fiches d'origine, notes et valeurs propres gardées
+     */
+    public function handle(Campaign $campaign, User $owner, bool $keepStatuses = false): Campaign
     {
         return FileCopies::run(fn (FileCopies $files) => ActivityLog::muted(fn () => DB::transaction(
-            fn () => $this->copy($campaign, $owner, $files)
+            fn () => $this->copy($campaign, $owner, $files, $keepStatuses)
         )));
     }
 
-    private function copy(Campaign $source, User $owner, FileCopies $files): Campaign
+    private function copy(Campaign $source, User $owner, FileCopies $files, bool $keepStatuses): Campaign
     {
         $campaign = new Campaign([
             'name' => DuplicateEntity::copyName($source->name),
@@ -81,7 +85,14 @@ class DuplicateCampaign
             $copy = $state->replicate();
             $copy->setRelations([]);
             $copy->campaign_id = $campaign->id;
-            $copy->save();
+
+            if (! $keepStatuses) {
+                $copy->status = null;
+            }
+
+            if ($copy->status !== null || $copy->gm_notes !== null || ($copy->overrides ?? []) !== []) {
+                $copy->save();
+            }
         }
 
         $scenes = [];

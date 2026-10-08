@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.20.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Pełne „Wspomniane w”, duplikowanie bez statusów',
+        'items' => [
+            '„Wspomniane w” pokazuje też oś czasu, sekrety i pola innych kart, które wspominają kartę.',
+            'Zduplikowana kampania zaczyna od oryginalnych kart: status „martwy” czy „więzień” nie jest już kopiowany, chyba że zaznaczysz pole, aby go zachować.',
+        ],
+    ],
+
     '0.19.0' => [
         'date' => '2026-10-08',
         'title' => 'Sekrety i nowe pola',
