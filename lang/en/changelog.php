@@ -4,6 +4,18 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.24.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Security and personal data',
+        'items' => [
+            'Optional two-factor authentication, in Preferences: a code from an app on your phone, with recovery codes.',
+            '“My data”, in Preferences: download what LoreMundi keeps about you, or delete your account.',
+            'Passwords of at least 10 characters with letters and numbers; changing yours logs out your other devices. The admin console asks for the password again.',
+            'New “Privacy and legal notice” page.',
+            'A player removed from the campaign, or made a spectator, no longer plays their character and no longer receives anything revealed to it. Other permission checks were strengthened on the server.',
+        ],
+    ],
+
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow becomes LoreMundi',

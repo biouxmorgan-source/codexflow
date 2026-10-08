@@ -12,14 +12,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 
 #[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token', 'ai_api_key', 'stripe_customer_id', 'stripe_subscription_id'])]
+#[Hidden(['password', 'remember_token', 'ai_api_key', 'stripe_customer_id', 'stripe_subscription_id', 'two_factor_secret', 'two_factor_recovery_codes'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, HasPushSubscriptions, Notifiable;
+    use HasFactory, HasPushSubscriptions, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * Get the attributes that should be cast.
@@ -37,6 +38,7 @@ class User extends Authenticatable
             'plan_started_at' => 'date',
             'plan_ends_at' => 'date',
             'trial_started_at' => 'datetime',
+            'two_factor_confirmed_at' => 'datetime',
         ];
     }
 

@@ -4,6 +4,18 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.24.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Bezpieczeństwo i dane osobowe',
+        'items' => [
+            'Opcjonalne uwierzytelnianie dwuskładnikowe w Preferencjach: kod z aplikacji w telefonie, z kodami odzyskiwania.',
+            '„Moje dane” w Preferencjach: pobierz to, co LoreMundi przechowuje o Tobie, albo usuń konto.',
+            'Hasła co najmniej 10-znakowe z literami i cyframi; zmiana hasła wylogowuje inne urządzenia. Konsola administracyjna ponownie prosi o hasło.',
+            'Nowa strona „Prywatność i informacje prawne”.',
+            'Gracz usunięty z kampanii lub zmieniony w widza nie gra już swoją postacią i nie otrzymuje niczego, co jest jej ujawniane. Wzmocniono też inne kontrole uprawnień na serwerze.',
+        ],
+    ],
+
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow zmienia nazwę na LoreMundi',

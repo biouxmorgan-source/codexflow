@@ -60,7 +60,7 @@ class InvitationTest extends TestCase
         $this->get(route('register', ['email' => 'alex@exemple.fr']))->assertSee(['Vous êtes invité à rejoindre « Les Enfants de la Peur »', 'value="alex@exemple.fr"'], false);
 
         $this->post(route('register'), [
-            'name' => 'Alex', 'email' => 'alex@exemple.fr', 'password' => 'motdepasse-solide', 'password_confirmation' => 'motdepasse-solide',
+            'name' => 'Alex', 'email' => 'alex@exemple.fr', 'password' => 'motdepasse-solide-42', 'password_confirmation' => 'motdepasse-solide-42',
         ])->assertRedirect($invitation->url());
 
         $this->get($invitation->url())->assertSee('Rejoindre la campagne');
@@ -78,6 +78,7 @@ class InvitationTest extends TestCase
         $this->get(route('members.index', $this->campaign))->assertForbidden();
 
         // Le lien ne sert qu'une fois.
+        $this->flushSession();
         $this->actingAs(User::factory()->create());
         $this->get($invitation->url())->assertSee('déjà été utilisé');
         $this->post(route('invitations.accept', $invitation->token))->assertStatus(410);

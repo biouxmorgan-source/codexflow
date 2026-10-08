@@ -167,6 +167,8 @@ return [
         // Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
+        // Double authentification facultative, gérée dans Préférences (mot de passe redemandé).
+        Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
     ],
 
 ];

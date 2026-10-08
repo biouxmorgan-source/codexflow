@@ -7,6 +7,7 @@ use App\Support\RecetteImport;
 use App\Support\TranslationKeys;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -61,3 +62,6 @@ Artisan::command('codexflow:recettes', function () {
     $added = RecetteImport::all();
     $this->info($added === [] ? 'Aucun nouveau cahier de recette.' : 'Cahiers ajoutés : '.implode(', ', $added));
 })->purpose('Ajoute à la console d\'administration les cahiers de recette livrés (et leurs suites au backlog)');
+
+// Tâches régulières (cron : php artisan schedule:run chaque minute).
+Schedule::command('model:prune')->daily();

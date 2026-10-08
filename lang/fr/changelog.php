@@ -4,6 +4,18 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.24.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Sécurité et données personnelles',
+        'items' => [
+            'Double authentification facultative, dans Préférences : un code donné par une application de votre téléphone, avec des codes de secours.',
+            '« Mes données », dans Préférences : téléchargez ce que LoreMundi garde sur vous, ou supprimez votre compte.',
+            'Mots de passe d’au moins 10 caractères avec lettres et chiffres ; changer le sien déconnecte ses autres appareils. La console d’administration redemande le mot de passe.',
+            'Nouvelle page « Confidentialité et mentions légales ».',
+            'Un joueur retiré de la campagne, ou devenu spectateur, ne joue plus son personnage et ne reçoit plus rien de ce qu’on lui révèle. D’autres vérifications de droits ont été renforcées côté serveur.',
+        ],
+    ],
+
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow devient LoreMundi',

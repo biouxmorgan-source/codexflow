@@ -105,4 +105,6 @@
 
     <livewire:account.ai-key />
 
+    <livewire:account.security />
+
 </div>

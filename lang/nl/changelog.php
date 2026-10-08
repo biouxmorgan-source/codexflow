@@ -4,6 +4,18 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.24.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Beveiliging en persoonsgegevens',
+        'items' => [
+            'Optionele tweestapsverificatie, bij Voorkeuren: een code uit een app op je telefoon, met herstelcodes.',
+            '‘Mijn gegevens’, bij Voorkeuren: download wat LoreMundi over je bewaart of verwijder je account.',
+            'Wachtwoorden van minstens 10 tekens met letters en cijfers; wie zijn wachtwoord wijzigt, wordt op andere apparaten afgemeld. De beheerconsole vraagt opnieuw om het wachtwoord.',
+            'Nieuwe pagina ‘Privacy en juridische informatie’.',
+            'Een speler die uit de campagne is verwijderd of toeschouwer is geworden, speelt zijn personage niet meer en ontvangt niets meer van wat eraan onthuld wordt. Andere rechtencontroles op de server zijn versterkt.',
+        ],
+    ],
+
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow wordt LoreMundi',

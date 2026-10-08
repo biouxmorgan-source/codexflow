@@ -25,8 +25,8 @@ class AuthenticationTest extends TestCase
         $response = $this->post(route('register'), [
             'name' => 'Morgane',
             'email' => 'mj@example.test',
-            'password' => 'un-mot-de-passe-solide',
-            'password_confirmation' => 'un-mot-de-passe-solide',
+            'password' => 'un-mot-de-passe-solide-42',
+            'password_confirmation' => 'un-mot-de-passe-solide-42',
         ]);
 
         $response->assertRedirect(route('campaigns.index'));
