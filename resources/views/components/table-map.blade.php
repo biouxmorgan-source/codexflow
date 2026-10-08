@@ -43,9 +43,9 @@
         </g>
     @endforeach
 
-    @if ($map->ruler)
-        @php($r = $map->ruler)
-        <g pointer-events="none">
+    @if ($r = $map->activeRuler())
+        {{-- Règle temporaire : elle disparaît d'elle-même, même sans nouvel affichage. --}}
+        <g pointer-events="none" wire:key="ruler-{{ $r['at'] }}" x-data x-init="setTimeout(() => $el.remove(), {{ $map->rulerSecondsLeft() * 1000 }})">
             <line x1="{{ $r['x1'] }}" y1="{{ $r['y1'] }}" x2="{{ $r['x2'] }}" y2="{{ $r['y2'] }}" stroke="#facc15" stroke-width="{{ max(2, $gs / 12) }}" stroke-linecap="round" stroke-dasharray="{{ $gs / 4 }} {{ $gs / 6 }}" />
             <circle cx="{{ $r['x1'] }}" cy="{{ $r['y1'] }}" r="{{ max(3, $gs / 8) }}" fill="#facc15" />
             <circle cx="{{ $r['x2'] }}" cy="{{ $r['y2'] }}" r="{{ max(3, $gs / 8) }}" fill="#facc15" />

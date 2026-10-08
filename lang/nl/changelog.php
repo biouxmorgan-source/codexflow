@@ -4,8 +4,19 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.13.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Correcties uit de V1-acceptatietest',
+        'items' => [
+            'De zoekfunctie van de SL vindt nu ook geheimen, gegeven informatie en voorwerpen, gedeelde notities van spelers en scènetags.',
+            'Een campagne dupliceren kopieert ook haar geheimen en voorbereide tijdlijn; een link naar een fiche tijdens de sessie opent in een zijpaneel, zonder de sessie te verlaten.',
+            'Vertaalde foutpagina’s, wachtwoordmail in je eigen taal, Sessiemodus en Documenten leesbaar op je telefoon, een menu voor verborgen links op kleine schermen.',
+            'Een rustend personage en een door de SL goedgekeurd voorwerp kunnen niet meer door de speler worden gewijzigd; de tijdelijke meetlat op de kaart verdwijnt vanzelf.',
+        ],
+    ],
+
     '0.13.0' => [
-        'date' => '2026-10-14',
+        'date' => '2026-10-08',
         'title' => 'Uw eigen AI, zonder kopiëren en plakken',
         'items' => [
             'In ‘Voorkeuren’ kunt u een API-sleutel op uw naam opslaan bij Claude (Anthropic), ChatGPT (OpenAI) of Le Chat (Mistral). De AI-assistent biedt dan ‘Direct analyseren’ aan: de voorstellen komen zonder kopiëren en plakken.',
@@ -14,7 +25,7 @@ return [
     ],
 
     '0.12.0' => [
-        'date' => '2026-10-14',
+        'date' => '2026-10-08',
         'title' => 'Een AI-assistent, zonder abonnement',
         'items' => [
             'Nieuw hulpmiddel ‘AI-assistent’ in de campagne: CodexFlow maakt een tekst met de sessienotities en de context van de campagne, om te plakken in de AI van uw keuze. Het antwoord, hier teruggeplakt, wordt een reeks voorstellen: samenvatting, gespeelde gebeurtenissen, relaties, statussen, campagnenotities, onthullingen.',
@@ -23,7 +34,7 @@ return [
     ],
 
     '0.11.1' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'De demo in jouw taal',
         'items' => [
             'De demo-campagne bestaat in alle acht talen van de interface. Ze wordt in jouw taal geladen, of in de taal die je naast de knop kiest.',
@@ -31,7 +42,7 @@ return [
     ],
 
     '0.11.0' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'Een demo-campagne',
         'items' => [
             'Een demo-campagne die je met één klik laadt vanuit ‘Mijn campagnes’: een verzonnen spel, ‘Brume & Serment’, en een volledige intrige over drie sessies, met fiches, portretten, relaties, een kaart, geheimen, regels, een tijdlijn en voorgemaakte personages.',
@@ -41,7 +52,7 @@ return [
     ],
 
     '0.10.0' => [
-        'date' => '2026-10-12',
+        'date' => '2026-10-07',
         'title' => 'Een overzichtelijkere campagnepagina',
         'items' => [
             'De campagnepagina opgeruimd: de Sessiemodus als banner, vier voorbereidingszones en de overige hulpmiddelen als kleine pictogramknoppen.',
@@ -50,7 +61,7 @@ return [
     ],
 
     '0.9.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'Je campagne meenemen',
         'items' => [
             'Een hele campagne exporteren als .zip-archief: spel, wereld, kaarten, scenario’s, documenten, plattegronden, geheimen, tijdlijn en bestanden.',
@@ -60,7 +71,7 @@ return [
     ],
 
     '0.8.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'De graaf en de tijdlijn',
         'items' => [
             'Relatiegraaf: alle verbonden kaarten, of het netwerk rond één kaart, met een diepte en een filter op type.',
@@ -71,7 +82,7 @@ return [
     ],
 
     '0.7.0' => [
-        'date' => '2026-10-10',
+        'date' => '2026-10-07',
         'title' => 'Rond de tafel',
         'items' => [
             'Kaarten: een afbeelding op het tafelscherm die je zoomt en verschuift, met een optioneel vierkant raster en een schaal.',
@@ -83,7 +94,7 @@ return [
     ],
 
     '0.6.0' => [
-        'date' => '2026-10-09',
+        'date' => '2026-10-07',
         'title' => 'Het geheugen van de campagne',
         'items' => [
             'Geheimen: een losse informatie, gekoppeld aan fiches, scènes of documenten, met één klik onthuld aan een personage of aan de hele tafel.',
@@ -95,7 +106,7 @@ return [
     ],
 
     '0.5.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Beter ordenen, samen',
         'items' => [
             'Een pagina ‘Tags’ om je tags te hernoemen, een kleur te geven, samen te voegen en te verwijderen; ook scènes hebben tags.',
@@ -107,7 +118,7 @@ return [
     ],
 
     '0.4.1' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Hulp en probleemmeldingen',
         'items' => [
             'Een pagina ‘Hulp’ beantwoordt de meest gestelde vragen, voor de SL en voor de spelers.',
@@ -116,7 +127,7 @@ return [
     ],
 
     '0.4.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Alle talen',
         'items' => [
             'De interface spreekt Frans, Engels, Duits, Spaans, Italiaans, Portugees, Nederlands en Pools.',
@@ -128,7 +139,7 @@ return [
     ],
 
     '0.3.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'De levende band',
         'items' => [
             'Berichten tussen de SL en de spelers, en een ‘Chat’-paneel altijd binnen handbereik (groep en privé).',

@@ -54,11 +54,16 @@ class EntityRelation extends Model
     }
 
     /**
-     * Libellé lu depuis l'autre extrémité : « emploie » si précisé, sinon le libellé d'origine.
+     * Libellé lu depuis l'autre extrémité : « emploie » si précisé ; sans inverse, « « surveille » par »
+     * pour ne pas lire la relation à l'envers (« Auberge surveille Odon »).
      */
     public function labelFrom(Entity $entity): string
     {
-        return $entity->is($this->to) ? ($this->reverse_label ?: $this->label) : $this->label;
+        if (! $entity->is($this->to) || $entity->is($this->from)) {
+            return $this->label;
+        }
+
+        return $this->reverse_label ?: __('« :label » par', ['label' => $this->label]);
     }
 
     public function otherSide(Entity $entity): Entity

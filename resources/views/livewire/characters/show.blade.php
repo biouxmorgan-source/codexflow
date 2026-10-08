@@ -227,7 +227,7 @@
                                     @if ($this->isGameMaster && $grant->isPending())
                                         <button type="button" wire:click="validateGrant({{ $grant->id }})" class="shrink-0 text-xs font-medium text-codex hover:underline">{{ __('Valider') }}</button>
                                     @endif
-                                    @if ($this->canAdd && $grant->added_by_player)
+                                    @if ($this->canAdd && $grant->added_by_player && $grant->validated_at === null)
                                         <button type="button" wire:click="removeOwn({{ $grant->id }})" wire:confirm="{{ __('Effacer « :label » de votre fiche ?', ['label' => $grant->label()]) }}" class="shrink-0 text-xs text-stone-500 hover:text-red-700">{{ __('Effacer') }}</button>
                                     @endif
                                     @if ($this->canExchange && $exchangeGrantId !== $grant->id && ! $grant->isPending())
@@ -298,7 +298,7 @@
             {{-- Notes : celles du joueur et celles qu'on a partagées avec lui. --}}
             <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-1 font-semibold">{{ __('Notes') }}</h2>
-                @if ($this->isOwner)
+                @if ($this->canWrite)
                     <form wire:submit="saveNote" class="mb-4 space-y-3">
                         <label for="noteBody" class="sr-only">{{ __('Note') }}</label>
                         <textarea id="noteBody" wire:model="noteBody" rows="3" class="field" placeholder="{{ __("Ce qui s'est passé, ce que vous soupçonnez… Citez une fiche connue avec [[Nom]].") }}"></textarea>
@@ -347,7 +347,7 @@
                                     <span @class(['rounded-full px-1.5 py-0.5 font-medium', 'bg-flow/10 text-flow' => $note->visibility === 'private', 'bg-stone-100 text-stone-600' => $note->visibility !== 'private'])>
                                         {{ $note->visibility === 'players' ? __('Partagée avec :names', ['names' => $note->sharedWith->map(fn ($c) => $c->entity->name)->implode(', ')]) : $note->visibilityLabel() }}
                                     </span>
-                                    @if ($this->isOwner && $note->user_id === auth()->id())
+                                    @if ($this->canWrite && $note->user_id === auth()->id())
                                         <span class="ml-auto flex gap-3">
                                             <button type="button" wire:click="editNote({{ $note->id }})" class="link">{{ __('Modifier') }}</button>
                                             <button type="button" wire:click="deleteNote({{ $note->id }})" wire:confirm="{{ __('Supprimer cette note ?') }}" class="text-red-700 hover:underline">{{ __('Supprimer') }}</button>
@@ -365,7 +365,7 @@
             <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-1 font-semibold">{{ __('À jouer') }}</h2>
                 <p class="mb-3 text-sm text-stone-600">{{ $this->isOwner ? __('Dites au MJ ce que vous voulez tenter, ou demandez à tester une règle : il le verra pendant la partie.') : __('Les intentions de ce personnage.') }}</p>
-                @if ($this->isOwner)
+                @if ($this->canWrite)
                     <form wire:submit="addIntention" class="mb-4 space-y-3">
                         <label for="intentionBody" class="sr-only">{{ __('Intention') }}</label>
                         <input id="intentionBody" type="text" wire:model="intentionBody" class="field" placeholder="{{ __('Fouiller le bureau de Jackson…') }}">

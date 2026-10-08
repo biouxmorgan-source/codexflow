@@ -30,7 +30,12 @@
                                 <div class="min-w-0 flex-1">
                                     <a href="{{ route('characters.show', [$campaign, $character]) }}" class="link text-lg" wire:navigate>{{ $entity->name }}</a>
                                     <p class="text-sm text-stone-600">
-                                        {{ $character->player?->name ?? __('Sans joueur') }}
+                                        @if ($character->player && ! $this->players->contains('id', $character->user_id))
+                                            {{-- Joueur retiré de la campagne : le personnage l'attend s'il revient. --}}
+                                            {{ __(':name (ne fait plus partie de la campagne)', ['name' => $character->player->name]) }}
+                                        @else
+                                            {{ $character->player?->name ?? __('Sans joueur') }}
+                                        @endif
                                         · {{ $character->is_active ? __('actif') : __('au repos') }}
                                         @if ($character->locked) · <span class="font-medium text-flow">{{ __('fiche verrouillée') }}</span> @endif
                                         @if ($character->pending_count > 0) · <a href="{{ route('characters.show', [$campaign, $character]) }}#section-possession" class="font-medium text-flow hover:underline" wire:navigate>{{ trans_choice(':count objet à valider|:count objets à valider', $character->pending_count) }}</a> @endif
@@ -45,6 +50,9 @@
                                     <label for="player-{{ $character->id }}" class="label">{{ __('Joueur') }}</label>
                                     <select id="player-{{ $character->id }}" class="field" wire:change="assign({{ $character->id }}, $event.target.value)">
                                         <option value="">{{ __('Aucun joueur') }}</option>
+                                        @if ($character->player && ! $this->players->contains('id', $character->user_id))
+                                            <option value="" selected disabled>{{ __(':name (ne fait plus partie de la campagne)', ['name' => $character->player->name]) }}</option>
+                                        @endif
                                         @foreach ($this->players as $player)
                                             <option value="{{ $player->id }}" @selected($character->user_id === $player->id)>{{ $player->name }}</option>
                                         @endforeach

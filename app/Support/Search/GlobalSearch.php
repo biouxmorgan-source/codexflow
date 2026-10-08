@@ -11,6 +11,7 @@ use App\Models\Entity;
 use App\Models\PlayerCharacter;
 use App\Models\Rule;
 use App\Models\Scene;
+use App\Models\Secret;
 use App\Models\SessionNote;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,7 +21,8 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 /**
- * Recherche globale d'une campagne : fiches, scènes, règles, documents et notes de session.
+ * Recherche globale d'une campagne : fiches, scènes, règles, documents, notes (MJ et joueurs),
+ * secrets et informations ou objets donnés aux personnages.
  *
  * Chaque mot doit apparaître quelque part dans le texte cherchable, sans tenir compte
  * des accents ni de la casse. Le texte cherchable est construit côté serveur selon les
@@ -106,7 +108,7 @@ final class GlobalSearch
             return $character === null ? [] : $this->runForPlayer($character, $kinds);
         }
 
-        $kinds ??= array_diff(array_keys(self::KINDS), ['knowledge']);
+        $kinds ??= array_keys(self::KINDS);
         $results = [];
 
         foreach ($kinds as $kind) {
@@ -116,6 +118,7 @@ final class GlobalSearch
                 'rules' => $entityTypeId ? collect() : $this->rules(),
                 'documents' => $entityTypeId ? collect() : $this->documents(),
                 'notes' => $entityTypeId ? collect() : $this->notes(),
+                'knowledge' => $entityTypeId ? collect() : $this->secrets()->concat($this->givenItems()),
                 default => collect(),
             };
 
@@ -290,10 +293,11 @@ final class GlobalSearch
     /** @return Collection<int, SearchResult> */
     private function scenes(): Collection
     {
-        $haystack = "concat_ws(' ', scenes.name, scenes.chapter, scenes.description, scenarios.name)";
+        $haystack = "concat_ws(' ', scenes.name, scenes.chapter, scenes.description, scenarios.name,
+            (select string_agg(tags.name, ' ') from scene_tag join tags on tags.id = scene_tag.tag_id where scene_tag.scene_id = scenes.id))";
 
         return $this->campaign->scenes()
-            ->with('scenario')
+            ->with(['scenario', 'tags'])
             ->tap(fn (Builder $q) => $this->matchAll($q, $haystack))
             ->tap(fn (Builder $q) => $this->rank($q, 'scenes.name'))
             ->limit(self::PER_KIND)
@@ -302,7 +306,10 @@ final class GlobalSearch
                 title: $scene->name,
                 subtitle: $scene->scenario->name.' · '.$scene->status->label(),
                 url: route('scenes.show', [$this->campaign, $scene]),
-                snippet: $this->snippet([__('Préparation') => $scene->description], $scene->name),
+                snippet: $this->snippet([
+                    __('Préparation') => $scene->description,
+                    __('Tags') => $scene->tags->pluck('name')->implode(', '),
+                ], $scene->name),
             ));
     }
 
@@ -356,6 +363,65 @@ final class GlobalSearch
 
     /** @return Collection<int, SearchResult> */
     private function notes(): Collection
+    {
+        return $this->sessionNotes()->concat($this->playerNotes());
+    }
+
+    /** Notes des joueurs que le MJ peut lire : toutes, sauf celles qu'un joueur garde pour lui seul. */
+    private function playerNotes(): Collection
+    {
+        return CharacterNote::query()
+            ->visibleTo($this->user, $this->campaign)
+            ->with('character.entity')
+            ->tap(fn (Builder $q) => $this->matchAll($q, 'character_notes.body'))
+            ->latest('id')
+            ->limit(self::PER_KIND)
+            ->get()
+            ->map(fn (CharacterNote $note) => new SearchResult(
+                title: __('Note de :name', ['name' => $note->character->entity->name]),
+                subtitle: $note->created_at->isoFormat('L LT').' · '.$note->visibilityLabel(),
+                url: route('characters.show', [$this->campaign, $note->character]),
+                snippet: $this->snippet([__('Note') => $note->body], ''),
+            ));
+    }
+
+    /** @return Collection<int, SearchResult> secrets de la campagne */
+    private function secrets(): Collection
+    {
+        return $this->campaign->secrets()
+            ->tap(fn (Builder $q) => $this->matchAll($q, "concat_ws(' ', secrets.title, secrets.body)"))
+            ->tap(fn (Builder $q) => $this->rank($q, 'secrets.title'))
+            ->limit(self::PER_KIND)
+            ->get()
+            ->map(fn (Secret $secret) => new SearchResult(
+                title: $secret->title,
+                subtitle: __('Secret'),
+                url: route('secrets.index', ['campaign' => $this->campaign, 'q' => $secret->title]),
+                snippet: $this->snippet([__('Texte') => $secret->body], $secret->title),
+            ));
+    }
+
+    /** @return Collection<int, SearchResult> informations et objets donnés aux personnages de la campagne */
+    private function givenItems(): Collection
+    {
+        return CharacterGrant::query()
+            ->whereIn('kind', ['information', 'possession'])
+            ->whereHas('character', fn (Builder $q) => $q->where('campaign_id', $this->campaign->getKey()))
+            ->with('character.entity')
+            ->tap(fn (Builder $q) => $this->matchAll($q, "concat_ws(' ', character_grants.title, character_grants.body)"))
+            ->latest('id')
+            ->limit(self::PER_KIND)
+            ->get()
+            ->map(fn (CharacterGrant $grant) => new SearchResult(
+                title: $grant->label(),
+                subtitle: CharacterGrant::kinds()[$grant->kind].' · '.$grant->character->entity->name,
+                url: route('characters.show', [$this->campaign, $grant->character]),
+                snippet: $this->snippet([__('Texte') => $grant->body], $grant->label()),
+            ));
+    }
+
+    /** @return Collection<int, SearchResult> */
+    private function sessionNotes(): Collection
     {
         return SessionNote::query()
             ->whereHas('playSession', fn (Builder $q) => $q->where('campaign_id', $this->campaign->getKey()))

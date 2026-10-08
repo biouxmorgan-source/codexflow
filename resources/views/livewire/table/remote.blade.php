@@ -50,7 +50,7 @@
                 <button type="button" wire:click="pan(0, 1)" class="btn-secondary justify-center py-2" aria-label="{{ __('Bas') }}">↓</button>
                 <span></span>
             </div>
-            @if ($map->ruler)
+            @if ($map->activeRuler())
                 <button type="button" wire:click="clearRuler" class="btn-secondary mt-2 w-full justify-center">{{ __('Effacer la règle') }} ({{ $map->rulerLabel() }})</button>
             @endif
             @if ($map->tokens->isNotEmpty())

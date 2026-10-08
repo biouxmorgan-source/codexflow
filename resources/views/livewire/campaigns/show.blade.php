@@ -155,7 +155,7 @@
             <h2 class="mb-2 font-semibold">{{ __('Supprimer la campagne') }}</h2>
             <p class="mb-3 text-sm text-stone-600">
                 @if ($localCount > 0)
-                    {{ trans_choice('Ses :count fiche propre à la campagne et leurs fichiers seront supprimés.|Ses :count fiches propres à la campagne et leurs fichiers seront supprimés.', $localCount) }}
+                    {{ trans_choice('Sa fiche propre à la campagne et ses fichiers seront supprimés.|Ses :count fiches propres à la campagne et leurs fichiers seront supprimés.', $localCount) }}
                 @else
                     {{ __('La campagne et ses notes de campagne seront supprimées.') }}
                 @endif

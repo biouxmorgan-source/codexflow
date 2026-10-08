@@ -223,6 +223,7 @@ class Show extends Component
         $this->map->forceFill(['ruler' => [
             'x1' => $clamp($x1, $this->map->width), 'y1' => $clamp($y1, $this->map->height),
             'x2' => $clamp($x2, $this->map->width), 'y2' => $clamp($y2, $this->map->height),
+            'at' => now()->timestamp,
         ]])->save();
         TableDisplay::mapChanged($this->map);
     }

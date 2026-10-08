@@ -7,7 +7,8 @@
             </a>
             @php($searchCampaign = request()->route('campaign'))
             @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('search.index') && auth()->user()->can('play', $searchCampaign))
-                <form method="GET" action="{{ route('search.index', $searchCampaign) }}" role="search" class="order-last w-full sm:order-none sm:w-auto sm:max-w-xs sm:flex-1"
+                {{-- En session, les résultats s'ouvrent dans un autre onglet : la session reste en place. --}}
+                <form method="GET" action="{{ route('search.index', $searchCampaign) }}" @if (request()->routeIs('sessions.live')) target="_blank" @endif role="search" class="order-last w-full sm:order-none sm:w-auto sm:max-w-xs sm:flex-1"
                     x-data x-on:keydown.slash.window="if (! ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && ! document.activeElement.isContentEditable) { $event.preventDefault(); $refs.q.focus() }">
                     <label for="header-search" class="sr-only">{{ __('Rechercher dans :name', ['name' => $searchCampaign->name]) }}</label>
                     <input id="header-search" x-ref="q" type="search" name="q" class="field py-1.5 text-sm" placeholder="{{ __('Rechercher…') }}  /" autocomplete="off">
@@ -28,6 +29,20 @@
                 @endif
                 @livewire(\App\Livewire\HeaderBadges::class, ['campaign' => $searchCampaign instanceof \App\Models\Campaign ? $searchCampaign : null])
                 <a href="{{ route('preferences') }}" @class(['hidden rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink sm:inline', 'bg-stone-100' => request()->routeIs('preferences')]) title="{{ __('Préférences') }}" wire:navigate>{{ auth()->user()->name }}</a>
+                {{-- Sur téléphone, les liens masqués ci-dessus restent accessibles dans ce menu. --}}
+                <details class="relative sm:hidden" x-data x-on:click.outside="$el.removeAttribute('open')">
+                    <summary class="cursor-pointer list-none rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft">{{ __('Menu') }}</summary>
+                    <div class="absolute right-0 z-40 mt-1 flex w-52 flex-col rounded-lg border border-stone-200 bg-white p-1 shadow-lg">
+                        @if (auth()->user()->gameSystems()->exists())
+                            <a href="{{ route('entity-types.index') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Types de fiche') }}</a>
+                        @endif
+                        @if (auth()->user()->tags()->exists())
+                            <a href="{{ route('tags.index') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Tags') }}</a>
+                        @endif
+                        <a href="{{ route('preferences') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Préférences') }}</a>
+                        <a href="{{ route('help') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Aide') }}</a>
+                    </div>
+                </details>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="rounded-md px-2 py-1 text-stone-600 hover:bg-stone-100 hover:text-ink">{{ __('Se déconnecter') }}</button>
@@ -52,7 +67,7 @@
     </footer>
     @livewire(\App\Livewire\WhatsNew::class)
     @livewire(\App\Livewire\ReceivedPopup::class)
-    @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('messages.*') && auth()->user()->can('play', $searchCampaign))
+    @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('messages.*', 'table.remote') && auth()->user()->can('play', $searchCampaign))
         @persist('chat-'.$searchCampaign->id)
             @livewire(\App\Livewire\ChatDock::class, ['campaign' => $searchCampaign], key('chat-'.$searchCampaign->id))
         @endpersist

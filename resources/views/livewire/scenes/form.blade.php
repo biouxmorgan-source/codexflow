@@ -34,7 +34,7 @@
                     <input id="chapter" type="text" wire:model="chapter" list="chapter-suggestions" class="field" placeholder="{{ __('Acte I') }}">
                     <datalist id="chapter-suggestions">
                         @foreach ($this->chapters() as $existing)
-                            <option value="{{ $existing }}">
+                            <option value="{{ $existing }}"></option>
                         @endforeach
                     </datalist>
                     @error('chapter') <p class="error">{{ $message }}</p> @enderror

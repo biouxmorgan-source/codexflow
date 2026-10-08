@@ -29,7 +29,7 @@
                 <input id="ai-model" type="text" wire:model="model" list="ai-models" class="field" maxlength="100">
                 <datalist id="ai-models">
                     @foreach ($providers[$provider]['models'] as $model)
-                        <option value="{{ $model }}">
+                        <option value="{{ $model }}"></option>
                     @endforeach
                 </datalist>
                 @error('model') <p class="error">{{ $message }}</p> @enderror

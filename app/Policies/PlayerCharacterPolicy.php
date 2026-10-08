@@ -27,7 +27,8 @@ class PlayerCharacterPolicy
             return true;
         }
 
-        return $this->view($user, $character) && ! $character->locked;
+        // Personnage au repos : le joueur relit sa fiche, sans la modifier.
+        return $this->view($user, $character) && ! $character->locked && $character->is_active;
     }
 
     public function manage(User $user, PlayerCharacter $character): bool

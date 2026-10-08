@@ -182,11 +182,18 @@ class Show extends Component
         unset($this->grants, $this->journal);
     }
 
-    /** Le joueur note lui-même sur sa fiche : fiche non verrouillée. */
+    /** Le joueur note lui-même sur sa fiche : fiche non verrouillée, personnage actif. */
     #[Computed]
     public function canAdd(): bool
     {
-        return $this->isOwner && ! $this->character->locked;
+        return $this->canWrite && ! $this->character->locked;
+    }
+
+    /** Notes et intentions : un personnage au repos garde son historique, en lecture seule. */
+    #[Computed]
+    public function canWrite(): bool
+    {
+        return $this->isOwner && $this->character->is_active;
     }
 
     public function openAdd(string $kind): void
@@ -240,7 +247,7 @@ class Show extends Component
     #[Computed]
     public function canExchange(): bool
     {
-        return $this->isOwner && ! $this->character->locked && $this->companions->isNotEmpty();
+        return $this->canAdd && $this->companions->isNotEmpty();
     }
 
     /** Seul le joueur du personnage écrit ses notes et ses intentions. */
@@ -309,7 +316,7 @@ class Show extends Component
     public function saveNote(): void
     {
         $this->ensureNotViewingAs();
-        abort_unless($this->isOwner, 403);
+        abort_unless($this->canWrite, 403);
 
         $this->validate([
             'noteBody' => ['required', 'string', 'max:20000'],
@@ -339,7 +346,7 @@ class Show extends Component
     public function editNote(int $noteId): void
     {
         $this->ensureNotViewingAs();
-        abort_unless($this->isOwner, 403);
+        abort_unless($this->canWrite, 403);
 
         $note = $this->character->notes()->where('user_id', auth()->id())->findOrFail($noteId);
         $this->editingNoteId = $note->id;
@@ -358,7 +365,7 @@ class Show extends Component
     public function deleteNote(int $noteId): void
     {
         $this->ensureNotViewingAs();
-        abort_unless($this->isOwner, 403);
+        abort_unless($this->canWrite, 403);
 
         $this->character->notes()->where('user_id', auth()->id())->findOrFail($noteId)->delete();
         unset($this->notes);
@@ -368,7 +375,7 @@ class Show extends Component
     public function addIntention(): void
     {
         $this->ensureNotViewingAs();
-        abort_unless($this->isOwner, 403);
+        abort_unless($this->canWrite, 403);
 
         $this->validate([
             'intentionBody' => [ValidationRule::requiredIf($this->intentionRuleId === ''), 'nullable', 'string', 'max:450'],

@@ -32,7 +32,7 @@
 
                 <div class="mt-6 flex flex-wrap items-center gap-3">
                     <button type="button" x-ref="ok" wire:click="dismiss(@js($notification->id))" class="btn-primary">{{ $count > 1 ? __('Suivant') : __("C'est noté") }}</button>
-                    <button type="button" wire:click="open(@js($notification->id))" class="btn-secondary">
+                    <button type="button" wire:click="open(@js($notification->id), window.location.pathname)" class="btn-secondary">
                         {{ in_array($grant->kind, ['entity', 'document'], true) ? __('Ouvrir') : __('Voir sur ma fiche') }}
                     </button>
                 </div>

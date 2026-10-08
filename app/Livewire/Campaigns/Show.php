@@ -3,6 +3,7 @@
 namespace App\Livewire\Campaigns;
 
 use App\Actions\Duplication\DuplicateCampaign;
+use App\Enums\CampaignRole;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
@@ -28,7 +29,21 @@ class Show extends Component
 
     public function mount(Campaign $campaign): void
     {
-        $this->authorize('update', $campaign);
+        $user = auth()->user();
+
+        // Un joueur ou un spectateur qui arrive ici (lien partagé, favori) va sur sa propre page.
+        if ($user->cannot('update', $campaign)) {
+            $role = $campaign->roleOf($user);
+            $character = $role === CampaignRole::Player
+                ? $campaign->playerCharacters()->active()->where('user_id', $user->id)->first()
+                : null;
+
+            match (true) {
+                $role === CampaignRole::Spectator => $this->redirectRoute('table.screen', $campaign),
+                $character !== null => $this->redirectRoute('characters.show', [$campaign, $character], navigate: true),
+                default => $this->authorize('update', $campaign),
+            };
+        }
     }
 
     /** @return Collection<int, Entity> */

@@ -58,7 +58,8 @@ class PlayerAdditions
     {
         $character = $grant->character()->with('entity')->firstOrFail();
         Gate::authorize('play', $character);
-        abort_unless($grant->added_by_player, 403);
+        // Un objet validé par le MJ fait partie de la fiche : seul le MJ peut le retirer.
+        abort_unless($grant->added_by_player && $grant->validated_at === null, 403);
 
         $grant->delete();
         self::record($grant, $character, 'deleted');

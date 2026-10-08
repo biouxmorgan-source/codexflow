@@ -4,8 +4,19 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.13.1' => [
+        'date' => '2026-10-08',
+        'title' => 'V1 acceptance fixes',
+        'items' => [
+            'The GM search also finds secrets, given information and items, players’ shared notes and scene tags.',
+            'Duplicating a campaign copies its secrets and prepared timeline; a link to an entry opened during a session shows in a side panel, without leaving the session.',
+            'Translated error pages, password email in your language, Session mode and Documents readable on phones, a menu for hidden links on small screens.',
+            'A resting character and an item validated by the GM can no longer be changed by the player; the map’s temporary ruler clears by itself.',
+        ],
+    ],
+
     '0.13.0' => [
-        'date' => '2026-10-14',
+        'date' => '2026-10-08',
         'title' => 'Your own AI, no copy-paste',
         'items' => [
             'In “Preferences”, you can save an API key in your name with Claude (Anthropic), ChatGPT (OpenAI) or Le Chat (Mistral). The AI assistant then offers “Analyse directly”: suggestions arrive with no copy-paste.',
@@ -14,7 +25,7 @@ return [
     ],
 
     '0.12.0' => [
-        'date' => '2026-10-14',
+        'date' => '2026-10-08',
         'title' => 'An AI assistant, no subscription',
         'items' => [
             'New “AI assistant” tool in the campaign: CodexFlow prepares a text with the session notes and the campaign context, to paste into the AI of your choice. Its answer, pasted back, becomes suggestions: summary, played events, relations, statuses, campaign notes, reveals.',
@@ -23,7 +34,7 @@ return [
     ],
 
     '0.11.1' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'The demonstration in your language',
         'items' => [
             'The demonstration campaign now exists in all eight interface languages. It loads in yours, or in the one chosen next to the button.',
@@ -31,7 +42,7 @@ return [
     ],
 
     '0.11.0' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'A demonstration campaign',
         'items' => [
             'A demonstration campaign to load in one click from “My campaigns”: an invented game, “Brume & Serment”, and a complete three-session plot, with entries, portraits, relations, a map, secrets, rules, a timeline and pre-generated characters.',
@@ -41,7 +52,7 @@ return [
     ],
 
     '0.10.0' => [
-        'date' => '2026-10-12',
+        'date' => '2026-10-07',
         'title' => 'A clearer campaign page',
         'items' => [
             'The campaign page tidied up: Session mode as a banner, four preparation areas, and the other tools as small icon buttons.',
@@ -50,7 +61,7 @@ return [
     ],
 
     '0.9.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'Taking your campaign with you',
         'items' => [
             'Export a whole campaign as a .zip archive: game, world, entries, scenarios, documents, maps, secrets, timeline and files.',
@@ -60,7 +71,7 @@ return [
     ],
 
     '0.8.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'The graph and the timeline',
         'items' => [
             'Relation graph: all linked entries, or the network around one entry, with a depth and a filter by type.',
@@ -71,7 +82,7 @@ return [
     ],
 
     '0.7.0' => [
-        'date' => '2026-10-10',
+        'date' => '2026-10-07',
         'title' => 'Around the table',
         'items' => [
             'Maps: an image on the table screen that you zoom and move, with an optional square grid and a scale.',
@@ -83,7 +94,7 @@ return [
     ],
 
     '0.6.0' => [
-        'date' => '2026-10-09',
+        'date' => '2026-10-07',
         'title' => 'The campaign’s memory',
         'items' => [
             'Secrets: a standalone piece of information, linked to entries, scenes or documents, revealed in one click to a character or to the whole table.',
@@ -95,7 +106,7 @@ return [
     ],
 
     '0.5.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Tidier, together',
         'items' => [
             'A “Tags” page to rename, colour, merge and delete your tags; scenes have tags too.',
@@ -107,7 +118,7 @@ return [
     ],
 
     '0.4.1' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Help and problem reports',
         'items' => [
             'A “Help” page answers the most common questions, for GMs and players alike.',
@@ -116,7 +127,7 @@ return [
     ],
 
     '0.4.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Every language',
         'items' => [
             'The interface speaks French, English, German, Spanish, Italian, Portuguese, Dutch and Polish.',
@@ -128,7 +139,7 @@ return [
     ],
 
     '0.3.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'The living link',
         'items' => [
             'Messaging between the GM and their players, and a “Chat” panel always within reach (group and private).',

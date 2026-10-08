@@ -93,15 +93,31 @@ class TableMap extends Model
         $cells = hypot($x2 - $x1, $y2 - $y1) / max(1, $this->grid_size);
 
         if ($this->scale_value) {
-            return self::number($cells * $this->scale_value).' '.$this->scale_unit;
+            return trim(self::number($cells * $this->scale_value).' '.($this->scale_unit ?: trans_choice('case|cases', $cells * $this->scale_value < 2 ? 1 : 2)));
         }
 
         return trans_choice(':count case|:count cases', $cells < 2 ? 1 : 2, ['count' => self::number($cells)]);
     }
 
+    /** La règle temporaire s'efface d'elle-même après ce délai, sur tous les écrans. */
+    public const RULER_SECONDS = 15;
+
+    /** @return array{x1: float, y1: float, x2: float, y2: float, at?: int}|null la règle encore visible */
+    public function activeRuler(): ?array
+    {
+        return $this->rulerSecondsLeft() > 0 ? $this->ruler : null;
+    }
+
+    public function rulerSecondsLeft(): int
+    {
+        $at = $this->ruler['at'] ?? null;
+
+        return $at === null ? 0 : max(0, $at + self::RULER_SECONDS - now()->timestamp);
+    }
+
     public function rulerLabel(): ?string
     {
-        $r = $this->ruler;
+        $r = $this->activeRuler();
 
         return $r === null ? null : $this->distanceLabel($r['x1'], $r['y1'], $r['x2'], $r['y2']);
     }

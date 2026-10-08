@@ -4,8 +4,19 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.13.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Correzioni del collaudo V1',
+        'items' => [
+            'La ricerca del master trova anche segreti, informazioni e oggetti dati, note condivise dei giocatori e tag delle scene.',
+            'Duplicare una campagna copia i suoi segreti e la cronologia preparata; un link a una scheda aperto durante la sessione si mostra in un pannello laterale, senza lasciare la sessione.',
+            'Pagine di errore tradotte, e-mail della password nella tua lingua, modalità Sessione e Documenti leggibili sul telefono, un menu per i link nascosti sugli schermi piccoli.',
+            'Un personaggio a riposo e un oggetto convalidato dal master non sono più modificabili dal giocatore; il righello temporaneo della mappa si cancella da solo.',
+        ],
+    ],
+
     '0.13.0' => [
-        'date' => '2026-10-14',
+        'date' => '2026-10-08',
         'title' => 'La sua IA, senza copia e incolla',
         'items' => [
             'In «Preferenze» può salvare una chiave API a suo nome di Claude (Anthropic), ChatGPT (OpenAI) o Le Chat (Mistral). L’assistente IA propone allora «Analizza direttamente»: le proposte arrivano senza copia e incolla.',
@@ -14,7 +25,7 @@ return [
     ],
 
     '0.12.0' => [
-        'date' => '2026-10-14',
+        'date' => '2026-10-08',
         'title' => 'Un assistente IA, senza abbonamento',
         'items' => [
             'Nuovo strumento «Assistente IA» nella campagna: CodexFlow prepara un testo con le note della sessione e il contesto della campagna, da incollare nell’IA che preferisce. La sua risposta, incollata qui, diventa un insieme di proposte: riassunto, eventi giocati, relazioni, stati, note di campagna, rivelazioni.',
@@ -23,7 +34,7 @@ return [
     ],
 
     '0.11.1' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'La dimostrazione nella tua lingua',
         'items' => [
             'La campagna dimostrativa esiste nelle otto lingue dell’interfaccia. Si carica nella tua, o in quella scelta accanto al pulsante.',
@@ -31,7 +42,7 @@ return [
     ],
 
     '0.11.0' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'Una campagna dimostrativa',
         'items' => [
             'Campagna dimostrativa da caricare con un clic da «Le mie campagne»: un gioco inventato, «Brume & Serment», e una trama completa in tre sessioni, con schede, ritratti, relazioni, mappa, segreti, regole, cronologia e personaggi pregenerati.',
@@ -41,7 +52,7 @@ return [
     ],
 
     '0.10.0' => [
-        'date' => '2026-10-12',
+        'date' => '2026-10-07',
         'title' => 'Una pagina di campagna più chiara',
         'items' => [
             'La pagina della campagna riordinata: la modalità Sessione in evidenza, quattro aree di preparazione e gli altri strumenti come piccoli pulsanti con icona.',
@@ -50,7 +61,7 @@ return [
     ],
 
     '0.9.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'Portarsi via la campagna',
         'items' => [
             'Esportare un’intera campagna in un archivio .zip: gioco, mondo, schede, scenari, documenti, mappe, segreti, cronologia e file.',
@@ -60,7 +71,7 @@ return [
     ],
 
     '0.8.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'Il grafo e la cronologia',
         'items' => [
             'Grafo delle relazioni: tutte le schede collegate, o la rete attorno a una scheda, con profondità e filtro per tipo.',
@@ -71,7 +82,7 @@ return [
     ],
 
     '0.7.0' => [
-        'date' => '2026-10-10',
+        'date' => '2026-10-07',
         'title' => 'Intorno al tavolo',
         'items' => [
             'Mappe: un’immagine sullo schermo da tavolo, che ingrandisci e sposti, con una griglia quadrata facoltativa e una scala.',
@@ -83,7 +94,7 @@ return [
     ],
 
     '0.6.0' => [
-        'date' => '2026-10-09',
+        'date' => '2026-10-07',
         'title' => 'La memoria della campagna',
         'items' => [
             'Segreti: un’informazione a sé, collegata a schede, scene o documenti, rivelata con un clic a un personaggio o a tutto il tavolo.',
@@ -95,7 +106,7 @@ return [
     ],
 
     '0.5.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Mettere in ordine, insieme',
         'items' => [
             'Una pagina «Tag» per rinominare, colorare, unire ed eliminare i tuoi tag; anche le scene hanno i tag.',
@@ -107,7 +118,7 @@ return [
     ],
 
     '0.4.1' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Aiuto e segnalazioni',
         'items' => [
             'Una pagina «Aiuto» risponde alle domande più frequenti, per il Master come per i giocatori.',
@@ -116,7 +127,7 @@ return [
     ],
 
     '0.4.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Tutte le lingue',
         'items' => [
             'L\'interfaccia parla francese, inglese, tedesco, spagnolo, italiano, portoghese, olandese e polacco.',
@@ -128,7 +139,7 @@ return [
     ],
 
     '0.3.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Il legame vivo',
         'items' => [
             'Messaggistica tra il Master e i suoi giocatori, e pannello «Discussione» sempre a portata di mano (gruppo e privato).',

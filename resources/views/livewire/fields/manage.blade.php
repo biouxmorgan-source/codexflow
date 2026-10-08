@@ -73,7 +73,7 @@
                     <input id="group" type="text" wire:model="group" list="group-suggestions" class="field" placeholder="{{ __('Caractéristiques, Compétences…') }}">
                     <datalist id="group-suggestions">
                         @foreach ($this->groups as $existing)
-                            <option value="{{ $existing }}">
+                            <option value="{{ $existing }}"></option>
                         @endforeach
                     </datalist>
                     @error('group') <p class="error">{{ $message }}</p> @enderror

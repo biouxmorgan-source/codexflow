@@ -63,6 +63,18 @@ trait RecordsActivity
         return [];
     }
 
+    /** Tableau aux clés triées, à tous les niveaux. */
+    private static function sorted(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            ksort($value);
+
+            return array_map(self::sorted(...), $value);
+        }
+
+        return $value;
+    }
+
     /**
      * Différences entre deux jeux d'attributs bruts (tels qu'en base).
      *
@@ -82,7 +94,8 @@ trait RecordsActivity
                 $after = self::decodeJson($new[$key] ?? null);
 
                 foreach (array_unique([...array_keys($before), ...array_keys($after)]) as $field) {
-                    if (($before[$field] ?? null) !== ($after[$field] ?? null) || array_key_exists($field, $before) !== array_key_exists($field, $after)) {
+                    // Un compteur relu de la base a ses clés triées ({max, value}) : on compare sans tenir compte de l'ordre.
+                    if (self::sorted($before[$field] ?? null) !== self::sorted($after[$field] ?? null) || array_key_exists($field, $before) !== array_key_exists($field, $after)) {
                         $changes[$key.'.'.$field] = ['old' => $before[$field] ?? null, 'new' => $after[$field] ?? null];
                     }
                 }

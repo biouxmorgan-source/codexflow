@@ -4,14 +4,24 @@
             this.focus = ! this.focus;
             try { localStorage.setItem('codexflow.focus', this.focus ? '1' : '0') } catch (e) {}
         },
+        previewTarget(event) {
+            const link = event.target.closest('a[href]');
+            if (! link || ! this.$root.contains(link) || link.closest('[data-leave]') || link.target || event.ctrlKey || event.metaKey || event.shiftKey || event.button !== 0) return null;
+            const match = new URL(link.href, location.href).pathname.match(/^\/campagnes\/{{ $campaign->id }}\/entites\/(\d+)$/);
+            return match ? Number(match[1]) : null;
+        },
     }"
     x-effect="document.body.classList.toggle('focus-mode', focus)"
+    {{-- Un lien vers une fiche de la campagne s'ouvre dans le panneau d'aperçu : on ne quitte pas la session.
+         wire:navigate part au relâchement du bouton : on l'arrête dès l'appui. --}}
+    x-on:mousedown.window.capture="previewTarget($event) && $event.stopPropagation()"
+    x-on:click.window.capture="const id = previewTarget($event); if (id) { $event.preventDefault(); $event.stopPropagation(); $wire.openPreview(id) }"
     x-on:livewire:navigating.window="document.body.classList.remove('focus-mode')"
     x-on:keydown.n.window="if (! ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && ! document.activeElement.isContentEditable && document.getElementById('noteBody')) { $event.preventDefault(); document.getElementById('noteBody').focus() }">
     @php($session = $this->session)
 
     <div class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="min-w-0 flex-1">
+        <div class="min-w-0 flex-[1_1_16rem]">
             <nav class="text-sm text-stone-500 [.focus-mode_&]:hidden">
                 <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
                 › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
@@ -28,7 +38,7 @@
     </div>
 
     @if (! $session)
-        <div class="grid gap-6 lg:grid-cols-3">
+        <div class="grid gap-6 *:min-w-0 lg:grid-cols-3">
             <section class="rounded-xl border border-stone-200 bg-white p-8 text-center shadow-sm lg:col-span-2">
                 <p class="text-lg font-medium">{{ __('Prêt à jouer ?') }}</p>
                 <p class="mx-auto mt-1 max-w-md text-stone-600">{{ __("La session reprend à la scène en cours ou à la prochaine scène à jouer. Ses fiches, vos éléments « À jouer » et vos fiches épinglées s'affichent tout seuls.") }}</p>
@@ -48,7 +58,7 @@
         </div>
     @else
         @php($scene = $session->currentScene)
-        <div class="grid gap-4 lg:grid-cols-3">
+        <div class="grid gap-4 *:min-w-0 lg:grid-cols-3">
             {{-- Maintenant --}}
             <div class="space-y-4 lg:col-span-2">
                 <section class="rounded-xl border border-flow/30 bg-white p-4 shadow-sm">
@@ -92,7 +102,7 @@
                 @if ($this->cards->isNotEmpty())
                     <section>
                         <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Fiches utiles') }}</h2>
-                        <div class="grid gap-2 md:grid-cols-2">
+                        <div class="grid gap-2 *:min-w-0 md:grid-cols-2">
                             @foreach ($this->cards as $card)
                                 <x-context-card :entity="$card['entity']" :campaign="$campaign" :field-definitions="$fieldDefinitions" :note="$card['note']" :source="$card['source']" />
                             @endforeach
@@ -107,7 +117,7 @@
                 @endif
 
                 @if ($this->rules->isNotEmpty() || $this->documents->isNotEmpty())
-                    <div class="grid gap-4 md:grid-cols-2">
+                    <div class="grid gap-4 *:min-w-0 md:grid-cols-2">
                         @if ($this->rules->isNotEmpty())
                             <section>
                                 <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Règles') }}</h2>
@@ -317,6 +327,19 @@
                     </div>
                 </section>
             </aside>
+        </div>
+    @endif
+    @if ($preview = $this->preview)
+        <div class="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-stone-200 bg-parchment shadow-xl" role="dialog" aria-modal="false" aria-labelledby="preview-title"
+            wire:key="preview-{{ $preview->id }}" x-on:keydown.escape.window="$wire.set('previewId', null)">
+            <div class="flex items-center gap-2 border-b border-stone-200 bg-white px-4 py-3">
+                <h2 id="preview-title" class="mr-auto truncate font-semibold">{{ $preview->name }}</h2>
+                <a href="{{ route('entities.show', [$campaign, $preview]) }}" data-leave class="btn-secondary py-1 text-sm" wire:navigate>{{ __('Ouvrir la fiche') }}</a>
+                <button type="button" wire:click="$set('previewId', null)" class="rounded px-2 py-1 text-stone-500 hover:bg-stone-100 hover:text-ink" aria-label="{{ __('Fermer') }}">✕</button>
+            </div>
+            <div class="overflow-y-auto p-4">
+                <x-context-card :entity="$preview" :campaign="$campaign" :field-definitions="$fieldDefinitions" source="preview" open />
+            </div>
         </div>
     @endif
 </div>

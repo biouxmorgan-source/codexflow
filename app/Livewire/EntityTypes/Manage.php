@@ -22,7 +22,11 @@ class Manage extends Component
     {
         return EntityType::query()
             ->availableTo(auth()->user())
-            ->withCount(['entities', 'fieldDefinitions'])
+            // Les types communs servent à tout le monde : on ne compte que ce qui appartient à la personne.
+            ->withCount([
+                'entities' => fn ($q) => $q->where('user_id', auth()->id()),
+                'fieldDefinitions' => fn ($q) => $q->whereHas('gameSystem', fn ($q) => $q->where('user_id', auth()->id())),
+            ])
             ->orderByRaw('user_id is not null')
             ->orderBy('name')
             ->get();

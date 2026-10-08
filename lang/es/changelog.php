@@ -4,8 +4,19 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.13.1' => [
+        'date' => '2026-10-08',
+        'title' => 'Correcciones de la prueba de aceptación V1',
+        'items' => [
+            'La búsqueda del DJ también encuentra secretos, información y objetos entregados, notas compartidas de los jugadores y etiquetas de escena.',
+            'Duplicar una campaña copia sus secretos y su cronología preparada; un enlace a una ficha abierto en sesión se muestra en un panel lateral, sin salir de la sesión.',
+            'Páginas de error traducidas, correo de contraseña en tu idioma, modo Sesión y Documentos legibles en el móvil, un menú para los enlaces ocultos en pantallas pequeñas.',
+            'Un personaje en reposo y un objeto validado por el DJ ya no pueden ser modificados por el jugador; la regla temporal del mapa se borra sola.',
+        ],
+    ],
+
     '0.13.0' => [
-        'date' => '2026-10-14',
+        'date' => '2026-10-08',
         'title' => 'Su propia IA, sin copiar y pegar',
         'items' => [
             'En «Preferencias» puede guardar una clave de API a su nombre de Claude (Anthropic), ChatGPT (OpenAI) o Le Chat (Mistral). El asistente IA ofrece entonces «Analizar directamente»: las propuestas llegan sin copiar y pegar.',
@@ -14,7 +25,7 @@ return [
     ],
 
     '0.12.0' => [
-        'date' => '2026-10-14',
+        'date' => '2026-10-08',
         'title' => 'Un asistente IA, sin suscripción',
         'items' => [
             'Nueva herramienta «Asistente IA» en la campaña: CodexFlow prepara un texto con las notas de la sesión y el contexto de la campaña, para pegarlo en la IA que prefiera. Su respuesta, pegada de vuelta, se convierte en propuestas: resumen, eventos jugados, relaciones, estados, notas de campaña, revelaciones.',
@@ -23,7 +34,7 @@ return [
     ],
 
     '0.11.1' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'La demostración en tu idioma',
         'items' => [
             'La campaña de demostración existe en los ocho idiomas de la interfaz. Se carga en el tuyo, o en el que elijas junto al botón.',
@@ -31,7 +42,7 @@ return [
     ],
 
     '0.11.0' => [
-        'date' => '2026-10-13',
+        'date' => '2026-10-08',
         'title' => 'Una campaña de demostración',
         'items' => [
             'Campaña de demostración que se carga con un clic desde «Mis campañas»: un juego inventado, «Brume & Serment», y una trama completa de tres sesiones, con fichas, retratos, relaciones, mapa, secretos, reglas, cronología y pregenerados.',
@@ -41,7 +52,7 @@ return [
     ],
 
     '0.10.0' => [
-        'date' => '2026-10-12',
+        'date' => '2026-10-07',
         'title' => 'Una página de campaña más clara',
         'items' => [
             'La página de campaña ordenada: el modo Sesión como banda, cuatro zonas de preparación y el resto de herramientas como botones pequeños con icono.',
@@ -50,7 +61,7 @@ return [
     ],
 
     '0.9.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'Llevarse la campaña',
         'items' => [
             'Exportar una campaña entera en un archivo .zip: juego, mundo, fichas, escenarios, documentos, mapas, secretos, cronología y archivos.',
@@ -60,7 +71,7 @@ return [
     ],
 
     '0.8.0' => [
-        'date' => '2026-10-11',
+        'date' => '2026-10-07',
         'title' => 'El grafo y la cronología',
         'items' => [
             'Grafo de relaciones: todas las fichas relacionadas, o la red alrededor de una ficha, con profundidad y filtro por tipo.',
@@ -71,7 +82,7 @@ return [
     ],
 
     '0.7.0' => [
-        'date' => '2026-10-10',
+        'date' => '2026-10-07',
         'title' => 'Alrededor de la mesa',
         'items' => [
             'Mapas: una imagen en la pantalla de mesa que amplías y mueves, con una cuadrícula opcional y una escala.',
@@ -83,7 +94,7 @@ return [
     ],
 
     '0.6.0' => [
-        'date' => '2026-10-09',
+        'date' => '2026-10-07',
         'title' => 'La memoria de la campaña',
         'items' => [
             'Secretos: una información aparte, vinculada a fichas, escenas o documentos, que se revela con un clic a un personaje o a toda la mesa.',
@@ -95,7 +106,7 @@ return [
     ],
 
     '0.5.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Ordenar mejor, entre varios',
         'items' => [
             'Una página «Etiquetas» para renombrar, colorear, fusionar y eliminar tus etiquetas; las escenas también tienen etiquetas.',
@@ -107,7 +118,7 @@ return [
     ],
 
     '0.4.1' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Ayuda e informes de problemas',
         'items' => [
             'Una página «Ayuda» responde a las preguntas más frecuentes, tanto para el DJ como para los jugadores.',
@@ -116,7 +127,7 @@ return [
     ],
 
     '0.4.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'Todos los idiomas',
         'items' => [
             'La interfaz habla francés, inglés, alemán, español, italiano, portugués, neerlandés y polaco.',
@@ -128,7 +139,7 @@ return [
     ],
 
     '0.3.0' => [
-        'date' => '2026-10-08',
+        'date' => '2026-10-07',
         'title' => 'El vínculo vivo',
         'items' => [
             'Mensajería entre el DJ y sus jugadores, y panel «Conversación» siempre a mano (grupo y privado).',

@@ -120,7 +120,10 @@ class RolesTest extends TestCase
         $this->actingAs($spectator)->get(route('campaigns.index'))->assertSee('Spectateur')->assertSee(route('table.screen', $this->campaign), false);
         $this->actingAs($spectator)->get(route('table.screen', $this->campaign))->assertOk();
 
-        foreach (['campaigns.show', 'messages.index', 'search.index', 'characters.index', 'members.index', 'journal.index'] as $route) {
+        // La page de la campagne le renvoie vers l'écran de table ; le reste lui est fermé.
+        $this->actingAs($spectator)->get(route('campaigns.show', $this->campaign))->assertRedirect(route('table.screen', $this->campaign));
+
+        foreach (['messages.index', 'search.index', 'characters.index', 'members.index', 'journal.index'] as $route) {
             $this->actingAs($spectator)->get(route($route, $this->campaign))->assertForbidden();
         }
         $this->actingAs($spectator)->get(route('entities.show', [$this->campaign, $this->morel]))->assertForbidden();
