@@ -4,7 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Support\Appearance;
+use App\Support\Locale;
 use Database\Factories\UserFactory;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,10 +19,16 @@ use NotificationChannels\WebPush\HasPushSubscriptions;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token', 'ai_api_key', 'stripe_customer_id', 'stripe_subscription_id', 'two_factor_secret', 'two_factor_recovery_codes'])]
-class User extends Authenticatable
+class User extends Authenticatable implements HasLocalePreference
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, HasPushSubscriptions, Notifiable, TwoFactorAuthenticatable;
+
+    /** Les e-mails partent dans la langue du destinataire, même envoyés par un administrateur. */
+    public function preferredLocale(): string
+    {
+        return Locale::for($this);
+    }
 
     /**
      * Get the attributes that should be cast.

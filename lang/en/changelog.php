@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.28.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Emails in LoreMundi colours',
+        'items' => [
+            'Emails (forgotten password, address change) carry the LoreMundi logo and colours.',
+            'Each email is sent in the recipient’s language, even when the administrator sends it.',
+        ],
+    ],
+
     '0.27.0' => [
         'date' => '2026-10-08',
         'title' => 'A public showcase',
