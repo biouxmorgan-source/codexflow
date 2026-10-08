@@ -16,6 +16,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Segurança e dados pessoais',
         'items' => [
+            '«A minha conta», em Preferências: mude o nome, o e-mail (o endereço anterior é avisado) e a palavra-passe.',
             'Autenticação de dois fatores opcional, em Preferências: um código de uma aplicação do seu telemóvel, com códigos de recuperação.',
             '«Os meus dados», em Preferências: transfira o que o LoreMundi guarda sobre si ou elimine a sua conta.',
             'Palavras-passe com pelo menos 10 caracteres, com letras e números; mudar a sua termina a sessão nos outros dispositivos. A consola de administração volta a pedir a palavra-passe.',

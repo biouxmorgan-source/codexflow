@@ -3,6 +3,7 @@
 namespace Tests\Feature\Account;
 
 use App\Enums\CampaignRole;
+use App\Livewire\Account\Profile;
 use App\Livewire\Account\Security;
 use App\Livewire\Entities\Form as EntityForm;
 use App\Livewire\Members\Index as Members;
@@ -15,8 +16,11 @@ use App\Models\Message;
 use App\Models\PlayerCharacter;
 use App\Models\User;
 use App\Models\UserLogin;
+use App\Notifications\EmailChanged;
 use App\Support\Notify;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 use PragmaRX\Google2FA\Google2FA;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -223,5 +227,33 @@ class SecurityTest extends TestCase
         UserLogin::create(['user_id' => $this->alex->id, 'logged_in_at' => now()->subMonth()]);
         $this->artisan('model:prune', ['--model' => [UserLogin::class]])->assertSuccessful();
         $this->assertSame(1, UserLogin::count());
+    }
+
+    public function test_a_user_changes_their_name_email_and_password(): void
+    {
+        Notification::fake();
+        $old = $this->alex->email;
+
+        // Le nom seul se change sans mot de passe.
+        Livewire::actingAs($this->alex)->test(Profile::class)
+            ->set('name', 'Alexandra')->call('saveProfile')->assertHasNoErrors();
+        $this->assertSame('Alexandra', $this->alex->fresh()->name);
+
+        // L'adresse demande le mot de passe actuel, reste unique, et l'ancienne adresse est prévenue.
+        $page = Livewire::actingAs($this->alex)->test(Profile::class)
+            ->set('email', $this->gm->email)->set('currentPassword', 'password')->call('saveProfile')->assertHasErrors('email')
+            ->set('email', 'Alex.Nouvelle@Exemple.fr')->set('currentPassword', '')->call('saveProfile')->assertHasErrors('currentPassword')
+            ->set('currentPassword', 'faux')->call('saveProfile')->assertHasErrors('currentPassword')
+            ->set('currentPassword', 'password')->call('saveProfile')->assertHasNoErrors();
+        $this->assertSame('alex.nouvelle@exemple.fr', $this->alex->fresh()->email);
+        Notification::assertSentOnDemand(EmailChanged::class, fn ($notification, $channels, $notifiable) => $notifiable->routes['mail'] === $old);
+
+        // Le mot de passe suit la règle commune.
+        $page->set('currentPassword', 'password')->set('password', 'court')->set('password_confirmation', 'court')->call('savePassword')->assertHasErrors('password')
+            ->set('password', 'nouveau-secret-42')->set('password_confirmation', 'autre-chose-42')->call('savePassword')->assertHasErrors('password')
+            ->set('password_confirmation', 'nouveau-secret-42')->call('savePassword')->assertHasNoErrors();
+        $this->assertTrue(Hash::check('nouveau-secret-42', $this->alex->fresh()->password));
+
+        $this->actingAs($this->alex)->get(route('preferences'))->assertSee(['Mon compte', 'Changer le mot de passe']);
     }
 }

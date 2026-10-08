@@ -16,6 +16,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Bezpieczeństwo i dane osobowe',
         'items' => [
+            '„Moje konto” w Preferencjach: zmień imię, adres e-mail (poprzedni adres zostanie powiadomiony) i hasło.',
             'Opcjonalne uwierzytelnianie dwuskładnikowe w Preferencjach: kod z aplikacji w telefonie, z kodami odzyskiwania.',
             '„Moje dane” w Preferencjach: pobierz to, co LoreMundi przechowuje o Tobie, albo usuń konto.',
             'Hasła co najmniej 10-znakowe z literami i cyframi; zmiana hasła wylogowuje inne urządzenia. Konsola administracyjna ponownie prosi o hasło.',

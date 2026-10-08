@@ -16,6 +16,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Sécurité et données personnelles',
         'items' => [
+            '« Mon compte », dans Préférences : changez votre nom, votre adresse e-mail (l’ancienne adresse est prévenue) et votre mot de passe.',
             'Double authentification facultative, dans Préférences : un code donné par une application de votre téléphone, avec des codes de secours.',
             '« Mes données », dans Préférences : téléchargez ce que LoreMundi garde sur vous, ou supprimez votre compte.',
             'Mots de passe d’au moins 10 caractères avec lettres et chiffres ; changer le sien déconnecte ses autres appareils. La console d’administration redemande le mot de passe.',

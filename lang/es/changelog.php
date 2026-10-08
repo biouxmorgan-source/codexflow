@@ -16,6 +16,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Seguridad y datos personales',
         'items' => [
+            '«Mi cuenta», en Preferencias: cambia tu nombre, tu correo (se avisa a la dirección anterior) y tu contraseña.',
             'Verificación en dos pasos opcional, en Preferencias: un código de una aplicación de tu teléfono, con códigos de recuperación.',
             '«Mis datos», en Preferencias: descarga lo que LoreMundi guarda sobre ti o elimina tu cuenta.',
             'Contraseñas de al menos 10 caracteres con letras y cifras; cambiar la tuya cierra la sesión en tus otros dispositivos. La consola de administración vuelve a pedir la contraseña.',

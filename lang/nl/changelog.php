@@ -16,6 +16,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Beveiliging en persoonsgegevens',
         'items' => [
+            '‘Mijn account’, bij Voorkeuren: wijzig je naam, je e-mailadres (het vorige adres krijgt bericht) en je wachtwoord.',
             'Optionele tweestapsverificatie, bij Voorkeuren: een code uit een app op je telefoon, met herstelcodes.',
             '‘Mijn gegevens’, bij Voorkeuren: download wat LoreMundi over je bewaart of verwijder je account.',
             'Wachtwoorden van minstens 10 tekens met letters en cijfers; wie zijn wachtwoord wijzigt, wordt op andere apparaten afgemeld. De beheerconsole vraagt opnieuw om het wachtwoord.',

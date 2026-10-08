@@ -1810,5 +1810,19 @@
     "Utilisez uniquement des documents que vous possédez, pour votre usage personnel. Le prompt demande des résumés avec la page du livre, pas une copie du texte.": "Usa solo documentos que te pertenezcan, para tu uso personal. El prompt pide resúmenes con la página del libro, no una copia del texto.",
     "Validez le plan que l’IA propose, puis récupérez les fichiers CSV et le guide GUIDE-IMPORT.md.": "Valida el plan que propone la IA y luego recupera los archivos CSV y la guía GUIDE-IMPORT.md.",
     "Votre IA lit le PDF d’un jeu de rôle (livre de règles, scénario, supplément) et prépare les fichiers à importer dans LoreMundi, avec un guide pas à pas. LoreMundi n’envoie rien : vous utilisez l’IA de votre choix, avec votre compte.": "Tu IA lee el PDF de un juego de rol (reglamento, escenario, suplemento) y prepara los archivos para importar en LoreMundi, con una guía paso a paso. LoreMundi no envía nada: usas la IA que elijas, con tu cuenta.",
-    "Vous avez le PDF d’un jeu ou d’un scénario ?": "¿Tienes el PDF de un juego o de un escenario?"
+    "Vous avez le PDF d’un jeu ou d’un scénario ?": "¿Tienes el PDF de un juego o de un escenario?",
+    "(pour changer d’adresse ou de mot de passe)": "(para cambiar de correo o de contraseña)",
+    "Au moins 10 caractères, avec des lettres et des chiffres.": "Al menos 10 caracteres, con letras y cifras.",
+    "Changer le mot de passe": "Cambiar la contraseña",
+    "Compte enregistré.": "Cuenta guardada.",
+    "Compte enregistré. Votre ancienne adresse a été prévenue du changement.": "Cuenta guardada. Se ha avisado del cambio a tu dirección anterior.",
+    "Confirmez le nouveau mot de passe": "Confirma la nueva contraseña",
+    "L’adresse de votre compte LoreMundi est désormais :email.": "La dirección de tu cuenta de LoreMundi es ahora :email.",
+    "Mon compte": "Mi cuenta",
+    "Mot de passe changé. Vos autres appareils sont déconnectés.": "Contraseña cambiada. Se ha cerrado la sesión en tus otros dispositivos.",
+    "Si vous n’êtes pas à l’origine de ce changement, répondez à ce message ou écrivez à l’administrateur du site.": "Si no has hecho este cambio, responde a este mensaje o escribe al administrador del sitio.",
+    "Votre adresse e-mail LoreMundi a changé": "Tu dirección de correo de LoreMundi ha cambiado",
+    "Votre nom est visible des autres membres de vos campagnes. Changer d’adresse e-mail ou de mot de passe demande votre mot de passe actuel.": "Tu nombre es visible para los demás miembros de tus campañas. Cambiar de correo o de contraseña requiere tu contraseña actual.",
+    "mot de passe actuel": "contraseña actual",
+    "nouveau mot de passe": "nueva contraseña"
 }

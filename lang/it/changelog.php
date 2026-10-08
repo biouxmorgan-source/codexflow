@@ -16,6 +16,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Sicurezza e dati personali',
         'items' => [
+            '«Il mio account», in Preferenze: cambia il nome, l’indirizzo e-mail (il precedente viene avvisato) e la password.',
             'Autenticazione a due fattori facoltativa, in Preferenze: un codice da un’app sul telefono, con codici di recupero.',
             '«I miei dati», in Preferenze: scarica ciò che LoreMundi conserva su di te o elimina il tuo account.',
             'Password di almeno 10 caratteri con lettere e cifre; cambiare la propria disconnette gli altri dispositivi. La console di amministrazione richiede di nuovo la password.',

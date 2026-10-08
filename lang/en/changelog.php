@@ -16,6 +16,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Security and personal data',
         'items' => [
+            '“My account”, in Preferences: change your name, your email address (the previous address is notified) and your password.',
             'Optional two-factor authentication, in Preferences: a code from an app on your phone, with recovery codes.',
             '“My data”, in Preferences: download what LoreMundi keeps about you, or delete your account.',
             'Passwords of at least 10 characters with letters and numbers; changing yours logs out your other devices. The admin console asks for the password again.',
