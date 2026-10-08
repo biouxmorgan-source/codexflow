@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.14.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Suites de la recette : échanges validés par le MJ',
+        'items' => [
+            'Par défaut, le MJ valide les échanges entre joueurs : l’objet ou la connaissance ne change de main qu’une fois l’échange accepté. Une case dans « Personnages des joueurs » permet de les autoriser d’office.',
+            'Télécommande : au dernier élément de la scène, « Suivant » devient « Terminer » et vide l’écran.',
+            'Journal plus lisible pour les objets validés, messages plus clairs dans « Signaler un problème », et une seule façon de s’adresser à vous dans chaque langue.',
+        ],
+    ],
+
     '0.13.1' => [
         'date' => '2026-10-08',
         'title' => 'Corrections de la recette V1',

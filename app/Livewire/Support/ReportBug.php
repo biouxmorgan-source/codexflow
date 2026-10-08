@@ -23,7 +23,11 @@ class ReportBug extends Component
 
     public function send(): void
     {
-        $this->validate(['message' => ['required', 'string', 'min:10', 'max:5000']], attributes: ['message' => __('description')]);
+        $this->validate(['message' => ['required', 'string', 'min:10', 'max:5000']], [
+            'message.required' => __('Décrivez ce qui s’est passé.'),
+            'message.min' => __('Décrivez le problème en au moins :min caractères.'),
+            'message.max' => __('Votre description ne doit pas dépasser :max caractères.'),
+        ]);
 
         $key = 'bug-report:'.auth()->id();
 

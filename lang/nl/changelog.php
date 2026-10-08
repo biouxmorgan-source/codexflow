@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.14.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Na de acceptatietest: ruilen goedgekeurd door de SL',
+        'items' => [
+            'Standaard keurt de SL ruilen tussen spelers goed: een voorwerp of kennis wisselt pas van eigenaar als de ruil is geaccepteerd. Met een vakje bij ‘Personages van de spelers’ kun je ruilen meteen toestaan.',
+            'Afstandsbediening: bij het laatste item van de scène wordt ‘Volgende’ ‘Afronden’ en wordt het scherm leeggemaakt.',
+            'Duidelijker logboek voor goedgekeurde voorwerpen, duidelijkere meldingen bij ‘Probleem melden’ en één manier van aanspreken per taal.',
+        ],
+    ],
+
     '0.13.1' => [
         'date' => '2026-10-08',
         'title' => 'Correcties uit de V1-acceptatietest',
@@ -17,10 +27,10 @@ return [
 
     '0.13.0' => [
         'date' => '2026-10-08',
-        'title' => 'Uw eigen AI, zonder kopiëren en plakken',
+        'title' => 'Je eigen AI, zonder kopiëren en plakken',
         'items' => [
-            'In ‘Voorkeuren’ kunt u een API-sleutel op uw naam opslaan bij Claude (Anthropic), ChatGPT (OpenAI) of Le Chat (Mistral). De AI-assistent biedt dan ‘Direct analyseren’ aan: de voorstellen komen zonder kopiëren en plakken.',
-            'De aanbieder rekent de aanroepen af op uw account. De sleutel wordt versleuteld, nooit opnieuw getoond of geëxporteerd, en de modus ‘tekst om te plakken’ blijft gratis.',
+            'In ‘Voorkeuren’ kun je een API-sleutel op jouw naam opslaan bij Claude (Anthropic), ChatGPT (OpenAI) of Le Chat (Mistral). De AI-assistent biedt dan ‘Direct analyseren’ aan: de voorstellen komen zonder kopiëren en plakken.',
+            'De aanbieder rekent de aanroepen af op jouw account. De sleutel wordt versleuteld, nooit opnieuw getoond of geëxporteerd, en de modus ‘tekst om te plakken’ blijft gratis.',
         ],
     ],
 
@@ -28,8 +38,8 @@ return [
         'date' => '2026-10-08',
         'title' => 'Een AI-assistent, zonder abonnement',
         'items' => [
-            'Nieuw hulpmiddel ‘AI-assistent’ in de campagne: CodexFlow maakt een tekst met de sessienotities en de context van de campagne, om te plakken in de AI van uw keuze. Het antwoord, hier teruggeplakt, wordt een reeks voorstellen: samenvatting, gespeelde gebeurtenissen, relaties, statussen, campagnenotities, onthullingen.',
-            'Elk voorstel kunt u accepteren, aanpassen of weigeren. Zonder u verandert er niets in de campagne, en voorgestelde relaties of statussen gelden alleen voor de campagne, zonder de gedeelde wereld aan te raken.',
+            'Nieuw hulpmiddel ‘AI-assistent’ in de campagne: CodexFlow maakt een tekst met de sessienotities en de context van de campagne, om te plakken in de AI van je keuze. Het antwoord, hier teruggeplakt, wordt een reeks voorstellen: samenvatting, gespeelde gebeurtenissen, relaties, statussen, campagnenotities, onthullingen.',
+            'Elk voorstel kun je accepteren, aanpassen of weigeren. Zonder jou verandert er niets in de campagne, en voorgestelde relaties of statussen gelden alleen voor de campagne, zonder de gedeelde wereld aan te raken.',
         ],
     ],
 
@@ -64,9 +74,9 @@ return [
         'date' => '2026-10-07',
         'title' => 'Je campagne meenemen',
         'items' => [
-            'Een hele campagne exporteren als .zip-archief: spel, wereld, kaarten, scenario’s, documenten, plattegronden, geheimen, tijdlijn en bestanden.',
+            'Een hele campagne exporteren als .zip-archief: spel, wereld, fiches, scenario’s, documenten, kaarten, geheimen, tijdlijn en bestanden.',
             'Een archief importeren via ‘Mijn campagnes’: het maakt de campagne opnieuw aan, bij jou of bij een andere SL.',
-            'Deelbare spelsjablonen: kaarttypes, velden, labels en regels, zonder campagne-inhoud.',
+            'Deelbare spelsjablonen: fichetypes, velden, labels en regels, zonder campagne-inhoud.',
         ],
     ],
 
@@ -74,7 +84,7 @@ return [
         'date' => '2026-10-07',
         'title' => 'De graaf en de tijdlijn',
         'items' => [
-            'Relatiegraaf: alle verbonden kaarten, of het netwerk rond één kaart, met een diepte en een filter op type.',
+            'Relatiegraaf: alle verbonden fiches, of het netwerk rond één fiche, met een diepte en een filter op type.',
             '‘Bekijken als’ in de graaf: het netwerk zoals een personage het kent. Spelers openen het vanaf hun personage.',
             'Tijdlijn: wereldgeschiedenis, geplande en gespeelde gebeurtenissen, met vrije datums zoals ‘Dag 3’.',
             'Een gespeelde gebeurtenis die tijdens de sessie wordt genoteerd, wordt gekoppeld aan de sessie en de huidige scène.',

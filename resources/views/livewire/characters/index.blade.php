@@ -9,6 +9,11 @@
         {!! __('Chaque personnage est une fiche de la campagne confiée à un joueur. Le joueur voit sa zone publique, sa feuille PDF, et peut modifier les champs que vous avez déclarés « modifiables par le joueur » dans :link (PV, munitions, argent…). Sa zone MJ lui reste toujours cachée.', ['link' => '<a href="'.e(route('fields.index', $campaign)).'" class="link" wire:navigate>'.e(__('Champs du jeu')).'</a>']) !!}
     </p>
 
+    <label class="mb-6 flex items-start gap-2 text-sm text-stone-700">
+        <input type="checkbox" wire:click="toggleExchangeApproval" @checked($campaign->exchanges_need_approval) class="mt-0.5">
+        <span>{{ __('Valider les échanges entre joueurs') }} <span class="block text-stone-500">{{ __('Décoché, les joueurs se donnent objets et connaissances sans attendre votre accord ; vous en êtes informé.') }}</span></span>
+    </label>
+
     <div class="grid gap-6 lg:grid-cols-3">
         <section class="lg:col-span-2">
             @if ($this->characters->isEmpty())
@@ -39,6 +44,7 @@
                                         · {{ $character->is_active ? __('actif') : __('au repos') }}
                                         @if ($character->locked) · <span class="font-medium text-flow">{{ __('fiche verrouillée') }}</span> @endif
                                         @if ($character->pending_count > 0) · <a href="{{ route('characters.show', [$campaign, $character]) }}#section-possession" class="font-medium text-flow hover:underline" wire:navigate>{{ trans_choice(':count objet à valider|:count objets à valider', $character->pending_count) }}</a> @endif
+                                        @if ($character->exchange_requests_count > 0) · <a href="{{ route('characters.show', [$campaign, $character]) }}" class="font-medium text-flow hover:underline" wire:navigate>{{ trans_choice(':count échange à valider|:count échanges à valider', $character->exchange_requests_count) }}</a> @endif
                                     </p>
                                 </div>
                                 <a href="{{ route('characters.show', [$campaign, $character, 'comme' => 1]) }}" class="btn-secondary" title="{{ __('Voir la campagne comme :name, en lecture seule', ['name' => $entity->name]) }}" wire:navigate>{{ __('Voir comme') }}</a>

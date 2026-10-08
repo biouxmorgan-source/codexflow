@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.14.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Acceptance follow-ups: exchanges approved by the GM',
+        'items' => [
+            'By default, the GM approves exchanges between players: the item or knowledge changes hands only once the exchange is accepted. A box in “Player characters” lets the GM allow them outright.',
+            'Remote control: on the last item of the scene, “Next” becomes “Finish” and clears the screen.',
+            'Clearer journal for validated items, clearer messages in “Report a problem”, and a single way of addressing you in each language.',
+        ],
+    ],
+
     '0.13.1' => [
         'date' => '2026-10-08',
         'title' => 'V1 acceptance fixes',

@@ -109,4 +109,10 @@ class PlayerCharacter extends Model
             Storage::disk(self::DISK)->delete($this->sheet_path);
         }
     }
+
+    /** @return HasMany<ExchangeRequest, $this> échanges proposés par ce personnage, en attente du MJ */
+    public function exchangeRequests(): HasMany
+    {
+        return $this->hasMany(ExchangeRequest::class, 'from_character_id');
+    }
 }

@@ -61,14 +61,33 @@ class Remote extends Component
         abort_unless(in_array($kind, TableDisplay::KINDS, true) && TableDisplay::show($this->campaign, $kind, $id), 404);
     }
 
-    /** L'élément de la scène qui suit celui affiché (le premier si rien de la scène n'est affiché). */
+    /** Position de l'élément de la scène affiché à la table, null si rien de la scène n'est affiché. */
+    private function shownIndex(): ?int
+    {
+        $index = $this->sceneItems->search(fn (array $item) => TableDisplay::isShowing($this->campaign, $item['kind'], $item['id']));
+
+        return $index === false ? null : $index;
+    }
+
+    /** Le dernier élément de la scène est affiché : « Suivant » devient « Terminer ». */
+    private function atLastItem(): bool
+    {
+        return $this->shownIndex() !== null && $this->shownIndex() === $this->sceneItems->count() - 1;
+    }
+
+    /** L'élément de la scène qui suit celui affiché (le premier si rien n'est affiché) ; après le dernier, l'écran est vidé. */
     public function next(): void
     {
         $this->authorize('update', $this->campaign);
 
-        $items = $this->sceneItems;
-        $index = $items->search(fn (array $item) => TableDisplay::isShowing($this->campaign, $item['kind'], $item['id']));
-        $next = $items->get($index === false ? 0 : $index + 1);
+        if ($this->atLastItem()) {
+            TableDisplay::clear($this->campaign);
+
+            return;
+        }
+
+        $index = $this->shownIndex();
+        $next = $this->sceneItems->get($index === null ? 0 : $index + 1);
 
         if ($next !== null) {
             TableDisplay::show($this->campaign, $next['kind'], $next['id']);
@@ -169,6 +188,8 @@ class Remote extends Component
             'scene' => $this->campaign->openSession()?->currentScene,
             'map' => $map,
             'maps' => $this->campaign->maps()->get(['id', 'name', 'campaign_id']),
+            'position' => $this->shownIndex(),
+            'atLastItem' => $this->atLastItem(),
         ])->title(__('Télécommande · :name', ['name' => $this->campaign->name]));
     }
 }

@@ -116,7 +116,7 @@ return [
         'mixed' => 'Pole :attribute musi zawierać przynajmniej jedną wielką i jedną małą literę.',
         'numbers' => 'Pole :attribute musi zawierać przynajmniej jedną liczbę.',
         'symbols' => 'Pole :attribute musi zawierać przynajmniej jeden symbol.',
-        'uncompromised' => 'Podany :attribute pojawił się w wycieku danych. Proszę wybrać inną wartość :attribute.',
+        'uncompromised' => 'Podany :attribute pojawił się w wycieku danych. Wybierz inną wartość :attribute.',
     ],
     'present' => 'Pole :attribute musi być obecne.',
     'present_if' => 'Pole :attribute musi być obecne jeżeli :other ma wartość :value.',

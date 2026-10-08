@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.14.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Dopo il collaudo: scambi convalidati dal master',
+        'items' => [
+            'Per impostazione predefinita il master convalida gli scambi tra giocatori: l’oggetto o la conoscenza cambia mano solo dopo l’accettazione. Una casella in «Personaggi dei giocatori» permette di autorizzarli sempre.',
+            'Telecomando: all’ultimo elemento della scena, «Avanti» diventa «Termina» e svuota lo schermo.',
+            'Diario più leggibile per gli oggetti convalidati, messaggi più chiari in «Segnala un problema» e un solo modo di rivolgersi a te in ogni lingua.',
+        ],
+    ],
+
     '0.13.1' => [
         'date' => '2026-10-08',
         'title' => 'Correzioni del collaudo V1',
@@ -17,10 +27,10 @@ return [
 
     '0.13.0' => [
         'date' => '2026-10-08',
-        'title' => 'La sua IA, senza copia e incolla',
+        'title' => 'La tua IA, senza copia e incolla',
         'items' => [
-            'In «Preferenze» può salvare una chiave API a suo nome di Claude (Anthropic), ChatGPT (OpenAI) o Le Chat (Mistral). L’assistente IA propone allora «Analizza direttamente»: le proposte arrivano senza copia e incolla.',
-            'Le chiamate sono fatturate dal fornitore sul suo account. La chiave è cifrata, mai più mostrata né esportata, e la modalità «testo da incollare» resta gratuita.',
+            'In «Preferenze» puoi salvare una chiave API a tuo nome di Claude (Anthropic), ChatGPT (OpenAI) o Le Chat (Mistral). L’assistente IA propone allora «Analizza direttamente»: le proposte arrivano senza copia e incolla.',
+            'Le chiamate sono fatturate dal fornitore sul tuo account. La chiave è cifrata, mai più mostrata né esportata, e la modalità «testo da incollare» resta gratuita.',
         ],
     ],
 
@@ -28,8 +38,8 @@ return [
         'date' => '2026-10-08',
         'title' => 'Un assistente IA, senza abbonamento',
         'items' => [
-            'Nuovo strumento «Assistente IA» nella campagna: CodexFlow prepara un testo con le note della sessione e il contesto della campagna, da incollare nell’IA che preferisce. La sua risposta, incollata qui, diventa un insieme di proposte: riassunto, eventi giocati, relazioni, stati, note di campagna, rivelazioni.',
-            'Ogni proposta si accetta, si modifica o si rifiuta. Nulla cambia nella campagna senza di lei, e le relazioni o gli stati proposti restano propri della campagna, senza toccare il mondo condiviso.',
+            'Nuovo strumento «Assistente IA» nella campagna: CodexFlow prepara un testo con le note della sessione e il contesto della campagna, da incollare nell’IA che preferisci. La sua risposta, incollata qui, diventa un insieme di proposte: riassunto, eventi giocati, relazioni, stati, note di campagna, rivelazioni.',
+            'Ogni proposta si accetta, si modifica o si rifiuta. Nulla cambia nella campagna senza di te, e le relazioni o gli stati proposti restano propri della campagna, senza toccare il mondo condiviso.',
         ],
     ],
 

@@ -197,7 +197,7 @@ return [
         'teska' => [
             'name' => 'Teska, a Remadora',
             'summary' => 'Rema desde criança e conhece a baía melhor do que a Guarda.',
-            'description' => 'Juraste ao teu irmão nunca deixar Pierrecendre. Ele partiu no mês passado.',
+            'description' => 'Você jurou ao seu irmão nunca deixar Pierrecendre. Ele partiu no mês passado.',
             'fields' => [
                 'trade' => 'Remadora',
                 'trait' => 'Diz tudo, e logo',
@@ -207,7 +207,7 @@ return [
         'oriel' => [
             'name' => 'Oriel Chantegrèle',
             'summary' => 'Testemunha de ofício: pagam-lhe para assistir aos juramentos e para se lembrar deles.',
-            'description' => 'Testemunhaste duzentos juramentos. Esqueceste um só, de propósito.',
+            'description' => 'Você testemunhou duzentos juramentos. Esqueceu um só, de propósito.',
             'fields' => [
                 'trade' => 'Testemunha',
                 'trait' => 'Repete as frases importantes em voz baixa',
@@ -217,7 +217,7 @@ return [
         'dorn' => [
             'name' => 'Dorn Ferro-Frio',
             'summary' => 'Antigo guarda, despedido por se recusar a aplicar um recolher obrigatório.',
-            'description' => 'Juraste nunca mais obedecer a uma ordem que não compreendas.',
+            'description' => 'Você jurou nunca mais obedecer a uma ordem que não compreenda.',
             'fields' => [
                 'trade' => 'Guarda despedido',
                 'trait' => 'Põe-se sempre entre a porta e os outros',
@@ -227,7 +227,7 @@ return [
         'lisenn' => [
             'name' => 'Lisenn dos Dois Nomes',
             'summary' => 'Vem das marcas e vive na cidade sob um nome que não é o seu.',
-            'description' => 'Quebraste um juramento. Aqui, ninguém o sabe ainda.',
+            'description' => 'Você quebrou um juramento. Aqui, ninguém o sabe ainda.',
             'fields' => [
                 'trade' => 'Guia das marcas',
                 'trait' => 'Nunca dorme duas noites no mesmo sítio',
@@ -320,14 +320,14 @@ return [
             'title' => 'Lançamento de juramento',
             'category' => 'Base',
             'summary' => 'Característica + 1d6 contra uma dificuldade de 4 a 9.',
-            'procedure' => "1. Anuncia a característica usada e o que a personagem quer obter.\n2. Lança 1d6 e soma a característica.\n3. 4 para uma tarefa do ofício, 7 para uma tarefa difícil, 9 para o impossível.\n4. Se a personagem age para cumprir um juramento, soma +1 por juramento cumprido, até +3.",
+            'procedure' => "1. Anuncie a característica usada e o que a personagem quer obter.\n2. Lance 1d6 e some a característica.\n3. 4 para uma tarefa do ofício, 7 para uma tarefa difícil, 9 para o impossível.\n4. Se a personagem age para cumprir um juramento, some +1 por juramento cumprido, até +3.",
             'source' => 'Livro base, p. 12',
         ],
         'breath' => [
             'title' => 'Fôlego',
             'category' => 'Base',
             'summary' => 'O Fôlego substitui os pontos de vida: gasta-se para aguentar, não para encaixar golpes.',
-            'procedure' => "Gasta 1 de Fôlego para relançar um dado, para continuar apesar de um ferimento ou para recusar um Afogado.\nA 0, a personagem para: não morreu, mas não pode prometer mais nada até ao próximo descanso.",
+            'procedure' => "Gaste 1 de Fôlego para relançar um dado, para continuar apesar de um ferimento ou para recusar um Afogado.\nA 0, a personagem para: não morreu, mas não pode prometer mais nada até ao próximo descanso.",
             'source' => 'Livro base, p. 18',
         ],
         'breaking' => [
@@ -342,14 +342,14 @@ return [
             'title' => 'Contagem da bruma',
             'category' => 'Da casa',
             'summary' => 'Regra da casa: a bruma sobe um nível a cada sessão, até os Afogados caminharem pela cidade.',
-            'procedure' => "Mantém uma contagem de 0 a 6, à vista da mesa.\n+1 no fim de cada sessão, +1 sempre que um juramento é quebrado diante de testemunhas.\nA 3, o vau torna-se incerto. A 6, os Afogados entram em Pierrecendre.",
+            'procedure' => "Mantenha uma contagem de 0 a 6, à vista da mesa.\n+1 no fim de cada sessão, +1 sempre que um juramento é quebrado diante de testemunhas.\nA 3, o vau torna-se incerto. A 6, os Afogados entram em Pierrecendre.",
             'gm_notes' => 'Contagem atrás do ecrã, em segredo até 3.',
         ],
         'word' => [
             'title' => 'Palavra dada à mesa',
             'category' => 'Da casa',
             'summary' => 'Por testar: uma promessa feita em voz alta pelo jogador conta como juramento.',
-            'procedure' => 'Quando um jogador promete algo a uma personagem, anota-o. Se a cumprir, +1 juramento cumprido; se não, aplica-se a rutura.',
+            'procedure' => 'Quando um jogador promete algo a uma personagem, anote-o. Se a cumprir, +1 juramento cumprido; se não, aplica-se a rutura.',
             'gm_notes' => 'Testar na sessão 2. Risco: os jogadores deixarem de se atrever a prometer o que quer que seja.',
         ],
     ],
@@ -370,7 +370,7 @@ return [
         'lantern' => [
             'name' => 'A terceira lanterna',
             'description' => 'Ao crepúsculo, [[quay]]: a terceira lanterna a contar de norte recusa-se a acender. O aviso de recolher obrigatório ainda está fresco na parede.',
-            'gm_notes' => 'É o sinal de [[brannoc]]. Deixa os jogadores descobri-lo observando quem se aproxima do cais.',
+            'gm_notes' => 'É o sinal de [[brannoc]]. Deixe os jogadores descobri-lo observando quem se aproxima do cais.',
             'notes' => ['brannoc' => 'chega pela água, sem ruído', 'guard' => 'dois homens de ronda'],
         ],
         'register' => [

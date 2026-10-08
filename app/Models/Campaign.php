@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
-#[Fillable(['name', 'description', 'game_system_id', 'world_id', 'status', 'archived_at'])]
+#[Fillable(['name', 'description', 'game_system_id', 'world_id', 'status', 'archived_at', 'exchanges_need_approval'])]
 class Campaign extends Model
 {
     /** @use HasFactory<CampaignFactory> */
@@ -36,6 +36,7 @@ class Campaign extends Model
             'archived_at' => 'datetime',
             'table_display' => 'array',
             'table_shared' => 'boolean',
+            'exchanges_need_approval' => 'boolean',
         ];
     }
 
@@ -233,5 +234,11 @@ class Campaign extends Model
     public function scopeVisibleTo(Builder $query, User $user): void
     {
         $query->whereHas('members', fn (Builder $q) => $q->whereKey($user->getKey()));
+    }
+
+    /** @return HasMany<ExchangeRequest, $this> */
+    public function exchangeRequests(): HasMany
+    {
+        return $this->hasMany(ExchangeRequest::class);
     }
 }

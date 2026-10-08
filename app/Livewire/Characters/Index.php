@@ -49,9 +49,19 @@ class Index extends Component
             ->with(['entity', 'player'])
             // Objets ajoutés par les joueurs, que le MJ n'a pas encore validés.
             ->withCount(['grants as pending_count' => fn ($q) => $q->where('kind', 'possession')->where('added_by_player', true)->whereNull('validated_at')])
+            // Échanges proposés par le joueur, en attente du MJ.
+            ->withCount('exchangeRequests')
             ->get()
             ->sortBy(fn (PlayerCharacter $character) => [$character->is_active ? 0 : 1, mb_strtolower($character->entity->name)])
             ->values();
+    }
+
+    /** Le MJ valide chaque échange entre joueurs, ou les autorise d'office. */
+    public function toggleExchangeApproval(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $this->campaign->update(['exchanges_need_approval' => ! $this->campaign->exchanges_need_approval]);
     }
 
     /** @return Collection<int, User> */

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Élément révélé ou donné à un personnage par le MJ.
@@ -106,5 +107,11 @@ class CharacterGrant extends Model
             'possession' => $this->quantity && $this->quantity > 1 ? $this->title.' ×'.$this->quantity : (string) $this->title,
             default => (string) $this->title,
         };
+    }
+
+    /** @return HasOne<ExchangeRequest, $this> échange proposé par le joueur, en attente du MJ */
+    public function exchangeRequest(): HasOne
+    {
+        return $this->hasOne(ExchangeRequest::class);
     }
 }

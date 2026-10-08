@@ -4,13 +4,23 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.14.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Após a homologação: trocas validadas pelo mestre',
+        'items' => [
+            'Por padrão, o mestre valida as trocas entre jogadores: o item ou o conhecimento só muda de mãos depois que a troca é aceita. Uma caixa em “Personagens dos jogadores” permite autorizá-las direto.',
+            'Controle remoto: no último elemento da cena, “Próximo” vira “Terminar” e limpa a tela.',
+            'Diário mais legível para itens validados, mensagens mais claras em “Relatar um problema” e uma só forma de tratamento em cada idioma.',
+        ],
+    ],
+
     '0.13.1' => [
         'date' => '2026-10-08',
         'title' => 'Correções do teste de aceitação V1',
         'items' => [
             'A pesquisa do mestre também encontra segredos, informações e objetos dados, notas partilhadas dos jogadores e etiquetas de cena.',
             'Duplicar uma campanha copia os seus segredos e a cronologia preparada; uma ligação para uma ficha aberta durante a sessão mostra-se num painel lateral, sem sair da sessão.',
-            'Páginas de erro traduzidas, e-mail da palavra-passe na tua língua, modo Sessão e Documentos legíveis no telemóvel, um menu para as ligações escondidas em ecrãs pequenos.',
+            'Páginas de erro traduzidas, e-mail da palavra-passe no seu idioma, modo Sessão e Documentos legíveis no telemóvel, um menu para as ligações escondidas em ecrãs pequenos.',
             'Uma personagem em repouso e um objeto validado pelo mestre já não podem ser alterados pelo jogador; a régua temporária do mapa apaga-se sozinha.',
         ],
     ],

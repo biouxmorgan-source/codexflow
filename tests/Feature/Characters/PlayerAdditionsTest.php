@@ -6,6 +6,7 @@ use App\Actions\Characters\GiveToCharacters;
 use App\Enums\CampaignRole;
 use App\Livewire\Characters\Index;
 use App\Livewire\Characters\Show;
+use App\Models\ActivityLog;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
@@ -85,6 +86,11 @@ class PlayerAdditionsTest extends TestCase
         $this->assertFalse($revolver->fresh()->isPending());
         $this->assertContains('Le MJ a validé « Revolver .38 ».', $this->alex->notifications->pluck('data.text'));
         Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $this->campaign])->assertDontSee('objet à valider');
+
+        // Au journal, la validation se lit en une ligne, sans détail technique (« Personnage (vide) → … »).
+        $validation = ActivityLog::where('subject_type', 'grant')->where('event', 'updated')->sole();
+        $this->assertSame('a validé', $validation->verb());
+        $this->assertSame([], $validation->lines());
     }
 
     public function test_the_player_erases_only_what_they_added_and_not_on_a_locked_sheet(): void

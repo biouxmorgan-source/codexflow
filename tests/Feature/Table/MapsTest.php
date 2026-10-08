@@ -192,6 +192,11 @@ class MapsTest extends TestCase
         $remote->call('next');
         $this->assertTrue(TableDisplay::isShowing($this->campaign->fresh(), 'document', $handout->id));
 
+        // Dernier élément de la scène : « Suivant » devient « Terminer » et vide l'écran.
+        $remote->assertSee('Terminer ■')->assertSee('Dernier élément de la scène')->call('next');
+        $this->assertNull($this->campaign->fresh()->table_display);
+        $remote->assertSee('Suivant ▶')->assertDontSee('Terminer ■');
+
         $remote->call('show', 'map', $map->id)
             ->call('zoom', true)
             ->call('pan', 1, 0)
