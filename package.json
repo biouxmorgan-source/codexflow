@@ -25,5 +25,8 @@
         "@tiptap/pm": "^3.31.4",
         "@tiptap/starter-kit": "^3.31.4",
         "@tiptap/suggestion": "^3.31.4"
+    },
+    "overrides": {
+        "shell-quote": "^1.11.0"
     }
 }
