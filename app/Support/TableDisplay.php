@@ -10,6 +10,7 @@ use App\Models\Document;
 use App\Models\Entity;
 use App\Models\TableMap;
 use App\Models\User;
+use App\Support\Plans\Plans;
 use Illuminate\Support\Collection;
 
 /**
@@ -88,6 +89,7 @@ class TableDisplay
     /** Le MJ ouvre ou ferme l'écran de table aux joueurs. */
     public static function share(Campaign $campaign, bool $shared): void
     {
+        Plans::ensure($campaign->owner, 'table');
         $campaign->forceFill(['table_shared' => $shared])->save();
         self::broadcast($campaign);
     }
@@ -96,6 +98,7 @@ class TableDisplay
     public static function theme(Campaign $campaign, string $theme): void
     {
         abort_unless(array_key_exists($theme, TableTheme::THEMES), 422);
+        Plans::ensure($campaign->owner, 'table');
 
         $campaign->forceFill(['table_theme' => $theme])->save();
         self::broadcast($campaign);
@@ -198,6 +201,11 @@ class TableDisplay
     /** @param array<string, mixed>|null $state */
     private static function save(Campaign $campaign, ?array $state): void
     {
+        // Vider l'écran reste possible après la fin d'une formule ; afficher, non.
+        if ($state !== null) {
+            Plans::ensure($campaign->owner, 'table');
+        }
+
         $campaign->forceFill(['table_display' => $state === null ? null : $state + ['at' => now()->getTimestampMs()]])->save();
 
         self::broadcast($campaign);

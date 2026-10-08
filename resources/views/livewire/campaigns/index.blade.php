@@ -12,6 +12,13 @@
         @endunless
     </div>
 
+    @if (\App\Support\Plans\Plans::giftActive() && \App\Support\Plans\Plans::effective(auth()->user()) === \App\Support\Plans\Plans::FREE && auth()->user()->ownedCampaigns()->exists())
+        <p class="mb-6 flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-900" role="status">
+            <x-premium />
+            {{ __('Période offerte : les fonctions Premium sont ouvertes dans vos campagnes jusqu’au :date inclus.', ['date' => \Illuminate\Support\Carbon::parse(\App\Support\Plans\Plans::settings()['gift_ends_on'])->isoFormat('LL')]) }}
+        </p>
+    @endif
+
     @if ($importing)
         <form wire:submit="importArchive" class="mb-8 space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 class="text-lg font-semibold">{{ __('Importer une campagne') }}</h2>
@@ -168,7 +175,7 @@
                             @endif
                         @endif
                         @if (auth()->user()->can('duplicate', $campaign) && auth()->user()->can('use-feature', ['duplication']))
-                            <button type="button" wire:click="duplicate({{ $campaign->id }})" wire:confirm="{{ __('Dupliquer la campagne ? Le contenu préparé est copié ; les joueurs, les personnages, les séances et le journal ne le sont pas.') }}" class="link">{{ __('Dupliquer') }}</button>
+                            <button type="button" wire:click="duplicate({{ $campaign->id }})" wire:confirm="{{ __('Dupliquer la campagne ? Le contenu préparé est copié ; les joueurs, les personnages, les séances et le journal ne le sont pas.') }}" class="link">{{ __('Dupliquer') }} <x-premium feature="duplication" /></button>
                         @endif
                         @can('manage', $campaign)
                             <button type="button" wire:click="toggleArchive({{ $campaign->id }})" class="link">{{ $campaign->status === \App\Enums\CampaignStatus::Archived ? __('Réactiver') : __('Archiver') }}</button>

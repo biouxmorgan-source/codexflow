@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.31.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Funções Premium ✦',
+        'items' => [
+            'Uma pequena estrela ✦ indica as funções Premium. Quando o plano do dono de uma campanha não as inclui, elas continuam visíveis, em cinza, com uma explicação.',
+            'No fim de um teste ou de uma assinatura nada é apagado: campanhas, mapas, mensagens e arquivos continuam; só as funções ✦ são desligadas.',
+            'O administrador pode oferecer um período de presente (Natal…) em que as contas gratuitas têm todas as funções Premium.',
+        ],
+    ],
+
     '0.30.0' => [
         'date' => '2026-10-08',
         'title' => 'Escrita e links',

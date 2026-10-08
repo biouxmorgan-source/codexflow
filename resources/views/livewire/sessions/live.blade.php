@@ -251,9 +251,15 @@
                 </section>
 
                 {{-- Écran de table : ce que voient les joueurs sur le second écran. --}}
+                @cannot('use-feature', ['table', $campaign])
+                    <section class="rounded-xl border border-dashed border-stone-300 bg-stone-50 p-4 text-sm text-stone-500">
+                        <h2 class="mb-1 flex items-center gap-1 text-sm font-semibold tracking-wide uppercase">{{ __('Écran de table') }} <x-premium /></h2>
+                        <p>{{ __('Fonction Premium, non comprise dans la formule du propriétaire de la campagne. Rien n’est effacé : tout revient dès le passage à Premium.') }}</p>
+                    </section>
+                @else
                 <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
                     <div class="mb-2 flex items-center gap-2">
-                        <h2 class="mr-auto text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Écran de table') }}</h2>
+                        <h2 class="mr-auto flex items-center gap-1 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Écran de table') }} <x-premium feature="table" /></h2>
                         <a href="{{ route('table.screen', $campaign) }}" target="codexflow-table" class="link text-sm">{{ __('Ouvrir ↗') }}</a>
                     </div>
                     <p class="flex items-center gap-2 text-sm">
@@ -309,10 +315,13 @@
                         </ul>
                     @endif
                     <p class="mt-3 flex gap-4 text-sm">
-                        <a href="{{ route('maps.index', $campaign) }}" class="link" wire:navigate>{{ __('Cartes →') }}</a>
+                        @can('use-feature', ['maps', $campaign])
+                            <a href="{{ route('maps.index', $campaign) }}" class="link" wire:navigate>{{ __('Cartes →') }}</a>
+                        @endcan
                         <a href="{{ route('table.remote', $campaign) }}" class="link" wire:navigate>{{ __('Télécommande →') }}</a>
                     </p>
                 </section>
+                @endcannot
 
                 {{-- Révéler une information ou donner un objet en pleine partie. --}}
                 <livewire:characters.give :campaign="$campaign" key="give-session" />

@@ -1891,5 +1891,19 @@
     ":name (copie :number)": ":name (kopie :number)",
     "Vous aviez déjà un jeu « :name » : celui de l’archive s’appelle « :new ».": "Je had al een spel ‘:name’: dat uit het archief heet ‘:new’.",
     "Vous aviez déjà un monde « :name » : celui de l’archive s’appelle « :new ».": "Je had al een wereld ‘:name’: die uit het archief heet ‘:new’.",
-    "Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».": "Je had al een campagne ‘:name’: die uit het archief heet ‘:new’."
+    "Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».": "Je had al een campagne ‘:name’: die uit het archief heet ‘:new’.",
+    ":label : fonction Premium, non comprise ici": ":label: Premium-functie, hier niet inbegrepen",
+    "Au": "Tot",
+    "Du": "Van",
+    "Elles sont désactivées dans vos campagnes, mais rien n’est effacé : cartes, messages, fiches et fichiers restent, et tout revient dès le passage à Premium.": "Ze zijn uitgeschakeld in je campagnes, maar er wordt niets gewist: kaarten, berichten, bladen en bestanden blijven, en alles komt terug zodra je Premium neemt.",
+    "Fonction Premium": "Premium-functie",
+    "Fonction Premium, non comprise dans la formule du propriétaire de la campagne": "Premium-functie, niet inbegrepen in het abonnement van de eigenaar van de campagne",
+    "Fonction Premium, non comprise dans la formule du propriétaire de la campagne. Rien n’est effacé : tout revient dès le passage à Premium.": "Premium-functie, niet inbegrepen in het abonnement van de eigenaar van de campagne. Er wordt niets gewist: alles komt terug zodra die Premium neemt.",
+    "Fonctions Premium : :list.": "Premium-functies: :list.",
+    "Pour un cadeau (Noël, anniversaire du site…) : entre ces deux dates incluses, les campagnes des comptes gratuits ont toutes les fonctions Premium. Le nombre de campagnes et le stockage restent ceux de l’offre gratuite. À la fin, rien n’est effacé. Laissez vide pour aucune période.": "Als cadeau (Kerstmis, verjaardag van de site…): tussen deze twee data, inclusief, krijgen de campagnes van gratis accounts alle Premium-functies. Het aantal campagnes en de opslag blijven die van het gratis abonnement. Daarna wordt niets gewist. Laat leeg voor geen periode.",
+    "Période offerte": "Cadeauperiode",
+    "Période offerte : les fonctions Premium sont ouvertes dans vos campagnes jusqu’au :date inclus.": "Cadeauperiode: de Premium-functies zijn open in je campagnes tot en met :date.",
+    "Période offerte en cours.": "Cadeauperiode loopt.",
+    "début de la période offerte": "begin van de cadeauperiode",
+    "fin de la période offerte": "einde van de cadeauperiode"
 }

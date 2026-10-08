@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.31.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Premium-functies ✦',
+        'items' => [
+            'Een klein sterretje ✦ markeert Premium-functies. Als het abonnement van de eigenaar van een campagne ze niet bevat, blijven ze zichtbaar, grijs, met uitleg.',
+            'Aan het einde van een proefperiode of abonnement wordt niets gewist: campagnes, kaarten, berichten en bestanden blijven; alleen de ✦-functies gaan uit.',
+            'De beheerder kan een cadeauperiode (Kerstmis…) aanbieden waarin gratis accounts alle Premium-functies hebben.',
+        ],
+    ],
+
     '0.30.0' => [
         'date' => '2026-10-08',
         'title' => 'Schrijven en links',

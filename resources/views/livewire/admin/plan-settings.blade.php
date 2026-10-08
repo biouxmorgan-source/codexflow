@@ -57,6 +57,26 @@
             </fieldset>
         </section>
 
+        <section class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+            <h2 class="flex items-center gap-1 font-semibold">{{ __('Période offerte') }} <x-premium /></h2>
+            <p class="mt-1 mb-3 text-sm text-stone-600">{{ __('Pour un cadeau (Noël, anniversaire du site…) : entre ces deux dates incluses, les campagnes des comptes gratuits ont toutes les fonctions Premium. Le nombre de campagnes et le stockage restent ceux de l’offre gratuite. À la fin, rien n’est effacé. Laissez vide pour aucune période.') }}</p>
+            <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                    <label for="gift-start" class="label">{{ __('Du') }}</label>
+                    <input id="gift-start" type="date" wire:model="giftStartsOn" class="field">
+                    @error('giftStartsOn') <p class="error">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label for="gift-end" class="label">{{ __('Au') }}</label>
+                    <input id="gift-end" type="date" wire:model="giftEndsOn" class="field">
+                    @error('giftEndsOn') <p class="error">{{ $message }}</p> @enderror
+                </div>
+            </div>
+            @if (\App\Support\Plans\Plans::giftActive())
+                <p class="mt-3 text-sm font-medium text-amber-700">{{ __('Période offerte en cours.') }}</p>
+            @endif
+        </section>
+
         <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
     </form>
 </div>

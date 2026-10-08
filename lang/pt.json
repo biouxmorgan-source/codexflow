@@ -1891,5 +1891,19 @@
     ":name (copie :number)": ":name (cópia :number)",
     "Vous aviez déjà un jeu « :name » : celui de l’archive s’appelle « :new ».": "Você já tinha um jogo «:name»: o do arquivo se chama «:new».",
     "Vous aviez déjà un monde « :name » : celui de l’archive s’appelle « :new ».": "Você já tinha um mundo «:name»: o do arquivo se chama «:new».",
-    "Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».": "Você já tinha uma campanha «:name»: a do arquivo se chama «:new»."
+    "Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».": "Você já tinha uma campanha «:name»: a do arquivo se chama «:new».",
+    ":label : fonction Premium, non comprise ici": ":label: função Premium, não incluída aqui",
+    "Au": "Até",
+    "Du": "De",
+    "Elles sont désactivées dans vos campagnes, mais rien n’est effacé : cartes, messages, fiches et fichiers restent, et tout revient dès le passage à Premium.": "Elas ficam desativadas nas suas campanhas, mas nada é apagado: mapas, mensagens, fichas e arquivos continuam, e tudo volta assim que você passar para Premium.",
+    "Fonction Premium": "Função Premium",
+    "Fonction Premium, non comprise dans la formule du propriétaire de la campagne": "Função Premium, não incluída no plano do dono da campanha",
+    "Fonction Premium, non comprise dans la formule du propriétaire de la campagne. Rien n’est effacé : tout revient dès le passage à Premium.": "Função Premium, não incluída no plano do dono da campanha. Nada é apagado: tudo volta assim que ele passar para Premium.",
+    "Fonctions Premium : :list.": "Funções Premium: :list.",
+    "Pour un cadeau (Noël, anniversaire du site…) : entre ces deux dates incluses, les campagnes des comptes gratuits ont toutes les fonctions Premium. Le nombre de campagnes et le stockage restent ceux de l’offre gratuite. À la fin, rien n’est effacé. Laissez vide pour aucune période.": "Para um presente (Natal, aniversário do site…): entre estas duas datas, inclusive, as campanhas das contas gratuitas têm todas as funções Premium. O número de campanhas e o armazenamento continuam os do plano gratuito. No fim, nada é apagado. Deixe vazio para nenhum período.",
+    "Période offerte": "Período de presente",
+    "Période offerte : les fonctions Premium sont ouvertes dans vos campagnes jusqu’au :date inclus.": "Período de presente: as funções Premium estão abertas nas suas campanhas até :date, inclusive.",
+    "Période offerte en cours.": "Período de presente em curso.",
+    "début de la période offerte": "início do período de presente",
+    "fin de la période offerte": "fim do período de presente"
 }

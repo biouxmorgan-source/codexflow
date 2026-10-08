@@ -1891,5 +1891,19 @@
     ":name (copie :number)": ":name (copy :number)",
     "Vous aviez déjà un jeu « :name » : celui de l’archive s’appelle « :new ».": "You already had a game “:name”: the one from the archive is called “:new”.",
     "Vous aviez déjà un monde « :name » : celui de l’archive s’appelle « :new ».": "You already had a world “:name”: the one from the archive is called “:new”.",
-    "Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».": "You already had a campaign “:name”: the one from the archive is called “:new”."
+    "Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».": "You already had a campaign “:name”: the one from the archive is called “:new”.",
+    ":label : fonction Premium, non comprise ici": ":label: Premium feature, not included here",
+    "Au": "To",
+    "Du": "From",
+    "Elles sont désactivées dans vos campagnes, mais rien n’est effacé : cartes, messages, fiches et fichiers restent, et tout revient dès le passage à Premium.": "They are switched off in your campaigns, but nothing is erased: maps, messages, sheets and files remain, and everything comes back as soon as you go Premium.",
+    "Fonction Premium": "Premium feature",
+    "Fonction Premium, non comprise dans la formule du propriétaire de la campagne": "Premium feature, not included in the campaign owner’s plan",
+    "Fonction Premium, non comprise dans la formule du propriétaire de la campagne. Rien n’est effacé : tout revient dès le passage à Premium.": "Premium feature, not included in the campaign owner’s plan. Nothing is erased: everything comes back as soon as they go Premium.",
+    "Fonctions Premium : :list.": "Premium features: :list.",
+    "Pour un cadeau (Noël, anniversaire du site…) : entre ces deux dates incluses, les campagnes des comptes gratuits ont toutes les fonctions Premium. Le nombre de campagnes et le stockage restent ceux de l’offre gratuite. À la fin, rien n’est effacé. Laissez vide pour aucune période.": "For a gift (Christmas, the site’s birthday…): between these two dates inclusive, free accounts’ campaigns get every Premium feature. The number of campaigns and storage stay those of the free plan. Afterwards, nothing is erased. Leave empty for no period.",
+    "Période offerte": "Gift period",
+    "Période offerte : les fonctions Premium sont ouvertes dans vos campagnes jusqu’au :date inclus.": "Gift period: Premium features are open in your campaigns until :date inclusive.",
+    "Période offerte en cours.": "Gift period in progress.",
+    "début de la période offerte": "start of the gift period",
+    "fin de la période offerte": "end of the gift period"
 }

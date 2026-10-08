@@ -1891,5 +1891,19 @@
     ":name (copie :number)": ":name (Kopie :number)",
     "Vous aviez déjà un jeu « :name » : celui de l’archive s’appelle « :new ».": "Sie hatten bereits ein Spiel „:name“: Das aus dem Archiv heißt „:new“.",
     "Vous aviez déjà un monde « :name » : celui de l’archive s’appelle « :new ».": "Sie hatten bereits eine Welt „:name“: Die aus dem Archiv heißt „:new“.",
-    "Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».": "Sie hatten bereits eine Kampagne „:name“: Die aus dem Archiv heißt „:new“."
+    "Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».": "Sie hatten bereits eine Kampagne „:name“: Die aus dem Archiv heißt „:new“.",
+    ":label : fonction Premium, non comprise ici": ":label: Premium-Funktion, hier nicht enthalten",
+    "Au": "Bis",
+    "Du": "Von",
+    "Elles sont désactivées dans vos campagnes, mais rien n’est effacé : cartes, messages, fiches et fichiers restent, et tout revient dès le passage à Premium.": "Sie sind in Ihren Kampagnen deaktiviert, aber nichts wird gelöscht: Karten, Nachrichten, Blätter und Dateien bleiben, und alles kommt zurück, sobald Sie Premium werden.",
+    "Fonction Premium": "Premium-Funktion",
+    "Fonction Premium, non comprise dans la formule du propriétaire de la campagne": "Premium-Funktion, nicht im Angebot des Kampagneninhabers enthalten",
+    "Fonction Premium, non comprise dans la formule du propriétaire de la campagne. Rien n’est effacé : tout revient dès le passage à Premium.": "Premium-Funktion, nicht im Angebot des Kampagneninhabers enthalten. Nichts wird gelöscht: Alles kommt zurück, sobald er Premium wird.",
+    "Fonctions Premium : :list.": "Premium-Funktionen: :list.",
+    "Pour un cadeau (Noël, anniversaire du site…) : entre ces deux dates incluses, les campagnes des comptes gratuits ont toutes les fonctions Premium. Le nombre de campagnes et le stockage restent ceux de l’offre gratuite. À la fin, rien n’est effacé. Laissez vide pour aucune période.": "Als Geschenk (Weihnachten, Geburtstag der Seite…): zwischen diesen beiden Daten einschließlich haben die Kampagnen kostenloser Konten alle Premium-Funktionen. Kampagnenzahl und Speicher bleiben die des kostenlosen Angebots. Danach wird nichts gelöscht. Leer lassen für keinen Zeitraum.",
+    "Période offerte": "Geschenkzeitraum",
+    "Période offerte : les fonctions Premium sont ouvertes dans vos campagnes jusqu’au :date inclus.": "Geschenkzeitraum: Die Premium-Funktionen sind in Ihren Kampagnen bis einschließlich :date freigeschaltet.",
+    "Période offerte en cours.": "Geschenkzeitraum läuft.",
+    "début de la période offerte": "Beginn des Geschenkzeitraums",
+    "fin de la période offerte": "Ende des Geschenkzeitraums"
 }
