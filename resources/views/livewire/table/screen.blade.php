@@ -9,7 +9,7 @@
                 @if ($display['document']->isImage())
                     <img src="{{ route('table.file', [$campaign, 'v' => $display['key']]) }}" alt="{{ $display['document']->title }}" class="h-full w-full object-contain">
                 @elseif ($display['document']->isPdf())
-                    <iframe src="{{ route('table.file', [$campaign, 'v' => $display['key']]) }}#toolbar=0&navpanes=0&view=Fit" title="{{ $display['document']->title }}" class="h-full w-full border-0 bg-white"></iframe>
+                    <x-pdf-viewer :url="route('table.file', [$campaign, 'v' => $display['key']])" :title="$display['document']->title" mode="screen" class="h-full w-full" wire:ignore />
                 @else
                     <p class="p-12 text-center text-4xl font-semibold">{{ $display['document']->title }}</p>
                 @endif

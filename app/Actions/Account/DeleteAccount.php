@@ -5,6 +5,7 @@ namespace App\Actions\Account;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
+use App\Models\GameSystem;
 use App\Models\User;
 use App\Models\World;
 use App\Support\Billing\Billing;
@@ -36,7 +37,7 @@ class DeleteAccount
                 $world->delete();
             });
 
-            $user->gameSystems()->delete();
+            $user->gameSystems()->each(fn (GameSystem $gameSystem) => $gameSystem->delete());
             $user->pushSubscriptions()->delete();
             $user->notifications()->delete();
             DB::table('sessions')->where('user_id', $user->id)->delete();

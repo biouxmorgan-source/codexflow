@@ -4,6 +4,18 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.32.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Pdf’s en documenten',
+        'items' => [
+            'Pdf’s openen in een ingebouwde viewer, gelijk op computer, tablet en telefoon, met zoom en download.',
+            'Op het tafelscherm wordt een pdf pagina per pagina getoond, passend op het scherm; met de pijltjestoetsen blader je.',
+            'Het karakterblad behoudt zijn oorspronkelijke bestandsnaam.',
+            '‘Gebruikt door’ toont het scenario van elke scène.',
+            'Spel- en wereldpagina’s kunnen een afbeelding hebben.',
+        ],
+    ],
+
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium-functies ✦',

@@ -1,5 +1,5 @@
 <div class="max-w-4xl">
-    @include('livewire.library.header', ['kindLabel' => __('Monde'), 'title' => $world->name, 'text' => $world->description])
+    @include('livewire.library.header', ['kindLabel' => __('Monde'), 'title' => $world->name, 'text' => $world->description, 'item' => $world, 'imageRoute' => 'worlds.image'])
 
     <section class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
         <h2 class="mb-1 font-semibold">{{ __('Fiches du monde') }}</h2>

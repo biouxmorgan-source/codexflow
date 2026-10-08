@@ -4,6 +4,18 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.32.0' => [
+        'date' => '2026-10-08',
+        'title' => 'PDF e documentos',
+        'items' => [
+            'Os PDF abrem num visualizador integrado, igual no computador, tablet e telemóvel, com zoom e transferência.',
+            'No ecrã de mesa, um PDF é apresentado página a página, ajustado ao ecrã; as setas viram as páginas.',
+            'A ficha de personagem mantém o nome de ficheiro original.',
+            '«Usado por» indica o cenário de cada cena.',
+            'As páginas de um jogo e de um mundo podem ter uma imagem.',
+        ],
+    ],
+
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Funções Premium ✦',

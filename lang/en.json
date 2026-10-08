@@ -1905,5 +1905,14 @@
     "Période offerte : les fonctions Premium sont ouvertes dans vos campagnes jusqu’au :date inclus.": "Gift period: Premium features are open in your campaigns until :date inclusive.",
     "Période offerte en cours.": "Gift period in progress.",
     "début de la période offerte": "start of the gift period",
-    "fin de la période offerte": "end of the gift period"
+    "fin de la période offerte": "end of the gift period",
+    "Agrandir": "Zoom in",
+    "Réduire": "Zoom out",
+    "Ce PDF ne peut pas être affiché ici.": "This PDF can't be displayed here.",
+    "Chargement du PDF…": "Loading PDF…",
+    "L’ouvrir dans le navigateur": "Open it in the browser",
+    "Page précédente": "Previous page",
+    "Page suivante": "Next page",
+    "Pages : ": "Pages: ",
+    "Télécharger": "Download"
 }

@@ -5,8 +5,10 @@ namespace App\Support\Plans;
 use App\Models\Attachment;
 use App\Models\Document;
 use App\Models\Entity;
+use App\Models\GameSystem;
 use App\Models\PlayerCharacter;
 use App\Models\User;
+use App\Models\World;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;
@@ -44,6 +46,13 @@ class StorageUsage
 
         $disk = Storage::disk(Entity::FILES_DISK);
         Entity::where('user_id', $user->id)->whereNotNull('image_path')->pluck('image_path')
+            ->each(function (string $path) use ($disk, &$bytes) {
+                $bytes += $disk->exists($path) ? $disk->size($path) : 0;
+            });
+
+        // Images des pages jeu et monde.
+        GameSystem::where('user_id', $user->id)->whereNotNull('image_path')->pluck('image_path')
+            ->merge(World::where('user_id', $user->id)->whereNotNull('image_path')->pluck('image_path'))
             ->each(function (string $path) use ($disk, &$bytes) {
                 $bytes += $disk->exists($path) ? $disk->size($path) : 0;
             });

@@ -24,7 +24,8 @@
         "@tiptap/markdown": "^3.31.4",
         "@tiptap/pm": "^3.31.4",
         "@tiptap/starter-kit": "^3.31.4",
-        "@tiptap/suggestion": "^3.31.4"
+        "@tiptap/suggestion": "^3.31.4",
+        "pdfjs-dist": "^6.4.299"
     },
     "overrides": {
         "shell-quote": "^1.11.0"

@@ -4,6 +4,18 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.32.0' => [
+        'date' => '2026-10-08',
+        'title' => 'PDF e documenti',
+        'items' => [
+            'I PDF si aprono in un visualizzatore integrato, uguale su computer, tablet e telefono, con zoom e download.',
+            'Sullo schermo del tavolo, un PDF si mostra una pagina alla volta, adattato allo schermo; le frecce girano le pagine.',
+            'La scheda del personaggio mantiene il nome del file originale.',
+            '«Usato da» indica lo scenario di ogni scena.',
+            'Le pagine di un gioco e di un mondo possono avere un’immagine.',
+        ],
+    ],
+
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Funzioni Premium ✦',

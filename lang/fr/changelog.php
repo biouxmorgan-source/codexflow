@@ -4,6 +4,18 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.32.0' => [
+        'date' => '2026-10-08',
+        'title' => 'PDF et documents',
+        'items' => [
+            'Les PDF s’affichent dans un lecteur intégré, le même sur ordinateur, tablette et téléphone, avec zoom et téléchargement.',
+            'À l’écran de table, un PDF s’affiche page par page, ajusté à l’écran ; les flèches tournent les pages.',
+            'La feuille de personnage garde son nom de fichier d’origine.',
+            '« Utilisé par » indique le scénario de chaque scène.',
+            'Les pages d’un jeu et d’un monde peuvent avoir une image.',
+        ],
+    ],
+
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Fonctions Premium ✦',

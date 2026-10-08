@@ -293,13 +293,17 @@
         <section class="space-y-6 lg:col-span-3">
             <div class="rounded-xl border border-stone-200 bg-white shadow-sm">
                 <div class="flex items-center justify-between gap-3 px-4 py-3">
-                    <h2 class="font-semibold">{{ __('Feuille de personnage') }}</h2>
+                    <h2 class="min-w-0 font-semibold">{{ __('Feuille de personnage') }}
+                        @if ($character->sheet_name)
+                            <span class="block truncate text-sm font-normal text-stone-500" title="{{ $character->sheet_name }}">{{ $character->sheet_name }}</span>
+                        @endif
+                    </h2>
                     @if ($character->hasSheet())
-                        <a href="{{ route('characters.sheet', [$campaign, $character]) }}" target="_blank" class="link text-sm">{{ __('Ouvrir en grand') }}</a>
+                        <a href="{{ route('characters.sheet', [$campaign, $character]) }}" target="_blank" class="link shrink-0 text-sm">{{ __('Ouvrir en grand') }}</a>
                     @endif
                 </div>
                 @if ($character->hasSheet())
-                    <iframe src="{{ route('characters.sheet', [$campaign, $character]) }}" title="{{ __('Feuille de :name', ['name' => $entity->name]) }}" class="h-[75vh] w-full rounded-b-xl border-t border-stone-200"></iframe>
+                    <x-pdf-viewer :url="route('characters.sheet', [$campaign, $character])" :title="__('Feuille de :name', ['name' => $entity->name])" :download="route('characters.sheet', [$campaign, $character])" class="h-[75vh] overflow-hidden rounded-b-xl border-t border-stone-200" wire:ignore wire:key="sheet-{{ $character->id }}-{{ $character->sheet_size }}" />
                 @else
                     <p class="border-t border-stone-100 px-4 py-6 text-sm text-stone-600">{{ __("Le MJ n'a pas encore joint de feuille PDF.") }}</p>
                 @endif

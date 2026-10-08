@@ -161,4 +161,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/fichiers/{attachment}', [FileController::class, 'attachment'])->name('attachments.show')->whereNumber('attachment');
     Route::get('/documents/{document}/fichier', [FileController::class, 'document'])->name('documents.file')->whereNumber('document');
     Route::get('/entites/{entity}/image', [FileController::class, 'entityImage'])->name('entities.image')->whereNumber('entity');
+    Route::get('/jeux/{gameSystem}/image', [FileController::class, 'gameImage'])->name('games.image')->whereNumber('gameSystem');
+    Route::get('/mondes/{world}/image', [FileController::class, 'worldImage'])->name('worlds.image')->whereNumber('world');
 });
