@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.27.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Une vitrine publique',
+        'items' => [
+            'Une page d’accueil présente LoreMundi aux visiteurs et aux moteurs de recherche, dans les 8 langues.',
+            'L’aide se lit sans compte et gagne un volet « Votre compte » : formules, adresse e-mail, mot de passe, double authentification, données.',
+        ],
+    ],
+
     '0.26.0' => [
         'date' => '2026-10-08',
         'title' => 'Corrections de la recette v0.25.0',

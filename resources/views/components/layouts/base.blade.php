@@ -36,6 +36,8 @@
         <link rel="manifest" href="/manifest.webmanifest">
         <link rel="icon" href="/favicon.ico" sizes="any">
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+        {{-- Balises propres à une page (référencement de la page d'accueil publique). --}}
+        {{ $head ?? '' }}
         @php($scriptText = [
             'pushSubscribeFailed' => __("L'abonnement n'a pas abouti. Réessayez, ou vérifiez les réglages de notification du navigateur."),
             'pushDisableFailed' => __('La désactivation a échoué. Réessayez.'),

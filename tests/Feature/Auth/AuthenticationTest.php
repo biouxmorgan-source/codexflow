@@ -10,9 +10,10 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_home_redirects_guests_to_login(): void
+    public function test_home_shows_the_public_page_to_guests_and_campaigns_to_members(): void
     {
-        $this->get('/')->assertRedirect(route('login'));
+        $this->get('/')->assertOk()->assertSee(route('register'))->assertSee(route('login'));
+        $this->actingAs(User::factory()->create())->get('/')->assertRedirect(route('campaigns.index'));
     }
 
     public function test_login_screen_is_in_french(): void

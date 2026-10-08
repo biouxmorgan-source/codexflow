@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.27.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Un escaparate público',
+        'items' => [
+            'Una página de inicio presenta LoreMundi a los visitantes y a los buscadores, en los 8 idiomas.',
+            'La ayuda se lee sin cuenta y gana un apartado «Tu cuenta»: planes, correo, contraseña, autenticación en dos pasos, datos.',
+        ],
+    ],
+
     '0.26.0' => [
         'date' => '2026-10-08',
         'title' => 'Correcciones de la prueba de aceptación v0.25.0',
