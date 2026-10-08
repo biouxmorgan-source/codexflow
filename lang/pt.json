@@ -1887,5 +1887,9 @@
     "Un lien de confirmation a été envoyé à :email. Votre adresse changera quand vous l’ouvrirez.": "Um link de confirmação foi enviado para :email. Seu endereço mudará quando você abri-lo.",
     "Votre adresse e-mail est maintenant :email. L’ancienne adresse a été prévenue.": "Seu e-mail agora é :email. O endereço antigo foi avisado.",
     "Vous avez demandé à utiliser cette adresse pour votre compte LoreMundi.": "Você pediu para usar este endereço na sua conta LoreMundi.",
-    "{1} Réessayez dans une seconde.|[2,*] Réessayez dans :count secondes.": "{1} Tente de novo em um segundo.|[2,*] Tente de novo em :count segundos."
+    "{1} Réessayez dans une seconde.|[2,*] Réessayez dans :count secondes.": "{1} Tente de novo em um segundo.|[2,*] Tente de novo em :count segundos.",
+    ":name (copie :number)": ":name (cópia :number)",
+    "Vous aviez déjà un jeu « :name » : celui de l’archive s’appelle « :new ».": "Você já tinha um jogo «:name»: o do arquivo se chama «:new».",
+    "Vous aviez déjà un monde « :name » : celui de l’archive s’appelle « :new ».": "Você já tinha um mundo «:name»: o do arquivo se chama «:new».",
+    "Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».": "Você já tinha uma campanha «:name»: a do arquivo se chama «:new»."
 }

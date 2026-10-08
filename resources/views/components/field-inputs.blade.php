@@ -26,7 +26,7 @@
                             @break
                         @case(\App\Enums\FieldType::LongText)
                             <label for="{{ $id }}" class="label">{{ $definition->name }}</label>
-                            <textarea id="{{ $id }}" wire:model="{{ $model }}.{{ $definition->id }}" rows="3" class="field"></textarea>
+                            <x-link-textarea :id="$id" :model="$model.'.'.$definition->id" rows="3" />
                             @break
                         @case(\App\Enums\FieldType::Select)
                             <label for="{{ $id }}" class="label">{{ $definition->name }}</label>

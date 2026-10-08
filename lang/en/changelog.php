@@ -4,6 +4,17 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.30.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Writing and links',
+        'items' => [
+            '“Long text” fields and rules’ GM notes get the rich editor and [[ ]] links.',
+            'On their sheet, the player sees long texts formatted, with links to the sheets their character knows.',
+            'The quick session note suggests sheets as soon as you type “[[”.',
+            'Copies are numbered (“copy 2”, “copy 3”) and an import never reuses the name of a game, world or campaign you already have.',
+        ],
+    ],
+
     '0.29.0' => [
         'date' => '2026-10-08',
         'title' => 'Account security',

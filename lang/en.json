@@ -1887,5 +1887,9 @@
     "Un lien de confirmation a été envoyé à :email. Votre adresse changera quand vous l’ouvrirez.": "A confirmation link has been sent to :email. Your address will change when you open it.",
     "Votre adresse e-mail est maintenant :email. L’ancienne adresse a été prévenue.": "Your email address is now :email. Your old address has been notified.",
     "Vous avez demandé à utiliser cette adresse pour votre compte LoreMundi.": "You asked to use this address for your LoreMundi account.",
-    "{1} Réessayez dans une seconde.|[2,*] Réessayez dans :count secondes.": "{1} Try again in one second.|[2,*] Try again in :count seconds."
+    "{1} Réessayez dans une seconde.|[2,*] Réessayez dans :count secondes.": "{1} Try again in one second.|[2,*] Try again in :count seconds.",
+    ":name (copie :number)": ":name (copy :number)",
+    "Vous aviez déjà un jeu « :name » : celui de l’archive s’appelle « :new ».": "You already had a game “:name”: the one from the archive is called “:new”.",
+    "Vous aviez déjà un monde « :name » : celui de l’archive s’appelle « :new ».": "You already had a world “:name”: the one from the archive is called “:new”.",
+    "Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».": "You already had a campaign “:name”: the one from the archive is called “:new”."
 }

@@ -116,7 +116,7 @@
                                 <div @class(['flex justify-between gap-3 border-b border-stone-100 pb-1', 'flex-col' => $definition->type === \App\Enums\FieldType::LongText])>
                                     <dt class="text-sm text-stone-600">{{ $definition->name }}</dt>
                                     <dd class="min-w-0 font-medium">
-                                        <x-field-value :definition="$definition" :value="$entity->fieldValue($definition)" :campaign="$campaign" :character="$character" />
+                                        <x-field-value :definition="$definition" :value="$entity->fieldValue($definition)" :campaign="$campaign" :character="$character" :link="$this->knownLink(...)" />
                                     </dd>
                                 </div>
                             @endforeach

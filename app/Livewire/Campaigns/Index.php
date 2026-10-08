@@ -192,7 +192,8 @@ class Index extends Component
         Plans::ensureRoom(auth()->user(), (int) $this->archive->getSize(), 'archive');
 
         try {
-            $campaign = (new CampaignImport(auth()->user()))->handle($this->archive->getRealPath());
+            $import = new CampaignImport(auth()->user());
+            $campaign = $import->handle($this->archive->getRealPath());
         } catch (ArchiveException $e) {
             $this->addError('archive', $e->getMessage());
 
@@ -201,7 +202,7 @@ class Index extends Component
 
         $this->archive->delete();
         $this->reset('importing', 'archive');
-        session()->flash('status', __('Campagne importée : « :name ».', ['name' => $campaign->name]));
+        session()->flash('status', implode(' ', [__('Campagne importée : « :name ».', ['name' => $campaign->name]), ...$import->notices]));
         $this->redirectRoute('campaigns.show', $campaign, navigate: true);
     }
 

@@ -1,12 +1,14 @@
-@props(['definition', 'value', 'campaign', 'character' => null])
+@props(['definition', 'value', 'campaign', 'character' => null, 'link' => null])
 {{--
     Valeur d'un champ libre. Vue MJ par défaut ; avec $character (fiche vue par son joueur),
-    aucune fiche n'est liée et seuls les documents que le personnage connaît s'ouvrent.
+    seules les fiches qu'il connaît sont liées ($link, sinon aucune) et seuls ses documents s'ouvrent.
 --}}
 @switch($definition->type)
     @case(\App\Enums\FieldType::LongText)
+        <div class="font-normal text-stone-700">{{ $character ? \App\Support\EntityLinks::render($value, $campaign, $link ?? fn () => null) : \App\Support\EntityLinks::render($value, $campaign) }}</div>
+        @break
     @case(\App\Enums\FieldType::EntityRef)
-        <span @class(['font-normal text-stone-700' => $definition->type === \App\Enums\FieldType::LongText])>{{ $character ? \App\Support\EntityLinks::plain($value, inline: true) : \App\Support\EntityLinks::inline($value, $campaign) }}</span>
+        <span>{{ $character ? \App\Support\EntityLinks::plain($value, inline: true) : \App\Support\EntityLinks::inline($value, $campaign) }}</span>
         @break
     @case(\App\Enums\FieldType::Link)
         @if (is_string($value) && preg_match('#^https?://#i', $value))

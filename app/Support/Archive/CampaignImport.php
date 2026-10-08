@@ -21,6 +21,8 @@ use App\Models\TimelineEvent;
 use App\Models\User;
 use App\Support\EntityLinks;
 use App\Support\TableTheme;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -54,6 +56,9 @@ final class CampaignImport
     private array $fieldTypes = [];
 
     private string $now;
+
+    /** @var list<string> remarques à montrer après l'import (noms déjà pris…) */
+    public array $notices = [];
 
     public function __construct(private User $user) {}
 
@@ -136,6 +141,27 @@ final class CampaignImport
         return $data;
     }
 
+    /**
+     * Nom libre parmi ceux du compte : « Nom (2) », « Nom (3) »… quand il est déjà pris,
+     * et une remarque pour le dire après l'import.
+     *
+     * @param  Relation<Model, Model, mixed>  $siblings
+     */
+    private function distinct(Relation $siblings, string $name, string $notice): string
+    {
+        $candidate = $name;
+        for ($number = 2; (clone $siblings)->where('name', $candidate)->exists() && $number < 1000; $number++) {
+            $suffix = ' ('.$number.')';
+            $candidate = mb_substr($name, 0, 255 - mb_strlen($suffix)).$suffix;
+        }
+
+        if ($candidate !== $name) {
+            $this->notices[] = strtr($notice, [':name' => $name, ':new' => $candidate]);
+        }
+
+        return $candidate;
+    }
+
     /** @param array<string, mixed> $data */
     private function import(array $data): Campaign
     {
@@ -144,19 +170,19 @@ final class CampaignImport
         $worldData = isset($data['world']) ? $this->array($data['world']) : null;
 
         $gameSystem = $this->user->gameSystems()->create([
-            'name' => $this->string($systemData['name'] ?? null, 255) ?? __('Jeu importé'),
+            'name' => $this->distinct($this->user->gameSystems(), $this->string($systemData['name'] ?? null, 255) ?? __('Jeu importé'), __('Vous aviez déjà un jeu « :name » : celui de l’archive s’appelle « :new ».')),
             'description' => $this->string($systemData['description'] ?? null, 20000),
             'image_path' => $this->image($systemData['image'] ?? null, 'images'),
         ]);
 
         $world = $worldData === null ? null : $this->user->worlds()->create([
-            'name' => $this->string($worldData['name'] ?? null, 255) ?? __('Monde importé'),
+            'name' => $this->distinct($this->user->worlds(), $this->string($worldData['name'] ?? null, 255) ?? __('Monde importé'), __('Vous aviez déjà un monde « :name » : celui de l’archive s’appelle « :new ».')),
             'description' => $this->string($worldData['description'] ?? null, 20000),
             'image_path' => $this->image($worldData['image'] ?? null, 'images'),
         ]);
 
         $campaign = new Campaign([
-            'name' => $this->string($campaignData['name'] ?? null, 255) ?? __('Campagne importée'),
+            'name' => $this->distinct($this->user->ownedCampaigns(), $this->string($campaignData['name'] ?? null, 255) ?? __('Campagne importée'), __('Vous aviez déjà une campagne « :name » : celle de l’archive s’appelle « :new ».')),
             'description' => $this->string($campaignData['description'] ?? null, 5000),
             'status' => CampaignStatus::Active,
         ]);

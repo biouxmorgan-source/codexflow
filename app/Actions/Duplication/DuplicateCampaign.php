@@ -59,7 +59,7 @@ class DuplicateCampaign
     private function copy(Campaign $source, User $owner, FileCopies $files, bool $keepStatuses): Campaign
     {
         $campaign = new Campaign([
-            'name' => DuplicateEntity::copyName($source->name),
+            'name' => DuplicateEntity::copyName($source->name, fn (string $name) => $owner->ownedCampaigns()->where('name', $name)->exists()),
             'description' => $source->description,
             'status' => CampaignStatus::Active,
         ]);

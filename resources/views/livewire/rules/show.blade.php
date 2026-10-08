@@ -60,7 +60,7 @@
             @if ($rule->gm_notes)
                 <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm">
                     <h2 class="mb-2 font-semibold text-flow">{{ __('Notes MJ') }}</h2>
-                    <p class="whitespace-pre-line text-stone-700">{{ $rule->gm_notes }}</p>
+                    <div class="text-stone-700">{{ \App\Support\EntityLinks::render($rule->gm_notes, $campaign) }}</div>
                 </section>
             @endif
         </div>

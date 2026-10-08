@@ -4,6 +4,17 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.30.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Schrijven en links',
+        'items' => [
+            'Velden ‘lange tekst’ en de SL-notities van regels hebben de opmaakeditor en [[ ]]-links.',
+            'Op zijn blad ziet de speler lange teksten opgemaakt, met links naar de bladen die zijn personage kent.',
+            'De snelle sessienotitie stelt bladen voor zodra je ‘[[’ typt.',
+            'Kopieën worden genummerd (‘kopie 2’, ‘kopie 3’) en een import neemt nooit de naam over van een spel, wereld of campagne die je al hebt.',
+        ],
+    ],
+
     '0.29.0' => [
         'date' => '2026-10-08',
         'title' => 'Accountbeveiliging',

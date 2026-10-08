@@ -75,7 +75,7 @@
 
         <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm">
             <label for="gmNotes" class="label text-flow">{{ __('Notes MJ') }} <span class="font-normal text-stone-500">{{ __('(jamais visibles des joueurs)') }}</span></label>
-            <textarea id="gmNotes" wire:model="gmNotes" rows="4" class="field" placeholder="{{ __("Pourquoi cette variante, ce qu'on a observé en test…") }}"></textarea>
+            <x-link-textarea id="gmNotes" model="gmNotes" rows="4" :placeholder="__('Pourquoi cette variante, ce qu\'on a observé en test…')" />
             @error('gmNotes') <p class="error">{{ $message }}</p> @enderror
         </section>
 

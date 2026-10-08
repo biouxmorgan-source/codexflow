@@ -4,6 +4,17 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.30.0' => [
+        'date' => '2026-10-08',
+        'title' => 'Schreiben und Verknüpfungen',
+        'items' => [
+            'Felder „Langer Text“ und die SL-Notizen der Regeln haben den Rich-Text-Editor und [[ ]]-Verknüpfungen.',
+            'Auf seinem Blatt sieht der Spieler lange Texte formatiert, mit Verknüpfungen zu den Blättern, die sein Charakter kennt.',
+            'Die Schnellnotiz der Sitzung schlägt Blätter vor, sobald Sie „[[“ tippen.',
+            'Kopien werden nummeriert („Kopie 2“, „Kopie 3“), und ein Import übernimmt nie den Namen eines Spiels, einer Welt oder Kampagne, die Sie schon haben.',
+        ],
+    ],
+
     '0.29.0' => [
         'date' => '2026-10-08',
         'title' => 'Kontosicherheit',
