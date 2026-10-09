@@ -4,6 +4,17 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.36.0' => [
+        'date' => '2026-10-09',
+        'title' => 'GM and session comfort',
+        'items' => [
+            'The pages of a PDF shown at the table can be turned from the remote, from the document page or with the arrows of the GM\'s screen, and players following the screen turn with it. The PDF viewer shows “page n / N” and lets you jump to a page.',
+            'In Session mode, “Played event” adds the text you typed to the timeline, linked to the current session and scene.',
+            'A character can be given back to any of its former players who returns to the campaign, who gets back their own private exchanges with the GM, without those of the players in between.',
+            'An entry\'s status shows under its title; pregens (tag “pregen”) are offered first in “New character”; the counters of the Tags page list the tagged items; a demo loaded several times numbers its campaign, game and world; the spectator role states that it sees the table screen even when not shared.',
+        ],
+    ],
+
     '0.35.0' => [
         'date' => '2026-10-09',
         'title' => 'Fixes from the final acceptance test',

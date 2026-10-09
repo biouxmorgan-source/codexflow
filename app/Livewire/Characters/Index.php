@@ -12,6 +12,7 @@ use App\Models\PlayerCharacter;
 use App\Models\User;
 use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
@@ -57,7 +58,7 @@ class Index extends Component
     public function characters(): Collection
     {
         return $this->campaign->playerCharacters()
-            ->with(['entity', 'player', 'previousPlayer'])
+            ->with(['entity', 'player', 'previousPlayer', 'assignments'])
             // Objets ajoutés par les joueurs, que le MJ n'a pas encore validés.
             ->withCount(['grants as pending_count' => fn ($q) => $q->where('kind', 'possession')->where('added_by_player', true)->whereNull('validated_at')])
             // Échanges proposés par le joueur, en attente du MJ.
@@ -86,10 +87,11 @@ class Index extends Component
     }
 
     /**
-     * Personnages sans joueur dont l'ancien joueur est de nouveau dans la campagne
-     * et n'y joue rien d'autre : le MJ peut les lui rendre d'un clic.
+     * Personnages sans joueur dont un ancien joueur est de nouveau dans la campagne
+     * et n'y joue rien d'autre : le MJ peut les lui rendre d'un clic. Le dernier joueur, s'il est
+     * encore là ; sinon un joueur plus ancien revenu depuis (le personnage a pu passer entre d'autres mains).
      *
-     * @return Collection<int, PlayerCharacter>
+     * @return Collection<int, PlayerCharacter> chacun avec sa relation « returnee »
      */
     #[Computed]
     public function returning(): Collection
@@ -97,20 +99,41 @@ class Index extends Component
         $playing = $this->characters->whereNotNull('user_id')->where('is_active', true)->pluck('user_id');
 
         return $this->characters
-            ->filter(fn (PlayerCharacter $character) => $character->user_id === null
-                && $character->previous_user_id !== null
-                && $this->players->contains('id', $character->previous_user_id)
-                && ! $playing->contains($character->previous_user_id))
+            ->filter(fn (PlayerCharacter $character) => $character->user_id === null)
+            ->map(fn (PlayerCharacter $character) => $character->setRelation('returnee', $this->returneeOf($character, $playing)))
+            ->filter(fn (PlayerCharacter $character) => $character->returnee !== null)
             ->values();
+    }
+
+    /** @param SupportCollection<int, int> $playing */
+    private function returneeOf(PlayerCharacter $character, SupportCollection $playing): ?User
+    {
+        foreach ($character->assignments->whereNotNull('ended_at') as $assignment) {
+            $player = $this->players->firstWhere('id', $assignment->user_id);
+
+            if ($player === null || $playing->contains($player->id)) {
+                continue;
+            }
+
+            // Revenu dans la campagne après avoir quitté le personnage, ou son tout dernier joueur.
+            if ($player->id === $character->previous_user_id || $player->pivot->created_at?->gte($assignment->ended_at)) {
+                return $player;
+            }
+        }
+
+        // Personnages d'avant l'historique des joueurs.
+        $previous = $this->players->firstWhere('id', $character->previous_user_id);
+
+        return $previous !== null && ! $playing->contains($previous->id) ? $previous : null;
     }
 
     public function giveBack(int $characterId): void
     {
         $this->authorize('update', $this->campaign);
-        $character = $this->find($characterId);
-        abort_unless($character->user_id === null && $this->players->contains('id', $character->previous_user_id), 422);
+        $character = $this->returning->firstWhere('id', $characterId);
+        abort_if($character === null, 422);
 
-        DB::transaction(fn () => $this->assignTo($character, $character->previous_user_id));
+        DB::transaction(fn () => $this->assignTo($character, $character->returnee->id));
         unset($this->characters, $this->returning);
     }
 
@@ -128,8 +151,39 @@ class Index extends Component
             ->whereNotIn('id', $this->campaign->playerCharacters()->select('entity_id'))
             // Un prétiré déjà copié pour un personnage n'est plus proposé.
             ->whereNotIn('id', $this->campaign->playerCharacters()->whereNotNull('source_entity_id')->select('source_entity_id'))
+            ->with('tags')
             ->orderBy('name')
             ->get();
+    }
+
+    /**
+     * Tags qui marquent un prétiré, dans toutes les langues de l'interface (ceux de la campagne
+     * de démonstration compris). Les fiches ainsi marquées sont proposées en tête.
+     */
+    public static function pregenTag(string $name): bool
+    {
+        static $names = null;
+        $names ??= collect(['prétiré', 'pretire', 'pré-tiré', 'pregen', 'pre-gen', 'pregenerated', 'pré-généré'])
+            ->merge(collect(glob(resource_path('demo/*.php')))->map(fn (string $file) => (require $file)['tags']['pregen'] ?? null))
+            ->filter()
+            ->map(fn (string $tag) => mb_strtolower($tag))
+            ->unique()
+            ->all();
+
+        return in_array(mb_strtolower(trim($name)), $names, true);
+    }
+
+    /** Candidats rangés : prétirés d'abord, puis les autres fiches du monde, puis celles de la campagne. */
+    #[Computed]
+    public function candidateGroups(): SupportCollection
+    {
+        $pregen = fn (Entity $entity) => $entity->tags->contains(fn ($tag) => self::pregenTag($tag->name));
+
+        return collect([
+            __('Prétirés') => $this->candidates->filter($pregen),
+            __('Autres personnages du monde (copiés dans la campagne)') => $this->candidates->reject($pregen)->filter->isWorldEntity(),
+            __('Autres personnages de la campagne') => $this->candidates->reject($pregen)->reject->isWorldEntity(),
+        ])->filter(fn ($group) => $group->isNotEmpty());
     }
 
     public function create(): void

@@ -200,7 +200,7 @@ class PlayerCharacterTest extends TestCase
         $pregen->save();
 
         Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $this->campaign])
-            ->assertSee(['Fiches du monde', 'Harvey Walters'])
+            ->assertSee(['Autres personnages du monde', 'Harvey Walters'])
             ->set('entityChoice', (string) $pregen->id)
             ->set('playerId', (string) $this->player->id)
             ->call('create')

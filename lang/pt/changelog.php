@@ -4,6 +4,17 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.36.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Conforto do Mestre e da sessão',
+        'items' => [
+            'As páginas de um PDF mostrado na mesa são viradas pelo controle remoto, pela página do documento ou com as setas da tela do Mestre, e os jogadores que seguem a tela viram junto. O leitor de PDF indica «página n / N» e permite ir a uma página.',
+            'No modo Sessão, «Evento jogado» adiciona o texto digitado à cronologia, ligado à sessão e à cena em curso.',
+            'Um personagem pode ser devolvido a qualquer um de seus antigos jogadores que volte à campanha, que recupera suas próprias trocas privadas com o Mestre, sem as dos jogadores intermediários.',
+            'O status de uma ficha aparece sob o título; os pré-criados (etiqueta «pré-criado») aparecem primeiro em «Novo personagem»; os contadores da página Etiquetas listam os itens; uma demo carregada várias vezes numera sua campanha, jogo e mundo; o papel de espectador indica que ele vê a tela da mesa mesmo não compartilhada.',
+        ],
+    ],
+
     '0.35.0' => [
         'date' => '2026-10-09',
         'title' => 'Correções do teste de aceitação final',

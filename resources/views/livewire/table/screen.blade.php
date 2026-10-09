@@ -11,9 +11,8 @@
                 @elseif ($display['document']->isPdf())
                     @php($leads = auth()->user()->can('update', $campaign))
                     <x-pdf-viewer :url="route('table.file', [$campaign, 'v' => $display['key']])" :title="$display['document']->title" mode="screen" :page="$display['page']" :sync="$leads" class="h-full w-full" wire:ignore
-                        x-on:pdf-page-turned="{{ $leads ? '$wire.turnTo($event.detail.page)' : '' }}"
-                        x-on:pdf-pages-known="{{ $leads ? '$wire.knowPages($event.detail.pages)' : '' }}" />
-                    {{-- Page choisie par le MJ (télécommande, page du document) : l'écran la suit. --}}
+                        x-on:pdf-page-turned="$wire.turnTo($event.detail.page)" x-on:pdf-pages-known="$wire.knowPages($event.detail.pages)" />
+                    {{-- Seul l'écran du MJ ($sync) envoie ces deux événements. Page choisie par le MJ (télécommande, page du document) : l'écran la suit. --}}
                     <span wire:key="pdf-page-{{ $display['page'] }}" x-init="$dispatch('table-pdf-page', { page: {{ $display['page'] }} })" hidden></span>
                 @else
                     <p class="p-12 text-center text-4xl font-semibold">{{ $display['document']->title }}</p>

@@ -48,6 +48,15 @@ class ShowButton extends Component
         $this->dispatch('table-changed');
     }
 
+    /** Document PDF à la table : on en tourne les pages depuis sa page. */
+    public function turn(int $delta): void
+    {
+        $this->authorize('update', $this->campaign);
+        abort_unless($this->kind === 'document' && TableDisplay::isShowing($this->campaign->refresh(), 'document', $this->itemId), 404);
+
+        TableDisplay::turn($this->campaign, $delta);
+    }
+
     #[On('table-changed')]
     public function refresh(): void {}
 
@@ -59,8 +68,14 @@ class ShowButton extends Component
 
     public function render()
     {
+        $campaign = $this->campaign->fresh();
+        $showing = TableDisplay::isShowing($campaign, $this->kind, $this->itemId);
+
         return view('livewire.table.show-button', [
-            'showing' => TableDisplay::isShowing($this->campaign->fresh(), $this->kind, $this->itemId),
+            'showing' => $showing,
+            'pdfPages' => $showing && $this->kind === 'document' && TableDisplay::showsPdf($campaign)
+                ? ['page' => TableDisplay::page($campaign), 'pages' => TableDisplay::pages($campaign)]
+                : null,
             'gmOnly' => $this->isGameMasterOnly(),
         ]);
     }

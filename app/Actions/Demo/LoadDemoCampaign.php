@@ -15,6 +15,7 @@ use App\Models\Entity;
 use App\Models\EntityRelation;
 use App\Models\EntityType;
 use App\Models\FieldDefinition;
+use App\Models\GameSystem;
 use App\Models\Rule;
 use App\Models\Scene;
 use App\Models\Secret;
@@ -22,8 +23,11 @@ use App\Models\TableMap;
 use App\Models\Tag;
 use App\Models\TimelineEvent;
 use App\Models\User;
+use App\Models\World;
 use App\Support\Demo\DemoFiles;
 use App\Support\Locale;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -92,6 +96,27 @@ class LoadDemoCampaign
         return resource_path(self::TEXT_PATH.'/'.basename($locale).'.php');
     }
 
+    /**
+     * Le nom, ou le nom suivi du premier numéro libre parmi ceux de la requête.
+     *
+     * @param  Builder<covariant Model>  $query
+     */
+    private static function unique(Builder $query, string $name): string
+    {
+        $taken = $query->pluck('name')->map(fn (string $existing) => mb_strtolower($existing))->all();
+
+        if (! in_array(mb_strtolower($name), $taken, true)) {
+            return $name;
+        }
+
+        $number = 2;
+        while (in_array(mb_strtolower("$name ($number)"), $taken, true)) {
+            $number++;
+        }
+
+        return "$name ($number)";
+    }
+
     /** Charge la démonstration dans le compte donné, dans la langue demandée ou celle de l'interface. */
     public function handle(User $gm, ?string $locale = null): Campaign
     {
@@ -102,10 +127,11 @@ class LoadDemoCampaign
         // Le journal d'activité raconte ce que fait le MJ en partie : une démonstration n'a rien à y écrire.
         return ActivityLog::muted(fn () => DB::transaction(function () {
             $this->campaign = $this->createCampaign->handle($this->gm, [
-                'name' => $this->text['campaign']['name'],
+                // Une démonstration chargée plusieurs fois : « Vehrmund (2) », pour distinguer les copies.
+                'name' => self::unique(Campaign::where('user_id', $this->gm->id), $this->text['campaign']['name']),
                 'description' => $this->text['campaign']['description'],
-                'new_game_name' => $this->text['game']['name'],
-                'new_world_name' => $this->text['world']['name'],
+                'new_game_name' => self::unique(GameSystem::where('user_id', $this->gm->id), $this->text['game']['name']),
+                'new_world_name' => self::unique(World::where('user_id', $this->gm->id), $this->text['world']['name']),
             ]);
 
             $this->campaign->gameSystem->forceFill(['description' => $this->text['game']['description']])->save();

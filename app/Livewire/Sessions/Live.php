@@ -12,8 +12,10 @@ use App\Models\Rule;
 use App\Models\Scene;
 use App\Models\SessionNote;
 use App\Models\TableMap;
+use App\Models\TimelineEvent;
 use App\Models\ToPlayItem;
 use App\Support\CampaignFeatures;
+use App\Support\EntityLinks;
 use App\Support\SessionContext;
 use App\Support\TableDisplay;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,6 +34,9 @@ class Live extends Component
     public Campaign $campaign;
 
     public string $noteBody = '';
+
+    /** Dernier événement joué ajouté depuis l'écran, rappelé sous le champ. */
+    public string $eventAdded = '';
 
     public string $toPlayBody = '';
 
@@ -234,8 +239,43 @@ class Live extends Component
         $note->scene_id = $session->current_scene_id;
         $session->notes()->save($note);
 
-        $this->reset('noteBody');
+        $this->reset('noteBody', 'eventAdded');
         unset($this->notes);
+    }
+
+    /**
+     * Le texte de la note devient un événement joué de la chronologie, rattaché à la séance
+     * et à la scène en cours, public comme les autres événements joués, sans quitter l'écran.
+     */
+    public function addPlayedEvent(): void
+    {
+        $this->authorize('update', $this->campaign);
+        CampaignFeatures::ensure($this->campaign, 'timeline');
+
+        $this->validate(['noteBody' => ['required', 'string', 'max:5000']], attributes: ['noteBody' => __('événement')]);
+
+        $session = $this->session;
+        abort_if($session === null, 404);
+
+        $body = trim($this->noteBody);
+        $title = mb_strimwidth(trim(preg_replace(EntityLinks::PATTERN, '$1', $body)), 0, 255, '…');
+
+        $event = new TimelineEvent([
+            'kind' => 'played',
+            'title' => $title,
+            // Le texte complet, liens [[ ]] compris, quand le titre l'a simplifié.
+            'description' => $title === $body ? null : $body,
+            'zone' => TimelineEvent::defaultZone('played'),
+        ]);
+        $event->campaign()->associate($this->campaign);
+        $event->user_id = $this->campaign->user_id;
+        $event->position = (int) $this->campaign->timelineEvents()->max('position') + 1;
+        $event->play_session_id = $session->id;
+        $event->scene_id = $session->current_scene_id;
+        $event->save();
+
+        $this->reset('noteBody');
+        $this->eventAdded = $title;
     }
 
     public function deleteNote(int $id): void

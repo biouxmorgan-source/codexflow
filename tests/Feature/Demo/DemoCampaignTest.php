@@ -194,8 +194,12 @@ class DemoCampaignTest extends TestCase
 
         // Sans langue précisée, celle de l'interface ; une langue inconnue retombe sur le français.
         app()->setLocale('de');
-        $this->assertSame(LoadDemoCampaign::text('de')['campaign']['name'], app(LoadDemoCampaign::class)->handle($gm)->name);
-        $this->assertSame(LoadDemoCampaign::text('fr')['campaign']['name'], app(LoadDemoCampaign::class)->handle($gm, 'xx')->name);
+        // Déjà chargées une fois : les copies sont numérotées.
+        $this->assertSame(LoadDemoCampaign::text('de')['campaign']['name'].' (2)', app(LoadDemoCampaign::class)->handle($gm)->name);
+        $again = app(LoadDemoCampaign::class)->handle($gm, 'xx');
+        $this->assertSame(LoadDemoCampaign::text('fr')['campaign']['name'].' (2)', $again->name);
+        $this->assertSame('Vehrmund (10)', $again->world->name);
+        $this->assertSame(LoadDemoCampaign::text('fr')['game']['name'].' (2)', $again->gameSystem->name);
     }
 
     public function test_the_campaign_list_offers_the_interface_language_first(): void

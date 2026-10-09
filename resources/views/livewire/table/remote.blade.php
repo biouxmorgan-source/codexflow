@@ -13,6 +13,9 @@
             <a href="{{ route('table.screen', $campaign) }}" target="loremundi-table" class="link text-sm">{{ __('Écran ↗') }}</a>
         </div>
         <p class="mt-2 text-sm"><span class="text-stone-500">{{ __('Affiché :') }}</span> <span class="font-medium">{{ $label }}</span></p>
+        @if ($pdf)
+            <x-table-pages :page="$page" :pages="$pages" class="mt-3" />
+        @endif
         <div class="mt-3 grid grid-cols-2 gap-2">
             <button type="button" wire:click="clear" @disabled(! $shown) class="btn-secondary justify-center py-3 disabled:opacity-40">{{ __("Vider l'écran") }}</button>
             <button type="button" wire:click="next" @disabled($this->sceneItems->isEmpty()) class="btn-primary justify-center py-3 disabled:opacity-40">{{ $atLastItem ? __('Terminer ■') : __('Suivant ▶') }}</button>
