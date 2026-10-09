@@ -101,7 +101,7 @@ final class CampaignExport
         ];
         $tagIds = collect($tagLinks)->flatMap(fn (Collection $links) => $links->flatten())->unique()->all();
 
-        $typeIds = $entities->pluck('entity_type_id')->merge($fields->pluck('entity_type_id'))->filter()->unique()->all();
+        $typeIds = $entities->pluck('entity_type_id')->merge($fields->flatMap(fn ($field) => self::fieldTypeIds($field)))->filter()->unique()->all();
 
         $relations = DB::table('entity_relations')
             ->where(fn ($q) => $q->whereNull('campaign_id')->orWhere('campaign_id', $campaign->id))
@@ -151,6 +151,7 @@ final class CampaignExport
             'field_definitions' => $fields->map(fn ($field) => [
                 'id' => $field->id,
                 'entity_type_id' => $field->entity_type_id,
+                'entity_type_ids' => self::fieldTypeIds($field),
                 'group' => $field->group,
                 'name' => $field->name,
                 'type' => $field->type,
@@ -336,13 +337,14 @@ final class CampaignExport
             'app_version' => config('codexflow.version'),
             'name' => DB::table('game_systems')->where('id', $campaign->game_system_id)->value('name'),
             'entity_types' => DB::table('entity_types')
-                ->whereIn('id', $fields->pluck('entity_type_id')->filter())
+                ->whereIn('id', $fields->flatMap(fn ($field) => self::fieldTypeIds($field))->unique()->values())
                 ->orWhere('user_id', $campaign->user_id)
                 ->orderBy('id')->get(['id', 'key', 'name'])->map(fn ($type) => (array) $type)->all(),
             'tags' => DB::table('tags')->whereIn('id', $tagIds)->orderBy('id')->get(['id', 'name', 'color'])->map(fn ($tag) => (array) $tag)->all(),
             'field_definitions' => $fields->map(fn ($field) => [
                 'id' => $field->id,
                 'entity_type_id' => $field->entity_type_id,
+                'entity_type_ids' => self::fieldTypeIds($field),
                 'group' => $field->group,
                 'name' => $field->name,
                 'type' => $field->type,
@@ -389,5 +391,17 @@ final class CampaignExport
             : $this->zip->addFromString($name, (string) Storage::disk($disk)->get($path));
 
         return $name;
+    }
+
+    /**
+     * Types de fiche d'un champ lu en base (vide : tous les types).
+     *
+     * @return list<int>
+     */
+    private static function fieldTypeIds(object $field): array
+    {
+        $ids = json_decode((string) ($field->entity_type_ids ?? ''), true);
+
+        return is_array($ids) && $ids !== [] ? array_map('intval', $ids) : ($field->entity_type_id !== null ? [(int) $field->entity_type_id] : []);
     }
 }

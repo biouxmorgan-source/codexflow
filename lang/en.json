@@ -1989,5 +1989,6 @@
     "dernière : :date": "last: :date",
     "jamais": "never",
     "L’assistant du maître de jeu de rôle et de ses joueurs.": "The assistant for role-playing game masters and their players.",
-    "Les boutons et champs sont désactivés jusqu’au retour de la connexion.": "Buttons and fields are disabled until the connection returns."
+    "Les boutons et champs sont désactivés jusqu’au retour de la connexion.": "Buttons and fields are disabled until the connection returns.",
+    "Cochez un ou plusieurs types ; aucun coché : tous les types.": "Tick one or more types; none ticked: all types."
 }

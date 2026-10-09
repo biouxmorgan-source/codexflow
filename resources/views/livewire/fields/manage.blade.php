@@ -44,7 +44,7 @@
                                         @if ($definition->player_editable)
                                             <span class="shrink-0 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-800">{{ __('Joueur') }}</span>
                                         @endif
-                                        <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{{ $definition->entityType?->name ?? __('Tous les types') }}</span>
+                                        <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{{ $definition->typeLabel($this->types) }}</span>
                                         <span class="flex shrink-0 items-center gap-1 text-sm">
                                             <button type="button" wire:click="move({{ $definition->id }}, -1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="{{ __('Monter :name', ['name' => $definition->name]) }}">↑</button>
                                             <button type="button" wire:click="move({{ $definition->id }}, 1)" class="rounded px-2 py-1 text-stone-600 hover:bg-stone-100" aria-label="{{ __('Descendre :name', ['name' => $definition->name]) }}">↓</button>
@@ -107,16 +107,20 @@
                         <span>{{ __('Modifiable par le joueur') }} <span class="block text-xs text-stone-500">{{ __('Sur la fiche de son personnage : PV, munitions, argent…') }}</span></span>
                     </label>
                 @endif
-                <div>
-                    <label for="entityTypeId" class="label">{{ __('Fiches concernées') }}</label>
-                    <select id="entityTypeId" wire:model="entityTypeId" class="field">
-                        <option value="">{{ __('Tous les types') }}</option>
+                <fieldset>
+                    <legend class="label">{{ __('Fiches concernées') }}</legend>
+                    <p class="mb-1 text-xs text-stone-500">{{ __('Cochez un ou plusieurs types ; aucun coché : tous les types.') }}</p>
+                    <div class="grid grid-cols-2 gap-x-3 gap-y-1">
                         @foreach ($this->types as $entityType)
-                            <option value="{{ $entityType->id }}">{{ $entityType->name }}</option>
+                            <label class="flex items-center gap-2 text-sm" wire:key="field-type-{{ $entityType->id }}">
+                                <input type="checkbox" wire:model="entityTypeIds" value="{{ $entityType->id }}">
+                                <span>{{ $entityType->name }}</span>
+                            </label>
                         @endforeach
-                    </select>
-                    @error('entityTypeId') <p class="error">{{ $message }}</p> @enderror
-                </div>
+                    </div>
+                    @error('entityTypeIds') <p class="error">{{ $message }}</p> @enderror
+                    @error('entityTypeIds.*') <p class="error">{{ $message }}</p> @enderror
+                </fieldset>
                 <div class="flex gap-3">
                     <button type="submit" class="btn-primary">{{ $editingId ? __('Enregistrer') : __('Ajouter') }}</button>
                     @if ($editingId)

@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.41.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Gedeelde velden',
+        'items' => [
+            'Een veld kan voor meerdere kaarttypen tegelijk gelden, bijvoorbeeld levenspunten voor personages en wezens; spelsjablonen en veldbestanden bewaren deze keuze.',
+        ],
+    ],
+
     '0.40.0' => [
         'date' => '2026-10-09',
         'title' => 'App en beveiliging',

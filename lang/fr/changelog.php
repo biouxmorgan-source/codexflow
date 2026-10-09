@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.41.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Champs partagés',
+        'items' => [
+            'Un champ peut concerner plusieurs types de fiche à la fois, par exemple les points de vie des personnages et des créatures ; les modèles de jeu et les fichiers de champs gardent ce choix.',
+        ],
+    ],
+
     '0.40.0' => [
         'date' => '2026-10-09',
         'title' => 'Application et sécurité',

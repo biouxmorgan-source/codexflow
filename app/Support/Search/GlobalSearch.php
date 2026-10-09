@@ -516,7 +516,7 @@ final class GlobalSearch
 
         foreach ($this->fieldDefinitions as $definition) {
             if (($publicOnly && $definition->zone !== Zone::Public)
-                || ($definition->entity_type_id !== null && $definition->entity_type_id !== $entity->entity_type_id)) {
+                || ! $definition->appliesTo($entity->entity_type_id)) {
                 continue;
             }
 

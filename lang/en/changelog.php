@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.41.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Shared fields',
+        'items' => [
+            'A field can concern several entry types at once, for example hit points for characters and creatures; game templates and field files keep this choice.',
+        ],
+    ],
+
     '0.40.0' => [
         'date' => '2026-10-09',
         'title' => 'App and security',

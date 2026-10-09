@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
  * Champ libre nommé par le MJ pour un jeu. Les valeurs sont stockées dans entities.field_values.
  */
-#[Fillable(['entity_type_id', 'group', 'name', 'type', 'options', 'zone', 'position', 'player_editable'])]
+#[Fillable(['entity_type_id', 'entity_type_ids', 'group', 'name', 'type', 'options', 'zone', 'position', 'player_editable'])]
 class FieldDefinition extends Model
 {
     use RecordsActivity;
@@ -73,6 +74,7 @@ class FieldDefinition extends Model
             'type' => FieldType::class,
             'zone' => Zone::class,
             'options' => 'array',
+            'entity_type_ids' => 'array',
             'player_editable' => 'boolean',
         ];
     }
@@ -96,7 +98,66 @@ class FieldDefinition extends Model
      */
     public function scopeForType(Builder $query, int|string|null $entityTypeId): void
     {
-        $query->where(fn (Builder $q) => $q->whereNull('entity_type_id')->orWhere('entity_type_id', $entityTypeId));
+        $query->where(fn (Builder $q) => $q->whereNull('entity_type_id')
+            ->orWhere('entity_type_id', $entityTypeId)
+            ->when($entityTypeId !== null && $entityTypeId !== '', fn (Builder $q) => $q->orWhereJsonContains('entity_type_ids', (int) $entityTypeId)));
+    }
+
+    /**
+     * Types de fiche concernés ; une liste vide veut dire tous les types.
+     *
+     * @return list<int>
+     */
+    public function typeIds(): array
+    {
+        if ($this->entity_type_id === null) {
+            return [];
+        }
+
+        return collect($this->entity_type_ids ?: [$this->entity_type_id])->map(fn ($id) => (int) $id)->unique()->values()->all();
+    }
+
+    public function appliesTo(int|string|null $entityTypeId): bool
+    {
+        $ids = $this->typeIds();
+
+        return $ids === [] || in_array((int) $entityTypeId, $ids, true);
+    }
+
+    /**
+     * Choisit les types concernés : le premier dans entity_type_id, la liste complète
+     * dans entity_type_ids quand il y en a plusieurs. Aucun type : tous.
+     *
+     * @param  array<int|string>  $ids
+     */
+    public function assignTypes(array $ids): static
+    {
+        $ids = collect($ids)->map(fn ($id) => (int) $id)->filter()->unique()->sort()->values()->all();
+
+        $this->entity_type_id = $ids[0] ?? null;
+        $this->entity_type_ids = count($ids) > 1 ? $ids : null;
+
+        return $this;
+    }
+
+    /**
+     * Noms des types concernés, ou « Tous les types ».
+     *
+     * @param  Collection<int, EntityType>|null  $types  types déjà chargés, pour éviter une requête
+     */
+    public function typeLabel(?Collection $types = null): string
+    {
+        $ids = $this->typeIds();
+
+        if ($ids === []) {
+            return __('Tous les types');
+        }
+
+        $types = $types !== null && collect($ids)->every(fn (int $id) => $types->contains('id', $id))
+            ? $types->whereIn('id', $ids)
+            : EntityType::whereKey($ids)->get();
+
+        return $types->sortBy(fn (EntityType $type) => array_search($type->id, $ids, true))->pluck('name')->implode(', ');
     }
 
     /** @param Builder<FieldDefinition> $query */

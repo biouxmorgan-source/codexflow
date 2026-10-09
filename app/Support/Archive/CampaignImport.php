@@ -280,10 +280,16 @@ final class CampaignImport
             $id = $this->int($field['id'] ?? null);
             $name = $this->string($field['name'] ?? null, 100);
             $type = FieldType::tryFrom((string) ($field['type'] ?? ''));
-            $typeId = isset($field['entity_type_id']) ? ($this->map['types'][$this->int($field['entity_type_id']) ?? -1] ?? null) : null;
+            // Plusieurs types (archives récentes) ou un seul ; aucun : tous les types.
+            $sourceTypes = is_array($field['entity_type_ids'] ?? null) && $field['entity_type_ids'] !== []
+                ? $field['entity_type_ids']
+                : (isset($field['entity_type_id']) ? [$field['entity_type_id']] : []);
+            $typeIds = collect($sourceTypes)->map(fn ($source) => $this->map['types'][$this->int($source) ?? -1] ?? null);
+            $typeIds = $typeIds->filter()->unique()->sort()->values()->all();
+            $typeId = $typeIds[0] ?? null;
 
             // Un champ lié à un type inconnu, ou en double, est ignoré.
-            if ($id === null || $name === null || $type === null || (isset($field['entity_type_id']) && $typeId === null) || isset($seen[$typeId.'|'.mb_strtolower($name)])) {
+            if ($id === null || $name === null || $type === null || ($sourceTypes !== [] && $typeId === null) || isset($seen[$typeId.'|'.mb_strtolower($name)])) {
                 continue;
             }
             $seen[$typeId.'|'.mb_strtolower($name)] = true;
@@ -293,6 +299,7 @@ final class CampaignImport
             $this->map['fields'][$id] = DB::table('field_definitions')->insertGetId([
                 'game_system_id' => $gameSystemId,
                 'entity_type_id' => $typeId,
+                'entity_type_ids' => count($typeIds) > 1 ? json_encode($typeIds) : null,
                 'group' => $this->string($field['group'] ?? null, 100),
                 'name' => $name,
                 'type' => $type->value,

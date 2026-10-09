@@ -1989,5 +1989,6 @@
     "dernière : :date": "zuletzt: :date",
     "jamais": "nie",
     "L’assistant du maître de jeu de rôle et de ses joueurs.": "Der Assistent für Spielleitungen von Rollenspielen und ihre Spieler.",
-    "Les boutons et champs sont désactivés jusqu’au retour de la connexion.": "Schaltflächen und Felder sind deaktiviert, bis die Verbindung zurück ist."
+    "Les boutons et champs sont désactivés jusqu’au retour de la connexion.": "Schaltflächen und Felder sind deaktiviert, bis die Verbindung zurück ist.",
+    "Cochez un ou plusieurs types ; aucun coché : tous les types.": "Einen oder mehrere Typen ankreuzen; keiner angekreuzt: alle Typen."
 }

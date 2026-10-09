@@ -114,7 +114,7 @@ class ImportFieldDefinitions
             $type = FieldType::fromLabel($cell('type'));
             $zone = Normalize::zone($cell('zone'));
             $options = FieldDefinition::splitOptions($cell('options'));
-            $entityType = null;
+            $entityTypes = collect();
             [$editable, $editableError] = isset($this->columns['player_editable'])
                 ? FieldType::Boolean->parse($cell('player_editable'))
                 : [null, null];
@@ -143,15 +143,20 @@ class ImportFieldDefinitions
                 $errors[] = __('modifiable par le joueur : :error', ['error' => $editableError]);
             }
 
-            if ($cell('entity_type') !== '') {
-                $entityType = $types->first(fn (EntityType $candidate) => in_array(Normalize::key($cell('entity_type')), [Normalize::key($candidate->name), Normalize::key((string) $candidate->key)], true));
+            // Plusieurs types de fiche séparés par « | ».
+            foreach (FieldDefinition::splitOptions($cell('entity_type')) as $typeName) {
+                $entityType = $types->first(fn (EntityType $candidate) => in_array(Normalize::key($typeName), [Normalize::key($candidate->name), Normalize::key((string) $candidate->key)], true));
 
                 if ($entityType === null) {
-                    $errors[] = __('type de fiche « :name » inconnu', ['name' => $cell('entity_type')]);
+                    $errors[] = __('type de fiche « :name » inconnu', ['name' => $typeName]);
+                } else {
+                    $entityTypes->put($entityType->id, $entityType);
                 }
             }
 
-            $key = $entityType?->id.'|'.mb_strtolower($name);
+            $entityTypes = $entityTypes->sortKeys();
+            $typeAttributes = (new FieldDefinition)->assignTypes($entityTypes->keys()->all())->only(['entity_type_id', 'entity_type_ids']);
+            $key = $typeAttributes['entity_type_id'].'|'.mb_strtolower($name);
 
             if ($name !== '' && isset($seen[$key])) {
                 $errors[] = __('déjà présent ligne :line', ['line' => $seen[$key]]);
@@ -165,7 +170,7 @@ class ImportFieldDefinitions
                 'group' => $cell('group'),
                 'type' => $type?->label() ?? $cell('type'),
                 'zone' => $zone?->label() ?? $cell('zone'),
-                'entity_type' => $entityType?->name ?? __('Tous les types'),
+                'entity_type' => $entityTypes->isEmpty() ? __('Tous les types') : $entityTypes->pluck('name')->implode(', '),
                 'action' => $existing->has($key) ? 'update' : 'create',
                 'errors' => $errors,
             ];
@@ -177,8 +182,7 @@ class ImportFieldDefinitions
                     'type' => $type,
                     'zone' => $zone,
                     'options' => $type === FieldType::Select ? $options : null,
-                    'entity_type_id' => $entityType?->id,
-                ] + ($editable === null ? [] : [
+                ] + $typeAttributes + ($editable === null ? [] : [
                     // La zone MJ reste hors de portée des joueurs.
                     'player_editable' => $editable && $zone === Zone::Public,
                 ]);

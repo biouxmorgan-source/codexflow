@@ -60,7 +60,7 @@ class ExportController extends Controller
 
         $typeIds = $entities->pluck('entity_type_id')->unique();
         $definitions = $campaign->gameSystem->fieldDefinitions()->ordered()->get()
-            ->filter(fn (FieldDefinition $definition) => $definition->entity_type_id === null || $typeIds->contains($definition->entity_type_id));
+            ->filter(fn (FieldDefinition $definition) => $definition->typeIds() === [] || array_intersect($definition->typeIds(), $typeIds->all()) !== []);
 
         // Une colonne par nom de champ : un champ « FOR » propre aux personnages et un autre
         // propre aux créatures partagent la même colonne, comme à l'import.
@@ -72,8 +72,8 @@ class ExportController extends Controller
             $row = [$entity->name, $entity->type->name, (string) $entity->summary, (string) $entity->description, (string) $entity->gm_notes];
 
             foreach ($columns as $group) {
-                $definition = $group->first(fn (FieldDefinition $candidate) => $candidate->entity_type_id === $entity->entity_type_id)
-                    ?? $group->first(fn (FieldDefinition $candidate) => $candidate->entity_type_id === null);
+                $definition = $group->first(fn (FieldDefinition $candidate) => in_array($entity->entity_type_id, $candidate->typeIds(), true))
+                    ?? $group->first(fn (FieldDefinition $candidate) => $candidate->typeIds() === []);
                 $value = $definition ? $entity->fieldValue($definition) : null;
                 // Valeurs en français, comme les en-têtes : le fichier doit pouvoir être réimporté.
                 $row[] = $value === null || $value === '' ? '' : $definition->type->format($value, 'fr');
@@ -103,14 +103,14 @@ class ExportController extends Controller
 
         $rows = [['Nom', 'Groupe', 'Type', 'Zone', 'Choix', 'Type de fiche', 'Modifiable par le joueur']];
 
-        foreach ($campaign->gameSystem->fieldDefinitions()->with('entityType')->ordered()->get() as $definition) {
+        foreach ($campaign->gameSystem->fieldDefinitions()->ordered()->get() as $definition) {
             $rows[] = [
                 $definition->name,
                 (string) $definition->group,
                 $keywords[$definition->type->value],
                 self::zone($definition->zone),
                 implode('|', $definition->options ?? []),
-                (string) $definition->entityType?->name,
+                $definition->typeIds() === [] ? '' : str_replace(', ', '|', $definition->typeLabel()),
                 $definition->player_editable ? 'oui' : 'non',
             ];
         }

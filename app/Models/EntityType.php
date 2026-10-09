@@ -11,6 +11,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['name'])]
 class EntityType extends Model
 {
+    protected static function booted(): void
+    {
+        // Un champ partagé avec d'autres types leur reste : seul ce type est retiré de sa liste.
+        static::deleting(function (EntityType $type) {
+            FieldDefinition::whereJsonContains('entity_type_ids', $type->id)->get()
+                ->each(fn (FieldDefinition $field) => $field->assignTypes(array_diff($field->typeIds(), [$type->id]))->save());
+        });
+    }
+
     /** @return HasMany<Entity, $this> */
     public function entities(): HasMany
     {
