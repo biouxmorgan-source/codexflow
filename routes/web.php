@@ -69,6 +69,8 @@ Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 // Ouvert sans être connecté : le visiteur voit l'invitation avant de se connecter ou de s'inscrire.
 // Ouvert à tous : confidentialité et mentions légales.
 Route::view('/confidentialite', 'pages.privacy')->name('privacy');
+// Signaler un problème, avec ou sans compte (on ne parvient pas à se connecter, à s'inscrire…).
+Route::livewire('/signaler-un-probleme', ReportBug::class)->name('bugs.create');
 
 Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('invitations.show');
 
@@ -86,7 +88,6 @@ Route::middleware('auth')->group(function () {
     Route::view('/configuration-recommandee', 'pages.recommended')->name('recommended');
     Route::get('/mes-donnees', AccountDataController::class)->name('account.data');
     Route::get('/compte/{user}/adresse', ConfirmEmailChangeController::class)->middleware('signed')->name('account.email.confirm');
-    Route::livewire('/signaler-un-probleme', ReportBug::class)->name('bugs.create');
     // Console d'administration : le mot de passe est redemandé (valable 3 heures).
     Route::middleware(['can:admin', 'password.confirm'])->group(function () {
         Route::livewire('/admin', AdminUsers::class)->name('admin.users');

@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.39.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Konto und Verwaltung',
+        'items' => [
+            'Probleme lassen sich ohne Konto melden, von der Anmelde- und Registrierungsseite oder der Hilfe aus, mit einer Adresse für die Antwort.',
+            'Die Einstellungen zeigen das Startdatum des Abonnements und, solange die Zahlung nicht eingerichtet ist, dass Premium bald verfügbar wird.',
+            'Verwaltungskonsole: Anmeldetage statt Anmeldungen, Datum der letzten Anmeldung und eine Warnung, wenn der Push-Versand unmöglich ist oder fehlschlägt.',
+        ],
+    ],
+
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Suche',

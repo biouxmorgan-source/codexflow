@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.39.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Compte et administration',
+        'items' => [
+            'On peut signaler un problème sans compte, depuis les pages de connexion et d’inscription ou l’aide, en laissant une adresse pour la réponse.',
+            'Les Préférences indiquent la date de début de l’abonnement, et que le passage à Premium ouvrira bientôt tant que le paiement n’est pas en place.',
+            'Console d’administration : jours de connexion plutôt que connexions, date de la dernière connexion, et alerte quand l’envoi push est impossible ou échoue.',
+        ],
+    ],
+
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Recherche',

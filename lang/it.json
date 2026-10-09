@@ -1975,5 +1975,17 @@
     "Message au groupe": "Messaggio al gruppo",
     "Relations": "Relazioni",
     "Mondes et jeux sans campagne": "Mondi e giochi senza campagna",
-    "Sans campagne": "Senza campagna"
+    "Sans campagne": "Senza campagna",
+    "Clés VAPID absentes : les notifications push sont désactivées (php artisan webpush:vapid).": "Chiavi VAPID assenti: le notifiche push sono disattivate (php artisan webpush:vapid).",
+    "Envoi push en échec : :count fois depuis le :date (dernier message : « :message »).|Envoi push en échec : :count fois depuis le :date (dernier message : « :message »).": "Invio push non riuscito: :count volta dal :date (ultimo messaggio: «:message»).|Invio push non riuscito: :count volte dal :date (ultimo messaggio: «:message»).",
+    "Jours avec au moins une connexion sur la période": "Giorni con almeno un accesso nel periodo",
+    "Jours de connexion": "Giorni di accesso",
+    "Le passage à Premium ouvrira bientôt. En attendant, votre formule reste celle indiquée ci-dessus.": "Il passaggio a Premium aprirà presto. Nel frattempo, il tuo piano resta quello indicato sopra.",
+    "Ni l’extension PHP GMP ni BCMath n’est installée : les notifications push ne peuvent pas partir. Installez l’une des deux sur le serveur.": "Non è installata né l’estensione PHP GMP né BCMath: le notifiche push non possono partire. Installane una sul server.",
+    "Pour vous répondre, seulement.": "Solo per risponderti.",
+    "Sans compte : :email": "Senza account: :email",
+    "Un problème pour vous connecter ou vous inscrire ? Signalez-le.": "Problemi ad accedere o a registrarti? Segnalalo.",
+    "Votre adresse e-mail": "Il tuo indirizzo e-mail",
+    "dernière : :date": "ultimo: :date",
+    "jamais": "mai"
 }

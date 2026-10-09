@@ -13,3 +13,7 @@
         </a>
     @endforeach
 </nav>
+
+@foreach (\App\Support\SystemHealth::warnings() as $warning)
+    <p class="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-900" role="alert">{{ $warning }}</p>
+@endforeach

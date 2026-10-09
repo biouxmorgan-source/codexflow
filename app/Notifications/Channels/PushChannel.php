@@ -2,8 +2,10 @@
 
 namespace App\Notifications\Channels;
 
+use App\Support\SystemHealth;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushChannel;
+use Throwable;
 
 /**
  * Envoi push qui ne casse jamais l'action en cours : un service push injoignable
@@ -21,6 +23,11 @@ class PushChannel
     {
         // Résolu ici, sous rescue : sans GMP ni BCMath, la bibliothèque web-push
         // lève une erreur dès sa construction.
-        return rescue(fn () => app(WebPushChannel::class)->send($notifiable, $notification), []);
+        // L'échec est aussi retenu pour la console d'administration.
+        return rescue(fn () => app(WebPushChannel::class)->send($notifiable, $notification), function (Throwable $error) {
+            SystemHealth::pushFailed($error);
+
+            return [];
+        });
     }
 }

@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.39.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Conta e administração',
+        'items' => [
+            'É possível relatar um problema sem conta, nas páginas de login e cadastro ou na ajuda, deixando um endereço para a resposta.',
+            'As Preferências mostram a data de início da assinatura e, enquanto o pagamento não estiver disponível, que a mudança para Premium abrirá em breve.',
+            'Console de administração: dias de acesso em vez de acessos, data do último acesso e alerta quando o envio push é impossível ou falha.',
+        ],
+    ],
+
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Pesquisa',

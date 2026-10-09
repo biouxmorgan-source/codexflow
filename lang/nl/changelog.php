@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.39.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Account en beheer',
+        'items' => [
+            'Je kunt een probleem melden zonder account, vanaf de aanmeld- en registratiepagina of de hulp, met een adres voor het antwoord.',
+            'De Voorkeuren tonen de startdatum van het abonnement en, zolang betalen nog niet kan, dat Premium binnenkort opengaat.',
+            'Beheerconsole: aanmelddagen in plaats van aanmeldingen, datum van de laatste aanmelding en een waarschuwing als pushverzending onmogelijk is of mislukt.',
+        ],
+    ],
+
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Zoeken',

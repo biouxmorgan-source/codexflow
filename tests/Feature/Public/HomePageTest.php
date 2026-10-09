@@ -37,8 +37,7 @@ class HomePageTest extends TestCase
             ->assertSee('Comment inviter mes joueurs ?')
             ->assertSee('Votre compte')
             ->assertSee('Comment protéger mon compte avec la double authentification ?')
-            ->assertSee('Connectez-vous pour signaler un problème')
-            ->assertDontSee(route('bugs.create'));
+            ->assertSee(route('bugs.create'));
     }
 
     public function test_robots_and_sitemap_point_to_public_pages_only(): void

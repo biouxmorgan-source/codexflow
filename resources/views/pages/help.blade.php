@@ -70,13 +70,8 @@
         <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 class="mb-2 font-semibold">{{ __('Un problème ?') }}</h2>
             <p class="text-stone-700">{{ __("Si quelque chose ne marche pas comme prévu, dites-le-nous : le message arrive directement à l'équipe, avec la page concernée.") }}</p>
-            @auth
-                <a href="{{ route('bugs.create') }}" class="btn-primary mt-3 inline-block" wire:navigate>{{ __('Signaler un problème') }}</a>
-            @else
-                <p class="mt-3 text-stone-700">
-                    <a href="{{ route('login') }}" class="link">{{ __('Connectez-vous pour signaler un problème') }}</a>@if (filled(config('codexflow.legal.email'))), {{ __('ou écrivez à :email', ['email' => config('codexflow.legal.email')]) }}@endif.
-                </p>
-            @endauth
+            {{-- Avec ou sans compte : sans compte, le formulaire demande une adresse pour répondre. --}}
+            <a href="{{ route('bugs.create') }}" class="btn-primary mt-3 inline-block" @auth wire:navigate @endauth>{{ __('Signaler un problème') }}</a>
         </section>
     </div>
 </x-dynamic-component>
