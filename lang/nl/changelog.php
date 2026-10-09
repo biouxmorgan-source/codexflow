@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.38.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Zoeken',
+        'items' => [
+            'Zoeken vindt ook andere Franse vormen van een woord: ‘lanternes’ vindt ‘lanterne’, ‘éteinte’ vindt ‘éteintes’.',
+            'Zoeken vanaf de startpagina zoekt ook in je werelden en spellen die aan geen enkele campagne gekoppeld zijn.',
+        ],
+    ],
+
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Spelers en rollen',

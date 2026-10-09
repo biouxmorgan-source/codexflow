@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.38.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Wyszukiwanie',
+        'items' => [
+            'Wyszukiwanie znajduje też inne francuskie formy słowa: „lanternes” znajduje „lanterne”, „éteinte” znajduje „éteintes”.',
+            'Wyszukiwanie ze strony głównej przeszukuje też twoje światy i gry niepowiązane z żadną kampanią.',
+        ],
+    ],
+
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Gracze i role',
