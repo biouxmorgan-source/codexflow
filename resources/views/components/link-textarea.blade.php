@@ -1,6 +1,6 @@
-@props(['id', 'model', 'rows' => 6, 'placeholder' => null])
+@props(['id', 'model', 'rows' => 6, 'placeholder' => null, 'links' => true])
 {{--
-    Texte long avec mise en forme (Tiptap) et liens [[…]] vers les fiches : taper « [[ »
+    Texte long avec mise en forme (Tiptap) et, sauf :links="false", liens [[…]] vers les fiches : taper « [[ »
     propose les fiches. Enregistré en Markdown ; sans JavaScript, la zone de texte reste utilisable.
 --}}
 <div x-data="richEditor(@js($model))" class="rich-editor">
@@ -17,7 +17,9 @@
                 :class="marks.{{ $command }} ? 'bg-codex-soft text-codex' : 'text-stone-600 hover:bg-stone-100'"
                 class="min-w-8 rounded-md px-2 py-1 text-sm {{ $style }}" title="{{ $label }}" aria-label="{{ $label }}">{{ $symbol }}</button>
         @endforeach
-        <button type="button" x-on:mousedown.prevent x-on:click="run('link')" class="rounded-md px-2 py-1 text-sm text-stone-600 hover:bg-stone-100" title="{{ __('Lier une fiche') }}">[[ ]]</button>
+        @if ($links)
+            <button type="button" x-on:mousedown.prevent x-on:click="run('link')" class="rounded-md px-2 py-1 text-sm text-stone-600 hover:bg-stone-100" title="{{ __('Lier une fiche') }}">[[ ]]</button>
+        @endif
     </div>
     <div wire:ignore x-ref="editor"></div>
     <textarea
@@ -29,5 +31,7 @@
         x-bind:class="ready && 'hidden'"
         {{ $attributes->merge(['class' => 'field']) }}
     ></textarea>
-    <p class="mt-1 text-xs text-stone-500">{!! __('Tapez :keys pour lier une autre fiche.', ['keys' => '<kbd class="rounded border border-stone-300 bg-stone-50 px-1">[[</kbd>']) !!}</p>
+    @if ($links)
+        <p class="mt-1 text-xs text-stone-500">{!! __('Tapez :keys pour lier une autre fiche.', ['keys' => '<kbd class="rounded border border-stone-300 bg-stone-50 px-1">[[</kbd>']) !!}</p>
+    @endif
 </div>

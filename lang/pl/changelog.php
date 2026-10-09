@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.42.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Sformatowane opisy',
+        'items' => [
+            'Opisy gier, światów, scenariuszy i dokumentów mają ten sam edytor co karty: pogrubienie, kursywa, śródtytuły, listy, cytaty oraz linki [[ ]] do kart w kampanii.',
+        ],
+    ],
+
     '0.41.0' => [
         'date' => '2026-10-09',
         'title' => 'Wspólne pola',

@@ -29,7 +29,7 @@
                         <div class="min-w-0 flex-1">
                             <h2 class="text-lg font-semibold">{{ $scenario->name }}</h2>
                             @if ($scenario->summary)
-                                <p class="mt-1 text-sm text-stone-600">{{ $scenario->summary }}</p>
+                                <div class="mt-1 text-sm text-stone-600">{{ \App\Support\EntityLinks::render($scenario->summary, $campaign) }}</div>
                             @endif
                         </div>
                         <span class="flex shrink-0 items-center gap-1 text-sm">
@@ -99,7 +99,7 @@
             </div>
             <div>
                 <label for="summary" class="label">{{ __('Résumé') }} <span class="font-normal text-stone-500">{{ __('(facultatif)') }}</span></label>
-                <textarea id="summary" wire:model="summary" rows="3" class="field"></textarea>
+                <x-link-textarea id="summary" model="summary" rows="4" />
                 @error('summary') <p class="error">{{ $message }}</p> @enderror
             </div>
             <div class="flex gap-3">

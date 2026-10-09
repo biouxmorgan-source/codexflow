@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.42.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Formatierte Beschreibungen',
+        'items' => [
+            'Beschreibungen von Spielen, Welten, Szenarien und Dokumenten haben denselben Editor wie die Einträge: fett, kursiv, Zwischenüberschriften, Listen, Zitate und [[ ]]-Links zu Einträgen innerhalb einer Kampagne.',
+        ],
+    ],
+
     '0.41.0' => [
         'date' => '2026-10-09',
         'title' => 'Gemeinsame Felder',

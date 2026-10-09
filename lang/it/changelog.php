@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.42.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Descrizioni formattate',
+        'items' => [
+            'Le descrizioni di gioco, mondo, scenario e documento hanno lo stesso editor delle schede: grassetto, corsivo, sottotitoli, elenchi, citazioni e collegamenti [[ ]] alle schede in una campagna.',
+        ],
+    ],
+
     '0.41.0' => [
         'date' => '2026-10-09',
         'title' => 'Campi condivisi',

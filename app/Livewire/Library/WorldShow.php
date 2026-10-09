@@ -8,6 +8,7 @@ use App\Models\TimelineEvent;
 use App\Models\World;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
 /** Page d'un monde : sa description, ses campagnes, ses fiches et documents réutilisables. */
@@ -51,6 +52,17 @@ class WorldShow extends Component
 
         $this->world->update(['name' => trim($this->name), 'description' => trim($this->description) ?: null]);
         $this->editing = false;
+    }
+
+    /**
+     * L'éditeur de la description demande des fiches à lier quand on tape « [[ » : hors campagne, aucune.
+     *
+     * @return list<array{id: int, name: string, type: string}>
+     */
+    #[Renderless]
+    public function suggestEntities(string $query): array
+    {
+        return [];
     }
 
     protected function libraryItem(): World

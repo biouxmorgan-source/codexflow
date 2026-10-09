@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.42.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Opgemaakte beschrijvingen',
+        'items' => [
+            'Beschrijvingen van spellen, werelden, scenario’s en documenten hebben dezelfde editor als kaarten: vet, cursief, tussenkoppen, lijsten, citaten en [[ ]]-links naar kaarten binnen een campagne.',
+        ],
+    ],
+
     '0.41.0' => [
         'date' => '2026-10-09',
         'title' => 'Gedeelde velden',
