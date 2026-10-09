@@ -202,9 +202,10 @@ class AdminConsoleTest extends TestCase
         $this->assertSame(127, Recette::where('version', '0.34.0')->sole()->items()->count());
 
         Livewire::actingAs($this->admin)->test(Recettes::class)
-            ->assertSee(['Cahier de recette v0.25.0', 'Cahier de recette finale v0.34.0', '97,6'])
+            ->assertSee(['Recette v0.25.0', 'Recette v0.34.0', 'Recette v0.13.1', '97,6'])
+            ->assertDontSee('Recette V1')
             ->set('recetteId', $recette->id)
-            ->assertSee(['Cahier de recette V1', 'Parcours de recette prioritaires', 'Invitations (lien, rôle, acceptation)', '95,1'])
+            ->assertSee(['Recette v0.13.1', 'Parcours de recette prioritaires', 'Invitations (lien, rôle, acceptation)', '95,1'])
             ->set('belowTarget', true)
             ->assertDontSee('Invitations (lien, rôle, acceptation)')
             ->assertSee('Échanges entre joueurs');

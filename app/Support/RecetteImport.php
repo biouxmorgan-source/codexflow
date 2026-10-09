@@ -33,7 +33,8 @@ class RecetteImport
     {
         $data = json_decode((string) file_get_contents($path), true, flags: JSON_THROW_ON_ERROR);
 
-        if (Recette::where('title', $data['title'])->where('version', $data['version'])->exists()) {
+        // Un cahier par version testée : renommer un cahier ne l'ajoute pas une seconde fois.
+        if (Recette::where('version', $data['version'])->exists()) {
             return null;
         }
 
