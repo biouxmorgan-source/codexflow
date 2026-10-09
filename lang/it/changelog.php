@@ -4,6 +4,17 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.35.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Correzioni del collaudo finale',
+        'items' => [
+            'La pagina di una sessione ha un riassunto scritto dal Master e mostra gli eventi giocati e tutto ciò che è stato rivelato o dato durante la sessione.',
+            'La cronologia delle modifiche di una scheda conserva anche relazioni, file allegati, tag e stato nella campagna. La pagina di un mondo mostra la sua storia, quella di un gioco i suoi tipi di scheda.',
+            'Una funzione disattivata dal Master o dal piano lo è anche nelle pagine rimaste aperte, e la modalità Sessione si apre quando le mappe sono disattivate.',
+            'Correzioni: quantità annunciata in uno scambio, casella sì/no mai compilata, pagina «non trovata» tradotta, pagine leggibili sul telefono con testo grande, accessi contati una volta, aiuto aggiornato.',
+        ],
+    ],
+
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Funzioni per campagna',

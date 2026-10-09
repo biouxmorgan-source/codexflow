@@ -1,0 +1,1928 @@
+{
+    "title": "Cahier de recette finale v0.34.0",
+    "version": "0.34.0",
+    "tested_on": "2026-10-09",
+    "score": 97.6,
+    "score_before": 95.3,
+    "summary": "La version 0.34.0 passe la recette finale. Le cahier des charges complet compte 117 exigences numérotées ; on y ajoute les 6 fonctions de campagne (§10.1) et 4 lignes d'exigences non fonctionnelles, soit 127 lignes notées. La note moyenne était de 95,3/100 pendant les tests. Elle est de 97,6/100 après les corrections de la version 0.35.0. Aucune fuite de la zone MJ n'a été trouvée : pages, recherche, notifications, export « Mes données », accès directs par URL et appels Livewire forcés ont tous été refusés à qui ne devait pas voir. La recette a relevé 26 bugs : 4 majeurs, 15 mineurs, 7 cosmétiques, aucun bloquant. 23 sont corrigés en 0.35.0, chacun avec un test automatique (RecetteV3Test).\n\nLes deux points les plus importants :\n\n- Une page restée ouverte continuait d'agir après la coupure d'une fonction (par le MJ ou par la formule). Depuis 0.35.0, chaque action d'une page revérifie la fonction.\n- Le Mode Session plantait quand les cartes étaient coupées. C'est corrigé, et la page d'une séance a désormais un résumé écrit par le MJ, ses événements joués et ce qui a été révélé ou donné.\n\nMéthode : quatre recetteurs ont testé l'application à l'écran dans Chromium, exigence par exigence, à partir du cahier des charges complet v0.34. Ils ont utilisé un bureau (1280 px) et un téléphone (390 px, tactile, y compris en très grande taille de texte). Ils ont joué les rôles de propriétaire, co-MJ, joueur, spectateur, compte gratuit et compte étranger, avec plusieurs navigateurs à la fois et le temps réel Reverb actif. En plus, 366 tests automatiques passent, ainsi que le test navigateur Playwright.\n\nLa note de chaque ligne est le résultat obtenu rapporté au résultat attendu (100 = conforme). Quand une correction a changé la note, la note d'origine est conservée à part.\n\n| Zone | Lignes notées | Note lors des tests | Note après 0.35.0 |\n|---|---|---|---|\n| Préparation par le MJ | 36 | 96,0 | 97,9 |\n| Séance, joueurs et rôles | 26 | 95,5 | 98,2 |\n| Table, communication et écosystème | 31 | 94,1 | 96,8 |\n| Comptes, formules, administration et transverse | 34 | 95,7 | 97,7 |\n| **Ensemble** | **127** | **95,3** | **97,6** |\n\n### Restent à faire\n\n- Trois bugs ne sont pas corrigés. Un champ ne vise qu'un type de fiche ou tous, et « Lui rendre » ne retient que le dernier joueur d'un personnage : les deux passent au backlog comme évolutions. Le nom du statut « ignorée » venait d'un écart du cahier, qui est corrigé.\n- Les écarts relevés sont versés au backlog comme évolutions. On y trouve la recherche avec racinisation française, les pages d'un PDF pilotées depuis la télécommande, les illustrations publiques visibles du joueur, une CSP plus stricte et un manifeste traduit.\n- Avant l'ouverture, il faudra configurer Stripe, renseigner les mentions légales (variables LEGAL_*) et installer l'extension PHP GMP ou BCMath pour les notifications push.\n- Restent aussi les tests sur un vrai téléphone et une vraie tablette.",
+    "sections": [
+        {
+            "name": "Préparation par le MJ",
+            "items": [
+                {
+                    "feature": "BIB-01 · Mes campagnes",
+                    "expected": "Liste des campagnes avec rôle, bouton « Reprendre », date de la dernière séance, archivées rangées à part.",
+                    "tests": "Écran : a1-mj (bureau 1280 px) avec trois campagnes, dont une archivée ; a1-j1 (joueur) voit la carte « Rôle : Joueur », son personnage et « Reprendre ▶ » vers sa fiche ; date « Dernière séance le 8 octobre 2026 (1 séance en tout) » après une séance ouverte en mode Session ; la campagne archivée est repliée sous « 1 campagne archivée ». Auto : CampaignIndexTest, CampaignPolicyTest (rôles par campagne), BacklogV1Test (toggleArchive).",
+                    "gaps": "",
+                    "result": "Conforme : rôle, Reprendre, date de dernière séance et rubrique repliée des archivées s'affichent comme attendu.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "BIB-02 · Créer une campagne",
+                    "expected": "Nom, jeu existant ou nouveau, monde existant ou nouveau ; refus au-delà de la limite de la formule, avec explication.",
+                    "tests": "Écran : a1-mj crée « A1 Campagne Bis » (nouveau jeu + nouveau monde) et « A1 Campagne Ter » (jeu et monde existants) ; formulaire vide refusé (« Le champ nom est obligatoire », « Donnez un nom au nouveau jeu »). a1-free (essai terminé) crée une 1re campagne puis la 2e est refusée : « Votre formule permet 1 campagne en tant que MJ. Voir ma formule ». Appels Livewire forcés hors interface non nécessaires (contrôle dans create()). Auto : CampaignIndexTest, PremiumEndTest, AdminConsoleTest.",
+                    "gaps": "",
+                    "result": "Conforme : création dans les quatre combinaisons et refus explicite au-delà de la limite.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "BIB-03 · Page d'un jeu",
+                    "expected": "Description, image, campagnes qui l'utilisent, règles, documents, types de fiche et champs réutilisables.",
+                    "tests": "Écran : /jeux/2 (démo) et /jeux/9 (créé) en MJ : description, image envoyée par « Modifier », campagnes, règles de référence, documents du jeu, champs regroupés (« Caractéristiques · 6 »…). Accès direct refusé (403) à a1-j1, a1-etranger et au co-MJ a1-comj. Auto : BacklogV1Test, BacklogV3Test (pages jeu/monde).",
+                    "gaps": "Les types de fiche ne sont pas listés sur la page du jeu (seulement les groupes de champs, sans détail). La description du jeu est un simple champ texte, le Markdown saisi est affiché aplati.",
+                    "result": "Presque conforme : tout y est sauf la liste des types de fiche ; les champs ne sont résumés que par groupe. Après 0.35.0 : écart corrigé en partie (voir écarts restants).",
+                    "score": 95,
+                    "score_before": 85
+                },
+                {
+                    "feature": "BIB-04 · Page d'un monde",
+                    "expected": "Description, image, campagnes, fiches mondiales réutilisables, chronologie du monde.",
+                    "tests": "Écran : /mondes/2 (Vehrmund) et /mondes/7 en MJ : description, image, campagnes, fiches du monde groupées par type avec liens, documents du monde. Accès refusé (403) à joueur, étranger et co-MJ. Auto : BacklogV1Test, BacklogV3Test.",
+                    "gaps": "Aucune section « Chronologie du monde » sur la page du monde : les événements « histoire du monde » ne sont visibles que dans la chronologie de chaque campagne.",
+                    "result": "Partiel : la chronologie du monde, demandée par le cahier, manque sur la page. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 75
+                },
+                {
+                    "feature": "BIB-05 · Page de campagne",
+                    "expected": "Bandeau Mode Session, quatre zones (fiches, scénarios, règles, documents), outils en boutons à icône avec infobulle, section « Fonctions de la campagne ».",
+                    "tests": "Écran : /campagnes/3 en bureau et en téléphone (390 px, pas de défilement horizontal) : bandeau « Mode Session → », cartes Scénarios, Documents, Règles, Personnages, liste « Univers » des fiches, 11 outils à icône avec infobulle (role=tooltip : Secrets, Cartes, Graphe…), nom écrit à côté de l'icône sur téléphone, section « Fonctions de la campagne » avec 6 cases. Auto : CampaignFeaturesTest, EntityPagesTest (pages_render).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "BIB-06 · Archiver, supprimer",
+                    "expected": "Campagne archivée consultable et hors liste principale ; suppression réservée au propriétaire et confirmée.",
+                    "tests": "Écran : a1-mj archive « A1 Campagne Ter », la rouvre (page complète consultable), puis la supprime : boîte de confirmation « Supprimer définitivement la campagne … ? Cette action est irréversible. ». Co-MJ a1-comj : bouton absent, appel forcé $wire.delete() refusé, campagne intacte. Appels forcés toggleArchive(3)/duplicate(3)/toggleArchive(11) par a1-j1 et a1-comj depuis « Mes campagnes » : refusés, statut inchangé en base. Auto : CampaignDeletionTest, BacklogV1Test.",
+                    "gaps": "",
+                    "result": "Conforme, droits vérifiés côté serveur.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "BIB-07 · Campagne de démonstration",
+                    "expected": "« Le Serment de Pierrecendre » (« Brume & Serment ») : trois séances, fiches, portraits, relations, carte, secrets, règles, chronologie, prétirés ; chargée en un clic dans l'une des 8 langues.",
+                    "tests": "Écran : chargement en français depuis la liste vide (un clic) puis en allemand depuis « Importer une campagne » (« Der Eid von Pierrecendre », « Nebel & Eid », chapitres « Sitzung 1… ») ; contenu vérifié : 20 fiches, portraits, relations, 8 scènes en 3 chapitres-séances, 5 règles, 4 documents, 5 secrets, 1 carte, 10 événements, 4 prétirés. Démo allemande supprimée ensuite. Auto : DemoCampaignTest (contenu identique dans toutes les langues, liens internes).",
+                    "gaps": "Chaque chargement crée un nouveau monde portant le même nom (« Vehrmund ») : deux mondes homonymes dans les listes de choix du MJ.",
+                    "result": "Conforme ; seul défaut d'ergonomie : mondes homonymes après plusieurs chargements.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "FIC-01 · Deux zones",
+                    "expected": "Zone MJ jamais visible d'un joueur, ni dans la recherche, l'export joueur, le journal ou les notifications.",
+                    "tests": "Écran : fiche « A1 Vigie Orme » avec notes MJ témoin (TEMOINGMA1), pièce jointe MJ, relation MJ « espionne pour », statut et notes de campagne ; révélée à Teska (a1-j1). HTML reçu par le joueur sans aucun mot témoin ; fiche du monde Brannoc révélée : ni notes MJ ni champs MJ ni relation MJ. Recherche globale et de campagne en joueur : aucun résultat pour les témoins MJ (notes, règle MJ, import, statut). Notifications, journal du personnage et /mes-donnees (JSON) sans témoin. Accès direct aux pages MJ (/entites/71, /secrets, /journal, /champs…) : 403. Auto : WorldEntityTest (gm_notes masqué), GlobalSearchTest (a_player_never_finds_gm_only_content), EntityFilesTest, SecurityTest.",
+                    "gaps": "",
+                    "result": "Conforme : aucune fuite de la zone MJ constatée.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "FIC-02 · Monde ou campagne",
+                    "expected": "Une fiche appartient à un monde ou à une campagne ; statut et relations propres à une campagne stockés à part.",
+                    "tests": "Écran : création d'une fiche « propre à cette campagne » et de fiches de monde ; statut « disparu » posé sur Brannoc (fiche du monde) depuis la campagne ; relation cochée « Seulement dans cette campagne ». Base (tinker en lecture) : contrainte CHECK entities_single_scope, statut et notes dans campaign_entity_states, fiche mondiale inchangée. Auto : WorldEntityTest, CampaignOverridesTest, EntityPagesTest (marking_an_npc_dead_in_one_campaign…).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "FIC-03 · Portrait et illustrations",
+                    "expected": "Un portrait et des illustrations par fiche ; chacun peut être montré à la table.",
+                    "tests": "Écran : portrait PNG envoyé à la création, illustration jointe en zone publique, image MJ jointe en zone MJ ; « Portrait seul », « Afficher à la table » de l'illustration et de la fiche vérifiés sur l'écran de table ouvert dans un 2e onglet (image puis texte public seul). Auto : EntityFilesTest, ShowOnTableTest.",
+                    "gaps": "La fiche révélée au joueur montre le portrait mais pas les illustrations publiques (voir écarts).",
+                    "result": "Conforme pour le MJ et la table.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "FIC-04 · Relations",
+                    "expected": "Relations libellées ; l'inverse (« travaille pour » / « emploie ») se remplit tout seul.",
+                    "tests": "Écran : « travaille pour » → La Garde des Quais : le champ « Vu depuis l'autre fiche » se remplit seul en « emploie », et la fiche de la Garde affiche « emploie A1 Vigie Orme ». Relation en zone MJ absente côté joueur. Auto : RelationsTagsTypesTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "FIC-05 · Statut",
+                    "expected": "Statut libre propre à la campagne.",
+                    "tests": "Écran : « prisonnière » sur une fiche de campagne, « disparu » sur une fiche de monde ; pastille visible dans la liste « Univers » et sur les fiches liées d'une scène ; non visible du joueur. Auto : EntityPagesTest, CampaignOverridesTest.",
+                    "gaps": "Le statut n'apparaît pas dans l'en-tête de la fiche elle-même, seulement dans le formulaire « Dans cette campagne ».",
+                    "result": "Conforme ; lisibilité améliorable sur la fiche.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "FIC-06 · Tags",
+                    "expected": "Ajout de tags sous le titre, saisie identique partout.",
+                    "tests": "Écran : pastilles sous le titre avec lien « Modifier les tags » (va au champ Tags du formulaire) ; même composant « séparés par des virgules » + raccourcis « Déjà utilisés » sur fiche, scène, règle et document. Auto : RelationsTagsTypesTest, TagManagementTest.",
+                    "gaps": "L'ajout « sous le titre » ouvre le formulaire complet au lieu d'une saisie sur place.",
+                    "result": "Conforme.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "FIC-07 · « Cité dans »",
+                    "expected": "Liste des fiches, scènes, règles, notes de session, chronologie, secrets et champs qui mentionnent la fiche.",
+                    "tests": "Écran : mention [[ ]] dans la description d'une fiche, dans un champ référence, dans la procédure d'une règle et dans le texte d'un secret : Brannoc liste « A1 Vigie Orme » et ses copies, Vigie liste « Règle · A1 Règle de guet » et « Secret · A1 Rumeur du port » ; scènes dans l'encadré « Scènes ». Notes de session et chronologie vérifiées dans le code (EntityLinks::sessionNotes / timeline). Auto : BacklinksTest, EntityLinksTest.",
+                    "gaps": "Une mention dans les notes MJ d'une scène n'est pas comptée (seule la description de la scène l'est).",
+                    "result": "Conforme pour tous les types testés.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "FIC-08 · Dupliquer une fiche",
+                    "expected": "Copie numérotée (« copie 2 ») ; ✦ selon la formule.",
+                    "tests": "Écran : deux duplications de « A1 Vigie Orme » : « A1 Vigie Orme (copie) » puis « (copie 2) », avec contenu, image, tags et relations ; confirmation demandée. Auto : EntityDuplicationTest, BacklogV2Test.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "FIC-09 · Journal des modifications",
+                    "expected": "Qui, quoi, quand, avant et après, pour chaque modification de fiche.",
+                    "tests": "Écran : bouton « Historique » de la fiche → journal filtré : création, « Résumé : ancien → nouveau », champs (A1 Allié). Journal complet de la campagne consulté. Base : activity_logs vérifié. Auto : JournalTest.",
+                    "gaps": "Non journalisés : ajout/suppression de relations, pièces jointes et illustrations, changement de tags. Le statut et les notes de campagne sont journalisés (« Fiche (campagne) ») mais n'apparaissent pas dans l'« Historique » de la fiche. Une case oui/non jamais touchée est enregistrée « Non » à chaque sauvegarde et apparaît comme modification.",
+                    "result": "Partiel : les textes et champs sont tracés avec avant/après, mais plusieurs modifications de fiche échappent au journal. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 70
+                },
+                {
+                    "feature": "CHA-01 · Champs par jeu et par type",
+                    "expected": "Créer, renommer, ordonner, supprimer les champs ; zone publique ou MJ ; types de fiche concernés.",
+                    "tests": "Écran : /campagnes/3/champs : création de « A1 Allié » (référence), « A1 Bourse » (nombre, modifiable par le joueur), « A1 Temp » (zone MJ) ; renommage, montée ↑ deux fois, suppression confirmée. Co-MJ et joueur : 403 sur la page des champs. Auto : FieldDefinitionsTest.",
+                    "gaps": "« Fiches concernées » n'accepte qu'un type ou « Tous les types », pas une sélection de plusieurs types.",
+                    "result": "Conforme sauf le choix multiple de types.",
+                    "score": 90,
+                    "score_before": null
+                },
+                {
+                    "feature": "CHA-02 · Référence à une fiche",
+                    "expected": "La référence reste liée même si la fiche visée est renommée.",
+                    "tests": "Écran : champ référence « A1 Allié » = Brannoc le Passeur ; renommage de Brannoc en « Brannoc A1R » : le champ et le lien [[ ]] affichent le nouveau nom et pointent toujours vers /entites/12 ; nom rétabli ensuite. Auto : EntityLinksTest (follows_renames), FieldDefinitionsTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "CHA-03 · Champs modifiables par le joueur",
+                    "expected": "Le MJ désigne les champs qu'un joueur peut modifier sur la fiche de son personnage.",
+                    "tests": "Écran : a1-j1 sur Teska : « Modifier » n'ouvre que Souffle, Serments tenus, Attaches et A1 Bourse ; modification enregistrée (3, 12). Valeur forcée de « Corps » (values[8]=1) par $wire : ignorée, Corps reste 4. Auto : PlayerCharacterTest, ViewAsTest, BacklogV1/V2Test.",
+                    "gaps": "",
+                    "result": "Conforme, contrôle côté serveur.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "CHA-04 · Import CSV/JSON",
+                    "expected": "Import de fiches et de champs depuis un tableur ; types écrits librement reconnus.",
+                    "tests": "Écran : CSV de champs fabriqué (séparateur ;) avec types « nombre », « oui/non », « Number », « texte long », « liste » : aperçu correct (Nombre, Oui/non, Nombre, Texte long, Liste de choix) puis 5 créés. JSON de fiches (2 lignes) avec colonnes mappées sur les nouveaux champs et Notes MJ : 2 fiches créées avec valeurs typées (3, oui→true, 7). Joueur : 403 sur l'import et les exemples. Auto : ImportTest, AiImportPromptTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "ECR-01 · Éditeur riche",
+                    "expected": "Gras, italique, intertitres, listes et citations dans tous les textes longs.",
+                    "tests": "Écran : barre B, I, T, •, 1., ❝, [[ ]] utilisée dans la description d'une fiche (rendu vérifié : intertitre, gras, italique, liste, citation), notes MJ, scène, procédure et notes MJ de règle, texte de secret, champ texte long (Attaches) et notes du joueur ; présence vérifiée dans le code pour la chronologie. Auto : EntityLinksTest (formatting_is_rendered…), BacklogV2Test.",
+                    "gaps": "Les descriptions de jeu, de monde, de scénario et de document restent en texte simple.",
+                    "result": "Conforme sur la liste du cahier.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "ECR-02 · Liens [[ ]]",
+                    "expected": "Taper « [[ » propose les fiches ; le lien suit la fiche renommée.",
+                    "tests": "Écran : « [[Bran » propose « Brannoc le Passeur / Personnage », Entrée insère [[Brannoc le Passeur|12]] ; après renommage, le lien affiche le nouveau nom. Même proposition dans scène, règle, secret et notes du joueur. Auto : EntityLinksTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "ECR-03 · Liens et visibilité",
+                    "expected": "Lien actif seulement vers une fiche connue du personnage ; notes du joueur liées seulement à ces fiches.",
+                    "tests": "Écran : a1-j1 voit « Brannoc le Passeur » en texte simple dans la fiche révélée tant que Brannoc n'est pas révélé, puis en lien actif vers /personnages/3/fiches/12 après révélation. suggestEntities('Garde') et ('Bran') renvoient [] avant révélation. Note forcée par $wire avec [[La Compagnie du Fil Gris|19]] : rendue en texte simple, sans lien, chez le joueur comme chez le MJ. Auto : EntityLinksTest (unknown_or_foreign…), SecurityTest, BacklogV1Test.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "SCN-01 · Scénarios",
+                    "expected": "Création, ordre, duplication (✦), description.",
+                    "tests": "Écran : création de « A1 Scénario Alpha » et « Beta » avec description, ↑ pour réordonner, « Dupliquer » → « A1 Scénario Alpha (copie) » avec ses scènes. Auto : ScenesTest, ScenarioDuplicationTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "SCN-02 · Scènes",
+                    "expected": "Texte, fiches utiles, documents, tags, ordre et statut : prévue, disponible, en cours, jouée, passée.",
+                    "tests": "Écran : « A1 Scène du guet » : chapitre, texte riche, fiche liée (Vigie, avec son statut), document a1-doc, règle, tags ; statut changé depuis la page de la scène ; ordre des scènes changé par ↑/↓ dans le plan. Joueur : 403. Auto : ScenesTest, TagManagementTest (scenes_carry_tags).",
+                    "gaps": "Le cinquième statut s'appelle « Ignorée » au lieu de « passée » du cahier.",
+                    "result": "Conforme, à un libellé près. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 95
+                },
+                {
+                    "feature": "SCN-03 · Utilisation des documents",
+                    "expected": "« Utilisé par » indique les scènes et leur scénario.",
+                    "tests": "Écran : page du document a1-doc : « Utilisé par · Scène · A1 Scène du guet (A1 Scénario Alpha) ». Auto : BacklogV3Test.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "REG-01 · Règles",
+                    "expected": "Origine (référence, maison, en test) et statut (6 valeurs) ; notes MJ avec éditeur riche.",
+                    "tests": "Écran : listes Origine (Référence, Maison, Test) et Statut (Disponible, À tester, En test, Adoptée, À modifier, Rejetée) ; création d'« A1 Règle de guet » maison/adoptée, notes MJ en liste à puces ; filtre par statut et tags sur l'index. Joueur : 403 sur l'URL directe. Auto : RulesAndDocumentsTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "REG-02 · Partage",
+                    "expected": "Une règle peut être donnée à un personnage ou montrée à la table.",
+                    "tests": "Écran : règle passée en « Consultable par les joueurs », ouverte à Teska (« Révélé à 1 personnage ») ; a1-j1 la voit dans « Règles » sans les notes MJ ; « Afficher à la table » montre titre, résumé et procédure sans notes MJ. Une règle « MJ seulement » ne propose pas le partage (message explicatif). Auto : ShowOnTableTest, GrantTest, RulesAndDocumentsTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "DOC-01 · Bibliothèque de documents",
+                    "expected": "Envoi de fichiers (images, PDF…) dans la limite du stockage de la formule.",
+                    "tests": "Écran : envoi simultané d'un PDF de 3 pages et d'une image PNG fabriqués, rangement campagne/monde/jeu, visibilité, tags, filtre PDF/Images. Stockage affiché dans Préférences (« 122 Ko / 2,0 Go »). Limite vérifiée dans le code (Plans::ensureRoom dans Documents/Index.php:100), non dépassée à l'écran. Auto : RulesAndDocumentsTest (only_pdf_and_images…), AdminConsoleTest (quota).",
+                    "gaps": "Dépassement de quota non testé à l'écran (250 Mo nécessaires).",
+                    "result": "Conforme.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "DOC-02 · Lecteur PDF intégré",
+                    "expected": "Le même sur ordinateur, tablette et téléphone, avec zoom, pages et téléchargement.",
+                    "tests": "Écran : même lecteur pdf.js en 1280 px, tablette 820 px et téléphone 390 px : « Pages : 3 », zoom 100 % → 125 %, « Télécharger » récupère a1-doc.pdf ; aucun défilement horizontal. Le joueur ouvre le PDF reçu par sa propre adresse. Auto : BacklogV3Test.",
+                    "gaps": "Pas d'indicateur « page n / N » ni de saut de page en mode lecture : on fait défiler.",
+                    "result": "Conforme.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "DOC-03 · Remise aux joueurs",
+                    "expected": "Donné à un personnage ou affiché à la table, page par page pour un PDF.",
+                    "tests": "Écran : a1-doc donné à Teska (« Donné à 1 personnage ») ; a1-j1 le voit dans « Documents » et l'ouvre (200), mais /documents/14/fichier et le document MJ « Tuile 1147 » restent refusés (403/404). « Afficher à la table » : écran de table en « 1 / 3 », bouton › → « 2 / 3 », flèche → « 3 / 3 ». Auto : ShowOnTableTest, GrantTest, TableScreenTest.",
+                    "gaps": "Le changement de page ne se pilote que sur l'écran de table lui-même, pas depuis la page du document ni la télécommande.",
+                    "result": "Conforme.",
+                    "score": 90,
+                    "score_before": null
+                },
+                {
+                    "feature": "SEC-01 · Secrets",
+                    "expected": "Information reliée à des fiches, scènes ou documents, avec une nature : rumeur, indice ou vérité.",
+                    "tests": "Écran : « A1 Vérité du guet » (vérité) relié à une fiche, une scène et un document, « A1 Rumeur du port » (rumeur) ; natures Rumeur/Indice/Vérité proposées ; « Relié à : A1 Vigie Orme, A1 Scène du guet, a1-doc ». Joueur : 403 sur /secrets. Auto : SecretsTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "SEC-02 · État déduit",
+                    "expected": "Caché, partiel ou révélé selon qui le connaît ; filtres par nature et par état.",
+                    "tests": "Écran : état « Caché » → « Partiel » (révélé à Teska) → « Révélé » (toute la table) → « Partiel » après annulation ; filtre « Partiel » ne garde que le bon secret, filtre « Rumeur » ne garde que la rumeur. Auto : SecretsTest, BacklogV1Test.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "SEC-03 · Révélation et historique",
+                    "expected": "Révélé d'un clic à un personnage ou à toute la table ; historique qui/quoi/quand/séance/scène ; annulable.",
+                    "tests": "Écran : clic sur un personnage, puis « Toute la table », puis annulation par clic sur la pastille (confirmation) ; a1-j2 voit le secret, a1-j1 ne le voit plus après annulation. Révélation faite pendant la séance 1 avec la scène en cours : « par Mj R1 · Session 1 · A1 Scène du guet » sur /revelations ; filtres par personnage et séance ; bouton « Annuler » sur chaque ligne ; l'annulation reste visible au journal (« a repris »). Auto : SecretsTest (reveals_keep_their_session_and_scene_and_can_be_undone).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "TAG-01 · Page Tags",
+                    "expected": "Renommer, colorer, fusionner, supprimer ; fiches et scènes taguées.",
+                    "tests": "Écran : /tags : renommage « scèneA1 » → « a1scène », couleur, fusion dans « a1tag », couleur rouge (pastille colorée sur la fiche), suppression d'un tag « a1jetable » (fiche conservée). Compteurs « 3 fiches · 1 scène ». Joueur : ne voit que ses propres tags. Auto : TagManagementTest.",
+                    "gaps": "Les fiches et scènes taguées ne sont données qu'en nombre, sans liste ni lien depuis la page Tags (il faut filtrer dans la campagne ou le plan).",
+                    "result": "Conforme pour la gestion ; consultation des éléments tagués indirecte.",
+                    "score": 90,
+                    "score_before": null
+                },
+                {
+                    "feature": "IMP-01 · « Préparez les fichiers avec une IA »",
+                    "expected": "Prompt à coller dans une IA avec le PDF d'un jeu ; fichiers d'import et guide ; prompt aussi en skill Claude téléchargeable.",
+                    "tests": "Écran (aucune IA appelée) : lien depuis l'import vers /import/avec-une-ia : étapes, avertissement droits d'auteur, « Copier le prompt » (8 940 caractères copiés), « Télécharger (.md) » → loremundi-prompt-import.md, « Télécharger comme skill Claude (.zip) » → loremundi-import/SKILL.md avec en-tête name/description. Le prompt connaît le jeu et ses champs (dont les champs A1 créés) et décrit les CSV champs, fiches, règles, scènes et GUIDE-IMPORT.md. Joueur : 403 sur les trois adresses. Auto : AiImportPromptTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                }
+            ]
+        },
+        {
+            "name": "Séance, joueurs et rôles",
+            "items": [
+                {
+                    "feature": "ROL-01 · Rôle propre à chaque campagne",
+                    "expected": "Un même compte est MJ dans A, joueur dans B, spectateur dans C ; « Mes campagnes » affiche le rôle de chacune.",
+                    "tests": "Écran : a2-j1 a créé « A2 Campagne de J1 » (MJ), joue Teska dans la démo de a2-mj (joueur) et a été invité spectateur dans « A2 Campagne C » ; a2-free est co-MJ dans C et spectateur dans la démo. « Mes campagnes » vérifié pour les deux comptes, bureau. Auto : Campaigns/CampaignPolicyTest::test_roles_are_defined_per_campaign_not_per_account, Members/RolesTest.",
+                    "gaps": "",
+                    "result": "Conforme : chaque carte affiche « Rôle : Maître de jeu / Joueur / Spectateur / Co-MJ », avec le personnage joué ou la mention de l'écran de table.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "ROL-02 · Changement de rôle",
+                    "expected": "Le propriétaire passe un membre joueur ↔ co-MJ ↔ spectateur ; un joueur devenu spectateur ou retiré ne joue plus son personnage et ne reçoit plus rien.",
+                    "tests": "Écran : a2-comj co-MJ → joueur → spectateur → co-MJ ; a2-j2 retiré puis réinvité, puis joueur → spectateur → joueur ; a2-j1 retiré puis réinvité. Accès directs (fiche, PDF, messages) refusés en 403 après chaque rétrogradation ; appels Livewire forcés du co-MJ sur la page Membres (changeRole, remove, invite) refusés en 403. Auto : Members/RolesTest, Account/SecurityTest::test_a_removed_or_demoted_player_no_longer_plays_their_character, Members/InvitationTest.",
+                    "gaps": "",
+                    "result": "Conforme : le personnage est libéré (sans joueur), l'ancien joueur n'y accède plus et rien de ce qu'on révèle ensuite ne lui parvient ; le co-MJ ne voit ni ne peut forcer la gestion des membres.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "ROL-03 · Droits revérifiés en permanence",
+                    "expected": "Une page restée ouverte revérifie les droits à chaque action : un joueur retiré ou un co-MJ rétrogradé n'obtient plus rien.",
+                    "tests": "Écran : 10 pages laissées ouvertes (fiche, chronologie, graphe, recherche, messages de a2-j2 ; Mode Session, fiche MJ de Brannoc, secrets, « Voir comme », Personnages de a2-comj), puis retrait de j2 et rétrogradation du co-MJ ; ensuite le MJ révèle une information, modifie les notes MJ, prend une note de séance et j1 écrit une note de groupe. Aucune page n'a reçu le nouveau contenu par le temps réel ; $refresh et actions forcées (addOwn, adjust, saveNote, addNote, toggleLock) → 403 partout, chat-dock compris. Auto : RecetteV2Test::test_an_open_page_stops_answering_once_the_player_is_removed, ::test_an_open_game_master_page_stops_answering_once_the_co_gm_is_demoted, Account/SecurityTest::test_an_open_entity_form_rechecks_rights_on_save.",
+                    "gaps": "Les notifications reçues pendant qu'il était co-MJ (dont le texte d'un message privé d'un joueur au MJ) restent lisibles dans la cloche du co-MJ rétrogradé.",
+                    "result": "Conforme pour toutes les pages et actions testées (les anomalies Majeures de la recette précédente sont corrigées) ; seul l'historique de notifications reste consultable.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "ROL-04 · Limite de campagnes",
+                    "expected": "Seules les campagnes possédées comptent dans la limite ; jouer, être co-MJ ou spectateur ne compte jamais.",
+                    "tests": "Écran : a2-free (gratuit, essai terminé) est co-MJ dans C et spectateur dans la démo : il crée une première campagne sans souci, la deuxième est refusée avec « Votre formule permet 1 campagne en tant que MJ. ». Remarque : a2-mj n'est pas Premium en base (formule gratuite, essai démarré au chargement de la démo), sans effet sur ce test. Auto : Admin/AdminConsoleTest::test_a_free_account_owns_one_campaign_but_can_play_in_others, Plans/PremiumEndTest.",
+                    "gaps": "",
+                    "result": "Conforme : les participations ne comptent pas et le refus est expliqué clairement.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "CHR-01 · Chronologie",
+                    "expected": "Histoire du monde, événements prévus et joués, dates libres ; un événement joué noté en séance est rattaché à la séance et à la scène en cours. Désactivable par campagne.",
+                    "tests": "Écran : pendant la séance 1, « Noter un événement joué » (date « Jour 3 », description avec [[ ]]) : session pré-choisie, en base play_session_id=1 et scene_id=13 (« Les perches déplacées », scène en cours) ; événement du monde en zone MJ « ZZEVTMJA2 » invisible pour j1 ; lien vers Brannoc actif pour j1 qui le connaît. Fonction désactivée : 403 « Fonction désactivée » pour MJ et joueur, bouton masqué sur la fiche. Auto : Timeline/TimelineTest (3 tests dont test_a_played_event_noted_during_a_session_is_attached_to_the_current_scene), Campaigns/CampaignFeaturesTest.",
+                    "gaps": "Une page de chronologie déjà ouverte continue de fonctionner après la désactivation (le MJ y crée encore un événement).",
+                    "result": "Conforme sur le fond ; la désactivation n'est pas revérifiée sur une page restée ouverte. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 92
+                },
+                {
+                    "feature": "GRA-01 · Graphe des relations",
+                    "expected": "Toutes les fiches reliées ou le réseau autour d'une fiche, avec profondeur et filtre par type ; noms qui se chevauchent déplacés ou masqués, réaffichés au survol. Désactivable.",
+                    "tests": "Écran : MJ : vue d'ensemble (20 fiches, 23 relations dont 9 en zone MJ en pointillés), centrage sur Brannoc profondeur 1 (4 fiches) puis 3 (14), filtre « Lieu » qui garde la fiche centrale, liste textuelle des relations ; survol : 12 étiquettes masquées, 10 après survol d'un nœud ; téléphone 390 px sans débordement. Désactivation → 403. Auto : Graph/GraphTest (4 tests), Campaigns/CampaignFeaturesTest.",
+                    "gaps": "Quelques libellés de relation chevauchent encore un nom de fiche (« lui a prêté une barque » sur « Teska la Rameuse ») ; page déjà ouverte non coupée par la désactivation.",
+                    "result": "Conforme, avec une lisibilité perfectible sur le réseau complet. Après 0.35.0 : écart corrigé en partie (voir écarts restants).",
+                    "score": 97,
+                    "score_before": 92
+                },
+                {
+                    "feature": "GRA-02 · « Voir comme » dans le graphe",
+                    "expected": "Le réseau tel qu'un personnage le connaît ; les joueurs y accèdent depuis leur personnage.",
+                    "tests": "Écran : après révélation de 4 fiches à Oriel, MJ « Voir comme Oriel » et j1 via le bouton « Graphe » de sa fiche : 3 fiches, 2 relations publiques ; la relation MJ « sont menés par sa fille » (entre deux fiches connues) est absente, y compris du HTML. j1 force ?comme=5 (Dorn) → 404, ?fiche=36 (fiche inconnue) → rien de plus ; j2 (Dorn, aucune fiche connue) → « Aucune relation à afficher ». Auto : Graph/GraphTest::test_a_character_sees_only_known_entries_and_public_relations_between_them, ::test_view_as_is_for_the_game_master_and_players_only_use_their_own_character.",
+                    "gaps": "",
+                    "result": "Conforme et étanche ; un personnage au repos du joueur n'est plus sélectionnable (404), ce qui reste cohérent.",
+                    "score": 97,
+                    "score_before": null
+                },
+                {
+                    "feature": "SES-01 · Ouvrir et clore une séance",
+                    "expected": "Une séance a une date, un résumé, ses notes, ses événements et ses révélations ; sa page montre aussi les notes des joueurs prises pendant la séance, sauf les privées.",
+                    "tests": "Écran : séance 1 démarrée puis terminée ; page « Session 1 » : date et heures, notes MJ par scène, notes des joueurs « Toute la table » et « Moi et le MJ », note « Moi seul » absente. Auto : BacklogV1Test::test_the_session_page_shows_the_player_notes_taken_during_it_except_private_ones, Sessions/SessionModeTest.",
+                    "gaps": "Pas de résumé de séance saisissable (seul l'assistant IA peut en proposer un, sous forme d'événement) ; la page de séance n'affiche ni l'événement joué rattaché (ZZEVTA2) ni les révélations faites pendant la séance.",
+                    "result": "Partiel : date, notes et notes des joueurs sont conformes, mais résumé, événements et révélations manquent sur la page de la séance. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 65
+                },
+                {
+                    "feature": "SES-02 · Scène en cours et suivante",
+                    "expected": "Choix de la scène en cours, aperçu de la suivante, changement de statut.",
+                    "tests": "Écran : « Scène jouée, suivante → » : « Les perches déplacées » passe à Jouée, « Le carnet de Mornevent » à En cours, « Ensuite : La salle aux six lits » mis à jour ; choix direct d'une autre scène dans la liste (la précédente redevient Disponible). Auto : Sessions/SessionModeTest::test_gm_moves_through_scenes_and_takes_timestamped_notes, ::test_the_session_previews_the_next_scene_and_shows_cards_on_the_table.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "SES-03 · Fiches utiles et panneau",
+                    "expected": "Les fiches de la scène sont à portée ; un lien ouvert s'affiche dans un panneau sans quitter la session.",
+                    "tests": "Écran : clic sur « Les Marches noyées » dans Fiches utiles : panneau latéral titré, URL restée /session, fermeture par Échap. Auto : Sessions/SessionModeTest::test_starting_a_session_shows_the_prepared_scene_and_its_entities.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "SES-04 · Notes rapides",
+                    "expected": "Touche N pour noter ; « [[ » propose les fiches ; « À jouer » et épingles.",
+                    "tests": "Écran : touche N → focus dans la note ; « [[Bran » propose Brannoc et insère [[Brannoc le Passeur|32]] ; note listée avec lien et scène ; élément « À jouer » pour la scène ; épingle Brannoc ; l'intention de j1 apparaît dans « À jouer » du MJ avec « Demandé par Teska la Rameuse ». Le co-MJ voit la note sur sa page Mode Session ouverte. Auto : Sessions/SessionModeTest (to_play, pins), …::test_the_session_quick_note_suggests_sheets.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "SES-05 · Montrer à la table",
+                    "expected": "Fiche, portrait, illustration, document, règle ou carte s'affiche d'un clic sur l'écran de table.",
+                    "tests": "Écran : écran de table ouvert par a2-spect pendant que le MJ montre : fiche Brannoc (zone publique seule, aucune note MJ), règle « Compte de la brume », PDF des marées, carte du port avec jetons, annonce, portrait seul. Illustration non testée faute d'illustration dans la démo. Auto : Sessions/SessionModeTest, Table/TableScreenTest.",
+                    "gaps": "Erreur JavaScript « n?.destroy is not a function » sur l'écran de table au passage d'un PDF à la carte (sans effet visible).",
+                    "result": "Conforme ; une erreur de console à corriger. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 95
+                },
+                {
+                    "feature": "SES-06 · Révéler ou donner",
+                    "expected": "Depuis la session, à un ou plusieurs personnages, avec une case « Tous les personnages actifs ».",
+                    "tests": "Écran : secret « Les perches du gué » révélé à Teska d'un clic sur son nom ; information « ZZINFOALL » via « Tous les personnages actifs » (coche les deux, « Révélé à 2 personnages ») ; objet « Corde de chanvre ×3 » à Teska seule. j1 et j2, pages ouvertes en parallèle, reçoivent aussitôt les bonnes fenêtres « reçu » (j2 n'a ni le secret ni la corde) ; un personnage au repos n'est plus proposé. Auto : BacklogV4Test::test_free_give_offers_a_whole_table_shortcut, Characters/GrantTest, Secrets/SecretsTest.",
+                    "gaps": "",
+                    "result": "Conforme, temps réel compris.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "SES-07 · Événement joué",
+                    "expected": "Noté en séance, il entre dans la chronologie, rattaché à la séance et à la scène.",
+                    "tests": "Écran : voir CHR-01 : rattachement séance + scène en cours vérifié en base et affiché « Joué · Session 1 · Les perches déplacées ». Auto : Timeline/TimelineTest::test_a_played_event_noted_during_a_session_is_attached_to_the_current_scene.",
+                    "gaps": "Le Mode Session n'offre aucun moyen de noter un événement joué : il faut quitter l'écran pour la page Chronologie ; l'événement n'apparaît pas non plus sur la page de la séance.",
+                    "result": "Rattachement conforme, mais la saisie ne se fait pas depuis le Mode Session. Après 0.35.0 : écart corrigé en partie (voir écarts restants).",
+                    "score": 92,
+                    "score_before": 85
+                },
+                {
+                    "feature": "SES-08 · Usage sur téléphone",
+                    "expected": "Le Mode Session reste lisible sur téléphone et tablette.",
+                    "tests": "Écran : Mode Session en 390×844 et 820×1180 (tactile) : aucune largeur excédentaire (scrollWidth = largeur), sections empilées et lisibles (capture s10_session_mobile). Auto : aucun test navigateur dédié.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "JOU-01 · Invitation",
+                    "expected": "Le MJ invite par lien ; le lien choisit le rôle (joueur, co-MJ, spectateur) et peut être révoqué.",
+                    "tests": "Écran : 5 liens (co-MJ, 2 joueurs, spectateur, un à révoquer) ; chaque compte rejoint avec le bon rôle ; lien annulé → « n'existe pas ou a été annulé », lien déjà utilisé → « déjà utilisé » (a2-etranger). Auto : Members/InvitationTest (6 tests), Members/RolesTest.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "JOU-02 · Personnage",
+                    "expected": "Fiche, feuille PDF (nom d'origine conservé), compteurs et champs modifiables par le joueur ; prétirés proposés à la création.",
+                    "tests": "Écran : prétirés Teska et Dorn copiés dans la campagne ; PDF « Feuille Teska (été) A2.pdf » : nom conservé à l'affichage et au téléchargement (filename* UTF-8), 403 pour j2, spectateur et étranger ; Souffle −1 par le joueur ; seuls Souffle, Serments tenus et Attaches modifiables ; écriture forcée de Corps et d'un champ MJ ignorée. Auto : Characters/PlayerCharacterTest (7 tests), RecetteV2Test::test_demo_pregenerated_characters_are_offered_to_players.",
+                    "gaps": "Les prétirés ne sont pas distingués : la liste propose toutes les fiches Personnage (PNJ compris, et même la fiche secrète « L'Inconnu du Phare »).",
+                    "result": "Conforme sur le personnage ; le choix des prétirés reste peu guidé.",
+                    "score": 90,
+                    "score_before": null
+                },
+                {
+                    "feature": "JOU-03 · Repos et verrouillage",
+                    "expected": "Un personnage au repos ou verrouillé n'est plus modifiable par le joueur et ne peut plus donner.",
+                    "tests": "Écran : Teska mise au repos par la création d'Oriel, Oriel verrouillée puis déverrouillée : plus de « Modifier », « Donner », « + Noter », boutons de compteurs ; appels forcés adjust, edit, openAdd, startExchange, saveNote (repos), addIntention (repos) → 403. Auto : Characters/ExchangeTest::test_only_the_player_of_an_unlocked_sheet_gives_and_only_to_a_companion, PlayerAdditionsTest, PlayerCharacterTest.",
+                    "gaps": "",
+                    "result": "Conforme (les notes restent permises sur une fiche verrouillée mais active, ce qui paraît voulu).",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "JOU-04 · Nouveau personnage",
+                    "expected": "Le MJ coche ce qui passe de l'ancien : connaissances, informations, documents et règles recopiés, objets qui changent de main.",
+                    "tests": "Écran : création d'Oriel pour j1 : « Ce qui passe à Oriel » propose fiche, 3 informations et la Lanterne ; une information décochée ; « 4 éléments transmis » : copies chez Oriel, Teska garde ses connaissances et perd la Lanterne ; journal « Fiche transmise … de Teska à Oriel » ; anciennes notes sans boutons Modifier/Supprimer. Auto : BacklogV1Test, RecetteV2Test::test_taking_over_from_an_old_character_is_logged_as_a_transfer, ::test_notes_of_a_previous_character_have_no_edit_buttons.",
+                    "gaps": "",
+                    "result": "Conforme (les corrections de la recette précédente sont vérifiées).",
+                    "score": 97,
+                    "score_before": null
+                },
+                {
+                    "feature": "JOU-05 · Joueur retiré puis réinvité",
+                    "expected": "Il retrouve son ancien personnage d'un clic depuis la page Personnages ; il ne lit jamais la conversation privée d'un autre joueur à qui le personnage avait été confié.",
+                    "tests": "Écran : (1) j1 retiré puis réinvité : bandeau « J1 R2 est de retour… Lui rendre Teska la Rameuse », un clic suffit. (2) j2 retiré, Dorn confié à a2-comj (devenu joueur) qui écrit au MJ en privé et reçoit une réponse, puis Dorn rendu à j2 : j2 ne voit ces messages ni dans Messages, ni dans le panneau Discussion, ni en recherche, ni en notifications ; comj ne voyait pas non plus l'ancien message de j2. Auto : BacklogV4Test::test_a_returning_player_gets_their_old_character_back_in_one_click, RecetteV2Test::test_a_new_player_does_not_read_the_previous_players_private_conversation.",
+                    "gaps": "Dans le cas (2), le bouton « Lui rendre » n'apparaît pas : seul le dernier joueur est retenu, le MJ doit réattribuer à la main. Le joueur revenu ne retrouve pas non plus sa propre conversation privée antérieure.",
+                    "result": "Étanchéité des conversations conforme ; le retour d'un clic échoue quand le personnage a été confié à quelqu'un d'autre entre-temps.",
+                    "score": 85,
+                    "score_before": null
+                },
+                {
+                    "feature": "JOU-06 · Ce que sait le personnage",
+                    "expected": "Connaissances (fiches révélées, sans zone MJ), informations, documents, règles ; affichées aussitôt dans une fenêtre « reçu ».",
+                    "tests": "Écran : fenêtres « reçu » en direct sur la fiche et sur la page Messages ; « Voir sur ma fiche » mène à #section-possession, « Ouvrir » ouvre la fiche révélée ; fiches révélées (Brannoc, La Halle…) sans notes ni champs MJ ; témoins de zone MJ absents de toutes les pages joueur. Auto : Notifications/ReceivedPopupTest, tests/Browser/received-popup.spec.js, Characters/GrantTest::test_a_revealed_sheet_shows_only_its_public_zone_and_links_to_known_sheets.",
+                    "gaps": "",
+                    "result": "Conforme (corrections de la recette précédente vérifiées).",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "JOU-07 · Possessions",
+                    "expected": "Objets avec quantité ; le joueur ajoute objets et connaissances, le MJ valide les objets ; un objet validé n'est plus modifiable par le joueur.",
+                    "tests": "Écran : j1 ajoute « Lanterne sourde » (« en attente du MJ », bouton Effacer) et une connaissance ; le MJ valide (« validé », plus d'Effacer) ; removeOwn forcé sur l'objet validé → 403. Auto : Characters/PlayerAdditionsTest (5 tests).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "JOU-08 · Échanges entre personnages",
+                    "expected": "Donner tout ou partie d'une pile, fusion des objets identiques, transmettre une connaissance (gardée) ; validation MJ par défaut, case pour l'autoriser d'office ; désactivable.",
+                    "tests": "Écran : j1 propose 2 cordes sur 3 à Dorn : « Échange proposé : Corde de chanvre ×2… en attente du MJ », rien chez j2 avant l'accord ; le MJ accepte : 1 / 2 ; case décochée, j1 donne la dernière corde : fusion à ×3 chez j2 ; transmission du secret, gardé par j1. Échanges désactivés : boutons masqués, startExchange forcé → 403. Auto : Characters/ExchangeTest (4), ExchangeApprovalTest (3), Campaigns/CampaignFeaturesTest::test_switching_exchanges_off_stops_players_giving_to_each_other.",
+                    "gaps": "Quand une unité rejoint une pile existante, la notification et le journal annoncent « Corde de chanvre ×3 » (le total) au lieu de la quantité donnée.",
+                    "result": "Conforme sur le fonctionnement ; libellé de quantité faux dans la notification et le journal en cas de fusion. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 90
+                },
+                {
+                    "feature": "JOU-09 · Notes du joueur",
+                    "expected": "Notes privées, partagées à certains ou au groupe, éditeur riche, liens limités aux fiches connues.",
+                    "tests": "Écran : notes « Moi seul » (invisible du MJ et de j2), « Moi et le MJ », « Toute la table », « Certains joueurs » (Dorn seul) ; partage forgé vers un personnage inexistant refusé ; suggestions [[ limitées à Brannoc (connu) ; liens forgés vers des fiches inconnues affichés en texte avec le nom saisi, sans dévoiler le vrai nom (ex. [[Truc|36]] reste « Truc »). Auto : Characters/PlayerSpaceTest::test_note_sharing_is_enforced_for_each_reader, BacklogV1Test::test_player_notes_suggest_only_the_sheets_the_character_knows, Account/SecurityTest::test_a_player_cannot_list_the_campaign_sheets_through_link_suggestions.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "JOU-10 · Intentions et journal",
+                    "expected": "Intentions « À jouer » du joueur ; journal du personnage avec tout ce qu'il a reçu, donné ou appris.",
+                    "tests": "Écran : intention de j1 visible du MJ en Mode Session, invisible pour j2 ; journaux de Teska, Dorn et Oriel : révélations, dons, échanges, ajouts et validations datés. Auto : Characters/PlayerSpaceTest::test_the_player_journal_only_lists_what_concerns_their_character, ::test_a_player_asks_to_test_a_rule_and_the_game_master_plays_it.",
+                    "gaps": "",
+                    "result": "Conforme (voir JOU-08 pour la quantité affichée en cas de fusion).",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "JOU-11 · « Voir comme »",
+                    "expected": "Le MJ voit la campagne exactement comme un personnage, en lecture seule.",
+                    "tests": "Écran : « Voir comme Oriel » : bandeau « Lecture seule », aucun bouton d'action, notes « Moi seul » absentes, fiche Brannoc ouverte en ?comme=1 sans zone MJ ; appels forcés adjust, edit, saveNote, revoke, openAdd → 403. Auto : Characters/ViewAsTest (4 tests).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                }
+            ]
+        },
+        {
+            "name": "Table, communication et écosystème",
+            "items": [
+                {
+                    "feature": "COM-01 · Messagerie",
+                    "expected": "Conversations de groupe et privées entre le MJ et ses joueurs ; panneau « Discussion » toujours à portée.",
+                    "tests": "Écran : campagne de démonstration n°5, comptes a3-mj, a3-j1 (Teska), a3-j2 (Oriel), a3-spect, a3-etranger, bureau 1280 px et téléphone 390 px. Message au groupe, message privé du MJ à Teska avec un document joint, réponse privée de Teska au MJ et message de Teska au groupe ; vérification que a3-j2 voit les messages de groupe mais ni le privé MJ→Teska ni la réponse privée (HTML inspecté). Appels Livewire forcés par a3-j2 : open('1') refusé en 403, send() avec pièce jointe refusé (aucun message créé en base). /messages refusé (403) au spectateur et à l'étranger. Panneau « Discussion » ouvert sur la fiche du personnage, sur bureau et sur téléphone, sans débordement horizontal. Auto : tests/Feature/Messages/MessagingTest.php (7 tests, dont outsiders_cannot_read et player_cannot_attach_anything), tests/Feature/Messages/ChatDockTest.php.",
+                    "gaps": "",
+                    "result": "Conversations de groupe et privées étanches, pièces jointes réservées au MJ, panneau Discussion présent et utilisable sur téléphone.",
+                    "score": 98,
+                    "score_before": null
+                },
+                {
+                    "feature": "COM-02 · Notifications",
+                    "expected": "Révélations, objets reçus, échanges, messages ; compteur dans l'en-tête ; dans la langue du destinataire.",
+                    "tests": "Écran : a3-j2 passé en anglais dans ses préférences, puis le MJ envoie un message privé et donne un objet (Mode Session) à Teska et Oriel ; a3-j1 (français) et a3-j2 (anglais) ouvrent /notifications. Échange Teska → Oriel (1 lanterne sur 2) validé par le MJ : notification au MJ puis au receveur. Compteur de la cloche vérifié (« 1 non lue »). Langue de j2 remise en français ensuite. Auto : tests/Feature/Notifications/NotificationTest.php, ReceivedPopupTest.php, tests/Browser/received-popup.spec.js.",
+                    "gaps": "La notification d'un échange affiche la quantité totale de la pile fusionnée chez le receveur (« ×3 ») au lieu de la quantité donnée (1). La notification au MJ dit « propose de transmettre » pour un objet et n'indique pas la quantité.",
+                    "result": "Notifications présentes pour révélation, objet, échange et message, chacune dans la langue du destinataire, compteur juste ; libellé de quantité faux après fusion d'objets. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 92
+                },
+                {
+                    "feature": "COM-03 · Notifications sur l'appareil",
+                    "expected": "Notifications push sur l'appareil quand l'application est installée (clés VAPID).",
+                    "tests": "Écran : bloc « Sur cet appareil » et bouton « Activer les notifications » présents sur /notifications (j1 et j2). Abonnement simulé par a3-j2 avec un vrai couple de clés P-256 et un point d'accès factice https : 204 ; point d'accès en http refusé (422) ; désabonnement : 204, table vidée. Avec l'abonnement actif, le message et le don du MJ vers Oriel aboutissent (pas d'erreur 500) : l'échec d'envoi est seulement journalisé. L'envoi réel n'est pas testable ici (pas de service push joignable). Code relu : app/Notifications/CampaignEvent.php (canal push seulement si VAPID et abonnement), app/Notifications/Channels/PushChannel.php (rescue), resources/js/pwa.js. Auto : tests/Feature/Pwa/PwaTest.php (subscribes_and_unsubscribes, push_is_sent_only_with_vapid_keys…, unreachable_push_service_never_breaks_the_action).",
+                    "gaps": "Sur ce serveur, PHP n'a ni GMP ni BCMath : chaque tentative d'envoi push échoue (« It is highly recommended to install the GMP or BCMath extension… » dans storage/logs/laravel.log). Le README le signale, mais rien n'avertit l'administrateur dans l'application. Envoi réel non vérifiable.",
+                    "result": "Abonnement, désabonnement et robustesse de l'envoi conformes ; livraison réelle non vérifiable dans cet environnement.",
+                    "score": 85,
+                    "score_before": null
+                },
+                {
+                    "feature": "COM-04 · Temps réel",
+                    "expected": "Messages, compteurs, révélations, écran de table se mettent à jour sans recharger (Laravel Reverb).",
+                    "tests": "Écran : deux à cinq navigateurs simultanés (MJ bureau, MJ télécommande téléphone, télévision 1920×1080, spectateur, joueurs). Echo à l'état « connected ». Sans rechargement : le message de groupe du MJ apparaît chez Teska ; la cloche de j2 passe à « 1 non lue » ; le message privé apparaît chez Teska et sa réponse chez le MJ ; la fenêtre « reçu » s'ouvre chez Teska au don du document ; l'écran de table (télé, spectateur, joueur sur téléphone) suit chaque changement de la télécommande (fiche, ambiance, annonce, carte, jetons masqués/montrés, zoom et déplacement). Auto : tests/Feature/Realtime/RealtimeTest.php (private_channels_follow_the_visibility_rules, recipients_and_open_sheets_are_told_to_refresh, header_listens_to_the_personal_channel).",
+                    "gaps": "",
+                    "result": "Toutes les mises à jour arrivent en une à deux secondes sans recharger.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "COM-05 · Repli sans temps réel",
+                    "expected": "Si le serveur temps réel est absent ou coupé, cloche, messages et fiches se mettent à jour toutes les 30 secondes.",
+                    "tests": "Code : resources/js/echo.js (setInterval de 30 s qui rafraîchit les composants écoutant un canal echo quand la connexion n'est pas « connected », onglet visible et en ligne). Écran (sans couper Reverb) : sur la fiche de Teska, Echo déconnecté côté navigateur seulement (window.Echo.disconnect()), 5 composants écoutent un canal (cloche, fiche, fenêtre reçu, discussion) ; le MJ envoie un message : la cloche passe à « 1 non lue » après 27,9 s sans rechargement. L'écran de table a en plus un wire:poll de 10 s. Auto : tests/Feature/Realtime/RealtimeTest.php::test_the_app_keeps_working_when_reverb_is_not_running (côté serveur seulement).",
+                    "gaps": "Aucun test automatisé ne couvre le repli JavaScript lui-même (la boucle de 30 s de echo.js).",
+                    "result": "Le repli fonctionne : mise à jour en moins de 30 s une fois le canal coupé.",
+                    "score": 92,
+                    "score_before": null
+                },
+                {
+                    "feature": "COM-06 · Journal de campagne",
+                    "expected": "Fil des événements de la campagne filtré selon les droits de chacun.",
+                    "tests": "Écran : /journal ouvert par le MJ (créations, dons, échanges, arrivée des membres, avec filtres par type et recherche), par le co-MJ (200) ; refusé (403) à a3-j1, a3-spect et a3-etranger. Côté joueur, le journal du personnage sur sa fiche liste ce qu'il a reçu ou donné. Auto : tests/Feature/Journal/JournalTest.php (journal_is_for_the_game_master_of_the_campaign_only…).",
+                    "gaps": "Le journal de campagne est réservé aux MJ ; un joueur n'a pas de fil filtré de la campagne, seulement le journal de son personnage. L'échange de 1 lanterne est enregistré « ×3 » (quantité après fusion) dans les deux journaux.",
+                    "result": "Journal complet pour les MJ, refusé aux autres ; vue joueur limitée au journal du personnage ; quantité d'échange fausse. Après 0.35.0 : écart corrigé en partie (voir écarts restants).",
+                    "score": 92,
+                    "score_before": 85
+                },
+                {
+                    "feature": "TAB-01 · Écran de table",
+                    "expected": "Page plein écran : fiche (champs publics), portrait, illustration, document (PDF page par page, flèches), règle, annonce, carte. Désactivable par campagne.",
+                    "tests": "Écran : télévision 1920×1080 (a3-mj) et spectateur ; affichage depuis la télécommande d'une fiche (Brannoc : résumé, description et champs publics, sans la note MJ « perches bougent » dans le HTML spectateur et joueur), d'un portrait, d'une règle, d'une annonce, de la carte et d'un PDF de 3 pages téléversé (« 1 / 3 », flèche droite → 2/3, bouton › → 3/3, flèche gauche → 2/3). Bouton « Plein écran ». Fiche d'une autre campagne forcée : 404. Désactivation testée avec le tableau §10.1. Auto : tests/Feature/Table/TableScreenTest.php (8 tests dont sheet_is_shown_without_its_game_master_zone), ShowOnTableTest.php.",
+                    "gaps": "En quittant un PDF, le lecteur lève une erreur JavaScript « n?.destroy is not a function » (télé et joueur) : le document pdf.js n'est jamais libéré.",
+                    "result": "Tous les types s'affichent correctement, sans zone MJ ; erreur JavaScript à la fermeture d'un PDF. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 93
+                },
+                {
+                    "feature": "TAB-02 · Partage aux joueurs",
+                    "expected": "Le MJ peut partager l'écran de table aux joueurs et aux spectateurs ; lisible sur téléphone.",
+                    "tests": "Écran : a3-j1 sur téléphone 390×844 : /ecran-de-table refusé (403) avant partage, 200 après la case « Les joueurs suivent l'écran » de la télécommande. Spectateur toujours autorisé, étranger refusé (écran, fichier). Fiche, annonce, carte et PDF lisibles sur téléphone sans défilement horizontal ; jeton masqué absent du HTML et son image refusée (404) au joueur. Auto : TableScreenTest.php (members_follow_the_table_screen…, player_gets_only_the_file_shown_right_now, stops_sharing).",
+                    "gaps": "",
+                    "result": "Partage conforme et lisible sur téléphone (l'ancien défaut d'affichage d'une fiche sur téléphone est corrigé).",
+                    "score": 98,
+                    "score_before": null
+                },
+                {
+                    "feature": "TAB-03 · Ambiances",
+                    "expected": "Nuit, Parchemin, Ardoise ou Grimoire, choisies depuis la télécommande.",
+                    "tests": "Écran : sélecteur « Ambiance de l'écran » de la télécommande sur téléphone ; chaque ambiance change aussitôt le fond et la police de la télé (nuit : noir sans empattement ; parchemin : beige à empattement ; ardoise ; grimoire), captures prises. Ambiance exportée dans l'archive. Auto : pas de test dédié repéré hors TableDisplay::theme (abort 422 sur valeur inconnue).",
+                    "gaps": "",
+                    "result": "Les quatre ambiances s'appliquent en direct.",
+                    "score": 98,
+                    "score_before": null
+                },
+                {
+                    "feature": "TAB-04 · Cartes",
+                    "expected": "Image zoomable et déplaçable, grille carrée facultative et échelle. Désactivables par campagne indépendamment de l'écran.",
+                    "tests": "Écran : carte « Le port de Pierrecendre » (démonstration) : boutons +/−/Carte entière, glisser pour déplacer, grille cochée/décochée, taille, décalages, couleur, échelle 1 case = 5 m ; « Afficher à la table » ; page carte sur téléphone sans débordement horizontal. Cartes refusées (403) au joueur, au spectateur et à l'étranger. Désactivation indépendante testée (§10.1). Auto : tests/Feature/Table/MapsTest.php (5 tests).",
+                    "gaps": "",
+                    "result": "Carte complète et pilotable ; désactivation indépendante de l'écran conforme (voir le défaut du Mode Session au §10.1).",
+                    "score": 96,
+                    "score_before": null
+                },
+                {
+                    "feature": "TAB-05 · Jetons",
+                    "expected": "Liés aux fiches (nom, portrait) : déplacer, redimensionner, montrer ou masquer aux joueurs.",
+                    "tests": "Écran : jeton de Teska glissé à la souris sur la page carte : nouvelle position aussitôt chez le spectateur ; taille passée à 2 (rayon 80) ; Dorn masqué puis montré depuis la page carte, Brannoc depuis la télécommande : le nom disparaît puis revient dans le HTML du spectateur ; « Les Noyeux » masqué n'apparaît jamais (ni nom ni image : 404). Auto : MapsTest.php::test_hidden_tokens_never_reach_the_table_screen, test_grid_scale_view_ruler_and_tokens_are_set_from_the_editor.",
+                    "gaps": "",
+                    "result": "Jetons conformes, masquage étanche.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "TAB-06 · Règle de mesure",
+                    "expected": "Ligne temporaire, distance en cases ou en mètres ; s'efface d'elle-même.",
+                    "tests": "Écran : mode « Mesurer », tracé à la souris sur la page carte : la télé et le spectateur affichent une ligne pointillée avec « 47,3 m » (échelle 5 m par case) ; plus rien après 16,5 s (RULER_SECONDS = 15). Bouton « Effacer la règle » sur la télécommande. Auto : MapsTest.php (ruler).",
+                    "gaps": "",
+                    "result": "Règle affichée en direct et effacée automatiquement.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "TAB-07 · Télécommande",
+                    "expected": "Depuis un téléphone : vider l'écran, élément suivant de la scène (« Terminer » au dernier), piloter la carte, changer l'ambiance.",
+                    "tests": "Écran : télécommande sur téléphone 390 px (tactile), sans débordement : « Vider l'écran », « Suivant ▶ » à travers les 6 éléments de la scène en cours (fiches, document, règles), le bouton devient « Terminer ■ » au dernier puis vide l'écran ; pilotage de la carte (zoom, flèches, Entière, jetons) : viewBox de la télé modifié ; ambiance ; annonce. Refusée (403) au joueur, au spectateur, à l'étranger. Auto : MapsTest.php::test_the_remote_steps_through_the_scene_and_drives_the_shown_map, TableScreenTest.php.",
+                    "gaps": "La télécommande ne permet pas de tourner les pages d'un PDF affiché (seulement au clavier sur la télé) ; chaque appareil d'un joueur reste sur sa propre page.",
+                    "result": "Télécommande complète et confortable sur téléphone.",
+                    "score": 96,
+                    "score_before": null
+                },
+                {
+                    "feature": "ECO-01 · Export de campagne",
+                    "expected": "Archive .zip : jeu, monde, fiches, scénarios, documents, cartes, secrets, chronologie, fichiers et fonctions de la campagne.",
+                    "tests": "Écran : « Télécharger l'archive » (propriétaire) → loremundi-le-serment-de-pierrecendre.zip ; campagne.json contient game_system, world, campaign (avec table_theme et disabled_features ['graph']), types, tags, champs, 20 fiches, relations, états de campagne, documents, règles, scénarios, secrets, carte, chronologie, et les fichiers (images et PDF). Aucun message, note de joueur ni adresse e-mail. Archive refusée (403) au co-MJ, au joueur et à l'étranger. Auto : tests/Feature/Archive/CampaignArchiveTest.php (a_campaign_travels_to_another_account…, archive_is_downloaded_by_its_game_master_only).",
+                    "gaps": "Le co-MJ ne peut pas exporter (réservé au propriétaire) et le bloc n'apparaît pas pour lui : choix défendable mais non précisé par le cahier.",
+                    "result": "Archive complète et réservée au propriétaire.",
+                    "score": 96,
+                    "score_before": null
+                },
+                {
+                    "feature": "ECO-02 · Sauvegarde complète",
+                    "expected": "Réservée au propriétaire : ajoute la table (personnages, reçus, séances, notes, messages, journal), sans note « Moi seul » ni e-mail. À l'import, personnages sans joueur.",
+                    "tests": "Écran : trois notes de Teska créées (Moi seul, Moi et le MJ, Toute la table). « Télécharger la sauvegarde complète » : section table avec player_sheets, characters, grants, sessions, session_notes, character_notes (2 : la note « Moi seul » est absente), messages (6), journal (11), aucune adresse @recette.test. Refusée (403) au co-MJ, au joueur et à l'étranger. Importée par a3-comj (autre MJ) : 2 personnages sans joueur, leurs reçus (2 et 1), 2 notes, 1 séance. Auto : CampaignArchiveTest.php::test_a_complete_backup_carries_the_table_without_private_notes_or_emails.",
+                    "gaps": "Les messages et le journal sont dans l'archive mais ne sont pas recréés à l'import (l'écran l'annonce). La page Aide (resources/views/pages/help.blade.php:22) dit encore que l'archive ne contient ni joueurs, ni personnages, ni journal, sans parler de la sauvegarde complète.",
+                    "result": "Sauvegarde conforme et sans donnée privée ; aide à mettre à jour. Après 0.35.0 : écart corrigé en partie (voir écarts restants).",
+                    "score": 98,
+                    "score_before": 93
+                },
+                {
+                    "feature": "ECO-03 · Import d'archive",
+                    "expected": "Recrée la campagne chez soi ou chez un autre MJ ; les archives CodexFlow restent lisibles ; un nom déjà pris est numéroté.",
+                    "tests": "Écran : import par a3-mj de sa propre archive → « Le Serment de Pierrecendre (2) » (jeu et monde numérotés aussi) ; import par a3-comj de la sauvegarde complète ; import par a3-free (essai terminé, formule gratuite qui comprend l'archive par défaut) ; archive « CodexFlow » simulée (app_version 0.13.1, sans pins, chronologie, cartes ni réglages de campagne) importée sans erreur (ambiance par défaut, jeu « Brume & Serment (3) ») ; un .json donné comme archive est refusé avec un message clair. Fonctions coupées (graph) conservées à l'import. Auto : CampaignArchiveTest.php (import_form_creates_the_campaign_and_refuses_a_foreign_file, a_tampered_archive_is_checked_field_by_field).",
+                    "gaps": "Pas de vraie archive d'une ancienne version CodexFlow disponible : lisibilité vérifiée par le format (« codexflow-campaign », version 1) et une archive simulée.",
+                    "result": "Import conforme, nommage numéroté, ancien format accepté.",
+                    "score": 96,
+                    "score_before": null
+                },
+                {
+                    "feature": "ECO-04 · Modèle de jeu",
+                    "expected": "Fichier .json partageable : types de fiche, champs, étiquettes et règles, sans contenu de campagne.",
+                    "tests": "Écran : « Exporter le modèle » et « Avec les règles » (page Champs) : JSON codexflow-template avec 2 types, 11 à 13 étiquettes, 11 champs, 0 ou 3 règles, sans aucun nom de fiche, note MJ ni lieu. Import dans une campagne vierge « Modele vierge a3 » : « 11 champs ajoutés, 3 règles ajoutées » ; réimport : 0 ajout ; une archive .zip est refusée. Modèle refusé (403) au co-MJ, au joueur, à l'étranger. Auto : CampaignArchiveTest.php (game_template_carries_the_structure_without_any_content, template_page_exports_and_imports).",
+                    "gaps": "Le co-MJ ne peut pas exporter le modèle (le jeu appartient au propriétaire). Le sélecteur de fichier natif s'affiche en anglais (« Choose File ») selon le navigateur.",
+                    "result": "Modèle conforme, sans contenu, réimport idempotent.",
+                    "score": 96,
+                    "score_before": null
+                },
+                {
+                    "feature": "ECO-05 · Duplication",
+                    "expected": "Fiche, scénario ou campagne entière (secrets, chronologie préparée, liens). Statuts non recopiés sauf case cochée.",
+                    "tests": "Écran : duplication de la campagne sans puis avec « Garder le statut des fiches » : copies n°21 et 22, secrets 5/5, carte, chronologie 7 événements (les 3 « joués » sont exclus), fonctions coupées conservées, sans joueurs, personnages ni messages ; statut « sous couvre-feu » absent de la copie 21 et présent dans la 22. Fiche « L'Inconnu du Phare » dupliquée (copie), scénario dupliqué (« (copie) »). Duplication de campagne forcée par le co-MJ : 403. Auto : tests/Feature/Duplication/CampaignDuplicationTest.php, EntityDuplicationTest.php, ScenarioDuplicationTest.php.",
+                    "gaps": "",
+                    "result": "Duplication conforme aux trois niveaux.",
+                    "score": 98,
+                    "score_before": null
+                },
+                {
+                    "feature": "ECO-06 · Assistant IA, copier-coller",
+                    "expected": "LoreMundi prépare un texte (notes de séance et contexte) ; la réponse collée devient des propositions : résumé, événements, relations, statuts, notes, révélations. Gratuit.",
+                    "tests": "Écran : /assistant-ia, notes complémentaires saisies ; texte à copier de 5 265 caractères avec les notes, les identifiants de fiches et la note « Moi et le MJ » du joueur, sans la note « Moi seul ». Réponse sans JSON : message clair. Réponse fabriquée d'après app/Support/Ai/SuggestionParser.php (bloc ```json avec summary, events, relations, statuses « #52 », notes, reveals avec un personnage 999 inexistant et une relation vers une fiche étrangère) : « 6 propositions à examiner, 1 ignorée(s) ». Accessible au compte gratuit (essai fini). Aucune IA appelée. Refusé au joueur (403). Auto : tests/Feature/Ai/AiAssistantTest.php (6 tests).",
+                    "gaps": "",
+                    "result": "Propositions correctement extraites, contenus étrangers écartés.",
+                    "score": 98,
+                    "score_before": null
+                },
+                {
+                    "feature": "ECO-07 · Assistant IA, clé personnelle",
+                    "expected": "Avec une clé enregistrée, « Analyser directement » obtient les propositions sans copier-coller, aux frais de l'utilisateur.",
+                    "tests": "Écran : a3-comj enregistre une clé factice (fournisseurs Claude, ChatGPT, Mistral) : « Clé enregistrée… à vos frais chez Claude (Anthropic) », la clé n'est jamais renvoyée dans le HTML ; le bouton « Analyser directement avec Claude (Anthropic) » apparaît alors sur l'assistant ; clé effacée ensuite (vérifié en base). Analyse directe non lancée (pas d'appel externe). Auto : tests/Feature/Ai/AiKeyTest.php (stored_encrypted_and_never_shown_again, analyses_a_session_with_their_own_key, refused_key_is_explained…, claude_is_called_with_the_game_masters_key_only).",
+                    "gaps": "Appel réel au fournisseur non vérifiable ici (couvert seulement par des tests avec réponse simulée).",
+                    "result": "Enregistrement, masquage et bouton conformes ; analyse réelle non testée.",
+                    "score": 88,
+                    "score_before": null
+                },
+                {
+                    "feature": "ECO-08 · Validation des propositions",
+                    "expected": "Chaque proposition s'accepte, se modifie ou se rejette ; rien ne change sans le MJ ; relations et statuts propres à la campagne.",
+                    "tests": "Écran : statut modifié puis accepté, relation modifiée puis acceptée, note rejetée, résumé, événement et révélation acceptés : « 5 acceptées, 1 rejetée, 0 en attente ». Base : la fiche mondiale de Brannoc est intacte, le statut est dans campaign_entity_states (campagne 5), la relation porte campaign_id 5 et zone MJ, l'événement et le résumé sont dans la chronologie, la note rejetée n'est pas appliquée, Teska connaît désormais « Les Noyeux » (zone publique seulement). Auto : AiAssistantTest.php (turns_an_ai_answer_into_accepted_changes, edited_suggestion_is_checked_again…).",
+                    "gaps": "",
+                    "result": "Validation fine et données de campagne bien séparées du monde.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§10.1 Écran de table · Fonction « Écran de table » décochée",
+                    "expected": "Plus d'écran, de télécommande ni de bouton « Afficher à la table » ; « Fonction désactivée » par URL ; rien d'effacé.",
+                    "tests": "Écran : case décochée par a3-mj sur la page de la campagne, puis vérifications avec a3-mj, a3-comj et a3-j1 ; recochée ensuite et données revérifiées. Auto : tests/Feature/Campaigns/CampaignFeaturesTest.php (everything_is_on_by_default_and_switching_off_hides_and_refuses_without_deleting…). /ecran-de-table et /telecommande : 403 « Fonction désactivée » pour le MJ, le co-MJ et le joueur ; icône Télécommande absente ; bouton « Afficher à la table » absent des fiches et documents ; bloc Écran de table absent du Mode Session ; bouton « Écran de table ↗ » absent de la fiche du joueur. Recochée : pages en 200, ambiance et partage conservés.",
+                    "gaps": "Une page déjà ouverte (carte, télécommande) continue d'accepter ses actions Livewire après la coupure (voir bug). Le spectateur, dont le lien de campagne mène à l'écran, tombe sur la page « Fonction désactivée » sans autre explication.",
+                    "result": "Fonction masquée et refusée partout, rien d'effacé. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 94
+                },
+                {
+                    "feature": "§10.1 Cartes · Fonction « Cartes » décochée",
+                    "expected": "Plus de page Cartes ni de carte à l'écran ou sur la télécommande ; « Fonction désactivée » par URL ; rien d'effacé.",
+                    "tests": "Écran : case décochée par a3-mj sur la page de la campagne, puis vérifications avec a3-mj, a3-comj et a3-j1 ; recochée ensuite et données revérifiées. Auto : tests/Feature/Campaigns/CampaignFeaturesTest.php (everything_is_on_by_default_and_switching_off_hides_and_refuses_without_deleting…). /cartes et /cartes/3 : 403 « Fonction désactivée » pour MJ, co-MJ et joueur ; icône Cartes absente ; « En faire une carte » absent du document image ; carte absente de la télécommande. Mais /session répond 500 tant que Cartes est décochée. Sur une page carte déjà ouverte, toggleToken(15) fonctionne encore après la coupure. Recochée : carte et 7 jetons intacts.",
+                    "gaps": "Le Mode Session plante (erreur 500) dès que la fonction Cartes est décochée : Live::tableMaps() renvoie collect() alors que son type de retour est une Eloquent Collection. Actions encore possibles sur une page carte restée ouverte.",
+                    "result": "Masquage et refus corrects, mais le Mode Session devient inutilisable quand les cartes sont coupées. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 55
+                },
+                {
+                    "feature": "§10.1 Échanges · Fonction « Échanges entre joueurs » décochée",
+                    "expected": "Les joueurs ne peuvent plus se donner d'objets ni se transmettre de connaissances.",
+                    "tests": "Écran : case décochée par a3-mj sur la page de la campagne, puis vérifications avec a3-mj, a3-comj et a3-j1 ; recochée ensuite et données revérifiées. Auto : tests/Feature/Campaigns/CampaignFeaturesTest.php (everything_is_on_by_default_and_switching_off_hides_and_refuses_without_deleting…). Côté Teska : plus aucun bouton « Donner »/« Transmettre » ; startExchange(2) forcé : 403 ; la case « valider les échanges » disparaît de la page Personnages. Recochée : 2 boutons reviennent, échange de 1 lanterne proposé puis validé par le MJ. Auto : CampaignFeaturesTest.php::test_switching_exchanges_off_stops_players_giving_to_each_other.",
+                    "gaps": "",
+                    "result": "Coupure étanche côté serveur, retour intact.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§10.1 Graphe · Fonction « Graphe » décochée",
+                    "expected": "Plus de graphe des relations, ni pour le MJ ni pour les joueurs.",
+                    "tests": "Écran : case décochée par a3-mj sur la page de la campagne, puis vérifications avec a3-mj, a3-comj et a3-j1 ; recochée ensuite et données revérifiées. Auto : tests/Feature/Campaigns/CampaignFeaturesTest.php (everything_is_on_by_default_and_switching_off_hides_and_refuses_without_deleting…). /graphe : 403 « Fonction désactivée » pour MJ, co-MJ et joueur ; icône absente ; « Voir dans le graphe » absent de la fiche ; bouton « Graphe » absent de la fiche du joueur. Bascule faite aussi par le co-MJ (autorisé).",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "§10.1 Chronologie · Fonction « Chronologie » décochée",
+                    "expected": "Plus de page Chronologie.",
+                    "tests": "Écran : case décochée par a3-mj sur la page de la campagne, puis vérifications avec a3-mj, a3-comj et a3-j1 ; recochée ensuite et données revérifiées. Auto : tests/Feature/Campaigns/CampaignFeaturesTest.php (everything_is_on_by_default_and_switching_off_hides_and_refuses_without_deleting…). /chronologie : 403 « Fonction désactivée » pour MJ, co-MJ et joueur ; icône et bouton « Chronologie » du joueur absents. Recochée : 10 événements intacts.",
+                    "gaps": "Les actions d'une page Chronologie déjà ouverte ne vérifient pas la fonction (même cause que pour les cartes).",
+                    "result": "Conforme pour les nouvelles visites. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 97
+                },
+                {
+                    "feature": "§10.1 Assistant IA · Fonction « Assistant IA » décochée",
+                    "expected": "Plus de page Assistant IA.",
+                    "tests": "Écran : case décochée par a3-mj sur la page de la campagne, puis vérifications avec a3-mj, a3-comj et a3-j1 ; recochée ensuite et données revérifiées. Auto : tests/Feature/Campaigns/CampaignFeaturesTest.php (everything_is_on_by_default_and_switching_off_hides_and_refuses_without_deleting…). /assistant-ia : 403 « Fonction désactivée » pour MJ, co-MJ et joueur ; icône absente. Recochée : page en 200, analyses conservées.",
+                    "gaps": "Les actions d'une page déjà ouverte (analyser, accepter) ne vérifient pas la fonction.",
+                    "result": "Conforme pour les nouvelles visites. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 97
+                },
+                {
+                    "feature": "FON-01 · Réglage par campagne",
+                    "expected": "Réservé au propriétaire et au co-MJ ; conservé par l'export, la sauvegarde, l'import et la duplication.",
+                    "tests": "Écran : bascule faite par le propriétaire et par le co-MJ (a3-comj) ; un joueur qui ouvre la page de la campagne est renvoyé vers son personnage (pas de section Fonctions). Graphe coupé avant export : disabled_features ['graph'] dans l'archive et la sauvegarde, puis dans les campagnes importées (13, 16, 17) et dupliquées (21, 22) ; liste nettoyée à l'import (CampaignFeatures::clean). Auto : CampaignFeaturesTest.php::test_the_choice_follows_the_campaign_into_copies_and_archives, test_only_known_features_can_be_switched.",
+                    "gaps": "",
+                    "result": "Réglage conservé partout et réservé aux MJ.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "REC-01 · Recherche dans la campagne",
+                    "expected": "Plein texte en français : fiches, scènes, règles, documents, secrets, informations et objets donnés, notes partagées, tags. Le résultat montre le champ qui contient le mot, avec son nom.",
+                    "tests": "Écran : MJ sur /campagnes/5/recherche : « réclament » et « reclament » (accents ignorés) trouvent Les Noyeux par « Zone MJ : … » ; champ personnalisé nommé (« Serment caché : … ») ; statut et scènes (« couvre-feu Quai ») ; objet donné (« Lanterne de recette ») ; notes partagées et note « Moi et le MJ », jamais la note « Moi seul » ; tags (« acte 1 » → « Tags : acte 1, quais ») ; règle (« Souffle ») ; secret (« barque Noyeux ») ; document (« grimoire-a3 »). Auto : tests/Feature/Search/GlobalSearchTest.php (8 tests), BacklogV4Test.php::test_the_search_excerpt_names_the_custom_field_that_holds_the_word.",
+                    "gaps": "La recherche est une recherche de sous-chaînes sans accents, pas un plein texte français avec racinisation : « lanternes » trouve moins de résultats que « lanterne » (le singulier n'est pas trouvé par le pluriel). Le texte des PDF n'est pas indexé.",
+                    "result": "Tous les contenus prévus sont trouvés avec le nom du champ ; pas de racinisation.",
+                    "score": 88,
+                    "score_before": null
+                },
+                {
+                    "feature": "REC-02 · Recherche du joueur",
+                    "expected": "Limitée à ce que connaît son personnage, sans zone MJ.",
+                    "tests": "Écran : a3-j1 : « Noyeux » trouve la fiche révélée avec son seul résumé, « réclament » (zone MJ) rien, « Brannoc » (non révélé) rien, « barque » (secret) rien, « Souffle » (règle non ouverte) rien, son objet et ses notes oui. a3-j2 : ne trouve ni la note « Moi seul » ni la note « Moi et le MJ » de Teska, seulement la note « Toute la table ». Paramètres forcés : kind=scenes ignoré, comme=2 refusé (403). Spectateur et étranger : 403. Auto : GlobalSearchTest.php::test_a_player_never_finds_gm_only_content, tests/Feature/Characters/ViewAsTest.php.",
+                    "gaps": "",
+                    "result": "Recherche du joueur étanche.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "REC-03 · Recherche depuis l'accueil",
+                    "expected": "Hors d'une campagne : toutes les campagnes, mondes et jeux de l'utilisateur, chacune avec ses droits.",
+                    "tests": "Écran : /recherche?q=… pour a3-mj (résultats groupés par campagne avec la zone MJ), a3-j1 (seulement sa campagne, en joueur : « réclament » ne donne rien), a3-etranger (aucun résultat) ; téléphone 390 px sans débordement. Code : app/Livewire/Search/Everywhere.php parcourt les campagnes de l'utilisateur (30 au plus) et cherche leurs fiches de monde et règles de jeu. Auto : tests/Feature/BacklogV1Test.php (recherche globale) ; pas de test dédié à Everywhere dans tests/Feature/Search.",
+                    "gaps": "Un monde ou un jeu qui n'est rattaché à aucune campagne n'est pas cherché, et au-delà de 30 campagnes les suivantes sont ignorées.",
+                    "result": "Recherche transversale conforme aux droits, limitée aux mondes et jeux utilisés par une campagne.",
+                    "score": 88,
+                    "score_before": null
+                }
+            ]
+        },
+        {
+            "name": "Comptes, formules, administration et transverse",
+            "items": [
+                {
+                    "feature": "CPT-01 · Inscription et connexion",
+                    "expected": "Création de compte par nom, e-mail et mot de passe ; connexion, déconnexion, « Se souvenir de moi ».",
+                    "tests": "Écran : création du compte neuf a4-neuf@recette.test par le formulaire d'inscription (bureau 1280 px), refus d'une adresse déjà prise, mauvais mot de passe, déconnexion, accès à /campagnes sans session (renvoi vers /login), connexion avec « Se souvenir de moi » puis suppression du cookie de session : la connexion revient par le cookie remember_web (valable un an). Auto : tests/Feature/Auth/AuthenticationTest.php (inscription, connexion, erreurs) ; aucun test du « Se souvenir de moi ».",
+                    "gaps": "Message d'adresse déjà prise mal tourné en français : « Cette valeur de adresse e-mail est déjà utilisée. »",
+                    "result": "Inscription, connexion, déconnexion et « Se souvenir de moi » fonctionnent ; seul le libellé de l'erreur d'adresse en double est maladroit. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 98
+                },
+                {
+                    "feature": "CPT-02 · Mot de passe",
+                    "expected": "10 caractères minimum avec lettres et chiffres ; mot de passe oublié par lien e-mail ; changer son mot de passe déconnecte les autres appareils.",
+                    "tests": "Écran : refus de « court1a » (longueur), « abcdefghijkl » (chiffre), « 1234567890123 » (lettre), confirmation différente ; changement dans Préférences avec mauvais mot de passe actuel refusé ; après changement, l'appareil A (connecté avec « Se souvenir de moi ») est renvoyé vers /login, l'appareil B reste connecté. Mot de passe oublié : message neutre pour une adresse connue ou inconnue, lien lu dans storage/logs/laravel.log (MAIL_MAILER=log), formulaire prérempli, réinitialisation puis lien rejoué refusé (« Ce lien de réinitialisation est invalide. ») ; la réinitialisation déconnecte aussi l'autre appareil. Auto : SecurityTest::test_passwords_need_ten_characters_with_letters_and_numbers, test_a_user_changes_their_name_email_and_password.",
+                    "gaps": "",
+                    "result": "Conforme : règles de mot de passe, lien de réinitialisation à usage unique et déconnexion des autres appareils vérifiés.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "CPT-03 · Changement d'adresse e-mail",
+                    "expected": "La nouvelle adresse n'est adoptée qu'après clic sur le lien reçu ; l'ancienne est ensuite prévenue.",
+                    "tests": "Écran : a4-neuf demande a4-neuf2@recette.test (mot de passe actuel exigé, adresse prise refusée) ; e-mail de confirmation envoyé à la nouvelle adresse (journal), base inchangée avant le clic ; lien falsifié (autre adresse) 403, ouvert par a4-etranger 403, ouvert sans session renvoyé vers /login ; clic par le titulaire : adresse changée, e-mail « Votre adresse e-mail LoreMundi a changé » envoyé à l'ancienne adresse ; retour à l'adresse d'origine par le même parcours. Auto : SecurityTest::test_a_user_changes_their_name_email_and_password, BrandedMailTest.",
+                    "gaps": "",
+                    "result": "Conforme : l'adresse ne change qu'au clic du titulaire, l'ancienne adresse est prévenue, le lien est signé et personnel.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "CPT-04 · Double authentification",
+                    "expected": "Facultative, TOTP, codes de secours utilisables à la connexion ; l'administrateur peut la retirer.",
+                    "tests": "Écran : a4-neuf active la double authentification (mot de passe faux refusé, code faux refusé, code TOTP calculé en Node depuis la clé affichée accepté), 8 codes de secours affichés une seule fois, clé absente du HTML après activation ; à la connexion : page /two-factor-challenge, application inaccessible avant le code, code faux refusé, code TOTP accepté, code de secours accepté une fois puis refusé au second usage ; l'administrateur retire la double authentification depuis la console (confirmation), le compte se reconnecte sans code. Secret chiffré en base (lecture tinker par decrypt). Auto : SecurityTest::test_two_factor_authentication_protects_the_login, AdminConsoleTest.",
+                    "gaps": "Un code TOTP déjà utilisé pour l'activation est refusé à la connexion pendant la même fenêtre de 30 s (protection contre le rejeu, normale, mais le message « Ce code n'est pas valide » peut dérouter).",
+                    "result": "Conforme : activation, connexion par code et par code de secours à usage unique, retrait par l'administrateur.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "CPT-05 · Limitation des essais",
+                    "expected": "Tentatives comptées par formulaire et par adresse ; page d'attente avec le délai en secondes.",
+                    "tests": "Écran : 5 mauvais mots de passe pour a4-neuf puis 6e essai : page « Erreur 429 Trop de demandes… Réessayez dans 57 secondes. » ; même avec le bon mot de passe, refus pendant l'attente ; une autre adresse (a4-spect) se connecte normalement ; 6 demandes « mot de passe oublié » pour une adresse : 429 avec délai, une autre adresse sur le même formulaire passe, l'inscription avec la même adresse passe (compteur par formulaire). Auto : SecurityTest::test_account_forms_are_throttled_and_pages_send_security_headers.",
+                    "gaps": "",
+                    "result": "Conforme : compteurs distincts par formulaire et par adresse, délai affiché en secondes.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "CPT-06 · Mes données",
+                    "expected": "Téléchargement de ce que LoreMundi conserve ; suppression du compte annonçant l'effacement des messages.",
+                    "tests": "Écran : « Télécharger mes données » (a4-neuf) : JSON en pièce jointe avec compte, préférences, connexions (dates seules), campagnes, personnages, notes, messages, signalements ; ni mot de passe, ni secret 2FA, ni clé IA (seulement ai_api_key_saved), ni IP. Suppression avec un compte neuf a4-suppr (inscrit par le formulaire, joueur dans la campagne de a4-mj) : texte « …vos personnages restent, sans joueur, mais vos messages sont effacés », case de confirmation obligatoire, mot de passe exigé ; après suppression : retour à /login avec message, compte et adhésions supprimés, reconnexion impossible. Auto : SecurityTest::test_a_user_downloads_their_data_without_secrets, test_a_user_deletes_their_account_and_their_campaigns, test_a_deleted_player_leaves_their_character_without_a_player.",
+                    "gaps": "",
+                    "result": "Conforme : export complet sans secret et suppression définitive annoncée clairement.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "CPT-07 · Préférences d'affichage",
+                    "expected": "Langue (8, par défaut celle du navigateur), thème, couleur d'accent, taille du texte, conservés d'une page à l'autre.",
+                    "tests": "Écran : navigateur en-US et langue « Comme le navigateur » : interface en anglais ; choix allemand puis français ; thème sombre, accent violet, très grande taille : appliqués (fond rgb(21,19,17), police 20 px, data-accent=violet) et conservés sur /campagnes et /aide ; liste des 8 langues dans le sélecteur. Auto : FinishingTouchesTest::test_display_preferences_are_saved_and_applied, LanguageTest::test_the_interface_follows_the_browser_language_and_defaults_to_french, test_the_account_language_wins_over_the_browser.",
+                    "gaps": "",
+                    "result": "Conforme : préférences enregistrées sur le compte et appliquées sur toutes les pages.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "CPT-08 · Formule et abonnement",
+                    "expected": "Formule en cours et ses dates dans Préférences, avec « Passer Premium » ou le portail de facturation.",
+                    "tests": "Écran : Préférences de a4-free (Gratuit, 1/1 campagne, fonctions Premium listées), a4-j2 (Gratuit, essai offert de 6 semaines annoncé), a4-mj passé Premium par l'administrateur (« Fin de l'abonnement : 8 octobre 2027 »). Stripe non configuré : aucun bouton, POST /abonnement/monthly et /abonnement/portail répondent 404. Auto : BillingTest::test_preferences_offer_premium_and_the_portal_only_when_stripe_is_set_up, test_checkout_sends_the_account_to_stripe.",
+                    "gaps": "La date de début de l'abonnement n'est pas affichée (seulement la fin). Sans Stripe configuré, aucun bouton ni message n'indique comment passer Premium.",
+                    "result": "La formule et sa date de fin s'affichent ; le paiement n'est pas vérifiable en local et son absence n'est pas expliquée.",
+                    "score": 88,
+                    "score_before": null
+                },
+                {
+                    "feature": "CPT-09 · Clé d'IA personnelle",
+                    "expected": "Clé Anthropic, OpenAI ou Mistral avec modèle ; chiffrée, jamais réaffichée, jamais exportée, supprimable.",
+                    "tests": "Écran : enregistrement d'une fausse clé (« sk-ant-FAUSSE-CLE-RECETTE-a4-XYZ9 », aucun appel externe) avec un modèle ; message « Clé enregistrée… se terminant par … » ; après rechargement, clé absente du HTML et champ vide ; absente de l'export « Mes données » ; « Effacer la clé » : provider et clé remis à NULL en base. Auto : tests/Feature/Ai/AiKeyTest.php.",
+                    "gaps": "",
+                    "result": "Conforme : la clé n'est jamais réaffichée ni exportée et s'efface.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "CPT-10 · E-mails à l'image de LoreMundi",
+                    "expected": "Logo et couleurs ; chaque e-mail dans la langue du destinataire, même envoyé par l'administrateur.",
+                    "tests": "Écran : e-mails lus dans storage/logs/laravel.log : en-tête « LoreMundi · Every world has a story. », couleurs de la charte (#1d2633, #2e5b6e, #1f8a8a), pied « by Autistic Intelligence » ; a4-neuf réglé en allemand : le lien de réinitialisation envoyé par l'administrateur part en allemand (« Setzen Sie Ihr Passwort zurück », html lang=de). Auto : BrandedMailTest::test_emails_carry_the_loremundi_look, test_emails_are_written_in_the_recipients_language.",
+                    "gaps": "Le logo est un mot-symbole en texte stylé, pas une image ; l'expéditeur local est noreply@codexflow.test (fichier .env, l'exemple utilise loremundi.test).",
+                    "result": "Conforme pour les couleurs et la langue ; le logo est rendu en texte.",
+                    "score": 96,
+                    "score_before": null
+                },
+                {
+                    "feature": "FOR-01 · Fonctions selon le propriétaire",
+                    "expected": "Les fonctions suivent la formule du propriétaire ; un invité en profite quelle que soit sa formule.",
+                    "tests": "Écran : toutes les fonctions retirées temporairement de l'offre gratuite dans la console ; a4-spect (gratuit) spectateur des deux campagnes : écran de table ouvert (200) dans la campagne de a4-mj (Premium), refusé (403 « Fonction non comprise dans la formule ») dans celle de a4-free ; réglages remis ensuite. Auto : PremiumEndTest::test_a_player_gets_the_owners_features_whatever_their_own_plan, AdminConsoleTest::test_a_feature_removed_from_the_free_plan_disappears_for_the_gm_and_the_players.",
+                    "gaps": "",
+                    "result": "Conforme : l'invité profite des fonctions du propriétaire, pas des siennes.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "FOR-02 · Signalement ✦",
+                    "expected": "Fonction non comprise visible, grisée, avec ✦ et explication ; le serveur la refuse.",
+                    "tests": "Écran : a4-free (essai terminé), fonctions retirées de l'offre gratuite : Cartes, Assistant IA, Télécommande grisés en pointillés avec ✦ et infobulle « fonction Premium, non comprise ici » ; blocs « Dupliquer » et « Exporter la campagne » remplacés par l'explication ; bouton « Dupliquer » d'une fiche désactivé. Accès direct : /cartes, /ecran-de-table, /telecommande, /assistant-ia, /archive.zip, /modele.json tous 403. Appels Livewire forcés : duplication de fiche, de scénario, de campagne : 403. Page de carte déjà ouverte avant le retrait : l'appel setAllHidden(true) passe (200) et masque les 7 jetons. Même constat quand le MJ coupe « Cartes » dans sa campagne. Auto : AdminConsoleTest::test_a_feature_removed_from_the_free_plan_disappears_for_the_gm_and_the_players, CampaignFeaturesTest.",
+                    "gaps": "Une page de carte restée ouverte continue d'agir après la perte de la fonction (voir bug).",
+                    "result": "Affichage conforme et refus serveur à l'ouverture et sur les actions de duplication, mais les actions d'une page de carte déjà ouverte ne sont pas revérifiées. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 75
+                },
+                {
+                    "feature": "FOR-03 · Fin d'essai ou d'abonnement",
+                    "expected": "Rien n'est effacé ; seules les fonctions ✦ se coupent ; aucune nouvelle campagne au-delà de la limite.",
+                    "tests": "Écran : a4-free (essai terminé) charge la démonstration (1/1), une deuxième campagne est refusée (« Votre formule permet 1 campagne en tant que MJ. »). L'administrateur règle a4-free en Premium échu (01/09/2026 – 07/10/2026) : console « premium échu », formule effective Gratuit, carte et 7 jetons conservés, messages accessibles, fonctions grisées, Préférences « rien n'est effacé » ; compte remis en Gratuit ensuite. Auto : PremiumEndTest::test_an_expired_subscription_switches_features_off_and_keeps_every_campaign_and_its_data, AdminConsoleTest::test_a_free_account_owns_one_campaign_but_can_play_in_others.",
+                    "gaps": "",
+                    "result": "Conforme : données conservées, fonctions coupées, limite de campagnes appliquée.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "FOR-04 · Période offerte",
+                    "expected": "Deux dates pendant lesquelles les comptes gratuits ont les fonctions Premium, sans la limite de campagnes ni le stockage.",
+                    "tests": "Écran : console Formules, période du jour au lendemain (08/10 – 09/10/2026) : « Période offerte en cours », a4-free n'a plus d'outil grisé, /cartes 200, bandeau « Période offerte… jusqu'au 9 octobre 2026 inclus », deuxième campagne toujours refusée, stockage resté à 250 Mo ; période remise à vide, fonctions remises cochées. Auto : PremiumEndTest::test_a_gift_period_opens_premium_features_to_free_accounts_between_two_dates, test_the_admin_sets_a_gift_period.",
+                    "gaps": "",
+                    "result": "Conforme : fonctions ouvertes, limite et stockage inchangés, réglage remis à vide après le test.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "FOR-05 · Paiement Stripe",
+                    "expected": "Checkout mensuel ou annuel, webhook signé, portail, Premium jusqu'à la fin de la période payée.",
+                    "tests": "Écran : Stripe non configuré en local : boutons absents, /abonnement/{monthly,yearly} et /abonnement/portail en 404, webhook sans secret 404, /abonnement/merci 200. Rien de plus n'est vérifiable sans compte Stripe. Auto : BillingTest (checkout, webhook signé refusé si mauvaise signature et appliqué une fois, période payée, portail).",
+                    "gaps": "Aucun message ne signale aux utilisateurs que le paiement n'est pas encore ouvert.",
+                    "result": "Non vérifiable à l'écran faute de Stripe ; le comportement non configuré est propre (404, aucun bouton) et les tests automatiques couvrent le parcours.",
+                    "score": 85,
+                    "score_before": null
+                },
+                {
+                    "feature": "ADM-01 · Comptes",
+                    "expected": "Liste triable et cherchable : e-mail, formule, dates, stockage, clé IA oui/non, campagnes, connexions sur 30 jours (dates seules, jamais d'IP).",
+                    "tests": "Écran : mj@codexflow.test, confirmation du mot de passe demandée à l'entrée ; recherche « a4- » (8 comptes), tri par adresse (URL ?sort=email&direction=asc), colonnes Formule, Début, Fin, Stockage x / limite avec jauge, IA Oui/Non, campagnes comme MJ et autres accès, Connexions ; aucune IP ni hachage de mot de passe dans la page. a4-etranger en 403 sur /admin. Auto : AdminConsoleTest::test_only_the_administrator_opens_the_console, test_the_console_lists_accounts_with_indicators_and_nothing_personal.",
+                    "gaps": "La colonne Connexions donne un nombre, pas les dates ; ce nombre est gonflé : une reconnexion par cookie « Se souvenir de moi » compte comme une connexion, plusieurs fois à la même seconde (voir bug).",
+                    "result": "Liste complète, triable et sans donnée sensible ; le compte des connexions est approximatif. Après 0.35.0 : écart corrigé en partie (voir écarts restants).",
+                    "score": 95,
+                    "score_before": 90
+                },
+                {
+                    "feature": "ADM-02 · Actions sur un compte",
+                    "expected": "Changer formule et dates, envoyer un lien de réinitialisation, retirer la 2FA ; commande codexflow:admin.",
+                    "tests": "Écran : a4-mj passé Premium du 08/10/2026 au 08/10/2027 (fin avant début refusée) ; lien de réinitialisation envoyé à a4-neuf (en allemand, sans voir le mot de passe) ; double authentification retirée après confirmation ; les autres comptes ne sont pas touchés. `php artisan codexflow:admin --help` présent (donne ou retire le rôle administrateur), non exécuté. Auto : AdminConsoleTest::test_the_administrator_sets_a_plan_and_sends_a_reset_link_without_seeing_the_password, HelpAndBugReportTest::test_the_first_account_administers_the_installation.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "ADM-03 · Formules",
+                    "expected": "Stockage, limite de campagnes et fonctions de l'offre gratuite ; durée de l'essai ; période offerte.",
+                    "tests": "Écran : page /admin/formules (stockage Premium, durée d'essai, stockage et campagnes de l'offre gratuite, 5 fonctions à cocher, période offerte) ; décocher les fonctions les grise aussitôt dans la campagne de a4-free ; période offerte réglée puis vidée. Réglages remis à l'état initial (toutes fonctions cochées, aucune période). Auto : AdminConsoleTest, PremiumEndTest::test_the_admin_sets_a_gift_period.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "ADM-04 · Backlog",
+                    "expected": "Signalements, bugs et évolutions avec statut, priorité et version de correction.",
+                    "tests": "Écran : le signalement de a4-j1 apparaît (« Nouveau », source Signalement, adresse, page /campagnes/7/personnages/7, langue, version 0.34.0, navigateur) ; filtres statut et nature, recherche ; priorité, statut « En cours » et « Corrigé en version 0.34.1 » enregistrés ; élément de test supprimé ensuite. Auto : HelpAndBugReportTest::test_a_user_reports_a_problem_and_the_admin_handles_it, AdminConsoleTest::test_the_recettes_are_kept_and_their_follow_ups_feed_the_backlog.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "ADM-05 · Recettes",
+                    "expected": "Cahiers de recette conservés version après version, avec note globale.",
+                    "tests": "Écran : /admin/recettes montre « Cahier de recette v0.25.0 » (97,4/100, avant corrections 90,8, 127 lignes) et « Cahier de recette V1 » (0.13.1, 100 lignes) avec synthèse. Auto : AdminConsoleTest::test_the_recettes_are_kept_and_their_follow_ups_feed_the_backlog.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "ADM-06 · Évolutions",
+                    "expected": "Feuille de route de la plateforme.",
+                    "tests": "Écran : /admin/evolutions : statuts (Idée, Prévue, En cours, Faite, Abandonnée), priorité, ajout ; un élément « Créer le compte Stripe et activer les paiements ». Auto : AdminConsoleTest::test_the_administrator_keeps_the_planned_evolutions_of_the_platform.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "ADM-07 · Signaler un problème",
+                    "expected": "Formulaire en bas de chaque page, transmis avec la page concernée, qui alimente le backlog.",
+                    "tests": "Écran : lien « Signaler un problème » du pied de la fiche du personnage (a4-j1) → /signaler-un-probleme?page=/campagnes/7/personnages/7 ; message trop court refusé ; envoi confirmé ; arrivée dans le backlog avec la page. Pour un visiteur, pas de lien et la page renvoie vers la connexion. Auto : HelpAndBugReportTest::test_a_user_reports_a_problem_and_the_admin_handles_it, test_a_page_from_another_site_is_not_kept.",
+                    "gaps": "Un visiteur (pages publiques, connexion) ne peut rien signaler, même un problème de connexion.",
+                    "result": "Conforme pour les comptes connectés.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "PUB-01 · Page d'accueil publique",
+                    "expected": "Présentation aux visiteurs et aux moteurs, 8 langues (SEO, hreflang, image de partage, robots.txt, sitemap).",
+                    "tests": "Écran et curl : accueil en fr, en, de, pl, es (lang correct) ; balises description, canonical, hreflang des 8 langues + x-default, og:title/description/image (image 200, 26 Ko), twitter:card ; robots.txt interdit les pages privées et cite le sitemap ; sitemap.xml avec accueil, aide et confidentialité dans les 8 langues et leurs alternates. Auto : HomePageTest (4 tests).",
+                    "gaps": "og:url et og:locale ne suivent pas la langue (og:url sans ?lang=, og:locale « en » au lieu de « en_US »).",
+                    "result": "Conforme.",
+                    "score": 98,
+                    "score_before": null
+                },
+                {
+                    "feature": "PUB-02 · Aide publique",
+                    "expected": "FAQ MJ, joueurs et « Votre compte » (formules, e-mail, mot de passe, 2FA, données), sans compte.",
+                    "tests": "Écran : /aide sans compte en fr et en ; sections Pour commencer, Pour le MJ, Votre compte (coût et formules, e-mail et mot de passe, double authentification, téléphone perdu, données), Pour les joueurs, Un problème ? Auto : HomePageTest::test_help_is_readable_without_an_account, HelpAndBugReportTest::test_the_help_page_answers_common_questions.",
+                    "gaps": "",
+                    "result": "Conforme.",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "PUB-03 · Confidentialité et mentions légales",
+                    "expected": "Page publique alimentée par la configuration de l'exploitant.",
+                    "tests": "Écran : /confidentialite sans compte : éditeur, données gardées, usages, cookies ; valeurs LEGAL_* vides en local donc remplacées par « — ». Variables LEGAL_OWNER, LEGAL_SIRET, LEGAL_ADDRESS, LEGAL_EMAIL, LEGAL_HOST présentes dans .env.example. Auto : SecurityTest::test_privacy_page_is_public_and_old_logins_are_pruned.",
+                    "gaps": "",
+                    "result": "Conforme (mentions à renseigner par l'exploitant avant l'ouverture).",
+                    "score": 100,
+                    "score_before": null
+                },
+                {
+                    "feature": "LAN-01 · Huit langues",
+                    "expected": "8 langues, une forme d'adresse par langue, aucune chaîne manquante.",
+                    "tests": "Écran : parcours automatisé de 26 pages connectées (campagne de a4-mj : scénarios, scène, Mode Session, personnages, membres, messages, carte, fiche, documents, règles, secrets, chronologie, graphe, journal, révélations, assistant IA, recherche, préférences, notifications, aide, quoi de neuf, types, tags, signalement) et 7 pages publiques en anglais, allemand, polonais et espagnol, bureau et téléphone (264 vues) : aucun texte d'interface resté en français (comparaison avec les clés de lang/*.json), aucun débordement de page ; captures relues. `php artisan lang:missing` : 0 texte sans traduction pour les 7 langues. Pages d'erreur en italien aussi. Auto : LanguageTest::test_every_language_has_every_text.",
+                    "gaps": "La page 404 d'un élément introuvable (campagne ou fiche supprimée) reste en français quelle que soit la langue (voir bug). Sur téléphone en allemand, l'en-tête passe sur deux lignes (logo seul, puis navigation) alors qu'il tient sur une ligne dans les autres langues.",
+                    "result": "Traductions complètes dans l'interface ; une page d'erreur échappe à la langue choisie. Après 0.35.0 : écart corrigé en partie (voir écarts restants).",
+                    "score": 97,
+                    "score_before": 92
+                },
+                {
+                    "feature": "LAN-02 · Quoi de neuf",
+                    "expected": "Fenêtre des nouveautés une fois après chaque mise à jour ; page avec l'historique.",
+                    "tests": "Écran : page « Quoi de neuf » en français, anglais et polonais avec l'historique par version (0.34.0, 0.33.0…), réservée aux comptes connectés. La fenêtre n'a pas pu être revue : tous les comptes de recette sont déjà à 0.34.0 et la base ne doit pas être modifiée. Auto : FinishingTouchesTest::test_whats_new_shows_once_after_an_update_and_never_to_a_new_account.",
+                    "gaps": "",
+                    "result": "Page conforme ; la fenêtre unique n'est vérifiée que par le test automatique.",
+                    "score": 95,
+                    "score_before": null
+                },
+                {
+                    "feature": "PWA-01 · Application installable",
+                    "expected": "Installable sur ordinateur, tablette et téléphone, avec ses icônes.",
+                    "tests": "Écran : manifest.webmanifest (nom, standalone, couleurs, icônes 192 et 512 « any » et « maskable »), icônes et apple-touch-icon servies (192×192, 512×512, 180×180) ; service worker actif ; Chromium (CDP Page.getInstallabilityErrors) ne signale que « in-incognito », propre à Playwright. Auto : PwaTest::test_the_app_is_installable.",
+                    "gaps": "Le manifeste n'existe qu'en français (description, lang=fr) ; l'icône « maskable » est la même que l'icône normale et risque d'être rognée.",
+                    "result": "Conforme.",
+                    "score": 97,
+                    "score_before": null
+                },
+                {
+                    "feature": "PWA-02 · Hors ligne",
+                    "expected": "La fiche du personnage reste lisible hors ligne avec un bandeau « Hors ligne ».",
+                    "tests": "Écran téléphone (390×844, tactile) : a4-j1 ouvre la fiche « Aldric A4 » (personnage créé par a4-mj, notes MJ « SECRET-MJ-A4 » saisies) ; seule cette page est gardée dans le cache loremundi-pages, sans la note MJ ; context.setOffline(true) puis rechargement : fiche lisible, bandeau « Hors ligne : vous consultez la dernière version enregistrée sur cet appareil. » visible ; cache vidé à la déconnexion. Auto : PwaTest::test_only_the_character_sheet_is_kept_for_offline_reading.",
+                    "gaps": "Hors ligne, les boutons d'action (compteurs −/+, « Noter », « Modifier ») restent actifs alors qu'ils ne peuvent pas fonctionner.",
+                    "result": "Conforme : fiche lisible hors ligne, sans zone MJ, avec bandeau.",
+                    "score": 98,
+                    "score_before": null
+                },
+                {
+                    "feature": "PWA-03 · Pages d'erreur",
+                    "expected": "Pages d'erreur traduites et explicites : accès refusé, fonction hors formule, fonction désactivée.",
+                    "tests": "Écran en fr, en, de, it : a4-etranger sur la campagne et la fiche de a4-mj : 403 « Accès refusé » traduit ; a4-j1 sur un graphe coupé par le MJ : 403 « Fonction désactivée » traduit ; fonction hors formule : 403 « Fonction non comprise dans la formule » ; 429 avec délai ; 404 d'une adresse inconnue traduite ; 404 de /campagnes/999999 en français dans toutes les langues. Auto : CampaignFeaturesTest, RecetteV1Test (pages d'erreur).",
+                    "gaps": "Page 404 d'un élément introuvable non traduite (voir bug).",
+                    "result": "Les trois pages demandées sont traduites et explicites ; la 404 d'un élément introuvable reste en français. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 92
+                },
+                {
+                    "feature": "NFR-SEC · Sécurité et confidentialité (15.1)",
+                    "expected": "Politiques et revérification à chaque requête Livewire ; en-têtes et CSP (seuls les scripts de LoreMundi) ; secrets chiffrés, aucune clé dans le dépôt ; RGPD ; connexions sans IP.",
+                    "tests": "Écran et curl : en-têtes X-Frame-Options SAMEORIGIN, nosniff, Referrer-Policy, Permissions-Policy, CSP « script-src 'self' 'nonce-…' 'unsafe-eval'; frame-ancestors 'self'; object-src 'none'; base-uri 'self' » (HSTS en production seulement) ; aucune violation CSP ni erreur console sur 13 pages ; secret 2FA et clé IA chiffrés ; aucun .env, clé Stripe ou VAPID suivi par git ; connexions stockées sans IP ; l'administrateur reçoit 403 sur les campagnes des autres ; accès directs refusés pour a4-etranger. Revérification Livewire : prise en défaut sur les pages de cartes (voir bug). Auto : SecurityTest::test_account_forms_are_throttled_and_pages_send_security_headers, RecetteV2Test.",
+                    "gaps": "La CSP n'a pas de default-src, style-src, connect-src ni img-src et garde 'unsafe-eval' (nécessaire à Alpine). Les actions d'une page déjà ouverte ne revérifient pas la fonction (formule ou coupure par le MJ).",
+                    "result": "En-têtes et chiffrement conformes ; une action Livewire échappe à la revérification des fonctions. Après 0.35.0 : écart corrigé en partie (voir écarts restants).",
+                    "score": 92,
+                    "score_before": 85
+                },
+                {
+                    "feature": "NFR-QUA · Qualité et tests (15.2)",
+                    "expected": "Un test automatisé par parcours (353 tests PHPUnit + Playwright en CI), Pint, lang:missing, recettes conservées.",
+                    "tests": "Lecture : 353 méthodes de test dans tests/Feature et tests/Unit ; .github/workflows/ci.yml lance Pint, php artisan test et npm run test:browser ; `vendor/bin/pint --test` : passed ; `php artisan lang:missing` : 0 ; recettes V1 et v0.25.0 dans la console. Tests non lancés (consigne).",
+                    "gaps": "Un seul test navigateur (tests/Browser/received-popup.spec.js) ; pas de test pour « Se souvenir de moi », le lien « Aller au contenu », l'affichage téléphone en grande taille ou la revérification des fonctions sur une page ouverte, parcours de cette recette.",
+                    "result": "Outillage en place et à jour ; couverture navigateur mince.",
+                    "score": 90,
+                    "score_before": null
+                },
+                {
+                    "feature": "NFR-ERG · Ergonomie et accessibilité (15.3)",
+                    "expected": "Utilisable au clavier, lien « Aller au contenu », taille de texte réglable, thème sombre ; téléphone et tablette y compris en grande taille ; infobulles stables.",
+                    "tests": "Écran bureau : sur 6 pages, la première tabulation donne « Aller au contenu » visible, Entrée mène au contenu ; 30 tabulations par page, toutes avec un contour de focus ; aucun bouton sans nom, aucune image sans alt, aucun champ sans étiquette ; infobulle des outils affichée au focus clavier. Téléphone 390 px en très grande taille (20 px) sur 19 pages : défilement horizontal sur Scénarios (459 px, bouton « Supprimer » coupé) et sur une fiche (433 px, « Zone publique » débordante) ; en grande taille, Scénarios déborde encore (413 px). Thème sombre vérifié (CPT-07). Auto : aucun test dédié.",
+                    "gaps": "Débordement horizontal sur téléphone en grande taille de texte (voir bug). Le bouton flottant « Chat » recouvre le champ « Fiche liée » du panneau des jetons de la carte sur téléphone.",
+                    "result": "Clavier et lien d'évitement conformes ; deux pages débordent sur téléphone en grande taille de texte. Après 0.35.0 : écart corrigé.",
+                    "score": 100,
+                    "score_before": 85
+                },
+                {
+                    "feature": "NFR-EXP · Exploitation (15.4)",
+                    "expected": "PHP 8.3+ avec GMP ou BCMath, PostgreSQL 16, file, Reverb, stockage ; configuration par variables d'environnement.",
+                    "tests": "Lecture : .env.example contient STRIPE_*, VAPID_*, LEGAL_*, MAIL_*, REVERB_*, QUEUE_CONNECTION, FILESYSTEM_DISK ; README exige GMP ou BCMath ; PHP 8.3.6 local, sans GMP ni BCMath (poste de recette, pas un écart produit) ; Reverb et worker actifs.",
+                    "gaps": "",
+                    "result": "Conforme côté produit ; l'hébergement Forge/Hetzner n'est pas vérifiable ici.",
+                    "score": 95,
+                    "score_before": null
+                }
+            ]
+        }
+    ],
+    "bugs": [
+        {
+            "number": 1,
+            "title": "Le journal ne trace pas les relations, pièces jointes, illustrations et tags d'une fiche",
+            "severity": "Majeure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 2,
+            "title": "L'« Historique » d'une fiche n'affiche pas les changements de statut et de notes de campagne",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 3,
+            "title": "Une case oui/non jamais remplie est enregistrée « Non » à chaque sauvegarde de la fiche",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 4,
+            "title": "La page d'un monde n'affiche pas sa chronologie",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 5,
+            "title": "La page d'un jeu ne liste pas les types de fiche",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 6,
+            "title": "Un champ ne peut concerner qu'un seul type de fiche ou tous",
+            "severity": "Mineure",
+            "status": "Non corrigé : versé au backlog comme évolution (un champ pour plusieurs types de fiche demande de changer le modèle de données)."
+        },
+        {
+            "number": 7,
+            "title": "Le journal affiche le balisage brut des liens [[Nom|id]]",
+            "severity": "Cosmétique",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 8,
+            "title": "Statut de scène « Ignorée » au lieu de « passée »",
+            "severity": "Cosmétique",
+            "status": "Non corrigé : l'écart venait du cahier des charges, corrigé (« ignorée »)."
+        },
+        {
+            "number": 9,
+            "title": "La page d'une séance n'a ni résumé, ni événements, ni révélations",
+            "severity": "Majeure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 10,
+            "title": "Don d'une partie de pile fusionnée : la notification et le journal annoncent le total",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 11,
+            "title": "« Lui rendre » absent quand le personnage a été confié à un autre joueur entre-temps",
+            "severity": "Mineure",
+            "status": "Non corrigé : versé au backlog (garder l'historique des joueurs d'un personnage)."
+        },
+        {
+            "number": 12,
+            "title": "Fonction désactivée (chronologie, graphe) : une page déjà ouverte continue de fonctionner",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 13,
+            "title": "Écran de table : erreur JavaScript en passant d'un PDF à une carte",
+            "severity": "Cosmétique",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 14,
+            "title": "Le Mode Session plante (erreur 500) quand la fonction Cartes est décochée",
+            "severity": "Majeure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 15,
+            "title": "Une page déjà ouverte continue d'agir après la coupure de sa fonction",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 16,
+            "title": "Échange d'objets : la notification et les journaux indiquent la quantité totale après fusion",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 17,
+            "title": "Lecteur PDF : erreur JavaScript à la fermeture et document jamais libéré",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 18,
+            "title": "Notification au MJ d'un échange d'objet : « propose de transmettre », sans quantité",
+            "severity": "Cosmétique",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 19,
+            "title": "Page Aide non mise à jour pour la sauvegarde complète et les fonctions de la campagne",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 20,
+            "title": "Spectateur : lien de campagne vers une page « Fonction désactivée » quand l'écran de table est coupé",
+            "severity": "Cosmétique",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 21,
+            "title": "Une page de carte déjà ouverte continue d'agir après la perte de la fonction Cartes",
+            "severity": "Majeure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 22,
+            "title": "La page 404 d'un élément introuvable reste en français dans toutes les langues",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 23,
+            "title": "Défilement horizontal sur téléphone en grande taille de texte (Scénarios, fiche)",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 24,
+            "title": "Connexions comptées en double par la reconnexion « Se souvenir de moi »",
+            "severity": "Mineure",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 25,
+            "title": "Message « Cette valeur de adresse e-mail est déjà utilisée. »",
+            "severity": "Cosmétique",
+            "status": "Corrigé 0.35.0"
+        },
+        {
+            "number": 26,
+            "title": "Le bouton flottant « Chat » recouvre le champ du panneau des jetons sur téléphone",
+            "severity": "Cosmétique",
+            "status": "Corrigé 0.35.0"
+        }
+    ],
+    "gaps": [
+        {
+            "title": "Illustrations et relations publiques invisibles du joueur",
+            "reference": "FIC-03",
+            "proposal": "Afficher sur la fiche révélée au joueur les illustrations de la zone publique et les relations publiques vers des fiches qu'il connaît."
+        },
+        {
+            "title": "Piloter les pages d'un PDF depuis la télécommande",
+            "reference": "DOC-03",
+            "proposal": "Ajouter « page précédente / suivante » pour le document affiché, dans la télécommande et sur la page du document, quand l'écran de table est sur un autre appareil."
+        },
+        {
+            "title": "Liste des éléments tagués depuis la page Tags",
+            "reference": "TAG-01",
+            "proposal": "Rendre les compteurs « 3 fiches · 1 scène » cliquables vers la liste filtrée de la campagne ou du plan."
+        },
+        {
+            "title": "Co-MJ sans accès au jeu, au monde et aux champs",
+            "reference": "BIB-03",
+            "proposal": "Donner au co-MJ au moins la lecture des pages jeu et monde et, sur option du propriétaire, la gestion des champs."
+        },
+        {
+            "title": "Statut visible dans l'en-tête de la fiche",
+            "reference": "FIC-05",
+            "proposal": "Afficher la pastille de statut de campagne à côté du type, sous le titre de la fiche."
+        },
+        {
+            "title": "Éditeur riche pour les descriptions de jeu, monde, scénario et document",
+            "reference": "ECR-01",
+            "proposal": "Utiliser le même éditeur (gras, listes, liens [[ ]]) que pour les fiches."
+        },
+        {
+            "title": "Mondes homonymes après plusieurs démonstrations",
+            "reference": "BIB-07",
+            "proposal": "Suffixer le monde (« Vehrmund (2) ») ou proposer de réutiliser le monde de démonstration existant."
+        },
+        {
+            "title": "Indicateur de page dans le lecteur PDF",
+            "reference": "DOC-02",
+            "proposal": "Afficher « page n / N » et un saut de page en mode lecture, comme sur l'écran de table."
+        },
+        {
+            "title": "Noter un événement joué depuis le Mode Session",
+            "reference": "SES-07",
+            "proposal": "Ajouter au Mode Session un petit formulaire ou un bouton « Événement joué » qui pré-remplit séance et scène, sans quitter l'écran."
+        },
+        {
+            "title": "Résumé de séance saisi par le MJ",
+            "reference": "SES-01",
+            "proposal": "Ajouter un champ « Résumé » (éditeur riche) à la séance, modifiable à la clôture et sur sa page, à côté des événements et révélations de la séance."
+        },
+        {
+            "title": "Prétirés distingués des PNJ",
+            "reference": "JOU-02",
+            "proposal": "Dans « Nouveau personnage », regrouper en tête les fiches marquées prétiré et ranger les autres personnages à part, pour éviter de proposer des PNJ secrets."
+        },
+        {
+            "title": "Conversation privée retrouvée par le joueur qui revient",
+            "reference": "JOU-05",
+            "proposal": "Quand un personnage est rendu à son ancien joueur, lui rendre aussi ses propres échanges privés avec le MJ d'avant son départ (sans ceux des joueurs intermédiaires)."
+        },
+        {
+            "title": "Notifications d'un co-MJ rétrogradé",
+            "reference": "ROL-03",
+            "proposal": "Masquer ou purger dans la cloche les notifications reçues au titre de MJ (messages privés des joueurs, échanges à valider) une fois le co-MJ rétrogradé."
+        },
+        {
+            "title": "Spectateur et écran de table non partagé",
+            "reference": "ROL-02",
+            "proposal": "Préciser si le spectateur voit l'écran de table même non partagé (comportement actuel) ou seulement quand le MJ le partage, comme le suggère le tableau des rôles."
+        },
+        {
+            "title": "Recherche avec racinisation française",
+            "reference": "REC-01",
+            "proposal": "Utiliser to_tsvector('french', …) avec unaccent en plus de la sous-chaîne, pour que « lanternes » trouve « lanterne » et inversement."
+        },
+        {
+            "title": "Tourner les pages d'un PDF depuis la télécommande",
+            "reference": "TAB-07",
+            "proposal": "Ajouter page précédente/suivante sur la télécommande et synchroniser la page affichée chez les joueurs qui suivent l'écran."
+        },
+        {
+            "title": "Export par le co-MJ",
+            "reference": "ECO-01",
+            "proposal": "Permettre au co-MJ de télécharger l'archive simple et le modèle de jeu, la sauvegarde complète restant au propriétaire."
+        },
+        {
+            "title": "Fil de campagne pour les joueurs",
+            "reference": "COM-06",
+            "proposal": "Proposer aux joueurs un fil filtré (révélations publiques, messages de groupe, séances) en plus du journal de leur personnage."
+        },
+        {
+            "title": "Test automatisé du repli à 30 secondes",
+            "reference": "COM-05",
+            "proposal": "Ajouter un test Playwright qui déconnecte Echo et vérifie la mise à jour de la cloche dans les 30 secondes."
+        },
+        {
+            "title": "Alerte d'administration sur l'envoi push",
+            "reference": "COM-03",
+            "proposal": "Signaler dans la console d'administration ou « Configuration recommandée » l'absence de GMP/BCMath et les échecs d'envoi push."
+        },
+        {
+            "title": "Recherche dans les mondes et jeux sans campagne",
+            "reference": "REC-03",
+            "proposal": "Inclure dans la recherche depuis l'accueil les mondes et jeux de l'utilisateur qui ne sont rattachés à aucune campagne."
+        },
+        {
+            "title": "Expliquer l'absence de paiement",
+            "reference": "CPT-08",
+            "proposal": "Quand Stripe n'est pas configuré, afficher dans Préférences une ligne « Le passage à Premium ouvrira bientôt » plutôt que rien, et montrer la date de début de l'abonnement."
+        },
+        {
+            "title": "Dates de connexion dans la console",
+            "reference": "ADM-01",
+            "proposal": "Afficher la dernière connexion (date seule) et dédoublonner les connexions d'une même journée pour que le chiffre reflète l'activité réelle."
+        },
+        {
+            "title": "Revérifier les fonctions à chaque requête Livewire",
+            "reference": "FOR-02",
+            "proposal": "Déclarer EnsureFeature comme middleware persistant de Livewire, ou appeler CampaignFeatures::ensure() dans chaque action des cartes, de la télécommande et de l'assistant IA, avec un test navigateur."
+        },
+        {
+            "title": "Signaler un problème sans compte",
+            "reference": "ADM-07",
+            "proposal": "Permettre un signalement depuis les pages publiques (connexion, inscription), avec adresse de contact et limitation des envois."
+        },
+        {
+            "title": "CSP plus stricte",
+            "reference": "NFR-SEC",
+            "proposal": "Ajouter default-src 'self', img-src, connect-src (Reverb), style-src, puis passer à la version CSP d'Alpine pour retirer 'unsafe-eval'."
+        },
+        {
+            "title": "Manifeste traduit",
+            "reference": "PWA-01",
+            "proposal": "Servir un manifeste dans la langue de l'utilisateur et une vraie icône maskable avec marge de sécurité."
+        },
+        {
+            "title": "Mode lecture hors ligne",
+            "reference": "PWA-02",
+            "proposal": "Désactiver ou masquer les boutons d'action (compteurs, notes, modifier) tant que le bandeau « Hors ligne » est affiché."
+        },
+        {
+            "title": "Tests navigateur des parcours transverses",
+            "reference": "NFR-QUA",
+            "proposal": "Ajouter des tests Playwright pour « Se souvenir de moi », le lien « Aller au contenu », l'absence de défilement horizontal sur téléphone en très grande taille et la revérification des fonctions sur une page ouverte."
+        }
+    ],
+    "backlog": [
+        {
+            "kind": "bug",
+            "title": "Le journal ne trace pas les relations, pièces jointes, illustrations et tags d'une fiche",
+            "message": "Le journal ne trace pas les relations, pièces jointes, illustrations et tags d'une fiche (app/Models/EntityRelation.php et app/Models/Attachment.php n'utilisent pas RecordsActivity ; les tags sont synchronisés hors journal (app/Livewire/Entities/Form.php:209).)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "L'« Historique » d'une fiche n'affiche pas les changements de statut et de notes de campagne",
+            "message": "L'« Historique » d'une fiche n'affiche pas les changements de statut et de notes de campagne (resources/views/livewire/entities/show.blade.php:41 filtre sur sujet=entity:{id} seulement (le journal enregistre entity_state).)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Une case oui/non jamais remplie est enregistrée « Non » à chaque sauvegarde de la fiche",
+            "message": "Une case oui/non jamais remplie est enregistrée « Non » à chaque sauvegarde de la fiche (app/Enums/FieldType.php:119 transforme null en false pour la case à cocher ; app/Livewire/Entities/Form.php:163 réenregistre alors false.)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "La page d'un monde n'affiche pas sa chronologie",
+            "message": "La page d'un monde n'affiche pas sa chronologie (resources/views/livewire/library/world-show.blade.php (aucune section chronologie ; les événements sont rangés par campagne).)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "La page d'un jeu ne liste pas les types de fiche",
+            "message": "La page d'un jeu ne liste pas les types de fiche (resources/views/livewire/library/game-show.blade.php)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Un champ ne peut concerner qu'un seul type de fiche ou tous",
+            "message": "Un champ ne peut concerner qu'un seul type de fiche ou tous (resources/views/livewire/fields/manage.blade.php:112 (select simple) et colonne field_definitions.entity_type_id unique.)",
+            "status": "new",
+            "priority": "low",
+            "fixed_in": null
+        },
+        {
+            "kind": "bug",
+            "title": "Le journal affiche le balisage brut des liens [[Nom|id]]",
+            "message": "Le journal affiche le balisage brut des liens [[Nom|id]] (resources/views/livewire/journal/index.blade.php (valeurs avant/après non passées par EntityLinks::plain).)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Statut de scène « Ignorée » au lieu de « passée »",
+            "message": "Statut de scène « Ignorée » au lieu de « passée » (app/Enums/SceneStatus.php:21)",
+            "status": "rejected",
+            "priority": "low",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Illustrations et relations publiques invisibles du joueur",
+            "message": "Afficher sur la fiche révélée au joueur les illustrations de la zone publique et les relations publiques vers des fiches qu'il connaît. (référence : FIC-03)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Piloter les pages d'un PDF depuis la télécommande",
+            "message": "Ajouter « page précédente / suivante » pour le document affiché, dans la télécommande et sur la page du document, quand l'écran de table est sur un autre appareil. (référence : DOC-03)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Liste des éléments tagués depuis la page Tags",
+            "message": "Rendre les compteurs « 3 fiches · 1 scène » cliquables vers la liste filtrée de la campagne ou du plan. (référence : TAG-01)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Co-MJ sans accès au jeu, au monde et aux champs",
+            "message": "Donner au co-MJ au moins la lecture des pages jeu et monde et, sur option du propriétaire, la gestion des champs. (référence : BIB-03)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Statut visible dans l'en-tête de la fiche",
+            "message": "Afficher la pastille de statut de campagne à côté du type, sous le titre de la fiche. (référence : FIC-05)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Éditeur riche pour les descriptions de jeu, monde, scénario et document",
+            "message": "Utiliser le même éditeur (gras, listes, liens [[ ]]) que pour les fiches. (référence : ECR-01)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Mondes homonymes après plusieurs démonstrations",
+            "message": "Suffixer le monde (« Vehrmund (2) ») ou proposer de réutiliser le monde de démonstration existant. (référence : BIB-07)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Indicateur de page dans le lecteur PDF",
+            "message": "Afficher « page n / N » et un saut de page en mode lecture, comme sur l'écran de table. (référence : DOC-02)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "bug",
+            "title": "La page d'une séance n'a ni résumé, ni événements, ni révélations",
+            "message": "La page d'une séance n'a ni résumé, ni événements, ni révélations (app/Livewire/Sessions/Show.php:26-38 ne charge que les notes de séance et les notes des joueurs ; la table play_sessions n'a pas de colonne de résumé (database/migrations/2026_10_06_170000_create_session_tables.php:13-22).)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Don d'une partie de pile fusionnée : la notification et le journal annoncent le total",
+            "message": "Don d'une partie de pile fusionnée : la notification et le journal annoncent le total (app/Actions/Characters/ExchangeGrant.php:151 : pour $given = 1, le libellé vient de $received->label(), c'est-à-dire la pile fusionnée.)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "« Lui rendre » absent quand le personnage a été confié à un autre joueur entre-temps",
+            "message": "« Lui rendre » absent quand le personnage a été confié à un autre joueur entre-temps (app/Models/PlayerCharacter.php:44-46 écrase previous_user_id à chaque changement de joueur ; app/Livewire/Characters/Index.php:95-105 ne propose le retour qu'au dernier joueur.)",
+            "status": "new",
+            "priority": "low",
+            "fixed_in": null
+        },
+        {
+            "kind": "bug",
+            "title": "Fonction désactivée (chronologie, graphe) : une page déjà ouverte continue de fonctionner",
+            "message": "Fonction désactivée (chronologie, graphe) : une page déjà ouverte continue de fonctionner (Le middleware feature:* n'est posé que sur les routes (routes/web.php:124-125) et n'est pas déclaré persistant pour les requêtes Livewire (bootstrap/app.php:22).)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Écran de table : erreur JavaScript en passant d'un PDF à une carte",
+            "message": "Écran de table : erreur JavaScript en passant d'un PDF à une carte (Probablement resources/js/pdf-viewer.js:108 (pdf?.destroy() sur un objet sans méthode destroy).)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Noter un événement joué depuis le Mode Session",
+            "message": "Ajouter au Mode Session un petit formulaire ou un bouton « Événement joué » qui pré-remplit séance et scène, sans quitter l'écran. (référence : SES-07)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Résumé de séance saisi par le MJ",
+            "message": "Ajouter un champ « Résumé » (éditeur riche) à la séance, modifiable à la clôture et sur sa page, à côté des événements et révélations de la séance. (référence : SES-01)",
+            "status": "fixed",
+            "priority": "normal",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Prétirés distingués des PNJ",
+            "message": "Dans « Nouveau personnage », regrouper en tête les fiches marquées prétiré et ranger les autres personnages à part, pour éviter de proposer des PNJ secrets. (référence : JOU-02)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Conversation privée retrouvée par le joueur qui revient",
+            "message": "Quand un personnage est rendu à son ancien joueur, lui rendre aussi ses propres échanges privés avec le MJ d'avant son départ (sans ceux des joueurs intermédiaires). (référence : JOU-05)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Notifications d'un co-MJ rétrogradé",
+            "message": "Masquer ou purger dans la cloche les notifications reçues au titre de MJ (messages privés des joueurs, échanges à valider) une fois le co-MJ rétrogradé. (référence : ROL-03)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Spectateur et écran de table non partagé",
+            "message": "Préciser si le spectateur voit l'écran de table même non partagé (comportement actuel) ou seulement quand le MJ le partage, comme le suggère le tableau des rôles. (référence : ROL-02)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "bug",
+            "title": "Le Mode Session plante (erreur 500) quand la fonction Cartes est décochée",
+            "message": "Le Mode Session plante (erreur 500) quand la fonction Cartes est décochée (app/Livewire/Sessions/Live.php:310 : tableMaps() est typée Illuminate\\Database\\Eloquent\\Collection mais renvoie collect() (Support\\Collection) quand les cartes sont coupées (TypeError dans storage/logs/laravel.log).)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Une page déjà ouverte continue d'agir après la coupure de sa fonction",
+            "message": "Une page déjà ouverte continue d'agir après la coupure de sa fonction (bootstrap/app.php:22 : le middleware « feature » n'est pas déclaré persistant pour Livewire, et les composants Maps\\Show, Maps\\Index, Timeline\\Index, Ai\\Index n'appellent pas CampaignFeatures::ensure() dans leurs actions.)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Échange d'objets : la notification et les journaux indiquent la quantité totale après fusion",
+            "message": "Échange d'objets : la notification et les journaux indiquent la quantité totale après fusion (app/Actions/Characters/ExchangeGrant.php:150 : quand la quantité donnée vaut 1, le libellé est $received->label(), c'est-à-dire la pile fusionnée du receveur.)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Lecteur PDF : erreur JavaScript à la fermeture et document jamais libéré",
+            "message": "Lecteur PDF : erreur JavaScript à la fermeture et document jamais libéré (resources/js/pdf-viewer.js:108 : pdf.destroy() n'existe pas sur PDFDocumentProxy dans pdfjs-dist 6.4 ; il faut garder la tâche de chargement et appeler loadingTask.destroy().)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Notification au MJ d'un échange d'objet : « propose de transmettre », sans quantité",
+            "message": "Notification au MJ d'un échange d'objet : « propose de transmettre », sans quantité (app/Actions/Characters/ExchangeGrant.php:139 : même phrase pour objets et connaissances, libellé sans la quantité demandée.)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Page Aide non mise à jour pour la sauvegarde complète et les fonctions de la campagne",
+            "message": "Page Aide non mise à jour pour la sauvegarde complète et les fonctions de la campagne (resources/views/pages/help.blade.php:22)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Spectateur : lien de campagne vers une page « Fonction désactivée » quand l'écran de table est coupé",
+            "message": "Spectateur : lien de campagne vers une page « Fonction désactivée » quand l'écran de table est coupé (resources/views/livewire/campaigns/index.blade.php:132)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Recherche avec racinisation française",
+            "message": "Utiliser to_tsvector('french', …) avec unaccent en plus de la sous-chaîne, pour que « lanternes » trouve « lanterne » et inversement. (référence : REC-01)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Tourner les pages d'un PDF depuis la télécommande",
+            "message": "Ajouter page précédente/suivante sur la télécommande et synchroniser la page affichée chez les joueurs qui suivent l'écran. (référence : TAB-07)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Export par le co-MJ",
+            "message": "Permettre au co-MJ de télécharger l'archive simple et le modèle de jeu, la sauvegarde complète restant au propriétaire. (référence : ECO-01)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Fil de campagne pour les joueurs",
+            "message": "Proposer aux joueurs un fil filtré (révélations publiques, messages de groupe, séances) en plus du journal de leur personnage. (référence : COM-06)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Test automatisé du repli à 30 secondes",
+            "message": "Ajouter un test Playwright qui déconnecte Echo et vérifie la mise à jour de la cloche dans les 30 secondes. (référence : COM-05)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Alerte d'administration sur l'envoi push",
+            "message": "Signaler dans la console d'administration ou « Configuration recommandée » l'absence de GMP/BCMath et les échecs d'envoi push. (référence : COM-03)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Recherche dans les mondes et jeux sans campagne",
+            "message": "Inclure dans la recherche depuis l'accueil les mondes et jeux de l'utilisateur qui ne sont rattachés à aucune campagne. (référence : REC-03)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "bug",
+            "title": "Une page de carte déjà ouverte continue d'agir après la perte de la fonction Cartes",
+            "message": "Une page de carte déjà ouverte continue d'agir après la perte de la fonction Cartes (app/Livewire/Maps/Show.php:124-245 et Maps/Index.php:51 ne vérifient que authorize('update') ; le middleware de route feature:maps (app/Http/Middleware/EnsureFeature.php, routes/web.php:122-123) n'est pas rejoué sur /livewire/update (pas de Livewire::addPersistentMiddleware). Même risque pour la télécommande et l'assistant IA.)",
+            "status": "fixed",
+            "priority": "high",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "La page 404 d'un élément introuvable reste en français dans toutes les langues",
+            "message": "La page 404 d'un élément introuvable reste en français dans toutes les langues (bootstrap/app.php:24 : SetLocale est ajouté en fin du groupe web, après SubstituteBindings ; la 404 de liaison de modèle est levée avant que la langue soit réglée.)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Défilement horizontal sur téléphone en grande taille de texte (Scénarios, fiche)",
+            "message": "Défilement horizontal sur téléphone en grande taille de texte (Scénarios, fiche) (resources/views/livewire/scenarios/index.blade.php:18 et resources/views/livewire/entities/show.blade.php:53 : « grid lg:grid-cols-3 » sans grid-cols-1 (minmax(0,1fr)) ni min-w-0 sur les colonnes, la colonne implicite prend la largeur de son contenu.)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Connexions comptées en double par la reconnexion « Se souvenir de moi »",
+            "message": "Connexions comptées en double par la reconnexion « Se souvenir de moi » (app/Providers/AppServiceProvider.php:48-50 enregistre chaque événement Login, y compris ceux du cookie « remember » déclenchés par des requêtes parallèles.)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Message « Cette valeur de adresse e-mail est déjà utilisée. »",
+            "message": "Message « Cette valeur de adresse e-mail est déjà utilisée. » (lang/fr/validation.php:153 : « Cette valeur de :attribute » donne « de adresse » (élision manquante) ; formulation à revoir, par ex. « Cette :attribute est déjà utilisée. »)",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "bug",
+            "title": "Le bouton flottant « Chat » recouvre le champ du panneau des jetons sur téléphone",
+            "message": "Le bouton flottant « Chat » recouvre le champ du panneau des jetons sur téléphone",
+            "status": "fixed",
+            "priority": "low",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Expliquer l'absence de paiement",
+            "message": "Quand Stripe n'est pas configuré, afficher dans Préférences une ligne « Le passage à Premium ouvrira bientôt » plutôt que rien, et montrer la date de début de l'abonnement. (référence : CPT-08)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Dates de connexion dans la console",
+            "message": "Afficher la dernière connexion (date seule) et dédoublonner les connexions d'une même journée pour que le chiffre reflète l'activité réelle. (référence : ADM-01)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Revérifier les fonctions à chaque requête Livewire",
+            "message": "Déclarer EnsureFeature comme middleware persistant de Livewire, ou appeler CampaignFeatures::ensure() dans chaque action des cartes, de la télécommande et de l'assistant IA, avec un test navigateur. (référence : FOR-02)",
+            "status": "fixed",
+            "priority": "normal",
+            "fixed_in": "0.35.0"
+        },
+        {
+            "kind": "evolution",
+            "title": "Signaler un problème sans compte",
+            "message": "Permettre un signalement depuis les pages publiques (connexion, inscription), avec adresse de contact et limitation des envois. (référence : ADM-07)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "CSP plus stricte",
+            "message": "Ajouter default-src 'self', img-src, connect-src (Reverb), style-src, puis passer à la version CSP d'Alpine pour retirer 'unsafe-eval'. (référence : NFR-SEC)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Manifeste traduit",
+            "message": "Servir un manifeste dans la langue de l'utilisateur et une vraie icône maskable avec marge de sécurité. (référence : PWA-01)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Mode lecture hors ligne",
+            "message": "Désactiver ou masquer les boutons d'action (compteurs, notes, modifier) tant que le bandeau « Hors ligne » est affiché. (référence : PWA-02)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Tests navigateur des parcours transverses",
+            "message": "Ajouter des tests Playwright pour « Se souvenir de moi », le lien « Aller au contenu », l'absence de défilement horizontal sur téléphone en très grande taille et la revérification des fonctions sur une page ouverte. (référence : NFR-QUA)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        },
+        {
+            "kind": "evolution",
+            "title": "Un champ pour plusieurs types de fiche",
+            "message": "Permettre à un champ de viser plusieurs types de fiche (Personnage + Créature), pas seulement un seul ou tous. (référence : CHA-01)",
+            "status": "new",
+            "priority": "normal",
+            "fixed_in": null
+        }
+    ]
+}

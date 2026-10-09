@@ -15,8 +15,8 @@
         </div>
     </div>
 
-    <div class="grid gap-6 lg:grid-cols-3">
-        <div class="space-y-6 lg:col-span-2">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div class="min-w-0 space-y-6 lg:col-span-2">
             @if ($this->filterTag)
                 <p class="flex flex-wrap items-center gap-2 rounded-lg bg-codex-soft px-4 py-2 text-sm">
                     {{ __('Scènes avec le tag') }} <x-tag :tag="$this->filterTag" />

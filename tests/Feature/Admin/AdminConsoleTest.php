@@ -195,20 +195,21 @@ class AdminConsoleTest extends TestCase
         RecetteImport::all();
         $this->assertSame([], RecetteImport::all(), 'Un cahier déjà là n’est pas ajouté deux fois.');
 
-        $this->assertSame(['0.13.1', '0.25.0'], Recette::orderBy('id')->pluck('version')->all());
+        $this->assertSame(['0.13.1', '0.25.0', '0.34.0'], Recette::orderBy('id')->pluck('version')->all());
         $recette = Recette::where('version', '0.13.1')->sole();
         $this->assertSame(100, $recette->items()->count());
         $this->assertSame(127, Recette::where('version', '0.25.0')->sole()->items()->count());
+        $this->assertSame(127, Recette::where('version', '0.34.0')->sole()->items()->count());
 
         Livewire::actingAs($this->admin)->test(Recettes::class)
-            ->assertSee(['Cahier de recette v0.25.0', '97,4'])
+            ->assertSee(['Cahier de recette v0.25.0', 'Cahier de recette finale v0.34.0', '97,6'])
             ->set('recetteId', $recette->id)
             ->assertSee(['Cahier de recette V1', 'Parcours de recette prioritaires', 'Invitations (lien, rôle, acceptation)', '95,1'])
             ->set('belowTarget', true)
             ->assertDontSee('Invitations (lien, rôle, acceptation)')
             ->assertSee('Échanges entre joueurs');
 
-        $this->assertSame(35 + 64, BugReport::where('source', 'recette')->count());
+        $this->assertSame(35 + 64 + 56, BugReport::where('source', 'recette')->count());
         Livewire::actingAs($this->admin)->test(Backlog::class)
             ->assertSee('Pas d\'écran pour choisir ce qui passe à un nouveau personnage')
             ->assertDontSee('La recherche du MJ ne trouvait ni les secrets')

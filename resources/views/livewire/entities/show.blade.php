@@ -50,8 +50,8 @@
         </div>
     </div>
 
-    <div class="grid gap-6 lg:grid-cols-3">
-        <div class="space-y-6 lg:col-span-2">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div class="min-w-0 space-y-6 lg:col-span-2">
             <section class="rounded-xl border border-codex/30 bg-white p-6 shadow-sm">
                 <h2 class="mb-3 font-semibold text-codex">{{ __('Zone publique') }}</h2>
                 @if ($entity->summary)

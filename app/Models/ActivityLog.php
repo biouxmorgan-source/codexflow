@@ -8,6 +8,7 @@ use App\Enums\RuleOrigin;
 use App\Enums\RuleStatus;
 use App\Enums\SceneStatus;
 use App\Enums\Zone;
+use App\Support\EntityLinks;
 use App\Support\Locale;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -47,6 +48,7 @@ class ActivityLog extends Model
         'image_path' => 'Image', 'scenario_id' => 'Scénario', 'world_id' => 'Monde', 'campaign_id' => 'Campagne',
         'role' => 'Rôle', 'character' => 'Personnage', 'kind' => 'Nature', 'body' => 'Texte', 'quantity' => 'Quantité', 'player_editable' => 'Modifiable par le joueur',
         'added_by_player' => 'Ajouté par le joueur', 'validated' => 'Validé par le MJ',
+        'relation' => 'Relation', 'attachment' => 'Fichier joint', 'tags' => 'Tags',
     ];
 
     private static ?string $batch = null;
@@ -81,6 +83,7 @@ class ActivityLog extends Model
             'image_path' => __('Image'), 'scenario_id' => __('Scénario'), 'world_id' => __('Monde'), 'campaign_id' => __('Campagne'),
             'role' => __('Rôle'), 'character' => __('Personnage'), 'kind' => __('Nature'), 'body' => __('Texte'), 'quantity' => __('Quantité'), 'player_editable' => __('Modifiable par le joueur'),
             'added_by_player' => __('Ajouté par le joueur'), 'validated' => __('Validé par le MJ'),
+            'relation' => __('Relation'), 'attachment' => __('Fichier joint'), 'tags' => __('Tags'),
         ];
     }
 
@@ -284,7 +287,8 @@ class ActivityLog extends Model
             $value === null, $value === '' => '',
             is_bool($value) => $value ? __('Oui') : __('Non'),
             is_array($value) => implode(', ', array_map(fn ($v) => is_scalar($v) ? (string) $v : json_encode($v), $value)),
-            default => (string) $value,
+            // Un lien [[Nom|id]] se lit sous son nom.
+            default => preg_replace(EntityLinks::PATTERN, '$1', (string) $value),
         };
 
         if (preg_match('/^(field_values|overrides)\.(\d+)$/', $key, $match)) {

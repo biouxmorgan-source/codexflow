@@ -307,7 +307,7 @@ class Live extends Component
     #[Computed]
     public function tableMaps(): Collection
     {
-        return CampaignFeatures::enabled($this->campaign, 'maps') ? $this->campaign->maps()->get(['id', 'name', 'campaign_id']) : collect();
+        return CampaignFeatures::enabled($this->campaign, 'maps') ? $this->campaign->maps()->get(['id', 'name', 'campaign_id']) : new Collection;
     }
 
     #[Computed]

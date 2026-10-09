@@ -4,6 +4,17 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.35.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Correcties uit de eindacceptatietest',
+        'items' => [
+            'De pagina van een sessie heeft een samenvatting van de SL en toont de gespeelde gebeurtenissen en alles wat tijdens de sessie onthuld of gegeven is.',
+            'De geschiedenis van een kaart bewaart nu ook relaties, bijlagen, tags en de status in de campagne. De pagina van een wereld toont haar geschiedenis, die van een spel zijn kaarttypen.',
+            'Een functie die de SL of het abonnement uitzet, staat ook uit op pagina’s die nog openstaan, en de sessiemodus opent als de kaarten uit staan.',
+            'Correcties: hoeveelheid bij een ruil, nooit ingevuld ja/nee-vakje, vertaalde pagina ‘niet gevonden’, pagina’s leesbaar op de telefoon met grote tekst, aanmeldingen één keer geteld, hulp bijgewerkt.',
+        ],
+    ],
+
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Functies per campagne',

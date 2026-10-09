@@ -1931,5 +1931,21 @@
     "Échanges entre joueurs": "Uitwisselingen tussen spelers",
     "Fonction désactivée": "Functie uitgeschakeld",
     "Le MJ a désactivé cette fonction dans cette campagne. Il peut la réactiver depuis la page de la campagne.": "De SL heeft deze functie in deze campagne uitgeschakeld. Die kan haar weer inschakelen op de campagnepagina.",
-    "Cette fonction est désactivée dans cette campagne.": "Deze functie is in deze campagne uitgeschakeld."
+    "Cette fonction est désactivée dans cette campagne.": "Deze functie is in deze campagne uitgeschakeld.",
+    "Aucun événement d’histoire du monde dans les chronologies de ses campagnes.": "Geen gebeurtenissen uit de wereldgeschiedenis in de tijdlijnen van de campagnes.",
+    "Aucun événement noté pendant cette session.": "Geen gebeurtenissen genoteerd tijdens deze sessie.",
+    "Ce qui s’est passé pendant la séance…": "Wat er tijdens de sessie gebeurde…",
+    "Communs à tous vos jeux.": "Gedeeld door al je spellen.",
+    "Fichier joint": "Bijlage",
+    "Gérer les types →": "Typen beheren →",
+    "Ouvrir la chronologie →": "Tijdlijn openen →",
+    "Pas encore de résumé pour cette séance.": "Nog geen samenvatting voor deze sessie.",
+    "Puis-je retirer des fonctions dont ma table n’a pas besoin ?": "Kan ik functies weghalen die mijn tafel niet nodig heeft?",
+    "Rien n’a été révélé ni donné pendant cette session.": "Tijdens deze sessie is niets onthuld of gegeven.",
+    "Révélé ou donné": "Onthuld of gegeven",
+    "Écrire le résumé": "Samenvatting schrijven",
+    "Événements joués": "Gespeelde gebeurtenissen",
+    ":giver propose de donner :label à :receiver : à valider.": ":giver wil :label aan :receiver geven: goed te keuren.",
+    "Oui : sur la page de la campagne, bloc « Fonctions de la campagne », décochez l'écran de table, les cartes, les échanges entre joueurs, le graphe, la chronologie ou l'assistant IA. La fonction disparaît pour tous les membres, sans rien effacer, et revient telle quelle dès que vous la recochez.": "Ja: vink op de campagnepagina, blok ‘Functies van de campagne’, het tafelscherm, de kaarten, ruilen tussen spelers, de graaf, de tijdlijn of de AI-assistent uit. De functie verdwijnt voor alle leden zonder dat er iets wordt gewist, en komt ongewijzigd terug zodra je hem weer aanvinkt.",
+    "Oui : en bas de la page de la campagne, « Exporter la campagne » télécharge une archive .zip avec le jeu, le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Le propriétaire peut aussi « Télécharger la sauvegarde complète », qui ajoute la table : personnages, ce qu'ils ont reçu, séances, notes, messages et journal, sans adresse e-mail ni note gardée pour soi. Depuis « Mes campagnes », « Importer une campagne » la recrée, chez vous ou chez un autre MJ ; les personnages y reviennent sans joueur, prêts à être confiés. Le formulaire d'import indique la taille maximale acceptée par le serveur : une archive plus lourde demande d'augmenter « upload_max_filesize » et « post_max_size » dans la configuration PHP.": "Ja: onderaan de campagnepagina downloadt ‘Campagne exporteren’ een .zip-archief met het spel, de wereld, de kaarten, scenario’s, documenten, plattegronden, geheimen en de tijdlijn, bestanden inbegrepen. De eigenaar kan ook ‘Volledige back-up downloaden’, die de tafel toevoegt: personages, wat ze ontvingen, sessies, notities, berichten en logboek, zonder e-mailadressen of privénotities. Vanuit ‘Mijn campagnes’ maakt ‘Campagne importeren’ haar opnieuw aan, bij jou of bij een andere SL; de personages komen terug zonder speler, klaar om toegewezen te worden. Het importformulier toont de maximale grootte die de server accepteert: voor een groter archief moet je ‘upload_max_filesize’ en ‘post_max_size’ in de PHP-configuratie verhogen."
 }

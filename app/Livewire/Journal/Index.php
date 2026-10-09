@@ -4,6 +4,7 @@ namespace App\Livewire\Journal;
 
 use App\Models\ActivityLog;
 use App\Models\Campaign;
+use App\Models\CampaignEntityState;
 use App\Models\FieldDefinition;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -57,7 +58,15 @@ class Index extends Component
             ->with('user')
             ->when(isset(ActivityLog::SUBJECTS[$this->type]), fn (Builder $q) => $q->where('subject_type', $this->type))
             ->when(trim($this->search) !== '', fn (Builder $q) => $q->where('subject_label', 'ilike', '%'.str_replace(['%', '_'], ['\%', '\_'], trim($this->search)).'%'))
-            ->when($subjectType && ctype_digit((string) $subjectId), fn (Builder $q) => $q->where('subject_type', $subjectType)->where('subject_id', (int) $subjectId))
+            ->when($subjectType && ctype_digit((string) $subjectId), fn (Builder $q) => $q->where(function (Builder $q) use ($subjectType, $subjectId) {
+                $q->where('subject_type', $subjectType)->where('subject_id', (int) $subjectId);
+
+                // L'historique d'une fiche montre aussi son statut et ses notes propres à la campagne.
+                if ($subjectType === 'entity') {
+                    $q->orWhere(fn (Builder $q) => $q->where('subject_type', 'entity_state')
+                        ->whereIn('subject_id', CampaignEntityState::where('entity_id', (int) $subjectId)->where('campaign_id', $this->campaign->id)->select('id')));
+                }
+            }))
             ->orderByDesc('id')
             ->paginate(50);
     }

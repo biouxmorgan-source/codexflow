@@ -4,6 +4,17 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.35.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Correções do teste de aceitação final',
+        'items' => [
+            'A página de uma sessão tem um resumo escrito pelo Mestre e mostra os acontecimentos jogados e tudo o que foi revelado ou dado durante a sessão.',
+            'O histórico de uma ficha guarda também suas relações, arquivos anexados, tags e seu estado na campanha. A página de um mundo mostra sua história, e a de um jogo seus tipos de ficha.',
+            'Uma função desativada pelo Mestre ou pelo plano também fica desativada nas páginas que ficaram abertas, e o modo Sessão abre quando os mapas estão desativados.',
+            'Correções: quantidade anunciada numa troca, caixa sim/não nunca preenchida, página «não encontrada» traduzida, páginas legíveis no celular com texto grande, logins contados uma vez, ajuda atualizada.',
+        ],
+    ],
+
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Funções por campanha',

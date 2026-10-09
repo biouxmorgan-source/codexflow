@@ -128,7 +128,7 @@
                             @php($myCharacter = $campaign->playerCharacters->first())
                             @if ($role === \App\Enums\CampaignRole::GameMaster)
                                 <a href="{{ route('campaigns.show', $campaign) }}" class="text-codex hover:text-ink after:absolute after:inset-0" wire:navigate>{{ $campaign->name }}</a>
-                            @elseif ($role === \App\Enums\CampaignRole::Spectator)
+                            @elseif ($role === \App\Enums\CampaignRole::Spectator && \App\Support\CampaignFeatures::enabled($campaign, 'table'))
                                 <a href="{{ route('table.screen', $campaign) }}" class="text-codex hover:text-ink after:absolute after:inset-0">{{ $campaign->name }}</a>
                             @elseif ($myCharacter)
                                 <a href="{{ route('characters.show', [$campaign, $myCharacter]) }}" class="text-codex hover:text-ink after:absolute after:inset-0" wire:navigate>{{ $campaign->name }}</a>

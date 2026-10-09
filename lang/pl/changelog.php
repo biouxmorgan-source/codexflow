@@ -4,6 +4,17 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.35.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Poprawki z końcowego testu odbiorczego',
+        'items' => [
+            'Strona sesji ma streszczenie napisane przez MG i pokazuje rozegrane wydarzenia oraz wszystko, co ujawniono lub przekazano podczas sesji.',
+            'Historia karty zapisuje teraz także relacje, załączone pliki, tagi i status w kampanii. Strona świata pokazuje jego historię, a strona gry jej typy kart.',
+            'Funkcja wyłączona przez MG lub przez plan jest wyłączona także na otwartych stronach, a tryb sesji otwiera się, gdy mapy są wyłączone.',
+            'Poprawki: ilość podawana przy wymianie, nigdy niewypełnione pole tak/nie, przetłumaczona strona „nie znaleziono”, strony czytelne na telefonie przy dużym tekście, logowania liczone raz, zaktualizowana pomoc.',
+        ],
+    ],
+
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Funkcje w każdej kampanii',

@@ -4,6 +4,17 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.35.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Korrekturen aus der Abschlussabnahme',
+        'items' => [
+            'Die Seite einer Sitzung hat eine Zusammenfassung der SL und zeigt die gespielten Ereignisse sowie alles, was in der Sitzung enthüllt oder gegeben wurde.',
+            'Der Verlauf eines Bogens enthält jetzt auch Beziehungen, angehängte Dateien, Tags und den Status in der Kampagne. Die Seite einer Welt zeigt ihre Geschichte, die eines Spiels seine Bogentypen.',
+            'Eine von der SL oder vom Tarif abgeschaltete Funktion ist auch auf offenen Seiten aus, und der Sitzungsmodus öffnet sich, wenn die Karten abgeschaltet sind.',
+            'Korrekturen: angegebene Menge bei einem Austausch, nie ausgefülltes Ja/Nein-Feld, übersetzte Seite „nicht gefunden“, auf dem Telefon mit großer Schrift lesbare Seiten, Anmeldungen einmal gezählt, Hilfe aktualisiert.',
+        ],
+    ],
+
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Funktionen pro Kampagne',

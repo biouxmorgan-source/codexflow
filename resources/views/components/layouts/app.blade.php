@@ -68,7 +68,7 @@
             </nav>
         </div>
     </header>
-    <main id="contenu" tabindex="-1" class="mx-auto max-w-6xl px-4 pt-8 pb-12">
+    <main id="contenu" tabindex="-1" class="mx-auto max-w-6xl px-4 pt-8 pb-24">
         {{ $slot }}
     </main>
     <footer class="mx-auto max-w-6xl px-4 pb-24 text-xs text-stone-500">

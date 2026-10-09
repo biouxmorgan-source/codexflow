@@ -4,6 +4,17 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.35.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Corrections de la recette finale',
+        'items' => [
+            'La page d’une séance a un résumé écrit par le MJ, et montre les événements joués et tout ce qui a été révélé ou donné pendant la séance.',
+            'L’historique d’une fiche garde aussi ses relations, ses fichiers joints, ses tags et son statut dans la campagne. La page d’un monde montre son histoire, celle d’un jeu ses types de fiche.',
+            'Une fonction coupée par le MJ ou par la formule l’est aussi sur les pages restées ouvertes, et le Mode Session s’ouvre quand les cartes sont coupées.',
+            'Corrections : quantité annoncée lors d’un échange, case oui/non jamais remplie, page « introuvable » traduite, pages lisibles sur téléphone en grande taille de texte, connexions comptées une fois, aide mise à jour.',
+        ],
+    ],
+
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Fonctions par campagne',

@@ -166,6 +166,11 @@ class Form extends Component
                 $errors['fields.'.$definition->id] = __(':name : :error.', ['name' => $definition->name, 'error' => $error]);
             }
 
+            // Une case jamais cochée reste vide : l'enregistrer « Non » inventerait une réponse.
+            if ($definition->type === FieldType::Boolean && $value === false && $this->entity?->fieldValue($definition) === null) {
+                $value = null;
+            }
+
             $values[$definition->id] = $value;
         }
 
@@ -206,7 +211,12 @@ class Form extends Component
         }
 
         $entity->save();
+        $tagsBefore = $entity->tags()->orderBy('name')->pluck('name')->implode(', ');
         $entity->tags()->sync(Tag::idsFromInput($this->campaign->owner, $this->tags));
+
+        if (! $entity->wasRecentlyCreated) {
+            $entity->logChange('tags', $tagsBefore, $entity->tags()->orderBy('name')->pluck('name')->implode(', '));
+        }
 
         $back = $this->backUrl();
         $back ? $this->redirect($back, navigate: true) : $this->redirectRoute('entities.show', [$this->campaign, $entity], navigate: true);

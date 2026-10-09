@@ -22,6 +22,31 @@
         @endforelse
     </section>
 
+    <section class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+        <h2 class="mb-3 font-semibold">{{ __('Histoire du monde') }}</h2>
+        @forelse ($history as $events)
+            @php($eventsCampaign = $events->first()->campaign)
+            @if ($history->count() > 1)
+                <h3 class="mt-4 mb-1 text-sm font-semibold text-flow first:mt-0">{{ $eventsCampaign->name }}</h3>
+            @endif
+            <ol class="space-y-1 text-sm">
+                @foreach ($events as $event)
+                    <li wire:key="world-event-{{ $event->id }}">
+                        @if ($event->date_label)
+                            <span class="font-medium text-stone-500">{{ $event->date_label }} ·</span>
+                        @endif
+                        {{ $event->title }}
+                    </li>
+                @endforeach
+            </ol>
+            @if (\App\Support\CampaignFeatures::enabled($eventsCampaign, 'timeline'))
+                <a href="{{ route('timeline.index', $eventsCampaign) }}" class="link mt-2 inline-block text-sm" wire:navigate>{{ __('Ouvrir la chronologie →') }}</a>
+            @endif
+        @empty
+            <p class="text-sm text-stone-500">{{ __('Aucun événement d’histoire du monde dans les chronologies de ses campagnes.') }}</p>
+        @endforelse
+    </section>
+
     <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
         <h2 class="mb-3 font-semibold">{{ __('Documents du monde') }}</h2>
         @forelse ($documents as $document)
