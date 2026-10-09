@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.43.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Fiabilité',
+        'items' => [
+            'De nouveaux tests automatiques vérifient dans un vrai navigateur la mise à jour sans temps réel, « Se souvenir de moi », le lien « Aller au contenu », l’affichage sur téléphone en texte très grand et une fonction coupée par le MJ pendant qu’une page est ouverte.',
+        ],
+    ],
+
     '0.42.0' => [
         'date' => '2026-10-09',
         'title' => 'Descriptions mises en forme',

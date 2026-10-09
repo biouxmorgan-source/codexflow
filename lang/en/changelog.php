@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.43.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Reliability',
+        'items' => [
+            'New automated tests check in a real browser the updates without realtime, “Remember me”, the “Skip to content” link, display on a phone with very large text, and a feature turned off by the GM while a page is open.',
+        ],
+    ],
+
     '0.42.0' => [
         'date' => '2026-10-09',
         'title' => 'Formatted descriptions',

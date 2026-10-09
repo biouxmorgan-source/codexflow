@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.43.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Fiabilidad',
+        'items' => [
+            'Nuevas pruebas automáticas comprueban en un navegador real la actualización sin tiempo real, «Recordarme», el enlace «Ir al contenido», la visualización en el móvil con texto muy grande y una función desactivada por el máster con una página abierta.',
+        ],
+    ],
+
     '0.42.0' => [
         'date' => '2026-10-09',
         'title' => 'Descripciones con formato',

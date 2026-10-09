@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.43.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Betrouwbaarheid',
+        'items' => [
+            'Nieuwe automatische tests controleren in een echte browser het bijwerken zonder realtime, “Onthoud mij”, de link “Naar de inhoud”, de weergave op een telefoon met zeer grote tekst en een functie die de spelleider uitzet terwijl een pagina open is.',
+        ],
+    ],
+
     '0.42.0' => [
         'date' => '2026-10-09',
         'title' => 'Opgemaakte beschrijvingen',
