@@ -49,5 +49,18 @@
                 </ul>
             @endif
         </section>
+
+        <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm md:col-span-2">
+            <div class="mb-1 flex flex-wrap items-center justify-between gap-2">
+                <h2 class="font-semibold">{{ __('Types de fiche') }}</h2>
+                <a href="{{ route('entity-types.index') }}" class="link text-sm" wire:navigate>{{ __('Gérer les types →') }}</a>
+            </div>
+            <p class="mb-3 text-sm text-stone-600">{{ __('Communs à tous vos jeux.') }}</p>
+            <ul class="flex flex-wrap gap-2 text-sm">
+                @foreach ($types as $type)
+                    <li wire:key="game-type-{{ $type->id }}" class="rounded-full bg-stone-100 px-3 py-1">{{ $type->name }}</li>
+                @endforeach
+            </ul>
+        </section>
     </div>
 </div>

@@ -256,6 +256,16 @@ class Entity extends Model
         return ['world_id' => $this->world_id, 'campaign_id' => $this->campaign_id];
     }
 
+    /**
+     * Inscrit au journal de la fiche un changement qui n'est pas une colonne : relation, fichier joint, tags.
+     */
+    public function logChange(string $key, ?string $old, ?string $new): void
+    {
+        if (($old ?? '') !== ($new ?? '')) {
+            ActivityLog::record('entity', $this->getKey(), $this->name, 'updated', [$key => ['old' => $old ?: null, 'new' => $new ?: null]], $this->activityScope());
+        }
+    }
+
     protected function activityJsonAttributes(): array
     {
         return ['field_values'];

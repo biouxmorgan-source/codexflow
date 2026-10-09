@@ -1931,5 +1931,21 @@
     "Échanges entre joueurs": "Wymiana między graczami",
     "Fonction désactivée": "Funkcja wyłączona",
     "Le MJ a désactivé cette fonction dans cette campagne. Il peut la réactiver depuis la page de la campagne.": "MG wyłączył tę funkcję w tej kampanii. Może ją ponownie włączyć na stronie kampanii.",
-    "Cette fonction est désactivée dans cette campagne.": "Ta funkcja jest wyłączona w tej kampanii."
+    "Cette fonction est désactivée dans cette campagne.": "Ta funkcja jest wyłączona w tej kampanii.",
+    "Aucun événement d’histoire du monde dans les chronologies de ses campagnes.": "Brak wydarzeń z historii świata w osiach czasu jego kampanii.",
+    "Aucun événement noté pendant cette session.": "Podczas tej sesji nie zanotowano żadnych wydarzeń.",
+    "Ce qui s’est passé pendant la séance…": "Co wydarzyło się podczas sesji…",
+    "Communs à tous vos jeux.": "Wspólne dla wszystkich twoich gier.",
+    "Fichier joint": "Załączony plik",
+    "Gérer les types →": "Zarządzaj typami →",
+    "Ouvrir la chronologie →": "Otwórz oś czasu →",
+    "Pas encore de résumé pour cette séance.": "Brak jeszcze streszczenia tej sesji.",
+    "Puis-je retirer des fonctions dont ma table n’a pas besoin ?": "Czy mogę wyłączyć funkcje, których moja drużyna nie potrzebuje?",
+    "Rien n’a été révélé ni donné pendant cette session.": "Podczas tej sesji niczego nie ujawniono ani nie przekazano.",
+    "Révélé ou donné": "Ujawnione lub przekazane",
+    "Écrire le résumé": "Napisz streszczenie",
+    "Événements joués": "Rozegrane wydarzenia",
+    ":giver propose de donner :label à :receiver : à valider.": ":giver proponuje dać :label postaci :receiver: do zatwierdzenia.",
+    "Oui : sur la page de la campagne, bloc « Fonctions de la campagne », décochez l'écran de table, les cartes, les échanges entre joueurs, le graphe, la chronologie ou l'assistant IA. La fonction disparaît pour tous les membres, sans rien effacer, et revient telle quelle dès que vous la recochez.": "Tak: na stronie kampanii, w bloku „Funkcje kampanii”, odznacz ekran stołu, mapy, wymiany między graczami, graf, oś czasu lub asystenta AI. Funkcja znika dla wszystkich członków, nic nie jest usuwane, i wraca bez zmian, gdy tylko ją ponownie zaznaczysz.",
+    "Oui : en bas de la page de la campagne, « Exporter la campagne » télécharge une archive .zip avec le jeu, le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Le propriétaire peut aussi « Télécharger la sauvegarde complète », qui ajoute la table : personnages, ce qu'ils ont reçu, séances, notes, messages et journal, sans adresse e-mail ni note gardée pour soi. Depuis « Mes campagnes », « Importer une campagne » la recrée, chez vous ou chez un autre MJ ; les personnages y reviennent sans joueur, prêts à être confiés. Le formulaire d'import indique la taille maximale acceptée par le serveur : une archive plus lourde demande d'augmenter « upload_max_filesize » et « post_max_size » dans la configuration PHP.": "Tak: na dole strony kampanii „Eksportuj kampanię” pobiera archiwum .zip z grą, światem, kartami, scenariuszami, dokumentami, mapami, sekretami i osią czasu, wraz z plikami. Właściciel może też użyć „Pobierz pełną kopię zapasową”, która dodaje drużynę: postacie, to, co otrzymały, sesje, notatki, wiadomości i dziennik, bez adresów e-mail i prywatnych notatek. W „Moje kampanie” opcja „Importuj kampanię” odtwarza ją u ciebie lub u innego MG; postacie wracają bez gracza, gotowe do przydzielenia. Formularz importu podaje maksymalny rozmiar akceptowany przez serwer: większe archiwum wymaga zwiększenia „upload_max_filesize” i „post_max_size” w konfiguracji PHP."
 }

@@ -1931,5 +1931,21 @@
     "Échanges entre joueurs": "Trocas entre jogadores",
     "Fonction désactivée": "Função desativada",
     "Le MJ a désactivé cette fonction dans cette campagne. Il peut la réactiver depuis la page de la campagne.": "O Mestre desativou esta função nesta campanha. Pode reativá-la na página da campanha.",
-    "Cette fonction est désactivée dans cette campagne.": "Esta função está desativada nesta campanha."
+    "Cette fonction est désactivée dans cette campagne.": "Esta função está desativada nesta campanha.",
+    "Aucun événement d’histoire du monde dans les chronologies de ses campagnes.": "Nenhum acontecimento da história do mundo nas cronologias das suas campanhas.",
+    "Aucun événement noté pendant cette session.": "Nenhum acontecimento anotado nesta sessão.",
+    "Ce qui s’est passé pendant la séance…": "O que aconteceu durante a sessão…",
+    "Communs à tous vos jeux.": "Comuns a todos os seus jogos.",
+    "Fichier joint": "Arquivo anexado",
+    "Gérer les types →": "Gerenciar os tipos →",
+    "Ouvrir la chronologie →": "Abrir a cronologia →",
+    "Pas encore de résumé pour cette séance.": "Ainda não há resumo desta sessão.",
+    "Puis-je retirer des fonctions dont ma table n’a pas besoin ?": "Posso tirar funções de que minha mesa não precisa?",
+    "Rien n’a été révélé ni donné pendant cette session.": "Nada foi revelado nem dado nesta sessão.",
+    "Révélé ou donné": "Revelado ou dado",
+    "Écrire le résumé": "Escrever o resumo",
+    "Événements joués": "Acontecimentos jogados",
+    ":giver propose de donner :label à :receiver : à valider.": ":giver propõe dar :label para :receiver: para validar.",
+    "Oui : sur la page de la campagne, bloc « Fonctions de la campagne », décochez l'écran de table, les cartes, les échanges entre joueurs, le graphe, la chronologie ou l'assistant IA. La fonction disparaît pour tous les membres, sans rien effacer, et revient telle quelle dès que vous la recochez.": "Sim: na página da campanha, bloco «Funções da campanha», desmarque a tela de mesa, os mapas, as trocas entre jogadores, o grafo, a cronologia ou o assistente de IA. A função desaparece para todos os membros, sem apagar nada, e volta como estava assim que você a marcar de novo.",
+    "Oui : en bas de la page de la campagne, « Exporter la campagne » télécharge une archive .zip avec le jeu, le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Le propriétaire peut aussi « Télécharger la sauvegarde complète », qui ajoute la table : personnages, ce qu'ils ont reçu, séances, notes, messages et journal, sans adresse e-mail ni note gardée pour soi. Depuis « Mes campagnes », « Importer une campagne » la recrée, chez vous ou chez un autre MJ ; les personnages y reviennent sans joueur, prêts à être confiés. Le formulaire d'import indique la taille maximale acceptée par le serveur : une archive plus lourde demande d'augmenter « upload_max_filesize » et « post_max_size » dans la configuration PHP.": "Sim: no fim da página da campanha, «Exportar a campanha» baixa um arquivo .zip com o jogo, o mundo, as fichas, cenários, documentos, mapas, segredos e a cronologia, arquivos incluídos. O proprietário também pode «Baixar o backup completo», que acrescenta a mesa: personagens, o que receberam, sessões, notas, mensagens e diário, sem endereços de e-mail nem notas privadas. Em «Minhas campanhas», «Importar uma campanha» a recria, na sua conta ou na de outro Mestre; os personagens voltam sem jogador, prontos para serem atribuídos. O formulário de importação indica o tamanho máximo aceito pelo servidor: um arquivo maior exige aumentar «upload_max_filesize» e «post_max_size» na configuração do PHP."
 }

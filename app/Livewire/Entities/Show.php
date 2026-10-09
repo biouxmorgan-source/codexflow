@@ -199,6 +199,7 @@ class Show extends Component
             ]);
             $attachment->owner()->associate($this->campaign->owner);
             $this->entity->attachments()->save($attachment);
+            $this->entity->logChange('attachment', null, $attachment->original_name);
         }
 
         $this->reset('uploads');
@@ -211,6 +212,7 @@ class Show extends Component
         $this->authorize('delete', $attachment);
 
         $attachment->delete();
+        $this->entity->logChange('attachment', $attachment->original_name, null);
         $this->entity->unsetRelation('attachments');
     }
 
@@ -275,6 +277,7 @@ class Show extends Component
         $relation->to()->associate($target);
         $relation->campaign()->associate($worldWide ? null : $this->campaign);
         $relation->save();
+        $this->entity->logChange('relation', null, $relation->label.' '.$target->name);
 
         $this->reset('relationTargetId', 'relationLabel', 'relationReverse', 'relationCampaignOnly', 'relationZone');
     }
@@ -325,6 +328,7 @@ class Show extends Component
         abort_unless($relation->user_id === $this->campaign->user_id, 403);
 
         $relation->delete();
+        $this->entity->logChange('relation', $relation->labelFrom($this->entity).' '.$relation->otherSide($this->entity)->name, null);
     }
 
     private function state(): CampaignEntityState

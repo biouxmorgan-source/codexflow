@@ -4,6 +4,17 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.35.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Fixes from the final acceptance test',
+        'items' => [
+            'A session page has a summary written by the GM, and shows the events played and everything revealed or given during the session.',
+            'A sheet’s history now also keeps its relations, attached files, tags and status in the campaign. A world page shows its history, and a game page its sheet types.',
+            'A feature switched off by the GM or by the plan is also off on pages left open, and Session mode opens when maps are switched off.',
+            'Fixes: quantity announced in an exchange, a yes/no box never filled in, translated “not found” page, pages readable on phones with large text, logins counted once, help updated.',
+        ],
+    ],
+
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Features per campaign',

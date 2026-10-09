@@ -136,7 +136,8 @@ class ExchangeGrant
         $request->setRelation('grant', $grant);
 
         $replace = ['giver' => $from->entity->name, 'receiver' => $to->entity->name, 'label' => $request->label()];
-        Notify::gameMasters($from->campaign, 'grant', fn (string $locale) => __(':giver propose de transmettre :label à :receiver : à valider.', Notify::quoted($replace, $locale), $locale), route('characters.show', [$from->campaign_id, $from]).'#section-'.$this->section($grant), $from);
+        $text = $grant->kind === 'possession' ? ':giver propose de donner :label à :receiver : à valider.' : ':giver propose de transmettre :label à :receiver : à valider.';
+        Notify::gameMasters($from->campaign, 'grant', fn (string $locale) => __($text, Notify::quoted($replace, $locale), $locale), route('characters.show', [$from->campaign_id, $from]).'#section-'.$this->section($grant), $from);
         Live::character($from->id);
 
         return $request;
@@ -148,7 +149,8 @@ class ExchangeGrant
             ? $this->move($grant, $to, $quantity)
             : [$this->share($grant, $to), null]);
 
-        $label = $grant->kind === 'possession' && $given > 1 ? $grant->title.' ×'.$given : $received->label();
+        // Ce qui a été donné, pas la pile du receveur après fusion.
+        $label = $grant->kind === 'possession' ? ($given > 1 ? $grant->title.' ×'.$given : (string) $grant->title) : $received->label();
         $this->record($received, $label, $given, $from, $to);
         Notify::exchange($received, $label, $from, $to);
         Live::character($from->id);

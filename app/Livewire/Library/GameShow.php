@@ -4,6 +4,7 @@ namespace App\Livewire\Library;
 
 use App\Livewire\Concerns\EditsLibraryImage;
 use App\Models\Campaign;
+use App\Models\EntityType;
 use App\Models\GameSystem;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
@@ -65,6 +66,8 @@ class GameShow extends Component
             'rules' => $this->gameSystem->rules()->orderByRaw('lower(title)')->get(),
             'documents' => $this->gameSystem->documents()->orderByRaw('lower(title)')->get(),
             'fieldGroups' => $this->gameSystem->fieldDefinitions()->get()->groupBy(fn ($field) => $field->groupLabel())->map->count(),
+            // Les types de fiche sont communs à tous les jeux du MJ.
+            'types' => EntityType::availableTo($this->gameSystem->owner)->get()->sortBy(fn (EntityType $type) => [$type->isStandard() ? 0 : 1, mb_strtolower($type->name)]),
         ])->title($this->gameSystem->name);
     }
 }

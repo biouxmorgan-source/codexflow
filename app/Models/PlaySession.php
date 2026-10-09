@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Séance de jeu d'une campagne : début, fin, scène en cours et notes prises pendant la partie.
  */
-#[Fillable(['number', 'title', 'started_at', 'ended_at'])]
+#[Fillable(['number', 'title', 'started_at', 'ended_at', 'summary'])]
 class PlaySession extends Model
 {
     protected function casts(): array

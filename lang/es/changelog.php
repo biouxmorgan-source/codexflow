@@ -4,6 +4,17 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.35.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Correcciones de la prueba de aceptación final',
+        'items' => [
+            'La página de una sesión tiene un resumen escrito por el DJ y muestra los acontecimientos jugados y todo lo revelado o dado durante la sesión.',
+            'El historial de una ficha guarda también sus relaciones, archivos adjuntos, etiquetas y su estado en la campaña. La página de un mundo muestra su historia, y la de un juego sus tipos de ficha.',
+            'Una función desactivada por el DJ o por el plan también lo está en las páginas que quedaron abiertas, y el modo Sesión se abre cuando los mapas están desactivados.',
+            'Correcciones: cantidad anunciada en un intercambio, casilla sí/no nunca rellenada, página «no encontrada» traducida, páginas legibles en el móvil con texto grande, conexiones contadas una vez, ayuda actualizada.',
+        ],
+    ],
+
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Funciones por campaña',

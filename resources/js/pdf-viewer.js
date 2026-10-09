@@ -7,6 +7,7 @@ document.addEventListener('alpine:init', () => {
     window.Alpine.data('pdfViewer', (url, mode = 'scroll') => {
         // Hors des données Alpine : les objets pdf.js ne doivent pas devenir réactifs.
         let pdf;
+        let loading;
         let observer;
 
         return {
@@ -22,7 +23,8 @@ document.addEventListener('alpine:init', () => {
                         import('pdfjs-dist/legacy/build/pdf.worker.min.mjs?url'),
                     ]);
                     pdfjs.GlobalWorkerOptions.workerSrc = worker.default;
-                    pdf = await pdfjs.getDocument({ url, isEvalSupported: false, enableScripting: false, withCredentials: true }).promise;
+                    loading = pdfjs.getDocument({ url, isEvalSupported: false, enableScripting: false, withCredentials: true });
+                    pdf = await loading.promise;
                     this.pages = pdf.numPages;
                     this.status = 'ready';
                     await this.$nextTick();
@@ -105,7 +107,8 @@ document.addEventListener('alpine:init', () => {
 
             destroy() {
                 observer?.disconnect();
-                pdf?.destroy();
+                // Le document se libère par sa tâche de chargement (PDFDocumentProxy n'a pas de destroy).
+                loading?.destroy();
             },
         };
     });

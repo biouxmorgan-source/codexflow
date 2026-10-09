@@ -1931,5 +1931,21 @@
     "Échanges entre joueurs": "Exchanges between players",
     "Fonction désactivée": "Feature switched off",
     "Le MJ a désactivé cette fonction dans cette campagne. Il peut la réactiver depuis la page de la campagne.": "The GM has switched this feature off in this campaign. They can switch it back on from the campaign page.",
-    "Cette fonction est désactivée dans cette campagne.": "This feature is switched off in this campaign."
+    "Cette fonction est désactivée dans cette campagne.": "This feature is switched off in this campaign.",
+    "Aucun événement d’histoire du monde dans les chronologies de ses campagnes.": "No world history events in the timelines of its campaigns.",
+    "Aucun événement noté pendant cette session.": "No event noted during this session.",
+    "Ce qui s’est passé pendant la séance…": "What happened during the session…",
+    "Communs à tous vos jeux.": "Shared by all your games.",
+    "Fichier joint": "Attached file",
+    "Gérer les types →": "Manage types →",
+    "Ouvrir la chronologie →": "Open the timeline →",
+    "Pas encore de résumé pour cette séance.": "No summary for this session yet.",
+    "Puis-je retirer des fonctions dont ma table n’a pas besoin ?": "Can I remove features my table doesn’t need?",
+    "Rien n’a été révélé ni donné pendant cette session.": "Nothing was revealed or given during this session.",
+    "Révélé ou donné": "Revealed or given",
+    "Écrire le résumé": "Write the summary",
+    "Événements joués": "Events played",
+    ":giver propose de donner :label à :receiver : à valider.": ":giver offers to give :label to :receiver: to approve.",
+    "Oui : sur la page de la campagne, bloc « Fonctions de la campagne », décochez l'écran de table, les cartes, les échanges entre joueurs, le graphe, la chronologie ou l'assistant IA. La fonction disparaît pour tous les membres, sans rien effacer, et revient telle quelle dès que vous la recochez.": "Yes: on the campaign page, in “Campaign features”, untick the table screen, maps, exchanges between players, the graph, the timeline or the AI assistant. The feature disappears for every member without deleting anything, and comes back as it was as soon as you tick it again.",
+    "Oui : en bas de la page de la campagne, « Exporter la campagne » télécharge une archive .zip avec le jeu, le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Le propriétaire peut aussi « Télécharger la sauvegarde complète », qui ajoute la table : personnages, ce qu'ils ont reçu, séances, notes, messages et journal, sans adresse e-mail ni note gardée pour soi. Depuis « Mes campagnes », « Importer une campagne » la recrée, chez vous ou chez un autre MJ ; les personnages y reviennent sans joueur, prêts à être confiés. Le formulaire d'import indique la taille maximale acceptée par le serveur : une archive plus lourde demande d'augmenter « upload_max_filesize » et « post_max_size » dans la configuration PHP.": "Yes: at the bottom of the campaign page, “Export the campaign” downloads a .zip archive with the game, the world, the sheets, scenarios, documents, maps, secrets and the timeline, files included. The owner can also “Download the complete backup”, which adds the table: characters, what they received, sessions, notes, messages and journal, without email addresses or notes kept private. From “My campaigns”, “Import a campaign” recreates it, for you or for another GM; the characters come back without a player, ready to be handed out. The import form shows the maximum size the server accepts: a heavier archive requires raising “upload_max_filesize” and “post_max_size” in the PHP configuration."
 }

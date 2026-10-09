@@ -76,7 +76,7 @@ class ExchangeApprovalTest extends TestCase
         // Rien n'a bougé ; le MJ est prévenu et voit la demande.
         $this->assertSame(6, $ammo->fresh()->quantity);
         $this->assertSame(0, $jack->grants()->count());
-        $this->assertContains('Harvey propose de transmettre « Cartouches ×4 » à Jack : à valider.', $this->gm->notifications->pluck('data.text'));
+        $this->assertContains('Harvey propose de donner « Cartouches ×4 » à Jack : à valider.', $this->gm->notifications->pluck('data.text'));
         Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $this->campaign])->assertSee('1 échange à valider');
 
         // Une seule demande à la fois pour un même élément.

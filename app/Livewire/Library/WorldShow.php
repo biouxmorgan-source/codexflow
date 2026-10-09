@@ -4,6 +4,7 @@ namespace App\Livewire\Library;
 
 use App\Livewire\Concerns\EditsLibraryImage;
 use App\Models\Campaign;
+use App\Models\TimelineEvent;
 use App\Models\World;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
@@ -62,6 +63,9 @@ class WorldShow extends Component
             'campaign' => $this->campaigns->first(),
             'entities' => $this->world->entities()->with('type')->orderByRaw('lower(name)')->get()->groupBy(fn ($entity) => $entity->type->name),
             'documents' => $this->world->documents()->orderByRaw('lower(title)')->get(),
+            // L'histoire du monde est tenue dans la chronologie de chacune de ses campagnes.
+            'history' => TimelineEvent::query()->where('kind', 'world')->whereIn('campaign_id', $this->campaigns->modelKeys())
+                ->with('campaign')->orderBy('campaign_id')->orderBy('position')->get()->groupBy('campaign_id'),
         ])->title($this->world->name);
     }
 }
