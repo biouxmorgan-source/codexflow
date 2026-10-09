@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.37.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Jogadores e papéis',
+        'items' => [
+            'Uma ficha revelada mostra ao jogador suas ilustrações e arquivos públicos, e suas relações públicas com fichas que ele conhece.',
+            'Os jogadores têm um «Feed da campanha» na ficha: sessões, eventos jogados conhecidos pela mesa e mensagens ao grupo.',
+            'Os co-Mestres veem as páginas do jogo e do mundo somente leitura, baixam o arquivo e o modelo do jogo, e gerenciam os campos se o proprietário marcar em «Membros». Um co-Mestre rebaixado não mantém as notificações recebidas como Mestre.',
+        ],
+    ],
+
     '0.36.0' => [
         'date' => '2026-10-09',
         'title' => 'Conforto do Mestre e da sessão',

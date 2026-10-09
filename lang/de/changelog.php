@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.37.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Spieler und Rollen',
+        'items' => [
+            'Ein enthüllter Eintrag zeigt dem Spieler seine öffentlichen Illustrationen und Dateien sowie seine öffentlichen Beziehungen zu Einträgen, die er kennt.',
+            'Spieler haben auf ihrem Bogen einen „Kampagnenverlauf“: Sitzungen, der Runde bekannte gespielte Ereignisse und Nachrichten an die Gruppe.',
+            'Co-SL sehen die Spiel- und Weltseiten schreibgeschützt, laden das Archiv und die Spielvorlage herunter und verwalten die Felder, wenn der Eigentümer es unter „Mitglieder“ ankreuzt. Eine herabgestufte Co-SL behält die als SL erhaltenen Benachrichtigungen nicht.',
+        ],
+    ],
+
     '0.36.0' => [
         'date' => '2026-10-09',
         'title' => 'Komfort für SL und Sitzung',

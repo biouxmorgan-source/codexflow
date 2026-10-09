@@ -1965,5 +1965,13 @@
     "Prétirés": "Gotowe postacie",
     "Statut dans cette campagne": "Status w tej kampanii",
     "Voir les éléments qui portent ce tag": "Zobacz elementy z tym tagiem",
-    "n°": "nr"
+    "n°": "nr",
+    "Fichiers joints": "Załączone pliki",
+    "Fil de la campagne": "Wątek kampanii",
+    "Illustrations": "Ilustracje",
+    "Ils voient toujours, en lecture seule, les pages du jeu et du monde. Cochée, cette option leur permet aussi d’ajouter et de modifier les champs, qui servent à toutes les campagnes de ce jeu.": "Zawsze widzą strony gry i świata w trybie tylko do odczytu. Zaznaczona opcja pozwala im też dodawać i edytować pola, które służą wszystkim kampaniom tej gry.",
+    "Lecture seule : géré par le propriétaire.": "Tylko do odczytu: zarządza właściciel.",
+    "Les co-MJ gèrent les champs du jeu": "Współ-MG zarządzają polami gry",
+    "Message au groupe": "Wiadomość do grupy",
+    "Relations": "Relacje"
 }

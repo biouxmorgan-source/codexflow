@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.37.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Jugadores y roles',
+        'items' => [
+            'Una ficha revelada muestra al jugador sus ilustraciones y archivos públicos, y sus relaciones públicas con fichas que conoce.',
+            'Los jugadores tienen un «Hilo de la campaña» en su ficha: sesiones, eventos jugados conocidos por la mesa y mensajes al grupo.',
+            'Los co-DJ ven las páginas del juego y del mundo en solo lectura, descargan el archivo y la plantilla del juego, y gestionan los campos si el propietario lo marca en «Miembros». Un co-DJ degradado no conserva las notificaciones recibidas como DJ.',
+        ],
+    ],
+
     '0.36.0' => [
         'date' => '2026-10-09',
         'title' => 'Comodidad del DJ y de la sesión',

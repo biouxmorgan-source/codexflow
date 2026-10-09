@@ -1965,5 +1965,13 @@
     "Prétirés": "Vorgefertigte Figuren",
     "Statut dans cette campagne": "Status in dieser Kampagne",
     "Voir les éléments qui portent ce tag": "Elemente mit diesem Tag anzeigen",
-    "n°": "Nr."
+    "n°": "Nr.",
+    "Fichiers joints": "Angehängte Dateien",
+    "Fil de la campagne": "Kampagnenverlauf",
+    "Illustrations": "Illustrationen",
+    "Ils voient toujours, en lecture seule, les pages du jeu et du monde. Cochée, cette option leur permet aussi d’ajouter et de modifier les champs, qui servent à toutes les campagnes de ce jeu.": "Sie sehen die Spiel- und Weltseiten immer schreibgeschützt. Angehakt dürfen sie auch Felder hinzufügen und ändern, die für alle Kampagnen dieses Spiels gelten.",
+    "Lecture seule : géré par le propriétaire.": "Schreibgeschützt: wird vom Eigentümer verwaltet.",
+    "Les co-MJ gèrent les champs du jeu": "Co-SL verwalten die Felder des Spiels",
+    "Message au groupe": "Nachricht an die Gruppe",
+    "Relations": "Beziehungen"
 }

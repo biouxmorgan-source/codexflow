@@ -50,7 +50,7 @@ class Manage extends Component
     public function mount(Campaign $campaign): void
     {
         $this->authorize('update', $campaign);
-        $this->authorize('update', $campaign->gameSystem);
+        $this->authorize('manageFields', [$campaign->gameSystem, $campaign]);
     }
 
     #[Computed]
@@ -103,7 +103,7 @@ class Manage extends Component
 
     public function save(): void
     {
-        $this->authorize('update', $this->gameSystem);
+        $this->authorize('manageFields', [$this->gameSystem, $this->campaign]);
 
         $this->validate([
             'name' => [
@@ -151,7 +151,7 @@ class Manage extends Component
 
     public function delete(int $id): void
     {
-        $this->authorize('update', $this->gameSystem);
+        $this->authorize('manageFields', [$this->gameSystem, $this->campaign]);
 
         $this->find($id)->delete();
 
@@ -164,7 +164,7 @@ class Manage extends Component
 
     public function move(int $id, int $direction): void
     {
-        $this->authorize('update', $this->gameSystem);
+        $this->authorize('manageFields', [$this->gameSystem, $this->campaign]);
 
         $definitions = $this->definitions->values();
         $ids = $definitions->modelKeys();
@@ -201,7 +201,7 @@ class Manage extends Component
 
     public function importTemplate(): void
     {
-        $this->authorize('update', $this->gameSystem);
+        $this->authorize('manageFields', [$this->gameSystem, $this->campaign]);
         $this->validate(['template' => ['required', 'file', 'extensions:json', 'max:5120']], attributes: ['template' => __('modèle')]);
         Plans::ensure($this->campaign->owner, 'archive');
 

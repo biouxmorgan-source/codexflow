@@ -25,7 +25,8 @@ class WorldShow extends Component
 
     public function mount(World $world): void
     {
-        abort_unless($world->user_id === auth()->id(), 403);
+        // Le propriétaire, ou un co-MJ d'une de ses campagnes, en lecture seule.
+        $this->authorize('view', $world);
 
         $this->name = $world->name;
         $this->description = (string) $world->description;
@@ -35,7 +36,8 @@ class WorldShow extends Component
     #[Computed]
     public function campaigns(): Collection
     {
-        return $this->world->campaigns()->with('gameSystem')->orderByRaw("status = 'archived'")->latest('updated_at')->get();
+        return $this->world->campaigns()
+            ->when($this->world->user_id !== auth()->id(), fn ($query) => $query->runBy(auth()->user()))->with('gameSystem')->orderByRaw("status = 'archived'")->latest('updated_at')->get();
     }
 
     public function save(): void
@@ -59,6 +61,7 @@ class WorldShow extends Component
     public function render()
     {
         return view('livewire.library.world-show', [
+            'canEdit' => $this->world->user_id === auth()->id(),
             // Les fiches du monde s'ouvrent dans l'une de ses campagnes.
             'campaign' => $this->campaigns->first(),
             'entities' => $this->world->entities()->with('type')->orderByRaw('lower(name)')->get()->groupBy(fn ($entity) => $entity->type->name),

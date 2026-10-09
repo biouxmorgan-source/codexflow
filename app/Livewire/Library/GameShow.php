@@ -25,7 +25,8 @@ class GameShow extends Component
 
     public function mount(GameSystem $gameSystem): void
     {
-        abort_unless($gameSystem->user_id === auth()->id(), 403);
+        // Le propriétaire, ou un co-MJ d'une de ses campagnes, en lecture seule.
+        $this->authorize('view', $gameSystem);
 
         $this->name = $gameSystem->name;
         $this->description = (string) $gameSystem->description;
@@ -35,7 +36,8 @@ class GameShow extends Component
     #[Computed]
     public function campaigns(): Collection
     {
-        return $this->gameSystem->campaigns()->with('world')->orderByRaw("status = 'archived'")->latest('updated_at')->get();
+        return $this->gameSystem->campaigns()
+            ->when($this->gameSystem->user_id !== auth()->id(), fn ($query) => $query->runBy(auth()->user()))->with('world')->orderByRaw("status = 'archived'")->latest('updated_at')->get();
     }
 
     public function save(): void
@@ -62,6 +64,7 @@ class GameShow extends Component
         $campaign = $this->campaigns->first();
 
         return view('livewire.library.game-show', [
+            'canEdit' => $this->gameSystem->user_id === auth()->id(),
             'campaign' => $campaign,
             'rules' => $this->gameSystem->rules()->orderByRaw('lower(title)')->get(),
             'documents' => $this->gameSystem->documents()->orderByRaw('lower(title)')->get(),

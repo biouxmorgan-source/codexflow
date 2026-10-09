@@ -45,7 +45,8 @@ class Notify
     {
         $gms = $campaign->members()->wherePivot('role', CampaignRole::GameMaster->value)->whereKeyNot(auth()->id() ?? 0)->get();
 
-        self::sendEach($gms, $campaign, $kind, $text, $url, $character ? ['character_id' => $character->id] : []);
+        // « audience » : reçue au titre de MJ, retirée si la personne cesse de l'être.
+        self::sendEach($gms, $campaign, $kind, $text, $url, ['audience' => 'gm'] + ($character ? ['character_id' => $character->id] : []));
         $gms->each(fn (User $gm) => Live::user($gm->id, $kind, $campaign->id));
     }
 
@@ -138,6 +139,24 @@ class Notify
             : fn (string $locale) => __(':name a noté une connaissance : :label.', self::quoted($replace, $locale), $locale);
 
         self::gameMasters($character->campaign, 'grant', $text, route('characters.show', [$character->campaign_id, $character]).'#section-'.$section, $character);
+    }
+
+    /**
+     * Un co-MJ rétrogradé ou retiré : la cloche oublie ce qu'il a reçu au titre de MJ dans cette
+     * campagne (messages privés des joueurs, échanges à valider, intentions). Les notifications
+     * d'avant le marquage « audience » se reconnaissent à un personnage qu'il ne joue pas.
+     */
+    public static function forgetGameMaster(User $user, Campaign $campaign): int
+    {
+        $own = $campaign->playerCharacters()->where('user_id', $user->id)->pluck('id')->map(fn ($id) => (string) $id)->all();
+
+        return $user->notifications()
+            ->whereRaw("(data->>'campaign_id')::bigint = ?", [$campaign->id])
+            ->where(fn ($query) => $query->whereRaw("data->>'audience' = 'gm'")
+                ->orWhere(fn ($legacy) => $legacy->whereRaw("data->>'audience' is null")
+                    ->whereRaw("data->>'character_id' is not null")
+                    ->when($own !== [], fn ($q) => $q->whereRaw("data->>'character_id' not in (".implode(',', array_fill(0, count($own), '?')).')', $own))))
+            ->delete();
     }
 
     /** Texte écrit pour un destinataire, dans sa langue. */

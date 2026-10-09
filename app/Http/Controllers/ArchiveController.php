@@ -14,9 +14,10 @@ class ArchiveController extends Controller
     /** Archive complète de la campagne, pour la sauvegarder ou la confier à un autre MJ. */
     public function campaign(Request $request, Campaign $campaign): BinaryFileResponse
     {
-        // Propriétaire seulement, sauvegarde complète comprise.
-        Gate::authorize('duplicate', $campaign);
+        // L'archive du contenu préparé : propriétaire et co-MJ. La sauvegarde complète (la table,
+        // ses messages et son journal) reste au propriétaire.
         $complete = $request->boolean('complete');
+        Gate::authorize($complete ? 'duplicate' : 'update', $campaign);
 
         $path = (new CampaignExport($campaign, $complete))->write();
 
@@ -28,7 +29,7 @@ class ArchiveController extends Controller
     public function template(Request $request, Campaign $campaign): StreamedResponse
     {
         Gate::authorize('update', $campaign);
-        Gate::authorize('update', $campaign->gameSystem);
+        Gate::authorize('view', $campaign->gameSystem);
 
         $data = CampaignExport::template($campaign, $request->boolean('regles'));
 

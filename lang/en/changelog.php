@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.37.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Players and roles',
+        'items' => [
+            'A revealed entry shows the player its public illustrations and files, and its public relations to entries they know.',
+            'Players have a “Campaign feed” on their sheet: sessions, played events known to the table and group messages.',
+            'Co-GMs see the game and world pages read-only, download the archive and the game template, and manage fields if the owner checks it in “Members”. A demoted co-GM doesn\'t keep the notifications received as GM.',
+        ],
+    ],
+
     '0.36.0' => [
         'date' => '2026-10-09',
         'title' => 'GM and session comfort',
