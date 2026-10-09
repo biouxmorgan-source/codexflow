@@ -28,6 +28,21 @@ class Screen extends Component
         return ['echo-private:users.'.auth()->id().',.activity' => '$refresh'];
     }
 
+    /** Le MJ tourne la page du PDF sur son écran : les joueurs qui suivent tournent avec lui. */
+    public function turnTo(int $page): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableDisplay::turnTo($this->campaign->refresh(), $page);
+    }
+
+    public function knowPages(int $pages): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableDisplay::knowPages($this->campaign->refresh(), $pages);
+    }
+
     public function render()
     {
         $this->campaign->refresh();

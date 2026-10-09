@@ -75,6 +75,60 @@ class TableDisplay
         }
     }
 
+    /** Le document affiché est-il un PDF, qu'on feuillette page à page ? */
+    public static function showsPdf(Campaign $campaign): bool
+    {
+        $current = self::current($campaign);
+
+        return ($current['kind'] ?? null) === 'document' && $current['document']->isPdf();
+    }
+
+    /**
+     * Tourne les pages du PDF affiché (télécommande, page du document, flèches de l'écran du MJ) :
+     * les joueurs qui suivent l'écran passent à la même page. Le nombre de pages, connu une fois
+     * le PDF ouvert sur l'écran du MJ, borne la navigation.
+     */
+    public static function turnTo(Campaign $campaign, int $page): void
+    {
+        abort_unless(self::showsPdf($campaign), 404);
+
+        $state = $campaign->table_display;
+        $last = (int) ($state['pages'] ?? 0);
+        $page = max(1, $last > 0 ? min($last, $page) : $page);
+
+        if ($page !== self::page($campaign)) {
+            // Même affichage (même clé), autre page : pas de fondu, l'écran tourne la page.
+            $campaign->forceFill(['table_display' => ['page' => $page] + $state])->save();
+            self::broadcast($campaign);
+        }
+    }
+
+    public static function turn(Campaign $campaign, int $delta): void
+    {
+        self::turnTo($campaign, self::page($campaign) + max(-1, min(1, $delta)));
+    }
+
+    /** Page affichée du PDF, 1 par défaut. */
+    public static function page(Campaign $campaign): int
+    {
+        return max(1, (int) ($campaign->table_display['page'] ?? 1));
+    }
+
+    /** Nombre de pages du PDF affiché, 0 tant que l'écran ne l'a pas ouvert. */
+    public static function pages(Campaign $campaign): int
+    {
+        return (int) ($campaign->table_display['pages'] ?? 0);
+    }
+
+    /** L'écran du MJ a ouvert le PDF : il en donne le nombre de pages. */
+    public static function knowPages(Campaign $campaign, int $pages): void
+    {
+        if (self::showsPdf($campaign) && $pages > 0 && $pages !== self::pages($campaign)) {
+            $campaign->forceFill(['table_display' => ['pages' => min($pages, 10000)] + $campaign->table_display])->save();
+            self::broadcast($campaign);
+        }
+    }
+
     public static function showText(Campaign $campaign, string $text): void
     {
         self::save($campaign, ['kind' => 'text', 'text' => $text]);
@@ -126,7 +180,7 @@ class TableDisplay
 
         return match ($state['kind'] ?? null) {
             'document' => ($document = $campaign->availableDocuments()->find($state['id'] ?? 0))
-                ? ['kind' => 'document', 'document' => $document, 'key' => $key]
+                ? ['kind' => 'document', 'document' => $document, 'key' => $key, 'page' => max(1, (int) ($state['page'] ?? 1))]
                 : null,
             'entity' => ($entity = $campaign->availableEntities()->find($state['id'] ?? 0))
                 ? ['kind' => 'entity', 'entity' => $entity, 'fields' => self::publicFields($campaign, $entity), 'key' => $key]

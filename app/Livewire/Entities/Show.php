@@ -350,6 +350,8 @@ class Show extends Component
 
         return view('livewire.entities.show', [
             'scenes' => EntityLinks::scenes($this->entity, $this->campaign),
+            // Statut enregistré pour cette campagne, rappelé sous le titre.
+            'savedStatus' => $this->entity->campaignStates()->where('campaign_id', $this->campaign->id)->value('status'),
             'pinned' => $this->campaign->pins()->whereKey($this->entity->id)->exists(),
             'documents' => $documents,
             'documentOptions' => $this->campaign->availableDocuments()->whereKeyNot($documents->modelKeys())->orderByRaw('lower(title)')->get(['id', 'title']),
