@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.43.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Zuverlässigkeit',
+        'items' => [
+            'Neue automatische Tests prüfen in einem echten Browser die Aktualisierung ohne Echtzeit, „Angemeldet bleiben“, den Link „Zum Inhalt springen“, die Anzeige auf dem Smartphone mit sehr großer Schrift und eine von der Spielleitung abgeschaltete Funktion bei geöffneter Seite.',
+        ],
+    ],
+
     '0.42.0' => [
         'date' => '2026-10-09',
         'title' => 'Formatierte Beschreibungen',

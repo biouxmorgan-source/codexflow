@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.43.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Fiabilidade',
+        'items' => [
+            'Novos testes automáticos verificam num navegador real a atualização sem tempo real, «Lembrar-me», a ligação «Ir para o conteúdo», a apresentação no telemóvel com texto muito grande e uma função desativada pelo mestre com uma página aberta.',
+        ],
+    ],
+
     '0.42.0' => [
         'date' => '2026-10-09',
         'title' => 'Descrições formatadas',

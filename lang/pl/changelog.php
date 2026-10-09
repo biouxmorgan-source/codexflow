@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.43.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Niezawodność',
+        'items' => [
+            'Nowe testy automatyczne sprawdzają w prawdziwej przeglądarce aktualizację bez czasu rzeczywistego, „Zapamiętaj mnie”, link „Przejdź do treści”, wyświetlanie na telefonie z bardzo dużym tekstem oraz funkcję wyłączoną przez MG przy otwartej stronie.',
+        ],
+    ],
+
     '0.42.0' => [
         'date' => '2026-10-09',
         'title' => 'Sformatowane opisy',
