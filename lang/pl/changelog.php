@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.39.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Konto i administracja',
+        'items' => [
+            'Problem można zgłosić bez konta, ze stron logowania i rejestracji lub z pomocy, podając adres do odpowiedzi.',
+            'Preferencje pokazują datę rozpoczęcia subskrypcji oraz, dopóki płatności nie działają, że przejście na Premium wkrótce będzie możliwe.',
+            'Konsola administracyjna: dni logowania zamiast logowań, data ostatniego logowania i ostrzeżenie, gdy wysyłka push jest niemożliwa lub się nie udaje.',
+        ],
+    ],
+
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Wyszukiwanie',

@@ -16,7 +16,7 @@
             __('Gratuit') => $totals['free'],
             __('Administrateurs') => $totals['admins'],
             __('Comptes actifs') => $totals['active'],
-            __('Connexions') => $totals['logins'],
+            __('Jours de connexion') => $totals['logins'],
         ] as $label => $value)
             <div class="rounded-xl border border-stone-200 bg-white p-3 shadow-sm">
                 <dt class="text-xs text-stone-500">{{ $label }}</dt>
@@ -87,7 +87,10 @@
                         </td>
                         <td class="px-3 py-2">{{ $row['ai'] ? __('Oui') : __('Non') }}</td>
                         <td class="px-3 py-2 whitespace-nowrap">{{ trans_choice(':count comme MJ|:count comme MJ', $row['campaigns']) }}<span class="block text-xs text-stone-500">{{ trans_choice(':count autre accès|:count autres accès', $row['memberships']) }}</span></td>
-                        <td class="px-3 py-2 tabular-nums">{{ $row['logins'] }}</td>
+                        <td class="px-3 py-2 tabular-nums">
+                            <span title="{{ __('Jours avec au moins une connexion sur la période') }}">{{ $row['logins'] }}</span>
+                            <span class="block text-xs whitespace-nowrap text-stone-500">{{ $row['last_login'] ? __('dernière : :date', ['date' => $row['last_login']->isoFormat('L')]) : __('jamais') }}</span>
+                        </td>
                         <td class="px-3 py-2 text-right whitespace-nowrap">
                             <button type="button" wire:click="edit({{ $editingId === $user->id ? 'null' : $user->id }})" class="link">{{ $editingId === $user->id ? __('Fermer') : __('Gérer') }}</button>
                         </td>

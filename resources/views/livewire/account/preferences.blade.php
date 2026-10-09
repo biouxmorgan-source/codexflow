@@ -18,6 +18,9 @@
             @if ($plan === 'trial')
                 <div><dt class="text-stone-500">{{ __('Fin de l’essai') }}</dt><dd>{{ \App\Support\Plans\Plans::trialEndsAt($me)->isoFormat('LL') }}</dd></div>
             @endif
+            @if ($me->plan_started_at && $plan === 'premium')
+                <div><dt class="text-stone-500">{{ __('Début de l’abonnement') }}</dt><dd>{{ $me->plan_started_at->isoFormat('LL') }}</dd></div>
+            @endif
             @if ($me->plan_ends_at && $plan === 'premium')
                 <div><dt class="text-stone-500">{{ __('Fin de l’abonnement') }}</dt><dd>{{ $me->plan_ends_at->isoFormat('LL') }}</dd></div>
             @endif
@@ -55,6 +58,9 @@
                 @endif
             </div>
             <p class="mt-2 text-xs text-stone-500">{{ __('Paiement sécurisé par Stripe : LoreMundi ne voit jamais votre carte. Résiliable à tout moment, le premium dure jusqu’à la fin de la période payée.') }}</p>
+        @elseif (! $me->is_admin && $plan !== 'premium')
+            {{-- Paiement pas encore ouvert sur cette installation : on le dit plutôt que de ne rien montrer. --}}
+            <p class="mt-4 text-sm text-stone-600">{{ __('Le passage à Premium ouvrira bientôt. En attendant, votre formule reste celle indiquée ci-dessus.') }}</p>
         @endif
         <p class="mt-2 text-xs text-stone-500">{{ __('Jouer, être co-MJ ou spectateur dans la campagne d’un autre ne compte pas : vous profitez alors de la formule de son MJ.') }}</p>
     </section>

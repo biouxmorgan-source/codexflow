@@ -10,6 +10,8 @@ use Livewire\Component;
 
 /**
  * « Signaler un problème » : le message arrive aux administrateurs, avec la page concernée.
+ * Ouvert aussi sans compte (on ne peut pas se connecter, on ne peut pas s'inscrire) : il faut
+ * alors une adresse pour répondre, et les envois sont limités par adresse IP.
  */
 class ReportBug extends Component
 {
@@ -21,17 +23,36 @@ class ReportBug extends Component
 
     public bool $sent = false;
 
+    /** Sans compte : l'adresse à laquelle répondre. */
+    public string $contact = '';
+
+    /** Piège à robots : un champ caché que personne ne remplit. */
+    public string $website = '';
+
     public function send(): void
     {
-        $this->validate(['message' => ['required', 'string', 'min:10', 'max:5000']], [
+        $guest = ! auth()->check();
+
+        $this->validate([
+            'message' => ['required', 'string', 'min:10', 'max:5000'],
+            'contact' => $guest ? ['required', 'email', 'max:255'] : ['nullable'],
+        ], [
             'message.required' => __('Décrivez ce qui s’est passé.'),
             'message.min' => __('Décrivez le problème en au moins :min caractères.'),
             'message.max' => __('Votre description ne doit pas dépasser :max caractères.'),
-        ]);
+        ], ['contact' => __('adresse e-mail')]);
 
-        $key = 'bug-report:'.auth()->id();
+        // Un robot a rempli le champ caché : on fait comme si de rien n'était.
+        if ($this->website !== '') {
+            $this->reset('message', 'contact', 'website');
+            $this->sent = true;
 
-        if (RateLimiter::tooManyAttempts($key, 10)) {
+            return;
+        }
+
+        $key = $guest ? 'bug-report-guest:'.request()->ip() : 'bug-report:'.auth()->id();
+
+        if (RateLimiter::tooManyAttempts($key, $guest ? 3 : 10)) {
             $this->addError('message', __('Vous avez envoyé beaucoup de signalements : réessayez dans une heure.'));
 
             return;
@@ -46,14 +67,17 @@ class ReportBug extends Component
             'user_agent' => mb_substr((string) request()->userAgent(), 0, 512),
             'locale' => app()->getLocale(),
             'version' => Changelog::version(),
+            'contact_email' => $guest ? mb_strtolower(trim($this->contact)) : null,
         ]);
 
-        $this->reset('message');
+        $this->reset('message', 'contact');
         $this->sent = true;
     }
 
     public function render()
     {
-        return view('livewire.support.report-bug')->title(__('Signaler un problème'));
+        return view('livewire.support.report-bug')
+            ->layout(auth()->check() ? 'components.layouts.app' : 'components.layouts.public')
+            ->title(__('Signaler un problème'));
     }
 }

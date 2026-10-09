@@ -26,4 +26,7 @@
         <a href="{{ route('password.request') }}" class="link">{{ __('Mot de passe oublié ?') }}</a>
         <a href="{{ route('register') }}" class="link">{{ __('Créer un compte') }}</a>
     </div>
+    <p class="mt-6 text-center text-xs text-stone-500">
+        <a href="{{ route('bugs.create', ['page' => '/'.request()->path()]) }}" class="hover:underline">{{ __('Un problème pour vous connecter ou vous inscrire ? Signalez-le.') }}</a>
+    </p>
 </x-layouts.guest>

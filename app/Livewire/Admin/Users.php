@@ -6,7 +6,9 @@ use App\Models\User;
 use App\Models\UserLogin;
 use App\Support\Plans\Plans;
 use App\Support\Plans\StorageUsage;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
@@ -72,8 +74,10 @@ class Users extends Component
             ->withCount([
                 'ownedCampaigns',
                 'campaigns',
-                'logins' => fn ($query) => $query->where('logged_in_at', '>=', now()->subDays($period)),
+                // Jours avec au moins une connexion : plusieurs connexions le même jour comptent une fois.
+                'logins' => fn ($query) => $query->where('logged_in_at', '>=', now()->subDays($period))->select(DB::raw('count(distinct date(logged_in_at))')),
             ])
+            ->withMax('logins', 'logged_in_at')
             ->get()
             ->map(function (User $user) {
                 $used = StorageUsage::bytes($user);
@@ -89,6 +93,7 @@ class Users extends Component
                     'campaigns' => $user->owned_campaigns_count,
                     'memberships' => $user->campaigns_count - $user->owned_campaigns_count,
                     'logins' => $user->logins_count,
+                    'last_login' => $user->logins_max_logged_in_at ? Carbon::parse($user->logins_max_logged_in_at) : null,
                 ];
             });
 
@@ -121,7 +126,7 @@ class Users extends Component
             'free' => $plans[Plans::FREE] ?? 0,
             'admins' => $plans[Plans::ADMIN] ?? 0,
             'active' => UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->distinct('user_id')->count('user_id'),
-            'logins' => UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->count(),
+            'logins' => (int) UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->selectRaw('count(distinct (user_id, date(logged_in_at))) as days')->value('days'),
         ];
     }
 

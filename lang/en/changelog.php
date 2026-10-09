@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.39.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Account and administration',
+        'items' => [
+            'You can report a problem without an account, from the login and sign-up pages or the help, leaving an address for the reply.',
+            'Preferences show the subscription start date, and that upgrading to Premium will open soon while payment isn\'t set up.',
+            'Admin console: login days instead of logins, date of the last login, and a warning when push sending is impossible or fails.',
+        ],
+    ],
+
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Search',

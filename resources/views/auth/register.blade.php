@@ -28,4 +28,7 @@
     <p class="mt-6 text-center text-sm">
         {{ __('Déjà inscrit ?') }} <a href="{{ route('login') }}" class="link">{{ __('Se connecter') }}</a>
     </p>
+    <p class="mt-6 text-center text-xs text-stone-500">
+        <a href="{{ route('bugs.create', ['page' => '/'.request()->path()]) }}" class="hover:underline">{{ __('Un problème pour vous connecter ou vous inscrire ? Signalez-le.') }}</a>
+    </p>
 </x-layouts.guest>

@@ -99,7 +99,7 @@
                     @endif
                     @if ($item->source === 'report')
                         <p class="mt-2 text-xs break-all text-stone-500">
-                            {{ $item->user?->email ?? __('Compte supprimé') }}
+                            {{ $item->user?->email ?? ($item->contact_email ? __('Sans compte : :email', ['email' => $item->contact_email]) : __('Compte supprimé')) }}
                             @if ($item->url) · {{ $item->url }} @endif
                             · {{ $item->locale }} · LoreMundi {{ $item->version }} · {{ $item->user_agent }}
                         </p>
