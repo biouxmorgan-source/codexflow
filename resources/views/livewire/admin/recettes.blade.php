@@ -10,8 +10,13 @@
             @foreach ($this->recettes as $item)
                 <li wire:key="recette-{{ $item->id }}">
                     <button type="button" wire:click="$set('recetteId', {{ $item->id }})" @class(['rounded-lg border px-3 py-2 text-left text-sm', 'border-codex bg-codex-soft' => $item->id === $recetteId, 'border-stone-200 bg-white hover:border-codex' => $item->id !== $recetteId])>
-                        <span class="block font-medium">{{ $item->title }}</span>
-                        <span class="text-xs text-stone-500">{{ __('Version :version · :date · :count lignes', ['version' => $item->version, 'date' => $item->tested_on->isoFormat('L'), 'count' => $item->items_count]) }}</span>
+                        <span class="block font-medium">{{ __('Recette v:version', ['version' => $item->version]) }}</span>
+                        <span class="text-xs text-stone-500">
+                            {{ __('Testée le :date · :count lignes', ['date' => $item->tested_on->isoFormat('L'), 'count' => $item->items_count]) }}
+                            @if ($item->score !== null)
+                                · {{ \Illuminate\Support\Number::format($item->score, 1, locale: app()->getLocale()) }}/100
+                            @endif
+                        </span>
                     </button>
                 </li>
             @endforeach
@@ -21,7 +26,7 @@
     @if ($recette = $this->recette)
         <section class="mb-6 rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
             <div class="flex flex-wrap items-baseline justify-between gap-3">
-                <h2 class="text-xl font-semibold">{{ $recette->title }}</h2>
+                <h2 class="text-xl font-semibold">{{ __('Recette v:version', ['version' => $recette->version]) }}</h2>
                 @if ($recette->score !== null)
                     <p class="text-sm">
                         <span class="text-2xl font-semibold tabular-nums">{{ \Illuminate\Support\Number::format($recette->score, 1, locale: app()->getLocale()) }}</span>/100
@@ -34,7 +39,7 @@
             @if ($recette->summary)
                 <details class="mt-3" open>
                     <summary class="cursor-pointer text-sm font-medium text-codex">{{ __('Synthèse') }}</summary>
-                    <div class="recette-summary mt-3 space-y-3 text-sm text-stone-700 [&_h3]:mt-4 [&_h3]:font-semibold [&_h3]:text-ink [&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-stone-200 [&_td]:px-2 [&_td]:py-1 [&_th]:border [&_th]:border-stone-200 [&_th]:bg-stone-50 [&_th]:px-2 [&_th]:py-1 [&_th]:text-left">
+                    <div class="recette-summary mt-3 space-y-3 text-sm text-stone-700 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5 [&_h3]:mt-4 [&_h3]:font-semibold [&_h3]:text-ink [&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-stone-200 [&_td]:px-2 [&_td]:py-1 [&_th]:border [&_th]:border-stone-200 [&_th]:bg-stone-50 [&_th]:px-2 [&_th]:py-1 [&_th]:text-left">
                         {!! \Illuminate\Support\Str::markdown($recette->summary, ['html_input' => 'escape', 'allow_unsafe_links' => false]) !!}
                     </div>
                 </details>

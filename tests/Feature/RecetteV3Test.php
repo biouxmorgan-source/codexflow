@@ -17,12 +17,14 @@ use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
+use App\Models\Recette;
 use App\Models\Rule;
 use App\Models\TimelineEvent;
 use App\Models\User;
 use App\Models\UserLogin;
 use App\Models\World;
 use App\Support\CampaignFeatures;
+use App\Support\RecetteImport;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -248,5 +250,15 @@ class RecetteV3Test extends TestCase
         CampaignFeatures::toggle($this->campaign, 'table');
 
         $this->actingAs($viewer)->get(route('campaigns.index'))->assertOk()->assertDontSee(route('table.screen', $this->campaign));
+    }
+
+    public function test_recettes_are_named_by_tested_version_and_imported_once_per_version(): void
+    {
+        Recette::create(['title' => 'Cahier de recette V1', 'version' => '0.13.1', 'tested_on' => '2026-10-08']);
+
+        RecetteImport::all();
+
+        $this->assertSame(1, Recette::where('version', '0.13.1')->count(), 'Un cahier renommé n’est pas ajouté une seconde fois.');
+        $this->assertSame(['Recette v0.25.0', 'Recette v0.34.0'], Recette::where('version', '!=', '0.13.1')->orderBy('version')->pluck('title')->all());
     }
 }
