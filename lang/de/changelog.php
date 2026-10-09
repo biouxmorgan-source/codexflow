@@ -4,6 +4,17 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.36.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Komfort für SL und Sitzung',
+        'items' => [
+            'Die Seiten eines am Tisch gezeigten PDFs lassen sich über die Fernbedienung, auf der Dokumentseite oder mit den Pfeilen des SL-Bildschirms umblättern, und die Spieler, die dem Bildschirm folgen, blättern mit. Der PDF-Betrachter zeigt „Seite n / N“ und springt zu einer Seite.',
+            'Im Sitzungsmodus fügt „Gespieltes Ereignis“ den eingegebenen Text der Chronik hinzu, verknüpft mit der laufenden Sitzung und Szene.',
+            'Eine Figur kann jedem ihrer früheren Spieler zurückgegeben werden, der in die Kampagne zurückkehrt; er findet seinen eigenen privaten Austausch mit der SL wieder, ohne den der Spieler dazwischen.',
+            'Der Status eines Eintrags steht unter seinem Titel; vorgefertigte Figuren (Tag „vorgefertigt“) stehen bei „Neue Figur“ oben; die Zähler der Tag-Seite listen die Elemente auf; eine mehrfach geladene Demo nummeriert Kampagne, Spiel und Welt; die Zuschauerrolle sagt, dass sie den Tischbildschirm auch ungeteilt sieht.',
+        ],
+    ],
+
     '0.35.0' => [
         'date' => '2026-10-09',
         'title' => 'Korrekturen aus der Abschlussabnahme',

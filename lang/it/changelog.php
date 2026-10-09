@@ -4,6 +4,17 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.36.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Comodità del Master e della sessione',
+        'items' => [
+            'Le pagine di un PDF mostrato al tavolo si girano dal telecomando, dalla pagina del documento o con le frecce dello schermo del Master, e i giocatori che seguono lo schermo girano con lui. Il lettore PDF indica «pagina n / N» e permette di andare a una pagina.',
+            'In modalità Sessione, «Evento giocato» aggiunge il testo scritto alla cronologia, legato alla sessione e alla scena in corso.',
+            'Un personaggio può essere restituito a uno qualsiasi dei suoi ex giocatori tornato nella campagna, che ritrova i propri scambi privati con il Master, senza quelli dei giocatori intermedi.',
+            'Lo stato di una scheda appare sotto il titolo; i pregenerati (tag «pregenerato») sono proposti per primi in «Nuovo personaggio»; i contatori della pagina Tag elencano gli elementi; una demo caricata più volte numera campagna, gioco e mondo; il ruolo spettatore precisa che vede lo schermo da tavolo anche non condiviso.',
+        ],
+    ],
+
     '0.35.0' => [
         'date' => '2026-10-09',
         'title' => 'Correzioni del collaudo finale',

@@ -13,6 +13,9 @@
         @unless ($compact)
             <a href="{{ route('table.screen', $campaign) }}" target="loremundi-table" class="text-sm link">{{ __("Ouvrir l'écran") }}</a>
         @endunless
+        @if ($pdfPages && ! $compact)
+            <x-table-pages :page="$pdfPages['page']" :pages="$pdfPages['pages']" />
+        @endif
     @else
         <button type="button" wire:click="show" @if ($gmOnly) wire:confirm="{{ __('Ce contenu est réservé au MJ. Le montrer à toute la table ?') }}" @endif @class(['btn-secondary' => ! $compact, 'text-xs link' => $compact]) title="{{ __("Montrer sur l'écran de table") }}">
             {{ $label ?: __('Afficher à la table') }}

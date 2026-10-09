@@ -75,7 +75,7 @@ class BacklogV3Test extends TestCase
         $this->actingAs($this->gm)->get(route('table.screen', $this->campaign))
             ->assertOk()
             ->assertSee("pdfViewer('".str_replace('/', '\\/', route('table.file', $this->campaign)), false)
-            ->assertSee("'screen')", false)
+            ->assertSee("'screen', 1, true)", false)
             ->assertDontSee('<iframe', false);
     }
 

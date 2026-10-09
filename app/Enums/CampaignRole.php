@@ -33,7 +33,7 @@ enum CampaignRole: string
         return match ($this) {
             self::GameMaster => __('Prépare et mène avec vous, avec accès à la zone MJ. Ne gère ni les membres ni la suppression.'),
             self::Player => __('Joue un personnage et voit ce que ce personnage connaît.'),
-            self::Spectator => __("Regarde l'écran de table, sans rien d'autre."),
+            self::Spectator => __("Regarde l'écran de table, même quand il n'est pas partagé aux joueurs (une télé, un projecteur), sans rien d'autre."),
         };
     }
 }

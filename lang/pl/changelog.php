@@ -4,6 +4,17 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.36.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Wygoda MG i sesji',
+        'items' => [
+            'Strony PDF-a pokazanego przy stole przewraca się z pilota, ze strony dokumentu lub strzałkami na ekranie MG, a gracze śledzący ekran przewracają je razem z nim. Przeglądarka PDF pokazuje „strona n / N” i pozwala przejść do strony.',
+            'W trybie Sesji „Rozegrane wydarzenie” dodaje wpisany tekst do chronologii, powiązany z bieżącą sesją i sceną.',
+            'Postać można oddać każdemu z jej dawnych graczy, który wraca do kampanii; odzyskuje on własne prywatne rozmowy z MG, bez rozmów graczy pośrednich.',
+            'Status karty widać pod jej tytułem; gotowe postacie (tag „gotowa postać”) są proponowane na początku w „Nowa postać”; liczniki na stronie Tagów pokazują oznaczone elementy; demo wczytane kilka razy numeruje kampanię, grę i świat; rola widza mówi, że widzi ekran stołu nawet nieudostępniony.',
+        ],
+    ],
+
     '0.35.0' => [
         'date' => '2026-10-09',
         'title' => 'Poprawki z końcowego testu odbiorczego',

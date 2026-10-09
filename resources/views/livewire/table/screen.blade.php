@@ -9,7 +9,11 @@
                 @if ($display['document']->isImage())
                     <img src="{{ route('table.file', [$campaign, 'v' => $display['key']]) }}" alt="{{ $display['document']->title }}" class="h-full w-full object-contain">
                 @elseif ($display['document']->isPdf())
-                    <x-pdf-viewer :url="route('table.file', [$campaign, 'v' => $display['key']])" :title="$display['document']->title" mode="screen" class="h-full w-full" wire:ignore />
+                    @php($leads = auth()->user()->can('update', $campaign))
+                    <x-pdf-viewer :url="route('table.file', [$campaign, 'v' => $display['key']])" :title="$display['document']->title" mode="screen" :page="$display['page']" :sync="$leads" class="h-full w-full" wire:ignore
+                        x-on:pdf-page-turned="$wire.turnTo($event.detail.page)" x-on:pdf-pages-known="$wire.knowPages($event.detail.pages)" />
+                    {{-- Seul l'écran du MJ ($sync) envoie ces deux événements. Page choisie par le MJ (télécommande, page du document) : l'écran la suit. --}}
+                    <span wire:key="pdf-page-{{ $display['page'] }}" x-init="$dispatch('table-pdf-page', { page: {{ $display['page'] }} })" hidden></span>
                 @else
                     <p class="p-12 text-center text-4xl font-semibold">{{ $display['document']->title }}</p>
                 @endif

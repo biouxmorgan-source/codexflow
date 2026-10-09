@@ -4,7 +4,7 @@
 // moins récents). Mode « scroll » : toutes les pages, rendues quand elles approchent ;
 // mode « screen » (écran de table) : une page à la fois, ajustée à l'écran, flèches pour tourner.
 document.addEventListener('alpine:init', () => {
-    window.Alpine.data('pdfViewer', (url, mode = 'scroll') => {
+    window.Alpine.data('pdfViewer', (url, mode = 'scroll', startPage = 1, sync = false) => {
         // Hors des données Alpine : les objets pdf.js ne doivent pas devenir réactifs.
         let pdf;
         let loading;
@@ -12,9 +12,10 @@ document.addEventListener('alpine:init', () => {
 
         return {
             status: 'loading',
-            page: 1,
+            page: Math.max(1, startPage),
             pages: 0,
             zoom: 1,
+            jump: '',
 
             async init() {
                 try {
@@ -26,7 +27,10 @@ document.addEventListener('alpine:init', () => {
                     loading = pdfjs.getDocument({ url, isEvalSupported: false, enableScripting: false, withCredentials: true });
                     pdf = await loading.promise;
                     this.pages = pdf.numPages;
+                    this.page = Math.min(this.page, this.pages);
                     this.status = 'ready';
+                    // L'écran du MJ donne le nombre de pages : la télécommande borne la navigation.
+                    if (sync) this.$dispatch('pdf-pages-known', { pages: this.pages });
                     await this.$nextTick();
                     mode === 'screen' ? await this.renderScreen() : await this.layoutScroll();
                 } catch (error) {
@@ -59,6 +63,34 @@ document.addEventListener('alpine:init', () => {
                     holder.style.aspectRatio = `1 / ${ratio}`;
                     pages.append(holder);
                     observer.observe(holder);
+                }
+            },
+
+            // Mode lecture : la page la plus haute visible donne « page n / N ».
+            track() {
+                const top = this.$refs.scroller.getBoundingClientRect().top + 40;
+                for (const holder of this.$refs.pages.children) {
+                    if (holder.getBoundingClientRect().bottom > top) {
+                        this.page = Number(holder.dataset.page);
+                        return;
+                    }
+                }
+            },
+
+            goTo(number) {
+                const target = Math.min(this.pages, Math.max(1, Number(number) || 1));
+                this.jump = '';
+                if (mode === 'screen') {
+                    if (target !== this.page) {
+                        this.page = target;
+                        this.renderScreen();
+                    }
+                    return;
+                }
+                const holder = this.$refs.pages.children[target - 1];
+                if (holder) {
+                    this.$refs.scroller.scrollTop += holder.getBoundingClientRect().top - this.$refs.scroller.getBoundingClientRect().top - 12;
+                    this.page = target;
                 }
             },
 
@@ -97,7 +129,18 @@ document.addEventListener('alpine:init', () => {
                 if (next !== this.page) {
                     this.page = next;
                     this.renderScreen();
+                    // Le MJ tourne la page sur son écran : les joueurs qui suivent tournent avec lui.
+                    if (sync) this.$dispatch('pdf-page-turned', { page: next });
                 }
+            },
+
+            // Page choisie ailleurs (télécommande, page du document) ; avant chargement, retenue.
+            follow(number) {
+                if (this.status !== 'ready') {
+                    this.page = Math.max(1, Number(number) || 1);
+                    return;
+                }
+                this.goTo(number);
             },
 
             setZoom(delta) {

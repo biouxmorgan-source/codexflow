@@ -107,13 +107,18 @@ class Message extends Model
 
         $query->where(fn (Builder $q) => $q
             ->whereNull('player_character_id')
-            // Conversation privée de son personnage, depuis qu'il le joue : pas celle de l'ancien joueur.
+            // Conversation privée du personnage qu'il joue, sur ses propres périodes : pas celle
+            // d'un autre joueur, mais la sienne d'avant, s'il retrouve son personnage.
             ->orWhereExists(fn ($sub) => $sub->from('player_characters')
                 ->whereColumn('player_characters.id', 'messages.player_character_id')
                 ->where('player_characters.campaign_id', $campaign->id)
                 ->where('player_characters.user_id', $user->id)
-                ->where(fn ($q) => $q->whereNull('player_characters.assigned_at')
-                    ->orWhereColumn('messages.created_at', '>=', 'player_characters.assigned_at'))));
+                ->whereExists(fn ($period) => $period->from('character_assignments')
+                    ->whereColumn('character_assignments.player_character_id', 'player_characters.id')
+                    ->where('character_assignments.user_id', $user->id)
+                    ->whereColumn('messages.created_at', '>=', 'character_assignments.started_at')
+                    ->where(fn ($q) => $q->whereNull('character_assignments.ended_at')
+                        ->orWhereColumn('messages.created_at', '<', 'character_assignments.ended_at')))));
     }
 
     /**

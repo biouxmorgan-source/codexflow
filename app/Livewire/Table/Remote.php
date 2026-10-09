@@ -125,6 +125,14 @@ class Remote extends Component
         $this->reset('text');
     }
 
+    /** Page précédente ou suivante du PDF affiché, pour l'écran et les joueurs qui le suivent. */
+    public function turn(int $delta): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableDisplay::turn($this->campaign->refresh(), $delta);
+    }
+
     /** Déplace la vue de la carte affichée d'un quart d'écran. */
     public function pan(int $dx, int $dy): void
     {
@@ -186,6 +194,9 @@ class Remote extends Component
         return view('livewire.table.remote', [
             'label' => TableDisplay::label($this->campaign),
             'shown' => TableDisplay::current($this->campaign) !== null,
+            'pdf' => TableDisplay::showsPdf($this->campaign),
+            'page' => TableDisplay::page($this->campaign),
+            'pages' => TableDisplay::pages($this->campaign),
             'scene' => $this->campaign->openSession()?->currentScene,
             'map' => $map,
             'maps' => CampaignFeatures::enabled($this->campaign, 'maps') ? $this->campaign->maps()->get(['id', 'name', 'campaign_id']) : collect(),

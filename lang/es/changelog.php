@@ -4,6 +4,17 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.36.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Comodidad del DJ y de la sesión',
+        'items' => [
+            'Las páginas de un PDF mostrado en la mesa se pasan desde el mando, desde la página del documento o con las flechas de la pantalla del DJ, y los jugadores que siguen la pantalla pasan con ella. El visor PDF indica «página n / N» y permite ir a una página.',
+            'En el modo Sesión, «Evento jugado» añade el texto escrito a la cronología, vinculado a la sesión y la escena en curso.',
+            'Un personaje puede devolverse a cualquiera de sus antiguos jugadores que vuelva a la campaña, que recupera sus propios intercambios privados con el DJ, sin los de los jugadores intermedios.',
+            'El estado de una ficha aparece bajo su título; los pregenerados (etiqueta «pregenerado») aparecen primero en «Nuevo personaje»; los contadores de la página Etiquetas listan los elementos; una demo cargada varias veces numera su campaña, juego y mundo; el rol espectador indica que ve la pantalla de mesa aunque no esté compartida.',
+        ],
+    ],
+
     '0.35.0' => [
         'date' => '2026-10-09',
         'title' => 'Correcciones de la prueba de aceptación final',

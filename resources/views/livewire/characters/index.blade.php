@@ -22,7 +22,7 @@
 
     @foreach ($this->returning as $character)
         <div wire:key="returning-{{ $character->id }}" class="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900" role="status">
-            <span>{{ __(':player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.', ['player' => $character->previousPlayer->name, 'character' => $character->entity->name]) }}</span>
+            <span>{{ __(':player est de retour dans la campagne. :character, son ancien personnage, est sans joueur.', ['player' => $character->returnee->name, 'character' => $character->entity->name]) }}</span>
             <button type="button" wire:click="giveBack({{ $character->id }})" class="btn-secondary">{{ __('Lui rendre :name', ['name' => $character->entity->name]) }}</button>
         </div>
     @endforeach
@@ -162,7 +162,7 @@
                         <label for="entityChoice" class="label">{{ __('Fiche') }}</label>
                         <select id="entityChoice" wire:model.live="entityChoice" class="field">
                             <option value="new">{{ __('Créer une nouvelle fiche') }}</option>
-                            @foreach ($this->candidates->groupBy(fn ($candidate) => $candidate->isWorldEntity() ? __('Fiches du monde (copiées dans la campagne)') : __('Fiches de la campagne')) as $group => $candidates)
+                            @foreach ($this->candidateGroups as $group => $candidates)
                                 <optgroup label="{{ $group }}">
                                     @foreach ($candidates as $candidate)
                                         <option value="{{ $candidate->id }}">{{ $candidate->name }}</option>
@@ -171,6 +171,7 @@
                             @endforeach
                         </select>
                         @error('entityChoice') <p class="error">{{ $message }}</p> @enderror
+                        <p class="mt-1 text-xs text-stone-500">{{ __('Les fiches portant le tag « prétiré » sont proposées en tête.') }}</p>
                     </div>
                 @endif
                 @if ($entityChoice === 'new')

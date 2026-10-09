@@ -4,6 +4,17 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.36.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Confort du MJ et de la séance',
+        'items' => [
+            'Les pages d’un PDF affiché à la table se tournent depuis la télécommande, depuis la page du document ou avec les flèches de l’écran du MJ, et les joueurs qui suivent l’écran tournent avec lui. Le lecteur PDF indique « page n / N » et permet d’aller à une page.',
+            'En Mode Session, « Événement joué » ajoute le texte saisi à la chronologie, rattaché à la séance et à la scène en cours.',
+            'Un personnage se rend à n’importe lequel de ses anciens joueurs revenu dans la campagne, qui retrouve ses propres échanges privés avec le MJ, sans ceux des joueurs intermédiaires.',
+            'Le statut d’une fiche s’affiche sous son titre ; les prétirés (tag « prétiré ») sont proposés en tête dans « Nouveau personnage » ; les compteurs de la page Tags listent les éléments tagués ; une démonstration chargée plusieurs fois numérote sa campagne, son jeu et son monde ; le rôle spectateur précise qu’il voit l’écran de table même non partagé.',
+        ],
+    ],
+
     '0.35.0' => [
         'date' => '2026-10-09',
         'title' => 'Corrections de la recette finale',

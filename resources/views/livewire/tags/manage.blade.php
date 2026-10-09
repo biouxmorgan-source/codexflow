@@ -57,7 +57,11 @@
                                         $tag->rules_count ? trans_choice(':count règle|:count règles', $tag->rules_count) : null,
                                         $tag->documents_count ? trans_choice(':count document|:count documents', $tag->documents_count) : null,
                                     ]))
-                                    {{ $parts ? implode(' · ', $parts) : __('Inutilisé') }}
+                                    @if ($parts)
+                                        <button type="button" wire:click="toggleItems({{ $tag->id }})" class="link" aria-expanded="{{ $openId === $tag->id ? 'true' : 'false' }}" title="{{ __('Voir les éléments qui portent ce tag') }}">{{ implode(' · ', $parts) }}</button>
+                                    @else
+                                        {{ __('Inutilisé') }}
+                                    @endif
                                 </span>
                             </span>
                             <span class="flex shrink-0 items-center gap-1 text-sm">
@@ -68,6 +72,22 @@
                                 <button type="button" wire:click="delete({{ $tag->id }})" wire:confirm="{{ __('Supprimer le tag :name ? Les éléments qui le portent sont conservés.', ['name' => $tag->name]) }}" class="rounded px-2 py-1 text-red-700 hover:underline">{{ __('Supprimer') }}</button>
                             </span>
                         </div>
+                        @if ($openId === $tag->id)
+                            <ul class="mt-3 space-y-1 border-t border-stone-100 pt-3 text-sm">
+                                @foreach ($this->items as $item)
+                                    <li class="flex flex-wrap items-baseline gap-x-2">
+                                        <span class="w-20 shrink-0 text-xs text-stone-500">{{ $item['type'] }}</span>
+                                        @if ($item['url'])
+                                            <a href="{{ $item['url'] }}" class="link" wire:navigate>{{ $item['label'] }}</a>
+                                            <span class="text-xs text-stone-500">{{ $item['place'] }}</span>
+                                        @else
+                                            <span>{{ $item['label'] }}</span>
+                                            <span class="text-xs text-stone-500">{{ __('(dans aucune de vos campagnes)') }}</span>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                         @if ($mergingId === $tag->id)
                             <form wire:submit="merge" class="mt-3 flex flex-wrap items-end gap-2 rounded-lg bg-codex-soft p-3">
                                 <div class="min-w-48 flex-1">

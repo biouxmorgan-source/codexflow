@@ -13,9 +13,12 @@
             @endif
             <div>
                 <h1 class="text-2xl font-semibold">{{ $entity->name }}</h1>
-                <p class="mt-1 text-sm text-stone-600">
-                    {{ $entity->type->name }} ·
-                    {{ $entity->isWorldEntity() ? __('Monde « :name »', ['name' => $entity->world->name]) : __('Propre à cette campagne') }}
+                <p class="mt-1 flex flex-wrap items-center gap-x-1 text-sm text-stone-600">
+                    <span>{{ $entity->type->name }} ·
+                    {{ $entity->isWorldEntity() ? __('Monde « :name »', ['name' => $entity->world->name]) : __('Propre à cette campagne') }}</span>
+                    @if ($savedStatus)
+                        <span class="rounded-full bg-flow/10 px-2 py-0.5 text-xs font-medium text-flow" title="{{ __('Statut dans cette campagne') }}">{{ $savedStatus }}</span>
+                    @endif
                 </p>
                 <p class="mt-2 flex flex-wrap items-center gap-1">
                     @foreach ($entity->tags as $entityTag)

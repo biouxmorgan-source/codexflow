@@ -192,8 +192,14 @@
                             </ul>
                         </div>
                         <button type="submit" class="btn-primary">{{ __('Noter') }}</button>
+                        @if (\App\Support\CampaignFeatures::usable($campaign, 'timeline'))
+                            <button type="button" wire:click="addPlayedEvent" class="btn-secondary" title="{{ __('Ajouter ce texte à la chronologie, comme événement joué de cette séance et de cette scène') }}">{{ __('Événement joué') }}</button>
+                        @endif
                     </form>
                     @error('noteBody') <p class="error">{{ $message }}</p> @enderror
+                    @if ($eventAdded !== '')
+                        <p class="mt-2 text-sm text-codex" role="status">{{ __('Ajouté à la chronologie : :title', ['title' => $eventAdded]) }}</p>
+                    @endif
                     <ul class="mt-3 space-y-2 text-sm">
                         @foreach ($this->notes as $note)
                             <li wire:key="note-{{ $note->id }}" class="flex gap-3">

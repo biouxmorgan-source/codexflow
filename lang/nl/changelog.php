@@ -4,6 +4,17 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.36.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Comfort voor SL en sessie',
+        'items' => [
+            'De pagina\'s van een pdf die aan tafel wordt getoond, sla je om via de afstandsbediening, op de documentpagina of met de pijlen van het SL-scherm, en spelers die het scherm volgen, bladeren mee. De pdf-viewer toont ‘pagina n / N’ en springt naar een pagina.',
+            'In de sessiemodus voegt ‘Gespeelde gebeurtenis’ de ingetypte tekst toe aan de tijdlijn, gekoppeld aan de huidige sessie en scène.',
+            'Een personage kan teruggegeven worden aan elk van zijn vroegere spelers die terugkeert in de campagne; die krijgt zijn eigen privégesprekken met de SL terug, zonder die van de tussenliggende spelers.',
+            'De status van een kaart staat onder de titel; kant-en-klare personages (tag ‘kant-en-klaar’) staan bovenaan bij ‘Nieuw personage’; de tellers op de tagpagina tonen de items; een demo die meerdere keren is geladen nummert campagne, spel en wereld; de toeschouwersrol vermeldt dat die het tafelscherm ook ongedeeld ziet.',
+        ],
+    ],
+
     '0.35.0' => [
         'date' => '2026-10-09',
         'title' => 'Correcties uit de eindacceptatietest',
