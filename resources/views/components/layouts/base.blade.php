@@ -53,9 +53,12 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body {{ $attributes->merge(['class' => 'min-h-screen bg-parchment font-sans text-ink antialiased']) }}>
+        {{-- Hors ligne : bandeau, et la page passe en lecture seule (classe « is-offline », voir app.css). --}}
         <div x-data="{ online: navigator.onLine && ! document.querySelector('meta[name=loremundi-offline]') }" x-on:online.window="online = ! document.querySelector('meta[name=loremundi-offline]')" x-on:offline.window="online = false" x-show="! online" x-cloak role="status"
+            x-effect="document.documentElement.classList.toggle('is-offline', ! online)"
             class="sticky top-0 z-50 bg-flow px-4 py-2 text-center text-sm font-medium text-on-accent">
             {{ __('Hors ligne : vous consultez la dernière version enregistrée sur cet appareil.') }}
+            <span class="block text-xs font-normal">{{ __('Les boutons et champs sont désactivés jusqu’au retour de la connexion.') }}</span>
         </div>
         {{ $slot }}
     </body>

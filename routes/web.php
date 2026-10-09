@@ -10,6 +10,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ImportExampleController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\ManifestController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\SeoController;
@@ -63,6 +64,7 @@ use Illuminate\Support\Facades\Route;
 // Accueil public (présentation, référencement) ; un compte connecté va droit à ses campagnes.
 Route::get('/', fn () => auth()->check() ? redirect()->route('campaigns.index') : view('pages.home'))->name('home');
 Route::view('/aide', 'pages.help')->name('help');
+Route::get('/manifest.webmanifest', ManifestController::class)->name('manifest');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 

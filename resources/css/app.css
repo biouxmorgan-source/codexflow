@@ -229,6 +229,13 @@
     display: none !important;
 }
 
+/* Hors ligne : la page enregistrée se lit, mais rien ne s'envoie au serveur (compteurs, notes,
+   « Modifier »…). Liens et boutons d'affichage (Alpine) restent actifs ; data-offline-ok garde un contrôle. */
+.is-offline :is([wire\:click], [wire\:change], [wire\:model], [wire\:model\.live], [wire\:model\.blur], form[wire\:submit] :is(button, input, select, textarea), form[method='POST'] button, a[href*='/modifier']):not([data-offline-ok]) {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
 /* Mode focus de l'écran de session : seule la partie utile reste à l'écran. */
 .focus-mode > header {
     display: none;

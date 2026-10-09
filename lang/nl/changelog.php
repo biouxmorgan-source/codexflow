@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.40.0' => [
+        'date' => '2026-10-09',
+        'title' => 'App en beveiliging',
+        'items' => [
+            'De app op de telefoon heeft een beschrijving in uw taal en een pictogram dat past bij de ronde pictogrammen van Android.',
+            'Offline blijven pagina’s leesbaar en zijn bewerkknoppen grijs tot het netwerk terug is.',
+            'De browser accepteert nu alleen scripts, afbeeldingen en verbindingen van LoreMundi zelf.',
+        ],
+    ],
+
     '0.39.0' => [
         'date' => '2026-10-09',
         'title' => 'Account en beheer',
