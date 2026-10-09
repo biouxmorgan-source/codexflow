@@ -13,7 +13,7 @@
     @php($words = \App\Support\Search\GlobalSearch::words($q))
     @if ($words === [])
         <p class="text-stone-600">{{ __('Tapez au moins deux lettres. Tous les mots doivent apparaître ; les accents et majuscules ne comptent pas.') }}</p>
-    @elseif ($this->groups->isEmpty())
+    @elseif ($this->groups->isEmpty() && $this->library->isEmpty())
         <div class="rounded-xl border border-dashed border-stone-300 bg-white p-10 text-center">
             <p class="text-stone-600">{{ __('Aucun résultat pour « :query ».', ['query' => $q]) }}</p>
         </div>
@@ -45,6 +45,22 @@
                     </ul>
                 </section>
             @endforeach
+
+            @if ($this->library->isNotEmpty())
+                <section>
+                    <h2 class="mb-2 font-semibold">{{ __('Mondes et jeux sans campagne') }} <span class="text-sm font-normal text-stone-500">({{ $this->library->count() }})</span></h2>
+                    <ul class="divide-y divide-stone-100 rounded-xl border border-stone-200 bg-white shadow-sm">
+                        @foreach ($this->library as $item)
+                            <li>
+                                <a href="{{ $item['url'] }}" class="block px-4 py-3 hover:bg-codex-soft" wire:navigate>
+                                    <span class="font-medium text-codex">{{ \App\Support\Search\GlobalSearch::highlight($item['title'], $words) }}</span>
+                                    <span class="ml-1 text-xs text-stone-500">{{ $item['kind'] }} · {{ $item['subtitle'] }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </section>
+            @endif
         </div>
     @endif
 </div>

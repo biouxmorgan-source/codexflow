@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.38.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Recherche',
+        'items' => [
+            'La recherche trouve aussi les autres formes d’un mot en français : « lanternes » trouve « lanterne », « éteinte » trouve « éteintes ».',
+            'La recherche depuis l’accueil cherche aussi dans vos mondes et jeux qui ne sont rattachés à aucune campagne.',
+        ],
+    ],
+
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Joueurs et rôles',

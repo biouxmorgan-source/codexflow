@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.38.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Search',
+        'items' => [
+            'Search also finds other French forms of a word: “lanternes” finds “lanterne”, “éteinte” finds “éteintes”.',
+            'Search from the home page also looks in your worlds and games that aren\'t linked to any campaign.',
+        ],
+    ],
+
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Players and roles',

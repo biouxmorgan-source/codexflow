@@ -450,8 +450,22 @@ final class GlobalSearch
      */
     private function matchAll(Builder $query, string $haystack): void
     {
-        foreach ($this->words as $word) {
-            $query->whereRaw("unaccent(lower({$haystack})) like unaccent(lower(?))", ['%'.addcslashes($word, '%_\\').'%']);
+        self::whereWords($query, $haystack, $this->words);
+    }
+
+    /**
+     * Chaque mot doit figurer dans le texte : tel quel (accents et casse ignorés, même au milieu
+     * d'un mot), ou sous une autre forme du même mot en français (« lanternes » trouve « lanterne »,
+     * « marchait » trouve « marcher »).
+     *
+     * @param  list<string>  $words
+     */
+    public static function whereWords(Builder $query, string $haystack, array $words): void
+    {
+        foreach ($words as $word) {
+            $query->where(fn (Builder $q) => $q
+                ->whereRaw("unaccent(lower({$haystack})) like unaccent(lower(?))", ['%'.addcslashes($word, '%_\\').'%'])
+                ->orWhereRaw("to_tsvector('french', unaccent(coalesce({$haystack}, ''))) @@ plainto_tsquery('french', unaccent(?))", [$word]));
         }
     }
 
