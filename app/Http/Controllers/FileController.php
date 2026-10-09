@@ -73,7 +73,7 @@ class FileController
 
     private function libraryImage(GameSystem|World $item): StreamedResponse
     {
-        abort_unless($item->user_id === auth()->id(), 403);
+        Gate::authorize('view', $item);
         abort_unless($item->hasImage(), 404);
 
         return Storage::disk($item::IMAGE_DISK)->response($item->image_path, null, [

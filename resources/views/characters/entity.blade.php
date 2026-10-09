@@ -35,5 +35,48 @@
                 @endforeach
             </dl>
         @endif
+
+        @php($images = $attachments->filter->isImage())
+        @if ($images->isNotEmpty())
+            <section class="mt-6">
+                <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Illustrations') }}</h2>
+                <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    @foreach ($images as $attachment)
+                        <a href="{{ route('characters.entity-attachment', [$campaign, $character, $entity, $attachment]) }}" target="_blank" rel="noopener">
+                            <img src="{{ route('characters.entity-attachment', [$campaign, $character, $entity, $attachment]) }}" alt="{{ $attachment->original_name }}" class="aspect-square w-full rounded-lg border border-stone-200 object-cover" loading="lazy">
+                        </a>
+                    @endforeach
+                </div>
+            </section>
+        @endif
+        @php($files = $attachments->reject->isImage())
+        @if ($files->isNotEmpty())
+            <section class="mt-6">
+                <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Fichiers joints') }}</h2>
+                <ul class="space-y-1 text-sm">
+                    @foreach ($files as $attachment)
+                        <li><a href="{{ route('characters.entity-attachment', [$campaign, $character, $entity, $attachment]) }}" class="link" target="_blank" rel="noopener">{{ $attachment->original_name }}</a> <span class="text-stone-500">· {{ $attachment->humanSize() }}</span></li>
+                    @endforeach
+                </ul>
+            </section>
+        @endif
+
+        @if ($relations->isNotEmpty())
+            <section class="mt-6">
+                <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Relations') }}</h2>
+                <ul class="space-y-1 text-sm">
+                    @foreach ($relations as $item)
+                        <li>
+                            <span class="text-stone-600">{{ $item['relation']->labelFrom($entity) }}</span>
+                            @if ($item['other']->id === $character->entity_id)
+                                <span class="font-medium">{{ $item['other']->name }}</span>
+                            @else
+                                <a href="{{ $link($item['other']) }}" class="link">{{ $item['other']->name }}</a>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+            </section>
+        @endif
     </article>
 </x-layouts.app>

@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.37.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Joueurs et rôles',
+        'items' => [
+            'Une fiche révélée montre au joueur ses illustrations et fichiers de la zone publique, et ses relations publiques vers les fiches qu’il connaît.',
+            'Le joueur a un « Fil de la campagne » sur sa fiche : séances, événements joués connus de la table et messages au groupe.',
+            'Les co-MJ voient les pages du jeu et du monde en lecture seule, téléchargent l’archive et le modèle du jeu, et gèrent les champs si le propriétaire le coche dans « Membres ». Un co-MJ rétrogradé ne garde pas les notifications reçues comme MJ.',
+        ],
+    ],
+
     '0.36.0' => [
         'date' => '2026-10-09',
         'title' => 'Confort du MJ et de la séance',

@@ -7,13 +7,13 @@
         <div>
             <h1 class="text-2xl font-semibold">{{ $campaign->name }}</h1>
             <p class="mt-1 text-sm text-stone-600">
-                @if ($campaign->gameSystem->user_id === auth()->id())
+                @can('view', $campaign->gameSystem)
                     <a href="{{ route('games.show', $campaign->gameSystem) }}" class="crumb" wire:navigate>{{ $campaign->gameSystem->name }}</a>
                 @else
                     {{ $campaign->gameSystem->name }}
-                @endif
+                @endcan
                 ·
-                @if ($campaign->world && $campaign->world->user_id === auth()->id())
+                @if ($campaign->world && auth()->user()->can('view', $campaign->world))
                     <a href="{{ route('worlds.show', $campaign->world) }}" class="crumb" wire:navigate>{{ __('Monde : :name', ['name' => $campaign->world->name]) }}</a>
                 @else
                     {{ $campaign->world ? __('Monde : :name', ['name' => $campaign->world->name]) : __('Sans monde partagé') }}
@@ -58,8 +58,10 @@
         <x-tool-link :href="route('messages.index', $campaign)" icon="messages" :label="__('Messages')" :badge="$unread ?: null" />
         <x-tool-link :href="route('journal.index', $campaign)" icon="journal" :label="__('Journal')" />
         <x-tool-link :href="route('table.remote', $campaign)" icon="remote" :label="__('Télécommande')" feature="table" :campaign="$campaign" />
-        @can('update', $campaign->gameSystem)
+        @can('manageFields', [$campaign->gameSystem, $campaign])
             <x-tool-link :href="route('fields.index', $campaign)" icon="fields" :label="__('Champs du jeu')" />
+        @endcan
+        @can('update', $campaign->gameSystem)
             <x-tool-link :href="route('imports.create', $campaign)" icon="import" :label="__('Importer un fichier')" />
         @endcan
     </nav>
@@ -181,7 +183,10 @@
             @error('plan') <p class="error mt-2">{{ $message }}</p> @enderror
         </section>
         @endcannot
+    @endcan
 
+    {{-- Archive simple : propriétaire et co-MJ ; la sauvegarde complète reste au propriétaire. --}}
+    @can('update', $campaign)
         @cannot('use-feature', ['archive', $campaign])
             <x-premium-locked class="mt-6" :title="__('Exporter la campagne')" />
         @else
@@ -189,9 +194,11 @@
             <h2 class="mb-2 flex items-center gap-1 font-semibold">{{ __('Exporter la campagne') }} <x-premium feature="archive" /></h2>
             <p class="mb-3 text-sm text-stone-600">{{ __('Une archive .zip avec le jeu (champs, règles), le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Pour la sauvegarder ou la confier à un autre MJ, qui l’importe depuis « Mes campagnes ». Les joueurs, leurs personnages, les séances et le journal n’y sont pas.') }}</p>
             <a href="{{ route('archives.campaign', $campaign) }}" class="btn-secondary">{{ __('Télécharger l’archive') }}</a>
+            @can('duplicate', $campaign)
             <h3 class="mt-5 mb-1 text-sm font-semibold">{{ __('Sauvegarde complète') }}</h3>
             <p class="mb-3 text-sm text-stone-600">{{ __('La même archive avec la table : personnages et leurs fiches, ce qu’ils ont reçu, séances, notes de séance, notes partagées des joueurs, messages et journal. Les notes « Moi seul » et les adresses e-mail n’y figurent jamais. À l’import, les personnages reviennent sans joueur, prêts à être confiés ; messages et journal restent lisibles dans l’archive.') }}</p>
             <a href="{{ route('archives.campaign', [$campaign, 'complete' => 1]) }}" class="btn-secondary">{{ __('Télécharger la sauvegarde complète') }}</a>
+            @endcan
         </section>
         @endcannot
     @endcan

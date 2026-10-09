@@ -7,6 +7,7 @@ use App\Models\ActivityLog;
 use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\User;
+use App\Support\Notify;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
@@ -101,9 +102,20 @@ class Index extends Component
         if ($new !== CampaignRole::Player) {
             $this->releaseCharacters($userId);
         }
+        if ($member->pivot->role === CampaignRole::GameMaster) {
+            Notify::forgetGameMaster($member, $this->campaign);
+        }
         ActivityLog::record('member', $member->id, $member->name, 'updated', ['role' => ['old' => $member->pivot->role->value, 'new' => $new->value]], ['campaign_id' => $this->campaign->id]);
 
         unset($this->members);
+    }
+
+    /** Le propriétaire confie, ou reprend, la gestion des champs du jeu à ses co-MJ. */
+    public function toggleCoGameMasterFields(): void
+    {
+        $this->authorize('manage', $this->campaign);
+
+        $this->campaign->forceFill(['co_gm_manage_fields' => ! $this->campaign->co_gm_manage_fields])->save();
     }
 
     public function remove(int $userId): void
@@ -120,6 +132,9 @@ class Index extends Component
         }
 
         $this->campaign->members()->detach($userId);
+        if ($member->pivot->role === CampaignRole::GameMaster) {
+            Notify::forgetGameMaster($member, $this->campaign);
+        }
         $this->releaseCharacters($userId);
         ActivityLog::record('member', $member->id, $member->name, 'deleted', ['role' => ['old' => $member->pivot->role->value, 'new' => null]], ['campaign_id' => $this->campaign->id]);
 

@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.37.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Gracze i role',
+        'items' => [
+            'Odkryta karta pokazuje graczowi jej publiczne ilustracje i pliki oraz publiczne relacje z kartami, które zna.',
+            'Gracze mają na swojej karcie „Wątek kampanii”: sesje, rozegrane wydarzenia znane przy stole i wiadomości do grupy.',
+            'Współ-MG widzą strony gry i świata tylko do odczytu, pobierają archiwum i szablon gry oraz zarządzają polami, jeśli właściciel zaznaczy to w „Członkowie”. Zdegradowany współ-MG nie zachowuje powiadomień otrzymanych jako MG.',
+        ],
+    ],
+
     '0.36.0' => [
         'date' => '2026-10-09',
         'title' => 'Wygoda MG i sesji',

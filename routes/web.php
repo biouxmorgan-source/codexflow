@@ -141,6 +141,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/campagnes/{campaign}/personnages/{character}/portrait', [FileController::class, 'characterPortrait'])->name('characters.portrait')->middleware('offline')->whereNumber(['campaign', 'character']);
     Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}', [CharacterKnowledgeController::class, 'entity'])->name('characters.entity')->middleware('offline')->whereNumber(['campaign', 'character', 'entity']);
     Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}/image', [CharacterKnowledgeController::class, 'entityImage'])->name('characters.entity-image')->middleware('offline')->whereNumber(['campaign', 'character', 'entity']);
+    Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}/fichiers/{attachment}', [CharacterKnowledgeController::class, 'attachment'])->name('characters.entity-attachment')->middleware('offline')->whereNumber(['campaign', 'character', 'entity', 'attachment']);
     Route::get('/campagnes/{campaign}/personnages/{character}/documents/{document}', [CharacterKnowledgeController::class, 'document'])->name('characters.document')->middleware('offline')->whereNumber(['campaign', 'character', 'document']);
     Route::livewire('/campagnes/{campaign}/joueurs', MemberIndex::class)->name('members.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/messages', MessageIndex::class)->name('messages.index')->whereNumber('campaign');

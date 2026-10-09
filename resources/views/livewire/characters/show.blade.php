@@ -414,6 +414,28 @@
                 @endif
             </div>
 
+            {{-- Fil de la campagne : ce que toute la table sait (séances, événements joués, messages au groupe). --}}
+            <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-2 font-semibold">{{ __('Fil de la campagne') }}</h2>
+                @if ($this->feed->isEmpty())
+                    <p class="text-sm text-stone-600">{{ __("Rien pour l'instant.") }}</p>
+                @else
+                    <ol class="space-y-1 text-sm">
+                        @foreach ($this->feed as $item)
+                            <li wire:key="feed-{{ $loop->index }}" class="flex flex-wrap gap-x-2">
+                                <span class="text-stone-500">{{ $item['at']->isoFormat('D MMM, HH:mm') }}</span>
+                                <span class="text-xs text-stone-500 uppercase">{{ $item['kind'] }}</span>
+                                @if ($item['url'])
+                                    <a href="{{ $item['url'] }}" class="link min-w-0 break-words" wire:navigate>{{ $item['text'] }}</a>
+                                @else
+                                    <span class="min-w-0 break-words">{{ $item['text'] }}</span>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ol>
+                @endif
+            </div>
+
             {{-- Journal du personnage : seulement ce qui le concerne. --}}
             <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="mb-2 font-semibold">{{ __('Journal') }}</h2>

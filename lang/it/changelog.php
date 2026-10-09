@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.37.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Giocatori e ruoli',
+        'items' => [
+            'Una scheda rivelata mostra al giocatore le illustrazioni e i file pubblici, e le relazioni pubbliche verso schede che conosce.',
+            'I giocatori hanno una «Cronaca della campagna» sulla scheda: sessioni, eventi giocati noti al tavolo e messaggi al gruppo.',
+            'I co-Master vedono le pagine del gioco e del mondo in sola lettura, scaricano l’archivio e il modello del gioco, e gestiscono i campi se il proprietario lo spunta in «Membri». Un co-Master declassato non conserva le notifiche ricevute come Master.',
+        ],
+    ],
+
     '0.36.0' => [
         'date' => '2026-10-09',
         'title' => 'Comodità del Master e della sessione',

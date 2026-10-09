@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.37.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Spelers en rollen',
+        'items' => [
+            'Een onthulde kaart toont de speler de openbare illustraties en bestanden, en de openbare relaties met kaarten die hij kent.',
+            'Spelers hebben een ‘Campagneverloop’ op hun kaart: sessies, gespeelde gebeurtenissen die de tafel kent en berichten aan de groep.',
+            'Co-SL\'s zien de spel- en wereldpagina\'s alleen-lezen, downloaden het archief en het spelsjabloon, en beheren de velden als de eigenaar dat aanvinkt bij ‘Leden’. Een teruggezette co-SL houdt de meldingen die hij als SL kreeg niet.',
+        ],
+    ],
+
     '0.36.0' => [
         'date' => '2026-10-09',
         'title' => 'Comfort voor SL en sessie',

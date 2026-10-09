@@ -80,7 +80,7 @@
                     @error('description') <p class="error">{{ $message }}</p> @enderror
                 </div>
                 <x-field-inputs :definitions="$this->fieldDefinitions->where('zone', \App\Enums\Zone::Public)" :entities="$this->fieldChoices['entities']" :documents="$this->fieldChoices['documents']" />
-                @can('update', $campaign->gameSystem)
+                @can('manageFields', [$campaign->gameSystem, $campaign])
                     <p class="text-sm text-stone-500">
                         <a href="{{ route('fields.index', $campaign) }}" class="link" wire:navigate>{{ $this->fieldDefinitions->isEmpty() ? __('Ajouter des champs pour ce jeu') : __('Gérer les champs du jeu') }}</a>
                         {{ __('(caractéristiques, compétences, capacités…)') }}

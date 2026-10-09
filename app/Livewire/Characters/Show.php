@@ -14,13 +14,16 @@ use App\Models\CharacterNote;
 use App\Models\Entity;
 use App\Models\ExchangeRequest;
 use App\Models\FieldDefinition;
+use App\Models\Message;
 use App\Models\PlayerCharacter;
 use App\Models\Rule;
+use App\Models\TimelineEvent;
 use App\Models\ToPlayItem;
 use App\Support\CampaignFeatures;
 use App\Support\Locale;
 use App\Support\Notify;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Computed;
@@ -384,6 +387,32 @@ class Show extends Component
             ->latest('id')
             ->limit(30)
             ->get();
+    }
+
+    /**
+     * Fil de la campagne, vu par le joueur : séances, événements joués connus de la table et
+     * messages au groupe, du plus récent au plus ancien. Rien de la zone MJ, rien d'un autre personnage.
+     *
+     * @return \Illuminate\Support\Collection<int, array{at: Carbon, kind: string, text: string, url: ?string}>
+     */
+    #[Computed]
+    public function feed(): \Illuminate\Support\Collection
+    {
+        $sessions = $this->campaign->playSessions()->latest('started_at')->limit(10)->get()
+            ->map(fn ($session) => ['at' => $session->started_at, 'kind' => __('Séance'), 'text' => $session->label(), 'url' => null]);
+
+        $events = CampaignFeatures::enabled($this->campaign, 'timeline')
+            ? TimelineEvent::query()->where('campaign_id', $this->campaign->id)->visibleToPlayers()->latest('id')->limit(10)->get()
+                ->map(fn (TimelineEvent $event) => ['at' => $event->created_at, 'kind' => __('Événement'), 'text' => trim(($event->date_label ? $event->date_label.' · ' : '').$event->title), 'url' => route('timeline.index', $this->campaign)])
+            : collect();
+
+        $messages = Message::query()->where('campaign_id', $this->campaign->id)->whereNull('player_character_id')
+            ->with('senderCharacter.entity')->latest('id')->limit(10)->get()
+            ->map(fn (Message $message) => ['at' => $message->created_at, 'kind' => __('Message au groupe'), 'text' => $message->senderLabel().' : '.Notify::excerpt((string) $message->body, 140), 'url' => route('messages.index', $this->campaign)]);
+
+        return collect()->concat($sessions)->concat($events)->concat($messages)
+            ->filter(fn (array $item) => $item['at'] !== null)
+            ->sortByDesc('at')->take(15)->values();
     }
 
     public function saveNote(): void

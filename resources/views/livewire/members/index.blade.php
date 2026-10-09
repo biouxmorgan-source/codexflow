@@ -42,6 +42,12 @@
                 @if ($this->members->count() === 1)
                     <p class="mt-2 text-sm text-stone-600">{{ __("Personne d'autre pour l'instant : créez un lien d'invitation à droite.") }}</p>
                 @endif
+                @can('manage', $campaign)
+                    <label class="mt-4 flex items-start gap-2 text-sm text-stone-700">
+                        <input type="checkbox" wire:click="toggleCoGameMasterFields" @checked($campaign->co_gm_manage_fields) class="mt-0.5">
+                        <span>{{ __('Les co-MJ gèrent les champs du jeu') }} <span class="block text-stone-500">{{ __('Ils voient toujours, en lecture seule, les pages du jeu et du monde. Cochée, cette option leur permet aussi d’ajouter et de modifier les champs, qui servent à toutes les campagnes de ce jeu.') }}</span></span>
+                    </label>
+                @endcan
             </section>
 
             <section>

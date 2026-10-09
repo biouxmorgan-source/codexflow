@@ -35,7 +35,7 @@
         <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm md:col-span-2">
             <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
                 <h2 class="font-semibold">{{ __('Champs du jeu') }}</h2>
-                @if ($campaign)
+                @if ($campaign && auth()->user()->can('manageFields', [$gameSystem, $campaign]))
                     <a href="{{ route('fields.index', $campaign) }}" class="link text-sm" wire:navigate>{{ __('Gérer les champs →') }}</a>
                 @endif
             </div>

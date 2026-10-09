@@ -2,7 +2,7 @@
 <nav class="mb-2 text-sm text-stone-500">
     <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a> › {{ $kindLabel }}
 </nav>
-@if ($editing)
+@if ($editing && $canEdit)
     <form wire:submit="save" class="mb-6 space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
         <div>
             <label for="library-name" class="label">{{ __('Nom') }}</label>
@@ -48,7 +48,11 @@
                 <p class="mt-1 text-sm text-stone-500">{{ __('Pas encore de description.') }}</p>
             @endif
         </div>
-        <button type="button" wire:click="$set('editing', true)" class="btn-secondary">{{ __('Modifier') }}</button>
+        @if ($canEdit)
+            <button type="button" wire:click="$set('editing', true)" class="btn-secondary">{{ __('Modifier') }}</button>
+        @else
+            <span class="text-sm text-stone-500">{{ __('Lecture seule : géré par le propriétaire.') }}</span>
+        @endif
     </div>
 @endif
 

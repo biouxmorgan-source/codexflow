@@ -1965,5 +1965,13 @@
     "Prétirés": "Pregens",
     "Statut dans cette campagne": "Status in this campaign",
     "Voir les éléments qui portent ce tag": "See the items with this tag",
-    "n°": "no."
+    "n°": "no.",
+    "Fichiers joints": "Attached files",
+    "Fil de la campagne": "Campaign feed",
+    "Illustrations": "Illustrations",
+    "Ils voient toujours, en lecture seule, les pages du jeu et du monde. Cochée, cette option leur permet aussi d’ajouter et de modifier les champs, qui servent à toutes les campagnes de ce jeu.": "They always see the game and world pages, read-only. When checked, this option also lets them add and edit the fields, which are used by every campaign of this game.",
+    "Lecture seule : géré par le propriétaire.": "Read-only: managed by the owner.",
+    "Les co-MJ gèrent les champs du jeu": "Co-GMs manage the game's fields",
+    "Message au groupe": "Group message",
+    "Relations": "Relations"
 }
