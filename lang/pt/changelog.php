@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.42.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Descrições formatadas',
+        'items' => [
+            'As descrições de jogo, mundo, cenário e documento têm o mesmo editor que as fichas: negrito, itálico, subtítulos, listas, citações e ligações [[ ]] para fichas numa campanha.',
+        ],
+    ],
+
     '0.41.0' => [
         'date' => '2026-10-09',
         'title' => 'Campos partilhados',

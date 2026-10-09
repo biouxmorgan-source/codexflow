@@ -40,7 +40,7 @@
                 </div>
                 <div>
                     <label for="description" class="label">{{ __('Description') }} <span class="font-normal text-stone-500">{{ __('(facultatif)') }}</span></label>
-                    <textarea id="description" wire:model="description" rows="3" class="field"></textarea>
+                    <x-link-textarea id="description" model="description" rows="4" />
                     @error('description') <p class="error">{{ $message }}</p> @enderror
                 </div>
                 <fieldset>

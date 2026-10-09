@@ -3,6 +3,7 @@
 namespace App\Livewire\Documents;
 
 use App\Enums\Zone;
+use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Tag;
@@ -11,6 +12,8 @@ use Livewire\Component;
 
 class Show extends Component
 {
+    use SuggestsEntities;
+
     public Campaign $campaign;
 
     public Document $document;

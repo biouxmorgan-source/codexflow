@@ -8,6 +8,7 @@ use App\Models\EntityType;
 use App\Models\GameSystem;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
 /** Page d'un jeu : sa description, ses campagnes, ses règles, documents et champs communs. */
@@ -51,6 +52,17 @@ class GameShow extends Component
 
         $this->gameSystem->update(['name' => trim($this->name), 'description' => trim($this->description) ?: null]);
         $this->editing = false;
+    }
+
+    /**
+     * L'éditeur de la description demande des fiches à lier quand on tape « [[ » : hors campagne, aucune.
+     *
+     * @return list<array{id: int, name: string, type: string}>
+     */
+    #[Renderless]
+    public function suggestEntities(string $query): array
+    {
+        return [];
     }
 
     protected function libraryItem(): GameSystem

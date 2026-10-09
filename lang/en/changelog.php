@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.42.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Formatted descriptions',
+        'items' => [
+            'Game, world, scenario and document descriptions have the same editor as entries: bold, italics, subheadings, lists, quotes, and [[ ]] links to entries within a campaign.',
+        ],
+    ],
+
     '0.41.0' => [
         'date' => '2026-10-09',
         'title' => 'Shared fields',

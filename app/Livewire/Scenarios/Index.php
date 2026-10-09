@@ -4,6 +4,7 @@ namespace App\Livewire\Scenarios;
 
 use App\Actions\Duplication\DuplicateScenario;
 use App\Enums\SceneStatus;
+use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
 use App\Models\Scenario;
 use App\Models\Scene;
@@ -20,6 +21,8 @@ use Livewire\Component;
  */
 class Index extends Component
 {
+    use SuggestsEntities;
+
     public Campaign $campaign;
 
     /** Tag choisi pour ne montrer que les scènes qui le portent. */

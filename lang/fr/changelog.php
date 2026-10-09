@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.42.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Descriptions mises en forme',
+        'items' => [
+            'Les descriptions de jeu, de monde, de scénario et de document ont le même éditeur que les fiches : gras, italique, intertitres, listes, citations, et liens [[ ]] vers les fiches dans une campagne.',
+        ],
+    ],
+
     '0.41.0' => [
         'date' => '2026-10-09',
         'title' => 'Champs partagés',

@@ -11,7 +11,7 @@
         </div>
         <div>
             <label for="library-description" class="label">{{ __('Description') }}</label>
-            <textarea id="library-description" wire:model="description" rows="6" class="field"></textarea>
+            <x-link-textarea id="library-description" model="description" rows="6" :links="$links ?? false" />
             @error('description') <p class="error">{{ $message }}</p> @enderror
         </div>
         <div>
