@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.44.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Pronto per la messa online',
+        'items' => [
+            'L’amministrazione viene avvisata nella console quando l’installazione ha un punto bloccante (debug attivo, e-mail non configurate, tempo reale non cifrato…).',
+            'Il database e i file caricati vengono salvati ogni notte sul server.',
+        ],
+    ],
+
     '0.43.0' => [
         'date' => '2026-10-09',
         'title' => 'Affidabilità',

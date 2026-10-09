@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.44.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Bereit für den Livegang',
+        'items' => [
+            'Die Administration wird in der Konsole gewarnt, wenn die Installation ein blockierendes Problem hat (Debugging aktiv, E-Mail nicht eingerichtet, unverschlüsselte Echtzeit…).',
+            'Datenbank und hochgeladene Dateien werden jede Nacht auf dem Server gesichert.',
+        ],
+    ],
+
     '0.43.0' => [
         'date' => '2026-10-09',
         'title' => 'Zuverlässigkeit',

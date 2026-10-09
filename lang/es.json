@@ -1990,5 +1990,6 @@
     "jamais": "nunca",
     "L’assistant du maître de jeu de rôle et de ses joueurs.": "El asistente del máster de rol y de sus jugadores.",
     "Les boutons et champs sont désactivés jusqu’au retour de la connexion.": "Los botones y campos están desactivados hasta que vuelva la conexión.",
-    "Cochez un ou plusieurs types ; aucun coché : tous les types.": "Marca uno o varios tipos; ninguno marcado: todos los tipos."
+    "Cochez un ou plusieurs types ; aucun coché : tous les types.": "Marca uno o varios tipos; ninguno marcado: todos los tipos.",
+    "L’installation a :count point bloquant : lancez php artisan loremundi:check sur le serveur.|L’installation a :count points bloquants : lancez php artisan loremundi:check sur le serveur.": "La instalación tiene :count punto bloqueante: ejecuta php artisan loremundi:check en el servidor.|La instalación tiene :count puntos bloqueantes: ejecuta php artisan loremundi:check en el servidor."
 }

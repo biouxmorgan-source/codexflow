@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.44.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Pronto para publicar',
+        'items' => [
+            'A administração é avisada na consola quando a instalação tem um ponto bloqueante (depuração ativa, e-mail não configurado, tempo real não cifrado…).',
+            'A base de dados e os ficheiros enviados são guardados todas as noites no servidor.',
+        ],
+    ],
+
     '0.43.0' => [
         'date' => '2026-10-09',
         'title' => 'Fiabilidade',

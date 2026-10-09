@@ -19,6 +19,7 @@ composer run dev                  # serveur + Vite
 php artisan test                  # tests (PostgreSQL, base codexflow_test)
 npm run test:browser              # tests navigateur Playwright (tests/Browser, base de dev)
 vendor/bin/pint                   # style
+php artisan loremundi:check       # installation prête pour la production ? (guide : docs/mise-en-ligne.md)
 ```
 
 ## Règles du projet

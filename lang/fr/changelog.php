@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.44.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Prêt pour la mise en ligne',
+        'items' => [
+            'L’administrateur est prévenu dans la console quand l’installation a un point bloquant (débogage actif, e-mails non configurés, temps réel non chiffré…).',
+            'La base et les fichiers envoyés sont sauvegardés chaque nuit sur le serveur.',
+        ],
+    ],
+
     '0.43.0' => [
         'date' => '2026-10-09',
         'title' => 'Fiabilité',

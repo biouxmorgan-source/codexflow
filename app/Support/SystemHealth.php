@@ -20,6 +20,13 @@ class SystemHealth
     {
         $warnings = [];
 
+        if (app()->isProduction()) {
+            $errors = Cache::remember('loremundi:production-check', now()->addMinutes(10), fn () => count(ProductionCheck::errors()));
+            if ($errors > 0) {
+                $warnings[] = trans_choice('L’installation a :count point bloquant : lancez php artisan loremundi:check sur le serveur.|L’installation a :count points bloquants : lancez php artisan loremundi:check sur le serveur.', $errors);
+            }
+        }
+
         if (! PushChannel::enabled()) {
             $warnings[] = __('Clés VAPID absentes : les notifications push sont désactivées (php artisan webpush:vapid).');
         } elseif (! self::hasBigMath()) {
