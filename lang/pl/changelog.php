@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.44.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Gotowe do publikacji',
+        'items' => [
+            'Administrator dostaje w konsoli ostrzeżenie, gdy instalacja ma blokujący problem (włączone debugowanie, nieskonfigurowana poczta, nieszyfrowany czas rzeczywisty…).',
+            'Baza danych i przesłane pliki są co noc zapisywane na serwerze.',
+        ],
+    ],
+
     '0.43.0' => [
         'date' => '2026-10-09',
         'title' => 'Niezawodność',

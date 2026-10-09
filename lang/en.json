@@ -1990,5 +1990,6 @@
     "jamais": "never",
     "L’assistant du maître de jeu de rôle et de ses joueurs.": "The assistant for role-playing game masters and their players.",
     "Les boutons et champs sont désactivés jusqu’au retour de la connexion.": "Buttons and fields are disabled until the connection returns.",
-    "Cochez un ou plusieurs types ; aucun coché : tous les types.": "Tick one or more types; none ticked: all types."
+    "Cochez un ou plusieurs types ; aucun coché : tous les types.": "Tick one or more types; none ticked: all types.",
+    "L’installation a :count point bloquant : lancez php artisan loremundi:check sur le serveur.|L’installation a :count points bloquants : lancez php artisan loremundi:check sur le serveur.": "The installation has :count blocking issue: run php artisan loremundi:check on the server.|The installation has :count blocking issues: run php artisan loremundi:check on the server."
 }

@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.44.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Ready to go live',
+        'items' => [
+            'The administrator is warned in the console when the installation has a blocking issue (debugging on, e-mail not configured, unencrypted realtime…).',
+            'The database and uploaded files are backed up every night on the server.',
+        ],
+    ],
+
     '0.43.0' => [
         'date' => '2026-10-09',
         'title' => 'Reliability',

@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.44.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Klaar om live te gaan',
+        'items' => [
+            'De beheerder krijgt in de console een waarschuwing als de installatie een blokkerend punt heeft (debuggen aan, e-mail niet ingesteld, onversleutelde realtime…).',
+            'De database en geüploade bestanden worden elke nacht op de server geback-upt.',
+        ],
+    ],
+
     '0.43.0' => [
         'date' => '2026-10-09',
         'title' => 'Betrouwbaarheid',
