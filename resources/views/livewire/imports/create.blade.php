@@ -99,7 +99,7 @@
                                 @if ($this->definitions->isNotEmpty())
                                     <optgroup label="{{ __('Champs du jeu') }}">
                                         @foreach ($this->definitions as $definition)
-                                            <option value="field:{{ $definition->id }}">{{ $definition->group ? $definition->group.' › ' : '' }}{{ $definition->name }}{{ $definition->entityType ? ' ('.$definition->entityType->name.')' : '' }}</option>
+                                            <option value="field:{{ $definition->id }}">{{ $definition->group ? $definition->group.' › ' : '' }}{{ $definition->name }}{{ $definition->entity_type_id ? ' ('.$definition->typeLabel($this->types).')' : '' }}</option>
                                         @endforeach
                                     </optgroup>
                                 @endif

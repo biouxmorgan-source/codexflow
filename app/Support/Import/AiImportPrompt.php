@@ -75,8 +75,8 @@ class AiImportPrompt
             $parts[] = 'choix '.implode('|', $field->options);
         }
 
-        if ($field->entityType) {
-            $parts[] = 'fiches '.$field->entityType->name;
+        if ($field->entity_type_id !== null) {
+            $parts[] = 'fiches '.$field->typeLabel();
         }
 
         return '« '.$field->name.' » : '.implode(', ', $parts);

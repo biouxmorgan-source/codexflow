@@ -39,7 +39,8 @@ class Manage extends Component
 
     public string $zone = 'public';
 
-    public string $entityTypeId = '';
+    /** @var list<string> types de fiche concernés ; aucun coché : tous les types */
+    public array $entityTypeIds = [];
 
     /** Le joueur peut modifier ce champ sur la fiche de son personnage. */
     public bool $playerEditable = false;
@@ -91,14 +92,14 @@ class Manage extends Component
         $this->type = $definition->type->value;
         $this->options = implode("\n", $definition->options ?? []);
         $this->zone = $definition->zone->value;
-        $this->entityTypeId = (string) $definition->entity_type_id;
+        $this->entityTypeIds = array_map('strval', $definition->typeIds());
         $this->playerEditable = $definition->player_editable;
     }
 
     public function cancel(): void
     {
         $this->resetValidation();
-        $this->reset('editingId', 'name', 'type', 'options', 'zone', 'entityTypeId', 'playerEditable');
+        $this->reset('editingId', 'name', 'type', 'options', 'zone', 'entityTypeIds', 'playerEditable');
     }
 
     public function save(): void
@@ -106,25 +107,24 @@ class Manage extends Component
         $this->authorize('manageFields', [$this->gameSystem, $this->campaign]);
 
         $this->validate([
-            'name' => [
-                'required', 'string', 'max:100',
-                Rule::unique('field_definitions', 'name')
-                    ->where('game_system_id', $this->gameSystem->id)
-                    ->where('entity_type_id', $this->entityTypeId ?: null)
-                    ->ignore($this->editingId),
-            ],
+            'name' => ['required', 'string', 'max:100', function (string $attribute, mixed $value, \Closure $fail) {
+                if ($this->nameTaken(trim((string) $value))) {
+                    $fail(__('Ce jeu a déjà un champ de ce nom pour ce type de fiche.'));
+                }
+            }],
             'group' => ['nullable', 'string', 'max:100'],
             'type' => ['required', Rule::enum(FieldType::class)],
             'options' => [Rule::requiredIf($this->type === FieldType::Select->value), 'nullable', 'string', 'max:5000'],
             'zone' => ['required', Rule::enum(Zone::class)],
-            'entityTypeId' => ['nullable', Rule::in($this->types->modelKeys())],
+            'entityTypeIds' => ['array'],
+            'entityTypeIds.*' => [Rule::in($this->types->modelKeys())],
         ], [
-            'name.unique' => __('Ce jeu a déjà un champ de ce nom pour ce type de fiche.'),
             'options.required' => __('Indiquez au moins un choix, un par ligne.'),
         ], [
             'name' => __('nom'),
             'group' => __('groupe'),
-            'entityTypeId' => __('type de fiche'),
+            'entityTypeIds' => __('type de fiche'),
+            'entityTypeIds.*' => __('type de fiche'),
         ]);
 
         $definition = $this->editingId ? $this->find($this->editingId) : new FieldDefinition([
@@ -137,10 +137,11 @@ class Manage extends Component
             'type' => $this->type,
             'options' => $this->type === FieldType::Select->value ? FieldDefinition::splitOptions($this->options) : null,
             'zone' => $this->zone,
-            'entity_type_id' => $this->entityTypeId ?: null,
             // La zone MJ reste hors de portée des joueurs.
             'player_editable' => $this->playerEditable && $this->zone === Zone::Public->value,
         ]);
+
+        $definition->assignTypes($this->entityTypeIds);
 
         $this->gameSystem->fieldDefinitions()->save($definition);
 
@@ -192,6 +193,19 @@ class Manage extends Component
         }
 
         unset($this->definitions);
+    }
+
+    /** Un autre champ du même nom concerne déjà l'un des types choisis (ou tous les types). */
+    private function nameTaken(string $name): bool
+    {
+        $chosen = (new FieldDefinition)->assignTypes($this->entityTypeIds);
+
+        return $this->gameSystem->fieldDefinitions()
+            ->whereRaw('lower(name) = ?', [mb_strtolower($name)])
+            ->when($this->editingId, fn ($query) => $query->whereKeyNot($this->editingId))
+            ->get()
+            ->contains(fn (FieldDefinition $other) => $other->typeIds() === [] || $chosen->typeIds() === []
+                || array_intersect($other->typeIds(), $chosen->typeIds()) !== []);
     }
 
     private function find(int $id): FieldDefinition

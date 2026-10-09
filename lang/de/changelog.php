@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.41.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Gemeinsame Felder',
+        'items' => [
+            'Ein Feld kann mehrere Eintragstypen gleichzeitig betreffen, etwa Trefferpunkte für Charaktere und Kreaturen; Spielvorlagen und Felddateien behalten diese Wahl.',
+        ],
+    ],
+
     '0.40.0' => [
         'date' => '2026-10-09',
         'title' => 'App und Sicherheit',

@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.41.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Campi condivisi',
+        'items' => [
+            'Un campo può riguardare più tipi di scheda insieme, per esempio i punti ferita di personaggi e creature; i modelli di gioco e i file dei campi mantengono questa scelta.',
+        ],
+    ],
+
     '0.40.0' => [
         'date' => '2026-10-09',
         'title' => 'Applicazione e sicurezza',

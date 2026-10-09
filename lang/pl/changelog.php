@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.41.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Wspólne pola',
+        'items' => [
+            'Pole może dotyczyć kilku typów kart naraz, na przykład punktów życia postaci i stworzeń; szablony gry i pliki pól zachowują ten wybór.',
+        ],
+    ],
+
     '0.40.0' => [
         'date' => '2026-10-09',
         'title' => 'Aplikacja i bezpieczeństwo',

@@ -1989,5 +1989,6 @@
     "dernière : :date": "ostatnio: :date",
     "jamais": "nigdy",
     "L’assistant du maître de jeu de rôle et de ses joueurs.": "Asystent mistrza gry fabularnej i jego graczy.",
-    "Les boutons et champs sont désactivés jusqu’au retour de la connexion.": "Przyciski i pola są wyłączone do czasu przywrócenia połączenia."
+    "Les boutons et champs sont désactivés jusqu’au retour de la connexion.": "Przyciski i pola są wyłączone do czasu przywrócenia połączenia.",
+    "Cochez un ou plusieurs types ; aucun coché : tous les types.": "Zaznacz jeden lub kilka typów; brak zaznaczenia: wszystkie typy."
 }

@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.41.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Campos partilhados',
+        'items' => [
+            'Um campo pode abranger vários tipos de ficha ao mesmo tempo, por exemplo os pontos de vida de personagens e criaturas; os modelos de jogo e os ficheiros de campos mantêm esta escolha.',
+        ],
+    ],
+
     '0.40.0' => [
         'date' => '2026-10-09',
         'title' => 'Aplicação e segurança',

@@ -217,7 +217,7 @@ class ImportEntities
             } elseif ($target === 'new') {
                 $name = $this->table->headers[$column];
                 $reused = $this->definitions->first(fn (FieldDefinition $definition) => Normalize::key($definition->name) === Normalize::key($name)
-                    && $definition->entity_type_id === $this->options['new_type_id']);
+                    && ($this->options['new_type_id'] === null ? $definition->typeIds() === [] : in_array((int) $this->options['new_type_id'], $definition->typeIds(), true)));
                 $type = $reused?->type ?? FieldType::guess($this->table->column($column));
 
                 $columns[$column] = $reused ?? new FieldDefinition(['name' => $name, 'type' => $type]);
@@ -274,9 +274,11 @@ class ImportEntities
             // Un champ réservé à un autre type de fiche ne s'afficherait pas : on prend le champ
             // du même nom prévu pour ce type s'il existe, sinon on le signale.
             foreach ($fieldColumns as $column) {
-                $fieldTypeId = $columns[$column]->exists ? $columns[$column]->entity_type_id : $this->options['new_type_id'];
+                $applies = $columns[$column]->exists
+                    ? $columns[$column]->appliesTo($typeId)
+                    : $this->options['new_type_id'] === null || $this->options['new_type_id'] === $typeId;
 
-                if ($fieldTypeId === null || $fieldTypeId === $typeId) {
+                if ($applies) {
                     continue;
                 }
 
@@ -294,7 +296,7 @@ class ImportEntities
                         $rowDefinitions[$column] = $sibling;
                     }
                 } elseif (($row['cells'][$column] ?? '') !== '') {
-                    $warnings[] = __(':name ne concerne que les fiches :type : valeur ignorée', ['name' => $columns[$column]->name, 'type' => $this->types->firstWhere('id', $fieldTypeId)?->name]);
+                    $warnings[] = __(':name ne concerne que les fiches :type : valeur ignorée', ['name' => $columns[$column]->name, 'type' => $columns[$column]->exists ? $columns[$column]->typeLabel($this->types) : $this->types->firstWhere('id', $this->options['new_type_id'])?->name]);
                 }
             }
 
@@ -347,7 +349,7 @@ class ImportEntities
     {
         $candidates = $this->definitions->filter(fn (FieldDefinition $candidate) => Normalize::key($candidate->name) === Normalize::key($definition->name));
 
-        return $candidates->first(fn (FieldDefinition $candidate) => $candidate->entity_type_id === $typeId)
-            ?? $candidates->first(fn (FieldDefinition $candidate) => $candidate->entity_type_id === null);
+        return $candidates->first(fn (FieldDefinition $candidate) => in_array($typeId, $candidate->typeIds(), true))
+            ?? $candidates->first(fn (FieldDefinition $candidate) => $candidate->typeIds() === []);
     }
 }
