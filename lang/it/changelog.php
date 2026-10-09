@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.40.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Applicazione e sicurezza',
+        'items' => [
+            'L’app installata sul telefono ha una descrizione nella tua lingua e un’icona adatta alle icone rotonde di Android.',
+            'Offline, le pagine restano leggibili e i pulsanti di modifica sono grigi finché la rete non torna.',
+            'Il browser accetta ormai solo script, immagini e connessioni provenienti da LoreMundi stesso.',
+        ],
+    ],
+
     '0.39.0' => [
         'date' => '2026-10-09',
         'title' => 'Account e amministrazione',

@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.40.0' => [
+        'date' => '2026-10-09',
+        'title' => 'App and security',
+        'items' => [
+            'The app installed on a phone has a description in your language and an icon fitted to Android’s round screens.',
+            'Offline, pages stay readable and editing buttons are greyed out until the network returns.',
+            'The browser now only accepts scripts, images and connections coming from LoreMundi itself.',
+        ],
+    ],
+
     '0.39.0' => [
         'date' => '2026-10-09',
         'title' => 'Account and administration',

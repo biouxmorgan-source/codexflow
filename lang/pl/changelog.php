@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.40.0' => [
+        'date' => '2026-10-09',
+        'title' => 'Aplikacja i bezpieczeństwo',
+        'items' => [
+            'Aplikacja zainstalowana na telefonie ma opis w Twoim języku i ikonę dopasowaną do okrągłych ikon Androida.',
+            'Bez połączenia strony pozostają czytelne, a przyciski edycji są wyszarzone do powrotu sieci.',
+            'Przeglądarka przyjmuje teraz tylko skrypty, obrazy i połączenia pochodzące z samego LoreMundi.',
+        ],
+    ],
+
     '0.39.0' => [
         'date' => '2026-10-09',
         'title' => 'Konto i administracja',

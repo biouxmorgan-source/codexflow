@@ -1987,5 +1987,7 @@
     "Un problème pour vous connecter ou vous inscrire ? Signalez-le.": "Trouble logging in or signing up? Let us know.",
     "Votre adresse e-mail": "Your email address",
     "dernière : :date": "last: :date",
-    "jamais": "never"
+    "jamais": "never",
+    "L’assistant du maître de jeu de rôle et de ses joueurs.": "The assistant for role-playing game masters and their players.",
+    "Les boutons et champs sont désactivés jusqu’au retour de la connexion.": "Buttons and fields are disabled until the connection returns."
 }

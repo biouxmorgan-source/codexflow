@@ -55,7 +55,7 @@ class PwaTest extends TestCase
 
     public function test_the_app_is_installable(): void
     {
-        $manifest = json_decode(file_get_contents(public_path('manifest.webmanifest')), true, flags: JSON_THROW_ON_ERROR);
+        $manifest = $this->get('/manifest.webmanifest')->assertOk()->assertHeader('Content-Type', 'application/manifest+json')->json();
 
         $this->assertSame('standalone', $manifest['display']);
         foreach ($manifest['icons'] as $icon) {
