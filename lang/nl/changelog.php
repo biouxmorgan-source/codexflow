@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.50.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Gezondheid van het platform',
+        'items' => [
+            'Nieuw tabblad Gezondheid in de beheerconsole: aangemelde personen en aantal aanmeldingen per dag, week of maand, spelers per campagne en per SL, gebruikte opslag (bestanden, database, schijf) en reactietijd van de server per uur.',
+            'De console waarschuwt als de server trager wordt: meer dan 5 % van de verzoeken boven één seconde in 24 uur.',
+        ],
+    ],
+
     '0.49.1' => [
         'date' => '2026-10-10',
         'title' => 'Een vollediger hulp',

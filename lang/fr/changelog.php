@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.50.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Santé de la plateforme',
+        'items' => [
+            'Nouvel onglet Santé dans la console d’administration : personnes connectées et nombre de connexions par jour, semaine ou mois, joueurs par campagne et par MJ, espace occupé (fichiers, base, disque) et temps de réponse du serveur heure par heure.',
+            'La console prévient quand le serveur ralentit : plus de 5 % des requêtes au-delà d’une seconde sur 24 heures.',
+        ],
+    ],
+
     '0.49.1' => [
         'date' => '2026-10-10',
         'title' => 'Une aide plus complète',

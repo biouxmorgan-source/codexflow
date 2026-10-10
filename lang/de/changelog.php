@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.50.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Zustand der Plattform',
+        'items' => [
+            'Neuer Reiter Zustand in der Verwaltungskonsole: angemeldete Personen und Anmeldungen pro Tag, Woche oder Monat, Spieler pro Kampagne und pro SL, belegter Speicher (Dateien, Datenbank, Festplatte) und Antwortzeit des Servers Stunde für Stunde.',
+            'Die Konsole warnt, wenn der Server langsamer wird: mehr als 5 % der Anfragen über einer Sekunde in 24 Stunden.',
+        ],
+    ],
+
     '0.49.1' => [
         'date' => '2026-10-10',
         'title' => 'Eine vollständigere Hilfe',

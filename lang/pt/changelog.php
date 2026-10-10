@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.50.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Saúde da plataforma',
+        'items' => [
+            'Novo separador Saúde na consola de administração: pessoas ligadas e número de ligações por dia, semana ou mês, jogadores por campanha e por MJ, espaço ocupado (ficheiros, base, disco) e tempo de resposta do servidor hora a hora.',
+            'A consola avisa quando o servidor abranda: mais de 5 % dos pedidos acima de um segundo em 24 horas.',
+        ],
+    ],
+
     '0.49.1' => [
         'date' => '2026-10-10',
         'title' => 'Uma ajuda mais completa',

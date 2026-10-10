@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.50.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Stan platformy',
+        'items' => [
+            'Nowa karta Stan w konsoli administracyjnej: zalogowane osoby i liczba logowań na dzień, tydzień lub miesiąc, gracze na kampanię i na MG, zajęte miejsce (pliki, baza, dysk) i czas odpowiedzi serwera godzina po godzinie.',
+            'Konsola ostrzega, gdy serwer zwalnia: ponad 5 % żądań powyżej sekundy w ciągu 24 godzin.',
+        ],
+    ],
+
     '0.49.1' => [
         'date' => '2026-10-10',
         'title' => 'Pełniejsza pomoc',
