@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.46.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Opinie graczy',
+        'items' => [
+            'Na koniec sesji lub kampanii poproś graczy o ocenę od 1 do 5 gwiazdek, o to, co im się podobało i co mogłoby być lepsze („Opinie graczy” w kampanii albo ze strony sesji).',
+            'Odpowiedzi anonimowe lub podpisane, do wyboru MG: gracze wiedzą o tym przed odpowiedzią. Widzisz średnią, rozkład ocen i wszystkie komentarze.',
+        ],
+    ],
+
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Biblioteka dźwięków',

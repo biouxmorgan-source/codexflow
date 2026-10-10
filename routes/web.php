@@ -32,6 +32,8 @@ use App\Livewire\Documents\Show as DocumentShow;
 use App\Livewire\Entities\Form as EntityForm;
 use App\Livewire\Entities\Show as EntityShow;
 use App\Livewire\EntityTypes\Manage as EntityTypesManage;
+use App\Livewire\Feedback\Answer as FeedbackAnswer;
+use App\Livewire\Feedback\Index as FeedbackIndex;
 use App\Livewire\Fields\Manage as FieldsManage;
 use App\Livewire\Graph\Index as GraphIndex;
 use App\Livewire\Imports\Create as ImportCreate;
@@ -137,6 +139,8 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/regles/{rule}/modifier', RuleForm::class)->name('rules.edit')->whereNumber(['campaign', 'rule']);
     Route::livewire('/campagnes/{campaign}/documents', DocumentIndex::class)->name('documents.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/sons', AudioIndex::class)->name('audio.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/avis', FeedbackIndex::class)->name('feedback.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/avis/{feedbackRequest}', FeedbackAnswer::class)->name('feedback.answer')->whereNumber(['campaign', 'feedbackRequest']);
     Route::livewire('/campagnes/{campaign}/documents/{document}', DocumentShow::class)->name('documents.show')->whereNumber(['campaign', 'document']);
 
     Route::livewire('/recherche', SearchEverywhere::class)->name('search.all');

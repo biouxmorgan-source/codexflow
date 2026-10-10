@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.46.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Avis des joueurs',
+        'items' => [
+            'En fin de séance ou de campagne, demandez à vos joueurs une note de 1 à 5 étoiles, ce qui leur a plu et ce qui pourrait être mieux (« Avis des joueurs » dans la campagne, ou depuis la page d’une séance).',
+            'Réponses anonymes ou signées, au choix du MJ : les joueurs le savent avant de répondre. Vous voyez la moyenne, la répartition des notes et tous les commentaires.',
+        ],
+    ],
+
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Bibliothèque sonore',

@@ -16,6 +16,16 @@
         @endif
     </nav>
 
+    @if ($this->isOwner)
+        @foreach (\App\Support\FeedbackRequests::pendingFor(auth()->user(), $campaign) as $pending)
+            <a href="{{ route('feedback.answer', [$campaign, $pending]) }}" wire:key="feedback-{{ $pending->id }}" class="mb-4 flex items-center gap-3 rounded-md bg-amber-50 px-3 py-2 text-sm text-ink hover:bg-amber-100" wire:navigate>
+                <span class="text-xl text-amber-500" aria-hidden="true">★</span>
+                <span class="flex-1">{{ $pending->playSession ? __('Le MJ demande votre avis sur une séance : :session.', ['session' => $pending->subject()]) : __('Le MJ demande votre avis sur la campagne.') }}</span>
+                <span class="font-medium text-codex">{{ __('Donner mon avis →') }}</span>
+            </a>
+        @endforeach
+    @endif
+
     @if ($this->isGameMaster)
         <p class="mb-4 rounded-md bg-flow/10 px-3 py-2 text-sm text-ink">
             {{ __('Vous voyez la fiche comme :name la voit : sans la zone MJ.', ['name' => $character->player?->name ?? __('le joueur')]) }}

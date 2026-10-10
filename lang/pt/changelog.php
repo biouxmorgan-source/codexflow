@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.46.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Opiniões dos jogadores',
+        'items' => [
+            'No fim de uma sessão ou campanha, peça aos seus jogadores uma nota de 1 a 5 estrelas, o que gostaram e o que poderia ser melhor («Opiniões dos jogadores» na campanha, ou a partir da página de uma sessão).',
+            'Respostas anónimas ou assinadas, à escolha do Mestre: os jogadores sabem-no antes de responder. Vê a média, a distribuição das notas e todos os comentários.',
+        ],
+    ],
+
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Biblioteca de som',

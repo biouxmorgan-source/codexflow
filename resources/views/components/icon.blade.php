@@ -16,6 +16,7 @@
         'ai' => ['M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z', 'M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z'],
         'archive' => ['M4 7h16v13H4z', 'M3 4h18v3H3z', 'M10 11h4'],
         'music' => ['M9 18V5l11-2v13'],
+        'star' => ['M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z'],
     ][$name] ?? [];
 
     // Ronds d'une icône : un élément <circle> reste net là où un arc dessiné à la main se déforme.
