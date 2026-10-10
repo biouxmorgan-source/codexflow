@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.49.1' => [
+        'date' => '2026-10-10',
+        'title' => 'Een vollediger hulp',
+        'items' => [
+            'De hulp beantwoordt 19 nieuwe vragen: spel, wereld en campagne, de demo, zoeken en links, tags, scenario\'s, sessie-modus, velden van het spel, regels, dupliceren, ruilen, het vertrek van een speler, het logboek, het einde van Premium en, voor spelers: fiche, notities, berichten en feedback.',
+        ],
+    ],
+
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'De demo toont heel SagaWyn',

@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.49.1' => [
+        'date' => '2026-10-10',
+        'title' => 'Una ayuda más completa',
+        'items' => [
+            'La ayuda responde a 19 preguntas nuevas: juego, mundo y campaña, la demo, búsqueda y enlaces, etiquetas, escenarios, modo Sesión, campos del juego, reglas, duplicación, intercambios, la marcha de un jugador, el diario, el fin de Premium y, para los jugadores: ficha, notas, mensajes y opinión.',
+        ],
+    ],
+
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'La demo muestra todo SagaWyn',
