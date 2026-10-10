@@ -10,14 +10,14 @@ class HomePageTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_the_home_page_presents_loremundi_to_search_engines(): void
+    public function test_the_home_page_presents_sagawyn_to_search_engines(): void
     {
         $response = $this->get('/')->assertOk()
             ->assertSee('L’assistant du maître de jeu, pour toutes vos campagnes')
             ->assertSee('<meta name="description"', false)
             ->assertSee('<link rel="canonical" href="'.url('/').'?lang=fr">', false)
             ->assertSee('"@type":"WebApplication"', false)
-            ->assertSee(asset('images/og-loremundi.png'));
+            ->assertSee(asset('images/og-sagawyn.png'));
 
         foreach (array_keys(Locale::available()) as $code) {
             $response->assertSee('hreflang="'.$code.'"', false);

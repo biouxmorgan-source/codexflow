@@ -67,10 +67,10 @@ class PwaTest extends TestCase
         $this->actingAs($this->player)->get(route('campaigns.index'))
             ->assertOk()
             ->assertSee('<link rel="manifest" href="/manifest.webmanifest">', false)
-            ->assertDontSee('loremundi-guest');
+            ->assertDontSee('sagawyn-guest');
 
         auth()->logout();
-        $this->get(route('login'))->assertOk()->assertSee('<meta name="loremundi-guest" content="1">', false);
+        $this->get(route('login'))->assertOk()->assertSee('<meta name="sagawyn-guest" content="1">', false);
     }
 
     public function test_only_the_character_sheet_is_kept_for_offline_reading(): void

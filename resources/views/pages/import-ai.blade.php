@@ -6,7 +6,7 @@
     </nav>
 
     <h1 class="text-2xl font-semibold">{{ __('Préparer l’import avec une IA') }}</h1>
-    <p class="mt-1 mb-6 max-w-3xl text-sm text-stone-600">{{ __('Votre IA lit le PDF d’un jeu de rôle (livre de règles, scénario, supplément) et prépare les fichiers à importer dans LoreMundi, avec un guide pas à pas. LoreMundi n’envoie rien : vous utilisez l’IA de votre choix, avec votre compte.') }}</p>
+    <p class="mt-1 mb-6 max-w-3xl text-sm text-stone-600">{{ __('Votre IA lit le PDF d’un jeu de rôle (livre de règles, scénario, supplément) et prépare les fichiers à importer dans SagaWyn, avec un guide pas à pas. SagaWyn n’envoie rien : vous utilisez l’IA de votre choix, avec votre compte.') }}</p>
 
     <ol class="mb-6 max-w-3xl list-inside list-decimal space-y-1 text-sm">
         <li>{{ __('Ouvrez votre IA (Claude, ChatGPT, Gemini, Le Chat…) et joignez le ou les fichiers du jeu.') }}</li>
@@ -29,6 +29,6 @@
         </div>
         <label for="ai-prompt" class="sr-only">{{ __('Prompt') }}</label>
         <textarea id="ai-prompt" x-ref="prompt" readonly rows="24" class="field font-mono text-xs leading-relaxed">{{ $prompt }}</textarea>
-        <p class="mt-2 text-xs text-stone-500">{{ __('Le skill Claude s’ajoute dans Claude, rubrique Compétences (Skills) : ensuite, il suffit de joindre le PDF et de demander « Prépare l’import LoreMundi ».') }}</p>
+        <p class="mt-2 text-xs text-stone-500">{{ __('Le skill Claude s’ajoute dans Claude, rubrique Compétences (Skills) : ensuite, il suffit de joindre le PDF et de demander « Prépare l’import SagaWyn ».') }}</p>
     </section>
 </x-layouts.app>

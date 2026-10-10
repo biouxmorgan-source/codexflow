@@ -25,8 +25,8 @@ class ConfirmNewEmail extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject(__('Confirmez votre nouvelle adresse e-mail LoreMundi'))
-            ->line(__('Vous avez demandé à utiliser cette adresse pour votre compte LoreMundi.'))
+            ->subject(__('Confirmez votre nouvelle adresse e-mail SagaWyn'))
+            ->line(__('Vous avez demandé à utiliser cette adresse pour votre compte SagaWyn.'))
             ->action(__('Confirmer cette adresse'), $this->url)
             ->line(__('Ce lien est valable :minutes minutes. Si vous n’êtes pas à l’origine de cette demande, ignorez ce message : rien ne change.', ['minutes' => 60]));
     }

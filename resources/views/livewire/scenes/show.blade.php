@@ -97,7 +97,7 @@
                                 <li wire:key="scene-track-{{ $track->id }}" class="flex items-center gap-2">
                                     <span class="min-w-0 flex-1 truncate">{{ $track->title }}</span>
                                     <button type="button" class="rounded-md border border-stone-200 px-1.5 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex"
-                                        x-on:click="$dispatch('loremundi-audio-play', @js(['url' => route('audio.file', $track), 'title' => $track->title, 'loop' => $track->loop]))"
+                                        x-on:click="$dispatch('sagawyn-audio-play', @js(['url' => route('audio.file', $track), 'title' => $track->title, 'loop' => $track->loop]))"
                                         aria-label="{{ __('Écouter « :name » sur cet appareil', ['name' => $track->title]) }}">▶ {{ __('Écouter') }}</button>
                                 </li>
                             @endforeach

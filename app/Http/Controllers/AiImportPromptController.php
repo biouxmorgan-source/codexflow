@@ -27,7 +27,7 @@ class AiImportPromptController extends Controller
 
         return response(AiImportPrompt::for($campaign), 200, [
             'Content-Type' => 'text/markdown; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="loremundi-prompt-import.md"',
+            'Content-Disposition' => 'attachment; filename="sagawyn-prompt-import.md"',
         ]);
     }
 
@@ -35,7 +35,7 @@ class AiImportPromptController extends Controller
     {
         Gate::authorize('update', $campaign);
 
-        return response()->download(AiImportPrompt::skillArchive($campaign), 'loremundi-import-skill.zip', ['Content-Type' => 'application/zip'])
+        return response()->download(AiImportPrompt::skillArchive($campaign), 'sagawyn-import-skill.zip', ['Content-Type' => 'application/zip'])
             ->deleteFileAfterSend();
     }
 }

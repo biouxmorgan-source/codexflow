@@ -24,13 +24,13 @@ class TransversalSeeder extends Seeder
     public function run(CreateCampaign $createCampaign, DeleteAccount $delete): void
     {
         // Sur une base vide, le premier compte créé devient administrateur : il doit pouvoir être supprimé.
-        User::whereIn('email', ['e2e-mj-t@loremundi.test', 'e2e-joueur-t@loremundi.test'])->get()
+        User::whereIn('email', ['e2e-mj-t@sagawyn.test', 'e2e-joueur-t@sagawyn.test'])->get()
             ->each(fn (User $user) => $delete->handle(tap($user->forceFill(['is_admin' => false]))->saveQuietly()));
 
         $seen = ['last_seen_version' => Changelog::version(), 'email_verified_at' => now()];
-        $gm = User::factory()->create(['name' => 'MJ transverse', 'email' => 'e2e-mj-t@loremundi.test', 'password' => self::PASSWORD] + $seen);
+        $gm = User::factory()->create(['name' => 'MJ transverse', 'email' => 'e2e-mj-t@sagawyn.test', 'password' => self::PASSWORD] + $seen);
         $player = User::factory()->create([
-            'name' => 'Joueur transverse', 'email' => 'e2e-joueur-t@loremundi.test', 'password' => self::PASSWORD,
+            'name' => 'Joueur transverse', 'email' => 'e2e-joueur-t@sagawyn.test', 'password' => self::PASSWORD,
             'preferences' => ['size' => 'xlarge'],
         ] + $seen);
 

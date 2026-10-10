@@ -39,10 +39,10 @@ class ProductionPrepTest extends TestCase
     {
         config([
             'app.debug' => false,
-            'app.url' => 'https://loremundi.fr',
+            'app.url' => 'https://sagawyn.com',
             'session.secure' => true,
             'mail.default' => 'smtp',
-            'mail.from.address' => 'bonjour@loremundi.fr',
+            'mail.from.address' => 'bonjour@sagawyn.com',
             'broadcasting.default' => 'reverb',
             'broadcasting.connections.reverb.key' => 'cle-du-serveur',
             'broadcasting.connections.reverb.secret' => 'secret-du-serveur',
@@ -61,7 +61,7 @@ class ProductionPrepTest extends TestCase
     {
         config([
             'app.debug' => true,
-            'app.url' => 'http://loremundi.fr',
+            'app.url' => 'http://sagawyn.com',
             'mail.default' => 'log',
             'broadcasting.connections.reverb.key' => 'codexflow-local',
         ]);
@@ -90,7 +90,7 @@ class ProductionPrepTest extends TestCase
             $this->assertSame([], ProductionCheck::errors());
             $this->assertFalse($this->item('Sauvegarde de nuit')['ok']);
 
-            $this->artisan('loremundi:check')
+            $this->artisan('sagawyn:check')
                 ->expectsOutputToContain('Mode débogage coupé')
                 ->expectsOutputToContain('Aucun point bloquant.')
                 ->assertExitCode(0);
@@ -106,7 +106,7 @@ class ProductionPrepTest extends TestCase
         $this->productionConfig();
         config(['app.debug' => true]);
 
-        $this->artisan('loremundi:check')
+        $this->artisan('sagawyn:check')
             ->expectsOutputToContain('APP_DEBUG=false')
             ->assertExitCode(1);
     }
@@ -115,11 +115,11 @@ class ProductionPrepTest extends TestCase
     {
         config(['app.debug' => true]);
 
-        $this->assertEmpty(array_filter(SystemHealth::warnings(), fn ($warning) => str_contains($warning, 'loremundi:check')));
+        $this->assertEmpty(array_filter(SystemHealth::warnings(), fn ($warning) => str_contains($warning, 'sagawyn:check')));
 
         $this->app['env'] = 'production';
 
-        $this->assertNotEmpty(array_filter(SystemHealth::warnings(), fn ($warning) => str_contains($warning, 'loremundi:check')));
+        $this->assertNotEmpty(array_filter(SystemHealth::warnings(), fn ($warning) => str_contains($warning, 'sagawyn:check')));
     }
 
     public function test_backup_dumps_the_database_archives_files_and_prunes_old_copies(): void
@@ -128,7 +128,7 @@ class ProductionPrepTest extends TestCase
         File::ensureDirectoryExists($this->backups.'/2020-01-01_033000');
         File::ensureDirectoryExists($this->backups.'/a-garder');
 
-        $this->artisan('loremundi:backup', ['--path' => $this->backups, '--keep' => 7])
+        $this->artisan('sagawyn:backup', ['--path' => $this->backups, '--keep' => 7])
             ->expectsOutputToContain('Sauvegarde écrite dans')
             ->assertExitCode(0);
 
@@ -149,7 +149,7 @@ class ProductionPrepTest extends TestCase
             ? Process::result(errorOutput: 'connexion refusée', exitCode: 1)
             : Process::result());
 
-        $this->artisan('loremundi:backup', ['--path' => $this->backups])
+        $this->artisan('sagawyn:backup', ['--path' => $this->backups])
             ->expectsOutputToContain('pg_dump a échoué : connexion refusée')
             ->assertExitCode(1);
 
@@ -158,6 +158,6 @@ class ProductionPrepTest extends TestCase
 
     public function test_backup_is_scheduled_only_when_enabled(): void
     {
-        $this->artisan('schedule:list')->doesntExpectOutputToContain('loremundi:backup');
+        $this->artisan('schedule:list')->doesntExpectOutputToContain('sagawyn:backup');
     }
 }

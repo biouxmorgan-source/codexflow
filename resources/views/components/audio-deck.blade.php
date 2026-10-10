@@ -1,5 +1,5 @@
 {{-- Lecteur sonore de cet appareil : caché tant que rien ne joue. Voir resources/js/audio-deck.js. --}}
-<div x-data="audioDeck" x-on:loremundi-audio-play.window="play($event.detail)" x-on:loremundi-audio-stop.window="stop()" x-show="title" x-cloak
+<div x-data="audioDeck" x-on:sagawyn-audio-play.window="play($event.detail)" x-on:sagawyn-audio-stop.window="stop()" x-show="title" x-cloak
     class="fixed inset-x-2 bottom-16 z-40 rounded-xl border border-stone-200 bg-white p-2 shadow-lg sm:inset-x-auto sm:bottom-4 sm:left-4 sm:w-80"
     role="region" aria-label="{{ __('Lecteur sonore') }}">
     <div class="flex items-center gap-2">

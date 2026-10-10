@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.47.0' => [
+        'date' => '2026-10-10',
+        'title' => 'LoreMundi pasa a llamarse SagaWyn',
+        'items' => [
+            'LoreMundi ahora se llama SagaWyn, publicado como siempre por Autistic Intelligence. Every world has a story.',
+            'Tus campañas, cuentas y archivos no cambian: las copias hechas con LoreMundi o CodexFlow se siguen importando. Los archivos descargados empiezan ahora por «sagawyn-».',
+        ],
+    ],
+
     '0.46.0' => [
         'date' => '2026-10-10',
         'title' => 'Opiniones de los jugadores',

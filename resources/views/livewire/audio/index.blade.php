@@ -56,7 +56,7 @@
                                     </span>
                                     <span class="flex flex-wrap items-center gap-1.5">
                                         <button type="button" class="btn-secondary min-h-0 py-1 text-sm"
-                                            x-on:click="$dispatch('loremundi-audio-play', @js(['url' => route('audio.file', $track), 'title' => $track->title, 'loop' => $track->loop]))"
+                                            x-on:click="$dispatch('sagawyn-audio-play', @js(['url' => route('audio.file', $track), 'title' => $track->title, 'loop' => $track->loop]))"
                                             aria-label="{{ __('Écouter « :name » sur cet appareil', ['name' => $track->title]) }}">▶ {{ __('Ici') }}</button>
                                         @if ($onTable)
                                             <button type="button" wire:click="playOnTable({{ $track->id }})" class="btn-secondary min-h-0 py-1 text-sm"

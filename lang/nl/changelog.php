@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.47.0' => [
+        'date' => '2026-10-10',
+        'title' => 'LoreMundi wordt SagaWyn',
+        'items' => [
+            'LoreMundi heet nu SagaWyn, nog steeds uitgegeven door Autistic Intelligence. Every world has a story.',
+            'Je campagnes, accounts en archieven blijven hetzelfde: back-ups gemaakt met LoreMundi of CodexFlow kun je nog steeds importeren. Gedownloade bestanden beginnen nu met “sagawyn-”.',
+        ],
+    ],
+
     '0.46.0' => [
         'date' => '2026-10-10',
         'title' => 'Spelersfeedback',

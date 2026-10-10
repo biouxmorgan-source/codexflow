@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Throwable;
 
 /**
- * Vérification d'une installation avant et après la mise en ligne (php artisan loremundi:check).
+ * Vérification d'une installation avant et après la mise en ligne (php artisan sagawyn:check).
  * Chaque point dit ce qui ne va pas et comment le corriger ; les textes restent en français,
  * comme les autres commandes d'exploitation.
  */
@@ -52,7 +52,7 @@ class ProductionCheck
             self::item('Extension GMP ou BCMath', SystemHealth::hasBigMath(), PushChannel::enabled() ? self::ERROR : self::WARNING, 'Installer php8.3-gmp (ou php8.3-bcmath) sur le serveur, puis redémarrer PHP.'),
             self::item('Journal sans détails de débogage', ! app()->isProduction() || config('logging.channels.'.config('logging.default').'.level', 'debug') !== 'debug', self::WARNING, 'LOG_LEVEL=warning et LOG_STACK=daily.'),
             self::item('Mentions légales', filled($legal['owner'] ?? null) && filled($legal['email'] ?? null) && filled($legal['host'] ?? null), self::WARNING, 'LEGAL_OWNER, LEGAL_EMAIL, LEGAL_HOST (et LEGAL_SIRET, LEGAL_ADDRESS) dans le .env.'),
-            self::item('Sauvegarde de nuit', (bool) config('codexflow.backup.enabled'), self::WARNING, 'BACKUP_ENABLED=true : base et fichiers copiés chaque nuit (php artisan loremundi:backup).'),
+            self::item('Sauvegarde de nuit', (bool) config('codexflow.backup.enabled'), self::WARNING, 'BACKUP_ENABLED=true : base et fichiers copiés chaque nuit (php artisan sagawyn:backup).'),
         ];
     }
 

@@ -11,7 +11,7 @@
             <span aria-hidden="true">●</span> {{ $label ? __(':label : à la table', ['label' => $label]) : __('À la table') }}
         </span>
         @unless ($compact)
-            <a href="{{ route('table.screen', $campaign) }}" target="loremundi-table" class="text-sm link">{{ __("Ouvrir l'écran") }}</a>
+            <a href="{{ route('table.screen', $campaign) }}" target="sagawyn-table" class="text-sm link">{{ __("Ouvrir l'écran") }}</a>
         @endunless
         @if ($pdfPages && ! $compact)
             <x-table-pages :page="$pdfPages['page']" :pages="$pdfPages['pages']" />

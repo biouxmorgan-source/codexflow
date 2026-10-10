@@ -243,7 +243,7 @@ class RecetteV2Test extends TestCase
         Livewire::actingAs($this->alex)->test(AdminUsers::class)->assertForbidden();
     }
 
-    public function test_icons_carry_the_loremundi_name(): void
+    public function test_icons_carry_the_sagawyn_name(): void
     {
         foreach (['favicon.ico', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'icons/badge-96.png'] as $file) {
             $this->assertNotSame(

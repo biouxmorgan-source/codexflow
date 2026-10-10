@@ -21,7 +21,7 @@ class ArchiveController extends Controller
 
         $path = (new CampaignExport($campaign, $complete))->write();
 
-        return response()->download($path, 'loremundi-'.str($campaign->name)->slug().($complete ? '-sauvegarde-complete' : '').'.zip', ['Content-Type' => 'application/zip'])
+        return response()->download($path, 'sagawyn-'.str($campaign->name)->slug().($complete ? '-sauvegarde-complete' : '').'.zip', ['Content-Type' => 'application/zip'])
             ->deleteFileAfterSend();
     }
 
@@ -35,7 +35,7 @@ class ArchiveController extends Controller
 
         return response()->streamDownload(
             fn () => print (json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)),
-            'loremundi-modele-'.str($data['name'])->slug().'.json',
+            'sagawyn-modele-'.str($data['name'])->slug().'.json',
             ['Content-Type' => 'application/json'],
         );
     }

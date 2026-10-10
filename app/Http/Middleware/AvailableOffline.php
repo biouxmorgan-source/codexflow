@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AvailableOffline
 {
-    public const HEADER = 'X-LoreMundi-Offline';
+    public const HEADER = 'X-SagaWyn-Offline';
 
     public function handle(Request $request, Closure $next): Response
     {

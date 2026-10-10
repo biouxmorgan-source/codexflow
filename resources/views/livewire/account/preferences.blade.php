@@ -57,7 +57,7 @@
                     </form>
                 @endif
             </div>
-            <p class="mt-2 text-xs text-stone-500">{{ __('Paiement sécurisé par Stripe : LoreMundi ne voit jamais votre carte. Résiliable à tout moment, le premium dure jusqu’à la fin de la période payée.') }}</p>
+            <p class="mt-2 text-xs text-stone-500">{{ __('Paiement sécurisé par Stripe : SagaWyn ne voit jamais votre carte. Résiliable à tout moment, le premium dure jusqu’à la fin de la période payée.') }}</p>
         @elseif (! $me->is_admin && $plan !== 'premium')
             {{-- Paiement pas encore ouvert sur cette installation : on le dit plutôt que de ne rien montrer. --}}
             <p class="mt-4 text-sm text-stone-600">{{ __('Le passage à Premium ouvrira bientôt. En attendant, votre formule reste celle indiquée ci-dessus.') }}</p>

@@ -13,13 +13,13 @@ class BrandedMailTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_emails_carry_the_loremundi_look(): void
+    public function test_emails_carry_the_sagawyn_look(): void
     {
         $user = User::factory()->create();
 
         $html = (string) (new EmailChanged('nouvelle@exemple.test'))->toMail($user)->render();
 
-        $this->assertStringContainsString('class="wordmark-mundi"', $html);
+        $this->assertStringContainsString('class="wordmark-wyn"', $html);
         $this->assertStringContainsString('Every world has a story.', $html);
         $this->assertStringContainsString('by Autistic Intelligence', $html);
         $this->assertStringNotContainsString('Laravel', $html);

@@ -183,7 +183,7 @@ class SecurityTest extends TestCase
         $this->alex->forceFill(['ai_provider' => 'anthropic', 'ai_api_key' => 'sk-ant-une-cle-tres-secrete-123'])->save();
 
         $response = $this->actingAs($this->alex)->get(route('account.data'))->assertOk()
-            ->assertHeader('Content-Disposition', 'attachment; filename="loremundi-mes-donnees.json"');
+            ->assertHeader('Content-Disposition', 'attachment; filename="sagawyn-mes-donnees.json"');
         $data = json_decode($response->getContent(), true);
 
         $this->assertSame($this->alex->email, $data['account']['email']);

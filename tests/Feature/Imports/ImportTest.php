@@ -288,7 +288,7 @@ class ImportTest extends TestCase
         $this->assertSame(2, $second->position);
         $this->assertSame(['Départ'], $second->scenes->pluck('name')->all());
 
-        $this->get(route('imports.example', [$this->campaign, 'scenes']))->assertOk()->assertDownload('loremundi-exemple-scenes.csv');
+        $this->get(route('imports.example', [$this->campaign, 'scenes']))->assertOk()->assertDownload('sagawyn-exemple-scenes.csv');
         $this->get(route('scenarios.index', $this->campaign))->assertSee(route('imports.create', [$this->campaign, 'mode' => 'scenes']), false);
     }
 
@@ -308,7 +308,7 @@ class ImportTest extends TestCase
         $this->assertSame(RuleOrigin::Reference, $rule->origin);
         $this->assertSame(Zone::Public, $rule->zone);
 
-        $this->get(route('imports.example', [$this->campaign, 'regles']))->assertOk()->assertDownload('loremundi-exemple-regles.csv');
+        $this->get(route('imports.example', [$this->campaign, 'regles']))->assertOk()->assertDownload('sagawyn-exemple-regles.csv');
     }
 
     public function test_unreadable_files_are_reported(): void
@@ -331,6 +331,6 @@ class ImportTest extends TestCase
         $this->actingAs($this->gm)
             ->get(route('imports.example', [$this->campaign, 'champs']))
             ->assertOk()
-            ->assertDownload('loremundi-exemple-champs.csv');
+            ->assertDownload('sagawyn-exemple-champs.csv');
     }
 }

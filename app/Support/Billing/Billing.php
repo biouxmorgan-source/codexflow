@@ -9,7 +9,7 @@ use Stripe\StripeClient;
 
 /**
  * Abonnement premium payé par Stripe : la page de paiement et le portail client sont
- * hébergés par Stripe, LoreMundi ne voit jamais de carte. Le webhook règle la formule.
+ * hébergés par Stripe, SagaWyn ne voit jamais de carte. Le webhook règle la formule.
  */
 class Billing
 {

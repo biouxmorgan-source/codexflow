@@ -52,7 +52,7 @@ class AiImportPromptTest extends TestCase
             ->assertSee(['Copier le prompt', 'Jeu : Brume &amp; Serment', '« Vigueur » : nombre, zone publique, groupe Caractéristiques', 'Personnage', 'GUIDE-IMPORT.md', 'Usage personnel'], false);
 
         $this->actingAs($this->gm)->get(route('imports.ai.prompt', $this->campaign))->assertOk()
-            ->assertHeader('Content-Disposition', 'attachment; filename="loremundi-prompt-import.md"')
+            ->assertHeader('Content-Disposition', 'attachment; filename="sagawyn-prompt-import.md"')
             ->assertSee('Écris le contenu des fiches, les noms de champs et le guide en **français**', false);
 
         // En anglais, l'IA écrit en anglais ; les en-têtes restent ceux de l'import.
@@ -62,14 +62,14 @@ class AiImportPromptTest extends TestCase
 
     public function test_the_prompt_is_also_a_claude_skill(): void
     {
-        $response = $this->actingAs($this->gm)->get(route('imports.ai.skill', $this->campaign))->assertOk()->assertDownload('loremundi-import-skill.zip');
+        $response = $this->actingAs($this->gm)->get(route('imports.ai.skill', $this->campaign))->assertOk()->assertDownload('sagawyn-import-skill.zip');
 
         $zip = new ZipArchive;
         $zip->open($response->baseResponse->getFile()->getPathname());
-        $skill = $zip->getFromName('loremundi-import/SKILL.md');
+        $skill = $zip->getFromName('sagawyn-import/SKILL.md');
         $zip->close();
 
-        $this->assertStringStartsWith("---\nname: loremundi-import\ndescription: ", $skill);
+        $this->assertStringStartsWith("---\nname: sagawyn-import\ndescription: ", $skill);
         $this->assertStringContainsString('Jeu : Brume & Serment', $skill);
     }
 

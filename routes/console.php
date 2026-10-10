@@ -38,7 +38,7 @@ Artisan::command('codexflow:admin {email} {--remove}', function (string $email) 
     }
 
     $user->forceFill(['is_admin' => ! $this->option('remove')])->save();
-    $this->info($user->is_admin ? $user->name.' administre LoreMundi.' : $user->name.' n\'administre plus LoreMundi.');
+    $this->info($user->is_admin ? $user->name.' administre SagaWyn.' : $user->name.' n\'administre plus SagaWyn.');
 })->purpose('Donne (ou retire avec --remove) le rôle d\'administrateur à un compte');
 
 Artisan::command('codexflow:demo {email} {--lang=fr : langue du contenu}', function (string $email, LoadDemoCampaign $loadDemo) {
@@ -65,7 +65,7 @@ Artisan::command('codexflow:recettes', function () {
     $this->info($added === [] ? 'Aucun nouveau cahier de recette.' : 'Cahiers ajoutés : '.implode(', ', $added));
 })->purpose('Ajoute à la console d\'administration les cahiers de recette livrés (et leurs suites au backlog)');
 
-Artisan::command('loremundi:check', function () {
+Artisan::command('sagawyn:check', function () {
     $errors = 0;
 
     foreach (ProductionCheck::run() as $item) {
@@ -89,7 +89,7 @@ Artisan::command('loremundi:check', function () {
     return $errors === 0 ? 0 : 1;
 })->purpose('Vérifie qu\'une installation est prête pour la production');
 
-Artisan::command('loremundi:backup {--path= : dossier des sauvegardes} {--keep= : jours de conservation}', function () {
+Artisan::command('sagawyn:backup {--path= : dossier des sauvegardes} {--keep= : jours de conservation}', function () {
     try {
         $target = Backup::run($this->option('path') ?: null, $this->option('keep') !== null ? (int) $this->option('keep') : null);
     } catch (RuntimeException $e) {
@@ -105,5 +105,5 @@ Artisan::command('loremundi:backup {--path= : dossier des sauvegardes} {--keep= 
 Schedule::command('model:prune')->daily();
 
 if (config('codexflow.backup.enabled')) {
-    Schedule::command('loremundi:backup')->dailyAt('03:30')->withoutOverlapping()->onOneServer();
+    Schedule::command('sagawyn:backup')->dailyAt('03:30')->withoutOverlapping()->onOneServer();
 }
