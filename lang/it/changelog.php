@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.49.0' => [
+        'date' => '2026-10-10',
+        'title' => 'La demo mostra tutto SagaWyn',
+        'items' => [
+            'La campagna dimostrativa usa ora ogni funzione: un personaggio giocante tratto da un pregenerato, con ciò che ha ricevuto (scheda, documento, regola, segreto, oggetti) e che il master può «Vedere come»; note di sessione; una lista «Da giocare»; schede fissate; campi riferimento, documento e comuni a due tipi; un allegato del master; segreti di ogni natura; tag colorati; copertine per il gioco e il mondo.',
+            'Ricaricare la demo riutilizza il tipo di scheda «Fazione» già creato invece di aggiungerne un secondo.',
+        ],
+    ],
+
     '0.48.0' => [
         'date' => '2026-10-10',
         'title' => 'Una dimostrazione più completa',

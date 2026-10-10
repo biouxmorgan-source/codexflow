@@ -114,9 +114,12 @@ class RecetteV2Test extends TestCase
         $campaign = app(LoadDemoCampaign::class)->handle($this->gm, 'fr');
         $names = Livewire::actingAs($this->gm)->test(CharactersIndex::class, ['campaign' => $campaign])->get('candidates')->pluck('name');
 
-        foreach (['teska', 'oriel', 'dorn', 'lisenn'] as $key) {
+        foreach (['oriel', 'dorn', 'lisenn'] as $key) {
             $this->assertContains(LoadDemoCampaign::text('fr')['entities'][$key]['name'], $names);
         }
+
+        // Teska est déjà un personnage de la démonstration, prêt à être confié à un joueur.
+        $this->assertSame(LoadDemoCampaign::text('fr')['entities']['teska']['name'], $campaign->playerCharacters()->sole()->entity->name);
     }
 
     public function test_a_new_player_does_not_read_the_previous_players_private_conversation(): void

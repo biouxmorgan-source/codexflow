@@ -30,6 +30,7 @@ return [
         'traits' => 'Eigenschaften',
         'profile' => 'Profil',
         'secrets' => 'Geheimnisse',
+        'landmarks' => 'Orientierung',
     ],
 
     'fields' => [
@@ -44,6 +45,9 @@ return [
         'ties' => 'Bindungen',
         'hidden_oath' => 'Verborgener Eid',
         'betrayal' => 'Was ihn zum Verrat brächte',
+        'allegiance' => 'Wahre Gefolgschaft',
+        'danger' => 'Gefahr',
+        'reference' => 'Referenzdokument',
     ],
 
     'tags' => [
@@ -464,5 +468,47 @@ return [
     // Séance 1, déjà jouée : son résumé.
     'session' => [
         'summary' => '[[quay]]: Die Figuren gehen an Land, und [[brannoc]] zeigt ihnen, dass die dritte Laterne dunkel bleibt – das Zeichen des Fährmanns, das niemand bemerkt hat. [[hall]]: [[elzevir]] weigert sich, das Regal des großen Nebels zu öffnen, und [[ysane]] dankt ihnen etwas zu schnell. Die Sitzung endet am Wasser, bei Ebbe: [[marshes]].',
+        'notes' => [
+            'lantern' => 'Die Spieler hatten sofort [[brannoc]] im Verdacht; Teska ist ihm ungesehen bis zu den Marken gefolgt.',
+            'register' => '[[elzevir]] hat nichts verraten, solange [[ysane]] im Raum war. In Sitzung 2 wieder aufnehmen und ihn beiseite nehmen.',
+            'end' => 'Nächste Sitzung: bei Ebbe beginnen, mit der Furtglocke in der Ferne. An den Nebelzähler denken.',
+        ],
+    ],
+
+    // Niveaux du champ « Danger » (lieux et créatures), du plus calme au plus mortel.
+    'danger_levels' => [
+        'calm' => 'ruhig',
+        'tense' => 'angespannt',
+        'dangerous' => 'gefährlich',
+        'deadly' => 'tödlich',
+    ],
+
+    // Pièce jointe réservée au MJ, sur la fiche du Sceau.
+    'attachments' => [
+        'seal' => [
+            'title' => 'Abrieb des Aschesiegels',
+            'file' => 'abrieb-des-siegels',
+            'lines' => [
+                'Vor dreißig Jahren von Elzevir mit Kohle abgenommen.',
+                'In der Mitte: ein gekentertes Boot, drei Wellen.',
+                'Am Rand: „Was dem Wasser versprochen ist, kehrt zum Wasser zurück.“',
+                'Auf der Rückseite, weggekratzt: ein Name, absichtlich gelöscht.',
+            ],
+        ],
+    ],
+
+    // Ce que le personnage de Teska a reçu en séance 1 : titre, texte.
+    'character' => [
+        'lantern' => ['Kailaterne', 'Vom Haken der dritten Laterne genommen. Sie riecht noch nach Öl.'],
+        'coins' => ['Aschemünzen', 'Eine Woche Lohn am Ruder.'],
+        'rumour' => ['Man sagt, der Leuchtturm entzünde sich von selbst', 'Die Fischer schwören, in der Nacht des Ertrinkens ein Licht im Leuchtturm von Orvent gesehen zu haben.'],
+    ],
+
+    // La liste « À jouer ».
+    'to_play' => [
+        'curfew' => 'Den Aushang zur Ausgangssperre zeigen, sobald sie den Kai erreichen.',
+        'bell' => 'Die Furtglocke während der Überquerung läuten lassen.',
+        'mist' => 'Den Nebelzähler bei der ersten Bootsfahrt starten.',
+        'debt' => 'Teska daran erinnern, dass Brannoc ihr ein Boot schuldet.',
     ],
 ];

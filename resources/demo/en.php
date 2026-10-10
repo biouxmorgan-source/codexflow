@@ -30,6 +30,7 @@ return [
         'traits' => 'Traits',
         'profile' => 'Profile',
         'secrets' => 'Secrets',
+        'landmarks' => 'Landmarks',
     ],
 
     'fields' => [
@@ -44,6 +45,9 @@ return [
         'ties' => 'Ties',
         'hidden_oath' => 'Hidden oath',
         'betrayal' => 'What would make them betray',
+        'allegiance' => 'True allegiance',
+        'danger' => 'Danger',
+        'reference' => 'Reference document',
     ],
 
     'tags' => [
@@ -464,5 +468,47 @@ return [
     // Séance 1, déjà jouée : son résumé.
     'session' => [
         'summary' => '[[quay]]: the characters land, and [[brannoc]] shows them that the third lantern stays dark, the Ferryman’s signal that nobody has noticed. [[hall]]: [[elzevir]] refuses to open the shelf of the great mist, and [[ysane]] thanks them a little too quickly. The session ends at the water’s edge, at low tide: [[marshes]].',
+        'notes' => [
+            'lantern' => 'The players suspected [[brannoc]] straight away; Teska followed him to the marshes without being seen.',
+            'register' => '[[elzevir]] gave nothing away while [[ysane]] was in the room. Pick it up in session 2 by taking him aside.',
+            'end' => 'Next session: open at low tide, with the ford bell in the distance. Remember the mist count.',
+        ],
+    ],
+
+    // Niveaux du champ « Danger » (lieux et créatures), du plus calme au plus mortel.
+    'danger_levels' => [
+        'calm' => 'calm',
+        'tense' => 'tense',
+        'dangerous' => 'dangerous',
+        'deadly' => 'deadly',
+    ],
+
+    // Pièce jointe réservée au MJ, sur la fiche du Sceau.
+    'attachments' => [
+        'seal' => [
+            'title' => 'Rubbing of the Ash Seal',
+            'file' => 'rubbing-of-the-seal',
+            'lines' => [
+                'Taken in charcoal by Elzevir, thirty years ago.',
+                'In the centre: an overturned boat, three waves.',
+                'Around the rim: "What is promised to the water returns to the water."',
+                'On the back, scratched out: a name, erased on purpose.',
+            ],
+        ],
+    ],
+
+    // Ce que le personnage de Teska a reçu en séance 1 : titre, texte.
+    'character' => [
+        'lantern' => ['Quay lantern', 'Taken from the hook of the third lantern. It still smells of oil.'],
+        'coins' => ['Ash coins', 'A week’s pay at the oars.'],
+        'rumour' => ['They say the lighthouse lights itself', 'Fishermen swear they saw a light at the Orvent Lighthouse on the night of the drowning.'],
+    ],
+
+    // La liste « À jouer ».
+    'to_play' => [
+        'curfew' => 'Show the curfew notice as soon as they reach the quay.',
+        'bell' => 'Ring the ford bell during the crossing.',
+        'mist' => 'Start the mist count on the first boat trip.',
+        'debt' => 'Remind Teska that Brannoc owes her a boat.',
     ],
 ];

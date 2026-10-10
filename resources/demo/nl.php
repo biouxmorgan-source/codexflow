@@ -30,6 +30,7 @@ return [
         'traits' => 'Eigenschappen',
         'profile' => 'Profiel',
         'secrets' => 'Geheimen',
+        'landmarks' => 'Herkenningspunten',
     ],
 
     'fields' => [
@@ -44,6 +45,9 @@ return [
         'ties' => 'Banden',
         'hidden_oath' => 'Verborgen eed',
         'betrayal' => 'Waarvoor hij zou verraden',
+        'allegiance' => 'Ware trouw',
+        'danger' => 'Gevaar',
+        'reference' => 'Referentiedocument',
     ],
 
     'tags' => [
@@ -464,5 +468,47 @@ return [
     // Séance 1, déjà jouée : son résumé.
     'session' => [
         'summary' => '[[quay]]: de personages gaan aan land en [[brannoc]] laat hun zien dat de derde lantaarn gedoofd blijft, het teken van de Veerman dat niemand heeft opgemerkt. [[hall]]: [[elzevir]] weigert het rek van de grote mist te openen, en [[ysane]] bedankt hen iets te snel. De sessie eindigt aan het water, bij eb: [[marshes]].',
+        'notes' => [
+            'lantern' => 'De spelers verdachten [[brannoc]] meteen; Teska volgde hem ongezien tot aan de moerassen.',
+            'register' => '[[elzevir]] liet niets los zolang [[ysane]] in de kamer was. Oppakken in sessie 2 door hem apart te nemen.',
+            'end' => 'Volgende sessie: openen bij laagtij, met de doorwaadbel in de verte. Denk aan de misttelling.',
+        ],
+    ],
+
+    // Niveaux du champ « Danger » (lieux et créatures), du plus calme au plus mortel.
+    'danger_levels' => [
+        'calm' => 'rustig',
+        'tense' => 'gespannen',
+        'dangerous' => 'gevaarlijk',
+        'deadly' => 'dodelijk',
+    ],
+
+    // Pièce jointe réservée au MJ, sur la fiche du Sceau.
+    'attachments' => [
+        'seal' => [
+            'title' => 'Wrijfsel van het Assezegel',
+            'file' => 'wrijfsel-van-het-zegel',
+            'lines' => [
+                'Dertig jaar geleden door Elzevir met houtskool afgenomen.',
+                'In het midden: een omgeslagen boot, drie golven.',
+                'Langs de rand: "Wat aan het water beloofd is, keert terug naar het water."',
+                'Op de achterkant, weggekrast: een naam, met opzet uitgewist.',
+            ],
+        ],
+    ],
+
+    // Ce que le personnage de Teska a reçu en séance 1 : titre, texte.
+    'character' => [
+        'lantern' => ['Kadelantaarn', 'Van de haak van de derde lantaarn gehaald. Ze ruikt nog naar olie.'],
+        'coins' => ['Asmunten', 'Een week loon aan de riemen.'],
+        'rumour' => ['Men zegt dat de vuurtoren vanzelf aangaat', 'Vissers zweren dat ze in de nacht van de verdrinking een licht zagen in de Vuurtoren van Orvent.'],
+    ],
+
+    // La liste « À jouer ».
+    'to_play' => [
+        'curfew' => 'Het avondklokbericht tonen zodra ze de kade bereiken.',
+        'bell' => 'De doorwaadbel laten luiden tijdens de oversteek.',
+        'mist' => 'De misttelling starten bij de eerste boottocht.',
+        'debt' => 'Teska eraan herinneren dat Brannoc haar een boot schuldig is.',
     ],
 ];

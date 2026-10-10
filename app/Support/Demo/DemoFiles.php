@@ -28,6 +28,46 @@ final class DemoFiles
         return self::png($image);
     }
 
+    /**
+     * Couverture d'un jeu ou d'un monde : un ciel dégradé, une lune voilée, des bancs de brume
+     * et une ligne d'îles. Une image large, au format d'une bannière.
+     */
+    public static function cover(string $sky, string $sea, int $width = 1200, int $height = 630): string
+    {
+        $image = imagecreatetruecolor($width, $height);
+        [$r, $g, $b] = self::rgb($sky);
+        [$sr, $sg, $sb] = self::rgb($sea);
+        $horizon = (int) ($height * 0.62);
+
+        for ($y = 0; $y < $height; $y++) {
+            [$cr, $cg, $cb, $shade] = $y < $horizon ? [$r, $g, $b, 0.55 + 0.45 * ($y / $horizon)] : [$sr, $sg, $sb, 1 - 0.5 * (($y - $horizon) / ($height - $horizon))];
+            $line = imagecolorallocate($image, (int) ($cr * $shade), (int) ($cg * $shade), (int) ($cb * $shade));
+            imagefilledrectangle($image, 0, $y, $width, $y, $line);
+        }
+
+        $moon = imagecolorallocatealpha($image, 255, 246, 225, 40);
+        imagefilledellipse($image, (int) ($width * 0.72), (int) ($height * 0.3), (int) ($height * 0.22), (int) ($height * 0.22), $moon);
+
+        // Îles sombres posées sur l'horizon.
+        $land = imagecolorallocate($image, (int) ($sr * 0.35), (int) ($sg * 0.35), (int) ($sb * 0.35));
+        foreach ([[0.05, 0.3, 0.09], [0.38, 0.62, 0.05], [0.8, 1.02, 0.12]] as [$from, $to, $rise]) {
+            imagefilledpolygon($image, [
+                (int) ($width * $from), $horizon,
+                (int) ($width * ($from + ($to - $from) * 0.35)), (int) ($horizon - $height * $rise),
+                (int) ($width * ($from + ($to - $from) * 0.6)), (int) ($horizon - $height * $rise * 0.7),
+                (int) ($width * $to), $horizon,
+            ], $land);
+        }
+
+        // Bancs de brume, translucides.
+        $mist = imagecolorallocatealpha($image, 240, 240, 236, 100);
+        foreach ([0.5, 0.6, 0.7, 0.82] as $i => $level) {
+            imagefilledellipse($image, (int) ($width * (0.2 + 0.25 * $i)), (int) ($height * $level), (int) ($width * 0.7), (int) ($height * 0.08), $mist);
+        }
+
+        return self::png($image);
+    }
+
     /** Carte du port de Pierrecendre : eau, quais, bâtiments, routes. Un plan, pas une illustration. */
     public static function map(int $width = 1600, int $height = 1100): string
     {

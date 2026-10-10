@@ -14,6 +14,8 @@ publier sous la licence du projet.
 | `teska`, `oriel`, `dorn`, `lisenn` | Prétirés |
 | `drowned`, `seal`, `greythread`, `broken`, `guard` | Les Noyeux, le Sceau de cendre, le Fil Gris, les Serments brisés, la Garde des Quais |
 | `document-tile`, `document-notice`, `document-tides` | Les trois documents (PDF ou image) |
+| `game`, `world` | Couvertures du jeu « Brume & Serment » et du monde Vehrmund (format bannière, environ 1200 × 630) |
+| `attachment-seal` | Pièce jointe réservée au MJ sur la fiche du Sceau : l'estampage du sceau (image ou PDF) |
 
 Les jetons de la carte sont placés en proportion de l'image : un plan d'un autre format les garde au
 même endroit relatif.

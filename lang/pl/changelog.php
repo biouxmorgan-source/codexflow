@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.49.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Demo pokazuje całe SagaWyn',
+        'items' => [
+            'Kampania demonstracyjna korzysta teraz z każdej funkcji: postać gracza utworzona z gotowej postaci, z tym, co otrzymała (karta, dokument, zasada, sekret, przedmioty), którą MG może „Zobaczyć jako”; notatki z sesji; lista „Do rozegrania”; przypięte karty; pola odwołania, dokumentu i wspólne dla dwóch typów; załącznik MG; sekrety każdego rodzaju; kolorowe tagi; okładki gry i świata.',
+            'Ponowne wczytanie demo używa już utworzonego typu karty „Frakcja” zamiast dodawać drugi.',
+        ],
+    ],
+
     '0.48.0' => [
         'date' => '2026-10-10',
         'title' => 'Pełniejsza demonstracja',

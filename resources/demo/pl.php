@@ -30,6 +30,7 @@ return [
         'traits' => 'Cechy',
         'profile' => 'Profil',
         'secrets' => 'Sekrety',
+        'landmarks' => 'Punkty orientacyjne',
     ],
 
     'fields' => [
@@ -44,6 +45,9 @@ return [
         'ties' => 'Więzi',
         'hidden_oath' => 'Ukryta przysięga',
         'betrayal' => 'Co skłoniłoby go do zdrady',
+        'allegiance' => 'Prawdziwa lojalność',
+        'danger' => 'Zagrożenie',
+        'reference' => 'Dokument źródłowy',
     ],
 
     'tags' => [
@@ -464,5 +468,47 @@ return [
     // Séance 1, déjà jouée : son résumé.
     'session' => [
         'summary' => '[[quay]]: postacie schodzą na ląd, a [[brannoc]] pokazuje im, że trzecia latarnia pozostaje zgaszona – to sygnał Przewoźnika, którego nikt nie zauważył. [[hall]]: [[elzevir]] odmawia otwarcia półki wielkiej mgły, a [[ysane]] dziękuje im trochę za szybko. Sesja kończy się nad wodą, podczas odpływu: [[marshes]].',
+        'notes' => [
+            'lantern' => 'Gracze od razu podejrzewali: [[brannoc]]. Teska niezauważona śledziła go aż do mokradeł.',
+            'register' => '[[elzevir]] nic nie zdradził, dopóki w sali była [[ysane]]. Wrócić do tego na sesji 2, biorąc go na bok.',
+            'end' => 'Następna sesja: zacząć przy odpływie, z dzwonem brodu w oddali. Pamiętać o liczniku mgły.',
+        ],
+    ],
+
+    // Niveaux du champ « Danger » (lieux et créatures), du plus calme au plus mortel.
+    'danger_levels' => [
+        'calm' => 'spokojnie',
+        'tense' => 'napięcie',
+        'dangerous' => 'niebezpiecznie',
+        'deadly' => 'śmiertelnie',
+    ],
+
+    // Pièce jointe réservée au MJ, sur la fiche du Sceau.
+    'attachments' => [
+        'seal' => [
+            'title' => 'Odbitka Popielnej Pieczęci',
+            'file' => 'odbitka-pieczeci',
+            'lines' => [
+                'Odbita węglem przez Elzevira trzydzieści lat temu.',
+                'Pośrodku: wywrócona łódź, trzy fale.',
+                'Na obrzeżu: „Co obiecane wodzie, do wody wraca.”',
+                'Na odwrocie, zdrapane: imię, celowo wymazane.',
+            ],
+        ],
+    ],
+
+    // Ce que le personnage de Teska a reçu en séance 1 : titre, texte.
+    'character' => [
+        'lantern' => ['Latarnia z nabrzeża', 'Zdjęta z haka trzeciej latarni. Wciąż pachnie olejem.'],
+        'coins' => ['Popielne monety', 'Tygodniowa zapłata przy wiośle.'],
+        'rumour' => ['Mówią, że latarnia morska zapala się sama', 'Rybacy przysięgają, że w noc utonięcia widzieli światło w Latarni Orventu.'],
+    ],
+
+    // La liste « À jouer ».
+    'to_play' => [
+        'curfew' => 'Pokazać obwieszczenie o godzinie policyjnej, gdy tylko dotrą na nabrzeże.',
+        'bell' => 'Zadzwonić dzwonem brodu podczas przeprawy.',
+        'mist' => 'Uruchomić licznik mgły przy pierwszym wypłynięciu łodzią.',
+        'debt' => 'Przypomnieć Tesce, że Brannoc jest jej winien łódź.',
     ],
 ];

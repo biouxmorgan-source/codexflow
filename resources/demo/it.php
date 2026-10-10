@@ -30,6 +30,7 @@ return [
         'traits' => 'Caratteristiche',
         'profile' => 'Profilo',
         'secrets' => 'Segreti',
+        'landmarks' => 'Punti di riferimento',
     ],
 
     'fields' => [
@@ -44,6 +45,9 @@ return [
         'ties' => 'Legami',
         'hidden_oath' => 'Giuramento segreto',
         'betrayal' => 'Cosa lo spingerebbe a tradire',
+        'allegiance' => 'Vera fedeltà',
+        'danger' => 'Pericolo',
+        'reference' => 'Documento di riferimento',
     ],
 
     'tags' => [
@@ -464,5 +468,47 @@ return [
     // Séance 1, déjà jouée : son résumé.
     'session' => [
         'summary' => '[[quay]]: i personaggi sbarcano e [[brannoc]] mostra loro che la terza lanterna resta spenta, il segnale del Traghettatore che nessuno ha notato. [[hall]]: [[elzevir]] rifiuta di aprire lo scaffale della grande nebbia, e [[ysane]] li ringrazia un po’ troppo in fretta. La sessione si chiude in riva all’acqua, con la bassa marea: [[marshes]].',
+        'notes' => [
+            'lantern' => 'I giocatori hanno subito sospettato di [[brannoc]]; Teska lo ha seguito fino alle paludi senza farsi vedere.',
+            'register' => '[[elzevir]] non ha detto nulla finché [[ysane]] era nella stanza. Riprendere nella sessione 2, prendendolo in disparte.',
+            'end' => 'Prossima sessione: aprire con la bassa marea, la campana del guado in lontananza. Ricordarsi del conteggio della nebbia.',
+        ],
+    ],
+
+    // Niveaux du champ « Danger » (lieux et créatures), du plus calme au plus mortel.
+    'danger_levels' => [
+        'calm' => 'calmo',
+        'tense' => 'teso',
+        'dangerous' => 'pericoloso',
+        'deadly' => 'mortale',
+    ],
+
+    // Pièce jointe réservée au MJ, sur la fiche du Sceau.
+    'attachments' => [
+        'seal' => [
+            'title' => 'Calco del Sigillo di cenere',
+            'file' => 'calco-del-sigillo',
+            'lines' => [
+                'Ricavato a carboncino da Elzevir, trent’anni fa.',
+                'Al centro: una barca rovesciata, tre onde.',
+                'Sul bordo: «Ciò che è promesso all’acqua all’acqua ritorna.»',
+                'Sul retro, raschiato: un nome, cancellato di proposito.',
+            ],
+        ],
+    ],
+
+    // Ce que le personnage de Teska a reçu en séance 1 : titre, texte.
+    'character' => [
+        'lantern' => ['Lanterna del molo', 'Presa dal gancio della terza lanterna. Sa ancora di olio.'],
+        'coins' => ['Monete di cenere', 'La paga di una settimana ai remi.'],
+        'rumour' => ['Si dice che il faro si accenda da solo', 'I pescatori giurano di aver visto una luce al Faro di Orvent la notte dell’annegamento.'],
+    ],
+
+    // La liste « À jouer ».
+    'to_play' => [
+        'curfew' => 'Mostrare l’avviso di coprifuoco appena arrivano al molo.',
+        'bell' => 'Far suonare la campana del guado durante la traversata.',
+        'mist' => 'Avviare il conteggio della nebbia alla prima uscita in barca.',
+        'debt' => 'Ricordare a Teska che Brannoc le deve una barca.',
     ],
 ];
