@@ -50,7 +50,7 @@ class ProductionCheck
             self::item('Temps réel chiffré', ! $https || ($reverb['options']['scheme'] ?? null) === 'https', self::WARNING, 'REVERB_SCHEME=https et REVERB_PORT=443 : le navigateur refuse une connexion non chiffrée depuis une page HTTPS.'),
             self::item('Clés des notifications push', PushChannel::enabled(), self::WARNING, 'php artisan webpush:vapid, une seule fois : changer les clés désabonne tous les appareils.'),
             self::item('Extension GMP ou BCMath', SystemHealth::hasBigMath(), PushChannel::enabled() ? self::ERROR : self::WARNING, 'Installer php8.3-gmp (ou php8.3-bcmath) sur le serveur, puis redémarrer PHP.'),
-            self::item('Journal sans détails de débogage', ! app()->isProduction() || config('logging.channels.'.config('logging.default').'.level', 'debug') !== 'debug', self::WARNING, 'LOG_LEVEL=warning et LOG_STACK=daily.'),
+            self::item('Journal sans détails de débogage', ! app()->isProduction() || ! self::logsDebug((string) config('logging.default')), self::WARNING, 'LOG_LEVEL=warning et LOG_STACK=daily.'),
             self::item('Mentions légales', filled($legal['owner'] ?? null) && filled($legal['email'] ?? null) && filled($legal['host'] ?? null), self::WARNING, 'LEGAL_OWNER, LEGAL_EMAIL, LEGAL_HOST (et LEGAL_SIRET, LEGAL_ADDRESS) dans le .env.'),
             self::item('Sauvegarde de nuit', (bool) config('codexflow.backup.enabled'), self::WARNING, 'BACKUP_ENABLED=true : base et fichiers copiés chaque nuit (php artisan sagawyn:backup).'),
         ];
@@ -66,6 +66,24 @@ class ProductionCheck
     private static function item(string $label, bool $ok, string $level, string $hint): array
     {
         return ['label' => $label, 'ok' => $ok, 'level' => $level, 'hint' => $hint];
+    }
+
+    /** Le canal (ou l'un des canaux d'une pile) écrit-il les messages de débogage ? */
+    private static function logsDebug(string $channel, int $depth = 0): bool
+    {
+        $config = (array) config("logging.channels.{$channel}", []);
+
+        if (($config['driver'] ?? null) === 'stack' && $depth < 3) {
+            foreach ((array) ($config['channels'] ?? []) as $inner) {
+                if (self::logsDebug((string) $inner, $depth + 1)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return ($config['level'] ?? 'debug') === 'debug';
     }
 
     /** @return array{label: string, ok: bool, level: string, hint: string} */
