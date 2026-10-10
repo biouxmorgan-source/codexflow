@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Notifications\Channels\PushChannel;
+use App\Support\Monitoring\ResponseTimes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Throwable;
@@ -40,6 +41,10 @@ class SystemHealth
                 (int) ($failure['count'] ?? 1),
                 ['date' => Carbon::parse($failure['first'] ?? $failure['at'])->isoFormat('LLL'), 'message' => mb_strimwidth((string) ($failure['message'] ?? ''), 0, 160, '…')],
             );
+        }
+
+        if ($slow = ResponseTimes::warning()) {
+            $warnings[] = $slow;
         }
 
         return $warnings;

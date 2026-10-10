@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.50.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Platform health',
+        'items' => [
+            'New Health tab in the admin console: people logged in and number of logins per day, week or month, players per campaign and per GM, storage used (files, database, disk) and server response time hour by hour.',
+            'The console warns when the server slows down: more than 5 % of requests over one second in 24 hours.',
+        ],
+    ],
+
     '0.49.1' => [
         'date' => '2026-10-10',
         'title' => 'More complete help',

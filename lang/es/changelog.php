@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.50.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Salud de la plataforma',
+        'items' => [
+            'Nueva pestaña Salud en la consola de administración: personas conectadas y número de conexiones por día, semana o mes, jugadores por campaña y por DJ, espacio ocupado (archivos, base, disco) y tiempo de respuesta del servidor hora a hora.',
+            'La consola avisa cuando el servidor se ralentiza: más del 5 % de las peticiones por encima de un segundo en 24 horas.',
+        ],
+    ],
+
     '0.49.1' => [
         'date' => '2026-10-10',
         'title' => 'Una ayuda más completa',

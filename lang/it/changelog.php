@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.50.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Salute della piattaforma',
+        'items' => [
+            'Nuova scheda Salute nella console di amministrazione: persone connesse e numero di accessi per giorno, settimana o mese, giocatori per campagna e per GM, spazio occupato (file, database, disco) e tempo di risposta del server ora per ora.',
+            'La console avvisa quando il server rallenta: più del 5 % delle richieste oltre un secondo in 24 ore.',
+        ],
+    ],
+
     '0.49.1' => [
         'date' => '2026-10-10',
         'title' => 'Un aiuto più completo',

@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AvailableOffline;
 use App\Http\Middleware\EnsureFeature;
+use App\Http\Middleware\RecordResponseTime;
 use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\ThrottleAccountForms;
@@ -26,6 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // La langue est fixée avant la liaison des modèles : une 404 d'élément introuvable est traduite.
         $middleware->prependToPriorityList(SubstituteBindings::class, SetLocale::class);
         $middleware->append(SecurityHeaders::class);
+        $middleware->append(RecordResponseTime::class);
         $middleware->validateCsrfTokens(except: ['stripe/webhook']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
