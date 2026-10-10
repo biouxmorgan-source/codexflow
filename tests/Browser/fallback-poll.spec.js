@@ -7,7 +7,7 @@ test.beforeAll(() => seed('TransversalSeeder'));
 
 test('the bell updates within 30 seconds when the realtime connection is down', async ({ page }) => {
     test.setTimeout(90_000);
-    await login(page, 'e2e-joueur-t@loremundi.test');
+    await login(page, 'e2e-joueur-t@sagawyn.test');
     await page.goto('/campagnes');
 
     const bell = page.getByRole('link', { name: /^Notifications/ });

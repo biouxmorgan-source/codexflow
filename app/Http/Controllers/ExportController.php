@@ -35,7 +35,7 @@ class ExportController extends Controller
             'scenes' => $this->scenes($campaign),
         };
 
-        $filename = 'loremundi-'.str($campaign->name)->slug().'-'.self::FILENAMES[$kind].'.csv';
+        $filename = 'sagawyn-'.str($campaign->name)->slug().'-'.self::FILENAMES[$kind].'.csv';
 
         return response()->streamDownload(function () use ($rows) {
             $out = fopen('php://output', 'w');

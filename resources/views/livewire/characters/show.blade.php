@@ -60,7 +60,7 @@
                 @endif
             </a>
             @if ($campaign->table_shared && \App\Support\CampaignFeatures::usable($campaign, 'table'))
-                <a href="{{ route('table.screen', $campaign) }}" target="loremundi-table" class="btn-secondary">{{ __('Écran de table ↗') }}</a>
+                <a href="{{ route('table.screen', $campaign) }}" target="sagawyn-table" class="btn-secondary">{{ __('Écran de table ↗') }}</a>
             @endif
             @if (\App\Support\CampaignFeatures::enabled($campaign, 'graph'))
                 <a href="{{ route('graph.index', [$campaign, 'comme' => $character->id]) }}" class="btn-secondary" wire:navigate>{{ __('Graphe') }}</a>

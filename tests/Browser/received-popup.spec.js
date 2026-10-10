@@ -9,7 +9,7 @@ test.beforeAll(() => {
 
 test('the player goes through what they received, then opens it on their sheet', async ({ page }) => {
     await page.goto('/login');
-    await page.fill('input[name=email]', 'e2e-joueuse@loremundi.test');
+    await page.fill('input[name=email]', 'e2e-joueuse@sagawyn.test');
     await page.fill('input[name=password]', 'navigateur-e2e-42');
     await page.click('button[type=submit]');
 

@@ -55,7 +55,7 @@
     <section class="space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm" aria-labelledby="my-data-title">
         <div>
             <h2 id="my-data-title" class="text-lg font-semibold">{{ __('Mes données') }}</h2>
-            <p class="mt-1 text-sm text-stone-600">{{ __('Téléchargez ce que LoreMundi garde sur vous : compte, connexions, campagnes, personnages, notes, messages et signalements. Le contenu complet d’une campagne se télécharge depuis la campagne.') }}</p>
+            <p class="mt-1 text-sm text-stone-600">{{ __('Téléchargez ce que SagaWyn garde sur vous : compte, connexions, campagnes, personnages, notes, messages et signalements. Le contenu complet d’une campagne se télécharge depuis la campagne.') }}</p>
         </div>
         <a href="{{ route('account.data') }}" class="btn-secondary inline-block">{{ __('Télécharger mes données') }}</a>
         <p class="text-sm">

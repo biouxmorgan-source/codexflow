@@ -1,6 +1,6 @@
 // Lecteur sonore du MJ : joue un morceau de la bibliothèque sur cet appareil, avec un fondu
 // quand on passe d'un morceau à l'autre. Placé dans @persist, la musique continue d'une page à l'autre.
-// Il écoute l'événement « loremundi-audio-play » ({ url, title, loop }) envoyé par les boutons « ▶ Ici ».
+// Il écoute l'événement « sagawyn-audio-play » ({ url, title, loop }) envoyé par les boutons « ▶ Ici ».
 const FADE_MS = 1500;
 
 function fade(audio, from, to, done) {

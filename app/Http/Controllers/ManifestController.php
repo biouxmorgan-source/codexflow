@@ -13,8 +13,8 @@ class ManifestController extends Controller
     public function __invoke(): JsonResponse
     {
         return response()->json([
-            'name' => 'LoreMundi',
-            'short_name' => 'LoreMundi',
+            'name' => 'SagaWyn',
+            'short_name' => 'SagaWyn',
             'description' => __('L’assistant du maître de jeu de rôle et de ses joueurs.'),
             'lang' => str_replace('_', '-', app()->getLocale()),
             'start_url' => '/',

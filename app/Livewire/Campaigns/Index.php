@@ -25,7 +25,7 @@ class Index extends Component
 
     public bool $importing = false;
 
-    /** Archive .zip exportée depuis LoreMundi. */
+    /** Archive .zip exportée depuis SagaWyn. */
     public ?TemporaryUploadedFile $archive = null;
 
     public string $name = '';

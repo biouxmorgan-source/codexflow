@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Process;
 use RuntimeException;
 
 /**
- * Sauvegarde de l'installation (php artisan loremundi:backup) : la base en format pg_dump
+ * Sauvegarde de l'installation (php artisan sagawyn:backup) : la base en format pg_dump
  * personnalisé et les fichiers envoyés en archive tar.gz, dans un dossier daté. Les dossiers
  * plus vieux que keep_days sont supprimés. Restauration : docs/mise-en-ligne.md.
  */

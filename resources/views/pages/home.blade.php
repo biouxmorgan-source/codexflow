@@ -1,9 +1,9 @@
-{{-- Page d'accueil publique : ce que fait LoreMundi, pour les visiteurs et les moteurs de recherche. --}}
+{{-- Page d'accueil publique : ce que fait SagaWyn, pour les visiteurs et les moteurs de recherche. --}}
 @php
-    $description = __('LoreMundi aide le maître de jeu à préparer ses mondes, mener ses séances et partager avec ses joueurs ce qu’ils doivent savoir, quel que soit le jeu de rôle.');
+    $description = __('SagaWyn aide le maître de jeu à préparer ses mondes, mener ses séances et partager avec ses joueurs ce qu’ils doivent savoir, quel que soit le jeu de rôle.');
     $locales = \App\Support\Locale::available();
     $features = [
-        ['fields', __('Vos mondes, vos règles'), __('Fiches de personnages, de lieux et d’objets avec vos propres champs, liens [[ ]] entre les fiches, scénarios en scènes. Aucun système de règles imposé : LoreMundi s’adapte à votre jeu.')],
+        ['fields', __('Vos mondes, vos règles'), __('Fiches de personnages, de lieux et d’objets avec vos propres champs, liens [[ ]] entre les fiches, scénarios en scènes. Aucun système de règles imposé : SagaWyn s’adapte à votre jeu.')],
         ['remote', __('Le mode Session'), __('La scène en cours avec ses personnages, ses informations et ses règles, une recherche immédiate et des notes rapides : tout ce qu’il faut pendant la partie, sans fouiller.')],
         ['secret', __('Des secrets bien gardés'), __('Chaque fiche a une zone publique et une zone MJ. Vous révélez une information à un seul personnage ou à toute la table, quand vous le décidez : le reste ne quitte jamais votre écran.')],
         ['members', __('Vos joueurs à bord'), __('Invitation par lien, fiche de personnage avec sa feuille PDF, compteurs, connaissances et possessions, journal, objets à « Donner » et échanges entre joueurs.')],
@@ -20,17 +20,17 @@
         @endforeach
         <link rel="alternate" hreflang="x-default" href="{{ url('/') }}">
         <meta property="og:type" content="website">
-        <meta property="og:site_name" content="LoreMundi">
-        <meta property="og:title" content="LoreMundi · {{ __('L’assistant du maître de jeu de rôle') }}">
+        <meta property="og:site_name" content="SagaWyn">
+        <meta property="og:title" content="SagaWyn · {{ __('L’assistant du maître de jeu de rôle') }}">
         <meta property="og:description" content="{{ $description }}">
         <meta property="og:url" content="{{ url('/') }}">
-        <meta property="og:image" content="{{ asset('images/og-loremundi.png') }}">
+        <meta property="og:image" content="{{ asset('images/og-sagawyn.png') }}">
         <meta property="og:locale" content="{{ str_replace('-', '_', app()->getLocale()) }}">
         <meta name="twitter:card" content="summary_large_image">
         <script type="application/ld+json">{!! json_encode([
             '@context' => 'https://schema.org',
             '@type' => 'WebApplication',
-            'name' => 'LoreMundi',
+            'name' => 'SagaWyn',
             'url' => url('/'),
             'applicationCategory' => 'GameApplication',
             'operatingSystem' => 'Web',
@@ -44,7 +44,7 @@
     <main id="contenu">
         <section class="mx-auto grid max-w-6xl items-center gap-10 px-4 pt-8 pb-16 lg:grid-cols-[1fr_1.1fr] lg:pt-16">
             <div>
-                <p class="text-sm font-medium tracking-wide text-mundi uppercase">Every world has a story.</p>
+                <p class="text-sm font-medium tracking-wide text-wyn uppercase">Every world has a story.</p>
                 <h1 class="mt-3 text-4xl font-semibold tracking-tight text-balance sm:text-5xl">{{ __('L’assistant du maître de jeu, pour toutes vos campagnes') }}</h1>
                 <p class="mt-5 text-lg text-stone-700">{{ $description }}</p>
                 <div class="mt-8 flex flex-wrap gap-3">
@@ -54,18 +54,18 @@
                 <p class="mt-4 text-sm text-stone-500">{{ __('Une campagne de démonstration se charge en un clic. Aucune carte bancaire demandée.') }}</p>
             </div>
             <figure class="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-xl">
-                <img src="{{ asset('images/home-session.webp') }}" width="1280" height="800" alt="{{ __('Le mode Session de LoreMundi : la scène en cours, ses personnages et ses informations.') }}" class="block h-auto w-full" fetchpriority="high">
+                <img src="{{ asset('images/home-session.webp') }}" width="1280" height="800" alt="{{ __('Le mode Session de SagaWyn : la scène en cours, ses personnages et ses informations.') }}" class="block h-auto w-full" fetchpriority="high">
             </figure>
         </section>
 
         <section id="fonctionnalites" class="border-y border-stone-200 bg-white py-16">
             <div class="mx-auto max-w-6xl px-4">
                 <h2 class="text-3xl font-semibold tracking-tight">{{ __('Tout ce qu’il faut pour mener vos parties') }}</h2>
-                <p class="mt-3 max-w-3xl text-stone-700">{{ __('LoreMundi n’est pas une table virtuelle : c’est un outil pour préparer, retrouver et partager, autour d’une vraie table ou en ligne.') }}</p>
+                <p class="mt-3 max-w-3xl text-stone-700">{{ __('SagaWyn n’est pas une table virtuelle : c’est un outil pour préparer, retrouver et partager, autour d’une vraie table ou en ligne.') }}</p>
                 <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($features as [$icon, $title, $text])
                         <article class="rounded-xl border border-stone-200 bg-parchment p-5">
-                            <x-icon :name="$icon" class="size-7 text-mundi" />
+                            <x-icon :name="$icon" class="size-7 text-wyn" />
                             <h3 class="mt-3 text-lg font-semibold">{{ $title }}</h3>
                             <p class="mt-2 text-sm leading-relaxed text-stone-700">{{ $text }}</p>
                         </article>
@@ -104,7 +104,7 @@
 
         <section class="mx-auto max-w-3xl px-4 py-16 text-center">
             <h2 class="text-3xl font-semibold tracking-tight">{{ __('Prêt pour votre prochaine séance ?') }}</h2>
-            <p class="mt-3 text-stone-700">{{ __('LoreMundi est en développement actif : de nouvelles fonctions arrivent régulièrement, et vos retours comptent.') }}</p>
+            <p class="mt-3 text-stone-700">{{ __('SagaWyn est en développement actif : de nouvelles fonctions arrivent régulièrement, et vos retours comptent.') }}</p>
             <a href="{{ route('register') }}" class="btn-primary mt-6 inline-block px-5 py-2.5 text-base">{{ __('Créer mon compte') }}</a>
         </section>
     </main>

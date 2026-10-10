@@ -20,7 +20,7 @@ class TransversalActionSeeder extends Seeder
         $campaign = Campaign::where('name', TransversalSeeder::CAMPAIGN)->latest('id')->firstOrFail();
 
         match (getenv('E2E_ACTION')) {
-            'notify' => User::where('email', 'e2e-joueur-t@loremundi.test')->firstOrFail()
+            'notify' => User::where('email', 'e2e-joueur-t@sagawyn.test')->firstOrFail()
                 ->notify(new CampaignEvent($campaign, 'reveal', 'Une nouvelle piste vous attend.', route('campaigns.show', $campaign))),
             'disable-graph' => in_array('graph', $campaign->disabled_features ?? [], true) ?: CampaignFeatures::toggle($campaign, 'graph'),
             default => throw new \InvalidArgumentException('E2E_ACTION attendu : notify ou disable-graph'),

@@ -28,7 +28,7 @@
         <meta name="color-scheme" content="light dark">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         @guest
-            <meta name="loremundi-guest" content="1">
+            <meta name="sagawyn-guest" content="1">
         @endguest
         @if (filled(config('webpush.vapid.public_key')))
             <meta name="vapid-public-key" content="{{ config('webpush.vapid.public_key') }}">
@@ -44,7 +44,7 @@
         ])
         <script nonce="{{ Vite::cspNonce() }}">
             // Textes affichés par les scripts (resources/js), dans la langue de la page.
-            window.loreMundiText = {{ Js::from($scriptText) }};
+            window.sagaWynText = {{ Js::from($scriptText) }};
         </script>
 
         <title>{{ $title ? $title.' · ' : '' }}{{ config('app.name') }}</title>
@@ -54,7 +54,7 @@
     </head>
     <body {{ $attributes->merge(['class' => 'min-h-screen bg-parchment font-sans text-ink antialiased']) }}>
         {{-- Hors ligne : bandeau, et la page passe en lecture seule (classe « is-offline », voir app.css). --}}
-        <div x-data="{ online: navigator.onLine && ! document.querySelector('meta[name=loremundi-offline]') }" x-on:online.window="online = ! document.querySelector('meta[name=loremundi-offline]')" x-on:offline.window="online = false" x-show="! online" x-cloak role="status"
+        <div x-data="{ online: navigator.onLine && ! document.querySelector('meta[name=sagawyn-offline]') }" x-on:online.window="online = ! document.querySelector('meta[name=sagawyn-offline]')" x-on:offline.window="online = false" x-show="! online" x-cloak role="status"
             x-effect="document.documentElement.classList.toggle('is-offline', ! online)"
             class="sticky top-0 z-50 bg-flow px-4 py-2 text-center text-sm font-medium text-on-accent">
             {{ __('Hors ligne : vous consultez la dernière version enregistrée sur cet appareil.') }}

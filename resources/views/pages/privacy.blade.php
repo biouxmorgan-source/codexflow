@@ -1,8 +1,8 @@
 @php
     $legal = config('codexflow.legal');
     $sections = [
-        __('Qui édite LoreMundi') => array_filter([
-            __('LoreMundi est édité par :publisher, nom commercial de :owner (entrepreneur individuel).', ['publisher' => $legal['publisher'], 'owner' => $legal['owner'] ?: '—']),
+        __('Qui édite SagaWyn') => array_filter([
+            __('SagaWyn est édité par :publisher, nom commercial de :owner (entrepreneur individuel).', ['publisher' => $legal['publisher'], 'owner' => $legal['owner'] ?: '—']),
             $legal['siret'] ? __('SIRET : :siret', ['siret' => $legal['siret']]) : null,
             $legal['address'] ? __('Adresse : :address', ['address' => $legal['address']]) : null,
             $legal['email'] ? __('Contact : :email', ['email' => $legal['email']]) : null,
@@ -16,7 +16,7 @@
             __('Si vous l’enregistrez, votre clé d’API d’IA, chiffrée, utilisée seulement pour vos propres demandes.'),
         ],
         __('À quoi elles servent') => [
-            __('Uniquement à faire fonctionner LoreMundi. Elles ne sont ni vendues, ni prêtées, ni utilisées pour de la publicité.'),
+            __('Uniquement à faire fonctionner SagaWyn. Elles ne sont ni vendues, ni prêtées, ni utilisées pour de la publicité.'),
             __('Paiement : Stripe, seulement si vous vous abonnez. IA : le fournisseur que vous choisissez, avec votre clé, seulement quand vous lancez une analyse.'),
             __('Cookies : seulement ceux nécessaires au fonctionnement (session, sécurité). Aucun cookie publicitaire ni de mesure d’audience.'),
         ],

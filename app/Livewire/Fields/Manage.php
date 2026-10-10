@@ -45,7 +45,7 @@ class Manage extends Component
     /** Le joueur peut modifier ce champ sur la fiche de son personnage. */
     public bool $playerEditable = false;
 
-    /** Modèle de jeu (.json) exporté depuis LoreMundi. */
+    /** Modèle de jeu (.json) exporté depuis SagaWyn. */
     public ?TemporaryUploadedFile $template = null;
 
     public function mount(Campaign $campaign): void

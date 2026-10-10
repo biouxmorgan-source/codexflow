@@ -11,9 +11,9 @@ use ZipArchive;
 
 /**
  * Prompt à coller dans une IA, avec les PDF d'un jeu de rôle, pour obtenir les fichiers
- * d'import de LoreMundi et leur guide. Il décrit les formats exacts de l'import et reprend
+ * d'import de SagaWyn et leur guide. Il décrit les formats exacts de l'import et reprend
  * ce que la campagne contient déjà (jeu, types de fiche, champs) pour que l'IA s'y raccorde.
- * Rien n'est envoyé à une IA par LoreMundi : l'utilisateur colle le texte dans la sienne.
+ * Rien n'est envoyé à une IA par SagaWyn : l'utilisateur colle le texte dans la sienne.
  */
 class AiImportPrompt
 {
@@ -48,13 +48,13 @@ class AiImportPrompt
      */
     public static function skillArchive(Campaign $campaign, ?string $locale = null): string
     {
-        $skill = "---\nname: loremundi-import\ndescription: Prépare les fichiers CSV d'import LoreMundi et leur guide à partir de PDF de jeu de rôle (fiches, champs, règles, scènes, aides de jeu).\n---\n\n"
+        $skill = "---\nname: sagawyn-import\ndescription: Prépare les fichiers CSV d'import SagaWyn et leur guide à partir de PDF de jeu de rôle (fiches, champs, règles, scènes, aides de jeu).\n---\n\n"
             .self::for($campaign, $locale);
 
-        $path = tempnam(sys_get_temp_dir(), 'loremundi-skill-');
+        $path = tempnam(sys_get_temp_dir(), 'sagawyn-skill-');
         $zip = new ZipArchive;
         $zip->open($path, ZipArchive::CREATE | ZipArchive::OVERWRITE);
-        $zip->addFromString('loremundi-import/SKILL.md', $skill);
+        $zip->addFromString('sagawyn-import/SKILL.md', $skill);
         $zip->close();
 
         return $path;

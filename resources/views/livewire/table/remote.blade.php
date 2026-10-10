@@ -10,7 +10,7 @@
     <section class="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm">
         <div class="flex items-center justify-between gap-3">
             <h1 class="text-lg font-semibold">{{ __('Télécommande') }}</h1>
-            <a href="{{ route('table.screen', $campaign) }}" target="loremundi-table" class="link text-sm">{{ __('Écran ↗') }}</a>
+            <a href="{{ route('table.screen', $campaign) }}" target="sagawyn-table" class="link text-sm">{{ __('Écran ↗') }}</a>
         </div>
         <p class="mt-2 text-sm"><span class="text-stone-500">{{ __('Affiché :') }}</span> <span class="font-medium">{{ $label }}</span></p>
         @if ($pdf)

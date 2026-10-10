@@ -1,4 +1,4 @@
-# LoreMundi (anciennement CodexFlow)
+# SagaWyn (anciennement LoreMundi, à l'origine CodexFlow)
 
 Assistant Web/PWA pour Maître de Jeu, édité par Autistic Intelligence (devise « Every world has a story. »), indépendant de tout système de règles. La référence fonctionnelle est le cahier des charges V1.1, conservé dans les fichiers du projet Claude (`cadrage/CodexFlow_Cahier_des_charges_V1.1_FR.docx`).
 
@@ -19,7 +19,7 @@ composer run dev                  # serveur + Vite
 php artisan test                  # tests (PostgreSQL, base codexflow_test)
 npm run test:browser              # tests navigateur Playwright (tests/Browser, base de dev)
 vendor/bin/pint                   # style
-php artisan loremundi:check       # installation prête pour la production ? (guide : docs/mise-en-ligne.md)
+php artisan sagawyn:check       # installation prête pour la production ? (guide : docs/mise-en-ligne.md)
 ```
 
 ## Règles du projet

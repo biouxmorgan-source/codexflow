@@ -14,7 +14,7 @@ async function closeBrowserSession(context) {
 
 test('“Remember me” keeps the person signed in after the browser session ends', async ({ browser }) => {
     // Deux comptes, pour rester sous la limite de connexions par minute et par adresse.
-    for (const [email, remember] of [['e2e-mj-t@loremundi.test', true], ['e2e-joueur-t@loremundi.test', false]]) {
+    for (const [email, remember] of [['e2e-mj-t@sagawyn.test', true], ['e2e-joueur-t@sagawyn.test', false]]) {
         const context = await browser.newContext();
         const page = await context.newPage();
         await login(page, email, { remember });
@@ -33,7 +33,7 @@ test('“Remember me” keeps the person signed in after the browser session end
 });
 
 test('the skip link is the first stop and jumps to the content', async ({ page }) => {
-    await login(page, 'e2e-mj-t@loremundi.test');
+    await login(page, 'e2e-mj-t@sagawyn.test');
     await page.goto('/campagnes');
 
     await page.keyboard.press('Tab');
@@ -48,7 +48,7 @@ test('the skip link is the first stop and jumps to the content', async ({ page }
 test('no horizontal scrolling on a phone with very large text', async ({ browser }) => {
     const context = await browser.newContext({ viewport: { width: 360, height: 740 }, isMobile: true, hasTouch: true });
     const page = await context.newPage();
-    await login(page, 'e2e-joueur-t@loremundi.test');
+    await login(page, 'e2e-joueur-t@sagawyn.test');
 
     await page.goto('/campagnes');
     await expect(page.locator('html')).toHaveAttribute('data-size', 'xlarge');
@@ -66,7 +66,7 @@ test('no horizontal scrolling on a phone with very large text', async ({ browser
 });
 
 test('a feature turned off by the GM is refused on a page that was already open', async ({ page }) => {
-    await login(page, 'e2e-mj-t@loremundi.test');
+    await login(page, 'e2e-mj-t@sagawyn.test');
     await page.goto('/campagnes');
     await page.getByRole('link', { name: 'Campagne transverse e2e' }).first().click();
     await page.waitForURL(/\/campagnes\/\d+$/);

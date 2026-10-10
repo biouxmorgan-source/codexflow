@@ -52,6 +52,6 @@ class ImportExampleController extends Controller
             }
 
             fclose($out);
-        }, 'loremundi-exemple-'.$kind.'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+        }, 'sagawyn-exemple-'.$kind.'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
     }
 }

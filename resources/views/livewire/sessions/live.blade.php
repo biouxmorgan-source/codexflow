@@ -289,7 +289,7 @@
                                         {{ $track->title }}
                                     </span>
                                     <button type="button" class="rounded-md border border-stone-200 px-1.5 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex"
-                                        x-on:click="$dispatch('loremundi-audio-play', @js(['url' => route('audio.file', $track), 'title' => $track->title, 'loop' => $track->loop]))"
+                                        x-on:click="$dispatch('sagawyn-audio-play', @js(['url' => route('audio.file', $track), 'title' => $track->title, 'loop' => $track->loop]))"
                                         aria-label="{{ __('Écouter « :name » sur cet appareil', ['name' => $track->title]) }}">▶ {{ __('Ici') }}</button>
                                     @if ($onTable)
                                         <button type="button" wire:click="playOnTable({{ $track->id }})" class="rounded-md border border-stone-200 px-1.5 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex"
@@ -312,7 +312,7 @@
                 <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
                     <div class="mb-2 flex items-center gap-2">
                         <h2 class="mr-auto flex items-center gap-1 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Écran de table') }} <x-premium feature="table" /></h2>
-                        <a href="{{ route('table.screen', $campaign) }}" target="loremundi-table" class="link text-sm">{{ __('Ouvrir ↗') }}</a>
+                        <a href="{{ route('table.screen', $campaign) }}" target="sagawyn-table" class="link text-sm">{{ __('Ouvrir ↗') }}</a>
                     </div>
                     <p class="flex items-center gap-2 text-sm">
                         <span class="min-w-0 flex-1 truncate"><span class="text-stone-500">{{ __('Affiché :') }}</span> <span class="font-medium">{{ $this->tableLabel }}</span></span>

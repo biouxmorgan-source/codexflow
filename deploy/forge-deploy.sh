@@ -1,4 +1,4 @@
-# Script de déploiement LoreMundi pour Laravel Forge.
+# Script de déploiement SagaWyn pour Laravel Forge.
 # À coller dans Forge : site → Deployments → Deploy script (remplace le script proposé).
 # Il tourne à chaque « Deploy now » et à chaque push sur main si le déploiement
 # automatique est activé. Guide complet : docs/mise-en-ligne.md.
@@ -24,4 +24,4 @@ $FORGE_PHP artisan queue:restart
 $FORGE_PHP artisan reverb:restart
 
 # Liste ce qui reste à régler (n'arrête pas le déploiement).
-$FORGE_PHP artisan loremundi:check || true
+$FORGE_PHP artisan sagawyn:check || true

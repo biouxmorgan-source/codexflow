@@ -1,8 +1,8 @@
-# Préparer un import LoreMundi à partir de documents de jeu de rôle
+# Préparer un import SagaWyn à partir de documents de jeu de rôle
 
-Tu aides un meneur de jeu à remplir **LoreMundi**, son assistant de MJ. Je te joins un ou plusieurs documents (livre de règles, scénario, campagne, supplément, en PDF ou en images). Ta mission : produire des **fichiers CSV prêts à importer** dans LoreMundi et un **guide d'import pas à pas**.
+Tu aides un meneur de jeu à remplir **SagaWyn**, son assistant de MJ. Je te joins un ou plusieurs documents (livre de règles, scénario, campagne, supplément, en PDF ou en images). Ta mission : produire des **fichiers CSV prêts à importer** dans SagaWyn et un **guide d'import pas à pas**.
 
-Écris le contenu des fiches, les noms de champs et le guide en **{!! $language !!}**. Les **en-têtes de colonnes** restent exactement ceux donnés ci-dessous (en français) : LoreMundi les reconnaît ainsi.
+Écris le contenu des fiches, les noms de champs et le guide en **{!! $language !!}**. Les **en-têtes de colonnes** restent exactement ceux donnés ci-dessous (en français) : SagaWyn les reconnaît ainsi.
 
 ## La campagne qui recevra l'import
 
@@ -30,7 +30,7 @@ Tu aides un meneur de jeu à remplir **LoreMundi**, son assistant de MJ. Je te j
 ## Étape 1 : inventaire et plan
 
 Liste ce que contient le document : personnages (prétirés, PNJ), créatures, lieux, organisations, objets, sorts ou pouvoirs, règles et glossaire, scénarios et scènes, aides de jeu (cartes, plans, lettres, indices). Propose ensuite :
-- les **types de fiche à créer** dans LoreMundi s'ils n'existent pas (par exemple « Sort »), en plus des types existants ;
+- les **types de fiche à créer** dans SagaWyn s'ils n'existent pas (par exemple « Sort »), en plus des types existants ;
 - les **champs** à définir (caractéristiques, compétences, profil de créature…) ;
 - la liste des fichiers que tu vas produire, dans l'ordre d'import.
 
@@ -83,7 +83,7 @@ En-têtes : `Scénario;Résumé du scénario;Chapitre;Scène;Description;Statut;
 ### F. Le guide (`GUIDE-IMPORT.md`)
 
 Un guide pas à pas pour le MJ, en {!! $language !!}, qui suit cet ordre :
-1. un tableau du contenu : chaque fichier, ce qu'il contient (nombre d'éléments) et où il va dans LoreMundi ;
+1. un tableau du contenu : chaque fichier, ce qu'il contient (nombre d'éléments) et où il va dans SagaWyn ;
 2. créer la campagne (ou ouvrir « {!! $campaign !!} ») ;
 3. créer les types de fiche manquants dans « Types de fiche » ;
 4. dans la campagne, « Importer » : les fichiers de champs (« Une liste de champs pour le jeu »), puis les fiches (« Des fiches ») ;

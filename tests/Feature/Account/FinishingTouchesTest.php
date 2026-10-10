@@ -21,7 +21,7 @@ class FinishingTouchesTest extends TestCase
 
         $this->actingAs(User::factory()->create())->get(route('campaigns.index'))
             ->assertOk()
-            ->assertSee('LoreMundi '.Changelog::version())
+            ->assertSee('SagaWyn '.Changelog::version())
             ->assertSee('Quoi de neuf');
 
         $this->get(route('changelog'))->assertOk()->assertSee('Version '.Changelog::version())->assertSee('Le MJ seul');

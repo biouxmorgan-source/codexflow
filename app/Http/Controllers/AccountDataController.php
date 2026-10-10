@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * « Mes données » (RGPD) : tout ce que LoreMundi garde sur la personne connectée, en JSON.
+ * « Mes données » (RGPD) : tout ce que SagaWyn garde sur la personne connectée, en JSON.
  * Le contenu complet d'une campagne se télécharge depuis la campagne (sauvegarde complète).
  */
 class AccountDataController extends Controller
@@ -64,7 +64,7 @@ class AccountDataController extends Controller
 
         return response(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), 200, [
             'Content-Type' => 'application/json; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="loremundi-mes-donnees.json"',
+            'Content-Disposition' => 'attachment; filename="sagawyn-mes-donnees.json"',
         ]);
     }
 }

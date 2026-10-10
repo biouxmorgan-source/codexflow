@@ -23,12 +23,12 @@ class ReceivedPopupSeeder extends Seeder
     public function run(CreateCampaign $createCampaign, GiveToCharacters $give, DeleteAccount $delete): void
     {
         // Sur une base vide, le premier compte créé devient administrateur : il doit pouvoir être supprimé.
-        User::whereIn('email', ['e2e-mj@loremundi.test', 'e2e-joueuse@loremundi.test'])->get()
+        User::whereIn('email', ['e2e-mj@sagawyn.test', 'e2e-joueuse@sagawyn.test'])->get()
             ->each(fn (User $user) => $delete->handle(tap($user->forceFill(['is_admin' => false]))->saveQuietly()));
 
         $seen = ['last_seen_version' => Changelog::version(), 'email_verified_at' => now()];
-        $gm = User::factory()->create(['name' => 'MJ e2e', 'email' => 'e2e-mj@loremundi.test', 'password' => self::PASSWORD] + $seen);
-        $player = User::factory()->create(['name' => 'Joueuse e2e', 'email' => 'e2e-joueuse@loremundi.test', 'password' => self::PASSWORD] + $seen);
+        $gm = User::factory()->create(['name' => 'MJ e2e', 'email' => 'e2e-mj@sagawyn.test', 'password' => self::PASSWORD] + $seen);
+        $player = User::factory()->create(['name' => 'Joueuse e2e', 'email' => 'e2e-joueuse@sagawyn.test', 'password' => self::PASSWORD] + $seen);
 
         $campaign = $createCampaign->handle($gm, ['name' => 'Campagne e2e', 'new_game_name' => 'Jeu e2e', 'new_world_name' => 'Monde e2e']);
         $campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);

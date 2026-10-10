@@ -1,8 +1,8 @@
-# LoreMundi
+# SagaWyn
 
 **Le monde en mémoire. La partie en mouvement.**
 
-LoreMundi est le poste de pilotage du Maître de Jeu : une application Web (PWA) pour préparer, conduire et mémoriser ses campagnes de jeu de rôle, quel que soit le système de règles.
+SagaWyn est le poste de pilotage du Maître de Jeu : une application Web (PWA) pour préparer, conduire et mémoriser ses campagnes de jeu de rôle, quel que soit le système de règles.
 
 ## Démarrer en local
 
@@ -34,7 +34,7 @@ php artisan test
 
 Les tests utilisent la base PostgreSQL `codexflow_test` (voir `phpunit.xml`).
 
-Les tests navigateur (Playwright, `tests/Browser`) cliquent dans de vraies pages. Ils utilisent la base de développement, où ils créent leurs propres comptes `e2e-*@loremundi.test`, et lancent `php artisan serve` si aucun serveur ne tourne :
+Les tests navigateur (Playwright, `tests/Browser`) cliquent dans de vraies pages. Ils utilisent la base de développement, où ils créent leurs propres comptes `e2e-*@sagawyn.test`, et lancent `php artisan serve` si aucun serveur ne tourne :
 
 ```sh
 npx playwright install chromium   # une fois

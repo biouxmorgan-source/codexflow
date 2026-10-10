@@ -1,5 +1,5 @@
 // Application installable (PWA) : service worker, bouton d'installation, notifications push.
-const guest = document.querySelector('meta[name="loremundi-guest"]') !== null;
+const guest = document.querySelector('meta[name="sagawyn-guest"]') !== null;
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').then(async () => {
@@ -16,11 +16,11 @@ let installPrompt = null;
 window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
     installPrompt = event;
-    window.dispatchEvent(new CustomEvent('loremundi:installable'));
+    window.dispatchEvent(new CustomEvent('sagawyn:installable'));
 });
 
 // Textes traduits fournis par la page (layout base), le français restant la valeur par défaut.
-const text = (key, fallback) => window.loreMundiText?.[key] ?? fallback;
+const text = (key, fallback) => window.sagaWynText?.[key] ?? fallback;
 
 const csrf = () => document.querySelector('meta[name="csrf-token"]')?.content ?? '';
 const vapidKey = () => document.querySelector('meta[name="vapid-public-key"]')?.content ?? '';
@@ -51,7 +51,7 @@ document.addEventListener('alpine:init', () => {
         error: '',
 
         async init() {
-            window.addEventListener('loremundi:installable', () => { this.installable = true; });
+            window.addEventListener('sagawyn:installable', () => { this.installable = true; });
             if (this.pushSupported) {
                 const registration = await navigator.serviceWorker.ready;
                 this.subscribed = (await registration.pushManager.getSubscription()) !== null;

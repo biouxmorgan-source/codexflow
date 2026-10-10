@@ -25,8 +25,8 @@ class EmailChanged extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject(__('Votre adresse e-mail LoreMundi a changé'))
-            ->line(__('L’adresse de votre compte LoreMundi est désormais :email.', ['email' => $this->newEmail]))
+            ->subject(__('Votre adresse e-mail SagaWyn a changé'))
+            ->line(__('L’adresse de votre compte SagaWyn est désormais :email.', ['email' => $this->newEmail]))
             ->line(__('Si vous n’êtes pas à l’origine de ce changement, répondez à ce message ou écrivez à l’administrateur du site.'));
     }
 }

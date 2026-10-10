@@ -22,7 +22,7 @@ use Tests\TestCase;
 
 /**
  * Finitions de la recette v0.25.0 : extrait de recherche, Donner à toute la table,
- * reprise d'un personnage par un joueur revenu, noms internes LoreMundi.
+ * reprise d'un personnage par un joueur revenu, noms internes SagaWyn.
  */
 class BacklogV4Test extends TestCase
 {
@@ -118,15 +118,16 @@ class BacklogV4Test extends TestCase
         $this->assertSame($this->alex->id, $this->harvey->fresh()->previous_user_id);
     }
 
-    public function test_internal_names_follow_the_loremundi_brand(): void
+    public function test_internal_names_follow_the_sagawyn_brand(): void
     {
-        $this->assertSame('X-LoreMundi-Offline', AvailableOffline::HEADER);
-        $this->assertStringContainsString("const PAGES = 'loremundi-pages'", file_get_contents(public_path('sw.js')));
+        $this->assertSame('X-SagaWyn-Offline', AvailableOffline::HEADER);
+        $this->assertStringContainsString("const PAGES = 'sagawyn-pages'", file_get_contents(public_path('sw.js')));
         $this->assertStringContainsString("key.startsWith('codexflow-')", file_get_contents(public_path('sw.js')), 'Les anciens caches sont effacés.');
+        $this->assertStringContainsString("key.startsWith('loremundi-')", file_get_contents(public_path('sw.js')));
 
         $this->campaign->forceFill(['table_shared' => true])->save();
         $this->actingAs($this->alex)->get(route('characters.show', [$this->campaign, $this->harvey]))
-            ->assertSee('target="loremundi-table"', false)
+            ->assertSee('target="sagawyn-table"', false)
             ->assertDontSee('codexflow-table');
     }
 }
