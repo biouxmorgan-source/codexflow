@@ -60,6 +60,7 @@ return [
         'base' => 'básico',
         'oaths' => 'juramentos',
         'house' => 'de la casa',
+        'ambience' => 'ambiente',
     ],
 
     'quay_state' => [
@@ -451,5 +452,17 @@ return [
         'poles_moved' => ['Sesión 2', 'Las pértigas se mueven', 'Si nadie interviene, un cuarto viajero desaparece en las Marcas.'],
         'invasion' => ['Sesión 3', 'Los Ahogados entran en la ciudad', 'Con la cuenta de la bruma en 6, remontan la bahía y caminan hasta la Lonja.'],
         'ending' => ['Final', 'El sello devuelto o roto', 'Devolver el Sello hace caer a Ysane; romperlo libera a la ciudad de todo juramento, y al Hilo Gris de todo límite.'],
+    ],
+
+    // Ambiances sonores de la bibliothèque.
+    'sounds' => [
+        'tide' => 'Marea baja en las marismas',
+        'mist' => 'Bruma de Pierrecendre',
+        'storm' => 'Tormenta sobre el faro',
+    ],
+
+    // Séance 1, déjà jouée : son résumé.
+    'session' => [
+        'summary' => '[[quay]]: los personajes desembarcan y [[brannoc]] les muestra que la tercera linterna sigue apagada, la señal del Barquero que nadie ha notado. [[hall]]: [[elzevir]] se niega a abrir el estante de la gran bruma, y [[ysane]] les da las gracias demasiado rápido. La sesión termina a orillas del agua, con la marea baja: [[marshes]].',
     ],
 ];

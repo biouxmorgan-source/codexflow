@@ -60,6 +60,7 @@ return [
         'base' => 'base',
         'oaths' => 'giuramenti',
         'house' => 'della casa',
+        'ambience' => 'atmosfera',
     ],
 
     'quay_state' => [
@@ -451,5 +452,17 @@ return [
         'poles_moved' => ['Sessione 2', 'Le pertiche vengono spostate', 'Se nessuno interviene, un quarto viaggiatore scompare nelle marche.'],
         'invasion' => ['Sessione 3', 'Gli Annegati entrano in città', 'Con il conto della nebbia a 6, risalgono la baia e marciano fino alla Sala.'],
         'ending' => ['Fine', 'Il sigillo restituito o spezzato', 'Restituire il Sigillo fa cadere Ysane; spezzarlo libera la città da ogni giuramento, e il Filo Grigio da ogni limite.'],
+    ],
+
+    // Ambiances sonores de la bibliothèque.
+    'sounds' => [
+        'tide' => 'Bassa marea sulle paludi',
+        'mist' => 'Nebbia di Pierrecendre',
+        'storm' => 'Tempesta sul faro',
+    ],
+
+    // Séance 1, déjà jouée : son résumé.
+    'session' => [
+        'summary' => '[[quay]]: i personaggi sbarcano e [[brannoc]] mostra loro che la terza lanterna resta spenta, il segnale del Traghettatore che nessuno ha notato. [[hall]]: [[elzevir]] rifiuta di aprire lo scaffale della grande nebbia, e [[ysane]] li ringrazia un po’ troppo in fretta. La sessione si chiude in riva all’acqua, con la bassa marea: [[marshes]].',
     ],
 ];

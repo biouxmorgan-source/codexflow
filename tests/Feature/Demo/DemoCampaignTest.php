@@ -5,6 +5,7 @@ namespace Tests\Feature\Demo;
 use App\Actions\Demo\LoadDemoCampaign;
 use App\Enums\Zone;
 use App\Livewire\Campaigns\Index as CampaignIndex;
+use App\Models\AudioTrack;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
@@ -90,6 +91,25 @@ class DemoCampaignTest extends TestCase
         $events = TimelineEvent::where('campaign_id', $campaign->id)->get();
         $this->assertSame(['planned', 'played', 'world'], $events->pluck('kind')->unique()->sort()->values()->all());
         $this->assertGreaterThan(0, $events->where('zone', Zone::Public)->count());
+
+        // Sons en boucle dans la bibliothèque, liés aux scènes ; fichiers lisibles.
+        $tracks = AudioTrack::where('campaign_id', $campaign->id)->get();
+        $this->assertSame(array_values($text['sounds']), $tracks->pluck('title')->all());
+        foreach ($tracks as $track) {
+            $this->assertTrue($track->loop);
+            $this->assertStringStartsWith('RIFF', (string) Storage::disk(AudioTrack::DISK)->get($track->path));
+            $this->assertNotEmpty($track->scenes()->pluck('scenes.id'));
+        }
+
+        // Séance 1 jouée : résumé avec liens, événement de la chronologie, demande d'avis ouverte.
+        $session = $campaign->playSessions()->sole();
+        $this->assertNotNull($session->ended_at);
+        $this->assertNull($campaign->openSession());
+        $this->assertMatchesRegularExpression(EntityLinks::PATTERN, (string) $session->summary);
+        $this->assertSame(1, $events->where('play_session_id', $session->id)->count());
+        $feedback = $campaign->feedbackRequests()->sole();
+        $this->assertTrue($feedback->isOpen() && $feedback->anonymous);
+        $this->assertSame($session->id, $feedback->play_session_id);
     }
 
     public function test_the_internal_links_of_the_demonstration_all_point_at_a_sheet(): void

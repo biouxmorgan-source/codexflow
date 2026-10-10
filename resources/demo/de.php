@@ -60,6 +60,7 @@ return [
         'base' => 'grundregeln',
         'oaths' => 'eide',
         'house' => 'hausregel',
+        'ambience' => 'Atmosphäre',
     ],
 
     'quay_state' => [
@@ -451,5 +452,17 @@ return [
         'poles_moved' => ['Sitzung 2', 'Die Stangen werden versetzt', 'Greift niemand ein, verschwindet ein vierter Reisender in den Marken.'],
         'invasion' => ['Sitzung 3', 'Die Ertrunkenen betreten die Stadt', 'Bei Nebelzähler 6 steigen sie die Bucht herauf und gehen bis zur Halle.'],
         'ending' => ['Ende', 'Das Siegel zurückgegeben oder zerbrochen', 'Wird das Siegel zurückgegeben, fällt Ysane; wird es zerbrochen, ist die Stadt von jedem Eid befreit – und der Graue Faden von jeder Grenze.'],
+    ],
+
+    // Ambiances sonores de la bibliothèque.
+    'sounds' => [
+        'tide' => 'Ebbe in den Marken',
+        'mist' => 'Nebel über Pierrecendre',
+        'storm' => 'Gewitter über dem Leuchtturm',
+    ],
+
+    // Séance 1, déjà jouée : son résumé.
+    'session' => [
+        'summary' => '[[quay]]: Die Figuren gehen an Land, und [[brannoc]] zeigt ihnen, dass die dritte Laterne dunkel bleibt – das Zeichen des Fährmanns, das niemand bemerkt hat. [[hall]]: [[elzevir]] weigert sich, das Regal des großen Nebels zu öffnen, und [[ysane]] dankt ihnen etwas zu schnell. Die Sitzung endet am Wasser, bei Ebbe: [[marshes]].',
     ],
 ];

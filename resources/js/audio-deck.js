@@ -7,7 +7,8 @@ function fade(audio, from, to, done) {
     const start = performance.now();
     audio.volume = from;
     const step = (now) => {
-        const t = Math.min(1, (now - start) / FADE_MS);
+        // Le premier horodatage de requestAnimationFrame peut précéder « start » : t reste dans [0, 1].
+        const t = Math.min(1, Math.max(0, (now - start) / FADE_MS));
         audio.volume = from + (to - from) * t;
         if (t < 1) {
             requestAnimationFrame(step);

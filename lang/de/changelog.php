@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.48.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Eine vollständigere Demonstration',
+        'items' => [
+            'Die Demo-Kampagne „Der Eid von Pierrecendre“ enthält jetzt drei eigene, mit Szenen verknüpfte Klangatmosphären, eine bereits gespielte erste Sitzung mit Zusammenfassung und eine Feedback-Anfrage an die Spieler.',
+            'Korrektur: Die Überblendung zwischen zwei Stücken unterbricht die Wiedergabe in manchen Browsern nicht mehr.',
+        ],
+    ],
+
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi wird zu SagaWyn',

@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.48.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Een vollediger demonstratie',
+        'items' => [
+            'De demonstratiecampagne ‘De Eed van Pierrecendre’ bevat nu drie eigen geluidssferen gekoppeld aan scènes, een al gespeelde eerste sessie met samenvatting en een feedbackverzoek aan de spelers.',
+            'Oplossing: de overgang tussen twee nummers stopt het afspelen niet meer in sommige browsers.',
+        ],
+    ],
+
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi wordt SagaWyn',

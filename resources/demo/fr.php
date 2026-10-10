@@ -60,6 +60,7 @@ return [
         'base' => 'base',
         'oaths' => 'serments',
         'house' => 'maison',
+        'ambience' => 'ambiance',
     ],
 
     'quay_state' => [
@@ -451,5 +452,17 @@ return [
         'poles_moved' => ['Séance 2', 'Les perches sont déplacées', 'Si personne n’intervient, un quatrième voyageur disparaît dans les marches.'],
         'invasion' => ['Séance 3', 'Les Noyeux entrent en ville', 'Au compte de brume 6, ils remontent la baie et marchent jusqu’à la Halle.'],
         'ending' => ['Fin', 'Le sceau rendu ou brisé', 'Rendre le Sceau fait tomber Ysane ; le briser libère la ville de tout serment, et le Fil Gris de toute limite.'],
+    ],
+
+    // Ambiances sonores de la bibliothèque.
+    'sounds' => [
+        'tide' => 'Marée basse sur les marches',
+        'mist' => 'Brume de Pierrecendre',
+        'storm' => 'Orage sur le phare',
+    ],
+
+    // Séance 1, déjà jouée : son résumé.
+    'session' => [
+        'summary' => '[[quay]] : les personnages débarquent, et [[brannoc]] leur montre que la troisième lanterne reste éteinte, le signal du Passeur que personne n’a remarqué. [[hall]] : [[elzevir]] refuse d’ouvrir le rayon de la grande brume, et [[ysane]] les remercie un peu trop vite. Fin de la séance au bord de l’eau, à marée basse : [[marshes]].',
     ],
 ];

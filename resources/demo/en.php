@@ -60,6 +60,7 @@ return [
         'base' => 'core',
         'oaths' => 'oaths',
         'house' => 'house rule',
+        'ambience' => 'ambience',
     ],
 
     'quay_state' => [
@@ -451,5 +452,17 @@ return [
         'poles_moved' => ['Session 2', 'The poles are moved', 'If no one steps in, a fourth traveller vanishes in the marches.'],
         'invasion' => ['Session 3', 'The Drowned enter the town', 'When the mist count reaches 6, they come up the bay and walk all the way to the Hall.'],
         'ending' => ['End', 'The seal returned or broken', 'Returning the Seal brings Ysane down; breaking it frees the town from every oath, and the Grey Thread from every limit.'],
+    ],
+
+    // Ambiances sonores de la bibliothèque.
+    'sounds' => [
+        'tide' => 'Low tide on the marshes',
+        'mist' => 'Pierrecendre mist',
+        'storm' => 'Storm over the lighthouse',
+    ],
+
+    // Séance 1, déjà jouée : son résumé.
+    'session' => [
+        'summary' => '[[quay]]: the characters land, and [[brannoc]] shows them that the third lantern stays dark, the Ferryman’s signal that nobody has noticed. [[hall]]: [[elzevir]] refuses to open the shelf of the great mist, and [[ysane]] thanks them a little too quickly. The session ends at the water’s edge, at low tide: [[marshes]].',
     ],
 ];
