@@ -18,13 +18,16 @@ use App\Models\EntityType;
 use App\Models\FeedbackRequest;
 use App\Models\FieldDefinition;
 use App\Models\GameSystem;
+use App\Models\PlayerCharacter;
 use App\Models\PlaySession;
 use App\Models\Rule;
 use App\Models\Scene;
 use App\Models\Secret;
+use App\Models\SessionNote;
 use App\Models\TableMap;
 use App\Models\Tag;
 use App\Models\TimelineEvent;
+use App\Models\ToPlayItem;
 use App\Models\User;
 use App\Models\World;
 use App\Support\Demo\DemoFiles;
@@ -79,6 +82,11 @@ class LoadDemoCampaign
 
     /** @var array<string, Scene> */
     private array $scenes = [];
+
+    /** @var array<string, Secret> */
+    private array $secrets = [];
+
+    private PlayerCharacter $character;
 
     public function __construct(private CreateCampaign $createCampaign) {}
 
@@ -143,19 +151,25 @@ class LoadDemoCampaign
             $this->campaign->gameSystem->forceFill(['description' => $this->text['game']['description']])->save();
             $this->campaign->world->forceFill(['description' => $this->text['world']['description']])->save();
             $this->campaign->forceFill(['table_theme' => 'parchemin'])->save();
+            $this->cover($this->campaign->gameSystem, 'game', '#5b3a29', '#2b3a42');
+            $this->cover($this->campaign->world, 'world', '#41607a', '#1f4f5c');
 
             $this->types();
             $this->fieldDefinitions();
             $this->entities();
             $this->relations();
             $this->documents();
+            $this->references();
             $this->rules();
             $this->scenario();
             $this->secrets();
             $this->map();
             $this->sounds();
             $this->playedSession();
+            $this->character();
+            $this->toPlay();
             $this->timeline();
+            $this->colourTags();
 
             return $this->campaign->fresh();
         }));
@@ -167,7 +181,9 @@ class LoadDemoCampaign
             $this->types[$key] = EntityType::standard($key);
         }
 
-        $type = new EntityType(['name' => $this->text['types']['faction']]);
+        // Les types sont communs à tous les jeux du MJ : une démonstration rechargée reprend le sien.
+        $type = EntityType::where('user_id', $this->gm->id)->where('name', $this->text['types']['faction'])->first()
+            ?? new EntityType(['name' => $this->text['types']['faction']]);
         $type->user_id = $this->gm->id;
         $type->save();
         $this->types['faction'] = $type;
@@ -177,37 +193,43 @@ class LoadDemoCampaign
         $this->types['pregen'] = $this->types['character'];
     }
 
-    /** Les champs du jeu : quatre caractéristiques, un profil, et deux champs réservés au MJ. */
+    /**
+     * Les champs du jeu : quatre caractéristiques, un compteur, un profil, deux champs réservés au MJ
+     * dont une référence à une fiche ; pour les lieux et créatures, un niveau de danger (un champ
+     * commun à deux types) et, pour les lieux, un document de référence.
+     */
     private function fieldDefinitions(): void
     {
         $definitions = [
-            // clé, groupe, type, options, zone, modifiable par le joueur
-            ['body', 'traits', FieldType::Select, self::SCORES, Zone::Public, false],
-            ['skill', 'traits', FieldType::Select, self::SCORES, Zone::Public, false],
-            ['mind', 'traits', FieldType::Select, self::SCORES, Zone::Public, false],
-            ['heart', 'traits', FieldType::Select, self::SCORES, Zone::Public, false],
-            ['breath', 'traits', FieldType::Counter, null, Zone::Public, true],
-            ['oaths', 'traits', FieldType::Number, null, Zone::Public, true],
-            ['trade', 'profile', FieldType::Text, null, Zone::Public, false],
-            ['trait', 'profile', FieldType::Text, null, Zone::Public, false],
-            ['ties', 'profile', FieldType::LongText, null, Zone::Public, true],
-            ['hidden_oath', 'secrets', FieldType::LongText, null, Zone::GameMaster, false],
-            ['betrayal', 'secrets', FieldType::Text, null, Zone::GameMaster, false],
+            // clé, groupe, type, options, zone, modifiable par le joueur, types de fiche
+            ['body', 'traits', FieldType::Select, self::SCORES, Zone::Public, false, ['character']],
+            ['skill', 'traits', FieldType::Select, self::SCORES, Zone::Public, false, ['character']],
+            ['mind', 'traits', FieldType::Select, self::SCORES, Zone::Public, false, ['character']],
+            ['heart', 'traits', FieldType::Select, self::SCORES, Zone::Public, false, ['character']],
+            ['breath', 'traits', FieldType::Counter, null, Zone::Public, true, ['character']],
+            ['oaths', 'traits', FieldType::Number, null, Zone::Public, true, ['character']],
+            ['trade', 'profile', FieldType::Text, null, Zone::Public, false, ['character']],
+            ['trait', 'profile', FieldType::Text, null, Zone::Public, false, ['character']],
+            ['ties', 'profile', FieldType::LongText, null, Zone::Public, true, ['character']],
+            ['hidden_oath', 'secrets', FieldType::LongText, null, Zone::GameMaster, false, ['character']],
+            ['betrayal', 'secrets', FieldType::Text, null, Zone::GameMaster, false, ['character']],
+            ['allegiance', 'secrets', FieldType::EntityRef, null, Zone::GameMaster, false, ['character']],
+            ['danger', 'landmarks', FieldType::Select, array_values($this->text['danger_levels']), Zone::Public, false, ['place', 'creature']],
+            ['reference', 'landmarks', FieldType::File, null, Zone::Public, false, ['place']],
         ];
 
-        foreach ($definitions as $position => [$key, $group, $type, $options, $zone, $playerEditable]) {
-            foreach (['character'] as $for) {
-                $this->fields[$for.'.'.$key] = $this->campaign->gameSystem->fieldDefinitions()->create([
-                    'name' => $this->text['fields'][$key],
-                    'group' => $this->text['groups'][$group],
-                    'type' => $type,
-                    'options' => $options,
-                    'zone' => $zone,
-                    'entity_type_id' => $this->types[$for]->id,
-                    'position' => $position,
-                    'player_editable' => $playerEditable,
-                ]);
-            }
+        foreach ($definitions as $position => [$key, $group, $type, $options, $zone, $playerEditable, $for]) {
+            $field = $this->campaign->gameSystem->fieldDefinitions()->make([
+                'name' => $this->text['fields'][$key],
+                'group' => $this->text['groups'][$group],
+                'type' => $type,
+                'options' => $options,
+                'zone' => $zone,
+                'position' => $position,
+                'player_editable' => $playerEditable,
+            ]);
+            $field->assignTypes(collect($for)->map(fn (string $type) => $this->types[$type]->id)->all())->save();
+            $this->fields[$key] = $field;
         }
     }
 
@@ -283,7 +305,7 @@ class LoadDemoCampaign
 
             if ($values !== []) {
                 $entity->setFieldValues(collect($values)
-                    ->mapWithKeys(fn (mixed $value, string $field) => [$this->fields['character.'.$field]->id => $value])
+                    ->mapWithKeys(fn (mixed $value, string $field) => [$this->fields[$field]->id => $value])
                     ->all());
                 $entity->save();
             }
@@ -294,6 +316,51 @@ class LoadDemoCampaign
 
         // Une différence propre à la campagne, qui ne touche pas la fiche du monde.
         $this->entities['quay']->stateIn($this->campaign)->fill($this->text['quay_state'])->save();
+    }
+
+    /**
+     * Valeurs qui désignent d'autres éléments : danger des lieux et créatures, document de référence
+     * des lieux, allégeance réelle (une fiche) de trois personnages. Et une pièce jointe réservée au MJ.
+     */
+    private function references(): void
+    {
+        $levels = array_values($this->text['danger_levels']);
+        $values = [
+            'city' => ['danger' => $levels[0], 'reference' => $this->documents['plan']->id],
+            'hall' => ['danger' => $levels[1]],
+            'quay' => ['danger' => $levels[1], 'reference' => $this->documents['notice']->id],
+            'marshes' => ['danger' => $levels[2], 'reference' => $this->documents['tides']->id],
+            'lighthouse' => ['danger' => $levels[3]],
+            'drowned' => ['danger' => $levels[3]],
+            'brannoc' => ['allegiance' => 'greythread'],
+            'vanne' => ['allegiance' => 'broken'],
+            'mornevent' => ['allegiance' => 'guard'],
+        ];
+
+        foreach ($values as $key => $fields) {
+            $entity = $this->entities[$key];
+            $entity->setFieldValues(collect($fields)->mapWithKeys(fn (mixed $value, string $field) => [
+                $this->fields[$field]->id => $field === 'allegiance' ? '[['.$this->entities[$value]->name.'|'.$this->entities[$value]->id.']]' : $value,
+            ])->all());
+            $entity->save();
+        }
+
+        $text = $this->text['attachments']['seal'];
+        $file = $this->image('attachment-seal', fn () => ['extension' => 'pdf', 'contents' => DemoFiles::pdf($text['title'], $text['lines'])]);
+        $seal = $this->entities['seal'];
+        $path = 'attachments/'.$seal->id.'/'.Str::random(40).'.'.$file['extension'];
+        Storage::disk(Entity::FILES_DISK)->put($path, $file['contents']);
+
+        $attachment = $seal->attachments()->make([
+            'zone' => Zone::GameMaster,
+            'disk' => Entity::FILES_DISK,
+            'path' => $path,
+            'original_name' => $text['file'].'.'.$file['extension'],
+            'mime_type' => self::mime($file['extension']),
+            'size' => strlen($file['contents']),
+        ]);
+        $attachment->owner()->associate($this->gm);
+        $attachment->save();
     }
 
     private function relations(): void
@@ -462,8 +529,8 @@ class LoadDemoCampaign
                 'name' => $text['name'],
                 'status' => $status,
                 'position' => ++$position,
-                'description' => $this->link($text['description']),
-                'gm_notes' => isset($text['gm_notes']) ? $this->link($text['gm_notes']) : null,
+                // Une scène n'est vue que du MJ : ses notes suivent la description, en paragraphe à part.
+                'description' => $this->link(trim($text['description']."\n\n".($text['gm_notes'] ?? ''))),
             ]);
 
             $scene->entities()->attach(collect($entities)->mapWithKeys(fn (string $entity, int $i) => [
@@ -488,8 +555,11 @@ class LoadDemoCampaign
             'bought' => [['greythread', 'guard', 'mornevent'], [], ['notebook']],
         ];
 
+        // Une rumeur, un indice, des vérités : les trois natures de secret.
+        $kinds = ['ysane_oath' => 'truth', 'stranger' => 'truth', 'poles' => 'clue', 'daughter' => 'truth', 'bought' => 'rumour'];
+
         foreach ($secrets as $key => [$entities, $documents, $scenes]) {
-            $secret = new Secret($this->text['secrets'][$key]);
+            $secret = new Secret($this->text['secrets'][$key] + ['kind' => $kinds[$key]]);
             $secret->owner()->associate($this->gm);
             $secret->campaign()->associate($this->campaign);
             $secret->save();
@@ -497,6 +567,7 @@ class LoadDemoCampaign
             $secret->entities()->attach(collect($entities)->map(fn (string $k) => $this->entities[$k]->id)->all());
             $secret->documents()->attach(collect($documents)->map(fn (string $k) => $this->documents[$k]->id)->all());
             $secret->scenes()->attach(collect($scenes)->map(fn (string $k) => $this->scenes[$k]->id)->all());
+            $this->secrets[$key] = $secret;
         }
     }
 
@@ -620,11 +691,93 @@ class LoadDemoCampaign
             'summary' => $this->link($this->text['session']['summary']),
         ]);
 
+        // Les notes prises pendant la séance, scène par scène.
+        $minutes = 0;
+
+        foreach ($this->text['session']['notes'] as $key => $body) {
+            $note = new SessionNote(['body' => $this->link($body)]);
+            $note->playSession()->associate($this->session);
+            $note->scene()->associate($this->scenes[$key] ?? null);
+            $note->author()->associate($this->gm);
+            $note->forceFill(['created_at' => $this->session->started_at->copy()->addMinutes($minutes += 50)])->save();
+        }
+
         $feedback = new FeedbackRequest(['anonymous' => true]);
         $feedback->campaign()->associate($this->campaign);
         $feedback->playSession()->associate($this->session);
         $feedback->author()->associate($this->gm);
         $feedback->save();
+    }
+
+    /**
+     * Un personnage joueur tiré du prétiré Teska, encore sans joueur : sa fiche montre ce qu'un
+     * joueur reçoit (fiche, document, règle, secret, information, objets) et le MJ peut « Voir comme » lui.
+     * Le MJ le confie à un joueur invité depuis la page Personnages.
+     */
+    private function character(): void
+    {
+        $sheet = $this->entities['teska']->copyToCampaign($this->campaign);
+        $sheet->setFieldValues([$this->fields['breath']->id => ['value' => 3, 'max' => 5]]);
+        $sheet->save();
+
+        $this->character = $this->campaign->playerCharacters()->create([
+            'entity_id' => $sheet->id,
+            'source_entity_id' => $this->entities['teska']->id,
+            'is_active' => true,
+        ]);
+
+        $text = $this->text['character'];
+        $grants = [
+            // nature, élément, scène où il a été donné
+            ['entity', ['entity_id' => $this->entities['brannoc']->id], 'lantern'],
+            ['document', ['document_id' => $this->documents['notice']->id], 'lantern'],
+            ['rule', ['rule_id' => $this->rules['roll']->id], 'lantern'],
+            ['possession', ['title' => $text['lantern'][0], 'body' => $text['lantern'][1], 'quantity' => 1], 'lantern'],
+            ['possession', ['title' => $text['coins'][0], 'body' => $text['coins'][1], 'quantity' => 12], null],
+            ['information', ['title' => $text['rumour'][0], 'body' => $text['rumour'][1]], 'register'],
+            ['information', ['secret_id' => $this->secrets['poles']->id, 'title' => $this->secrets['poles']->title, 'body' => $this->secrets['poles']->body], 'register'],
+        ];
+
+        foreach ($grants as [$kind, $data, $scene]) {
+            $this->character->grants()->create($data + [
+                'kind' => $kind,
+                'play_session_id' => $this->session->id,
+                'scene_id' => $scene !== null ? $this->scenes[$scene]->id : null,
+                'granted_by' => $this->gm->id,
+            ]);
+        }
+    }
+
+    /** La liste « À jouer » : des idées à placer, liées à une scène, une règle ou un personnage ; une déjà faite. */
+    private function toPlay(): void
+    {
+        $items = [
+            // clé => scène, règle, pour le personnage, fait
+            'curfew' => ['lantern', null, false, true],
+            'bell' => ['poles', null, false, false],
+            'mist' => [null, 'mist', false, false],
+            'debt' => [null, null, true, false],
+        ];
+
+        $position = 0;
+
+        foreach ($items as $key => [$scene, $rule, $forCharacter, $done]) {
+            $item = new ToPlayItem([
+                'body' => $this->text['to_play'][$key],
+                'position' => ++$position,
+                'done_at' => $done ? $this->session->ended_at : null,
+            ]);
+            $item->campaign()->associate($this->campaign);
+            $item->scene()->associate($scene !== null ? $this->scenes[$scene] : null);
+            $item->rule()->associate($rule !== null ? $this->rules[$rule] : null);
+            $item->character()->associate($forCharacter ? $this->character : null);
+            $item->save();
+        }
+
+        // Les fiches épinglées, toujours sous la main en mode Session.
+        foreach (['ysane', 'brannoc', 'quay'] as $position => $key) {
+            $this->campaign->pins()->attach($this->entities[$key]->id, ['position' => $position]);
+        }
     }
 
     private function timeline(): void
@@ -661,6 +814,29 @@ class LoadDemoCampaign
                 'play_session_id' => $key === 'session1' ? $this->session->id : null,
             ])->save();
         }
+    }
+
+    /** Une couleur par tag, pour que la page Tags et les pastilles le montrent. */
+    private function colourTags(): void
+    {
+        $colours = [
+            'city' => 'stone', 'act1' => 'green', 'act2' => 'amber', 'act3' => 'red', 'intrigue' => 'violet',
+            'hall' => 'blue', 'quays' => 'teal', 'marshes' => 'teal', 'guard' => 'stone', 'pregen' => 'pink',
+            'base' => 'blue', 'oaths' => 'violet', 'house' => 'amber', 'ambience' => 'teal',
+        ];
+
+        foreach ($colours as $key => $colour) {
+            Tag::where('user_id', $this->gm->id)->where('name', $this->text['tags'][$key])->whereNull('color')->update(['color' => $colour]);
+        }
+    }
+
+    /** Couverture du jeu ou du monde : l'image fournie, sinon celle dessinée par le code. */
+    private function cover(GameSystem|World $item, string $key, string $sky, string $sea): void
+    {
+        $image = $this->image($key, fn () => DemoFiles::cover($sky, $sea));
+        $item->image_path = 'images/'.Str::random(40).'.'.$image['extension'];
+        Storage::disk($item::IMAGE_DISK)->put($item->image_path, $image['contents']);
+        $item->save();
     }
 
     /**

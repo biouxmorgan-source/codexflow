@@ -30,6 +30,7 @@ return [
         'traits' => 'Características',
         'profile' => 'Perfil',
         'secrets' => 'Segredos',
+        'landmarks' => 'Referências',
     ],
 
     'fields' => [
@@ -44,6 +45,9 @@ return [
         'ties' => 'Laços',
         'hidden_oath' => 'Juramento oculto',
         'betrayal' => 'O que o levaria a trair',
+        'allegiance' => 'Lealdade verdadeira',
+        'danger' => 'Perigo',
+        'reference' => 'Documento de referência',
     ],
 
     'tags' => [
@@ -464,5 +468,47 @@ return [
     // Séance 1, déjà jouée : son résumé.
     'session' => [
         'summary' => '[[quay]]: as personagens desembarcam e [[brannoc]] mostra-lhes que a terceira lanterna continua apagada, o sinal do Barqueiro que ninguém notou. [[hall]]: [[elzevir]] recusa abrir a prateleira da grande bruma, e [[ysane]] agradece-lhes depressa demais. A sessão termina à beira da água, na maré baixa: [[marshes]].',
+        'notes' => [
+            'lantern' => 'Os jogadores suspeitaram logo de [[brannoc]]; a Teska seguiu-o até aos pântanos sem ser vista.',
+            'register' => '[[elzevir]] não disse nada enquanto [[ysane]] esteve na sala. Retomar na sessão 2, chamando-o à parte.',
+            'end' => 'Próxima sessão: abrir na maré baixa, com o sino do vau ao longe. Lembrar a contagem da bruma.',
+        ],
+    ],
+
+    // Niveaux du champ « Danger » (lieux et créatures), du plus calme au plus mortel.
+    'danger_levels' => [
+        'calm' => 'calmo',
+        'tense' => 'tenso',
+        'dangerous' => 'perigoso',
+        'deadly' => 'mortal',
+    ],
+
+    // Pièce jointe réservée au MJ, sur la fiche du Sceau.
+    'attachments' => [
+        'seal' => [
+            'title' => 'Decalque do Selo de cinza',
+            'file' => 'decalque-do-selo',
+            'lines' => [
+                'Tirado a carvão por Elzevir, há trinta anos.',
+                'No centro: um barco virado, três ondas.',
+                'Na borda: «O que é prometido à água à água regressa.»',
+                'No verso, raspado: um nome, apagado de propósito.',
+            ],
+        ],
+    ],
+
+    // Ce que le personnage de Teska a reçu en séance 1 : titre, texte.
+    'character' => [
+        'lantern' => ['Lanterna do cais', 'Tirada do gancho da terceira lanterna. Ainda cheira a óleo.'],
+        'coins' => ['Moedas de cinza', 'O pagamento de uma semana ao remo.'],
+        'rumour' => ['Dizem que o farol se acende sozinho', 'Os pescadores juram ter visto uma luz no Farol de Orvent na noite do afogamento.'],
+    ],
+
+    // La liste « À jouer ».
+    'to_play' => [
+        'curfew' => 'Mostrar o aviso de recolher obrigatório assim que chegarem ao cais.',
+        'bell' => 'Fazer soar o sino do vau durante a travessia.',
+        'mist' => 'Iniciar a contagem da bruma na primeira saída de barco.',
+        'debt' => 'Lembrar à Teska que o Brannoc lhe deve um barco.',
     ],
 ];

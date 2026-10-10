@@ -16,7 +16,9 @@ use App\Models\Rule;
 use App\Models\Scene;
 use App\Models\Secret;
 use App\Models\TableMap;
+use App\Models\Tag;
 use App\Models\TimelineEvent;
+use App\Models\ToPlayItem;
 use App\Models\User;
 use App\Support\Archive\CampaignExport;
 use App\Support\Archive\CampaignImport;
@@ -50,10 +52,14 @@ class DemoCampaignTest extends TestCase
         $this->assertSame($text['world']['name'], $campaign->world->name);
         $this->assertTrue($campaign->isGameMaster($gm));
 
-        // Des fiches dans le monde, une seule propre à la campagne, avec leurs portraits.
+        // Des fiches dans le monde ; propres à la campagne, l'inconnu du phare et la fiche du personnage joueur.
         $world = Entity::where('world_id', $campaign->world_id)->get();
         $this->assertGreaterThanOrEqual(15, $world->count());
-        $this->assertSame(1, Entity::where('campaign_id', $campaign->id)->count());
+        $this->assertSame(2, Entity::where('campaign_id', $campaign->id)->count());
+
+        // Couvertures du jeu et du monde.
+        $this->assertTrue(Storage::disk('local')->exists($campaign->gameSystem->image_path));
+        $this->assertTrue(Storage::disk('local')->exists($campaign->world->image_path));
         $this->assertGreaterThan(5, $world->whereNotNull('image_path')->count());
 
         foreach ($world->whereNotNull('image_path') as $entity) {
@@ -73,6 +79,19 @@ class DemoCampaignTest extends TestCase
         $this->assertGreaterThan(0, $fields->where('player_editable', true)->count());
         $ysane = $world->firstWhere('name', $text['entities']['ysane']['name']);
         $this->assertNotEmpty($ysane->field_values);
+
+        // Tous les types de champ utiles à un jeu : référence à une fiche, document, champ commun à deux types.
+        $byName = $fields->keyBy('name');
+        $brannoc = $world->firstWhere('name', $text['entities']['brannoc']['name']);
+        $this->assertStringContainsString($text['entities']['greythread']['name'], $brannoc->field_values[$byName[$text['fields']['allegiance']]->id]);
+        $this->assertCount(2, $byName[$text['fields']['danger']]->typeIds());
+        $city = $world->firstWhere('name', $text['entities']['city']['name']);
+        $this->assertSame($text['documents']['plan']['title'], Document::find($city->field_values[$byName[$text['fields']['reference']]->id])->title);
+
+        // Une pièce jointe réservée au MJ, des tags colorés.
+        $seal = $world->firstWhere('name', $text['entities']['seal']['name']);
+        $this->assertSame(Zone::GameMaster, $seal->attachments()->sole()->zone);
+        $this->assertSame(0, Tag::where('user_id', $gm->id)->whereNull('color')->count());
 
         // Scénario, scènes, documents, règles, secrets, carte et chronologie.
         $scenes = Scene::whereIn('scenario_id', $campaign->scenarios()->pluck('id'))->get();
@@ -107,9 +126,44 @@ class DemoCampaignTest extends TestCase
         $this->assertNull($campaign->openSession());
         $this->assertMatchesRegularExpression(EntityLinks::PATTERN, (string) $session->summary);
         $this->assertSame(1, $events->where('play_session_id', $session->id)->count());
+        $this->assertCount(3, $session->notes);
         $feedback = $campaign->feedbackRequests()->sole();
         $this->assertTrue($feedback->isOpen() && $feedback->anonymous);
         $this->assertSame($session->id, $feedback->play_session_id);
+
+        // Un personnage joueur tiré d'un prétiré, sans joueur, avec tout ce qu'un joueur peut recevoir.
+        $character = $campaign->playerCharacters()->sole();
+        $this->assertNull($character->user_id);
+        $this->assertSame($text['entities']['teska']['name'], $character->entity->name);
+        $this->assertEqualsCanonicalizing(['document', 'entity', 'information', 'possession', 'rule'], $character->grants()->pluck('kind')->unique()->values()->all());
+        $this->assertSame(1, $character->grants()->whereNotNull('secret_id')->count());
+        $this->assertSame(['clue', 'rumour', 'truth'], Secret::where('campaign_id', $campaign->id)->pluck('kind')->unique()->sort()->values()->all());
+
+        // « À jouer » et fiches épinglées.
+        $this->assertSame(4, ToPlayItem::where('campaign_id', $campaign->id)->count());
+        $this->assertSame(1, ToPlayItem::where('campaign_id', $campaign->id)->whereNotNull('done_at')->count());
+        $this->assertCount(3, $campaign->pins);
+    }
+
+    public function test_every_page_of_the_demonstration_opens(): void
+    {
+        $gm = User::factory()->create();
+        $campaign = app(LoadDemoCampaign::class)->handle($gm, 'fr');
+        $character = $campaign->playerCharacters()->sole();
+        $session = $campaign->playSessions()->sole();
+
+        foreach ([
+            route('campaigns.show', $campaign),
+            route('characters.index', $campaign),
+            route('characters.show', [$campaign, $character]),
+            route('characters.show', [$campaign, $character, 'comme' => 1]),
+            route('sessions.show', [$campaign, $session]),
+            route('feedback.index', $campaign),
+            route('secrets.index', $campaign),
+            route('tags.index'),
+        ] as $url) {
+            $this->actingAs($gm)->get($url)->assertOk();
+        }
     }
 
     public function test_the_internal_links_of_the_demonstration_all_point_at_a_sheet(): void
@@ -176,6 +230,20 @@ class DemoCampaignTest extends TestCase
             TimelineEvent::where('campaign_id', $imported->id)->count(),
         );
         $this->assertSame(1, TableMap::where('campaign_id', $imported->id)->count());
+
+        // Les liens des scènes sont recalculés vers les nouvelles fiches.
+        $brannoc = Entity::where('world_id', $imported->world_id)->where('name', LoadDemoCampaign::text('fr')['entities']['brannoc']['name'])->sole();
+        $first = Scene::whereIn('scenario_id', $imported->scenarios()->pluck('id'))->orderBy('position')->first();
+        $this->assertStringContainsString('[['.$brannoc->name.'|'.$brannoc->id.']]', (string) $first->description);
+        // « À jouer » : ni ce qui est fait, ni ce qui vise un personnage de la table d'origine.
+        $this->assertSame(2, ToPlayItem::where('campaign_id', $imported->id)->count());
+        $this->assertCount(3, $imported->pins);
+
+        // Le personnage joueur reste à la table d'origine ; le modèle de jeu emporte types, champs et règles.
+        $this->assertSame(0, $imported->playerCharacters()->count());
+        $template = CampaignExport::template($campaign, withRules: true);
+        $this->assertCount(14, $template['field_definitions']);
+        $this->assertCount(3, $template['rules']);
     }
 
     public function test_every_language_has_exactly_the_same_demonstration_content(): void

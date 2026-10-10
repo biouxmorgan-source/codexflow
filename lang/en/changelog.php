@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.49.0' => [
+        'date' => '2026-10-10',
+        'title' => 'The demo shows all of SagaWyn',
+        'items' => [
+            'The demo campaign now uses every feature: a player character made from a pregen, with what it has received (sheet, document, rule, secret, items) that the GM can “View as”; session notes; a “To play” list; pinned sheets; reference, document and two-type fields; a GM attachment; secrets of every kind; coloured tags; covers for the game and the world.',
+            'Reloading the demo reuses the “Faction” sheet type already created instead of adding a second one.',
+        ],
+    ],
+
     '0.48.0' => [
         'date' => '2026-10-10',
         'title' => 'A fuller demonstration',

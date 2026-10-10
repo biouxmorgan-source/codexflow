@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.49.0' => [
+        'date' => '2026-10-10',
+        'title' => 'A demonstração mostra todo o SagaWyn',
+        'items' => [
+            'A campanha de demonstração usa agora cada função: uma personagem jogadora tirada de uma pré-gerada, com o que recebeu (ficha, documento, regra, segredo, objetos) e que o MJ pode «Ver como»; notas de sessão; uma lista «Para jogar»; fichas fixadas; campos de referência, documento e comuns a dois tipos; um anexo do MJ; segredos de cada natureza; etiquetas coloridas; capas para o jogo e o mundo.',
+            'Recarregar a demonstração reutiliza o tipo de ficha «Fação» já criado em vez de acrescentar outro.',
+        ],
+    ],
+
     '0.48.0' => [
         'date' => '2026-10-10',
         'title' => 'Uma demonstração mais completa',

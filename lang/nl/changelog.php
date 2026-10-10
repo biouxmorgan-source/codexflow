@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.49.0' => [
+        'date' => '2026-10-10',
+        'title' => 'De demo toont heel SagaWyn',
+        'items' => [
+            'De democampagne gebruikt nu elke functie: een spelerspersonage gemaakt van een voorgemaakt personage, met wat het heeft ontvangen (fiche, document, regel, geheim, voorwerpen) en dat de SL kan „Bekijken als”; sessienotities; een lijst „Te spelen”; vastgezette fiches; velden voor verwijzingen, documenten en twee fichetypes; een SL-bijlage; geheimen van elke soort; gekleurde tags; omslagen voor het spel en de wereld.',
+            'De demo opnieuw laden hergebruikt het al aangemaakte fichetype „Factie” in plaats van een tweede toe te voegen.',
+        ],
+    ],
+
     '0.48.0' => [
         'date' => '2026-10-10',
         'title' => 'Een vollediger demonstratie',

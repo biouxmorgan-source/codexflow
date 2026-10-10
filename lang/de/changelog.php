@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.49.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Die Demo zeigt ganz SagaWyn',
+        'items' => [
+            'Die Demo-Kampagne nutzt jetzt jede Funktion: eine Spielerfigur aus einer vorgefertigten Figur, mit allem, was sie erhalten hat (Bogen, Dokument, Regel, Geheimnis, Gegenstände), die die SL mit „Ansehen als“ betrachten kann; Sitzungsnotizen; eine „Zu spielen“-Liste; angeheftete Bögen; Felder für Verweise, Dokumente und zwei Bogentypen; ein SL-Anhang; Geheimnisse jeder Art; farbige Tags; Titelbilder für Spiel und Welt.',
+            'Beim erneuten Laden der Demo wird der bereits angelegte Bogentyp „Fraktion“ wiederverwendet, statt einen zweiten anzulegen.',
+        ],
+    ],
+
     '0.48.0' => [
         'date' => '2026-10-10',
         'title' => 'Eine vollständigere Demonstration',

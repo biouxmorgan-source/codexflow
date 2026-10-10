@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.49.0' => [
+        'date' => '2026-10-10',
+        'title' => 'La démonstration montre tout SagaWyn',
+        'items' => [
+            'La campagne de démonstration utilise maintenant chaque fonction : un personnage joueur tiré d’un prétiré, avec ce qu’il a reçu (fiche, document, règle, secret, objets) et que le MJ peut « Voir comme » ; des notes de séance ; une liste « À jouer » ; des fiches épinglées ; des champs référence, document et commun à deux types ; une pièce jointe MJ ; des secrets de chaque nature ; des tags colorés ; des couvertures pour le jeu et le monde.',
+            'Recharger la démonstration reprend le type de fiche « Faction » déjà créé au lieu d’en ajouter un second.',
+        ],
+    ],
+
     '0.48.0' => [
         'date' => '2026-10-10',
         'title' => 'Une démonstration plus complète',

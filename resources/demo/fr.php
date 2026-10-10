@@ -30,6 +30,7 @@ return [
         'traits' => 'Caractéristiques',
         'profile' => 'Profil',
         'secrets' => 'Secrets',
+        'landmarks' => 'Repères',
     ],
 
     'fields' => [
@@ -44,6 +45,9 @@ return [
         'ties' => 'Attaches',
         'hidden_oath' => 'Serment caché',
         'betrayal' => 'Ce qui le ferait trahir',
+        'allegiance' => 'Allégeance réelle',
+        'danger' => 'Danger',
+        'reference' => 'Document de référence',
     ],
 
     'tags' => [
@@ -464,5 +468,47 @@ return [
     // Séance 1, déjà jouée : son résumé.
     'session' => [
         'summary' => '[[quay]] : les personnages débarquent, et [[brannoc]] leur montre que la troisième lanterne reste éteinte, le signal du Passeur que personne n’a remarqué. [[hall]] : [[elzevir]] refuse d’ouvrir le rayon de la grande brume, et [[ysane]] les remercie un peu trop vite. Fin de la séance au bord de l’eau, à marée basse : [[marshes]].',
+        'notes' => [
+            'lantern' => 'Les joueurs ont tout de suite soupçonné [[brannoc]] ; Teska l’a suivi jusqu’aux marches sans se faire voir.',
+            'register' => '[[elzevir]] n’a rien lâché tant que [[ysane]] était dans la pièce. À reprendre en séance 2, en le prenant à part.',
+            'end' => 'Prochaine séance : ouvrir à marée basse, la cloche du gué au loin. Penser au compte de brume.',
+        ],
+    ],
+
+    // Niveaux du champ « Danger » (lieux et créatures), du plus calme au plus mortel.
+    'danger_levels' => [
+        'calm' => 'calme',
+        'tense' => 'tendu',
+        'dangerous' => 'dangereux',
+        'deadly' => 'mortel',
+    ],
+
+    // Pièce jointe réservée au MJ, sur la fiche du Sceau.
+    'attachments' => [
+        'seal' => [
+            'title' => 'Estampage du Sceau de cendre',
+            'file' => 'estampage-du-sceau',
+            'lines' => [
+                'Relevé au charbon par Elzevir, il y a trente ans.',
+                'Au centre : une barque renversée, trois vagues.',
+                'Sur le pourtour : « Ce qui est promis à l’eau revient à l’eau. »',
+                'Au revers, gratté : un nom, effacé à dessein.',
+            ],
+        ],
+    ],
+
+    // Ce que le personnage de Teska a reçu en séance 1 : titre, texte.
+    'character' => [
+        'lantern' => ['Lanterne de quai', 'Prise sur le crochet de la troisième lanterne. Elle sent encore l’huile.'],
+        'coins' => ['Pièces de cendre', 'La paie d’une semaine à la rame.'],
+        'rumour' => ['On dit que le phare se rallume seul', 'Les pêcheurs jurent avoir vu une lumière au Phare d’Orvent, la nuit de la noyade.'],
+    ],
+
+    // La liste « À jouer ».
+    'to_play' => [
+        'curfew' => 'Montrer l’avis de couvre-feu dès l’arrivée au quai.',
+        'bell' => 'Faire sonner la cloche du gué pendant la traversée.',
+        'mist' => 'Lancer le compte de brume dès la première sortie en barque.',
+        'debt' => 'Rappeler à Teska que Brannoc lui doit une barque.',
     ],
 ];

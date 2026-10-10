@@ -30,6 +30,7 @@ return [
         'traits' => 'Características',
         'profile' => 'Perfil',
         'secrets' => 'Secretos',
+        'landmarks' => 'Referencias',
     ],
 
     'fields' => [
@@ -44,6 +45,9 @@ return [
         'ties' => 'Vínculos',
         'hidden_oath' => 'Juramento oculto',
         'betrayal' => 'Qué le haría traicionar',
+        'allegiance' => 'Lealtad verdadera',
+        'danger' => 'Peligro',
+        'reference' => 'Documento de referencia',
     ],
 
     'tags' => [
@@ -464,5 +468,47 @@ return [
     // Séance 1, déjà jouée : son résumé.
     'session' => [
         'summary' => '[[quay]]: los personajes desembarcan y [[brannoc]] les muestra que la tercera linterna sigue apagada, la señal del Barquero que nadie ha notado. [[hall]]: [[elzevir]] se niega a abrir el estante de la gran bruma, y [[ysane]] les da las gracias demasiado rápido. La sesión termina a orillas del agua, con la marea baja: [[marshes]].',
+        'notes' => [
+            'lantern' => 'Los jugadores sospecharon enseguida de [[brannoc]]; Teska lo siguió hasta las marismas sin ser vista.',
+            'register' => '[[elzevir]] no soltó nada mientras [[ysane]] estuvo en la sala. Retomarlo en la sesión 2, llevándolo aparte.',
+            'end' => 'Próxima sesión: empezar con marea baja, con la campana del vado a lo lejos. Recordar la cuenta de la bruma.',
+        ],
+    ],
+
+    // Niveaux du champ « Danger » (lieux et créatures), du plus calme au plus mortel.
+    'danger_levels' => [
+        'calm' => 'tranquilo',
+        'tense' => 'tenso',
+        'dangerous' => 'peligroso',
+        'deadly' => 'mortal',
+    ],
+
+    // Pièce jointe réservée au MJ, sur la fiche du Sceau.
+    'attachments' => [
+        'seal' => [
+            'title' => 'Calco del Sello de ceniza',
+            'file' => 'calco-del-sello',
+            'lines' => [
+                'Tomado al carbón por Elzevir, hace treinta años.',
+                'En el centro: una barca volcada, tres olas.',
+                'En el borde: «Lo prometido al agua vuelve al agua.»',
+                'En el reverso, raspado: un nombre, borrado a propósito.',
+            ],
+        ],
+    ],
+
+    // Ce que le personnage de Teska a reçu en séance 1 : titre, texte.
+    'character' => [
+        'lantern' => ['Farol del muelle', 'Tomado del gancho del tercer farol. Todavía huele a aceite.'],
+        'coins' => ['Monedas de ceniza', 'La paga de una semana al remo.'],
+        'rumour' => ['Dicen que el faro se enciende solo', 'Los pescadores juran haber visto una luz en el Faro de Orvent la noche del ahogamiento.'],
+    ],
+
+    // La liste « À jouer ».
+    'to_play' => [
+        'curfew' => 'Mostrar el aviso de toque de queda en cuanto lleguen al muelle.',
+        'bell' => 'Hacer sonar la campana del vado durante la travesía.',
+        'mist' => 'Iniciar la cuenta de la bruma en la primera salida en barca.',
+        'debt' => 'Recordar a Teska que Brannoc le debe una barca.',
     ],
 ];
