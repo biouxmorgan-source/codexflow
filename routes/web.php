@@ -22,6 +22,7 @@ use App\Livewire\Admin\PlanSettings as AdminPlans;
 use App\Livewire\Admin\Recettes as AdminRecettes;
 use App\Livewire\Admin\Users as AdminUsers;
 use App\Livewire\Ai\Index as AiIndex;
+use App\Livewire\Audio\Index as AudioIndex;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
@@ -120,6 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/ecran-de-table', TableScreen::class)->name('table.screen')->middleware('feature:table')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/ecran-de-table/fichier', [TableScreenController::class, 'file'])->name('table.file')->middleware('feature:table')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/ecran-de-table/image', [TableScreenController::class, 'image'])->name('table.image')->middleware('feature:table')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/ecran-de-table/son', [TableScreenController::class, 'audio'])->name('table.audio')->middleware('feature:table')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/ecran-de-table/jetons/{token}', [TableScreenController::class, 'token'])->name('table.token')->middleware('feature:table')->whereNumber(['campaign', 'token']);
     Route::livewire('/campagnes/{campaign}/telecommande', TableRemote::class)->name('table.remote')->middleware('feature:table')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/cartes', MapIndex::class)->name('maps.index')->middleware('feature:maps')->whereNumber('campaign');
@@ -134,6 +136,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/regles/{rule}', RuleShow::class)->name('rules.show')->whereNumber(['campaign', 'rule']);
     Route::livewire('/campagnes/{campaign}/regles/{rule}/modifier', RuleForm::class)->name('rules.edit')->whereNumber(['campaign', 'rule']);
     Route::livewire('/campagnes/{campaign}/documents', DocumentIndex::class)->name('documents.index')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/sons', AudioIndex::class)->name('audio.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/documents/{document}', DocumentShow::class)->name('documents.show')->whereNumber(['campaign', 'document']);
 
     Route::livewire('/recherche', SearchEverywhere::class)->name('search.all');
@@ -163,6 +166,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/campagnes/{campaign}/export/{kind}.csv', ExportController::class)->name('exports.download')->whereNumber('campaign')->whereIn('kind', ['fiches', 'champs', 'regles', 'scenes']);
 
     Route::get('/fichiers/{attachment}', [FileController::class, 'attachment'])->name('attachments.show')->whereNumber('attachment');
+    Route::get('/sons/{track}/fichier', [FileController::class, 'audio'])->name('audio.file')->whereNumber('track');
     Route::get('/documents/{document}/fichier', [FileController::class, 'document'])->name('documents.file')->whereNumber('document');
     Route::get('/entites/{entity}/image', [FileController::class, 'entityImage'])->name('entities.image')->whereNumber('entity');
     Route::get('/jeux/{gameSystem}/image', [FileController::class, 'gameImage'])->name('games.image')->whereNumber('gameSystem');

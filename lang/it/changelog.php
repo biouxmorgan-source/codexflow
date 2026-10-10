@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.45.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Libreria audio',
+        'items' => [
+            'Nuova pagina «Suoni»: carica le tue musiche e atmosfere (mp3, ogg, m4a, wav, flac), ordinale con i tag e collegale alle scene.',
+            'In modalità Sessione, il blocco «Musica» propone prima i suoni della scena: «Qui» li riproduce sul tuo dispositivo, senza interrompersi quando cambi pagina; «Tavolo» li riproduce sullo schermo del tavolo, con pausa, loop e volume gestiti dalla sessione.',
+        ],
+    ],
+
     '0.44.0' => [
         'date' => '2026-10-09',
         'title' => 'Pronto per la messa online',

@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.45.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Biblioteca de som',
+        'items' => [
+            'Nova página «Sons»: envie as suas músicas e ambientes (mp3, ogg, m4a, wav, flac), organize-os com etiquetas e ligue-os às cenas.',
+            'No modo Sessão, o bloco «Música» propõe primeiro os sons da cena: «Aqui» toca-os no seu dispositivo, sem parar quando muda de página; «Mesa» toca-os no ecrã da mesa, com pausa, repetição e volume controlados a partir da sessão.',
+        ],
+    ],
+
     '0.44.0' => [
         'date' => '2026-10-09',
         'title' => 'Pronto para publicar',

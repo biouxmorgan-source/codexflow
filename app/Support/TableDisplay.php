@@ -242,7 +242,7 @@ class TableDisplay
             ->values();
     }
 
-    private static function broadcast(Campaign $campaign): void
+    public static function broadcast(Campaign $campaign): void
     {
         // Tous les membres : le MJ sur la télé, les joueurs qui suivent sur leur appareil.
         $campaign->members()->pluck('users.id')

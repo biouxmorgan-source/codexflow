@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attachment;
+use App\Models\AudioTrack;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
@@ -11,6 +12,7 @@ use App\Models\PlayerCharacter;
 use App\Models\World;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -47,6 +49,25 @@ class FileController
             ['Content-Type' => $document->mime_type, 'X-Content-Type-Options' => 'nosniff', 'Cache-Control' => 'private, max-age=3600'],
             $disposition,
         );
+    }
+
+    /** Morceau de la bibliothèque sonore : servi par plages, pour avancer dans la lecture. */
+    public function audio(AudioTrack $track): BinaryFileResponse
+    {
+        Gate::authorize('view', $track);
+
+        return self::audioResponse($track);
+    }
+
+    public static function audioResponse(AudioTrack $track): BinaryFileResponse
+    {
+        abort_unless(Storage::disk($track->disk)->exists($track->path), 404);
+
+        return response()->file(Storage::disk($track->disk)->path($track->path), [
+            'Content-Type' => $track->mime_type,
+            'X-Content-Type-Options' => 'nosniff',
+            'Cache-Control' => 'private, max-age=3600',
+        ]);
     }
 
     public function entityImage(Entity $entity): StreamedResponse

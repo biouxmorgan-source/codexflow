@@ -133,3 +133,4 @@ import './map-editor';
 import './relation-graph';
 import './pdf-viewer';
 import './pwa';
+import './audio-deck';

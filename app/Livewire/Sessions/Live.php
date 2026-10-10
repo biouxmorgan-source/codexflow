@@ -4,6 +4,7 @@ namespace App\Livewire\Sessions;
 
 use App\Enums\SceneStatus;
 use App\Livewire\Concerns\SuggestsEntities;
+use App\Models\AudioTrack;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
@@ -17,6 +18,7 @@ use App\Models\ToPlayItem;
 use App\Support\CampaignFeatures;
 use App\Support\EntityLinks;
 use App\Support\SessionContext;
+use App\Support\TableAudio;
 use App\Support\TableDisplay;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
@@ -93,6 +95,70 @@ class Live extends Component
     public function documents(): Collection
     {
         return SessionContext::documents($this->campaign, $this->session?->currentScene);
+    }
+
+    /**
+     * Sons de la scène en cours d'abord, puis le reste de la bibliothèque.
+     *
+     * @return Collection<int, AudioTrack>
+     */
+    #[Computed]
+    public function tracks(): Collection
+    {
+        $scene = $this->session?->currentScene;
+        $sceneIds = $scene ? $scene->audioTracks()->pluck('audio_tracks.id')->all() : [];
+
+        return $this->campaign->audioTracks()->orderByRaw('lower(title)')->get()
+            ->sortBy(fn (AudioTrack $track) => ($pos = array_search($track->id, $sceneIds, true)) === false ? PHP_INT_MAX : $pos)
+            ->each(fn (AudioTrack $track) => $track->setAttribute('in_scene', in_array($track->id, $sceneIds, true)))
+            ->values();
+    }
+
+    /** @return array{track: AudioTrack, loop: bool, volume: int, playing: bool, key: string}|null */
+    #[Computed]
+    public function tableAudio(): ?array
+    {
+        return TableAudio::current($this->campaign);
+    }
+
+    public function playOnTable(int $trackId): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableAudio::play($this->campaign, $this->campaign->audioTracks()->findOrFail($trackId));
+        unset($this->tableAudio);
+    }
+
+    public function pauseTableAudio(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableAudio::pause($this->campaign, (bool) ($this->campaign->table_audio['playing'] ?? false));
+        unset($this->tableAudio);
+    }
+
+    public function loopTableAudio(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableAudio::loop($this->campaign, ! ($this->campaign->table_audio['loop'] ?? true));
+        unset($this->tableAudio);
+    }
+
+    public function tableVolume(int $volume): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableAudio::volume($this->campaign, $volume);
+        unset($this->tableAudio);
+    }
+
+    public function stopTableAudio(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableAudio::stop($this->campaign);
+        unset($this->tableAudio);
     }
 
     /** @return Collection<int, Entity> */
@@ -454,7 +520,7 @@ class Live extends Component
 
     private function refreshAll(): void
     {
-        unset($this->session, $this->scenes, $this->upcomingScene, $this->cards, $this->toPlay, $this->notes, $this->pastSessions);
+        unset($this->session, $this->scenes, $this->upcomingScene, $this->cards, $this->toPlay, $this->notes, $this->pastSessions, $this->tracks);
     }
 
     /** @return array<string, string> mises à jour en direct (Reverb) */

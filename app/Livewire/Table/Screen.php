@@ -3,8 +3,10 @@
 namespace App\Livewire\Table;
 
 use App\Models\Campaign;
+use App\Support\TableAudio;
 use App\Support\TableDisplay;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 /**
@@ -15,6 +17,10 @@ use Livewire\Component;
 class Screen extends Component
 {
     public Campaign $campaign;
+
+    /** Musique jouée par l'écran ({url, loop, volume, playing, key}), envoyée à Alpine à chaque rendu. */
+    #[Locked]
+    public ?array $audio = null;
 
     public function mount(Campaign $campaign): void
     {
@@ -43,11 +49,27 @@ class Screen extends Component
         TableDisplay::knowPages($this->campaign->refresh(), $pages);
     }
 
+    /** @return array{url: string, loop: bool, volume: int, playing: bool, key: string}|null */
+    private function audioState(bool $watching): ?array
+    {
+        $audio = $watching && TableAudio::canHear(auth()->user(), $this->campaign) ? TableAudio::current($this->campaign) : null;
+
+        return $audio === null ? null : [
+            'url' => route('table.audio', [$this->campaign, 'v' => $audio['key']]),
+            'loop' => $audio['loop'],
+            'volume' => $audio['volume'],
+            'playing' => $audio['playing'],
+            'key' => $audio['key'],
+        ];
+    }
+
     public function render()
     {
         $this->campaign->refresh();
         // Le MJ a cessé de partager pendant que le joueur regardait : écran neutre, sans erreur.
         $watching = TableDisplay::canWatch(auth()->user(), $this->campaign);
+        $this->audio = $this->audioState($watching);
+        $this->dispatch('table-audio', state: $this->audio);
 
         return view('livewire.table.screen', [
             'display' => $watching ? TableDisplay::current($this->campaign) : null,

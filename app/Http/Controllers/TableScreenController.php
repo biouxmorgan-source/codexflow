@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\MapToken;
+use App\Support\TableAudio;
 use App\Support\TableDisplay;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -39,6 +41,16 @@ class TableScreenController extends Controller
             'X-Content-Type-Options' => 'nosniff',
             'Cache-Control' => 'private, no-store',
         ], 'inline');
+    }
+
+    /** Morceau joué par l'écran de table : au MJ et au spectateur, jamais aux joueurs. */
+    public function audio(Campaign $campaign): BinaryFileResponse
+    {
+        abort_unless(TableAudio::canHear(auth()->user(), $campaign), 403);
+        $audio = TableAudio::current($campaign);
+        abort_if($audio === null, 404);
+
+        return FileController::audioResponse($audio['track']);
     }
 
     /** Portrait d'un jeton visible de la carte affichée. */

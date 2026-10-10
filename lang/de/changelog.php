@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.45.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Soundbibliothek',
+        'items' => [
+            'Neue Seite „Sounds“: Laden Sie Ihre Musik und Atmosphären hoch (mp3, ogg, m4a, wav, flac), ordnen Sie sie mit Tags und verknüpfen Sie sie mit Szenen.',
+            'Im Sitzungsmodus zeigt der Block „Musik“ zuerst die Sounds der Szene: „Hier“ spielt sie auf Ihrem Gerät, ohne beim Seitenwechsel abzubrechen; „Tisch“ spielt sie auf dem Tischbildschirm, mit Pause, Schleife und Lautstärke aus der Sitzung gesteuert.',
+        ],
+    ],
+
     '0.44.0' => [
         'date' => '2026-10-09',
         'title' => 'Bereit für den Livegang',

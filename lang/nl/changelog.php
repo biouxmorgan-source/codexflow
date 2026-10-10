@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.45.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Geluidsbibliotheek',
+        'items' => [
+            'Nieuwe pagina ‘Geluiden’: upload je muziek en sferen (mp3, ogg, m4a, wav, flac), orden ze met tags en koppel ze aan scènes.',
+            'In Sessiemodus toont het blok ‘Muziek’ eerst de geluiden van de scène: ‘Hier’ speelt ze af op je apparaat, zonder te stoppen als je van pagina wisselt; ‘Tafel’ speelt ze af op het tafelscherm, met pauze, herhalen en volume vanuit de sessie.',
+        ],
+    ],
+
     '0.44.0' => [
         'date' => '2026-10-09',
         'title' => 'Klaar om live te gaan',

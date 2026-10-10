@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.45.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Biblioteka dźwięków',
+        'items' => [
+            'Nowa strona „Dźwięki”: prześlij swoją muzykę i nastroje (mp3, ogg, m4a, wav, flac), uporządkuj je tagami i połącz ze scenami.',
+            'W trybie Sesji blok „Muzyka” najpierw proponuje dźwięki sceny: „Tutaj” odtwarza je na twoim urządzeniu, bez przerywania przy zmianie strony; „Stół” odtwarza je na ekranie stołu, z pauzą, pętlą i głośnością sterowanymi z sesji.',
+        ],
+    ],
+
     '0.44.0' => [
         'date' => '2026-10-09',
         'title' => 'Gotowe do publikacji',

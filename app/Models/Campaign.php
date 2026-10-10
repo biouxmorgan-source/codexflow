@@ -31,6 +31,7 @@ class Campaign extends Model
         static::deleting(function (Campaign $campaign) {
             $campaign->localEntities()->each(fn (Entity $entity) => $entity->delete());
             $campaign->documents()->each(fn (Document $document) => $document->delete());
+            $campaign->audioTracks()->each(fn (AudioTrack $track) => $track->delete());
             // Personnages joués à partir d'une fiche du monde : leur feuille PDF part avec la campagne.
             $campaign->playerCharacters()->each(fn (PlayerCharacter $character) => $character->delete());
         });
@@ -43,6 +44,7 @@ class Campaign extends Model
             'archived_at' => 'datetime',
             'table_display' => 'array',
             'table_shared' => 'boolean',
+            'table_audio' => 'array',
             'exchanges_need_approval' => 'boolean',
             'co_gm_manage_fields' => 'boolean',
             'disabled_features' => 'array',
@@ -169,6 +171,12 @@ class Campaign extends Model
     public function documents(): HasMany
     {
         return $this->hasMany(Document::class);
+    }
+
+    /** @return HasMany<AudioTrack, $this> */
+    public function audioTracks(): HasMany
+    {
+        return $this->hasMany(AudioTrack::class);
     }
 
     /** @return Builder<Rule> */

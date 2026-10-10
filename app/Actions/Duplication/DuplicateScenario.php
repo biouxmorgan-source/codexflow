@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
  * Duplique un scénario et ses scènes dans sa campagne : « Nom (copie) », placé en dernier.
  *
  * Copié : chapitre, nom, description et ordre des scènes, fiches liées (avec leur précision),
- * documents, règles et secrets liés, éléments « À jouer » du MJ non encore joués rattachés aux scènes.
+ * documents, sons, règles et secrets liés, éléments « À jouer » du MJ non encore joués rattachés aux scènes.
  * Les statuts repartent de « Prévue » : la progression reste propre à l'original.
  */
 class DuplicateScenario
@@ -38,16 +38,17 @@ class DuplicateScenario
      * @param  array<int, int>|null  $documents
      * @param  array<int, int>|null  $rules
      * @param  array<int, int>|null  $secrets
+     * @param  array<int, int>|null  $tracks
      * @return array{0: Scenario, 1: array<int, int>} le scénario copié et la correspondance des scènes
      */
-    public function copyInto(Scenario $scenario, Campaign $campaign, string $name, int $position, ?array $entities = null, ?array $documents = null, ?array $rules = null, ?array $secrets = null): array
+    public function copyInto(Scenario $scenario, Campaign $campaign, string $name, int $position, ?array $entities = null, ?array $documents = null, ?array $rules = null, ?array $secrets = null, ?array $tracks = null): array
     {
         $copy = new Scenario(['name' => $name, 'summary' => $scenario->summary, 'position' => $position]);
         $campaign->scenarios()->save($copy);
 
         $scenes = [];
 
-        foreach ($scenario->scenes()->with(['entities', 'documents', 'rules', 'secrets', 'tags'])->get() as $scene) {
+        foreach ($scenario->scenes()->with(['entities', 'documents', 'audioTracks', 'rules', 'secrets', 'tags'])->get() as $scene) {
             // Statut absent : la nouvelle scène prend le statut initial (« Prévue »).
             $duplicate = new Scene($scene->only(['chapter', 'name', 'description', 'position']));
             $copy->scenes()->save($duplicate);
@@ -58,6 +59,7 @@ class DuplicateScenario
                 'position' => $entity->pivot->position,
             ]));
             $duplicate->documents()->attach(self::remap($scene->documents, $documents, fn ($document) => ['position' => $document->pivot->position]));
+            $duplicate->audioTracks()->attach(self::remap($scene->audioTracks, $tracks, fn ($track) => ['position' => $track->pivot->position]));
             $duplicate->rules()->attach(self::remap($scene->rules, $rules, fn ($rule) => ['position' => $rule->pivot->position]));
             $duplicate->secrets()->attach(array_keys(self::remap($scene->secrets, $secrets, fn () => [])));
             $duplicate->tags()->attach($scene->tags->modelKeys());

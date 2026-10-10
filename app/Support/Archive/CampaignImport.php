@@ -11,6 +11,7 @@ use App\Enums\SceneStatus;
 use App\Enums\Zone;
 use App\Livewire\Entities\Show as EntityShow;
 use App\Models\ActivityLog;
+use App\Models\AudioTrack;
 use App\Models\Campaign;
 use App\Models\CharacterGrant;
 use App\Models\Document;
@@ -51,7 +52,7 @@ final class CampaignImport
     private array $written = [];
 
     /** @var array<string, array<int, int>> ancien id => nouvel id, par nature */
-    private array $map = ['types' => [], 'tags' => [], 'fields' => [], 'entities' => [], 'documents' => [], 'rules' => [], 'scenes' => [], 'secrets' => [], 'sessions' => [], 'characters' => []];
+    private array $map = ['types' => [], 'tags' => [], 'fields' => [], 'entities' => [], 'documents' => [], 'audio_tracks' => [], 'rules' => [], 'scenes' => [], 'secrets' => [], 'sessions' => [], 'characters' => []];
 
     /** @var array<int, FieldType> type de chaque champ créé, par nouvel identifiant */
     private array $fieldTypes = [];
@@ -206,6 +207,7 @@ final class CampaignImport
         $this->states($this->list($data['entity_states'] ?? []), $campaign);
         $this->rules($this->list($data['rules'] ?? []), $campaign);
         $this->documents($this->list($data['documents'] ?? []), $campaign, $world?->id);
+        $this->audioTracks($this->list($data['audio_tracks'] ?? []), $campaign);
         $this->remapFieldValues();
         $this->scenarios($this->list($data['scenarios'] ?? []), $campaign);
         $table = isset($data['table']) ? $this->array($data['table']) : null;
@@ -511,6 +513,37 @@ final class CampaignImport
         }
     }
 
+    /** @param list<array<string, mixed>> $tracks */
+    private function audioTracks(array $tracks, Campaign $campaign): void
+    {
+        foreach ($tracks as $track) {
+            $id = $this->int($track['id'] ?? null);
+            $file = $this->extract($track['file'] ?? null, AudioTrack::EXTENSIONS, 'audio');
+
+            if ($id === null || $file === null) {
+                continue;
+            }
+
+            $originalName = $this->string($track['original_name'] ?? null, 255) ?? basename($file['path']);
+
+            $newId = DB::table('audio_tracks')->insertGetId([
+                'user_id' => $this->user->id,
+                'campaign_id' => $campaign->id,
+                'title' => $this->string($track['title'] ?? null, 255) ?? $originalName,
+                'loop' => (bool) ($track['loop'] ?? true),
+                'disk' => AudioTrack::DISK,
+                'path' => $file['path'],
+                'original_name' => $originalName,
+                'mime_type' => str_starts_with($file['mime'], 'audio/') ? $file['mime'] : 'audio/'.(str_contains($file['mime'], 'mp4') ? 'mp4' : (str_contains($file['mime'], 'webm') ? 'webm' : 'ogg')),
+                'size' => $file['size'],
+                'created_at' => $this->now,
+                'updated_at' => $this->now,
+            ]);
+            $this->map['audio_tracks'][$id] = $newId;
+            $this->attachTags('audio_track_tag', 'audio_track_id', $newId, $track['tags'] ?? []);
+        }
+    }
+
     /** @param list<array<string, mixed>> $scenarios */
     private function scenarios(array $scenarios, Campaign $campaign): void
     {
@@ -553,7 +586,7 @@ final class CampaignImport
                 }
                 DB::table('scene_entity')->insert(array_values($entities));
 
-                foreach (['documents' => ['document_scene', 'document_id'], 'rules' => ['rule_scene', 'rule_id']] as $key => [$table, $column]) {
+                foreach (['documents' => ['document_scene', 'document_id'], 'audio_tracks' => ['audio_track_scene', 'audio_track_id'], 'rules' => ['rule_scene', 'rule_id']] as $key => [$table, $column]) {
                     $rows = collect($this->ids($scene[$key] ?? [], $key))->values()
                         ->map(fn (int $other, int $i) => ['scene_id' => $sceneId, $column => $other, 'position' => $i]);
                     DB::table($table)->insertOrIgnore($rows->all());
@@ -981,6 +1014,7 @@ final class CampaignImport
         $expected = match (true) {
             in_array($match[1], self::IMAGE_EXTENSIONS, true) => $isImage,
             $match[1] === 'pdf' => $mime === 'application/pdf',
+            in_array($match[1], AudioTrack::EXTENSIONS, true) => str_starts_with($mime, 'audio/') || in_array($mime, ['application/ogg', 'video/mp4', 'video/webm', 'video/ogg'], true),
             // Documents bureautiques et texte : jamais de HTML, SVG ou script déguisé.
             default => ! preg_match('#(html|javascript|svg)#', $mime)
                 && (! str_contains($mime, 'xml') || in_array($match[1], ['docx', 'xlsx', 'odt', 'ods'], true)),

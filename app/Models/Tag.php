@@ -73,10 +73,16 @@ class Tag extends Model
         return $this->belongsToMany(Scene::class);
     }
 
+    /** @return BelongsToMany<AudioTrack, $this> */
+    public function audioTracks(): BelongsToMany
+    {
+        return $this->belongsToMany(AudioTrack::class);
+    }
+
     /** Éléments rangés sous ce tag, toutes catégories confondues. */
     public function usageCount(): int
     {
-        return (int) ($this->entities_count + $this->rules_count + $this->documents_count + $this->scenes_count);
+        return (int) ($this->entities_count + $this->rules_count + $this->documents_count + $this->scenes_count + $this->audio_tracks_count);
     }
 
     /**
@@ -87,7 +93,7 @@ class Tag extends Model
         abort_unless($target->user_id === $this->user_id && ! $target->is($this), 422);
 
         DB::transaction(function () use ($target) {
-            foreach (['entities', 'rules', 'documents', 'scenes'] as $relation) {
+            foreach (['entities', 'rules', 'documents', 'scenes', 'audioTracks'] as $relation) {
                 $target->{$relation}()->syncWithoutDetaching($this->{$relation}()->pluck($this->{$relation}()->getRelated()->getTable().'.id'));
             }
 

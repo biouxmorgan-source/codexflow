@@ -52,6 +52,11 @@ class Form extends Component
 
     public ?int $pickedDocumentId = null;
 
+    /** @var list<int> Sons liés, dans l'ordre. */
+    public array $trackIds = [];
+
+    public ?int $pickedTrackId = null;
+
     public function mount(Campaign $campaign, ?Scene $scene = null): void
     {
         $this->authorize('update', $campaign);
@@ -70,6 +75,7 @@ class Form extends Component
                 ->all();
             $this->ruleIds = $scene->rules()->pluck('rules.id')->all();
             $this->documentIds = $scene->documents()->pluck('documents.id')->all();
+            $this->trackIds = $scene->audioTracks()->pluck('audio_tracks.id')->all();
             $this->tags = $scene->tags->pluck('name')->implode(', ');
 
             return;
@@ -152,6 +158,20 @@ class Form extends Component
         $this->documentIds = array_values(array_diff($this->documentIds, [$id]));
     }
 
+    public function addTrack(): void
+    {
+        if ($this->pickedTrackId && $this->campaign->audioTracks()->whereKey($this->pickedTrackId)->exists()) {
+            $this->trackIds = array_values(array_unique([...$this->trackIds, (int) $this->pickedTrackId]));
+        }
+
+        $this->pickedTrackId = null;
+    }
+
+    public function removeTrack(int $id): void
+    {
+        $this->trackIds = array_values(array_diff($this->trackIds, [$id]));
+    }
+
     public function save(): void
     {
         $this->authorize('update', $this->campaign);
@@ -205,6 +225,7 @@ class Form extends Component
         $scene->tags()->sync(Tag::idsFromInput($this->campaign->owner, $this->tags));
         $scene->rules()->sync(self::positions($this->campaign->availableRules()->whereKey($this->ruleIds)->pluck('id')->all(), $this->ruleIds));
         $scene->documents()->sync(self::positions($this->campaign->availableDocuments()->whereKey($this->documentIds)->pluck('id')->all(), $this->documentIds));
+        $scene->audioTracks()->sync(self::positions($this->campaign->audioTracks()->whereKey($this->trackIds)->pluck('id')->all(), $this->trackIds));
 
         $this->redirectRoute('scenes.show', [$this->campaign, $scene], navigate: true);
     }
@@ -237,6 +258,7 @@ class Form extends Component
             'scenarios' => $this->campaign->scenarios()->get(),
             'rules' => $this->campaign->availableRules()->orderByRaw('lower(title)')->get(['id', 'title', 'category'])->keyBy('id'),
             'documents' => $this->campaign->availableDocuments()->orderByRaw('lower(title)')->get(['id', 'title', 'mime_type'])->keyBy('id'),
+            'tracks' => $this->campaign->audioTracks()->orderByRaw('lower(title)')->get(['id', 'title'])->keyBy('id'),
         ])->title($this->scene ? __('Modifier :name', ['name' => $this->scene->name]) : __('Nouvelle scène'));
     }
 }

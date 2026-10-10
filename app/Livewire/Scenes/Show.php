@@ -73,6 +73,7 @@ class Show extends Component
             'toPlay' => $this->scene->toPlayItems()->get(),
             'rules' => $this->scene->rules()->availableIn($this->campaign)->get(),
             'documents' => $this->scene->documents()->availableIn($this->campaign)->get(),
+            'tracks' => $this->scene->audioTracks()->where('campaign_id', $this->campaign->id)->get(),
             'previous' => $index > 0 ? $siblings[$index - 1] : null,
             'next' => $siblings[$index + 1] ?? null,
         ])->title($this->scene->name);
