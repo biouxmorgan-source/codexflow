@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.49.1' => [
+        'date' => '2026-10-10',
+        'title' => 'Pełniejsza pomoc',
+        'items' => [
+            'Pomoc odpowiada na 19 nowych pytań: gra, świat i kampania, demonstracja, wyszukiwanie i odnośniki, tagi, scenariusze, Tryb Sesji, pola gry, zasady, duplikowanie, wymiany, odejście gracza, dziennik, koniec Premium, a dla graczy: karta, notatki, wiadomości i opinie.',
+        ],
+    ],
+
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'Demo pokazuje całe SagaWyn',

@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.49.1' => [
+        'date' => '2026-10-10',
+        'title' => 'Une aide plus complète',
+        'items' => [
+            'L’aide répond à 19 nouvelles questions : jeu, monde et campagne, démonstration, recherche et liens, tags, scénarios, mode Session, champs du jeu, règles, duplication, échanges, départ d’un joueur, journal, fin de Premium, et côté joueurs : fiche, notes, messages et avis.',
+        ],
+    ],
+
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'La démonstration montre tout SagaWyn',

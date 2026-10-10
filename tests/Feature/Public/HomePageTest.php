@@ -50,6 +50,8 @@ class HomePageTest extends TestCase
             ->assertSee('Comment inviter mes joueurs ?')
             ->assertSee('Votre compte')
             ->assertSee('Comment protéger mon compte avec la double authentification ?')
+            ->assertSee('À quoi sert le mode Session ?')
+            ->assertSee('Puis-je prendre des notes et les partager ?')
             ->assertSee(route('bugs.create'));
     }
 

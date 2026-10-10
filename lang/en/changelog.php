@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.49.1' => [
+        'date' => '2026-10-10',
+        'title' => 'More complete help',
+        'items' => [
+            'Help answers 19 new questions: game, world and campaign, the demo, search and links, tags, scenarios, Session mode, game fields, rules, duplication, exchanges, a player leaving, the journal, the end of Premium, and for players: sheet, notes, messages and feedback.',
+        ],
+    ],
+
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'The demo shows all of SagaWyn',
