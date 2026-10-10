@@ -31,6 +31,19 @@ class HomePageTest extends TestCase
             ->assertSee('<html lang="en"', false);
     }
 
+    public function test_screenshots_follow_the_page_language(): void
+    {
+        foreach (array_keys(Locale::available()) as $code) {
+            $this->assertFileExists(public_path("images/home-session-{$code}.webp"));
+            $this->assertFileExists(public_path("images/home-player-{$code}.webp"));
+        }
+
+        $this->get('/?lang=de')->assertOk()
+            ->assertSee(asset('images/home-session-de.webp'))
+            ->assertSee(asset('images/home-player-de.webp'))
+            ->assertDontSee('home-session-fr.webp');
+    }
+
     public function test_help_is_readable_without_an_account(): void
     {
         $this->get(route('help'))->assertOk()
