@@ -1,5 +1,7 @@
 {{-- Page d'accueil publique : ce que fait SagaWyn, pour les visiteurs et les moteurs de recherche. --}}
 @php
+    // Captures dans la langue de la page (une paire par langue de l'interface).
+    $shot = \App\Support\Locale::isAvailable(app()->getLocale()) ? app()->getLocale() : \App\Support\Locale::DEFAULT;
     $description = __('SagaWyn aide le maître de jeu à préparer ses mondes, mener ses séances et partager avec ses joueurs ce qu’ils doivent savoir, quel que soit le jeu de rôle.');
     $locales = \App\Support\Locale::available();
     $features = [
@@ -54,7 +56,7 @@
                 <p class="mt-4 text-sm text-stone-500">{{ __('Une campagne de démonstration se charge en un clic. Aucune carte bancaire demandée.') }}</p>
             </div>
             <figure class="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-xl">
-                <img src="{{ asset('images/home-session.webp') }}" width="1280" height="800" alt="{{ __('Le mode Session de SagaWyn : la scène en cours, ses personnages et ses informations.') }}" class="block h-auto w-full" fetchpriority="high">
+                <img src="{{ asset('images/home-session-'.$shot.'.webp') }}" width="1280" height="800" alt="{{ __('Le mode Session de SagaWyn : la scène en cours, ses personnages et ses informations.') }}" class="block h-auto w-full" fetchpriority="high">
             </figure>
         </section>
 
@@ -76,7 +78,7 @@
 
         <section class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 lg:grid-cols-[1.1fr_1fr]">
             <figure class="order-last overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-xl lg:order-first">
-                <img src="{{ asset('images/home-player.webp') }}" width="1280" height="800" loading="lazy" alt="{{ __('La fiche d’un personnage vue par son joueur : compteurs, connaissances et possessions.') }}" class="block h-auto w-full">
+                <img src="{{ asset('images/home-player-'.$shot.'.webp') }}" width="1280" height="800" loading="lazy" alt="{{ __('La fiche d’un personnage vue par son joueur : compteurs, connaissances et possessions.') }}" class="block h-auto w-full">
             </figure>
             <div>
                 <h2 class="text-3xl font-semibold tracking-tight">{{ __('Chaque joueur voit ce que son personnage sait') }}</h2>
