@@ -51,6 +51,7 @@
     <nav aria-label="{{ __('Outils de la campagne') }}" class="mb-8 flex flex-wrap gap-2">
         <x-tool-link :href="route('secrets.index', $campaign)" icon="secret" :label="__('Secrets')" />
         <x-tool-link :href="route('audio.index', $campaign)" icon="music" :label="__('Sons')" />
+        <x-tool-link :href="route('feedback.index', $campaign)" icon="star" :label="__('Avis des joueurs')" />
         <x-tool-link :href="route('maps.index', $campaign)" icon="map" :label="__('Cartes')" feature="maps" :campaign="$campaign" />
         <x-tool-link :href="route('graph.index', $campaign)" icon="graph" :label="__('Graphe')" feature="graph" :campaign="$campaign" />
         <x-tool-link :href="route('timeline.index', $campaign)" icon="timeline" :label="__('Chronologie')" feature="timeline" :campaign="$campaign" />

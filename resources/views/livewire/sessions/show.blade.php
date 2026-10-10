@@ -14,6 +14,12 @@
         @endif
     </p>
 
+    <p class="-mt-3 mb-6">
+        <a href="{{ route('feedback.index', [$campaign, 'seance' => $playSession->id]) }}" class="btn-secondary" wire:navigate>
+            <x-icon name="star" class="size-4" /> {{ __('Demander l’avis des joueurs') }}
+        </a>
+    </p>
+
     <section class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm" aria-labelledby="summary-title">
         <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
             <h2 id="summary-title" class="font-semibold">{{ __('Résumé') }}</h2>

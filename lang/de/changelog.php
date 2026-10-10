@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.46.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Spieler-Feedback',
+        'items' => [
+            'Bitten Sie Ihre Spieler am Ende einer Sitzung oder Kampagne um eine Bewertung von 1 bis 5 Sternen, darum, was ihnen gefallen hat und was besser sein könnte („Spieler-Feedback“ in der Kampagne oder auf der Seite einer Sitzung).',
+            'Anonyme oder namentliche Antworten nach Wahl der SL: Die Spieler wissen es vor dem Antworten. Sie sehen den Durchschnitt, die Verteilung der Bewertungen und alle Kommentare.',
+        ],
+    ],
+
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Soundbibliothek',

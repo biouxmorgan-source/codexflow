@@ -173,6 +173,12 @@ class Campaign extends Model
         return $this->hasMany(Document::class);
     }
 
+    /** @return HasMany<FeedbackRequest, $this> */
+    public function feedbackRequests(): HasMany
+    {
+        return $this->hasMany(FeedbackRequest::class);
+    }
+
     /** @return HasMany<AudioTrack, $this> */
     public function audioTracks(): HasMany
     {

@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.46.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Player feedback',
+        'items' => [
+            'At the end of a session or campaign, ask your players for a rating from 1 to 5 stars, what they enjoyed and what could be better (“Player feedback” in the campaign, or from a session page).',
+            'Anonymous or signed answers, as the GM chooses: players know it before answering. You see the average, the rating breakdown and every comment.',
+        ],
+    ],
+
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Sound library',

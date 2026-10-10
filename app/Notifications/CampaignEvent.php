@@ -21,6 +21,7 @@ class CampaignEvent extends Notification
         'revoke' => 'Repris',
         'message' => 'Message',
         'intention' => 'À jouer',
+        'feedback' => 'Avis',
     ];
 
     /** @return array<string, string> libellés traduits des types (mêmes clés que KINDS) */
@@ -31,6 +32,7 @@ class CampaignEvent extends Notification
             'revoke' => __('Repris'),
             'message' => __('Message'),
             'intention' => __('À jouer'),
+            'feedback' => __('Avis'),
         ];
     }
 

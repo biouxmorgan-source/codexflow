@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.46.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Pareri dei giocatori',
+        'items' => [
+            'Alla fine di una sessione o di una campagna, chiedi ai tuoi giocatori un voto da 1 a 5 stelle, cosa è piaciuto e cosa potrebbe andare meglio («Pareri dei giocatori» nella campagna, o dalla pagina di una sessione).',
+            'Risposte anonime o firmate, a scelta del Master: i giocatori lo sanno prima di rispondere. Vedi la media, la distribuzione dei voti e tutti i commenti.',
+        ],
+    ],
+
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Libreria audio',

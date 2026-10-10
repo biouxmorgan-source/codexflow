@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.46.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Spelersfeedback',
+        'items' => [
+            'Vraag je spelers aan het eind van een sessie of campagne om een score van 1 tot 5 sterren, wat ze leuk vonden en wat beter kan (‘Spelersfeedback’ in de campagne, of vanaf de pagina van een sessie).',
+            'Anonieme of ondertekende antwoorden, naar keuze van de SL: de spelers weten het voordat ze antwoorden. Je ziet het gemiddelde, de verdeling van de scores en alle opmerkingen.',
+        ],
+    ],
+
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Geluidsbibliotheek',
