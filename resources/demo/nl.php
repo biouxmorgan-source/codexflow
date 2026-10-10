@@ -60,6 +60,7 @@ return [
         'base' => 'basis',
         'oaths' => 'eden',
         'house' => 'huisregel',
+        'ambience' => 'sfeer',
     ],
 
     'quay_state' => [
@@ -451,5 +452,17 @@ return [
         'poles_moved' => ['Sessie 2', 'De palen worden verzet', 'Als niemand ingrijpt, verdwijnt er een vierde reiziger in de marken.'],
         'invasion' => ['Sessie 3', 'De Verdronkenen trekken de stad binnen', 'Bij nevelteller 6 komen ze de baai op en lopen ze tot aan de Hal.'],
         'ending' => ['Einde', 'Het zegel teruggegeven of gebroken', 'Het Zegel teruggeven doet Ysane vallen; het breken bevrijdt de stad van elke eed, en de Grijze Draad van elke grens.'],
+    ],
+
+    // Ambiances sonores de la bibliothèque.
+    'sounds' => [
+        'tide' => 'Eb in de moerassen',
+        'mist' => 'Mist over Pierrecendre',
+        'storm' => 'Onweer boven de vuurtoren',
+    ],
+
+    // Séance 1, déjà jouée : son résumé.
+    'session' => [
+        'summary' => '[[quay]]: de personages gaan aan land en [[brannoc]] laat hun zien dat de derde lantaarn gedoofd blijft, het teken van de Veerman dat niemand heeft opgemerkt. [[hall]]: [[elzevir]] weigert het rek van de grote mist te openen, en [[ysane]] bedankt hen iets te snel. De sessie eindigt aan het water, bij eb: [[marshes]].',
     ],
 ];

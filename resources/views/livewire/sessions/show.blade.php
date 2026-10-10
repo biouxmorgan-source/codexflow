@@ -15,7 +15,7 @@
     </p>
 
     <p class="-mt-3 mb-6">
-        <a href="{{ route('feedback.index', [$campaign, 'seance' => $playSession->id]) }}" class="btn-secondary" wire:navigate>
+        <a href="{{ route('feedback.index', [$campaign, 'seance' => $playSession->id]) }}" class="btn-secondary inline-flex items-center gap-2" wire:navigate>
             <x-icon name="star" class="size-4" /> {{ __('Demander l’avis des joueurs') }}
         </a>
     </p>

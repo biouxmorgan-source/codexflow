@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.48.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Une démonstration plus complète',
+        'items' => [
+            'La campagne de démonstration « Le Serment de Pierrecendre » contient maintenant trois ambiances sonores originales liées aux scènes, une première séance déjà jouée avec son résumé, et une demande d’avis aux joueurs.',
+            'Correction : le fondu entre deux morceaux ne bloque plus la lecture dans certains navigateurs.',
+        ],
+    ],
+
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi devient SagaWyn',

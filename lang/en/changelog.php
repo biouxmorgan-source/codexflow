@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.48.0' => [
+        'date' => '2026-10-10',
+        'title' => 'A fuller demonstration',
+        'items' => [
+            'The demonstration campaign “The Oath of Pierrecendre” now includes three original sound ambiences linked to scenes, a first session already played with its summary, and a feedback request to the players.',
+            'Fix: the fade between two tracks no longer stops playback in some browsers.',
+        ],
+    ],
+
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi becomes SagaWyn',

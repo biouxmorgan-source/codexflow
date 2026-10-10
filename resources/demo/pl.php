@@ -60,6 +60,7 @@ return [
         'base' => 'podstawy',
         'oaths' => 'przysięgi',
         'house' => 'domowe',
+        'ambience' => 'nastrój',
     ],
 
     'quay_state' => [
@@ -451,5 +452,17 @@ return [
         'poles_moved' => ['Sesja 2', 'Tyczki zostają przestawione', 'Jeśli nikt nie zainterweniuje, w marchiach przepada czwarty podróżny.'],
         'invasion' => ['Sesja 3', 'Topielcy wkraczają do miasta', 'Gdy licznik mgły dojdzie do 6, wychodzą z zatoki i idą aż pod Halę.'],
         'ending' => ['Koniec', 'Pieczęć zwrócona lub rozbita', 'Zwrot Pieczęci obala Ysane; jej rozbicie uwalnia miasto od wszelkich przysiąg, a Szarą Nić od wszelkich ograniczeń.'],
+    ],
+
+    // Ambiances sonores de la bibliothèque.
+    'sounds' => [
+        'tide' => 'Odpływ na mokradłach',
+        'mist' => 'Mgła nad Pierrecendre',
+        'storm' => 'Burza nad latarnią',
+    ],
+
+    // Séance 1, déjà jouée : son résumé.
+    'session' => [
+        'summary' => '[[quay]]: postacie schodzą na ląd, a [[brannoc]] pokazuje im, że trzecia latarnia pozostaje zgaszona – to sygnał Przewoźnika, którego nikt nie zauważył. [[hall]]: [[elzevir]] odmawia otwarcia półki wielkiej mgły, a [[ysane]] dziękuje im trochę za szybko. Sesja kończy się nad wodą, podczas odpływu: [[marshes]].',
     ],
 ];

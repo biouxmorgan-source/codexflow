@@ -135,6 +135,53 @@ final class DemoFiles
         return [($value >> 16) & 255, ($value >> 8) & 255, $value & 255];
     }
 
+    /**
+     * Ambiance sonore en boucle, synthétisée (aucun enregistrement, donc aucun droit d'auteur) :
+     * « tide » la marée sur les marches, « mist » un bourdon de brume, « storm » l'orage sur le phare.
+     * WAV mono 16 bits ; la fin se fond dans le début pour que la boucle ne s'entende pas.
+     */
+    public static function ambience(string $kind, int $seconds = 12, int $rate = 16000): string
+    {
+        mt_srand(crc32($kind));
+        $length = $seconds * $rate;
+        $fade = (int) ($rate * 1.5);
+        $samples = [];
+        $low = $rumble = $air = 0.0;
+
+        for ($i = 0; $i < $length + $fade; $i++) {
+            $t = $i / $rate;
+            $white = mt_rand() / mt_getrandmax() * 2 - 1;
+            $low += 0.04 * ($white - $low);
+            $rumble += 0.008 * ($white - $rumble);
+            $air += 0.3 * ($white - $air);
+
+            $samples[] = match ($kind) {
+                // Deux vagues par boucle : un souffle grave qui monte et se retire.
+                'tide' => $low * (0.25 + 0.75 * sin(M_PI * $t / ($seconds / 2)) ** 2) * 2.5 + $air * 0.04,
+                // Accord grave tenu (fréquences entières sur la boucle), qui respire, et un peu d'air.
+                'mist' => (sin(2 * M_PI * 55 * $t) + 0.6 * sin(2 * M_PI * 82.5 * $t) + 0.35 * sin(2 * M_PI * 110 * $t))
+                    * (0.55 + 0.45 * sin(2 * M_PI * $t / ($seconds / 3))) * 0.3 + $low * 0.6,
+                // Pluie continue, grondement de fond, et un coup de tonnerre qui roule à 4 s.
+                default => $air * 0.18 + $rumble * 4 + ($t > 4 && $t < 9 ? $rumble * 14 * exp(-($t - 4) * 0.9) * (0.6 + 0.4 * sin($t * 23)) : 0),
+            };
+        }
+
+        for ($i = 0; $i < $fade; $i++) {
+            $mix = $i / $fade;
+            $samples[$i] = $samples[$i] * $mix + $samples[$length + $i] * (1 - $mix);
+        }
+        $samples = array_slice($samples, 0, $length);
+
+        $peak = max(0.0001, max(array_map('abs', $samples)));
+        $pcm = '';
+        foreach ($samples as $sample) {
+            $pcm .= pack('v', (int) round($sample / $peak * 0.8 * 32767) & 0xFFFF);
+        }
+
+        return 'RIFF'.pack('V', 36 + strlen($pcm)).'WAVEfmt '.pack('VvvVVvv', 16, 1, 1, $rate, $rate * 2, 2, 16)
+            .'data'.pack('V', strlen($pcm)).$pcm;
+    }
+
     private static function png(\GdImage $image): string
     {
         ob_start();

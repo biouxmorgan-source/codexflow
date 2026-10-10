@@ -9,13 +9,16 @@ use App\Enums\RuleStatus;
 use App\Enums\SceneStatus;
 use App\Enums\Zone;
 use App\Models\ActivityLog;
+use App\Models\AudioTrack;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\EntityRelation;
 use App\Models\EntityType;
+use App\Models\FeedbackRequest;
 use App\Models\FieldDefinition;
 use App\Models\GameSystem;
+use App\Models\PlaySession;
 use App\Models\Rule;
 use App\Models\Scene;
 use App\Models\Secret;
@@ -37,7 +40,8 @@ use Illuminate\Support\Str;
  *
  * Un contenu entièrement original, écrit pour SagaWyn, qui met en scène chaque fonction : champs
  * libres, zones publique et MJ, relations et graphe, chronologie, scénario et scènes, documents,
- * carte avec grille et jetons, secrets, règles, tags, prétirés.
+ * carte avec grille et jetons, secrets, règles, tags, prétirés, sons liés aux scènes, une séance
+ * déjà jouée avec son résumé et une demande d'avis aux joueurs.
  *
  * Cette classe porte la structure (qui est relié à qui, les zones, les jetons, les valeurs chiffrées),
  * identique dans toutes les langues ; le texte vient de resources/demo/{langue}.php, avec les mêmes clés.
@@ -64,6 +68,8 @@ class LoadDemoCampaign
 
     /** @var array<string, EntityType> */
     private array $types = [];
+
+    private PlaySession $session;
 
     /** @var array<string, Document> */
     private array $documents = [];
@@ -147,6 +153,8 @@ class LoadDemoCampaign
             $this->scenario();
             $this->secrets();
             $this->map();
+            $this->sounds();
+            $this->playedSession();
             $this->timeline();
 
             return $this->campaign->fresh();
@@ -544,6 +552,81 @@ class LoadDemoCampaign
         $map->save();
     }
 
+    /** Ambiances sonores de la bibliothèque, liées aux scènes où elles se jouent. */
+    private function sounds(): void
+    {
+        $tracks = [
+            // clé => scènes
+            'tide' => ['lantern', 'poles', 'ward'],
+            'mist' => ['poles', 'notebook', 'rising'],
+            'storm' => ['cellar', 'recast'],
+        ];
+
+        foreach ($tracks as $key => $scenes) {
+            $file = $this->sound($key);
+            $path = 'audio/'.Str::random(40).'.'.$file['extension'];
+            Storage::disk(AudioTrack::DISK)->put($path, $file['contents']);
+
+            $track = new AudioTrack([
+                'title' => $this->text['sounds'][$key],
+                'loop' => true,
+                'disk' => AudioTrack::DISK,
+                'path' => $path,
+                'original_name' => $this->text['sounds'][$key].'.'.$file['extension'],
+                'mime_type' => $file['mime'],
+                'size' => strlen($file['contents']),
+            ]);
+            $track->owner()->associate($this->gm);
+            $track->campaign()->associate($this->campaign);
+            $track->save();
+            $track->tags()->sync($this->tags(['ambience']));
+
+            foreach ($scenes as $scene) {
+                $this->scenes[$scene]->audioTracks()->attach($track, ['position' => $this->scenes[$scene]->audioTracks()->count()]);
+            }
+        }
+    }
+
+    /**
+     * Son fourni dans resources/demo/sounds, sinon l'ambiance synthétisée par le code.
+     *
+     * @return array{extension: string, mime: string, contents: string}
+     */
+    private function sound(string $key): array
+    {
+        foreach (['mp3' => 'audio/mpeg', 'ogg' => 'audio/ogg', 'm4a' => 'audio/mp4', 'wav' => 'audio/wav'] as $extension => $mime) {
+            $path = resource_path(self::TEXT_PATH.'/sounds/'.$key.'.'.$extension);
+
+            if (is_file($path)) {
+                return ['extension' => $extension, 'mime' => $mime, 'contents' => (string) file_get_contents($path)];
+            }
+        }
+
+        return ['extension' => 'wav', 'mime' => 'audio/wav', 'contents' => DemoFiles::ambience($key)];
+    }
+
+    /**
+     * La séance 1, déjà jouée : son résumé, les événements de la chronologie qui s'y rattachent,
+     * et une demande d'avis ouverte, pour voir ces pages remplies avant sa première partie.
+     */
+    private function playedSession(): void
+    {
+        $start = now()->subWeek()->setTime(20, 30);
+
+        $this->session = $this->campaign->playSessions()->create([
+            'number' => 1,
+            'started_at' => $start,
+            'ended_at' => $start->copy()->addHours(3)->addMinutes(40),
+            'summary' => $this->link($this->text['session']['summary']),
+        ]);
+
+        $feedback = new FeedbackRequest(['anonymous' => true]);
+        $feedback->campaign()->associate($this->campaign);
+        $feedback->playSession()->associate($this->session);
+        $feedback->author()->associate($this->gm);
+        $feedback->save();
+    }
+
     private function timeline(): void
     {
         $events = [
@@ -572,7 +655,11 @@ class LoadDemoCampaign
                 'zone' => $zone,
             ]);
             $event->campaign()->associate($this->campaign);
-            $event->forceFill(['user_id' => $this->gm->id, 'position' => ++$position])->save();
+            $event->forceFill([
+                'user_id' => $this->gm->id,
+                'position' => ++$position,
+                'play_session_id' => $key === 'session1' ? $this->session->id : null,
+            ])->save();
         }
     }
 

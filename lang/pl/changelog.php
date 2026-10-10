@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.48.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Pełniejsza demonstracja',
+        'items' => [
+            'Kampania demonstracyjna „Przysięga Pierrecendre” zawiera teraz trzy oryginalne nastroje dźwiękowe połączone ze scenami, rozegraną już pierwszą sesję z podsumowaniem oraz prośbę o opinię do graczy.',
+            'Poprawka: przejście między dwoma utworami nie przerywa już odtwarzania w niektórych przeglądarkach.',
+        ],
+    ],
+
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi zmienia nazwę na SagaWyn',

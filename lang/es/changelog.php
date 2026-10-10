@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.48.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Una demostración más completa',
+        'items' => [
+            'La campaña de demostración «El Juramento de Pierrecendre» incluye ahora tres ambientes sonoros originales vinculados a las escenas, una primera sesión ya jugada con su resumen y una solicitud de opinión a los jugadores.',
+            'Corrección: el fundido entre dos pistas ya no detiene la reproducción en algunos navegadores.',
+        ],
+    ],
+
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi pasa a llamarse SagaWyn',
