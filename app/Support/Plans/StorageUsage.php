@@ -3,6 +3,7 @@
 namespace App\Support\Plans;
 
 use App\Models\Attachment;
+use App\Models\AudioTrack;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\GameSystem;
@@ -42,7 +43,8 @@ class StorageUsage
     private static function measure(User $user): int
     {
         $bytes = (int) Document::where('user_id', $user->id)->sum('size')
-            + (int) Attachment::where('user_id', $user->id)->sum('size');
+            + (int) Attachment::where('user_id', $user->id)->sum('size')
+            + (int) AudioTrack::where('user_id', $user->id)->sum('size');
 
         $disk = Storage::disk(Entity::FILES_DISK);
         Entity::where('user_id', $user->id)->whereNotNull('image_path')->pluck('image_path')

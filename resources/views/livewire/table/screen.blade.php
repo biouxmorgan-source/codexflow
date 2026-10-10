@@ -87,6 +87,14 @@
         @endswitch
     </div>
 
+    {{-- Musique lancée par le MJ : jouée ici, par les enceintes de l’écran de table. --}}
+    <div wire:ignore x-data="tableAudio($wire.audio)" x-on:table-audio.window="apply($event.detail.state)">
+        <button type="button" x-show="blocked" x-cloak x-on:click="unlock()"
+            class="absolute bottom-4 left-4 rounded-lg bg-current/10 px-4 py-2 text-sm hover:bg-current/20">
+            🔊 {{ __('Activer le son') }}
+        </button>
+    </div>
+
     {{-- Masqué là où le plein écran n’existe pas (iPhone). --}}
     <button type="button" x-show="! full && document.fullscreenEnabled" x-on:click="document.documentElement.requestFullscreen()"
         class="absolute right-4 bottom-4 rounded-lg bg-current/10 px-4 py-2 text-sm hover:bg-current/20">

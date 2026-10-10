@@ -56,6 +56,7 @@
                                         $tag->scenes_count ? trans_choice(':count scène|:count scènes', $tag->scenes_count) : null,
                                         $tag->rules_count ? trans_choice(':count règle|:count règles', $tag->rules_count) : null,
                                         $tag->documents_count ? trans_choice(':count document|:count documents', $tag->documents_count) : null,
+                                        $tag->audio_tracks_count ? trans_choice(':count son|:count sons', $tag->audio_tracks_count) : null,
                                     ]))
                                     @if ($parts)
                                         <button type="button" wire:click="toggleItems({{ $tag->id }})" class="link" aria-expanded="{{ $openId === $tag->id ? 'true' : 'false' }}" title="{{ __('Voir les éléments qui portent ce tag') }}">{{ implode(' · ', $parts) }}</button>

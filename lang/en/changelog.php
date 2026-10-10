@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.45.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Sound library',
+        'items' => [
+            'New “Sounds” page: upload your music and ambiences (mp3, ogg, m4a, wav, flac), sort them with tags and link them to scenes.',
+            'In Session mode, the “Music” block offers the scene’s sounds first: “Here” plays them on your device, without stopping when you change pages; “Table” plays them on the table screen, with pause, loop and volume controlled from the session.',
+        ],
+    ],
+
     '0.44.0' => [
         'date' => '2026-10-09',
         'title' => 'Ready to go live',

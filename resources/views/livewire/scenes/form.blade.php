@@ -148,6 +148,42 @@
                         </div>
                     @endif
                 </section>
+
+                <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <h2 class="mb-1 font-semibold">{{ __('Sons') }}</h2>
+                    <p class="mb-4 text-sm text-stone-600">{{ __('Musiques et ambiances proposées en tête du lecteur quand la scène est en cours.') }}</p>
+                    @if ($trackIds)
+                        <ul class="mb-3 space-y-1 text-sm">
+                            @foreach ($trackIds as $trackId)
+                                @continue(! $tracks->has($trackId))
+                                <li wire:key="track-{{ $trackId }}" class="flex items-center gap-2">
+                                    <span class="min-w-0 flex-1">{{ $tracks[$trackId]->title }}</span>
+                                    <button type="button" wire:click="removeTrack({{ $trackId }})" class="text-red-700 hover:underline" aria-label="{{ __('Retirer :name', ['name' => $tracks[$trackId]->title]) }}">{{ __('Retirer') }}</button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                    @if ($tracks->except($trackIds)->isEmpty())
+                        <p class="text-sm text-stone-500">
+                            @if ($tracks->isEmpty())
+                                {{ __('Aucun son dans la campagne pour l’instant.') }} <a href="{{ route('audio.index', $campaign) }}" class="link" wire:navigate>{{ __('Ajouter des sons') }}</a>
+                            @else
+                                {{ __('Tous les sons sont liés.') }}
+                            @endif
+                        </p>
+                    @else
+                        <div class="flex gap-2">
+                            <label for="pickedTrackId" class="sr-only">{{ __('Lier un son') }}</label>
+                            <select id="pickedTrackId" wire:model="pickedTrackId" class="field min-w-0 flex-1 py-1.5 text-sm">
+                                <option value="">{{ __('Choisir un son…') }}</option>
+                                @foreach ($tracks->except($trackIds) as $option)
+                                    <option value="{{ $option->id }}">{{ $option->title }}</option>
+                                @endforeach
+                            </select>
+                            <button type="button" wire:click="addTrack" class="btn-secondary min-h-0 py-1 text-sm">{{ __('Lier') }}</button>
+                        </div>
+                    @endif
+                </section>
             </div>
 
             <div class="flex gap-3">

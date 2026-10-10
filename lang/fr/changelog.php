@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.45.0' => [
+        'date' => '2026-10-10',
+        'title' => 'Bibliothèque sonore',
+        'items' => [
+            'Nouvelle page « Sons » : téléversez vos musiques et ambiances (mp3, ogg, m4a, wav, flac), rangez-les par tags et liez-les aux scènes.',
+            'En mode Session, le bloc « Musique » propose d’abord les sons de la scène : « Ici » les joue sur votre appareil, sans couper quand vous changez de page ; « Table » les joue sur l’écran de table, avec pause, boucle et volume pilotés depuis la session.',
+        ],
+    ],
+
     '0.44.0' => [
         'date' => '2026-10-09',
         'title' => 'Prêt pour la mise en ligne',

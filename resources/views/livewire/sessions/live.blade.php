@@ -256,6 +256,51 @@
                     </form>
                 </section>
 
+                {{-- Musique : sons de la scène d'abord ; « Ici » joue sur cet appareil, « Table » sur l'écran de table. --}}
+                <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                    <div class="mb-2 flex items-center gap-2">
+                        <h2 class="mr-auto flex items-center gap-1.5 text-sm font-semibold tracking-wide text-stone-500 uppercase"><x-icon name="music" class="size-4" /> {{ __('Musique') }}</h2>
+                        <a href="{{ route('audio.index', $campaign) }}" target="_blank" rel="noopener" class="link text-sm">{{ __('Bibliothèque ↗') }}</a>
+                    </div>
+                    @php($onTable = \App\Support\CampaignFeatures::enabled($campaign, 'table') && auth()->user()->can('use-feature', ['table', $campaign]))
+                    @if ($onTable && $this->tableAudio)
+                        @php($playing = $this->tableAudio)
+                        <div class="mb-3 rounded-lg bg-stone-50 p-2 text-sm">
+                            <p class="flex items-center gap-2">
+                                <span class="min-w-0 flex-1 truncate"><span class="text-stone-500">{{ __('Sur la table :') }}</span> <span class="font-medium">{{ $playing['track']->title }}</span></span>
+                                <button type="button" wire:click="pauseTableAudio" class="rounded-md px-1.5 text-stone-600 hover:text-codex" aria-label="{{ $playing['playing'] ? __('Mettre la table en pause') : __('Reprendre sur la table') }}">{{ $playing['playing'] ? '❚❚' : '▶' }}</button>
+                                <button type="button" wire:click="loopTableAudio" @class(['rounded-md px-1.5', 'bg-codex-soft text-codex' => $playing['loop'], 'text-stone-400' => ! $playing['loop']]) aria-pressed="{{ $playing['loop'] ? 'true' : 'false' }}" title="{{ __('En boucle') }}"><span aria-hidden="true">⟳</span><span class="sr-only">{{ __('En boucle') }}</span></button>
+                                <button type="button" wire:click="stopTableAudio" class="rounded-md px-1.5 text-stone-500 hover:text-red-700" title="{{ __('Arrêter') }}"><span aria-hidden="true">■</span><span class="sr-only">{{ __('Arrêter la musique de la table') }}</span></button>
+                            </p>
+                            <label class="mt-1 flex items-center gap-2 text-xs text-stone-500">
+                                <span>{{ __('Volume') }}</span>
+                                <input type="range" min="0" max="100" value="{{ $playing['volume'] }}" x-on:change="$wire.tableVolume(Number($event.target.value))" class="min-w-0 flex-1">
+                            </label>
+                        </div>
+                    @endif
+                    @if ($this->tracks->isEmpty())
+                        <p class="text-sm text-stone-500">{{ __('Aucun son pour l’instant : ajoutez vos musiques dans la bibliothèque.') }}</p>
+                    @else
+                        <ul class="max-h-64 space-y-1 overflow-y-auto text-sm">
+                            @foreach ($this->tracks as $track)
+                                <li wire:key="session-track-{{ $track->id }}" class="flex items-center gap-1.5">
+                                    <span class="min-w-0 flex-1 truncate" title="{{ $track->title }}">
+                                        @if ($track->in_scene)<span class="text-flow" title="{{ __('Lié à la scène') }}" aria-label="{{ __('Lié à la scène') }}">★</span>@endif
+                                        {{ $track->title }}
+                                    </span>
+                                    <button type="button" class="rounded-md border border-stone-200 px-1.5 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex"
+                                        x-on:click="$dispatch('loremundi-audio-play', @js(['url' => route('audio.file', $track), 'title' => $track->title, 'loop' => $track->loop]))"
+                                        aria-label="{{ __('Écouter « :name » sur cet appareil', ['name' => $track->title]) }}">▶ {{ __('Ici') }}</button>
+                                    @if ($onTable)
+                                        <button type="button" wire:click="playOnTable({{ $track->id }})" class="rounded-md border border-stone-200 px-1.5 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex"
+                                            aria-label="{{ __('Jouer « :name » sur l’écran de table', ['name' => $track->title]) }}">▶ {{ __('Table') }}</button>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </section>
+
                 {{-- Écran de table : ce que voient les joueurs sur le second écran. --}}
                 @if (! \App\Support\CampaignFeatures::enabled($campaign, 'table'))
                 @elseif (auth()->user()->cannot('use-feature', ['table', $campaign]))

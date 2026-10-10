@@ -76,7 +76,7 @@
                 @endif
             </section>
 
-            @if ($rules->isNotEmpty() || $documents->isNotEmpty())
+            @if ($rules->isNotEmpty() || $documents->isNotEmpty() || $tracks->isNotEmpty())
                 <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                     @if ($rules->isNotEmpty())
                         <h2 class="mb-2 font-semibold">{{ __('Règles') }}</h2>
@@ -89,6 +89,19 @@
                     @if ($documents->isNotEmpty())
                         <h2 class="mb-2 font-semibold">{{ __('Documents') }}</h2>
                         <x-document-list :documents="$documents" :campaign="$campaign" />
+                    @endif
+                    @if ($tracks->isNotEmpty())
+                        <h2 @class(['mb-2 font-semibold', 'mt-4' => $rules->isNotEmpty() || $documents->isNotEmpty()])>{{ __('Sons') }}</h2>
+                        <ul class="space-y-1 text-sm">
+                            @foreach ($tracks as $track)
+                                <li wire:key="scene-track-{{ $track->id }}" class="flex items-center gap-2">
+                                    <span class="min-w-0 flex-1 truncate">{{ $track->title }}</span>
+                                    <button type="button" class="rounded-md border border-stone-200 px-1.5 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex"
+                                        x-on:click="$dispatch('loremundi-audio-play', @js(['url' => route('audio.file', $track), 'title' => $track->title, 'loop' => $track->loop]))"
+                                        aria-label="{{ __('Écouter « :name » sur cet appareil', ['name' => $track->title]) }}">▶ {{ __('Écouter') }}</button>
+                                </li>
+                            @endforeach
+                        </ul>
                     @endif
                 </section>
             @endif

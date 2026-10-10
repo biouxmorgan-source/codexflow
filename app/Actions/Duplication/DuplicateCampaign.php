@@ -77,6 +77,7 @@ class DuplicateCampaign
         // ce qui est propre à la campagne et n'a pas été copié n'y figure pas : ses liens sont abandonnés.
         $entities = $this->copyEntities($source, $campaign, $files);
         $documents = $this->copyDocuments($source, $campaign, $files);
+        $tracks = $this->copyTracks($source, $campaign, $files);
         $rules = $this->copyRules($source, $campaign);
 
         $this->copyLinks($source, $entities, $documents, $rules);
@@ -100,7 +101,7 @@ class DuplicateCampaign
         $scenes = [];
 
         foreach ($source->scenarios()->get() as $scenario) {
-            [, $map] = $this->scenarios->copyInto($scenario, $campaign, $scenario->name, $scenario->position, $entities, $documents, $rules, $secrets);
+            [, $map] = $this->scenarios->copyInto($scenario, $campaign, $scenario->name, $scenario->position, $entities, $documents, $rules, $secrets, $tracks);
             $scenes += $map;
         }
 
@@ -241,6 +242,32 @@ class DuplicateCampaign
                 $entity->saveQuietly();
             }
         }
+    }
+
+    /** @return array<int, int> ancien id => nouvel id */
+    private function copyTracks(Campaign $source, Campaign $campaign, FileCopies $files): array
+    {
+        $map = [];
+
+        foreach ($source->audioTracks()->with('tags')->get() as $track) {
+            $path = $files->copy($track->disk, $track->path, 'audio');
+
+            if ($path === null) {
+                continue;
+            }
+
+            $copy = $track->replicate();
+            $copy->setRelations([]);
+            $copy->path = $path;
+            $copy->campaign_id = $campaign->id;
+            $copy->user_id = $campaign->user_id;
+            $copy->save();
+            $copy->tags()->sync($track->tags->modelKeys());
+
+            $map[$track->id] = $copy->id;
+        }
+
+        return $map;
     }
 
     private function copyDocuments(Campaign $source, Campaign $campaign, FileCopies $files): array

@@ -1,0 +1,2 @@
+await page.goto(base + '/campagnes/2/sons');
+if (await page.locator('

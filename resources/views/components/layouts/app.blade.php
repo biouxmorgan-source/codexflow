@@ -86,6 +86,9 @@
     </footer>
     @livewire(\App\Livewire\WhatsNew::class)
     @livewire(\App\Livewire\ReceivedPopup::class)
+    @persist('audio-deck')
+        <x-audio-deck />
+    @endpersist
     @if ($searchCampaign instanceof \App\Models\Campaign && ! request()->routeIs('messages.*', 'table.remote') && auth()->user()->can('play', $searchCampaign))
         @persist('chat-'.$searchCampaign->id)
             @livewire(\App\Livewire\ChatDock::class, ['campaign' => $searchCampaign], key('chat-'.$searchCampaign->id))

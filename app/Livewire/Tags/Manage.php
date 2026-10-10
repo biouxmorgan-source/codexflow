@@ -34,7 +34,7 @@ class Manage extends Component
     {
         return Tag::query()
             ->where('user_id', auth()->id())
-            ->withCount(['entities', 'rules', 'documents', 'scenes'])
+            ->withCount(['entities', 'rules', 'documents', 'scenes', 'audioTracks'])
             ->orderByRaw('lower(name)')
             ->get();
     }
@@ -147,7 +147,12 @@ class Manage extends Component
             ->concat($tag->entities()->orderBy('name')->limit(100)->get()->map(fn ($entity) => $item(__('Fiche'), $entity->name, $pick($entity->campaign_id, $entity->world_id), 'entities.show', $entity)))
             ->concat($tag->scenes()->with('scenario:id,campaign_id')->orderBy('name')->limit(100)->get()->map(fn ($scene) => $item(__('Scène'), $scene->name, $pick($scene->scenario?->campaign_id), 'scenes.show', $scene)))
             ->concat($tag->rules()->orderBy('title')->limit(100)->get()->map(fn ($rule) => $item(__('Règle'), $rule->title, $pick($rule->campaign_id, null, $rule->game_system_id), 'rules.show', $rule)))
-            ->concat($tag->documents()->orderBy('title')->limit(100)->get()->map(fn ($document) => $item(__('Document'), $document->title, $pick($document->campaign_id, $document->world_id, $document->game_system_id), 'documents.show', $document)));
+            ->concat($tag->documents()->orderBy('title')->limit(100)->get()->map(fn ($document) => $item(__('Document'), $document->title, $pick($document->campaign_id, $document->world_id, $document->game_system_id), 'documents.show', $document)))
+            ->concat($tag->audioTracks()->orderBy('title')->limit(100)->get()->map(function ($track) use ($pick, $tag) {
+                $campaign = $pick($track->campaign_id);
+
+                return ['type' => __('Son'), 'label' => $track->title, 'url' => $campaign ? route('audio.index', [$campaign, 'tag' => $tag->name]) : null, 'place' => $campaign?->name];
+            }));
     }
 
     private function own(int $id): Tag

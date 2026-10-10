@@ -55,6 +55,12 @@ class Scene extends Model
         return $this->belongsToMany(Document::class)->withPivot('position')->orderByPivot('position');
     }
 
+    /** @return BelongsToMany<AudioTrack, $this> */
+    public function audioTracks(): BelongsToMany
+    {
+        return $this->belongsToMany(AudioTrack::class)->withPivot('position')->orderByPivot('position');
+    }
+
     /** @return BelongsToMany<Tag, $this> */
     public function tags(): BelongsToMany
     {

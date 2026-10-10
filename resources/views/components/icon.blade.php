@@ -15,6 +15,7 @@
         'screen' => ['M3 5h18v11H3z', 'M8 20h8', 'M12 16v4'],
         'ai' => ['M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z', 'M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z'],
         'archive' => ['M4 7h16v13H4z', 'M3 4h18v3H3z', 'M10 11h4'],
+        'music' => ['M9 18V5l11-2v13'],
     ][$name] ?? [];
 
     // Ronds d'une icône : un élément <circle> reste net là où un arc dessiné à la main se déforme.
@@ -22,6 +23,7 @@
         'graph' => [[6, 6, 2], [18, 6, 2], [12, 18, 2]],
         'members' => [[9, 8, 3]],
         'remote' => [[12, 7, 0.6], [12, 11, 0.6], [12, 15, 0.6]],
+        'music' => [[6, 18, 3], [17, 16, 3]],
     ][$name] ?? [];
 @endphp
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" {{ $attributes->merge(['class' => 'size-5']) }}>
