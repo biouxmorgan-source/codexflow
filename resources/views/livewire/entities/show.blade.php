@@ -290,7 +290,7 @@
                             <li><span class="text-xs text-stone-500">{{ __('Chronologie ·') }}</span> <a href="{{ route('timeline.index', $campaign) }}#evenement-{{ $event->id }}" class="link">{{ $event->title }}</a></li>
                         @endforeach
                         @foreach ($secretBacklinks as $citingSecret)
-                            <li><span class="text-xs text-stone-500">{{ __('Secret ·') }}</span> <a href="{{ route('secrets.index', $campaign) }}#secret-{{ $citingSecret->id }}" class="link">{{ $citingSecret->title }}</a></li>
+                            <li><span class="text-xs text-stone-500">{{ __('Indice ·') }}</span> <a href="{{ route('secrets.index', $campaign) }}#secret-{{ $citingSecret->id }}" class="link">{{ $citingSecret->title }}</a></li>
                         @endforeach
                         @foreach ($noteBacklinks as $note)
                             <li>

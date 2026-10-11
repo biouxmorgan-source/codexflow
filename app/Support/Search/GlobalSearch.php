@@ -402,7 +402,7 @@ final class GlobalSearch
             ->get()
             ->map(fn (Secret $secret) => new SearchResult(
                 title: $secret->title,
-                subtitle: __('Secret'),
+                subtitle: __('Indice'),
                 url: route('secrets.index', ['campaign' => $this->campaign, 'q' => $secret->title]),
                 snippet: $this->snippet([__('Texte') => $secret->body], $secret->title),
             ));

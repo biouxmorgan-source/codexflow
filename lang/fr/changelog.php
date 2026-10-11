@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.56.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Les secrets deviennent des indices',
+        'items' => [
+            'Les « secrets » de la campagne s’appellent maintenant des « indices » : page Indices, panneau des fiches, scènes et documents, mode Session, recherche, révélations et aide. Rien ne change dans vos données.',
+        ],
+    ],
+
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Les joueurs modifient leur personnage',

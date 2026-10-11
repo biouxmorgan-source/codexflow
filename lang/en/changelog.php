@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.56.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Secrets become clues',
+        'items' => [
+            'The campaign’s “secrets” are now called “clues”: Clues page, panel on entries, scenes and documents, Session mode, search, reveals and help. Nothing changes in your data.',
+        ],
+    ],
+
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Players edit their character',

@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.56.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Sekrety stają się tropami',
+        'items' => [
+            '„Sekrety” kampanii nazywają się teraz „tropami”: strona Tropy, panel kart, scen i dokumentów, tryb Sesji, wyszukiwanie, ujawnienia i pomoc. Twoje dane się nie zmieniają.',
+        ],
+    ],
+
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Gracze edytują swoją postać',

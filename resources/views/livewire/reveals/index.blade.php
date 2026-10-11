@@ -43,7 +43,7 @@
                     <time class="w-28 shrink-0 text-xs text-stone-500" datetime="{{ $grant->created_at->toIso8601String() }}">{{ $grant->created_at->timezone(config('app.timezone'))->isoFormat('D MMM, LT') }}</time>
                     <span class="min-w-0 flex-1">
                         <span class="block">
-                            <span class="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{{ $grant->secret_id ? __('Secret') : (\App\Models\CharacterGrant::kinds()[$grant->kind] ?? $grant->kind) }}</span>
+                            <span class="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{{ $grant->secret_id ? __('Indice') : (\App\Models\CharacterGrant::kinds()[$grant->kind] ?? $grant->kind) }}</span>
                             <span class="font-medium">{{ $grant->label() }}</span>
                             → <a href="{{ route('characters.show', [$campaign, $grant->character]) }}" class="link" wire:navigate>{{ $grant->character->entity->name }}</a>
                         </span>

@@ -35,7 +35,7 @@
                 <button type="button" wire:click="$set('importing', false)" class="btn-secondary">{{ __('Annuler') }}</button>
             </div>
             <p class="border-t border-stone-200 pt-4 text-sm text-stone-600">
-                {{ __('Sans archive sous la main, chargez la campagne de démonstration : un jeu inventé, une intrigue de trois séances, des fiches, une carte, des secrets et une chronologie.') }}
+                {{ __('Sans archive sous la main, chargez la campagne de démonstration : un jeu inventé, une intrigue de trois séances, des fiches, une carte, des indices et une chronologie.') }}
                 <span class="mt-2 block">@include('livewire.campaigns.demo-loader', ['class' => 'font-medium text-codex hover:underline', 'suffix' => 'Import'])</span>
             </p>
         </form>
