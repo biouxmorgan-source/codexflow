@@ -748,6 +748,7 @@ final class CampaignImport
                 'campaign_id' => $campaign->id,
                 'number' => $number,
                 'title' => $this->string($session['title'] ?? null, 255),
+                'summary' => $this->links($this->string($session['summary'] ?? null, 20000)),
                 'started_at' => $startedAt,
                 'ended_at' => $endedAt,
                 'created_at' => $this->now,

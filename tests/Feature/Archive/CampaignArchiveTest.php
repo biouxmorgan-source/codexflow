@@ -359,7 +359,7 @@ class CampaignArchiveTest extends TestCase
         CharacterGrant::create(['player_character_id' => $harvey->id, 'kind' => 'entity', 'entity_id' => $this->localNpc->id, 'granted_by' => $this->gm->id]);
         CharacterGrant::create(['player_character_id' => $harvey->id, 'kind' => 'possession', 'title' => 'Lanterne', 'quantity' => 2, 'granted_by' => $this->gm->id]);
 
-        $session = $this->campaign->playSessions()->create(['number' => 1, 'title' => 'Le bal', 'started_at' => now()->subDay(), 'ended_at' => now()->subDay()->addHours(3)]);
+        $session = $this->campaign->playSessions()->create(['number' => 1, 'title' => 'Le bal', 'summary' => 'Le bal tourne mal.', 'started_at' => now()->subDay(), 'ended_at' => now()->subDay()->addHours(3)]);
         $session->notes()->make(['body' => 'Lucy a volé la clé.'])->forceFill(['user_id' => $this->gm->id])->save();
         foreach (['group' => 'Note de toute la table', 'private' => 'Mon secret à moi'] as $visibility => $body) {
             $harvey->notes()->make(['body' => $body, 'visibility' => $visibility])->forceFill(['user_id' => $player->id])->save();
@@ -393,6 +393,7 @@ class CampaignArchiveTest extends TestCase
         $this->assertSame(['Aldric', 'Lanterne'], $character->grants->map(fn (CharacterGrant $grant) => $grant->entity?->name ?? $grant->title)->sort()->values()->all());
         $copySession = $copy->playSessions()->sole();
         $this->assertSame('Le bal', $copySession->title);
+        $this->assertSame('Le bal tourne mal.', $copySession->summary);
         $this->assertNotNull($copySession->ended_at);
         $this->assertSame(['Lucy a volé la clé.'], $copySession->notes()->pluck('body')->all());
         $this->assertSame(['Note de toute la table'], $character->notes()->pluck('body')->all());
