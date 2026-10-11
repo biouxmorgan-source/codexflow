@@ -24,7 +24,7 @@ class AiImportPrompt
         'file' => 'fichier', 'entity' => 'référence',
     ];
 
-    public static function for(Campaign $campaign, ?string $locale = null): string
+    public static function for(Campaign $campaign, ?string $locale = null, bool $skill = false): string
     {
         $locale ??= app()->getLocale();
         $types = EntityType::query()->availableTo($campaign->owner)->orderBy('id')->pluck('name')->unique()->values()->all();
@@ -40,21 +40,31 @@ class AiImportPrompt
             'world' => $campaign->world?->name ?? 'aucun',
             'types' => implode(', ', $types),
             'fields' => $fields,
+            'skill' => $skill,
         ])->render())."\n";
     }
 
+    /** Fichiers joints au skill, à côté de SKILL.md (resources/skills/sagawyn-import). */
+    private const SKILL_FILES = ['references/format-archive.md', 'scripts/verifier.py'];
+
     /**
-     * Le même prompt sous forme de skill Claude (dossier avec SKILL.md), dans une archive .zip.
+     * Le même prompt sous forme de skill Claude (dossier avec SKILL.md, le format de l'archive
+     * de campagne et un script de vérification des fichiers), dans une archive .zip.
      */
     public static function skillArchive(Campaign $campaign, ?string $locale = null): string
     {
-        $skill = "---\nname: sagawyn-import\ndescription: Prépare les fichiers CSV d'import SagaWyn et leur guide à partir de PDF de jeu de rôle (fiches, champs, règles, scènes, aides de jeu).\n---\n\n"
-            .self::for($campaign, $locale);
+        $skill = "---\nname: sagawyn-import\ndescription: Transforme un livre de scénario ou de campagne de jeu de rôle (PDF) en fichiers d'import SagaWyn (fiches, champs, règles, scènes, documents nommés) avec le contenu complet du livre et un guide d'import.\n---\n\n"
+            .self::for($campaign, $locale, skill: true);
 
         $path = tempnam(sys_get_temp_dir(), 'sagawyn-skill-');
         $zip = new ZipArchive;
         $zip->open($path, ZipArchive::CREATE | ZipArchive::OVERWRITE);
         $zip->addFromString('sagawyn-import/SKILL.md', $skill);
+
+        foreach (self::SKILL_FILES as $file) {
+            $zip->addFile(resource_path('skills/sagawyn-import/'.$file), 'sagawyn-import/'.$file);
+        }
+
         $zip->close();
 
         return $path;
