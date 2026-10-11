@@ -48,6 +48,7 @@ class Campaign extends Model
             'table_audio' => 'array',
             'exchanges_need_approval' => 'boolean',
             'co_gm_manage_fields' => 'boolean',
+            'players_edit_profile' => 'boolean',
             'disabled_features' => 'array',
         ];
     }

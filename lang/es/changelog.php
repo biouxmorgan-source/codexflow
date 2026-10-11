@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.54.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Los jugadores editan su personaje',
+        'items' => [
+            'Página Campos: «Editable por el jugador» se marca para todo un grupo (características, habilidades…) o para todos los campos públicos con un clic.',
+            'Nueva opción en la página Jugadores: el DJ puede dejar que cada jugador edite el retrato, el resumen y la descripción de su personaje. La zona del DJ sigue oculta.',
+        ],
+    ],
+
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Insignia de Fundador y códigos regalo',

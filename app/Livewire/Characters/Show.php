@@ -22,6 +22,7 @@ use App\Models\ToPlayItem;
 use App\Support\CampaignFeatures;
 use App\Support\Locale;
 use App\Support\Notify;
+use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +32,8 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\WithFileUploads;
 
 /**
  * Fiche d'un personnage joueur telle que le joueur la voit : zone publique, feuille PDF,
@@ -38,6 +41,8 @@ use Livewire\Component;
  */
 class Show extends Component
 {
+    use WithFileUploads;
+
     public Campaign $campaign;
 
     public PlayerCharacter $character;
@@ -47,6 +52,15 @@ class Show extends Component
 
     /** Champ modifiable en cours d'édition (null = lecture). */
     public bool $editing = false;
+
+    /** Résumé, description et portrait, quand le MJ laisse le joueur les modifier. */
+    public string $profileSummary = '';
+
+    public string $profileDescription = '';
+
+    public ?TemporaryUploadedFile $portrait = null;
+
+    public bool $removePortrait = false;
 
     public ?int $editingNoteId = null;
 
@@ -529,17 +543,28 @@ class Show extends Component
         $this->refreshEntity();
     }
 
+    /** Le MJ laisse le joueur modifier le portrait, le résumé et la description de son personnage. */
+    #[Computed]
+    public function canEditProfile(): bool
+    {
+        return $this->canPlay && $this->campaign->players_edit_profile;
+    }
+
     public function edit(): void
     {
         $this->ensureNotViewingAs();
-        abort_unless($this->canPlay, 403);
+        abort_unless($this->canPlay && ($this->canEditProfile || $this->fields->where('player_editable', true)->isNotEmpty()), 403);
         $this->fillValues();
+        $this->profileSummary = (string) $this->entity->summary;
+        $this->profileDescription = (string) $this->entity->description;
+        $this->reset('portrait', 'removePortrait');
         $this->editing = true;
     }
 
     public function cancel(): void
     {
         $this->resetValidation();
+        $this->reset('portrait', 'removePortrait');
         $this->editing = false;
     }
 
@@ -551,6 +576,14 @@ class Show extends Component
         $this->resetValidation();
         $parsed = [];
         $errors = [];
+
+        if ($this->canEditProfile) {
+            $this->validate([
+                'profileSummary' => ['nullable', 'string', 'max:500'],
+                'profileDescription' => ['nullable', 'string', 'max:20000'],
+                'portrait' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240'],
+            ], attributes: ['profileSummary' => __('résumé'), 'profileDescription' => __('description'), 'portrait' => __('portrait')]);
+        }
 
         $known = collect($this->fieldChoices['entities'])->map(fn (string $name) => mb_strtolower($name));
 
@@ -584,12 +617,33 @@ class Show extends Component
             return;
         }
 
+        if ($this->canEditProfile && $this->portrait !== null) {
+            Plans::ensureRoom($this->campaign->owner, (int) $this->portrait->getSize(), 'portrait');
+        }
+
         DB::transaction(function () use ($parsed) {
             $entity = Entity::query()->lockForUpdate()->findOrFail($this->entity->id);
             $entity->setFieldValues($parsed);
+
+            if ($this->canEditProfile) {
+                $entity->fill([
+                    'summary' => trim($this->profileSummary) ?: null,
+                    'description' => trim($this->profileDescription) ?: null,
+                ]);
+
+                if ($this->removePortrait || $this->portrait !== null) {
+                    $entity->deleteImage();
+                }
+
+                if ($this->portrait !== null) {
+                    $entity->image_path = $this->portrait->store('entities', Entity::FILES_DISK);
+                }
+            }
+
             $entity->save();
         });
 
+        $this->reset('portrait', 'removePortrait');
         $this->editing = false;
         $this->refreshEntity();
     }
@@ -612,7 +666,7 @@ class Show extends Component
     public function characterChanged(): void
     {
         $this->character->refresh();
-        unset($this->entity, $this->canPlay);
+        unset($this->entity, $this->canPlay, $this->canEditProfile);
 
         if (! $this->editing) {
             $this->fillValues();

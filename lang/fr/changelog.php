@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.54.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Les joueurs modifient leur personnage',
+        'items' => [
+            'Page Champs : « Modifiable par le joueur » se coche pour tout un groupe (caractéristiques, compétences…) ou pour tous les champs publics en un clic.',
+            'Nouvelle option dans la page Joueurs : le MJ peut laisser chaque joueur modifier le portrait, le résumé et la description de son personnage. La zone MJ reste cachée.',
+        ],
+    ],
+
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Badge Fondateur et codes cadeaux',

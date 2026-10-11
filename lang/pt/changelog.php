@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.54.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Os jogadores editam a sua personagem',
+        'items' => [
+            'Página Campos: «Editável pelo jogador» marca-se para um grupo inteiro (características, perícias…) ou para todos os campos públicos num clique.',
+            'Nova opção na página Jogadores: o mestre pode deixar cada jogador editar o retrato, o resumo e a descrição da sua personagem. A zona do mestre continua escondida.',
+        ],
+    ],
+
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Distintivo de Fundador e códigos de oferta',

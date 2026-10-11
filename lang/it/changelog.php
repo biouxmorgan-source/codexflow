@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.54.0' => [
+        'date' => '2026-10-11',
+        'title' => 'I giocatori modificano il loro personaggio',
+        'items' => [
+            'Pagina Campi: «Modificabile dal giocatore» si spunta per un intero gruppo (caratteristiche, abilità…) o per tutti i campi pubblici con un clic.',
+            'Nuova opzione nella pagina Giocatori: il master può lasciare che ogni giocatore modifichi ritratto, riassunto e descrizione del proprio personaggio. La zona del master resta nascosta.',
+        ],
+    ],
+
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Badge Fondatore e codici regalo',

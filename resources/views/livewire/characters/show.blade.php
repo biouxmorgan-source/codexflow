@@ -108,6 +108,29 @@
             @if ($editing)
                 <form wire:submit="save" class="space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                     <h2 class="font-semibold">{{ __('Modifier ma fiche') }}</h2>
+                    @if ($this->canEditProfile)
+                        <div>
+                            <label for="portrait" class="label">{{ __('Portrait') }}</label>
+                            <input id="portrait" type="file" wire:model="portrait" accept="image/jpeg,image/png,image/webp,image/gif" class="block w-full text-sm">
+                            @error('portrait') <p class="error">{{ $message }}</p> @enderror
+                            @if ($entity->hasImage() && ! $portrait)
+                                <label class="mt-1 flex items-center gap-2 text-sm text-stone-700">
+                                    <input type="checkbox" wire:model="removePortrait">
+                                    <span>{{ __('Retirer le portrait actuel') }}</span>
+                                </label>
+                            @endif
+                        </div>
+                        <div>
+                            <label for="profileSummary" class="label">{{ __('Résumé') }}</label>
+                            <textarea id="profileSummary" wire:model="profileSummary" rows="2" maxlength="500" class="field"></textarea>
+                            @error('profileSummary') <p class="error">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label for="profileDescription" class="label">{{ __('Description') }}</label>
+                            <x-link-textarea id="profileDescription" model="profileDescription" />
+                            @error('profileDescription') <p class="error">{{ $message }}</p> @enderror
+                        </div>
+                    @endif
                     <x-field-inputs :definitions="$this->fields->where('player_editable', true)" model="values" :entities="$this->fieldChoices['entities']" :documents="$this->fieldChoices['documents']" />
                     <div class="flex gap-3">
                         <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
@@ -118,7 +141,7 @@
                 <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                     <div class="mb-2 flex items-center justify-between gap-3">
                         <h2 class="font-semibold">{{ __('Caractéristiques') }}</h2>
-                        @if ($this->canPlay && $this->fields->where('player_editable', true)->isNotEmpty())
+                        @if ($this->canPlay && ($this->canEditProfile || $this->fields->where('player_editable', true)->isNotEmpty()))
                             <button type="button" wire:click="edit" class="link text-sm">{{ __('Modifier') }}</button>
                         @endif
                     </div>

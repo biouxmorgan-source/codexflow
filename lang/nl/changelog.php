@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.54.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Spelers bewerken hun personage',
+        'items' => [
+            'Pagina Velden: „Bewerkbaar door de speler” vink je aan voor een hele groep (eigenschappen, vaardigheden…) of voor alle openbare velden in één klik.',
+            'Nieuwe optie op de pagina Spelers: de SL kan elke speler het portret, de samenvatting en de beschrijving van zijn personage laten bewerken. De SL-zone blijft verborgen.',
+        ],
+    ],
+
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Oprichtersbadge en cadeaucodes',

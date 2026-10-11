@@ -2235,5 +2235,15 @@
     "nombre de codes": "number of codes",
     "pas en cours": "not active",
     "un compte supprimé": "a deleted account",
-    "à vie": "for life"
+    "à vie": "for life",
+    "Les champs se règlent un par un, ou par groupe, dans la page Champs (« Modifiable par le joueur »). La zone MJ reste toujours cachée.": "Fields are set one by one, or by group, on the Fields page (“Editable by the player”). The GM zone always stays hidden.",
+    "Les joueurs modifient le portrait, le résumé et la description de leur personnage": "Players edit their character’s portrait, summary and description",
+    "Modifiable par le joueur, pour tous les champs publics :": "Editable by the player, for all public fields:",
+    "Plus modifiables par le joueur": "No longer editable by the player",
+    "Portrait": "Portrait",
+    "Retirer le portrait actuel": "Remove the current portrait",
+    "Tous modifiables par le joueur": "All editable by the player",
+    "portrait": "portrait",
+    "tout cocher": "check all",
+    "tout décocher": "uncheck all"
 }

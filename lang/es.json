@@ -2235,5 +2235,15 @@
     "nombre de codes": "número de códigos",
     "pas en cours": "no activo",
     "un compte supprimé": "una cuenta eliminada",
-    "à vie": "de por vida"
+    "à vie": "de por vida",
+    "Les champs se règlent un par un, ou par groupe, dans la page Champs (« Modifiable par le joueur »). La zone MJ reste toujours cachée.": "Los campos se ajustan uno a uno, o por grupo, en la página Campos («Editable por el jugador»). La zona del DJ siempre queda oculta.",
+    "Les joueurs modifient le portrait, le résumé et la description de leur personnage": "Los jugadores editan el retrato, el resumen y la descripción de su personaje",
+    "Modifiable par le joueur, pour tous les champs publics :": "Editable por el jugador, para todos los campos públicos:",
+    "Plus modifiables par le joueur": "Ya no editables por el jugador",
+    "Portrait": "Retrato",
+    "Retirer le portrait actuel": "Quitar el retrato actual",
+    "Tous modifiables par le joueur": "Todos editables por el jugador",
+    "portrait": "retrato",
+    "tout cocher": "marcar todo",
+    "tout décocher": "desmarcar todo"
 }

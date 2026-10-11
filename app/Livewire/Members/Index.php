@@ -118,6 +118,14 @@ class Index extends Component
         $this->campaign->forceFill(['co_gm_manage_fields' => ! $this->campaign->co_gm_manage_fields])->save();
     }
 
+    /** Le MJ laisse, ou non, les joueurs modifier le résumé, la description et le portrait de leur personnage. */
+    public function togglePlayersEditProfile(): void
+    {
+        $this->authorize('manage', $this->campaign);
+
+        $this->campaign->forceFill(['players_edit_profile' => ! $this->campaign->players_edit_profile])->save();
+    }
+
     public function remove(int $userId): void
     {
         $this->authorize('manage', $this->campaign);

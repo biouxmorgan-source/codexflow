@@ -163,6 +163,27 @@ class Manage extends Component
         unset($this->definitions, $this->groups);
     }
 
+    /**
+     * Coche ou décoche « Modifiable par le joueur » sur tous les champs publics d'un groupe
+     * (ou de tout le jeu, sans groupe) : plus besoin d'ouvrir chaque champ.
+     */
+    public function setPlayerEditable(?string $group, bool $editable): void
+    {
+        $this->authorize('manageFields', [$this->gameSystem, $this->campaign]);
+
+        $ids = $this->definitions
+            ->filter(fn (FieldDefinition $definition) => $definition->zone === Zone::Public && ($group === null || $definition->groupLabel() === $group))
+            ->modelKeys();
+
+        FieldDefinition::whereKey($ids)->update(['player_editable' => $editable]);
+
+        if ($this->editingId !== null && in_array($this->editingId, $ids, true)) {
+            $this->playerEditable = $editable;
+        }
+
+        unset($this->definitions);
+    }
+
     public function move(int $id, int $direction): void
     {
         $this->authorize('manageFields', [$this->gameSystem, $this->campaign]);

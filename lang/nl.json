@@ -2235,5 +2235,15 @@
     "nombre de codes": "aantal codes",
     "pas en cours": "niet actief",
     "un compte supprimé": "een verwijderd account",
-    "à vie": "levenslang"
+    "à vie": "levenslang",
+    "Les champs se règlent un par un, ou par groupe, dans la page Champs (« Modifiable par le joueur »). La zone MJ reste toujours cachée.": "Velden stel je één voor één, of per groep, in op de pagina Velden („Bewerkbaar door de speler”). De SL-zone blijft altijd verborgen.",
+    "Les joueurs modifient le portrait, le résumé et la description de leur personnage": "Spelers bewerken het portret, de samenvatting en de beschrijving van hun personage",
+    "Modifiable par le joueur, pour tous les champs publics :": "Bewerkbaar door de speler, voor alle openbare velden:",
+    "Plus modifiables par le joueur": "Niet meer bewerkbaar door de speler",
+    "Portrait": "Portret",
+    "Retirer le portrait actuel": "Huidig portret verwijderen",
+    "Tous modifiables par le joueur": "Alle bewerkbaar door de speler",
+    "portrait": "portret",
+    "tout cocher": "alles aanvinken",
+    "tout décocher": "alles uitvinken"
 }
