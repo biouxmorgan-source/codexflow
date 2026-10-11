@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.56.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Pages jeu et monde lisibles sur téléphone',
+        'items' => [
+            'Sur téléphone, l’image d’un jeu ou d’un monde passe au-dessus du nom en pleine largeur : le nom et la description ne sont plus écrasés et le bouton Modifier ne les recouvre plus.',
+        ],
+    ],
+
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Les secrets deviennent des indices',

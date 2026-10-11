@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.56.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Spel- en wereldpagina’s leesbaar op de telefoon',
+        'items' => [
+            'Op de telefoon staat de afbeelding van een spel of wereld nu over de volle breedte boven de naam: naam en beschrijving worden niet meer samengeperst en de knop Bewerken bedekt ze niet meer.',
+        ],
+    ],
+
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Geheimen worden aanwijzingen',

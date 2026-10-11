@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.56.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Game and world pages readable on phones',
+        'items' => [
+            'On phones, a game or world image now sits above the name at full width: the name and description are no longer squeezed and the Edit button no longer covers them.',
+        ],
+    ],
+
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Secrets become clues',

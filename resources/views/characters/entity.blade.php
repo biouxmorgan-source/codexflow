@@ -14,7 +14,7 @@
             @endif
             <div class="min-w-0 flex-1">
                 <p class="text-sm text-stone-500">{{ $entity->type->name }}</p>
-                <h1 class="text-2xl font-semibold">{{ $entity->name }}</h1>
+                <h1 class="text-2xl font-semibold break-words">{{ $entity->name }}</h1>
                 @if ($entity->summary)
                     <p class="mt-1 text-stone-700">{{ $entity->summary }}</p>
                 @endif

@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.56.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Páginas de juego y mundo legibles en el móvil',
+        'items' => [
+            'En el móvil, la imagen de un juego o mundo aparece encima del nombre a todo el ancho: el nombre y la descripción ya no quedan aplastados y el botón Editar ya no los tapa.',
+        ],
+    ],
+
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Los secretos pasan a ser pistas',
