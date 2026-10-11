@@ -302,7 +302,7 @@ final class CampaignExport
                     'character_id' => $grant->player_character_id,
                     ...collect((array) $grant)->only(['kind', 'entity_id', 'document_id', 'rule_id', 'secret_id', 'play_session_id', 'scene_id', 'title', 'body', 'quantity', 'added_by_player', 'validated_at', 'created_at'])->all(),
                 ])->all(),
-            'sessions' => $sessions->map(fn ($session) => collect((array) $session)->only(['id', 'number', 'title', 'started_at', 'ended_at'])->all())->all(),
+            'sessions' => $sessions->map(fn ($session) => collect((array) $session)->only(['id', 'number', 'title', 'summary', 'started_at', 'ended_at'])->all())->all(),
             'session_notes' => DB::table('session_notes')->whereIn('play_session_id', $sessions->pluck('id'))->orderBy('id')->get()
                 ->map(fn ($note) => collect((array) $note)->only(['play_session_id', 'scene_id', 'body', 'created_at'])->all())->all(),
             'character_notes' => $notes->map(fn ($note) => [
