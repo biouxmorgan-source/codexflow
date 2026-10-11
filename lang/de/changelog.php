@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.56.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Spiel- und Weltseiten auf dem Handy lesbar',
+        'items' => [
+            'Auf dem Handy steht das Bild eines Spiels oder einer Welt jetzt in voller Breite über dem Namen: Name und Beschreibung werden nicht mehr gequetscht und die Schaltfläche Bearbeiten verdeckt sie nicht mehr.',
+        ],
+    ],
+
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Aus Geheimnissen werden Hinweise',

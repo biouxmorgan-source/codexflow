@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.56.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Pagine gioco e mondo leggibili su telefono',
+        'items' => [
+            'Su telefono, l’immagine di un gioco o di un mondo compare sopra il nome a tutta larghezza: nome e descrizione non sono più schiacciati e il pulsante Modifica non li copre più.',
+        ],
+    ],
+
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'I segreti diventano indizi',

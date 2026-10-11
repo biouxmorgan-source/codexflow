@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.56.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Strony gry i świata czytelne na telefonie',
+        'items' => [
+            'Na telefonie obraz gry lub świata wyświetla się nad nazwą na całą szerokość: nazwa i opis nie są już ściśnięte, a przycisk Edytuj ich nie zasłania.',
+        ],
+    ],
+
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Sekrety stają się tropami',

@@ -5,14 +5,14 @@
     </nav>
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
-        <div class="flex items-center gap-4">
+        <div class="flex min-w-0 items-center gap-4">
             @if ($entity->hasImage())
                 <a href="{{ route('entities.image', $entity) }}?v={{ $entity->updated_at?->timestamp }}" target="_blank" rel="noopener" class="shrink-0">
                     <img src="{{ route('entities.image', $entity) }}?v={{ $entity->updated_at?->timestamp }}" alt="{{ $entity->name }}" class="h-20 w-20 rounded-xl border border-stone-200 object-cover sm:h-24 sm:w-24">
                 </a>
             @endif
-            <div>
-                <h1 class="text-2xl font-semibold">{{ $entity->name }}</h1>
+            <div class="min-w-0">
+                <h1 class="text-2xl font-semibold break-words">{{ $entity->name }}</h1>
                 <p class="mt-1 flex flex-wrap items-center gap-x-1 text-sm text-stone-600">
                     <span>{{ $entity->type->name }} ·
                     {{ $entity->isWorldEntity() ? __('Monde « :name »', ['name' => $entity->world->name]) : __('Propre à cette campagne') }}</span>

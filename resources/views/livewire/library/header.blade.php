@@ -36,23 +36,26 @@
         </div>
     </form>
 @else
-    <div class="mb-6 flex flex-wrap items-start justify-between gap-3">
+    {{-- Sur téléphone, l'image passe au-dessus en pleine largeur et le bouton à côté du nom, sans l'écraser. --}}
+    <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start">
         @if ($item->hasImage())
-            <img src="{{ route($imageRoute, $item) }}?v={{ $item->updated_at?->timestamp }}" alt="" class="h-32 w-48 shrink-0 rounded-xl object-cover shadow-sm">
+            <img src="{{ route($imageRoute, $item) }}?v={{ $item->updated_at?->timestamp }}" alt="" class="h-48 w-full shrink-0 rounded-xl object-cover shadow-sm sm:h-32 sm:w-48">
         @endif
         <div class="min-w-0 flex-1">
-            <h1 class="text-2xl font-semibold">{{ $title }}</h1>
+            <div class="flex flex-wrap items-start justify-between gap-3">
+                <h1 class="min-w-0 flex-1 text-2xl font-semibold break-words">{{ $title }}</h1>
+                @if ($canEdit)
+                    <button type="button" wire:click="$set('editing', true)" class="btn-secondary shrink-0">{{ __('Modifier') }}</button>
+                @else
+                    <span class="text-sm text-stone-500">{{ __('Lecture seule : géré par le propriétaire.') }}</span>
+                @endif
+            </div>
             @if ($text)
-                <div class="mt-2 max-w-3xl text-stone-700">{{ \App\Support\EntityLinks::plain($text) }}</div>
+                <div class="mt-2 max-w-3xl break-words text-stone-700">{{ \App\Support\EntityLinks::plain($text) }}</div>
             @else
                 <p class="mt-1 text-sm text-stone-500">{{ __('Pas encore de description.') }}</p>
             @endif
         </div>
-        @if ($canEdit)
-            <button type="button" wire:click="$set('editing', true)" class="btn-secondary">{{ __('Modifier') }}</button>
-        @else
-            <span class="text-sm text-stone-500">{{ __('Lecture seule : géré par le propriétaire.') }}</span>
-        @endif
     </div>
 @endif
 
