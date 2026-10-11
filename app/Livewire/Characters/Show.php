@@ -666,7 +666,7 @@ class Show extends Component
     public function characterChanged(): void
     {
         $this->character->refresh();
-        unset($this->entity, $this->canPlay);
+        unset($this->entity, $this->canPlay, $this->canEditProfile);
 
         if (! $this->editing) {
             $this->fillValues();
