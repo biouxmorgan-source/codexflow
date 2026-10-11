@@ -22,7 +22,7 @@
                     @foreach ($this->members as $member)
                         <li wire:key="member-{{ $member->id }}" class="flex flex-wrap items-center gap-3 px-4 py-3">
                             <span class="min-w-0 flex-1">
-                                <span class="block font-medium">{{ $member->name }}</span>
+                                <span class="block font-medium">{{ $member->name }} <x-founder-badge :user="$member" /></span>
                                 <span class="block truncate text-sm text-stone-600">{{ $member->email }}</span>
                             </span>
                             @if ($member->id !== $campaign->user_id && auth()->user()->can('manage', $campaign))

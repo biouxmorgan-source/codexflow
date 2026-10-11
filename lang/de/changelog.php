@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.51.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Gründer-Abzeichen und Geschenkcodes',
+        'items' => [
+            'Kickstarter-Unterstützer können in der Verwaltungskonsole als Gründer markiert werden: ein Abzeichen ★ Gründer in den Einstellungen, der Mitgliederliste und auf dem Charakterbogen.',
+            'Gründer erhalten zusätzlichen Speicherplatz zu ihrem Tarif, kostenlos oder Premium (standardmäßig 500 MB, einstellbar unter „Tarife“).',
+            'Neue Seite „Meine Belohnungen“ (über die Einstellungen): deine Kickstarter-Belohnung, Premium-Geschenkcodes zum Verschenken per Link, mit dem Namen der Person, die jeden eingelöst hat, und ein Feld zum Einlösen eines erhaltenen Codes. Die Monate werden an das laufende Premium angehängt.',
+        ],
+    ],
+
     '0.50.1' => [
         'date' => '2026-10-11',
         'title' => 'Zustand: Rollenfilter',

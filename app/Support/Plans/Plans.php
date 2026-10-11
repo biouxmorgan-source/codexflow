@@ -36,6 +36,8 @@ class Plans
     public const DEFAULTS = [
         'free_storage_mb' => 250,
         'premium_storage_mb' => 2048,
+        // Espace ajouté à la formule des Fondateurs (contributeurs du Kickstarter), quelle qu'elle soit.
+        'founder_bonus_mb' => 500,
         'free_max_campaigns' => 1,
         'free_features' => self::FEATURES,
         'trial_weeks' => 6,
@@ -62,7 +64,7 @@ class Plans
         ];
     }
 
-    /** @return array{free_storage_mb: int, premium_storage_mb: int, free_max_campaigns: int, free_features: list<string>, trial_weeks: int, gift_starts_on: ?string, gift_ends_on: ?string} */
+    /** @return array{free_storage_mb: int, premium_storage_mb: int, founder_bonus_mb: int, free_max_campaigns: int, free_features: list<string>, trial_weeks: int, gift_starts_on: ?string, gift_ends_on: ?string} */
     public static function settings(): array
     {
         $saved = Setting::get('plans', []);
@@ -110,7 +112,10 @@ class Plans
         return (int) self::settings()['trial_weeks'];
     }
 
-    /** Espace de stockage permis, en octets ; null = sans limite. */
+    /**
+     * Espace de stockage permis, en octets ; null = sans limite. Un Fondateur a en plus son
+     * bonus, sauf si l'administrateur lui a fixé un stockage propre.
+     */
     public static function storageLimit(User $user): ?int
     {
         $plan = self::effective($user);
@@ -119,7 +124,9 @@ class Plans
             return null;
         }
 
-        $mb = $user->storage_quota_mb ?? self::settings()[$plan === self::FREE ? 'free_storage_mb' : 'premium_storage_mb'];
+        $settings = self::settings();
+        $mb = $user->storage_quota_mb
+            ?? $settings[$plan === self::FREE ? 'free_storage_mb' : 'premium_storage_mb'] + ($user->isFounder() ? $settings['founder_bonus_mb'] : 0);
 
         return (int) $mb * 1024 * 1024;
     }

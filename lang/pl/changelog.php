@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.51.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Odznaka Założyciela i kody podarunkowe',
+        'items' => [
+            'Wspierający na Kickstarterze mogą zostać oznaczeni jako Założyciel w konsoli administracyjnej: odznaka ★ Założyciel widoczna w preferencjach, na liście członków i na karcie postaci.',
+            'Założyciele mają dodatkowe miejsce ponad swój plan, darmowy lub premium (domyślnie 500 MB, do ustawienia w „Planach”).',
+            'Nowa strona „Moje nagrody” (z preferencji): twoja nagroda z Kickstartera, kody podarunkowe Premium do rozdania przez link, z imieniem osoby, która użyła każdego z nich, oraz pole do użycia otrzymanego kodu. Miesiące dodają się po zakończeniu obecnego Premium.',
+        ],
+    ],
+
     '0.50.1' => [
         'date' => '2026-10-11',
         'title' => 'Stan: filtr według roli',

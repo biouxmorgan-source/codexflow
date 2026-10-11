@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.51.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Distintivo de Fundador e códigos de oferta',
+        'items' => [
+            'Os apoiadores do Kickstarter podem ser marcados como Fundador na consola de administração: um distintivo ★ Fundador visível nas preferências, na lista de membros e na ficha da personagem.',
+            'Os Fundadores têm armazenamento extra além do seu plano, gratuito ou premium (500 MB por omissão, ajustável em «Planos»).',
+            'Nova página «As minhas recompensas» (a partir das preferências): a sua recompensa Kickstarter, códigos de oferta Premium para oferecer por link, com o nome de quem usou cada um, e um campo para usar um código recebido. Os meses somam-se ao fim do Premium atual.',
+        ],
+    ],
+
     '0.50.1' => [
         'date' => '2026-10-11',
         'title' => 'Saúde: filtro por função',

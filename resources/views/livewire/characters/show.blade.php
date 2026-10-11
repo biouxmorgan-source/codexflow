@@ -46,6 +46,7 @@
             @endif
             <p class="mt-1 text-sm text-stone-500">
                 {{ $character->player?->name ? __('Joué par :name', ['name' => $character->player->name]) : __('Sans joueur') }}
+                <x-founder-badge :user="$character->player" />
                 @if ($character->locked) · <span class="font-medium text-flow">{{ __('fiche verrouillée par le MJ') }}</span> @endif
             </p>
         </div>

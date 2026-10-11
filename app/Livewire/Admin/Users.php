@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\User;
 use App\Models\UserLogin;
+use App\Support\GiftCodes;
 use App\Support\Plans\Plans;
 use App\Support\Plans\StorageUsage;
 use Illuminate\Support\Carbon;
@@ -49,6 +50,15 @@ class Users extends Component
     public string $storageQuotaMb = '';
 
     public bool $isAdmin = false;
+
+    public bool $isFounder = false;
+
+    /** Récompense choisie sur le Kickstarter (repère libre, ex. « The Whole Table »). */
+    public string $backerReward = '';
+
+    public string $giftCount = '';
+
+    public string $giftMonths = '12';
 
     public function mount(): void
     {
@@ -125,6 +135,7 @@ class Users extends Component
             'trial' => $plans[Plans::TRIAL] ?? 0,
             'free' => $plans[Plans::FREE] ?? 0,
             'admins' => $plans[Plans::ADMIN] ?? 0,
+            'founders' => $users->filter(fn (User $user) => $user->isFounder())->count(),
             'active' => UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->distinct('user_id')->count('user_id'),
             'logins' => (int) UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->selectRaw('count(distinct (user_id, date(logged_in_at))) as days')->value('days'),
         ];
@@ -146,6 +157,9 @@ class Users extends Component
         $this->planEndsAt = (string) $user->plan_ends_at?->toDateString();
         $this->storageQuotaMb = (string) ($user->storage_quota_mb ?? '');
         $this->isAdmin = $user->is_admin;
+        $this->isFounder = $user->isFounder();
+        $this->backerReward = (string) $user->backer_reward;
+        $this->giftCount = '';
     }
 
     public function save(): void
@@ -158,6 +172,7 @@ class Users extends Component
             'planStartedAt' => ['nullable', 'date'],
             'planEndsAt' => ['nullable', 'date', 'after_or_equal:planStartedAt'],
             'storageQuotaMb' => ['nullable', 'integer', 'min:0', 'max:10000000'],
+            'backerReward' => ['nullable', 'string', 'max:120'],
         ], attributes: [
             'plan' => __('formule'),
             'planStartedAt' => __('début'),
@@ -174,11 +189,31 @@ class Users extends Component
             'plan_ends_at' => $this->planEndsAt ?: null,
             'storage_quota_mb' => $this->storageQuotaMb === '' ? null : (int) $this->storageQuotaMb,
             'is_admin' => $isAdmin,
+            // La date d'origine reste : retirer puis remettre le marqueur la remet à aujourd'hui.
+            'founder_since' => $this->isFounder ? ($user->founder_since ?? today()) : null,
+            'backer_reward' => trim($this->backerReward) ?: null,
         ])->save();
 
         $this->editingId = null;
         session()->now('status', __('Compte mis à jour : :email.', ['email' => $user->email]));
         unset($this->rows, $this->totals);
+    }
+
+    /** Donne au compte des codes cadeaux à partager (ex. 4 codes d'un an pour « The Whole Table »). */
+    public function issueGifts(): void
+    {
+        $this->authorize('admin');
+        $user = User::findOrFail($this->editingId);
+
+        $this->validate([
+            'giftCount' => ['required', 'integer', 'min:1', 'max:50'],
+            'giftMonths' => ['required', 'integer', 'min:1', 'max:120'],
+        ], attributes: ['giftCount' => __('nombre de codes'), 'giftMonths' => __('mois')]);
+
+        GiftCodes::issue($user, (int) $this->giftCount, (int) $this->giftMonths, $user->backer_reward);
+
+        $this->giftCount = '';
+        session()->now('status', __('Codes cadeaux ajoutés au compte :email.', ['email' => $user->email]));
     }
 
     /** Envoie à la personne le lien « Réinitialiser le mot de passe » ; l'administrateur ne voit jamais le mot de passe. */

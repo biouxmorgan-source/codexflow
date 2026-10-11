@@ -3,6 +3,7 @@
 use App\Actions\Demo\LoadDemoCampaign;
 use App\Models\User;
 use App\Support\Backup;
+use App\Support\GiftCodes;
 use App\Support\Locale;
 use App\Support\ProductionCheck;
 use App\Support\RecetteImport;
@@ -40,6 +41,21 @@ Artisan::command('codexflow:admin {email} {--remove}', function (string $email) 
     $user->forceFill(['is_admin' => ! $this->option('remove')])->save();
     $this->info($user->is_admin ? $user->name.' administre SagaWyn.' : $user->name.' n\'administre plus SagaWyn.');
 })->purpose('Donne (ou retire avec --remove) le rôle d\'administrateur à un compte');
+
+Artisan::command('sagawyn:gift-codes {email} {count} {months} {--note= : repère, ex. la récompense Kickstarter}', function (string $email, int $count, int $months) {
+    $user = User::where('email', $email)->first();
+
+    if ($user === null) {
+        $this->error('Aucun compte avec cette adresse.');
+
+        return 1;
+    }
+
+    foreach (GiftCodes::issue($user, $count, $months, $this->option('note')) as $gift) {
+        $this->line($gift->code.'  '.$gift->url());
+    }
+    $this->info($count.' code(s) de '.$months.' mois ajouté(s) au compte de '.$user->name.' (visibles dans « Mes récompenses »).');
+})->purpose('Donne à un compte des codes cadeaux Premium à partager');
 
 Artisan::command('codexflow:demo {email} {--lang=fr : langue du contenu}', function (string $email, LoadDemoCampaign $loadDemo) {
     $user = User::where('email', $email)->first();

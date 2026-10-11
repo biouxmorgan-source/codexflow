@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.51.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Badge Fondateur et codes cadeaux',
+        'items' => [
+            'Les contributeurs du Kickstarter pourront être marqués Fondateur dans la console d’administration : un badge ★ Fondateur visible dans les préférences, la liste des membres et la fiche du personnage.',
+            'Les Fondateurs ont de l’espace de stockage en plus de leur formule, gratuite ou premium (500 Mo par défaut, réglable dans « Formules »).',
+            'Nouvelle page « Mes récompenses » (depuis les préférences) : la récompense Kickstarter, les codes cadeaux Premium à offrir par lien, avec le nom de la personne qui a utilisé chacun, et une case pour utiliser un code reçu. Les mois s’ajoutent à la suite du Premium en cours.',
+        ],
+    ],
+
     '0.50.1' => [
         'date' => '2026-10-11',
         'title' => 'Santé : filtre par rôle',

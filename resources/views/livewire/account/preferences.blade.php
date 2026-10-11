@@ -11,7 +11,10 @@
     @php($limit = \App\Support\Plans\Plans::storageLimit($me))
     @php($max = \App\Support\Plans\Plans::maxCampaigns($me))
     <section class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm" aria-labelledby="plan-title">
-        <h2 id="plan-title" class="font-semibold">{{ __('Votre formule : :plan', ['plan' => \App\Support\Plans\Plans::labels()[$plan]]) }}</h2>
+        <h2 id="plan-title" class="font-semibold">{{ __('Votre formule : :plan', ['plan' => \App\Support\Plans\Plans::labels()[$plan]]) }} <x-founder-badge :user="$me" /></h2>
+        @if ($me->isFounder())
+            <p class="mt-1 text-sm text-stone-600">{{ __('Merci d’avoir soutenu SagaWyn sur Kickstarter : votre badge est visible des membres de vos campagnes, et vous avez de l’espace en plus.') }}</p>
+        @endif
         <dl class="mt-2 grid gap-2 text-sm sm:grid-cols-3">
             <div><dt class="text-stone-500">{{ __('Stockage') }}</dt><dd>{{ \App\Support\Plans\StorageUsage::format(\App\Support\Plans\StorageUsage::bytes($me)) }} / {{ $limit === null ? __('illimité') : \App\Support\Plans\StorageUsage::format($limit) }}</dd></div>
             <div><dt class="text-stone-500">{{ __('Campagnes en tant que MJ') }}</dt><dd>{{ $me->ownedCampaigns()->count() }} / {{ $max ?? __('illimité') }}</dd></div>
@@ -63,6 +66,7 @@
             <p class="mt-4 text-sm text-stone-600">{{ __('Le passage à Premium ouvrira bientôt. En attendant, votre formule reste celle indiquée ci-dessus.') }}</p>
         @endif
         <p class="mt-2 text-xs text-stone-500">{{ __('Jouer, être co-MJ ou spectateur dans la campagne d’un autre ne compte pas : vous profitez alors de la formule de son MJ.') }}</p>
+        <p class="mt-3 text-sm"><a href="{{ route('rewards') }}" wire:navigate class="link">{{ __('Récompenses Kickstarter et codes cadeaux') }} →</a></p>
     </section>
 
     <form wire:submit="save" class="space-y-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">

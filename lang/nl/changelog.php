@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.51.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Oprichtersbadge en cadeaucodes',
+        'items' => [
+            'Kickstarter-backers kunnen in de beheerconsole als Oprichter worden gemarkeerd: een badge ★ Oprichter in de voorkeuren, de ledenlijst en het personageblad.',
+            'Oprichters krijgen extra opslag bovenop hun abonnement, gratis of premium (standaard 500 MB, in te stellen bij ‘Abonnementen’).',
+            'Nieuwe pagina ‘Mijn beloningen’ (via de voorkeuren): je Kickstarter-beloning, Premium-cadeaucodes om via een link weg te geven, met de naam van wie elke code gebruikte, en een veld om een ontvangen code te gebruiken. De maanden komen na je huidige Premium.',
+        ],
+    ],
+
     '0.50.1' => [
         'date' => '2026-10-11',
         'title' => 'Gezondheid: filter op rol',
