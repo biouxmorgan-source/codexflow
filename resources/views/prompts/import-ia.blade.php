@@ -20,7 +20,7 @@ Tu aides un meneur de jeu à remplir **SagaWyn**, son assistant de MJ. Je te joi
 
 ## Règles à respecter
 
-1. **Usage personnel.** Ces documents appartiennent à leurs éditeurs. Ne recopie pas de longs passages : écris des **résumés aide-mémoire** et indique la page (« Livre p. 42 ») pour que le MJ retrouve le texte original.
+1. **Usage personnel, contenu complet.** Ces documents appartiennent à leurs éditeurs et les fichiers servent seulement au MJ qui les possède. Mets **tout ce que tu peux** du contenu utile pour jouer (déroulé, indices, tests, réactions des PNJ, profils, issues), sans le remplacer par un simple renvoi, et termine chaque texte par sa page (« Livre p. 42 »). Le MJ doit pouvoir mener la partie sans rouvrir le livre.
 2. **Rien d'inventé.** Si une information manque dans le document, laisse la case vide.
 3. **Secrets côté MJ.** Ce que les joueurs ne doivent pas savoir (identité cachée, motivations secrètes, solution d'une énigme, statistiques des adversaires) va dans « Notes MJ » ou dans des champs en zone MJ.
 4. **Liens.** Dans les descriptions, entoure le nom exact d'une autre fiche de doubles crochets pour créer un lien : `[[Dr Eudora Lockhart]]`.
@@ -55,6 +55,7 @@ En-têtes : `Nom;Type;Résumé;Description;Notes MJ` puis **une colonne par cham
 - **Type** : un type de fiche existant ou annoncé à l'étape 1.
 - **Résumé** : une ou deux phrases, 500 caractères au plus.
 - **Description** : le texte public (apparence, rôle, ce que tout le monde sait), avec la page du livre.
+- **Notes MJ** : tout le reste, complet : identité réelle, ce qu'il veut, ce qu'il sait et à quelles conditions il le dit, comment il réagit, profil, scènes où il apparaît ; pour un lieu, ses parties, dangers et indices ; pour une créature, son comportement, ses attaques et capacités.
 - Valeurs des champs : `nombre` avec des chiffres seulement (`12` ou `1,5`) ; `oui/non` en `oui` ou `non` ; `liste` avec l'un des choix exacts ; `compteur` en `valeur / maximum` (`11 / 11`) ; `date` en `JJ/MM/AAAA` ; `référence` avec le nom exact d'une autre fiche ; `lien` avec une adresse commençant par https://.
 
 ### C. Règles et glossaire (`regles.csv`)
@@ -76,7 +77,7 @@ Tu ne peux pas forcément extraire les images : fais un tableau des aides de jeu
 En-têtes : `Scénario;Résumé du scénario;Chapitre;Scène;Description;Statut;Fiches;Documents;Règles`
 
 - Une ligne par scène, dans l'ordre du scénario. Le « Résumé du scénario » ne se remplit que sur la première ligne de chaque scénario.
-- **Description** : ce qui se passe, ce que les personnages peuvent apprendre, la page.
+- **Description** : le déroulé complet de la scène, sous un titre `### Ce qui est prévu` : enjeu, situation, PNJ présents et leur attitude, chaque indice avec le test qui le donne, dangers, issues possibles, aides de jeu à remettre, transitions, puis la page. 20 000 caractères au plus : découpe une scène plus longue en deux.
 - **Statut** : `Prévue`.
 - **Fiches**, **Documents**, **Règles** : noms exacts séparés par `|` (fiches des fichiers B, titres du tableau D, titres du fichier C).
 
