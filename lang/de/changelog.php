@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.56.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Aus Geheimnissen werden Hinweise',
+        'items' => [
+            'Die „Geheimnisse“ der Kampagne heißen jetzt „Hinweise“: Seite Hinweise, Bereich auf Einträgen, Szenen und Dokumenten, Sitzungsmodus, Suche, Enthüllungen und Hilfe. An Ihren Daten ändert sich nichts.',
+        ],
+    ],
+
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Spieler bearbeiten ihren Charakter',

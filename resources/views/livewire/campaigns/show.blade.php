@@ -49,7 +49,7 @@
 
     @php($unread = \App\Models\Message::unreadCount(auth()->user(), $campaign))
     <nav aria-label="{{ __('Outils de la campagne') }}" class="mb-8 flex flex-wrap gap-2">
-        <x-tool-link :href="route('secrets.index', $campaign)" icon="secret" :label="__('Secrets')" />
+        <x-tool-link :href="route('secrets.index', $campaign)" icon="secret" :label="__('Indices')" />
         <x-tool-link :href="route('audio.index', $campaign)" icon="music" :label="__('Sons')" />
         <x-tool-link :href="route('feedback.index', $campaign)" icon="star" :label="__('Avis des joueurs')" />
         <x-tool-link :href="route('maps.index', $campaign)" icon="map" :label="__('Cartes')" feature="maps" :campaign="$campaign" />
@@ -194,7 +194,7 @@
         @else
         <section class="mt-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 class="mb-2 flex items-center gap-1 font-semibold">{{ __('Exporter la campagne') }} <x-premium feature="archive" /></h2>
-            <p class="mb-3 text-sm text-stone-600">{{ __('Une archive .zip avec le jeu (champs, règles), le monde, les fiches, scénarios, documents, cartes, secrets et la chronologie, fichiers compris. Pour la sauvegarder ou la confier à un autre MJ, qui l’importe depuis « Mes campagnes ». Les joueurs, leurs personnages, les séances et le journal n’y sont pas.') }}</p>
+            <p class="mb-3 text-sm text-stone-600">{{ __('Une archive .zip avec le jeu (champs, règles), le monde, les fiches, scénarios, documents, cartes, indices et la chronologie, fichiers compris. Pour la sauvegarder ou la confier à un autre MJ, qui l’importe depuis « Mes campagnes ». Les joueurs, leurs personnages, les séances et le journal n’y sont pas.') }}</p>
             <a href="{{ route('archives.campaign', $campaign) }}" class="btn-secondary">{{ __('Télécharger l’archive') }}</a>
             @can('duplicate', $campaign)
             <h3 class="mt-5 mb-1 text-sm font-semibold">{{ __('Sauvegarde complète') }}</h3>

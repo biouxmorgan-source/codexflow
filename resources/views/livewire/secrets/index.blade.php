@@ -6,22 +6,22 @@
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-semibold">{{ __('Secrets') }}</h1>
+            <h1 class="text-2xl font-semibold">{{ __('Indices') }}</h1>
             <p class="mt-1 max-w-2xl text-sm text-stone-600">{{ __('Une information à part, reliée à des fiches, scènes ou documents : « Morel travaille pour le Culte ». Cliquez sur un personnage pour la lui révéler, recliquez pour annuler.') }}</p>
         </div>
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('reveals.index', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Historique des révélations') }}</a>
             @unless ($editing)
-                <button type="button" wire:click="create" class="btn-primary">{{ __('Nouveau secret') }}</button>
+                <button type="button" wire:click="create" class="btn-primary">{{ __('Nouvel indice') }}</button>
             @endunless
         </div>
     </div>
 
     @if ($editing)
         <form wire:submit="save" class="mb-6 space-y-4 rounded-xl border border-flow/40 bg-white p-6 shadow-sm">
-            <h2 class="font-semibold">{{ $editingId ? __('Modifier le secret') : __('Nouveau secret') }}</h2>
+            <h2 class="font-semibold">{{ $editingId ? __('Modifier l’indice') : __('Nouvel indice') }}</h2>
             <div>
-                <label for="secret-title" class="label">{{ __('Le secret') }}</label>
+                <label for="secret-title" class="label">{{ __('L’indice') }}</label>
                 <input id="secret-title" type="text" wire:model="title" class="field" placeholder="{{ __('Morel travaille pour le Culte d’Ambre') }}" autofocus>
                 @error('title') <p class="error">{{ $message }}</p> @enderror
             </div>
@@ -34,7 +34,7 @@
                 </div>
             </fieldset>
             <div>
-                <label for="secret-body" class="label">{{ __('Détails') }} <span class="font-normal text-stone-500">{{ __('(facultatif, révélés avec le secret)') }}</span></label>
+                <label for="secret-body" class="label">{{ __('Détails') }} <span class="font-normal text-stone-500">{{ __('(facultatif, révélés avec l’indice)') }}</span></label>
                 <x-link-textarea id="secret-body" model="body" rows="3" />
                 @error('body') <p class="error">{{ $message }}</p> @enderror
             </div>
@@ -87,7 +87,7 @@
                 <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
                 <button type="button" wire:click="cancel" class="btn-secondary">{{ __('Annuler') }}</button>
                 @if ($editingId)
-                    <button type="button" wire:click="delete({{ $editingId }})" wire:confirm="{{ __('Supprimer ce secret ? Les personnages qui le connaissent le gardent dans leurs connaissances.') }}" class="ml-auto text-sm text-red-700 hover:underline">{{ __('Supprimer') }}</button>
+                    <button type="button" wire:click="delete({{ $editingId }})" wire:confirm="{{ __('Supprimer cet indice ? Les personnages qui le connaissent le gardent dans leurs connaissances.') }}" class="ml-auto text-sm text-red-700 hover:underline">{{ __('Supprimer') }}</button>
                 @endif
             </div>
         </form>
@@ -95,8 +95,8 @@
 
     <div class="mb-4 flex flex-wrap items-end gap-3">
         <div class="max-w-sm min-w-48 flex-1">
-            <label for="secret-search" class="sr-only">{{ __('Chercher un secret') }}</label>
-            <input id="secret-search" type="search" wire:model.live.debounce.300ms="search" class="field" placeholder="{{ __('Chercher un secret, une fiche…') }}">
+            <label for="secret-search" class="sr-only">{{ __('Chercher un indice') }}</label>
+            <input id="secret-search" type="search" wire:model.live.debounce.300ms="search" class="field" placeholder="{{ __('Chercher un indice, une fiche…') }}">
         </div>
         <div>
             <label for="secret-kind-filter" class="sr-only">{{ __('Nature') }}</label>
@@ -120,7 +120,7 @@
 
     @if ($this->secrets->isEmpty())
         <div class="rounded-xl border border-dashed border-stone-300 bg-white p-10 text-center">
-            <p class="text-lg font-medium">{{ $search !== '' ? __('Aucun secret ne correspond.') : __("Aucun secret pour l'instant.") }}</p>
+            <p class="text-lg font-medium">{{ $search !== '' ? __('Aucun indice ne correspond.') : __("Aucun indice pour l'instant.") }}</p>
             <p class="mt-1 text-stone-600">{{ __('Notez ici ce que les personnages pourraient découvrir, puis révélez-le au bon moment.') }}</p>
         </div>
     @else

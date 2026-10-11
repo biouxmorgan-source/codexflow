@@ -167,7 +167,7 @@ class Index extends Component
             'title' => ['required', 'string', 'max:255'],
             'body' => ['nullable', 'string', 'max:20000'],
             'kind' => [ValidationRule::in(Secret::KINDS)],
-        ], attributes: ['title' => __('secret'), 'body' => __('détails')]);
+        ], attributes: ['title' => __('indice'), 'body' => __('détails')]);
 
         DB::transaction(function () {
             $secret = $this->editingId ? $this->campaign->secrets()->findOrFail($this->editingId) : new Secret;
@@ -217,6 +217,6 @@ class Index extends Component
             'linkedEntities' => $this->campaign->availableEntities()->whereKey($this->entityIds)->orderBy('name')->get(['entities.id', 'name']),
             'scenes' => $this->campaign->scenes()->with('scenario')->orderBy('scenarios.position')->orderBy('scenes.position')->get(),
             'documents' => $this->campaign->availableDocuments()->orderByRaw('lower(title)')->get(['documents.id', 'title']),
-        ])->title(__('Secrets · :name', ['name' => $this->campaign->name]));
+        ])->title(__('Indices · :name', ['name' => $this->campaign->name]));
     }
 }

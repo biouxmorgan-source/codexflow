@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.56.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Geheimen worden aanwijzingen',
+        'items' => [
+            'De ‘geheimen’ van de campagne heten nu ‘aanwijzingen’: pagina Aanwijzingen, paneel bij fiches, scènes en documenten, Sessie-modus, zoeken, onthullingen en hulp. Aan je gegevens verandert niets.',
+        ],
+    ],
+
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Spelers bewerken hun personage',

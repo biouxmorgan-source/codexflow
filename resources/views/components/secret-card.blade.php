@@ -35,7 +35,7 @@
             <span class="mr-1 text-stone-500">{{ __('Le savent :') }}</span>
             @foreach ($characters as $character)
                 @if (in_array($character->id, $knownBy, true))
-                    <button type="button" wire:click="forgetSecret({{ $secret->id }}, {{ $character->id }})" wire:confirm="{{ __('Annuler la révélation à :name ? Le secret quitte ses connaissances.', ['name' => $character->entity->name]) }}"
+                    <button type="button" wire:click="forgetSecret({{ $secret->id }}, {{ $character->id }})" wire:confirm="{{ __('Annuler la révélation à :name ? L’indice quitte ses connaissances.', ['name' => $character->entity->name]) }}"
                         class="rounded-full bg-flow px-2 py-0.5 font-medium text-on-accent hover:opacity-80" title="{{ __('Annuler la révélation') }}">✓ {{ $character->entity->name }}</button>
                 @else
                     <button type="button" wire:click="revealSecret({{ $secret->id }}, {{ $character->id }})"

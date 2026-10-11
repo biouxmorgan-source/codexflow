@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.56.0' => [
+        'date' => '2026-10-11',
+        'title' => 'I segreti diventano indizi',
+        'items' => [
+            'I «segreti» della campagna ora si chiamano «indizi»: pagina Indizi, pannello di schede, scene e documenti, modalità Sessione, ricerca, rivelazioni e aiuto. I tuoi dati non cambiano.',
+        ],
+    ],
+
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'I giocatori modificano il loro personaggio',

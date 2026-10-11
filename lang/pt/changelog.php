@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.56.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Os segredos passam a ser pistas',
+        'items' => [
+            'Os «segredos» da campanha agora se chamam «pistas»: página Pistas, painel das fichas, cenas e documentos, modo Sessão, busca, revelações e ajuda. Nada muda nos seus dados.',
+        ],
+    ],
+
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Os jogadores editam a sua personagem',
