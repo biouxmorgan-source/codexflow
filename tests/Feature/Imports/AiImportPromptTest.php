@@ -67,10 +67,18 @@ class AiImportPromptTest extends TestCase
         $zip = new ZipArchive;
         $zip->open($response->baseResponse->getFile()->getPathname());
         $skill = $zip->getFromName('sagawyn-import/SKILL.md');
+        $checker = $zip->getFromName('sagawyn-import/scripts/verifier.py');
+        $archive = $zip->getFromName('sagawyn-import/references/format-archive.md');
         $zip->close();
 
         $this->assertStringStartsWith("---\nname: sagawyn-import\ndescription: ", $skill);
         $this->assertStringContainsString('Jeu : Brume & Serment', $skill);
+        $this->assertStringContainsString('scripts/verifier.py', $skill);
+        $this->assertStringContainsString('codexflow-campaign', $archive);
+        $this->assertStringContainsString('def main(', $checker);
+
+        // Le prompt à copier ne parle pas des fichiers du skill, qu'il n'a pas.
+        $this->assertStringNotContainsString('scripts/verifier.py', $this->actingAs($this->gm)->get(route('imports.ai.prompt', $this->campaign))->getContent());
     }
 
     public function test_players_do_not_get_the_prompt(): void
