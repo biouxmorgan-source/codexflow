@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Public;
 
+use App\Models\User;
 use App\Support\Locale;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -67,5 +68,21 @@ class HomePageTest extends TestCase
             ->assertSee('<loc>'.url('/').'?lang=fr</loc>', false)
             ->assertSee(route('help').'?lang=de', false)
             ->assertDontSee('/campagnes');
+    }
+
+    public function test_the_discord_link_shows_only_once_configured(): void
+    {
+        config(['codexflow.discord_url' => null]);
+        $this->get('/')->assertOk()->assertDontSee('Rejoindre la communauté sur Discord');
+
+        config(['codexflow.discord_url' => 'https://discord.gg/sagawyn']);
+        $this->get('/')->assertOk()
+            ->assertSee('Rejoindre la communauté sur Discord')
+            ->assertSee('href="https://discord.gg/sagawyn"', false);
+        $this->get('/aide')->assertOk()->assertSee('href="https://discord.gg/sagawyn"', false);
+
+        $this->actingAs(User::factory()->create())
+            ->get(route('campaigns.index'))->assertOk()
+            ->assertSee('href="https://discord.gg/sagawyn"', false);
     }
 }

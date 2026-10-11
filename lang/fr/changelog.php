@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.62.0' => [
+        'date' => '2026-10-13',
+        'title' => 'La communauté sur Discord',
+        'items' => [
+            'SagaWyn a son serveur Discord : un lien en bas de chaque page et sur la page d’accueil pour poser vos questions, proposer vos idées et rencontrer d’autres maîtres de jeu.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Le logo d’Autistic Intelligence',
