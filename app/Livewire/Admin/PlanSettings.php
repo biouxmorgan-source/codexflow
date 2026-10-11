@@ -13,6 +13,8 @@ class PlanSettings extends Component
 
     public int $premiumStorageMb = 0;
 
+    public int $founderBonusMb = 0;
+
     public int $freeMaxCampaigns = 0;
 
     public int $trialWeeks = 0;
@@ -31,6 +33,7 @@ class PlanSettings extends Component
         $settings = Plans::settings();
         $this->freeStorageMb = (int) $settings['free_storage_mb'];
         $this->premiumStorageMb = (int) $settings['premium_storage_mb'];
+        $this->founderBonusMb = (int) $settings['founder_bonus_mb'];
         $this->freeMaxCampaigns = (int) $settings['free_max_campaigns'];
         $this->trialWeeks = (int) $settings['trial_weeks'];
         $this->freeFeatures = array_values($settings['free_features']);
@@ -45,6 +48,7 @@ class PlanSettings extends Component
         $this->validate([
             'freeStorageMb' => ['required', 'integer', 'min:0', 'max:10000000'],
             'premiumStorageMb' => ['required', 'integer', 'min:0', 'max:10000000'],
+            'founderBonusMb' => ['required', 'integer', 'min:0', 'max:10000000'],
             'freeMaxCampaigns' => ['required', 'integer', 'min:0', 'max:1000'],
             'trialWeeks' => ['required', 'integer', 'min:0', 'max:104'],
             'freeFeatures' => ['array'],
@@ -54,6 +58,7 @@ class PlanSettings extends Component
         ], attributes: [
             'freeStorageMb' => __('stockage de la formule gratuite'),
             'premiumStorageMb' => __('stockage de la formule premium'),
+            'founderBonusMb' => __('stockage en plus des Fondateurs'),
             'freeMaxCampaigns' => __('campagnes de la formule gratuite'),
             'trialWeeks' => __('durée de l’essai'),
             'giftStartsOn' => __('début de la période offerte'),
@@ -63,6 +68,7 @@ class PlanSettings extends Component
         Plans::save([
             'free_storage_mb' => $this->freeStorageMb,
             'premium_storage_mb' => $this->premiumStorageMb,
+            'founder_bonus_mb' => $this->founderBonusMb,
             'free_max_campaigns' => $this->freeMaxCampaigns,
             'trial_weeks' => $this->trialWeeks,
             'free_features' => array_values(array_intersect(Plans::FEATURES, $this->freeFeatures)),

@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.51.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Insignia de Fundador',
+        'items' => [
+            'Los mecenas de Kickstarter pueden marcarse como Fundador en la consola de administración: una insignia ★ Fundador visible en las preferencias, la lista de miembros y la hoja del personaje.',
+            'Los Fundadores tienen almacenamiento adicional sobre su plan, gratuito o premium (500 MB por defecto, ajustable en «Planes»).',
+        ],
+    ],
+
     '0.50.1' => [
         'date' => '2026-10-11',
         'title' => 'Salud: filtro por rol',

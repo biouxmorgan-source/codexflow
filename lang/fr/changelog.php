@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.51.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Badge Fondateur',
+        'items' => [
+            'Les contributeurs du Kickstarter pourront être marqués Fondateur dans la console d’administration : un badge ★ Fondateur visible dans les préférences, la liste des membres et la fiche du personnage.',
+            'Les Fondateurs ont de l’espace de stockage en plus de leur formule, gratuite ou premium (500 Mo par défaut, réglable dans « Formules »).',
+        ],
+    ],
+
     '0.50.1' => [
         'date' => '2026-10-11',
         'title' => 'Santé : filtre par rôle',

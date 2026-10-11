@@ -50,6 +50,8 @@ class Users extends Component
 
     public bool $isAdmin = false;
 
+    public bool $isFounder = false;
+
     public function mount(): void
     {
         $this->authorize('admin');
@@ -125,6 +127,7 @@ class Users extends Component
             'trial' => $plans[Plans::TRIAL] ?? 0,
             'free' => $plans[Plans::FREE] ?? 0,
             'admins' => $plans[Plans::ADMIN] ?? 0,
+            'founders' => $users->filter(fn (User $user) => $user->isFounder())->count(),
             'active' => UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->distinct('user_id')->count('user_id'),
             'logins' => (int) UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->selectRaw('count(distinct (user_id, date(logged_in_at))) as days')->value('days'),
         ];
@@ -146,6 +149,7 @@ class Users extends Component
         $this->planEndsAt = (string) $user->plan_ends_at?->toDateString();
         $this->storageQuotaMb = (string) ($user->storage_quota_mb ?? '');
         $this->isAdmin = $user->is_admin;
+        $this->isFounder = $user->isFounder();
     }
 
     public function save(): void
@@ -174,6 +178,8 @@ class Users extends Component
             'plan_ends_at' => $this->planEndsAt ?: null,
             'storage_quota_mb' => $this->storageQuotaMb === '' ? null : (int) $this->storageQuotaMb,
             'is_admin' => $isAdmin,
+            // La date d'origine reste : retirer puis remettre le marqueur la remet à aujourd'hui.
+            'founder_since' => $this->isFounder ? ($user->founder_since ?? today()) : null,
         ])->save();
 
         $this->editingId = null;

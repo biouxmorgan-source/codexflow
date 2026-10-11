@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.51.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Gründer-Abzeichen',
+        'items' => [
+            'Kickstarter-Unterstützer können in der Verwaltungskonsole als Gründer markiert werden: ein Abzeichen ★ Gründer in den Einstellungen, der Mitgliederliste und auf dem Charakterbogen.',
+            'Gründer erhalten zusätzlichen Speicherplatz zu ihrem Tarif, kostenlos oder Premium (standardmäßig 500 MB, einstellbar unter „Tarife“).',
+        ],
+    ],
+
     '0.50.1' => [
         'date' => '2026-10-11',
         'title' => 'Zustand: Rollenfilter',

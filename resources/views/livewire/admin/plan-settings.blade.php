@@ -22,6 +22,14 @@
         </section>
 
         <section class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+            <h2 class="font-semibold">{{ __('Fondateurs') }}</h2>
+            <p class="mt-1 mb-3 text-sm text-stone-600">{{ __('Les contributeurs du Kickstarter, marqués Fondateur dans « Comptes » : un badge et cet espace en plus de leur formule, gratuite ou premium. Un stockage propre au compte remplace ce calcul.') }}</p>
+            <label for="founder-bonus" class="label">{{ __('Stockage en plus (Mo)') }}</label>
+            <input id="founder-bonus" type="number" min="0" wire:model="founderBonusMb" class="field max-w-40">
+            @error('founderBonusMb') <p class="error">{{ $message }}</p> @enderror
+        </section>
+
+        <section class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
             <h2 class="font-semibold">{{ __('Essai') }}</h2>
             <p class="mt-1 mb-3 text-sm text-stone-600">{{ __('Dès sa première campagne en tant que MJ, un compte gratuit a toutes les fonctions et le stockage du premium pendant cette durée. Un joueur qui n’est jamais MJ ne l’entame pas. Ensuite, le compte garde ses campagnes mais suit la formule gratuite.') }}</p>
             <label for="trial-weeks" class="label">{{ __('Durée (semaines, 0 = pas d’essai)') }}</label>

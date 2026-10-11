@@ -2185,5 +2185,13 @@
     "Rôle du compte": "Account role",
     "Tous les comptes": "All accounts",
     "Sans les administrateurs": "Without administrators",
-    "Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.": "The role filters activity, game tables (by owning GM) and files. The demonstration campaign is never counted; the server figures do not depend on the filter."
+    "Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.": "The role filters activity, game tables (by owning GM) and files. The demonstration campaign is never counted; the server figures do not depend on the filter.",
+    "Fondateur": "Founder",
+    "Fondateur (contributeur du Kickstarter)": "Founder (Kickstarter backer)",
+    "Fondateur depuis le :date": "Founder since :date",
+    "Fondateurs": "Founders",
+    "Les contributeurs du Kickstarter, marqués Fondateur dans « Comptes » : un badge et cet espace en plus de leur formule, gratuite ou premium. Un stockage propre au compte remplace ce calcul.": "Kickstarter backers, marked Founder in “Accounts”: a badge and this much extra space on top of their plan, free or premium. A storage limit set on the account replaces this calculation.",
+    "Merci d’avoir soutenu SagaWyn sur Kickstarter : votre badge est visible des membres de vos campagnes, et vous avez de l’espace en plus.": "Thank you for backing SagaWyn on Kickstarter: your badge is visible to the members of your campaigns, and you have extra space.",
+    "Stockage en plus (Mo)": "Extra storage (MB)",
+    "stockage en plus des Fondateurs": "founders’ extra storage"
 }

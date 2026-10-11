@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.51.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Badge Fondatore',
+        'items' => [
+            'I sostenitori del Kickstarter possono essere segnati come Fondatore nella console di amministrazione: un badge ★ Fondatore visibile nelle preferenze, nell’elenco dei membri e nella scheda del personaggio.',
+            'I Fondatori hanno spazio in più rispetto al loro piano, gratuito o premium (500 MB di default, regolabile in «Piani»).',
+        ],
+    ],
+
     '0.50.1' => [
         'date' => '2026-10-11',
         'title' => 'Salute: filtro per ruolo',

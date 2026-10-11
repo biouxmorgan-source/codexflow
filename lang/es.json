@@ -2185,5 +2185,13 @@
     "Rôle du compte": "Rol de la cuenta",
     "Tous les comptes": "Todas las cuentas",
     "Sans les administrateurs": "Sin administradores",
-    "Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.": "El rol filtra la afluencia, las mesas de juego (según el DJ propietario) y los archivos. La campaña de demostración nunca se cuenta; las cifras del servidor no dependen del filtro."
+    "Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.": "El rol filtra la afluencia, las mesas de juego (según el DJ propietario) y los archivos. La campaña de demostración nunca se cuenta; las cifras del servidor no dependen del filtro.",
+    "Fondateur": "Fundador",
+    "Fondateur (contributeur du Kickstarter)": "Fundador (mecenas de Kickstarter)",
+    "Fondateur depuis le :date": "Fundador desde el :date",
+    "Fondateurs": "Fundadores",
+    "Les contributeurs du Kickstarter, marqués Fondateur dans « Comptes » : un badge et cet espace en plus de leur formule, gratuite ou premium. Un stockage propre au compte remplace ce calcul.": "Los mecenas de Kickstarter, marcados como Fundador en «Cuentas»: una insignia y este espacio adicional sobre su plan, gratuito o premium. Un almacenamiento propio de la cuenta sustituye este cálculo.",
+    "Merci d’avoir soutenu SagaWyn sur Kickstarter : votre badge est visible des membres de vos campagnes, et vous avez de l’espace en plus.": "Gracias por apoyar SagaWyn en Kickstarter: tu insignia es visible para los miembros de tus campañas y tienes espacio adicional.",
+    "Stockage en plus (Mo)": "Almacenamiento adicional (MB)",
+    "stockage en plus des Fondateurs": "almacenamiento adicional de los Fundadores"
 }

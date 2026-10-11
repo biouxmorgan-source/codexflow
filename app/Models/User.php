@@ -25,6 +25,12 @@ class User extends Authenticatable implements HasLocalePreference
     use HasFactory, HasPushSubscriptions, Notifiable, TwoFactorAuthenticatable;
 
     /** Les e-mails partent dans la langue du destinataire, même envoyés par un administrateur. */
+    /** Contributeur du Kickstarter : badge Fondateur et espace de stockage en plus. */
+    public function isFounder(): bool
+    {
+        return $this->founder_since !== null;
+    }
+
     public function preferredLocale(): string
     {
         return Locale::for($this);
@@ -45,6 +51,7 @@ class User extends Authenticatable implements HasLocalePreference
             'ai_api_key' => 'encrypted',
             'plan_started_at' => 'date',
             'plan_ends_at' => 'date',
+            'founder_since' => 'date',
             'trial_started_at' => 'datetime',
             'two_factor_confirmed_at' => 'datetime',
         ];

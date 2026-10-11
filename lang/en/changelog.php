@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.51.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Founder badge',
+        'items' => [
+            'Kickstarter backers can be marked Founder in the admin console: a ★ Founder badge shown in preferences, the member list and the character sheet.',
+            'Founders get extra storage on top of their plan, free or premium (500 MB by default, set in “Plans”).',
+        ],
+    ],
+
     '0.50.1' => [
         'date' => '2026-10-11',
         'title' => 'Health: role filter',
