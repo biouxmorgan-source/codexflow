@@ -131,6 +131,33 @@
                                         <input type="checkbox" wire:model="isFounder">
                                         {{ __('Fondateur (contributeur du Kickstarter)') }}
                                     </label>
+                                    <div class="sm:col-span-2">
+                                        <label for="edit-reward" class="label">{{ __('Récompense Kickstarter') }}</label>
+                                        <input id="edit-reward" type="text" wire:model="backerReward" class="field" placeholder="The Whole Table">
+                                        @error('backerReward') <p class="error">{{ $message }}</p> @enderror
+                                    </div>
+                                    <div class="sm:col-span-2 lg:col-span-4">
+                                        @php($gifts = $user->giftCodes()->with('redeemer')->get())
+                                        <p class="label">{{ __('Codes cadeaux') }}</p>
+                                        <div class="flex flex-wrap items-center gap-2">
+                                            <label for="edit-gift-count" class="sr-only">{{ __('nombre de codes') }}</label>
+                                            <input id="edit-gift-count" type="number" min="1" max="50" wire:model="giftCount" class="field w-20" placeholder="4">
+                                            <span class="text-sm">{{ __('codes de') }}</span>
+                                            <label for="edit-gift-months" class="sr-only">{{ __('mois') }}</label>
+                                            <input id="edit-gift-months" type="number" min="1" max="120" wire:model="giftMonths" class="field w-20">
+                                            <span class="text-sm">{{ __('mois') }}</span>
+                                            <button type="button" wire:click="issueGifts" class="btn-secondary">{{ __('Ajouter') }}</button>
+                                        </div>
+                                        @error('giftCount') <p class="error">{{ $message }}</p> @enderror
+                                        @error('giftMonths') <p class="error">{{ $message }}</p> @enderror
+                                        @if ($gifts->isNotEmpty())
+                                            <ul class="mt-2 space-y-0.5 text-xs text-stone-600">
+                                                @foreach ($gifts as $gift)
+                                                    <li><span class="font-mono">{{ $gift->code }}</span> · {{ trans_choice(':count mois de Premium|:count mois de Premium', $gift->months) }} · {{ $gift->isRedeemed() ? __('Utilisé par :name le :date', ['name' => $gift->redeemer?->email ?? __('un compte supprimé'), 'date' => $gift->redeemed_at->isoFormat('L')]) : __('Disponible') }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </div>
                                     <div class="flex flex-wrap items-center gap-3 sm:col-span-2 lg:col-span-6">
                                         <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
                                         <button type="button" wire:click="sendResetLink({{ $user->id }})" wire:confirm="{{ __('Envoyer à :email un lien pour choisir un nouveau mot de passe ?', ['email' => $user->email]) }}" class="btn-secondary">{{ __('Envoyer un lien de réinitialisation') }}</button>

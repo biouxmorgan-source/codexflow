@@ -8,6 +8,7 @@ use App\Http\Controllers\CharacterKnowledgeController;
 use App\Http\Controllers\ConfirmEmailChangeController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\GiftCodeController;
 use App\Http\Controllers\ImportExampleController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ManifestController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\TableScreenController;
 use App\Livewire\Account\Preferences;
+use App\Livewire\Account\Rewards;
 use App\Livewire\Admin\Backlog as AdminBacklog;
 use App\Livewire\Admin\Evolutions as AdminEvolutions;
 use App\Livewire\Admin\Health as AdminHealth;
@@ -79,6 +81,8 @@ Route::view('/confidentialite', 'pages.privacy')->name('privacy');
 Route::livewire('/signaler-un-probleme', ReportBug::class)->name('bugs.create');
 
 Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('invitations.show');
+// Code cadeau partagé par un contributeur du Kickstarter (limité : on ne devine pas les codes).
+Route::get('/cadeau/{code}', [GiftCodeController::class, 'show'])->middleware('throttle:30,1')->name('gifts.show');
 
 // Stripe annonce les paiements ici (signature vérifiée, pas de jeton CSRF).
 Route::post('/stripe/webhook', [BillingController::class, 'webhook'])->name('stripe.webhook');
@@ -90,6 +94,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/invitation/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::livewire('/campagnes', CampaignIndex::class)->name('campaigns.index');
     Route::livewire('/preferences', Preferences::class)->name('preferences');
+    Route::livewire('/mes-recompenses', Rewards::class)->name('rewards');
+    Route::post('/cadeau/{code}', [GiftCodeController::class, 'redeem'])->middleware('throttle:10,1')->name('gifts.redeem');
     Route::view('/quoi-de-neuf', 'pages.changelog')->name('changelog');
     Route::view('/configuration-recommandee', 'pages.recommended')->name('recommended');
     Route::get('/mes-donnees', AccountDataController::class)->name('account.data');

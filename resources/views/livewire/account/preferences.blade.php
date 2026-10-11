@@ -66,6 +66,7 @@
             <p class="mt-4 text-sm text-stone-600">{{ __('Le passage à Premium ouvrira bientôt. En attendant, votre formule reste celle indiquée ci-dessus.') }}</p>
         @endif
         <p class="mt-2 text-xs text-stone-500">{{ __('Jouer, être co-MJ ou spectateur dans la campagne d’un autre ne compte pas : vous profitez alors de la formule de son MJ.') }}</p>
+        <p class="mt-3 text-sm"><a href="{{ route('rewards') }}" wire:navigate class="link">{{ __('Récompenses Kickstarter et codes cadeaux') }} →</a></p>
     </section>
 
     <form wire:submit="save" class="space-y-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">

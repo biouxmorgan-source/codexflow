@@ -6,10 +6,11 @@ return [
 
     '0.51.0' => [
         'date' => '2026-10-11',
-        'title' => 'Insignia de Fundador',
+        'title' => 'Insignia de Fundador y códigos regalo',
         'items' => [
             'Los mecenas de Kickstarter pueden marcarse como Fundador en la consola de administración: una insignia ★ Fundador visible en las preferencias, la lista de miembros y la hoja del personaje.',
             'Los Fundadores tienen almacenamiento adicional sobre su plan, gratuito o premium (500 MB por defecto, ajustable en «Planes»).',
+            'Nueva página «Mis recompensas» (desde las preferencias): tu recompensa de Kickstarter, códigos regalo Premium para regalar por enlace, con el nombre de quien usó cada uno, y una casilla para usar un código recibido. Los meses se suman al final del Premium actual.',
         ],
     ],
 

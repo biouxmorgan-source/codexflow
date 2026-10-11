@@ -31,6 +31,12 @@ class User extends Authenticatable implements HasLocalePreference
         return $this->founder_since !== null;
     }
 
+    /** Codes cadeaux que ce compte peut offrir (récompenses du Kickstarter). */
+    public function giftCodes(): HasMany
+    {
+        return $this->hasMany(GiftCode::class, 'owner_id');
+    }
+
     public function preferredLocale(): string
     {
         return Locale::for($this);
