@@ -38,6 +38,9 @@ class Form extends Component
 
     public string $origin = 'reference';
 
+    /** Pour une règle maison : ce que dit la version officielle qu'elle remplace. */
+    public string $officialVersion = '';
+
     public string $status = 'available';
 
     public string $zone = 'public';
@@ -68,6 +71,7 @@ class Form extends Component
         $this->gmNotes = (string) $rule->gm_notes;
         $this->source = (string) $rule->source;
         $this->origin = $rule->origin->value;
+        $this->officialVersion = (string) $rule->official_version;
         $this->status = $rule->status->value;
         $this->zone = $rule->zone->value;
         $this->scope = $rule->isShared() ? 'game' : 'campaign';
@@ -104,6 +108,7 @@ class Form extends Component
             'gmNotes' => ['nullable', 'string', 'max:20000'],
             'source' => ['nullable', 'string', 'max:255'],
             'origin' => ['required', ValidationRule::enum(RuleOrigin::class)],
+            'officialVersion' => ['nullable', 'string', 'max:20000'],
             'status' => ['required', ValidationRule::enum(RuleStatus::class)],
             'zone' => ['required', ValidationRule::enum(Zone::class)],
             'scope' => ['required', ValidationRule::in(['game', 'campaign'])],
@@ -114,6 +119,7 @@ class Form extends Component
             'summary' => __('résumé'),
             'gmNotes' => __('notes MJ'),
             'origin' => __('origine'),
+            'officialVersion' => __('version officielle'),
             'zone' => __('visibilité'),
             'scope' => __('rattachement'),
         ]);
@@ -127,6 +133,8 @@ class Form extends Component
             'gm_notes' => $this->gmNotes ?: null,
             'source' => trim($this->source) ?: null,
             'origin' => $this->origin,
+            // Seule une règle maison remplace une version officielle.
+            'official_version' => $this->origin === RuleOrigin::House->value ? ($this->officialVersion ?: null) : null,
             'status' => $this->status,
             'zone' => $this->zone,
         ]);

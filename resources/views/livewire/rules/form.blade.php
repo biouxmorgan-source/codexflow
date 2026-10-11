@@ -73,6 +73,12 @@
             </div>
         </section>
 
+        <section x-data x-show="$wire.origin === 'house'" x-cloak class="rounded-xl border border-amber-200 bg-white p-6 shadow-sm">
+            <label for="officialVersion" class="label">{{ __('Version officielle remplacée') }} <span class="font-normal text-stone-500">{{ __('(facultatif, jamais visible des joueurs)') }}</span></label>
+            <x-link-textarea id="officialVersion" model="officialVersion" rows="3" :placeholder="__('Initiative : 1d20 + modificateur de Dextérité.')" />
+            @error('officialVersion') <p class="error">{{ $message }}</p> @enderror
+        </section>
+
         <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm">
             <label for="gmNotes" class="label text-flow">{{ __('Notes MJ') }} <span class="font-normal text-stone-500">{{ __('(jamais visibles des joueurs)') }}</span></label>
             <x-link-textarea id="gmNotes" model="gmNotes" rows="4" :placeholder="__('Pourquoi cette variante, ce qu\'on a observé en test…')" />

@@ -2250,5 +2250,17 @@
     "Dans Mes campagnes, cliquez sur « Importer une campagne » et choisissez l’archive : le jeu, le monde et la campagne sont créés d’un coup.": "Em Minhas campanhas, clique em «Importar uma campanha» e escolha o arquivo: o jogo, o mundo e a campanha são criados de uma vez.",
     "Préparez l’archive avec une IA": "Prepare o arquivo com uma IA",
     "Validez le plan que l’IA propose, puis récupérez l’archive .zip et le guide GUIDE-IMPORT.md.": "Valide o plano que a IA propõe e depois descarregue o arquivo .zip e o guia GUIDE-IMPORT.md.",
-    "Vous partez d’un livre de jeu de rôle (PDF) ?": "Parte de um livro de RPG (PDF)?"
+    "Vous partez d’un livre de jeu de rôle (PDF) ?": "Parte de um livro de RPG (PDF)?",
+    "Contenu maison": "Conteúdo caseiro",
+    "Sans coche, la fiche est officielle (tirée du jeu ou du scénario publié).": "Sem marcar, a ficha é oficial (do jogo ou do cenário publicado).",
+    "Version officielle remplacée": "Versão oficial substituída",
+    "Ce que dit la version officielle, pour la retrouver si besoin.": "O que diz a versão oficial, para a reencontrar se for preciso.",
+    "version officielle": "versão oficial",
+    "Version officielle": "Versão oficial",
+    "Contenu maison : remplace ou complète la version officielle": "Conteúdo caseiro: substitui ou completa a versão oficial",
+    "Officiel et maison": "Oficial e caseiro",
+    "Officiel": "Oficial",
+    "Toutes les origines": "Todas as origens",
+    "(facultatif, jamais visible des joueurs)": "(opcional, nunca visível para os jogadores)",
+    "Initiative : 1d20 + modificateur de Dextérité.": "Iniciativa: 1d20 + modificador de Destreza."
 }

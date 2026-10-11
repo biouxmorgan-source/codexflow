@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.60.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Treści domowe',
+        'items' => [
+            'Nowe pole „Treść domowa” na kartach (BN, zaklęcia, przedmioty, miejsca…): bez zaznaczenia karta jest oficjalna. Odznaka „Domowe” wyróżnia ją na liście i na karcie, a filtr Oficjalne / Domowe porządkuje uniwersum.',
+            'Przy karcie domowej lub zasadzie o pochodzeniu „Domowa” można obok zapisać zastąpioną wersję oficjalną (np. inicjatywa na k10 zamiast k20): zostaje w strefie MG, zwinięta pod kartą lub zasadą.',
+            'Listę zasad można filtrować według pochodzenia. Eksport i import kampanii zachowują treści domowe i wersję oficjalną.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Logo Autistic Intelligence',

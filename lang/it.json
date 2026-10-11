@@ -2250,5 +2250,17 @@
     "Dans Mes campagnes, cliquez sur « Importer une campagne » et choisissez l’archive : le jeu, le monde et la campagne sont créés d’un coup.": "In Le mie campagne, cliccate su «Importa una campagna» e scegliete l'archivio: gioco, mondo e campagna vengono creati in un colpo solo.",
     "Préparez l’archive avec une IA": "Prepara l’archivio con un’IA",
     "Validez le plan que l’IA propose, puis récupérez l’archive .zip et le guide GUIDE-IMPORT.md.": "Approvate il piano proposto dall'IA, poi scaricate l'archivio .zip e la guida GUIDE-IMPORT.md.",
-    "Vous partez d’un livre de jeu de rôle (PDF) ?": "Partite da un manuale di gioco di ruolo (PDF)?"
+    "Vous partez d’un livre de jeu de rôle (PDF) ?": "Partite da un manuale di gioco di ruolo (PDF)?",
+    "Contenu maison": "Contenuto della casa",
+    "Sans coche, la fiche est officielle (tirée du jeu ou du scénario publié).": "Senza spunta la scheda è ufficiale (dal gioco o dallo scenario pubblicato).",
+    "Version officielle remplacée": "Versione ufficiale sostituita",
+    "Ce que dit la version officielle, pour la retrouver si besoin.": "Cosa dice la versione ufficiale, per ritrovarla se serve.",
+    "version officielle": "versione ufficiale",
+    "Version officielle": "Versione ufficiale",
+    "Contenu maison : remplace ou complète la version officielle": "Contenuto della casa: sostituisce o integra la versione ufficiale",
+    "Officiel et maison": "Ufficiale e della casa",
+    "Officiel": "Ufficiale",
+    "Toutes les origines": "Tutte le origini",
+    "(facultatif, jamais visible des joueurs)": "(facoltativo, mai visibile ai giocatori)",
+    "Initiative : 1d20 + modificateur de Dextérité.": "Iniziativa: 1d20 + modificatore di Destrezza."
 }

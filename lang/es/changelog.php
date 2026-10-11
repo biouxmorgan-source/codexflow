@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.60.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Contenido casero',
+        'items' => [
+            'Nueva casilla «Contenido casero» en las fichas (PNJ, hechizos, objetos, lugares…): sin marcar, la ficha es oficial. Una insignia «Casero» la señala en la lista y en la ficha, y un filtro Oficial / Casero ordena el universo.',
+            'Para una ficha casera o una regla de origen «Casero», la versión oficial sustituida se anota al lado (por ejemplo la iniciativa con 1d10 en vez de 1d20): queda en la zona del DJ, plegada bajo la ficha o la regla.',
+            'La lista de reglas se filtra por origen. La exportación y la importación de campaña conservan el contenido casero y la versión oficial.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'El logotipo de Autistic Intelligence',

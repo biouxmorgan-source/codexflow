@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.60.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Hausinhalte',
+        'items' => [
+            'Neues Kästchen „Hausinhalt“ auf Blättern (NSCs, Zauber, Gegenstände, Orte…): ohne Haken ist das Blatt offiziell. Ein Abzeichen „Haus“ markiert es in der Liste und auf dem Blatt, ein Filter Offiziell / Haus sortiert das Universum.',
+            'Für ein Hausblatt oder eine Regel mit Herkunft „Haus“ lässt sich die ersetzte offizielle Version daneben notieren (z. B. Initiative mit W10 statt W20): Sie bleibt im SL-Bereich, eingeklappt unter Blatt oder Regel.',
+            'Die Regelliste lässt sich nach Herkunft filtern. Export und Import der Kampagne behalten Hausinhalte und die offizielle Version.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Das Logo von Autistic Intelligence',

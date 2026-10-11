@@ -19,6 +19,9 @@
                     @if ($savedStatus)
                         <span class="rounded-full bg-flow/10 px-2 py-0.5 text-xs font-medium text-flow" title="{{ __('Statut dans cette campagne') }}">{{ $savedStatus }}</span>
                     @endif
+                    @if ($entity->is_house)
+                        <x-house-badge />
+                    @endif
                 </p>
                 <p class="mt-2 flex flex-wrap items-center gap-1">
                     @foreach ($entity->tags as $entityTag)
@@ -74,12 +77,15 @@
                 <h2 class="mb-3 font-semibold text-flow">{{ __('Zone MJ') }}</h2>
                 @if ($entity->gm_notes)
                     <div class="text-stone-700">{{ $gmNotes }}</div>
-                @elseif ($gmAttachments->isEmpty() && ! $hasGmFields && $gmRelations->isEmpty())
+                @elseif ($gmAttachments->isEmpty() && ! $hasGmFields && $gmRelations->isEmpty() && ! ($entity->is_house && $entity->official_version))
                     <p class="text-sm text-stone-500">{{ __('Aucune note MJ.') }}</p>
                 @endif
                 <x-field-values :definitions="$gmFields" :entity="$entity" :campaign="$campaign" />
                 <x-relation-list :relations="$gmRelations" :entity="$entity" :campaign="$campaign" />
                 <x-attachment-list :attachments="$gmAttachments" :campaign="$campaign" />
+                @if ($entity->is_house && $entity->official_version)
+                    <x-official-version :text="$officialVersion" />
+                @endif
             </section>
 
             <form wire:submit="addRelation" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm"

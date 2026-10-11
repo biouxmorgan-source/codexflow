@@ -340,6 +340,8 @@ final class CampaignImport
                 'summary' => $this->string($entity['summary'] ?? null, 500),
                 'description' => $this->string($entity['description'] ?? null, 20000),
                 'gm_notes' => $this->string($entity['gm_notes'] ?? null, 20000),
+                'is_house' => ($entity['is_house'] ?? false) === true,
+                'official_version' => $this->string($entity['official_version'] ?? null, 20000),
                 'field_values' => json_encode($this->fieldValues($entity['field_values'] ?? null), JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT),
                 'image_path' => $this->image($entity['image'] ?? null, 'entities'),
                 'created_at' => $this->now,
@@ -355,6 +357,7 @@ final class CampaignImport
                 'summary' => $this->links($this->string($entity['summary'] ?? null, 500)),
                 'description' => $this->links($this->string($entity['description'] ?? null, 20000)),
                 'gm_notes' => $this->links($this->string($entity['gm_notes'] ?? null, 20000)),
+                'official_version' => $this->links($this->string($entity['official_version'] ?? null, 20000)),
             ]);
             $this->attachTags('entity_tag', 'entity_id', $newId, $entity['tags'] ?? []);
 
@@ -463,6 +466,7 @@ final class CampaignImport
                 'gm_notes' => $this->links($this->string($rule['gm_notes'] ?? null, 20000)),
                 'source' => $this->string($rule['source'] ?? null, 255),
                 'origin' => RuleOrigin::tryFrom((string) ($rule['origin'] ?? ''))?->value ?? RuleOrigin::Reference->value,
+                'official_version' => $this->links($this->string($rule['official_version'] ?? null, 20000)),
                 'status' => RuleStatus::tryFrom((string) ($rule['status'] ?? ''))?->value ?? RuleStatus::Available->value,
                 'zone' => $this->zone($rule['zone'] ?? null, Zone::Public),
                 'created_at' => $this->now,

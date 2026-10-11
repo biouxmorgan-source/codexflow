@@ -41,6 +41,11 @@ class Form extends Component
 
     public string $gmNotes = '';
 
+    /** Contenu maison (sans coche : officiel) et version officielle qu'il remplace. */
+    public bool $isHouse = false;
+
+    public string $officialVersion = '';
+
     /** « world » : réutilisable dans toutes les campagnes du monde ; « campaign » : propre à cette campagne. */
     public string $scope = 'campaign';
 
@@ -73,6 +78,8 @@ class Form extends Component
             $this->summary = (string) $entity->summary;
             $this->description = (string) $entity->description;
             $this->gmNotes = (string) $entity->gm_notes;
+            $this->isHouse = $entity->is_house;
+            $this->officialVersion = (string) $entity->official_version;
             $this->scope = $entity->isWorldEntity() ? 'world' : 'campaign';
             $this->tags = $entity->tags->pluck('name')->implode(', ');
 
@@ -145,6 +152,8 @@ class Form extends Component
             'summary' => ['nullable', 'string', 'max:500'],
             'description' => ['nullable', 'string', 'max:20000'],
             'gmNotes' => ['nullable', 'string', 'max:20000'],
+            'isHouse' => ['boolean'],
+            'officialVersion' => ['nullable', 'string', 'max:20000'],
             'scope' => ['required', Rule::in($this->campaign->world_id ? ['world', 'campaign'] : ['campaign'])],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240'],
             'tags' => ['nullable', 'string', 'max:1000'],
@@ -152,6 +161,7 @@ class Form extends Component
             'entityTypeId' => __('type'),
             'summary' => __('résumé'),
             'gmNotes' => __('notes MJ'),
+            'officialVersion' => __('version officielle'),
             'scope' => __('portée'),
             'image' => __('image'),
         ]);
@@ -186,6 +196,9 @@ class Form extends Component
             'summary' => $this->summary ?: null,
             'description' => $this->description ?: null,
             'gm_notes' => $this->gmNotes ?: null,
+            'is_house' => $this->isHouse,
+            // Sans contenu maison, rien n'est remplacé.
+            'official_version' => $this->isHouse ? ($this->officialVersion ?: null) : null,
         ]);
 
         if (! $entity->exists) {

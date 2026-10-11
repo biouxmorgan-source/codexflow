@@ -95,6 +95,17 @@
             <label for="gmNotes" class="label">{{ __('Notes MJ') }}</label>
             <x-link-textarea id="gmNotes" model="gmNotes" />
             @error('gmNotes') <p class="error">{{ $message }}</p> @enderror
+            <div class="mt-4" x-data>
+                <label class="flex items-start gap-2">
+                    <input type="checkbox" wire:model="isHouse" class="mt-1">
+                    <span>{{ __('Contenu maison') }} <span class="block text-sm text-stone-500">{{ __('Sans coche, la fiche est officielle (tirée du jeu ou du scénario publié).') }}</span></span>
+                </label>
+                <div x-show="$wire.isHouse" x-cloak class="mt-3">
+                    <label for="officialVersion" class="label">{{ __('Version officielle remplacée') }} <span class="font-normal text-stone-500">{{ __('(facultatif)') }}</span></label>
+                    <x-link-textarea id="officialVersion" model="officialVersion" rows="3" :placeholder="__('Ce que dit la version officielle, pour la retrouver si besoin.')" />
+                    @error('officialVersion') <p class="error">{{ $message }}</p> @enderror
+                </div>
+            </div>
             <div class="mt-4 space-y-4">
                 <x-field-inputs :definitions="$this->fieldDefinitions->where('zone', \App\Enums\Zone::GameMaster)" :entities="$this->fieldChoices['entities']" :documents="$this->fieldChoices['documents']" />
             </div>

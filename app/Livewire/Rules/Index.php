@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Rules;
 
+use App\Enums\RuleOrigin;
 use App\Enums\RuleStatus;
 use App\Models\Campaign;
 use App\Models\Rule;
@@ -25,6 +26,9 @@ class Index extends Component
     #[Url]
     public string $tag = '';
 
+    #[Url]
+    public string $origin = '';
+
     public function mount(Campaign $campaign): void
     {
         $this->authorize('update', $campaign);
@@ -37,6 +41,7 @@ class Index extends Component
         return $this->campaign->availableRules()
             ->with('tags')
             ->when(RuleStatus::tryFrom($this->status), fn (Builder $q, RuleStatus $status) => $q->where('status', $status))
+            ->when(RuleOrigin::tryFrom($this->origin), fn (Builder $q, RuleOrigin $origin) => $q->where('origin', $origin))
             ->when($this->tag !== '', fn (Builder $q) => $q->whereHas('tags', fn (Builder $t) => $t->whereRaw('lower(tags.name) = ?', [mb_strtolower($this->tag)])))
             ->orderByRaw('lower(coalesce(category, \'\'))')
             ->orderByRaw('lower(title)')

@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.60.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Huisinhoud',
+        'items' => [
+            'Nieuw vakje „Huisinhoud” op fiches (NPC’s, spreuken, voorwerpen, plaatsen…): zonder vinkje is de fiche officieel. Een badge „Huis” toont het in de lijst en op de fiche, en een filter Officieel / Huis sorteert het universum.',
+            'Bij een huisfiche of een regel met herkomst „Huis” noteer je de vervangen officiële versie ernaast (bijvoorbeeld initiatief met een d10 in plaats van een d20): die blijft in de SL-zone, ingeklapt onder de fiche of regel.',
+            'De regellijst is te filteren op herkomst. Export en import van een campagne bewaren huisinhoud en de officiële versie.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Het logo van Autistic Intelligence',

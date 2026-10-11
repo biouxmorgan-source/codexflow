@@ -2250,5 +2250,17 @@
     "Dans Mes campagnes, cliquez sur « Importer une campagne » et choisissez l’archive : le jeu, le monde et la campagne sont créés d’un coup.": "In My campaigns, click “Import a campaign” and choose the archive: the game, the world and the campaign are created in one go.",
     "Préparez l’archive avec une IA": "Prepare the archive with an AI",
     "Validez le plan que l’IA propose, puis récupérez l’archive .zip et le guide GUIDE-IMPORT.md.": "Approve the plan the AI suggests, then download the .zip archive and the GUIDE-IMPORT.md guide.",
-    "Vous partez d’un livre de jeu de rôle (PDF) ?": "Starting from a roleplaying game book (PDF)?"
+    "Vous partez d’un livre de jeu de rôle (PDF) ?": "Starting from a roleplaying game book (PDF)?",
+    "Contenu maison": "House content",
+    "Sans coche, la fiche est officielle (tirée du jeu ou du scénario publié).": "Unticked, the sheet is official (from the game or the published scenario).",
+    "Version officielle remplacée": "Official version replaced",
+    "Ce que dit la version officielle, pour la retrouver si besoin.": "What the official version says, to find it again if needed.",
+    "version officielle": "official version",
+    "Version officielle": "Official version",
+    "Contenu maison : remplace ou complète la version officielle": "House content: replaces or adds to the official version",
+    "Officiel et maison": "Official and house",
+    "Officiel": "Official",
+    "Toutes les origines": "All origins",
+    "(facultatif, jamais visible des joueurs)": "(optional, never visible to players)",
+    "Initiative : 1d20 + modificateur de Dextérité.": "Initiative: 1d20 + Dexterity modifier."
 }
