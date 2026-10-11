@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.54.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Players edit their character',
+        'items' => [
+            'Fields page: “Editable by the player” can be ticked for a whole group (characteristics, skills…) or for every public field in one click.',
+            'New option on the Players page: the GM can let each player edit their character’s portrait, summary and description. The GM zone stays hidden.',
+        ],
+    ],
+
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Founder badge and gift codes',

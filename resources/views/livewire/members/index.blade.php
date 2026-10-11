@@ -47,6 +47,10 @@
                         <input type="checkbox" wire:click="toggleCoGameMasterFields" @checked($campaign->co_gm_manage_fields) class="mt-0.5">
                         <span>{{ __('Les co-MJ gèrent les champs du jeu') }} <span class="block text-stone-500">{{ __('Ils voient toujours, en lecture seule, les pages du jeu et du monde. Cochée, cette option leur permet aussi d’ajouter et de modifier les champs, qui servent à toutes les campagnes de ce jeu.') }}</span></span>
                     </label>
+                    <label class="mt-3 flex items-start gap-2 text-sm text-stone-700">
+                        <input type="checkbox" wire:click="togglePlayersEditProfile" @checked($campaign->players_edit_profile) class="mt-0.5">
+                        <span>{{ __('Les joueurs modifient le portrait, le résumé et la description de leur personnage') }} <span class="block text-stone-500">{{ __('Les champs se règlent un par un, ou par groupe, dans la page Champs (« Modifiable par le joueur »). La zone MJ reste toujours cachée.') }}</span></span>
+                    </label>
                 @endcan
             </section>
 

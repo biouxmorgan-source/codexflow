@@ -2235,5 +2235,15 @@
     "nombre de codes": "liczba kodów",
     "pas en cours": "nieaktywne",
     "un compte supprimé": "usunięte konto",
-    "à vie": "dożywotnio"
+    "à vie": "dożywotnio",
+    "Les champs se règlent un par un, ou par groupe, dans la page Champs (« Modifiable par le joueur »). La zone MJ reste toujours cachée.": "Pola ustawia się pojedynczo lub grupami na stronie Pola („Edytowalne przez gracza”). Strefa MG zawsze pozostaje ukryta.",
+    "Les joueurs modifient le portrait, le résumé et la description de leur personnage": "Gracze edytują portret, streszczenie i opis swojej postaci",
+    "Modifiable par le joueur, pour tous les champs publics :": "Edytowalne przez gracza, dla wszystkich pól publicznych:",
+    "Plus modifiables par le joueur": "Już nie edytowalne przez gracza",
+    "Portrait": "Portret",
+    "Retirer le portrait actuel": "Usuń obecny portret",
+    "Tous modifiables par le joueur": "Wszystkie edytowalne przez gracza",
+    "portrait": "portret",
+    "tout cocher": "zaznacz wszystko",
+    "tout décocher": "odznacz wszystko"
 }

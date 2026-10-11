@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.54.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Gracze edytują swoją postać',
+        'items' => [
+            'Strona Pola: „Edytowalne przez gracza” można zaznaczyć dla całej grupy (cechy, umiejętności…) lub dla wszystkich pól publicznych jednym kliknięciem.',
+            'Nowa opcja na stronie Gracze: MG może pozwolić każdemu graczowi edytować portret, streszczenie i opis swojej postaci. Strefa MG pozostaje ukryta.',
+        ],
+    ],
+
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Odznaka Założyciela i kody podarunkowe',

@@ -2235,5 +2235,15 @@
     "nombre de codes": "número de códigos",
     "pas en cours": "não ativo",
     "un compte supprimé": "uma conta eliminada",
-    "à vie": "vitalício"
+    "à vie": "vitalício",
+    "Les champs se règlent un par un, ou par groupe, dans la page Champs (« Modifiable par le joueur »). La zone MJ reste toujours cachée.": "Os campos ajustam-se um a um, ou por grupo, na página Campos («Editável pelo jogador»). A zona do mestre fica sempre escondida.",
+    "Les joueurs modifient le portrait, le résumé et la description de leur personnage": "Os jogadores editam o retrato, o resumo e a descrição da sua personagem",
+    "Modifiable par le joueur, pour tous les champs publics :": "Editável pelo jogador, para todos os campos públicos:",
+    "Plus modifiables par le joueur": "Deixam de ser editáveis pelo jogador",
+    "Portrait": "Retrato",
+    "Retirer le portrait actuel": "Remover o retrato atual",
+    "Tous modifiables par le joueur": "Todos editáveis pelo jogador",
+    "portrait": "retrato",
+    "tout cocher": "marcar tudo",
+    "tout décocher": "desmarcar tudo"
 }

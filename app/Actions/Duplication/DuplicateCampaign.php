@@ -69,6 +69,7 @@ class DuplicateCampaign
         $campaign->world()->associate($source->world_id);
         $campaign->table_theme = $source->table_theme ?? TableTheme::DEFAULT;
         $campaign->exchanges_need_approval = $source->exchanges_need_approval ?? true;
+        $campaign->players_edit_profile = (bool) $source->players_edit_profile;
         $campaign->disabled_features = CampaignFeatures::clean($source->disabled_features);
         $campaign->save();
         $campaign->members()->attach($owner, ['role' => CampaignRole::GameMaster->value]);

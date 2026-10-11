@@ -195,6 +195,7 @@ final class CampaignImport
             ? $campaignData['table_theme']
             : TableTheme::DEFAULT;
         $campaign->exchanges_need_approval = (bool) ($campaignData['exchanges_need_approval'] ?? true);
+        $campaign->players_edit_profile = (bool) ($campaignData['players_edit_profile'] ?? false);
         $campaign->disabled_features = CampaignFeatures::clean($campaignData['disabled_features'] ?? []);
         $campaign->save();
         $campaign->members()->attach($this->user, ['role' => CampaignRole::GameMaster->value]);

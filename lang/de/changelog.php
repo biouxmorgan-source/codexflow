@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.54.0' => [
+        'date' => '2026-10-11',
+        'title' => 'Spieler bearbeiten ihren Charakter',
+        'items' => [
+            'Seite Felder: „Vom Spieler bearbeitbar“ lässt sich für eine ganze Gruppe (Eigenschaften, Fertigkeiten…) oder für alle öffentlichen Felder mit einem Klick setzen.',
+            'Neue Option auf der Seite Spieler: Die SL kann jeden Spieler Porträt, Zusammenfassung und Beschreibung seines Charakters bearbeiten lassen. Der SL-Bereich bleibt verborgen.',
+        ],
+    ],
+
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Gründer-Abzeichen und Geschenkcodes',

@@ -27,10 +27,27 @@
                     <p class="mt-1 text-stone-600">{{ __('Ajoutez-en un à droite, ou importez toute une liste depuis un fichier.') }}</p>
                 </div>
             @else
+                @php($public = $this->definitions->where('zone', \App\Enums\Zone::Public))
+                @if ($public->isNotEmpty())
+                    <p class="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-stone-600">
+                        <span>{{ __('Modifiable par le joueur, pour tous les champs publics :') }}</span>
+                        <button type="button" wire:click="setPlayerEditable(null, true)" class="link">{{ __('tout cocher') }}</button>
+                        <button type="button" wire:click="setPlayerEditable(null, false)" class="link">{{ __('tout décocher') }}</button>
+                    </p>
+                @endif
                 <div class="space-y-6">
                     @foreach ($this->definitions->groupBy(fn ($definition) => $definition->groupLabel()) as $groupName => $definitions)
                         <div wire:key="group-{{ $groupName }}">
-                            <h2 class="mb-2 font-semibold">{{ $groupName }}</h2>
+                            <div class="mb-2 flex flex-wrap items-baseline justify-between gap-x-3">
+                                <h2 class="font-semibold">{{ $groupName }}</h2>
+                                @php($groupPublic = $definitions->where('zone', \App\Enums\Zone::Public))
+                                @if ($groupPublic->isNotEmpty())
+                                    @php($allEditable = $groupPublic->every(fn ($definition) => $definition->player_editable))
+                                    <button type="button" wire:click="setPlayerEditable(@js($groupName), {{ $allEditable ? 'false' : 'true' }})" class="link text-sm">
+                                        {{ $allEditable ? __('Plus modifiables par le joueur') : __('Tous modifiables par le joueur') }}
+                                    </button>
+                                @endif
+                            </div>
                             <ul class="divide-y divide-stone-200 overflow-hidden rounded-xl border border-stone-200 bg-white">
                                 @foreach ($definitions as $definition)
                                     <li wire:key="definition-{{ $definition->id }}" @class(['flex flex-wrap items-center gap-3 px-4 py-3', 'bg-codex-soft' => $editingId === $definition->id])>

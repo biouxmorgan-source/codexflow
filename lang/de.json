@@ -2235,5 +2235,15 @@
     "nombre de codes": "Anzahl der Codes",
     "pas en cours": "nicht aktiv",
     "un compte supprimé": "ein gelöschtes Konto",
-    "à vie": "lebenslang"
+    "à vie": "lebenslang",
+    "Les champs se règlent un par un, ou par groupe, dans la page Champs (« Modifiable par le joueur »). La zone MJ reste toujours cachée.": "Felder werden einzeln oder gruppenweise auf der Seite Felder eingestellt („Vom Spieler bearbeitbar“). Der SL-Bereich bleibt immer verborgen.",
+    "Les joueurs modifient le portrait, le résumé et la description de leur personnage": "Spieler bearbeiten Porträt, Zusammenfassung und Beschreibung ihres Charakters",
+    "Modifiable par le joueur, pour tous les champs publics :": "Vom Spieler bearbeitbar, für alle öffentlichen Felder:",
+    "Plus modifiables par le joueur": "Nicht mehr vom Spieler bearbeitbar",
+    "Portrait": "Porträt",
+    "Retirer le portrait actuel": "Aktuelles Porträt entfernen",
+    "Tous modifiables par le joueur": "Alle vom Spieler bearbeitbar",
+    "portrait": "Porträt",
+    "tout cocher": "alle aktivieren",
+    "tout décocher": "alle deaktivieren"
 }
