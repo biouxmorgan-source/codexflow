@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.50.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Health: role filter',
+        'items' => [
+            'In the Health tab, a filter by account role (without administrators, administrators, premium, trial, free).',
+            'The demonstration campaign is no longer counted in the statistics.',
+        ],
+    ],
+
     '0.50.0' => [
         'date' => '2026-10-10',
         'title' => 'Platform health',

@@ -150,7 +150,7 @@ class LoadDemoCampaign
 
             $this->campaign->gameSystem->forceFill(['description' => $this->text['game']['description']])->save();
             $this->campaign->world->forceFill(['description' => $this->text['world']['description']])->save();
-            $this->campaign->forceFill(['table_theme' => 'parchemin'])->save();
+            $this->campaign->forceFill(['table_theme' => 'parchemin', 'is_demo' => true])->save();
             $this->cover($this->campaign->gameSystem, 'game', '#5b3a29', '#2b3a42');
             $this->cover($this->campaign->world, 'world', '#41607a', '#1f4f5c');
 

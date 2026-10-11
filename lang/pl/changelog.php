@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.50.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Stan: filtr według roli',
+        'items' => [
+            'Na karcie Stan filtr według roli konta (bez administratorów, administratorzy, premium, okres próbny, bezpłatne).',
+            'Kampania demonstracyjna nie jest już liczona w statystykach.',
+        ],
+    ],
+
     '0.50.0' => [
         'date' => '2026-10-10',
         'title' => 'Stan platformy',

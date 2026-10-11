@@ -8,6 +8,7 @@ use App\Models\RequestMetric;
 use App\Models\User;
 use App\Models\UserLogin;
 use App\Support\Monitoring\ResponseTimes;
+use App\Support\Plans\Plans;
 use App\Support\SystemHealth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -73,6 +74,46 @@ class HealthTest extends TestCase
         // Sur 90 jours, la connexion de Bruno entre dans le compte.
         $this->assertSame(3, $health->set('period', 90)->instance()->usage['people']);
         $health->assertSee('Joueurs par MJ');
+    }
+
+    public function test_the_demonstration_is_never_counted_and_the_role_filter_narrows_the_figures(): void
+    {
+        $premium = User::factory()->create(['plan' => Plans::PREMIUM]);
+        $free = User::factory()->create();
+        $player = User::factory()->create();
+
+        $real = Campaign::factory()->for($premium, 'owner')->create();
+        $demo = Campaign::factory()->for($free, 'owner')->create(['is_demo' => true]);
+        $other = Campaign::factory()->for($free, 'owner')->create();
+        foreach ([$real, $demo, $other] as $campaign) {
+            $campaign->members()->attach($player, ['role' => 'player']);
+        }
+        foreach ([$real, $demo] as $campaign) {
+            $campaign->playSessions()->create(['number' => 1, 'started_at' => now()->subDay()]);
+        }
+        UserLogin::create(['user_id' => $premium->id, 'logged_in_at' => now()->subDay()]);
+        UserLogin::create(['user_id' => $this->admin->id, 'logged_in_at' => now()->subDay()]);
+        UserLogin::create(['user_id' => $free->id, 'logged_in_at' => now()->subDay()]);
+
+        $health = Livewire::actingAs($this->admin)->test(Health::class);
+        $tables = $health->instance()->tables;
+        $this->assertSame(2, $tables['campaigns']);
+        $this->assertSame(1, $health->instance()->usage['sessions']);
+
+        $health->set('role', 'premium');
+        $this->assertSame(1, $health->instance()->tables['campaigns']);
+        $this->assertSame(1, $health->instance()->usage['people']);
+        $this->assertSame(1, $health->instance()->usage['accounts']);
+
+        $health->set('role', 'no_admin');
+        $this->assertSame(3, $health->instance()->usage['accounts']);
+        $this->assertSame(2, $health->instance()->usage['people']);
+
+        $health->set('role', 'admin');
+        $this->assertSame(1, $health->instance()->usage['people']);
+        $this->assertSame(0, $health->instance()->tables['campaigns']);
+
+        $health->assertSee(['Rôle du compte', 'Sans les administrateurs']);
     }
 
     public function test_each_request_is_timed_and_slow_hours_warn_the_administrator(): void

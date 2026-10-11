@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.50.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Salute: filtro per ruolo',
+        'items' => [
+            'Nella scheda Salute, un filtro per ruolo dell’account (senza amministratori, amministratori, premium, prova, gratuito).',
+            'La campagna dimostrativa non è più conteggiata nelle statistiche.',
+        ],
+    ],
+
     '0.50.0' => [
         'date' => '2026-10-10',
         'title' => 'Salute della piattaforma',

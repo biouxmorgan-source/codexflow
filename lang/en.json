@@ -2181,5 +2181,9 @@
     "Tâches en attente": "Queued jobs",
     "Tâches en échec": "Failed jobs",
     "aucune requête": "no requests",
-    "sem. du :date": "week of :date"
+    "sem. du :date": "week of :date",
+    "Rôle du compte": "Account role",
+    "Tous les comptes": "All accounts",
+    "Sans les administrateurs": "Without administrators",
+    "Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.": "The role filters activity, game tables (by owning GM) and files. The demonstration campaign is never counted; the server figures do not depend on the filter."
 }

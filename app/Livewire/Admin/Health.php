@@ -8,6 +8,7 @@ use App\Models\PlaySession;
 use App\Models\User;
 use App\Models\UserLogin;
 use App\Support\Monitoring\ResponseTimes;
+use App\Support\Plans\Plans;
 use App\Support\Plans\StorageUsage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -26,6 +27,12 @@ class Health extends Component
     #[Url(except: 30)]
     public int $period = 30;
 
+    /** Rôle du compte : all, no_admin, admin, premium, trial ou free. */
+    #[Url(except: 'all')]
+    public string $role = 'all';
+
+    public const ROLES = ['all', 'no_admin', Plans::ADMIN, Plans::PREMIUM, Plans::TRIAL, Plans::FREE];
+
     public function mount(): void
     {
         $this->authorize('admin');
@@ -34,6 +41,26 @@ class Health extends Component
     private function days(): int
     {
         return in_array($this->period, Users::PERIODS, true) ? $this->period : 30;
+    }
+
+    /** Comptes retenus par le filtre de rôle ; null = tous, sans filtrer. @return list<int>|null */
+    private function accountIds(): ?array
+    {
+        $role = in_array($this->role, self::ROLES, true) ? $this->role : 'all';
+
+        if ($role === 'all') {
+            return null;
+        }
+
+        return User::all()
+            ->filter(fn (User $user) => $role === 'no_admin' ? Plans::effective($user) !== Plans::ADMIN : Plans::effective($user) === $role)
+            ->pluck('id')->all();
+    }
+
+    /** Campagnes comptées : celles des comptes retenus, hors campagne de démonstration. */
+    private function campaigns()
+    {
+        return Campaign::where('is_demo', false)->when($this->accountIds() !== null, fn ($query) => $query->whereIn('user_id', $this->accountIds()));
     }
 
     private function from(): Carbon
@@ -45,18 +72,20 @@ class Health extends Component
     #[Computed]
     public function usage(): array
     {
-        $logins = UserLogin::where('logged_in_at', '>=', $this->from());
+        $ids = $this->accountIds();
+        $logins = UserLogin::where('logged_in_at', '>=', $this->from())->when($ids !== null, fn ($query) => $query->whereIn('user_id', $ids));
+        $sessions = PlaySession::where('started_at', '>=', $this->from())->whereIn('campaign_id', $this->campaigns()->select('id'));
         $people = (clone $logins)->distinct('user_id')->count('user_id');
         $total = (clone $logins)->count();
 
         return [
-            'accounts' => User::count(),
-            'new_accounts' => User::where('created_at', '>=', $this->from())->count(),
+            'accounts' => User::when($ids !== null, fn ($query) => $query->whereIn('id', $ids))->count(),
+            'new_accounts' => User::where('created_at', '>=', $this->from())->when($ids !== null, fn ($query) => $query->whereIn('id', $ids))->count(),
             'people' => $people,
             'logins' => $total,
             'per_person' => $people ? round($total / $people, 1) : 0,
-            'sessions' => PlaySession::where('started_at', '>=', $this->from())->count(),
-            'played_campaigns' => PlaySession::where('started_at', '>=', $this->from())->distinct('campaign_id')->count('campaign_id'),
+            'sessions' => (clone $sessions)->count(),
+            'played_campaigns' => (clone $sessions)->distinct('campaign_id')->count('campaign_id'),
         ];
     }
 
@@ -74,7 +103,9 @@ class Health extends Component
             default => 'month',
         };
 
+        $ids = $this->accountIds();
         $rows = UserLogin::where('logged_in_at', '>=', $this->from())
+            ->when($ids !== null, fn ($query) => $query->whereIn('user_id', $ids))
             ->selectRaw("date_trunc('{$unit}', logged_in_at) as bucket, count(distinct user_id) as people, count(*) as logins")
             ->groupBy('bucket')
             ->get()
@@ -98,33 +129,41 @@ class Health extends Component
         return $buckets;
     }
 
-    /** Tables de jeu : combien de MJ, de joueurs par campagne et par MJ. */
+    /** Tables de jeu : combien de MJ, de joueurs par campagne et par MJ. Le filtre porte sur le MJ propriétaire. */
     #[Computed]
     public function tables(): array
     {
-        $players = DB::table('campaign_memberships')->where('role', CampaignRole::Player->value);
-        $perCampaign = (clone $players)->selectRaw('campaign_id, count(*) as players')->groupBy('campaign_id');
-        // Joueurs distincts autour de chaque MJ propriétaire, toutes ses campagnes confondues.
-        $perGm = (clone $players)->join('campaigns', 'campaigns.id', '=', 'campaign_memberships.campaign_id')
-            ->selectRaw('campaigns.user_id, count(distinct campaign_memberships.user_id) as players')->groupBy('campaigns.user_id');
+        $ids = $this->accountIds();
+        $campaigns = $this->campaigns();
+        $seats = fn (CampaignRole $role) => DB::table('campaign_memberships')
+            ->join('campaigns', 'campaigns.id', '=', 'campaign_memberships.campaign_id')
+            ->where('campaigns.is_demo', false)
+            ->when($ids !== null, fn ($query) => $query->whereIn('campaigns.user_id', $ids))
+            ->where('campaign_memberships.role', $role->value);
 
-        $campaigns = Campaign::count();
-        $gms = Campaign::distinct('user_id')->count('user_id');
+        $players = $seats(CampaignRole::Player);
+        $perCampaign = (clone $players)->selectRaw('campaigns.id as campaign_id, count(*) as players')->groupBy('campaigns.id');
+        // Joueurs distincts autour de chaque MJ propriétaire, toutes ses campagnes confondues.
+        $perGm = (clone $players)->selectRaw('campaigns.user_id, count(distinct campaign_memberships.user_id) as players')->groupBy('campaigns.user_id');
+
+        $count = (clone $campaigns)->count();
+        $gms = (clone $campaigns)->distinct('user_id')->count('user_id');
         $playerSeats = (clone $players)->count();
+        $accounts = fn () => User::when($ids !== null, fn ($query) => $query->whereIn('id', $ids));
+        $realCampaigns = fn ($query) => $query->where('is_demo', false);
 
         return [
-            'campaigns' => $campaigns,
+            'campaigns' => $count,
             'gms' => $gms,
-            'campaigns_per_gm' => $gms ? round($campaigns / $gms, 1) : 0,
-            'players' => (clone $players)->distinct('user_id')->count('user_id'),
-            'players_per_campaign' => $campaigns ? round($playerSeats / $campaigns, 1) : 0,
+            'campaigns_per_gm' => $gms ? round($count / $gms, 1) : 0,
+            'players' => (clone $players)->distinct('campaign_memberships.user_id')->count('campaign_memberships.user_id'),
+            'players_per_campaign' => $count ? round($playerSeats / $count, 1) : 0,
             'players_per_gm' => $gms ? round((int) DB::query()->fromSub($perGm, 'g')->sum('players') / $gms, 1) : 0,
             'max_players' => (int) DB::query()->fromSub($perCampaign, 'c')->max('players'),
-            'co_gms' => DB::table('campaign_memberships')->join('campaigns', 'campaigns.id', '=', 'campaign_memberships.campaign_id')
-                ->where('role', CampaignRole::GameMaster->value)->whereColumn('campaign_memberships.user_id', '!=', 'campaigns.user_id')->count(),
-            'spectators' => DB::table('campaign_memberships')->where('role', CampaignRole::Spectator->value)->count(),
-            'players_only' => User::whereDoesntHave('ownedCampaigns')->whereHas('campaigns')->count(),
-            'without_campaign' => User::whereDoesntHave('campaigns')->whereDoesntHave('ownedCampaigns')->count(),
+            'co_gms' => $seats(CampaignRole::GameMaster)->whereColumn('campaign_memberships.user_id', '!=', 'campaigns.user_id')->count(),
+            'spectators' => $seats(CampaignRole::Spectator)->count(),
+            'players_only' => $accounts()->whereDoesntHave('ownedCampaigns', $realCampaigns)->whereHas('campaigns', $realCampaigns)->count(),
+            'without_campaign' => $accounts()->whereDoesntHave('campaigns', $realCampaigns)->whereDoesntHave('ownedCampaigns', $realCampaigns)->count(),
         ];
     }
 
@@ -132,7 +171,8 @@ class Health extends Component
     #[Computed]
     public function storage(): array
     {
-        $files = User::all()->sum(fn (User $user) => StorageUsage::bytes($user));
+        $ids = $this->accountIds();
+        $files = User::when($ids !== null, fn ($query) => $query->whereIn('id', $ids))->get()->sum(fn (User $user) => StorageUsage::bytes($user));
 
         try {
             $database = (int) DB::selectOne('select pg_database_size(current_database()) as size')->size;

@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.50.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Salud: filtro por rol',
+        'items' => [
+            'En la pestaña Salud, un filtro por rol de cuenta (sin administradores, administradores, premium, prueba, gratuito).',
+            'La campaña de demostración ya no se cuenta en las estadísticas.',
+        ],
+    ],
+
     '0.50.0' => [
         'date' => '2026-10-10',
         'title' => 'Salud de la plataforma',

@@ -2181,5 +2181,9 @@
     "Tâches en attente": "Attività in coda",
     "Tâches en échec": "Attività fallite",
     "aucune requête": "nessuna richiesta",
-    "sem. du :date": "sett. del :date"
+    "sem. du :date": "sett. del :date",
+    "Rôle du compte": "Ruolo dell'account",
+    "Tous les comptes": "Tutti gli account",
+    "Sans les administrateurs": "Senza amministratori",
+    "Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.": "Il ruolo filtra la frequentazione, i tavoli di gioco (secondo il GM proprietario) e i file. La campagna dimostrativa non è mai conteggiata; i dati del server non dipendono dal filtro."
 }
