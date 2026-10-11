@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.50.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Santé : filtre par rôle',
+        'items' => [
+            'Dans l’onglet Santé, un filtre par rôle de compte (sans les administrateurs, administrateurs, premium, essai, gratuit).',
+            'La campagne de démonstration n’est plus comptée dans les statistiques.',
+        ],
+    ],
+
     '0.50.0' => [
         'date' => '2026-10-10',
         'title' => 'Santé de la plateforme',

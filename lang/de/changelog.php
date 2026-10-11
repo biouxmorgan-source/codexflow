@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.50.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Zustand: Rollenfilter',
+        'items' => [
+            'Im Reiter Zustand gibt es einen Filter nach Kontorolle (ohne Administratoren, Administratoren, Premium, Test, kostenlos).',
+            'Die Demo-Kampagne wird in den Statistiken nicht mehr mitgezählt.',
+        ],
+    ],
+
     '0.50.0' => [
         'date' => '2026-10-10',
         'title' => 'Zustand der Plattform',

@@ -2181,5 +2181,9 @@
     "Tâches en attente": "Tareas en espera",
     "Tâches en échec": "Tareas fallidas",
     "aucune requête": "ninguna petición",
-    "sem. du :date": "sem. del :date"
+    "sem. du :date": "sem. del :date",
+    "Rôle du compte": "Rol de la cuenta",
+    "Tous les comptes": "Todas las cuentas",
+    "Sans les administrateurs": "Sin administradores",
+    "Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.": "El rol filtra la afluencia, las mesas de juego (según el DJ propietario) y los archivos. La campaña de demostración nunca se cuenta; las cifras del servidor no dependen del filtro."
 }

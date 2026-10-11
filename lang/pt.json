@@ -2181,5 +2181,9 @@
     "Tâches en attente": "Tarefas em espera",
     "Tâches en échec": "Tarefas falhadas",
     "aucune requête": "nenhum pedido",
-    "sem. du :date": "sem. de :date"
+    "sem. du :date": "sem. de :date",
+    "Rôle du compte": "Função da conta",
+    "Tous les comptes": "Todas as contas",
+    "Sans les administrateurs": "Sem administradores",
+    "Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.": "A função filtra a frequência, as mesas de jogo (segundo o MJ proprietário) e os ficheiros. A campanha de demonstração nunca é contada; os valores do servidor não dependem do filtro."
 }

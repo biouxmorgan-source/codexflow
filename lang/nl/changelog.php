@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.50.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Gezondheid: filter op rol',
+        'items' => [
+            'In het tabblad Gezondheid een filter op accountrol (zonder beheerders, beheerders, premium, proef, gratis).',
+            'De demonstratiecampagne telt niet meer mee in de statistieken.',
+        ],
+    ],
+
     '0.50.0' => [
         'date' => '2026-10-10',
         'title' => 'Gezondheid van het platform',

@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.50.1' => [
+        'date' => '2026-10-11',
+        'title' => 'Saúde: filtro por função',
+        'items' => [
+            'No separador Saúde, um filtro por função da conta (sem administradores, administradores, premium, avaliação, gratuito).',
+            'A campanha de demonstração deixa de ser contada nas estatísticas.',
+        ],
+    ],
+
     '0.50.0' => [
         'date' => '2026-10-10',
         'title' => 'Saúde da plataforma',

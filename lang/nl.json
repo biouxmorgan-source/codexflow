@@ -2181,5 +2181,9 @@
     "Tâches en attente": "Wachtende taken",
     "Tâches en échec": "Mislukte taken",
     "aucune requête": "geen verzoeken",
-    "sem. du :date": "week van :date"
+    "sem. du :date": "week van :date",
+    "Rôle du compte": "Accountrol",
+    "Tous les comptes": "Alle accounts",
+    "Sans les administrateurs": "Zonder beheerders",
+    "Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.": "De rol filtert bezoek, speltafels (naar de eigenaar-SL) en bestanden. De demonstratiecampagne telt nooit mee; de servercijfers hangen niet van het filter af."
 }

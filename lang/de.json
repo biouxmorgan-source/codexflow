@@ -2181,5 +2181,9 @@
     "Tâches en attente": "Wartende Aufgaben",
     "Tâches en échec": "Fehlgeschlagene Aufgaben",
     "aucune requête": "keine Anfragen",
-    "sem. du :date": "Woche vom :date"
+    "sem. du :date": "Woche vom :date",
+    "Rôle du compte": "Kontorolle",
+    "Tous les comptes": "Alle Konten",
+    "Sans les administrateurs": "Ohne Administratoren",
+    "Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.": "Die Rolle filtert Nutzung, Spieltische (nach dem besitzenden SL) und Dateien. Die Demo-Kampagne wird nie mitgezählt; die Serverwerte hängen nicht vom Filter ab."
 }

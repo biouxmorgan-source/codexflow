@@ -48,6 +48,7 @@ class DemoCampaignTest extends TestCase
         $text = LoadDemoCampaign::text('fr');
 
         $this->assertSame($text['campaign']['name'], $campaign->name);
+        $this->assertTrue($campaign->is_demo, 'La démonstration est repérée pour les statistiques.');
         $this->assertSame($text['game']['name'], $campaign->gameSystem->name);
         $this->assertSame($text['world']['name'], $campaign->world->name);
         $this->assertTrue($campaign->isGameMaster($gm));

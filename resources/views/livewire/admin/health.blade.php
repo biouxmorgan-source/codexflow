@@ -6,14 +6,32 @@
     @php($tile = 'rounded-xl border border-stone-200 bg-white p-3 shadow-sm')
     @php($size = fn (?int $bytes) => $bytes === null ? '—' : \App\Support\Plans\StorageUsage::format($bytes))
 
-    <div class="mb-4">
-        <label for="health-period" class="label">{{ __('Période') }}</label>
-        <select id="health-period" wire:model.live="period" class="field w-auto">
-            @foreach (\App\Livewire\Admin\Users::PERIODS as $days)
-                <option value="{{ $days }}">{{ trans_choice(':count jour|:count jours', $days) }}</option>
-            @endforeach
-        </select>
+    <div class="mb-1 flex flex-wrap items-end gap-3">
+        <div>
+            <label for="health-period" class="label">{{ __('Période') }}</label>
+            <select id="health-period" wire:model.live="period" class="field w-auto">
+                @foreach (\App\Livewire\Admin\Users::PERIODS as $days)
+                    <option value="{{ $days }}">{{ trans_choice(':count jour|:count jours', $days) }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <label for="health-role" class="label">{{ __('Rôle du compte') }}</label>
+            <select id="health-role" wire:model.live="role" class="field w-auto">
+                @foreach ([
+                    'all' => __('Tous les comptes'),
+                    'no_admin' => __('Sans les administrateurs'),
+                    \App\Support\Plans\Plans::ADMIN => __('Administrateurs'),
+                    \App\Support\Plans\Plans::PREMIUM => __('Premium'),
+                    \App\Support\Plans\Plans::TRIAL => __('En essai'),
+                    \App\Support\Plans\Plans::FREE => __('Gratuit'),
+                ] as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
+    <p class="mb-4 text-xs text-stone-500">{{ __('Le rôle filtre la fréquentation, les tables de jeu (selon le MJ propriétaire) et les fichiers. La campagne de démonstration n’est jamais comptée ; le serveur ne dépend pas du filtre.') }}</p>
 
     <section class="mb-8" aria-labelledby="health-usage">
         <h2 id="health-usage" class="mb-3 text-lg font-semibold">{{ __('Fréquentation') }}</h2>

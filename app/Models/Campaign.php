@@ -41,6 +41,7 @@ class Campaign extends Model
     {
         return [
             'status' => CampaignStatus::class,
+            'is_demo' => 'boolean',
             'archived_at' => 'datetime',
             'table_display' => 'array',
             'table_shared' => 'boolean',
