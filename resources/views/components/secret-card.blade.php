@@ -8,7 +8,7 @@
             @php($state = $secret->state($characters->modelKeys()))
             <p class="font-medium">
                 {{ $secret->title }}
-                <span @class(['ml-1 rounded-full px-2 py-0.5 align-middle text-xs font-medium', 'bg-amber-100 text-amber-900' => $secret->kind === 'rumour', 'bg-codex-soft text-codex' => $secret->kind === 'clue', 'bg-stone-100 text-stone-700' => $secret->kind === 'truth'])>{{ $secret->kindLabel() }}</span>
+                <span @class(['ml-1 rounded-full px-2 py-0.5 align-middle text-xs font-medium', 'bg-amber-100 text-amber-900' => $secret->kind === 'rumour', 'bg-codex-soft text-codex' => $secret->kind === 'clue', 'bg-stone-100 text-stone-700' => $secret->kind === 'truth', 'bg-red-100 text-red-800' => $secret->kind === 'lie'])>{{ $secret->kindLabel() }}</span>
                 <span @class(['ml-1 text-xs font-normal', 'text-stone-500' => $state === 'hidden', 'text-flow' => $state === 'partial', 'text-green-700' => $state === 'revealed'])>· {{ \App\Models\Secret::states()[$state] }}</span>
             </p>
             @if ($secret->body && ! $compact)

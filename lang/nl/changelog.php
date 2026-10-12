@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.58.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Een aanwijzing kan een leugen zijn',
+        'items' => [
+            'Aanwijzingen: nieuwe aard ‘Leugen’, naast Gerucht, Aanwijzing en Waarheid, met eigen filter. Zoals de andere soorten ziet alleen de SL ze: een speler aan wie ze onthuld wordt, leest alleen de aanwijzing.',
+        ],
+    ],
+
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Een hele campagne voorbereiden met een AI',

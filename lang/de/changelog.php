@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.58.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Ein Hinweis kann eine Lüge sein',
+        'items' => [
+            'Hinweise: neue Art „Lüge“ neben Gerücht, Hinweis und Wahrheit, mit eigenem Filter. Wie die anderen Arten sieht sie nur die SL: Ein Spieler, dem der Hinweis enthüllt wird, liest nur den Hinweis.',
+        ],
+    ],
+
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Eine ganze Kampagne mit einer KI vorbereiten',

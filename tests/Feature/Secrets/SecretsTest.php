@@ -140,4 +140,26 @@ class SecretsTest extends TestCase
         Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $other])->call('revealSecret', $secret->id)->assertNotFound();
         $this->assertSame(0, CharacterGrant::count());
     }
+
+    public function test_a_clue_can_be_a_lie_that_players_never_see_as_such(): void
+    {
+        $page = Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $this->campaign])
+            ->call('create')
+            ->set('title', 'Le notaire a tout vu')
+            ->set('kind', 'lie')
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertSee('Mensonge');
+        $secret = Secret::sole();
+        $this->assertSame('lie', $secret->kind);
+
+        $page->set('kindFilter', 'lie')->assertSee('Le notaire a tout vu');
+        $page->set('kindFilter', 'truth')->assertDontSee('Le notaire a tout vu');
+
+        // Révélé, le joueur lit l'indice mais pas sa nature.
+        $page->call('revealSecret', $secret->id, $this->harvey->id);
+        Livewire::actingAs($this->alex)->test(CharacterShow::class, ['campaign' => $this->campaign, 'character' => $this->harvey])
+            ->assertSee('Le notaire a tout vu')
+            ->assertDontSee('Mensonge');
+    }
 }

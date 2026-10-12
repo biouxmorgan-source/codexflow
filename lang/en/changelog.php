@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.58.0' => [
+        'date' => '2026-10-12',
+        'title' => 'A clue can be a lie',
+        'items' => [
+            'Clues: new “Lie” nature, alongside Rumour, Clue and Truth, with its filter. Like the other natures, only the GM sees it: a player it is revealed to only reads the clue.',
+        ],
+    ],
+
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Prepare a whole campaign with an AI',

@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.58.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Trop może być kłamstwem',
+        'items' => [
+            'Tropy: nowy rodzaj „Kłamstwo”, obok Plotki, Tropu i Prawdy, z własnym filtrem. Jak inne rodzaje widzi go tylko MG: gracz, któremu trop zostanie ujawniony, czyta tylko sam trop.',
+        ],
+    ],
+
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Przygotuj całą kampanię z pomocą AI',

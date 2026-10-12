@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.58.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Un indice peut être un mensonge',
+        'items' => [
+            'Indices : nouvelle nature « Mensonge », à côté de Rumeur, Indice et Vérité, avec son filtre. Comme les autres natures, elle n’est visible que du MJ : le joueur à qui on le révèle ne lit que l’indice.',
+        ],
+    ],
+
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Préparer une campagne entière avec une IA',
