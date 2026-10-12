@@ -30,7 +30,7 @@ Le but : que le MJ puisse **mener la partie depuis SagaWyn sans rouvrir le livre
 2. **Tout le contenu disponible, avec la page.** Mettre tout ce qu'on peut du livre, en particulier tout ce qui sert à jouer (déroulé, indices, tests, réactions, profils, issues) dans ses propres mots et en structure aide-mémoire. Pas de simple renvoi « voir livre p. 42 » à la place du contenu : la page se met **en fin** de texte, comme source. Les textes à lire aux joueurs (encadrés « à lire à voix haute ») sont résumés en indiquant ce qu'ils doivent transmettre.
 3. **Rien d'inventé.** Ce que le livre ne dit pas reste vide. Une lecture incertaine (tableau de caractéristiques mélangé, chiffre illisible) est notée dans `A-VERIFIER.md` avec la page, et marquée « (à vérifier) » dans le texte.
 4. **Zone publique / zone MJ.** Ce qu'un joueur peut apprendre en rencontrant l'élément va en **Description** ou en champ `publique`. Tout le reste (identité réelle, motivations cachées, solution, profil des adversaires, ce qui va arriver) va en **Notes MJ** ou en champ `MJ`. Dans une scène, tout est pour le MJ ; marquer **Secret MJ** ce qu'il ne faut surtout pas lire aux joueurs.
-5. **Pas de colonne propre à un jeu inventée par SagaWyn** : le vocabulaire du jeu (FOR, Santé mentale, Points de destin…) passe par les **champs** que l'on définit soi-même.
+5. **Pas de colonne propre à un jeu inventée par SagaWyn** : le vocabulaire du jeu (Force, Points de vie, Points de destin…) passe par les **champs** que l'on définit soi-même.
 
 ## Méthode
 
@@ -60,9 +60,9 @@ Fixer une **table des noms canoniques** : chaque élément a un nom unique, écr
 - **Résumé** (≤ 500 caractères) : qui c'est et pourquoi il compte, en une ou deux phrases.
 - **Description** (publique) : apparence, comportement visible, rôle connu, réputation ; pour un lieu, ce qu'on voit en arrivant et ses parties.
 - **Notes MJ**, structurées en Markdown avec des rubriques en gras :
-  - PNJ : **Identité réelle / Ce qu'il cache**, **Ce qu'il veut**, **Ce qu'il sait** (les indices qu'il peut donner, à quelles conditions), **Comment il réagit** (alliance, menace, fuite, trahison), **Profil** si non couvert par les champs (armes, sorts, capacités spéciales, perte de SAN ou équivalent), **Apparaît dans** (scènes).
+  - PNJ : **Identité réelle / Ce qu'il cache**, **Ce qu'il veut**, **Ce qu'il sait** (les indices qu'il peut donner, à quelles conditions), **Comment il réagit** (alliance, menace, fuite, trahison), **Profil** si non couvert par les champs (armes, sorts, capacités spéciales, peur ou folie selon le jeu), **Apparaît dans** (scènes).
   - Lieu : zones ou salles une par une, **PNJ présents**, **Dangers**, **Indices** (où, quel test), **Secret**.
-  - Créature : **Comportement**, **Tactique**, **Attaques** et dégâts, **Protection**, **Capacités**, **Coût en santé mentale**, **Comment la vaincre**.
+  - Créature : **Comportement**, **Tactique**, **Attaques** et dégâts, **Protection**, **Capacités**, **Effet de peur ou de folie** (selon le jeu), **Comment la vaincre**.
   - Objet / sort : effets, coût, durée, conditions, où il se trouve.
 - **Champs** : valeurs exactes du livre ; un profil avec dés ou fourchettes va dans des champs de type `texte` (voir l'annexe A).
 - **Liens** : chaque nom d'une autre fiche cité dans un texte s'écrit `[[Nom exact]]` (au moins à sa première occurrence).
@@ -78,7 +78,7 @@ Une ligne par scène, dans l'ordre du livre ; les scènes optionnelles portent �
 - **Tests et dangers** : jets demandés, conséquences d'un échec, adversaires (renvoi à leur fiche, plus l'essentiel du profil s'il n'a pas de fiche) ;
 - **Issues** : les branches possibles et leurs conséquences sur la suite ;
 - **À remettre** : aides de jeu (titres exacts des documents) et moment où les donner ;
-- **Récompenses** : expérience, santé mentale, objets ;
+- **Récompenses** : expérience, objets, autres gains prévus par le jeu ;
 - **Conseils** du livre au MJ (rythme, improvisation, comment ramener les joueurs) ;
 - **Transitions** : vers quelles scènes ;
 - en dernière ligne, la source : `Livre p. 97-101.`
@@ -93,8 +93,8 @@ Colonnes **Fiches**, **Documents**, **Règles** : tout ce qui sert dans la scèn
 
 Le titre d'un document dans SagaWyn est le **nom du fichier sans extension**. Nommer chaque image ou PDF par son titre définitif, avec un préfixe qui dit sa nature :
 - `Carte MJ - Plan du musée.jpg` (zone MJ), `Carte joueurs - Plan du musée.jpg` (publique) ;
-- `Indice - Lettre de Warner.jpg`, `Aide de jeu - Télégramme.jpg` (zone MJ, remis en cours de partie) ;
-- `Portrait - Wang Enlai.jpg` (à poser sur la fiche à la main, ou automatiquement par l'archive).
+- `Indice - Lettre de la veuve Orsel.jpg`, `Aide de jeu - Télégramme.jpg` (zone MJ, remis en cours de partie) ;
+- `Portrait - Aldric Fenouil.jpg` (à poser sur la fiche à la main, ou automatiquement par l'archive).
 
 Ranger les fichiers par dossier de même visibilité et mêmes tags (envoi de 10 fichiers au plus à la fois, 50 Mo chacun ; formats pdf, jpg, png, gif, webp). Une carte sans version joueurs n'est pas montrée aux joueurs : la garder en zone MJ.
 
@@ -189,7 +189,7 @@ En-têtes : `Titre;Catégorie;Résumé;Procédure;Notes MJ;Source;Origine;Statut
 | Colonne | Limite | Valeurs |
 |---|---|---|
 | Titre | 255 | unique |
-| Catégorie | 100 | `Combat`, `Santé mentale`, `Glossaire`… |
+| Catégorie | 100 | `Combat`, `Magie`, `Glossaire`… |
 | Résumé | 2 000 | la règle en une ou deux phrases (la définition pour un terme de glossaire) |
 | Procédure | 20 000 | les étapes, une par ligne, avec les chiffres |
 | Notes MJ | 20 000 | conseils d'arbitrage |
