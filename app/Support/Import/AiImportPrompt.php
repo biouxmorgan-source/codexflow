@@ -24,24 +24,36 @@ class AiImportPrompt
         'file' => 'fichier', 'entity' => 'référence',
     ];
 
-    public static function for(Campaign $campaign, ?string $locale = null, bool $skill = false): string
+    /**
+     * Sans campagne, le prompt est générique : l'IA produit une archive de campagne (.zip)
+     * qui crée jeu, monde et campagne d'un coup (« Mes campagnes → Importer une campagne »).
+     */
+    public static function for(?Campaign $campaign, ?string $locale = null, bool $skill = false): string
     {
         $locale ??= app()->getLocale();
-        $types = EntityType::query()->availableTo($campaign->owner)->orderBy('id')->pluck('name')->unique()->values()->all();
-
-        $fields = $campaign->gameSystem->fieldDefinitions()->with('entityType')->orderBy('position')->get()
-            ->map(fn (FieldDefinition $field) => self::describe($field))
-            ->all();
 
         return trim(view('prompts.import-ia', [
             'language' => self::LANGUAGES[$locale] ?? self::LANGUAGES['fr'],
-            'campaign' => $campaign->name,
-            'game' => $campaign->gameSystem->name,
-            'world' => $campaign->world?->name ?? 'aucun',
-            'types' => implode(', ', $types),
-            'fields' => $fields,
+            'archive' => $campaign === null,
+            'archiveFormat' => $campaign === null ? self::archiveFormat() : null,
+            'campaign' => $campaign?->name,
+            'game' => $campaign?->gameSystem->name,
+            'world' => $campaign === null ? null : ($campaign->world?->name ?? 'aucun'),
+            'types' => $campaign === null ? null : implode(', ', EntityType::query()->availableTo($campaign->owner)->orderBy('id')->pluck('name')->unique()->values()->all()),
+            'fields' => $campaign === null ? [] : $campaign->gameSystem->fieldDefinitions()->with('entityType')->orderBy('position')->get()
+                ->map(fn (FieldDefinition $field) => self::describe($field))
+                ->all(),
             'skill' => $skill,
         ])->render())."\n";
+    }
+
+    /** Le format de l'archive (references/format-archive.md du skill), titres décalés d'un niveau. */
+    private static function archiveFormat(): string
+    {
+        $text = (string) file_get_contents(resource_path('skills/sagawyn-import/references/format-archive.md'));
+        $text = (string) preg_replace('/\A# .*\n+/', '', $text);
+
+        return trim((string) preg_replace('/^(#{2,}) /m', '#$1 ', $text));
     }
 
     /** Fichiers joints au skill, à côté de SKILL.md (resources/skills/sagawyn-import). */
@@ -51,7 +63,7 @@ class AiImportPrompt
      * Le même prompt sous forme de skill Claude (dossier avec SKILL.md, le format de l'archive
      * de campagne et un script de vérification des fichiers), dans une archive .zip.
      */
-    public static function skillArchive(Campaign $campaign, ?string $locale = null): string
+    public static function skillArchive(?Campaign $campaign, ?string $locale = null): string
     {
         $skill = "---\nname: sagawyn-import\ndescription: Transforme un livre de scénario ou de campagne de jeu de rôle (PDF) en fichiers d'import SagaWyn (fiches, champs, règles, scènes, documents nommés) avec le contenu complet du livre et un guide d'import.\n---\n\n"
             .self::for($campaign, $locale, skill: true);

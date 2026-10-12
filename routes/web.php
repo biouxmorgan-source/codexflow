@@ -169,6 +169,9 @@ Route::middleware('auth')->group(function () {
 
     Route::livewire('/campagnes/{campaign}/champs', FieldsManage::class)->name('fields.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/import', ImportCreate::class)->name('imports.create')->whereNumber('campaign');
+    Route::get('/campagnes/import/avec-une-ia', [AiImportPromptController::class, 'showArchive'])->name('imports.ai.archive');
+    Route::get('/campagnes/import/prompt-ia.md', [AiImportPromptController::class, 'markdownArchive'])->name('imports.ai.archive.prompt');
+    Route::get('/campagnes/import/skill-ia.zip', [AiImportPromptController::class, 'skillArchive'])->name('imports.ai.archive.skill');
     Route::get('/campagnes/{campaign}/import/avec-une-ia', [AiImportPromptController::class, 'show'])->name('imports.ai')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/import/prompt-ia.md', [AiImportPromptController::class, 'markdown'])->name('imports.ai.prompt')->whereNumber('campaign');
     Route::get('/campagnes/{campaign}/import/skill-ia.zip', [AiImportPromptController::class, 'skill'])->name('imports.ai.skill')->whereNumber('campaign');

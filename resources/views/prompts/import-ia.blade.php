@@ -1,11 +1,27 @@
 # Préparer un import SagaWyn à partir d'un livre de jeu de rôle
 
-Tu aides un meneur de jeu à remplir **SagaWyn**, son assistant de MJ. Je te joins un ou plusieurs documents (livre de règles, scénario, campagne, supplément, en PDF ou en images), et peut-être mes notes de partie. Ta mission : produire des **fichiers prêts à importer** dans SagaWyn et un **guide d'import pas à pas**.
+Tu aides un meneur de jeu à remplir **SagaWyn**, son assistant de MJ. Je te joins un ou plusieurs documents (livre de règles, scénario, campagne, supplément, en PDF ou en images), et peut-être mes notes de partie. @if ($archive)
+Ta mission : produire une **archive de campagne SagaWyn** (`.zip`) qui crée en un seul import un nouveau jeu, un nouveau monde et une nouvelle campagne avec tout le contenu du livre, et un **guide d'import pas à pas**.
+
+L'archive se construit avec un script (Python) : il faut pouvoir **exécuter du code** et produire des fichiers téléchargeables. Si tu ne le peux pas, dis-le dans ton premier message et arrête-toi : le MJ créera une campagne vide et utilisera, depuis son écran **Importer**, le lien « Préparez les fichiers avec une IA », qui produit des fichiers CSV sans code.
+@else
+Ta mission : produire des **fichiers prêts à importer** dans SagaWyn et un **guide d'import pas à pas**.
+@endif
 
 Ce prompt est une **procédure à suivre à la lettre**, pour que le résultat soit le même quelle que soit l'IA qui l'exécute : mêmes fichiers, mêmes noms de fichiers, mêmes colonnes, mêmes rubriques dans le même ordre, mêmes règles de décision. Quand une consigne te paraît ambiguë, applique la règle de décision indiquée plutôt que ton propre choix. Ne saute aucune étape et ne change pas l'ordre des livraisons (voir « Déroulé de la conversation »).
 
 Écris le contenu des fiches, les noms de champs et le guide en **{!! $language !!}**. Les **en-têtes de colonnes** et les valeurs fermées (types, zones, statuts) restent exactement ceux donnés ci-dessous (en français) : SagaWyn les reconnaît ainsi.
 
+@if ($archive)
+## La campagne à créer
+
+L'archive crée dans SagaWyn un **nouveau jeu**, un **nouveau monde** et une **nouvelle campagne**, dont le MJ devient le meneur :
+- jeu : le nom du système de règles du livre (« Jeu importé » s'il n'est pas nommé) ;
+- monde : le nom du monde ou du décor du livre (« Monde importé » s'il n'est pas nommé) ;
+- campagne : le titre du livre ou de la campagne qu'il contient ;
+- types de fiche de base, déjà présents dans SagaWyn : Personnage, Lieu, Organisation, Objet, Créature ; tout autre type (Sort, Savoir, Véhicule…) est créé par l'archive ;
+- aucun champ n'existe encore : tous sont créés par l'archive.
+@else
 ## La campagne qui recevra l'import
 
 - Jeu : {!! $game !!}
@@ -18,6 +34,7 @@ Ce prompt est une **procédure à suivre à la lettre**, pour que le résultat s
 @endforeach
 @else
 - Aucun champ n'est encore défini pour ce jeu.
+@endif
 @endif
 
 ## Le but
@@ -118,6 +135,23 @@ Une ligne par règle spéciale du livre (procédure chiffrée en étapes) et par
 ### 8. Style d'écriture
 
 Phrases courtes, au présent, à la troisième personne, en {!! $language !!}. Listes à puces pour les indices, les tests et les issues. Les noms de compétences, de tests et de valeurs chiffrées sont ceux du livre, sans les convertir. Aucune opinion, aucun ajout d'ambiance qui ne soit pas dans le livre.
+@if ($archive)
+
+### 9. Assembler l'archive de campagne
+
+Les fichiers CSV des livrables sont les **fichiers de travail** : les écrire et les contrôler d'abord (étape 7), puis les convertir par un script en archive, au format de l'annexe C, **sans rien réécrire à la main** :
+- `game_system`, `world`, `campaign` : les noms de « La campagne à créer », avec une description de quelques lignes tirée du livre ; `table_theme` `parchemin`, `exchanges_need_approval` `true`, `players_edit_profile` `false`, `disabled_features` vide.
+- `entity_types` : les cinq types de base avec leur `key` (`character`, `place`, `organization`, `item`, `creature`), puis un type par type créé, avec `key` `null`.
+- `field_definitions` : une entrée par ligne des fichiers `1-champs-…`, `position` dans l'ordre des lignes ; types `texte`→`text`, `texte long`→`long_text`, `nombre`→`number`, `oui/non`→`boolean`, `date`→`date`, `liste`→`select` (`options` = les choix), `compteur`→`counter`, `lien`→`link`, `fichier`→`file`, `référence`→`entity` ; zone `publique`→`public`, `MJ`→`gm`.
+- `entities` : une entrée par ligne des fichiers `2-fiches-…`, `in_world` `false` sauf pour les lieux, organisations et PNJ partagés par tout le décor (`true`) ; `field_values` : nombres en nombres, compteurs en `{"value": 11, "max": 11}`, `oui`/`non` en booléens, le reste en texte. Une image `Portrait - <Nom>` devient l'`image` de la fiche de ce nom (et n'est pas un document).
+- `rules` : une entrée par ligne de `3-regles.csv`, `in_campaign` `false` ; origine `référence`→`reference`, `maison`→`house`, `test`→`test` ; statut `Disponible`→`available`, `À tester`→`to_test`, `En test`→`testing`, `Adoptée`→`adopted`, `À modifier`→`to_change`, `Rejetée`→`rejected` ; `tags` repris dans la liste `tags`.
+- `documents` : un par fichier de `4-documents-mj/` (zone `gm`) et `4-documents-joueurs/` (zone `public`), `scope` `campaign`, `title` = nom du fichier sans extension, fichier copié dans `fichiers/` sous un nom numéroté ; `entities` = les fiches nommées dans le titre.
+- `scenarios` : un par valeur de la colonne Scénario, dans l'ordre des lignes ; ses scènes avec `chapter`, `name`, `description`, `status` (`Prévue`→`planned`, `Disponible`→`available`, `En cours`→`in_progress`, `Jouée`→`played`, `Ignorée`→`skipped`), `entities` / `documents` / `rules` = les identifiants des noms des colonnes Fiches / Documents / Règles.
+- `relations`, `entity_states`, `tags`, `pins`, `maps`, `timeline`, `audio_tracks`, `secrets` et `table` : vides (`[]`, et `table` comme dans l'exemple de l'annexe C) sauf relation explicite du livre (employeur, parent, chef…), en zone `gm` si elle est secrète.
+- Liens : convertir chaque `[[Nom]]` en `[[Nom|id]]` avec l'identifiant local de la fiche ; signaler dans `A-VERIFIER.md` tout nom qui ne correspond à aucune fiche.
+
+Puis relire l'archive produite (ouvrir le zip, relire le JSON, compter fiches, scènes, documents, vérifier que chaque `fichiers/…` cité existe) et donner ces chiffres dans le dernier message.
+@endif
 
 ## Livrables (noms de fichiers fixes)
 
@@ -132,13 +166,20 @@ Livre exactement ces fichiers, numérotés dans l'ordre d'import (un fichier par
 5-scenes.csv               tous les scénarios et leurs scènes
 GUIDE-IMPORT.md            le guide pas à pas
 A-VERIFIER.md              lectures incertaines et images à découper (avec les pages)
+@if ($archive)
+SagaWyn - <Titre>.zip      l'archive à importer, assemblée à l'étape 9 à partir des fichiers ci-dessus
+@endif
 ```
 
 ## Déroulé de la conversation
 
 1. **Premier message** : l'inventaire de l'étape 2, sous forme de tableaux (types de fiche à créer ; champs avec type et zone ; fiches par type ; règles ; documents avec visibilité ; scénarios et scènes), suivi de la table des noms. Termine par « Réponds « continue » pour lancer la production. » et attends.
 2. **Messages suivants** : les fichiers 1 à 3, puis `5-scenes.csv` chapitre par chapitre (un message par chapitre si le livre est long). Chaque message se termine par la liste de ce qui reste à produire. Si la place manque, arrête-toi à la fin d'une ligne et reprends au même endroit quand on te répond « continue ».
+@if ($archive)
+3. **Dernier message** : l'archive `SagaWyn - <Titre>.zip` (étape 9), `GUIDE-IMPORT.md`, `A-VERIFIER.md`, puis le résultat des contrôles de l'étape 7 et de la relecture de l'archive (chaque contrôle avec OK ou la correction faite).
+@else
 3. **Dernier message** : `GUIDE-IMPORT.md`, `A-VERIFIER.md`, puis le résultat des contrôles de l'étape 7 (chaque contrôle avec OK ou la correction faite).
+@endif
 
 Chaque fichier est rendu en fichier téléchargeable si tu le peux, sinon dans un bloc de code précédé de son nom ; à la fin, une archive .zip de l'ensemble si tu le peux.
 
@@ -146,6 +187,13 @@ Chaque fichier est rendu en fichier téléchargeable si tu le peux, sinon dans u
 
 Court, en {!! $language !!}, pour le MJ :
 1. Rappel : contenu sous droits, usage personnel.
+@if ($archive)
+2. Tableau du contenu de l'archive : nombre de types de fiche, champs, fiches par type, règles, documents, scénarios et scènes.
+3. Dans SagaWyn : **Mes campagnes → Importer une campagne**, choisir `SagaWyn - <Titre>.zip` (sans le dézipper), **Importer**. Si l'archive dépasse la taille maximale affichée, retirer les images les moins utiles et relancer l'étape 9, ou les envoyer ensuite par la page **Documents**.
+4. Vérifier dans la nouvelle campagne : quelques fiches (portrait, champs, notes MJ), un scénario et ses scènes (fiches, documents et règles rattachés), la page Documents.
+5. Les fichiers CSV restent utiles pour une mise à jour (voir plus bas) : les garder avec l'archive.
+6. Les points à vérifier dans le livre papier (renvoi à `A-VERIFIER.md`).
+@else
 2. Tableau du contenu : chaque fichier, son nombre de lignes, où il va dans SagaWyn.
 3. Ouvrir la campagne « {!! $campaign !!} » (ou en créer une) ; créer les **types de fiche** manquants (« Types de fiche »).
 4. Campagne → **Importer** : chaque fichier de champs (« Une liste de champs pour le jeu »), puis chaque fichier de fiches (« Des fiches »), en disant s'il faut les ranger dans le monde ou la campagne. L'aperçu doit annoncer le bon nombre de créations et **aucune colonne en « Nouveau champ »**.
@@ -154,6 +202,7 @@ Court, en {!! $language !!}, pour le MJ :
 7. En dernier, les scènes (« Des scénarios et leurs scènes ») : l'aperçu ne doit signaler **aucun élément introuvable**.
 8. Si ça coince : « type de fiche inconnu » = le créer d'abord ; « Nouveau champ » = importer d'abord le fichier de champs ; « introuvable » = importer d'abord la fiche ou le document de ce nom ; un import refait avec « Mettre à jour… » coché remplace au lieu de dupliquer.
 9. Les points à vérifier dans le livre papier (renvoi à `A-VERIFIER.md`).
+@endif
 
 ## Mettre à jour une campagne déjà importée
 
@@ -163,7 +212,9 @@ Pour enrichir une campagne existante (contenu plus détaillé, séances jouées)
 ## Fichiers du skill
 
 - `scripts/verifier.py` : `python3 -I scripts/verifier.py <dossier des CSV> <dossier des documents>` (ajouter `--mise-a-jour` pour des fichiers qui complètent une campagne existante) fait les contrôles de l'étape 7 ; corriger chaque ligne « PROBLÈME ».
+@unless ($archive)
 - `references/format-archive.md` : l'archive de campagne `.zip` (un seul import, avec portraits, tags et relations), quand on peut exécuter du code et que le MJ veut créer une nouvelle campagne d'un coup.
+@endunless
 @endif
 
 ## Annexe A : formats d'import CSV de SagaWyn
@@ -348,3 +399,9 @@ La Lanterne de Brumeval p. 5-6.
 
 Les joueurs n'ont pas forcé la porte : Lise a vendu à la Veuve le souvenir de sa première chasse pour obtenir la clé. Aldric les a trouvés au sommet et a fait tomber la lanterne ; Tobin s'est manifesté sous forme de brume verte et a sauvé Bran de la chute. Le carnet n'a pas été trouvé (il est toujours dans la chambre).";Jouée;Maître Aldric Fenouil | Lanterne de Brumeval;Indice - Lettre de la veuve Orsel;Souvenirs vendus
 ```
+@if ($archive)
+
+## Annexe C : format de l'archive de campagne
+
+{!! $archiveFormat !!}
+@endif

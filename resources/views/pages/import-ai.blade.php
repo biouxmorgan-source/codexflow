@@ -1,8 +1,10 @@
 <x-layouts.app :title="__('Préparer l’import avec une IA')">
     <nav class="mb-2 text-sm text-stone-500">
         <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
-        › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
-        › <a href="{{ route('imports.create', $campaign) }}" class="crumb" wire:navigate>{{ __('Importer') }}</a>
+        @if ($campaign)
+            › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
+            › <a href="{{ route('imports.create', $campaign) }}" class="crumb" wire:navigate>{{ __('Importer') }}</a>
+        @endif
     </nav>
 
     <h1 class="text-2xl font-semibold">{{ __('Préparer l’import avec une IA') }}</h1>
@@ -10,9 +12,15 @@
 
     <ol class="mb-6 max-w-3xl list-inside list-decimal space-y-1 text-sm">
         <li>{{ __('Ouvrez votre IA (Claude, ChatGPT, Gemini, Le Chat…) et joignez le ou les fichiers du jeu.') }}</li>
-        <li>{{ __('Copiez le texte ci-dessous et collez-le dans la conversation. Il décrit les formats d’import et ce que contient déjà cette campagne.') }}</li>
-        <li>{{ __('Validez le plan que l’IA propose, puis récupérez les fichiers CSV et le guide GUIDE-IMPORT.md.') }}</li>
-        <li>{{ __('Suivez le guide : champs, puis fiches, règles, documents, et les scènes en dernier. Chaque import montre un aperçu avant de créer quoi que ce soit.') }}</li>
+        @if ($campaign)
+            <li>{{ __('Copiez le texte ci-dessous et collez-le dans la conversation. Il décrit les formats d’import et ce que contient déjà cette campagne.') }}</li>
+            <li>{{ __('Validez le plan que l’IA propose, puis récupérez les fichiers CSV et le guide GUIDE-IMPORT.md.') }}</li>
+            <li>{{ __('Suivez le guide : champs, puis fiches, règles, documents, et les scènes en dernier. Chaque import montre un aperçu avant de créer quoi que ce soit.') }}</li>
+        @else
+            <li>{{ __('Copiez le texte ci-dessous et collez-le dans la conversation. Votre IA doit pouvoir exécuter du code (Claude, ChatGPT…) : elle fabrique une archive de campagne .zip.') }}</li>
+            <li>{{ __('Validez le plan que l’IA propose, puis récupérez l’archive .zip et le guide GUIDE-IMPORT.md.') }}</li>
+            <li>{{ __('Dans Mes campagnes, cliquez sur « Importer une campagne » et choisissez l’archive : le jeu, le monde et la campagne sont créés d’un coup.') }}</li>
+        @endif
     </ol>
 
     <p class="mb-6 max-w-3xl rounded-lg bg-amber-50 px-4 py-2 text-sm text-amber-900">{{ __('Utilisez uniquement des documents que vous possédez, pour votre usage personnel. Le prompt demande tout le contenu utile pour jouer, avec la page du livre : gardez les fichiers produits pour vous.') }}</p>
@@ -24,8 +32,8 @@
                 <span x-show="! copied">{{ __('Copier le prompt') }}</span>
                 <span x-show="copied" x-cloak>{{ __('Copié !') }}</span>
             </button>
-            <a href="{{ route('imports.ai.prompt', $campaign) }}" class="btn-secondary">{{ __('Télécharger (.md)') }}</a>
-            <a href="{{ route('imports.ai.skill', $campaign) }}" class="btn-secondary">{{ __('Télécharger comme skill Claude (.zip)') }}</a>
+            <a href="{{ ($campaign ? route('imports.ai.prompt', $campaign) : route('imports.ai.archive.prompt')) }}" class="btn-secondary">{{ __('Télécharger (.md)') }}</a>
+            <a href="{{ ($campaign ? route('imports.ai.skill', $campaign) : route('imports.ai.archive.skill')) }}" class="btn-secondary">{{ __('Télécharger comme skill Claude (.zip)') }}</a>
         </div>
         <label for="ai-prompt" class="sr-only">{{ __('Prompt') }}</label>
         <textarea id="ai-prompt" x-ref="prompt" readonly rows="24" class="field font-mono text-xs leading-relaxed">{{ $prompt }}</textarea>

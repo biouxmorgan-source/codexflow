@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.57.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Een hele campagne voorbereiden met een AI',
+        'items' => [
+            'Mijn campagnes → Campagne importeren: nieuwe link ‘Bereid het archief voor met een AI’. Met de prompt (of de Claude-skill) leest uw AI het rollenspelboek en maakt ze een .zip-archief: spel, wereld, campagne, fiches, scènes en documenten worden in één keer aangemaakt.',
+        ],
+    ],
+
     '0.56.1' => [
         'date' => '2026-10-11',
         'title' => 'Spel- en wereldpagina’s leesbaar op de telefoon',

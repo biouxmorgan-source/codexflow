@@ -7,6 +7,7 @@ use App\Enums\FieldType;
 use App\Enums\RuleOrigin;
 use App\Enums\SceneStatus;
 use App\Enums\Zone;
+use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Imports\Create;
 use App\Models\Campaign;
 use App\Models\Entity;
@@ -58,6 +59,26 @@ class AiImportPromptTest extends TestCase
         // En anglais, l'IA écrit en anglais ; les en-têtes restent ceux de l'import.
         $this->gm->forceFill(['preferences' => ['locale' => 'en']])->save();
         $this->actingAs($this->gm)->get(route('imports.ai.prompt', $this->campaign))->assertSee(['**anglais**', 'Nom;Type;Résumé;Description;Notes MJ'], false);
+    }
+
+    public function test_a_generic_prompt_prepares_a_whole_campaign_archive(): void
+    {
+        Livewire::actingAs($this->gm)->test(CampaignIndex::class)->set('importing', true)->assertSee(route('imports.ai.archive'));
+
+        $this->actingAs($this->gm)->get(route('imports.ai.archive'))->assertOk()
+            ->assertSee(['Copier le prompt', 'Importer une campagne', 'codexflow-campaign', 'Assembler l&#039;archive de campagne', 'Usage personnel'], false)
+            ->assertDontSee(['Les Ombres', 'Brume &amp; Serment', '« Vigueur » : nombre'], false);
+
+        $prompt = $this->actingAs($this->gm)->get(route('imports.ai.archive.prompt'))->assertOk()->getContent();
+        // Le format de l'archive est repris en annexe, ses titres décalés sous celui de l'annexe.
+        $this->assertStringContainsString("\n### campagne.json\n", $prompt);
+        $this->assertStringNotContainsString('# Archive de campagne SagaWyn', $prompt);
+
+        $response = $this->actingAs($this->gm)->get(route('imports.ai.archive.skill'))->assertOk()->assertDownload('sagawyn-import-skill.zip');
+        $zip = new ZipArchive;
+        $zip->open($response->baseResponse->getFile()->getPathname());
+        $this->assertStringContainsString('SagaWyn - <Titre>.zip', $zip->getFromName('sagawyn-import/SKILL.md'));
+        $zip->close();
     }
 
     public function test_the_prompt_is_also_a_claude_skill(): void

@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.57.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Przygotuj całą kampanię z pomocą AI',
+        'items' => [
+            'Moje kampanie → Importuj kampanię: nowy link „Przygotuj archiwum z AI”. Prompt (lub skill Claude) sprawia, że Twoja AI czyta podręcznik gry fabularnej i tworzy archiwum .zip: gra, świat, kampania, karty, sceny i dokumenty powstają za jednym razem.',
+        ],
+    ],
+
     '0.56.1' => [
         'date' => '2026-10-11',
         'title' => 'Strony gry i świata czytelne na telefonie',
