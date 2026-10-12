@@ -1,6 +1,8 @@
 # Préparer un import SagaWyn à partir d'un livre de jeu de rôle
 
-Tu aides un meneur de jeu à remplir **SagaWyn**, son assistant de MJ. Je te joins un ou plusieurs documents (livre de règles, scénario, campagne, supplément, en PDF ou en images), et peut-être mes notes de partie. Ta mission : produire des **fichiers prêts à importer** dans SagaWyn et un **guide d'import pas à pas**. Commence par l'inventaire et la table des noms (étape 2 de la méthode) et montre-les-moi ; produis ensuite les fichiers par lots (un chapitre à la fois si le livre est long), puis le guide. Rends chaque fichier en fichier téléchargeable si tu le peux (sinon dans un bloc de code précédé de son nom), et à la fin une archive .zip de l'ensemble si tu le peux.
+Tu aides un meneur de jeu à remplir **SagaWyn**, son assistant de MJ. Je te joins un ou plusieurs documents (livre de règles, scénario, campagne, supplément, en PDF ou en images), et peut-être mes notes de partie. Ta mission : produire des **fichiers prêts à importer** dans SagaWyn et un **guide d'import pas à pas**.
+
+Ce prompt est une **procédure à suivre à la lettre**, pour que le résultat soit le même quelle que soit l'IA qui l'exécute : mêmes fichiers, mêmes noms de fichiers, mêmes colonnes, mêmes rubriques dans le même ordre, mêmes règles de décision. Quand une consigne te paraît ambiguë, applique la règle de décision indiquée plutôt que ton propre choix. Ne saute aucune étape et ne change pas l'ordre des livraisons (voir « Déroulé de la conversation »).
 
 Écris le contenu des fiches, les noms de champs et le guide en **{!! $language !!}**. Les **en-têtes de colonnes** et les valeurs fermées (types, zones, statuts) restent exactement ceux donnés ci-dessous (en français) : SagaWyn les reconnaît ainsi.
 
@@ -36,12 +38,10 @@ Le but : que le MJ puisse **mener la partie depuis SagaWyn sans rouvrir le livre
 
 ### 1. Lire tout le livre
 
-- Extraire le texte en deux passes (`pdftotext -layout` pour les tableaux et profils, sans `-layout` pour le texte en colonnes) et le lire **en entier**, chapitre par chapitre. Ne pas travailler sur la table des matières ou un résumé.
-- Repérer les pages qui sont des images (aides de jeu, cartes, encadrés scannés) : les lire visuellement (`pdftoppm -r 100 -f N -l N`).
-- Extraire les images utiles (`pdfimages -png`, ou rendu de page puis recadrage) : portraits, cartes MJ et joueurs, aides de jeu, couverture.
+- Lire le document **en entier**, chapitre par chapitre, y compris les encadrés, tableaux et annexes. Ne jamais travailler à partir de la table des matières ou d'un résumé.
+- Les pages qui sont des images (cartes, plans, lettres, encadrés scannés) se lisent visuellement ; ce qu'elles contiennent d'utile pour jouer est reporté dans les fiches et les scènes.
+- Si tu peux exécuter du code : extraire le texte (par exemple `pdftotext -layout`), découper les images utiles (portraits, cartes, aides de jeu) et les nommer comme à l'étape 5. Sinon : lister ces images dans `A-VERIFIER.md` avec leur page et le nom de fichier à leur donner, pour que le MJ les découpe lui-même.
 - Si le MJ fournit des comptes rendus de séance ou des fiches de personnages, les lire aussi : ils servent à « Ce qui s'est passé » et aux fiches des personnages joueurs.
-
-Gros livre : écrire un fichier source par chapitre, puis un script qui assemble les CSV. Cela permet de reprendre, corriger et régénérer sans tout réécrire.
 
 ### 2. Inventaire et table des noms
 
@@ -53,24 +53,31 @@ Avant d'écrire, dresser l'inventaire et le montrer au MJ s'il est disponible (s
 - **documents** : chaque carte, plan, indice, lettre, portrait, avec sa visibilité ;
 - **scénarios** (un par chapitre ou par aventure, numérotés « 1. Titre ») et leurs **scènes** dans l'ordre du livre.
 
-Fixer une **table des noms canoniques** : chaque élément a un nom unique, écrit à l'identique partout (fiches, liens `[[ ]]`, colonnes Fiches/Documents/Règles). Choisir le nom le plus courant dans le livre, sans titre de civilité variable. Un PNJ mineur qui ne revient pas n'a pas de fiche : il est décrit dans la scène où il apparaît.
+Fixer une **table des noms canoniques** : chaque élément a un nom unique, écrit à l'identique partout (fiches, liens `[[ ]]`, colonnes Fiches/Documents/Règles). Choisir le nom le plus courant dans le livre, sans titre de civilité variable.
+
+**Règles de décision** (à appliquer telles quelles) :
+- un **scénario** = un chapitre du livre (ou une aventure s'il en contient plusieurs), nommé « N. Titre du chapitre » ;
+- une **scène** = chaque section numérotée ou titrée du chapitre qui décrit un lieu, une rencontre ou un événement jouable, dans l'ordre du livre ;
+- un **PNJ a une fiche** s'il est nommé et qu'il a un profil chiffré **ou** qu'il apparaît dans au moins deux scènes ; sinon il est décrit dans la scène où il apparaît ;
+- un **lieu a une fiche** s'il a sa propre section de description (ou un plan) ; une **créature** dès qu'elle a un profil ; un **objet** s'il a des effets ou s'il est un enjeu de l'intrigue ;
+- un **champ** est créé pour chaque valeur qui figure dans le profil de la plupart des fiches d'un même type ; le reste va dans les Notes MJ.
 
 ### 3. Les fiches (complètes)
 
 - **Résumé** (≤ 500 caractères) : qui c'est et pourquoi il compte, en une ou deux phrases.
 - **Description** (publique) : apparence, comportement visible, rôle connu, réputation ; pour un lieu, ce qu'on voit en arrivant et ses parties.
-- **Notes MJ**, structurées en Markdown avec des rubriques en gras :
+- **Notes MJ**, structurées en Markdown avec des rubriques en gras, **toujours dans cet ordre** ; une rubrique sur laquelle le livre ne dit rien est omise :
   - PNJ : **Identité réelle / Ce qu'il cache**, **Ce qu'il veut**, **Ce qu'il sait** (les indices qu'il peut donner, à quelles conditions), **Comment il réagit** (alliance, menace, fuite, trahison), **Profil** si non couvert par les champs (armes, sorts, capacités spéciales, peur ou folie selon le jeu), **Apparaît dans** (scènes).
   - Lieu : zones ou salles une par une, **PNJ présents**, **Dangers**, **Indices** (où, quel test), **Secret**.
   - Créature : **Comportement**, **Tactique**, **Attaques** et dégâts, **Protection**, **Capacités**, **Effet de peur ou de folie** (selon le jeu), **Comment la vaincre**.
   - Objet / sort : effets, coût, durée, conditions, où il se trouve.
 - **Champs** : valeurs exactes du livre ; un profil avec dés ou fourchettes va dans des champs de type `texte` (voir l'annexe A).
 - **Liens** : chaque nom d'une autre fiche cité dans un texte s'écrit `[[Nom exact]]` (au moins à sa première occurrence).
-- Un fichier de fiches par type si possible (`2-pnj.csv`, `3-lieux.csv`, `4-creatures.csv`…).
+- Un fichier de fiches par type de fiche (voir « Livrables »).
 
 ### 4. Les scènes : « Ce qui est prévu » (et « Ce qui s'est passé »)
 
-Une ligne par scène, dans l'ordre du livre ; les scènes optionnelles portent « (optionnel) » dans leur nom. La **Description** commence par `### Ce qui est prévu` et donne, avec les rubriques utiles parmi celles-ci (en gras) :
+Une ligne par scène, dans l'ordre du livre ; les scènes optionnelles portent « (optionnel) » dans leur nom. La **Description** commence par `### Ce qui est prévu` et donne les rubriques suivantes, en gras, **toujours dans cet ordre** ; une rubrique sur laquelle le livre ne dit rien est omise :
 - **Enjeu** : ce que la scène doit produire dans l'histoire ;
 - **Quand / Lieu / Situation** : déclencheur, décor, ambiance, ce que les personnages voient ;
 - **PNJ** : qui est là, leur attitude, ce qu'ils disent ou veulent (liens `[[ ]]`) ;
@@ -92,7 +99,7 @@ Colonnes **Fiches**, **Documents**, **Règles** : tout ce qui sert dans la scèn
 ### 5. Documents nommés
 
 Le titre d'un document dans SagaWyn est le **nom du fichier sans extension**. Nommer chaque image ou PDF par son titre définitif, avec un préfixe qui dit sa nature :
-- `Carte MJ - Plan du musée.jpg` (zone MJ), `Carte joueurs - Plan du musée.jpg` (publique) ;
+- `Carte MJ - Plan de l'auberge.jpg` (zone MJ), `Carte joueurs - Plan de l'auberge.jpg` (publique) ;
 - `Indice - Lettre de la veuve Orsel.jpg`, `Aide de jeu - Télégramme.jpg` (zone MJ, remis en cours de partie) ;
 - `Portrait - Aldric Fenouil.jpg` (à poser sur la fiche à la main, ou automatiquement par l'archive).
 
@@ -107,6 +114,33 @@ Une ligne par règle spéciale du livre (procédure chiffrée en étapes) et par
 1. Contrôler (par un petit script si tu peux exécuter du code, sinon à la main) : aucun nom en double ; chaque lien `[[ ]]` et chaque nom des colonnes Fiches/Documents/Règles des scènes existe dans un autre fichier ou dans la liste des documents ; aucune limite de longueur dépassée ; seulement des nombres dans les champs `nombre` ; statuts connus ; chaque CSV se relit avec le séparateur `;`. Corriger tout ce qui ne passe pas.
 2. Relire trois scènes et trois fiches au hasard face au livre : rien d'important ne doit manquer pour jouer sans le livre.
 3. Livrer un dossier (et son `.zip`) numéroté dans l'ordre d'import, avec `GUIDE-IMPORT.md` et `A-VERIFIER.md`.
+
+### 8. Style d'écriture
+
+Phrases courtes, au présent, à la troisième personne, en {!! $language !!}. Listes à puces pour les indices, les tests et les issues. Les noms de compétences, de tests et de valeurs chiffrées sont ceux du livre, sans les convertir. Aucune opinion, aucun ajout d'ambiance qui ne soit pas dans le livre.
+
+## Livrables (noms de fichiers fixes)
+
+Livre exactement ces fichiers, numérotés dans l'ordre d'import (un fichier par type de fiche, nommé avec ce type au pluriel, en minuscules et sans accents) :
+
+```
+1-champs-<type>.csv        un par type de fiche qui a des champs (ex. 1-champs-personnages.csv)
+2-fiches-<type>.csv        un par type de fiche (ex. 2-fiches-personnages.csv, 2-fiches-lieux.csv)
+3-regles.csv               règles spéciales et glossaire
+4-documents-mj/            images et PDF en zone MJ
+4-documents-joueurs/       images et PDF visibles des joueurs
+5-scenes.csv               tous les scénarios et leurs scènes
+GUIDE-IMPORT.md            le guide pas à pas
+A-VERIFIER.md              lectures incertaines et images à découper (avec les pages)
+```
+
+## Déroulé de la conversation
+
+1. **Premier message** : l'inventaire de l'étape 2, sous forme de tableaux (types de fiche à créer ; champs avec type et zone ; fiches par type ; règles ; documents avec visibilité ; scénarios et scènes), suivi de la table des noms. Termine par « Réponds « continue » pour lancer la production. » et attends.
+2. **Messages suivants** : les fichiers 1 à 3, puis `5-scenes.csv` chapitre par chapitre (un message par chapitre si le livre est long). Chaque message se termine par la liste de ce qui reste à produire. Si la place manque, arrête-toi à la fin d'une ligne et reprends au même endroit quand on te répond « continue ».
+3. **Dernier message** : `GUIDE-IMPORT.md`, `A-VERIFIER.md`, puis le résultat des contrôles de l'étape 7 (chaque contrôle avec OK ou la correction faite).
+
+Chaque fichier est rendu en fichier téléchargeable si tu le peux, sinon dans un bloc de code précédé de son nom ; à la fin, une archive .zip de l'ensemble si tu le peux.
 
 ## Le guide d'import (GUIDE-IMPORT.md)
 
