@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.57.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Préparer une campagne entière avec une IA',
+        'items' => [
+            'Mes campagnes → Importer une campagne : nouveau lien « Préparez l’archive avec une IA ». Le prompt (ou le skill Claude) fait lire le livre de jeu de rôle à votre IA, qui fabrique une archive .zip : le jeu, le monde, la campagne, les fiches, les scènes et les documents sont créés d’un coup.',
+        ],
+    ],
+
     '0.56.1' => [
         'date' => '2026-10-11',
         'title' => 'Pages jeu et monde lisibles sur téléphone',

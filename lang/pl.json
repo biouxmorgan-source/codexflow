@@ -2244,5 +2244,10 @@
     "Tous modifiables par le joueur": "Wszystkie edytowalne przez gracza",
     "portrait": "portret",
     "tout cocher": "zaznacz wszystko",
-    "tout décocher": "odznacz wszystko"
+    "tout décocher": "odznacz wszystko",
+    "Copiez le texte ci-dessous et collez-le dans la conversation. Votre IA doit pouvoir exécuter du code (Claude, ChatGPT…) : elle fabrique une archive de campagne .zip.": "Skopiuj poniższy tekst i wklej go do rozmowy. Twoja AI musi umieć uruchamiać kod (Claude, ChatGPT…): tworzy archiwum kampanii .zip.",
+    "Dans Mes campagnes, cliquez sur « Importer une campagne » et choisissez l’archive : le jeu, le monde et la campagne sont créés d’un coup.": "W Moje kampanie kliknij „Importuj kampanię” i wybierz archiwum: gra, świat i kampania zostaną utworzone za jednym razem.",
+    "Préparez l’archive avec une IA": "Przygotuj archiwum z AI",
+    "Validez le plan que l’IA propose, puis récupérez l’archive .zip et le guide GUIDE-IMPORT.md.": "Zatwierdź plan zaproponowany przez AI, a potem pobierz archiwum .zip i przewodnik GUIDE-IMPORT.md.",
+    "Vous partez d’un livre de jeu de rôle (PDF) ?": "Zaczynasz od podręcznika gry fabularnej (PDF)?"
 }

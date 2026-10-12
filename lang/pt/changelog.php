@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.57.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Preparar uma campanha inteira com uma IA',
+        'items' => [
+            'Minhas campanhas → Importar uma campanha: nova ligação «Prepare o arquivo com uma IA». O prompt (ou o skill do Claude) faz a sua IA ler o livro de RPG e criar um arquivo .zip: o jogo, o mundo, a campanha, as fichas, as cenas e os documentos são criados de uma vez.',
+        ],
+    ],
+
     '0.56.1' => [
         'date' => '2026-10-11',
         'title' => 'Páginas de jogo e mundo legíveis no telemóvel',
@@ -456,7 +464,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Uma campanha de demonstração',
         'items' => [
-            'Campanha de demonstração para carregar num clique a partir de «As minhas campanhas»: um jogo inventado, «Brume & Serment», e um enredo completo de três sessões, com fichas, retratos, relações, mapa, segredos, regras, cronologia e personagens pré-criadas.',
+            'Campanha de demonstração para carregar num clique a partir de «Minhas campanhas»: um jogo inventado, «Brume & Serment», e um enredo completo de três sessões, com fichas, retratos, relações, mapa, segredos, regras, cronologia e personagens pré-criadas.',
             'Os pequenos botões com ícone da página da campanha já não se deslocam ao passar o rato: o nome surge numa dica, por cima do resto.',
             'As etiquetas escrevem-se da mesma maneira em todo o lado, e uma ficha propõe «Adicionar uma etiqueta» logo por baixo do título.',
         ],
@@ -476,7 +484,7 @@ return [
         'title' => 'Levar a campanha consigo',
         'items' => [
             'Exportar uma campanha inteira num arquivo .zip: jogo, mundo, fichas, cenários, documentos, mapas, segredos, cronologia e ficheiros.',
-            'Importar um arquivo a partir de «As minhas campanhas»: recria a campanha, para si ou para outro mestre.',
+            'Importar um arquivo a partir de «Minhas campanhas»: recria a campanha, para si ou para outro mestre.',
             'Modelos de jogo partilháveis: tipos de ficha, campos, etiquetas e regras, sem conteúdo de campanha.',
         ],
     ],

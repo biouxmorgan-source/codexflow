@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.57.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Prepare a whole campaign with an AI',
+        'items' => [
+            'My campaigns → Import a campaign: new “Prepare the archive with an AI” link. The prompt (or the Claude skill) has your AI read the roleplaying game book and build a .zip archive: the game, the world, the campaign, the entries, the scenes and the documents are created in one go.',
+        ],
+    ],
+
     '0.56.1' => [
         'date' => '2026-10-11',
         'title' => 'Game and world pages readable on phones',

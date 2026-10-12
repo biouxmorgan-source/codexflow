@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.57.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Eine ganze Kampagne mit einer KI vorbereiten',
+        'items' => [
+            'Meine Kampagnen → Kampagne importieren: neuer Link „Archiv mit einer KI vorbereiten“. Mit dem Prompt (oder dem Claude-Skill) liest Ihre KI das Rollenspielbuch und erstellt ein .zip-Archiv: Spiel, Welt, Kampagne, Einträge, Szenen und Dokumente werden in einem Schritt erstellt.',
+        ],
+    ],
+
     '0.56.1' => [
         'date' => '2026-10-11',
         'title' => 'Spiel- und Weltseiten auf dem Handy lesbar',

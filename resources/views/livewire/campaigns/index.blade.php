@@ -30,6 +30,10 @@
                 <p class="mt-1 text-xs text-stone-500">{{ __('Taille maximale acceptée par ce serveur : :size Mo.', ['size' => floor($this->maxArchiveSize / 1024)]) }}</p>
                 @error('archive') <p class="error">{{ $message }}</p> @enderror
             </div>
+            <p class="text-sm text-stone-600">
+                {{ __('Vous partez d’un livre de jeu de rôle (PDF) ?') }}
+                <a href="{{ route('imports.ai.archive') }}" class="font-medium text-codex hover:underline" wire:navigate>{{ __('Préparez l’archive avec une IA') }}</a>
+            </p>
             <div class="flex gap-2">
                 <button type="submit" class="btn-primary" wire:loading.attr="disabled" wire:target="archive,importArchive">{{ __('Importer') }}</button>
                 <button type="button" wire:click="$set('importing', false)" class="btn-secondary">{{ __('Annuler') }}</button>

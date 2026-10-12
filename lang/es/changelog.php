@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.57.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Preparar una campaña entera con una IA',
+        'items' => [
+            'Mis campañas → Importar una campaña: nuevo enlace «Prepara el archivo con una IA». El prompt (o el skill de Claude) hace que su IA lea el libro de rol y cree un archivo .zip: el juego, el mundo, la campaña, las fichas, las escenas y los documentos se crean de una vez.',
+        ],
+    ],
+
     '0.56.1' => [
         'date' => '2026-10-11',
         'title' => 'Páginas de juego y mundo legibles en el móvil',

@@ -21,21 +21,47 @@ class AiImportPromptController extends Controller
         return view('pages.import-ai', ['campaign' => $campaign, 'prompt' => AiImportPrompt::for($campaign)]);
     }
 
+    /** Version générique, sans campagne : l'IA produit une archive à importer depuis « Mes campagnes ». */
+    public function showArchive(): View
+    {
+        return view('pages.import-ai', ['campaign' => null, 'prompt' => AiImportPrompt::for(null)]);
+    }
+
+    public function markdownArchive(): Response
+    {
+        return $this->markdownResponse(AiImportPrompt::for(null));
+    }
+
+    public function skillArchive(): BinaryFileResponse
+    {
+        return $this->skillResponse(AiImportPrompt::skillArchive(null));
+    }
+
     public function markdown(Campaign $campaign): Response
     {
         Gate::authorize('update', $campaign);
 
-        return response(AiImportPrompt::for($campaign), 200, [
-            'Content-Type' => 'text/markdown; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="sagawyn-prompt-import.md"',
-        ]);
+        return $this->markdownResponse(AiImportPrompt::for($campaign));
     }
 
     public function skill(Campaign $campaign): BinaryFileResponse
     {
         Gate::authorize('update', $campaign);
 
-        return response()->download(AiImportPrompt::skillArchive($campaign), 'sagawyn-import-skill.zip', ['Content-Type' => 'application/zip'])
+        return $this->skillResponse(AiImportPrompt::skillArchive($campaign));
+    }
+
+    private function markdownResponse(string $prompt): Response
+    {
+        return response($prompt, 200, [
+            'Content-Type' => 'text/markdown; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="sagawyn-prompt-import.md"',
+        ]);
+    }
+
+    private function skillResponse(string $path): BinaryFileResponse
+    {
+        return response()->download($path, 'sagawyn-import-skill.zip', ['Content-Type' => 'application/zip'])
             ->deleteFileAfterSend();
     }
 }
