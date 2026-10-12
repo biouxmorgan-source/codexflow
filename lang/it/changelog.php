@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.58.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Un indizio può essere una menzogna',
+        'items' => [
+            'Indizi: nuova natura «Menzogna», accanto a Voce, Indizio e Verità, con il suo filtro. Come le altre nature, la vede solo il master: il giocatore a cui viene rivelato legge solo l’indizio.',
+        ],
+    ],
+
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Preparare un\'intera campagna con un\'IA',

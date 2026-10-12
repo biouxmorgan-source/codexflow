@@ -20,12 +20,12 @@ class Secret extends Model
 {
     use RecordsActivity;
 
-    public const KINDS = ['rumour', 'clue', 'truth'];
+    public const KINDS = ['rumour', 'clue', 'truth', 'lie'];
 
     /** @return array<string, string> */
     public static function kinds(): array
     {
-        return ['rumour' => __('Rumeur'), 'clue' => __('Indice'), 'truth' => __('Vérité')];
+        return ['rumour' => __('Rumeur'), 'clue' => __('Indice'), 'truth' => __('Vérité'), 'lie' => __('Mensonge')];
     }
 
     /** @return array<string, string> */

@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.58.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Una pista puede ser una mentira',
+        'items' => [
+            'Pistas: nueva naturaleza «Mentira», junto a Rumor, Pista y Verdad, con su filtro. Como las demás naturalezas, solo la ve el DJ: el jugador al que se revela solo lee la pista.',
+        ],
+    ],
+
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Preparar una campaña entera con una IA',

@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.58.0' => [
+        'date' => '2026-10-12',
+        'title' => 'Uma pista pode ser uma mentira',
+        'items' => [
+            'Pistas: nova natureza «Mentira», ao lado de Boato, Pista e Verdade, com o seu filtro. Como as outras naturezas, só o mestre a vê: o jogador a quem é revelada só lê a pista.',
+        ],
+    ],
+
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Preparar uma campanha inteira com uma IA',
