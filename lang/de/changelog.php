@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.59.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Das Logo von Autistic Intelligence',
+        'items' => [
+            'Das Logo von Autistic Intelligence, dem Herausgeber von SagaWyn, erscheint jetzt unten auf den Seiten, auf dem Anmeldebildschirm und im Impressum. Es folgt dem hellen oder dunklen Design.',
+        ],
+    ],
+
     '0.58.0' => [
         'date' => '2026-10-12',
         'title' => 'Ein Hinweis kann eine Lüge sein',

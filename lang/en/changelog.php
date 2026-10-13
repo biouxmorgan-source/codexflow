@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.59.0' => [
+        'date' => '2026-10-13',
+        'title' => 'The Autistic Intelligence logo',
+        'items' => [
+            'The logo of Autistic Intelligence, SagaWyn’s publisher, now appears at the bottom of pages, on the sign-in screen and in the legal notice. It follows the light or dark theme.',
+        ],
+    ],
+
     '0.58.0' => [
         'date' => '2026-10-12',
         'title' => 'A clue can be a lie',

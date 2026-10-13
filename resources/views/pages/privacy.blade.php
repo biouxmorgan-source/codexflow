@@ -37,6 +37,9 @@
         @foreach ($sections as $heading => $lines)
             <section>
                 <h2 class="font-semibold">{{ $heading }}</h2>
+                @if ($loop->first)
+                    <x-publisher-logo variant="complet" class="mt-3 h-28 text-ink" />
+                @endif
                 <ul class="mt-2 list-disc space-y-1 pl-5 text-stone-700">
                     @foreach ($lines as $line)
                         <li>{{ $line }}</li>

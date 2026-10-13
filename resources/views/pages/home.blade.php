@@ -38,7 +38,7 @@
             'operatingSystem' => 'Web',
             'description' => $description,
             'inLanguage' => array_keys($locales),
-            'publisher' => ['@type' => 'Organization', 'name' => 'Autistic Intelligence'],
+            'publisher' => ['@type' => 'Organization', 'name' => 'Autistic Intelligence', 'logo' => asset('images/autistic-intelligence.png')],
             'offers' => ['@type' => 'Offer', 'price' => '0', 'priceCurrency' => 'EUR'],
         ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
     </x-slot:head>

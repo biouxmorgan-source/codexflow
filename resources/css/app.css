@@ -110,6 +110,14 @@
 }
 
 @layer components {
+    /* Logo de l'éditeur (composant publisher-logo) : le dessin découpe la couleur du texte. */
+    .publisher-logo {
+        display: inline-block;
+        background-color: currentColor;
+        -webkit-mask: var(--logo) center / contain no-repeat;
+        mask: var(--logo) center / contain no-repeat;
+    }
+
     .field {
         @apply block w-full max-w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-ink shadow-xs focus:border-codex focus:ring-2 focus:ring-codex/30 focus:outline-none;
     }

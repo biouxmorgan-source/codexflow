@@ -20,7 +20,10 @@
 
     <footer class="border-t border-stone-200 py-8 text-sm text-stone-500">
         <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4">
-            <p>SagaWyn · by Autistic Intelligence</p>
+            <a href="{{ route('privacy') }}" class="flex items-center gap-3 text-stone-500 hover:text-ink">
+                <span>SagaWyn · by</span>
+                <x-publisher-logo class="h-11" />
+            </a>
             <nav class="flex flex-wrap gap-x-4 gap-y-1">
                 <a href="{{ route('help') }}" class="hover:text-ink hover:underline">{{ __('Aide') }}</a>
                 <a href="{{ route('privacy') }}" class="hover:text-ink hover:underline">{{ __('Confidentialité et mentions légales') }}</a>

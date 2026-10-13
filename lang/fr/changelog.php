@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.59.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Le logo d’Autistic Intelligence',
+        'items' => [
+            'Le logo d’Autistic Intelligence, l’éditeur de SagaWyn, apparaît en bas des pages, sur l’écran de connexion et dans les mentions légales. Il suit le thème clair ou sombre.',
+        ],
+    ],
+
     '0.58.0' => [
         'date' => '2026-10-12',
         'title' => 'Un indice peut être un mensonge',
