@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Gratis toegang herkennen',
+        'items' => [
+            'Beheerconsole, pagina Accounts: een vakje „Gratis toegang” per account, met een optionele notitie (vriend, tester…). Gratis toegangen staan onder het adres, hebben hun eigen totaal bovenaan de pagina en een filter „Tonen”.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'De community op Discord',

@@ -2273,5 +2273,11 @@
     "membres de la formule Démo": "członkowie planu Demo",
     "stockage de la formule Démo": "miejsce planu Demo",
     "Campagne de démonstration : son contenu se consulte mais ne se modifie pas. Créez votre propre campagne pour essayer.": "Kampania demonstracyjna: jej treść można przeglądać, ale nie zmieniać. Utwórz własną kampanię, aby wypróbować.",
-    "Cette campagne de démonstration a déjà tous ses joueurs.": "Ta kampania demonstracyjna ma już wszystkich graczy."
+    "Cette campagne de démonstration a déjà tous ses joueurs.": "Ta kampania demonstracyjna ma już wszystkich graczy.",
+    "Accès offerts": "Darmowe dostępy",
+    "Accès offert": "Darmowy dostęp",
+    "Accès offert : :note": "Darmowy dostęp: :note",
+    "Accès offert (ami, testeur…)": "Darmowy dostęp (znajomy, tester…)",
+    "Note sur l’accès offert": "Notatka o darmowym dostępie",
+    "ami, testeur…": "znajomy, tester…"
 }

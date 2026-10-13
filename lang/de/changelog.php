@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Kostenlose Zugänge erkennen',
+        'items' => [
+            'Administrationskonsole, Seite Konten: ein Kästchen „Kostenloser Zugang“ pro Konto, mit optionaler Notiz (Freund, Tester…). Kostenlose Zugänge erscheinen unter der Adresse, haben ihre eigene Summe oben auf der Seite und einen Filter „Anzeigen“.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'Die Community auf Discord',

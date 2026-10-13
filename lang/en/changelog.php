@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Spot complimentary access',
+        'items' => [
+            'Administration console, Accounts page: a “Complimentary access” box on each account, with an optional note (friend, tester…). Complimentary accounts show under the address, have their own total at the top of the page and a “Show” filter.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'The community on Discord',
