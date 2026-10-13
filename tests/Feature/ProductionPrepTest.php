@@ -111,6 +111,22 @@ class ProductionPrepTest extends TestCase
             ->assertExitCode(1);
     }
 
+    public function test_log_check_follows_the_channels_of_a_stack(): void
+    {
+        $this->app['env'] = 'production';
+        config([
+            'logging.default' => 'stack',
+            'logging.channels.stack' => ['driver' => 'stack', 'channels' => ['daily']],
+            'logging.channels.daily.level' => 'warning',
+        ]);
+
+        $this->assertTrue($this->item('Journal sans détails de débogage')['ok']);
+
+        config(['logging.channels.daily.level' => 'debug']);
+
+        $this->assertFalse($this->item('Journal sans détails de débogage')['ok']);
+    }
+
     public function test_admin_console_warns_in_production_only(): void
     {
         config(['app.debug' => true]);
