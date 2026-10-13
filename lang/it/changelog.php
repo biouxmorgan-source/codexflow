@@ -32,6 +32,14 @@ return [
         ],
     ],
 
+    '0.59.1' => [
+        'date' => '2026-10-13',
+        'title' => 'Verifica di messa online più precisa',
+        'items' => [
+            'Amministrazione: `sagawyn:check` non segnala più per errore un log in modalità debug quando LOG_LEVEL è warning.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Il logo di Autistic Intelligence',

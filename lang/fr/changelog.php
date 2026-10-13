@@ -32,6 +32,14 @@ return [
         ],
     ],
 
+    '0.59.1' => [
+        'date' => '2026-10-13',
+        'title' => 'Vérification de mise en ligne plus juste',
+        'items' => [
+            'Administration : `sagawyn:check` ne signale plus à tort un journal en mode débogage quand LOG_LEVEL vaut warning.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Le logo d’Autistic Intelligence',

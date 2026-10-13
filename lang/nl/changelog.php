@@ -32,6 +32,14 @@ return [
         ],
     ],
 
+    '0.59.1' => [
+        'date' => '2026-10-13',
+        'title' => 'Nauwkeurigere controle vóór livegang',
+        'items' => [
+            'Beheer: `sagawyn:check` meldt niet langer ten onrechte debug-logging wanneer LOG_LEVEL op warning staat.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Het logo van Autistic Intelligence',

@@ -32,6 +32,14 @@ return [
         ],
     ],
 
+    '0.59.1' => [
+        'date' => '2026-10-13',
+        'title' => 'Comprobación de puesta en línea más precisa',
+        'items' => [
+            'Administración: `sagawyn:check` ya no indica por error un registro en modo depuración cuando LOG_LEVEL vale warning.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'El logotipo de Autistic Intelligence',
