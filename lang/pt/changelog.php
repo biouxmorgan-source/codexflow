@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Identificar os acessos oferecidos',
+        'items' => [
+            'Consola de administração, página Contas: uma caixa «Acesso oferecido» por conta, com uma nota opcional (amigo, testador…). Os acessos oferecidos aparecem sob o endereço, têm o seu total no topo da página e o filtro «Exibir».',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'A comunidade no Discord',

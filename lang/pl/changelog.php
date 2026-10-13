@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Rozpoznawanie darmowych dostępów',
+        'items' => [
+            'Konsola administracyjna, strona Konta: pole „Darmowy dostęp” przy każdym koncie, z opcjonalną notatką (znajomy, tester…). Darmowe dostępy widać pod adresem, mają własną sumę na górze strony i filtr „Wyświetl”.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'Społeczność na Discordzie',

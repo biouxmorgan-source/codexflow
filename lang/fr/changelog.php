@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Repérer les accès offerts',
+        'items' => [
+            'Console d’administration, page Comptes : une case « Accès offert » par compte, avec une note facultative (ami, testeur…). Les accès offerts apparaissent sous l’adresse, ont leur total en tête de page et leur filtre « Afficher ».',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'La communauté sur Discord',

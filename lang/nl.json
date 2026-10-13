@@ -2273,5 +2273,11 @@
     "membres de la formule Démo": "leden van het Demo-abonnement",
     "stockage de la formule Démo": "opslag van het Demo-abonnement",
     "Campagne de démonstration : son contenu se consulte mais ne se modifie pas. Créez votre propre campagne pour essayer.": "Demonstratiecampagne: de inhoud is te bekijken maar niet aan te passen. Maak je eigen campagne om het uit te proberen.",
-    "Cette campagne de démonstration a déjà tous ses joueurs.": "Deze demonstratiecampagne heeft al al haar spelers."
+    "Cette campagne de démonstration a déjà tous ses joueurs.": "Deze demonstratiecampagne heeft al al haar spelers.",
+    "Accès offerts": "Gratis toegang",
+    "Accès offert": "Gratis toegang",
+    "Accès offert : :note": "Gratis toegang: :note",
+    "Accès offert (ami, testeur…)": "Gratis toegang (vriend, tester…)",
+    "Note sur l’accès offert": "Notitie bij de gratis toegang",
+    "ami, testeur…": "vriend, tester…"
 }

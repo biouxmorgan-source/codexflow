@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Identificar los accesos gratuitos',
+        'items' => [
+            'Consola de administración, página Cuentas: una casilla «Acceso gratuito» por cuenta, con una nota opcional (amigo, probador…). Los accesos gratuitos aparecen bajo la dirección, tienen su total en la parte superior y su filtro «Mostrar».',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'La comunidad en Discord',
