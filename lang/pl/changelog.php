@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.59.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Logo Autistic Intelligence',
+        'items' => [
+            'Logo Autistic Intelligence, wydawcy SagaWyn, pojawia się teraz na dole stron, na ekranie logowania i w nocie prawnej. Dopasowuje się do jasnego lub ciemnego motywu.',
+        ],
+    ],
+
     '0.58.0' => [
         'date' => '2026-10-12',
         'title' => 'Trop może być kłamstwem',

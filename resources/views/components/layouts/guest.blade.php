@@ -3,7 +3,7 @@
     <main class="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-10">
         <a href="{{ url('/') }}" class="mb-8 text-center text-3xl font-semibold tracking-tight" translate="no">
             <span class="text-ink">Saga</span><span class="text-wyn">Wyn</span>
-            <span class="mt-1 block text-xs font-normal tracking-normal text-stone-500">by Autistic Intelligence</span>
+            <span class="mt-2 flex items-center justify-center gap-2 text-xs font-normal tracking-normal text-stone-500">by <x-publisher-logo class="h-10 text-stone-600" /></span>
             <span class="mt-2 block text-sm font-normal italic tracking-normal text-stone-600">Every world has a story.</span>
         </a>
         <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">

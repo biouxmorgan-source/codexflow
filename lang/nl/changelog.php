@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.59.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Het logo van Autistic Intelligence',
+        'items' => [
+            'Het logo van Autistic Intelligence, de uitgever van SagaWyn, staat nu onderaan de pagina’s, op het inlogscherm en in de juridische informatie. Het volgt het lichte of donkere thema.',
+        ],
+    ],
+
     '0.58.0' => [
         'date' => '2026-10-12',
         'title' => 'Een aanwijzing kan een leugen zijn',

@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.59.0' => [
+        'date' => '2026-10-13',
+        'title' => 'O logótipo da Autistic Intelligence',
+        'items' => [
+            'O logótipo da Autistic Intelligence, editora do SagaWyn, aparece agora no fundo das páginas, no ecrã de início de sessão e no aviso legal. Segue o tema claro ou escuro.',
+        ],
+    ],
+
     '0.58.0' => [
         'date' => '2026-10-12',
         'title' => 'Uma pista pode ser uma mentira',

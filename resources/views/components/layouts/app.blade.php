@@ -72,7 +72,7 @@
         {{ $slot }}
     </main>
     <footer class="mx-auto max-w-6xl px-4 pb-24 text-xs text-stone-500">
-        SagaWyn {{ \App\Support\Changelog::version() }} · by Autistic Intelligence
+        SagaWyn {{ \App\Support\Changelog::version() }} · by <x-publisher-logo class="h-7 align-middle" />
         · <a href="{{ route('changelog') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Quoi de neuf') }}</a>
         · <a href="{{ route('recommended') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Configuration recommandée') }}</a>
         · <a href="{{ route('preferences') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Préférences') }}</a>
