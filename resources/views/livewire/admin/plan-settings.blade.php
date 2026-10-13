@@ -8,6 +8,46 @@
     @endif
 
     <form wire:submit="save" class="space-y-6">
+        <section class="rounded-xl border border-flow/40 bg-white p-5 shadow-sm">
+            <h2 class="font-semibold">{{ __('Mode démo (avant le Kickstarter)') }}
+                @if (\App\Support\Plans\Plans::demoMode())
+                    <span class="ml-1 rounded-full bg-flow/15 px-2 py-0.5 text-xs font-medium text-flow">{{ __('activé') }}</span>
+                @endif
+            </h2>
+            <p class="mt-1 mb-3 text-sm text-stone-600">{{ __('Activé, chaque nouveau compte reçoit la formule Démo : sa propre copie de la campagne de démonstration, verrouillée (elle se visite mais ne se modifie qu’en partie), une petite campagne à lui, un bandeau qui annonce le financement participatif, et pas d’essai. Une invitation de votre part ouvre un compte normal. Débloquez un compte dans « Comptes » : il passe en formule gratuite et son essai commence. Les comptes existants ne changent pas.') }}</p>
+            <label class="flex items-center gap-2 font-medium">
+                <input type="checkbox" wire:model="demoMode"> {{ __('Les nouveaux comptes sont en démo') }}
+            </label>
+            <div class="mt-4 grid gap-4 sm:grid-cols-3">
+                <div>
+                    <label for="demo-storage" class="label">{{ __('Stockage (Mo)') }}</label>
+                    <input id="demo-storage" type="number" min="0" wire:model="demoStorageMb" class="field">
+                    @error('demoStorageMb') <p class="error">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label for="demo-campaigns" class="label">{{ __('Campagnes à soi, en plus de la démonstration') }}</label>
+                    <input id="demo-campaigns" type="number" min="0" wire:model="demoMaxCampaigns" class="field">
+                    @error('demoMaxCampaigns') <p class="error">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label for="demo-players" class="label">{{ __('Membres invités par campagne') }}</label>
+                    <input id="demo-players" type="number" min="0" wire:model="demoMaxPlayers" class="field">
+                    @error('demoMaxPlayers') <p class="error">{{ $message }}</p> @enderror
+                </div>
+            </div>
+            <fieldset class="mt-4">
+                <legend class="label">{{ __('Fonctions comprises') }}</legend>
+                <div class="space-y-2">
+                    @foreach ($features as $key => $label)
+                        <label class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" value="{{ $key }}" wire:model="demoFeatures"> {{ $label }}
+                        </label>
+                    @endforeach
+                </div>
+                <p class="mt-2 text-xs text-stone-500">{{ __('Avec la duplication, un compte démo peut copier la démonstration dans une campagne à lui, qui se modifie librement.') }}</p>
+            </fieldset>
+        </section>
+
         <section class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
             <h2 class="font-semibold">{{ __('Administrateur') }}</h2>
             <p class="mt-1 text-sm text-stone-600">{{ __('Toutes les fonctions, sans limite de campagnes ni de stockage.') }}</p>

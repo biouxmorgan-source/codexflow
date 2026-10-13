@@ -31,7 +31,7 @@ class Health extends Component
     #[Url(except: 'all')]
     public string $role = 'all';
 
-    public const ROLES = ['all', 'no_admin', Plans::ADMIN, Plans::PREMIUM, Plans::TRIAL, Plans::FREE];
+    public const ROLES = ['all', 'no_admin', Plans::ADMIN, Plans::PREMIUM, Plans::TRIAL, Plans::FREE, Plans::DEMO];
 
     public function mount(): void
     {

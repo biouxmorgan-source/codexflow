@@ -48,6 +48,12 @@ class Index extends Component
     public function mount(): void
     {
         $this->demoLocale = app()->getLocale();
+        $user = auth()->user();
+
+        // Compte démo : sa copie de la campagne de démonstration l'attend dès sa première visite.
+        if (Plans::effective($user) === Plans::DEMO && ! $user->ownedCampaigns()->where('is_demo', true)->exists()) {
+            app(LoadDemoCampaign::class)->handle($user, in_array($this->demoLocale, LoadDemoCampaign::locales(), true) ? $this->demoLocale : null);
+        }
 
         $firstGame = $this->gameSystems->first();
 
@@ -88,16 +94,27 @@ class Index extends Component
         unset($this->campaigns);
     }
 
+    /** Jeux proposés pour une nouvelle campagne ; un compte démo ne repart pas de ceux, verrouillés, de sa démonstration. */
     #[Computed]
     public function gameSystems(): Collection
     {
-        return auth()->user()->gameSystems()->orderBy('name')->get();
+        return auth()->user()->gameSystems()->whereNotIn('id', $this->lockedDemo('game_system_id'))->orderBy('name')->get();
     }
 
     #[Computed]
     public function worlds(): Collection
     {
-        return auth()->user()->worlds()->orderBy('name')->get();
+        return auth()->user()->worlds()->whereNotIn('id', $this->lockedDemo('world_id'))->orderBy('name')->get();
+    }
+
+    /** @return list<int> jeux ou mondes des démonstrations verrouillées du compte */
+    private function lockedDemo(string $column): array
+    {
+        if (Plans::effective(auth()->user()) !== Plans::DEMO) {
+            return [];
+        }
+
+        return auth()->user()->ownedCampaigns()->where('is_demo', true)->whereNotNull($column)->pluck($column)->all();
     }
 
     public function create(CreateCampaign $createCampaign): void
@@ -142,6 +159,8 @@ class Index extends Component
     {
         $this->validate(['demoLocale' => ['required', Rule::in(LoadDemoCampaign::locales())]]);
 
+        // Un compte démo a déjà la sienne.
+        abort_if(Plans::effective(auth()->user()) === Plans::DEMO, 403);
         Plans::ensureCanCreateCampaign(auth()->user());
         $campaign = $loadDemo->handle(auth()->user(), $this->demoLocale);
 

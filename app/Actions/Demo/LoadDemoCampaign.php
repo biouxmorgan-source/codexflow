@@ -31,6 +31,7 @@ use App\Models\ToPlayItem;
 use App\Models\User;
 use App\Models\World;
 use App\Support\Demo\DemoFiles;
+use App\Support\Demo\DemoLock;
 use App\Support\Locale;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -139,7 +140,8 @@ class LoadDemoCampaign
         $this->text = self::text(in_array($locale, self::locales(), true) ? $locale : Locale::DEFAULT);
 
         // Le journal d'activité raconte ce que fait le MJ en partie : une démonstration n'a rien à y écrire.
-        return ActivityLog::muted(fn () => DB::transaction(function () {
+        // Le verrou d'un compte démo (DemoLock) protège la démonstration une fois chargée, pas pendant.
+        return DemoLock::bypass(fn () => ActivityLog::muted(fn () => DB::transaction(function () {
             $this->campaign = $this->createCampaign->handle($this->gm, [
                 // Une démonstration chargée plusieurs fois : « Vehrmund (2) », pour distinguer les copies.
                 'name' => self::unique(Campaign::where('user_id', $this->gm->id), $this->text['campaign']['name']),
@@ -172,7 +174,7 @@ class LoadDemoCampaign
             $this->colourTags();
 
             return $this->campaign->fresh();
-        }));
+        })));
     }
 
     private function types(): void

@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.61.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Modo demo antes do Kickstarter',
+        'items' => [
+            'Novo modo demo, a ativar em Administração › Planos: cada nova conta recebe o plano Demo, com a sua própria cópia da campanha de demonstração e um aviso que anuncia a próxima campanha de financiamento coletivo.',
+            'A demonstração de uma conta demo está bloqueada: tudo pode ser visitado, mas só se usam a sessão, as notas, as fichas do mapa e o ecrã de mesa. A conta também pode criar uma pequena campanha própria (50 MB, 3 membros, sem IA nem exportação).',
+            'Um convite de um administrador abre uma conta normal. Em «Contas», «Desbloquear» passa uma conta demo para o plano gratuito e inicia o seu período de teste, que a demo não gasta.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'O logótipo da Autistic Intelligence',

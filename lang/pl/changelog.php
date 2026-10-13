@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.61.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Tryb demo przed Kickstarterem',
+        'items' => [
+            'Nowy tryb demo, włączany w Administracja › Plany: każde nowe konto otrzymuje plan Demo, z własną kopią kampanii demonstracyjnej i banerem zapowiadającym nadchodzącą kampanię crowdfundingową.',
+            'Demonstracja konta demo jest zablokowana: wszystko można obejrzeć, ale używać można tylko sesji, notatek, żetonów na mapie i ekranu stołu. Konto może też utworzyć małą własną kampanię (50 MB, 3 członków, bez AI i eksportu).',
+            'Zaproszenie od administratora otwiera zwykłe konto. W „Kontach” przycisk „Odblokuj” przenosi konto demo na plan darmowy i uruchamia jego okres próbny, którego demo nie zużywa.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Logo Autistic Intelligence',

@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.61.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Demo mode before the Kickstarter',
+        'items' => [
+            'New demo mode, switched on in Administration › Plans: every new account gets the Demo plan, with its own copy of the demo campaign and a banner announcing the upcoming crowdfunding campaign.',
+            'A demo account’s demo campaign is locked: everything can be explored, but only the session, notes, map tokens and table screen can be used. The account can also create a small campaign of its own (50 MB, 3 members, no AI or export).',
+            'An invitation from an administrator opens a normal account. In “Accounts”, “Unlock” moves a demo account to the free plan and starts its trial, which the demo doesn’t use up.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'The Autistic Intelligence logo',

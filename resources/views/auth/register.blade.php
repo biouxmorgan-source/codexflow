@@ -1,5 +1,8 @@
 <x-layouts.guest :title="__('Créer un compte')">
     @include('auth._invitation')
+    @if (\App\Support\Plans\Plans::demoMode() && ! \App\Models\CampaignInvitation::fromAdministrator(session('invitation_token')))
+        <p class="mb-4 rounded-lg border border-flow/30 bg-flow/10 px-4 py-3 text-sm" role="note">{{ __('SagaWyn ouvre en version de démonstration : votre compte vous fait visiter toutes les fonctions sur une campagne d’exemple. Une campagne de financement participatif va bientôt être lancée ; vous serez prévenu par courriel.') }}</p>
+    @endif
     <form method="POST" action="{{ route('register') }}" class="space-y-4">
         @csrf
         <div>

@@ -69,6 +69,9 @@
         </div>
     </header>
     <main id="contenu" tabindex="-1" class="mx-auto max-w-6xl px-4 pt-8 pb-24">
+        @if (\App\Support\Plans\Plans::effective(auth()->user()) === \App\Support\Plans\Plans::DEMO)
+            <x-demo-banner />
+        @endif
         {{ $slot }}
     </main>
     <footer class="mx-auto max-w-6xl px-4 pb-24 text-xs text-stone-500">

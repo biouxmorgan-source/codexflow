@@ -8,8 +8,10 @@ use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\User;
 use App\Support\Notify;
+use App\Support\Plans\Plans;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -60,6 +62,12 @@ class Index extends Component
             'email' => ['nullable', 'email', 'max:255'],
             'role' => ['required', Rule::enum(CampaignRole::class)],
         ], attributes: ['label' => __('nom'), 'email' => __('adresse e-mail'), 'role' => __('rôle')]);
+
+        // Compte démo : quelques membres, invitations en attente comprises.
+        $max = Plans::maxMembers($this->campaign->owner);
+        if ($max !== null && $this->campaign->members()->whereKeyNot($this->campaign->user_id)->count() + $this->campaign->invitations()->pending()->count() >= $max) {
+            throw ValidationException::withMessages(['label' => trans_choice('La version de démonstration permet :count membre en plus de vous.|La version de démonstration permet :count membres en plus de vous.', $max)]);
+        }
 
         $invitation = new CampaignInvitation([
             'label' => $validated['label'] ?: null,

@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.61.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Modalità demo prima del Kickstarter',
+        'items' => [
+            'Nuova modalità demo, da attivare in Amministrazione › Piani: ogni nuovo account riceve il piano Demo, con la propria copia della campagna dimostrativa e un banner che annuncia la prossima campagna di crowdfunding.',
+            'La dimostrazione di un account demo è bloccata: tutto si visita, ma si usano solo la sessione, gli appunti, le pedine della mappa e lo schermo del tavolo. L’account può anche creare una piccola campagna propria (50 MB, 3 membri, senza IA né esportazione).',
+            'Un invito di un amministratore apre un account normale. In «Account», «Sblocca» porta un account demo al piano gratuito e avvia la sua prova, che la demo non consuma.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Il logo di Autistic Intelligence',

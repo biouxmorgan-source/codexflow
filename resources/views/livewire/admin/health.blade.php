@@ -25,6 +25,7 @@
                     \App\Support\Plans\Plans::PREMIUM => __('Premium'),
                     \App\Support\Plans\Plans::TRIAL => __('En essai'),
                     \App\Support\Plans\Plans::FREE => __('Gratuit'),
+                    \App\Support\Plans\Plans::DEMO => __('Démo'),
                 ] as $value => $label)
                     <option value="{{ $value }}">{{ $label }}</option>
                 @endforeach
