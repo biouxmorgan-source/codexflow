@@ -17,7 +17,7 @@
         @endif
         <dl class="mt-2 grid gap-2 text-sm sm:grid-cols-3">
             <div><dt class="text-stone-500">{{ __('Stockage') }}</dt><dd>{{ \App\Support\Plans\StorageUsage::format(\App\Support\Plans\StorageUsage::bytes($me)) }} / {{ $limit === null ? __('illimité') : \App\Support\Plans\StorageUsage::format($limit) }}</dd></div>
-            <div><dt class="text-stone-500">{{ __('Campagnes en tant que MJ') }}</dt><dd>{{ $me->ownedCampaigns()->count() }} / {{ $max ?? __('illimité') }}</dd></div>
+            <div><dt class="text-stone-500">{{ __('Campagnes en tant que MJ') }}</dt><dd>{{ $me->ownedCampaigns()->when($plan === 'demo', fn ($query) => $query->where('is_demo', false))->count() }} / {{ $max ?? __('illimité') }}</dd></div>
             @if ($plan === 'trial')
                 <div><dt class="text-stone-500">{{ __('Fin de l’essai') }}</dt><dd>{{ \App\Support\Plans\Plans::trialEndsAt($me)->isoFormat('LL') }}</dd></div>
             @endif

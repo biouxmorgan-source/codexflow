@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\CampaignRole;
 use App\Models\ActivityLog;
 use App\Models\CampaignInvitation;
+use App\Support\Plans\Plans;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -39,6 +40,8 @@ class InvitationController extends Controller
             // Après connexion ou inscription, Fortify renvoie ici.
             redirect()->setIntendedUrl($request->url());
             $request->session()->put('invitation_campaign', $invitation->campaign->name);
+            // En mode démo, l'inscription par une invitation d'un administrateur ouvre un compte normal.
+            $request->session()->put('invitation_token', $token);
         }
 
         return view('invitations.show', ['invitation' => $invitation, 'member' => $member, 'problem' => null]);
@@ -59,6 +62,15 @@ class InvitationController extends Controller
                 return $campaign;
             }
 
+            // Campagne d'un compte démo : quelques membres seulement.
+            $max = Plans::maxMembers($campaign->owner);
+            abort_if($max !== null && $campaign->members()->whereKeyNot($campaign->user_id)->count() >= $max, 403, Plans::DEMO_FULL);
+
+            // Une invitation d'un administrateur sort le compte de la démo.
+            if (CampaignInvitation::fromAdministrator($token)) {
+                Plans::leaveDemo($user);
+            }
+
             $campaign->members()->attach($user, ['role' => $invitation->role->value]);
             $invitation->forceFill(['accepted_by' => $user->id, 'accepted_at' => now()])->save();
 
@@ -67,7 +79,7 @@ class InvitationController extends Controller
             return $campaign;
         });
 
-        $request->session()->forget('invitation_campaign');
+        $request->session()->forget(['invitation_campaign', 'invitation_token']);
 
         if ($campaign->roleOf($user) === CampaignRole::GameMaster) {
             return redirect()->route('campaigns.show', $campaign);

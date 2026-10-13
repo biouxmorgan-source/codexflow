@@ -53,6 +53,19 @@ class CampaignInvitation extends Model
         $query->whereNull('accepted_at')->where('expires_at', '>', now());
     }
 
+    /** Invitation encore valable, envoyée par un administrateur ou pour l'une de ses campagnes (elle ouvre un compte normal en mode démo). */
+    public static function fromAdministrator(?string $token): bool
+    {
+        if (! is_string($token) || $token === '') {
+            return false;
+        }
+
+        $invitation = self::with(['inviter', 'campaign.owner'])->where('token', $token)->first();
+
+        return $invitation !== null && $invitation->isUsable()
+            && ($invitation->inviter?->is_admin || $invitation->campaign?->owner?->is_admin);
+    }
+
     public function isUsable(): bool
     {
         return $this->accepted_at === null && $this->expires_at->isFuture();

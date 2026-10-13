@@ -12,6 +12,16 @@ return [
         ],
     ],
 
+    '0.61.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Mode démo avant le Kickstarter',
+        'items' => [
+            'Nouveau mode démo, à activer dans Administration › Formules : chaque nouveau compte reçoit la formule Démo, avec sa propre copie de la campagne de démonstration et un bandeau qui annonce le financement participatif à venir.',
+            'La démonstration d’un compte démo est verrouillée : tout se visite, mais seuls la séance, les notes, les jetons de la carte et l’écran de table se manipulent. Le compte peut aussi créer une petite campagne à lui (50 Mo, 3 membres, sans IA ni export).',
+            'Une invitation d’un administrateur ouvre un compte normal. Dans « Comptes », « Débloquer » fait passer un compte démo en formule gratuite et démarre son essai, que la démo n’entame pas.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Le logo d’Autistic Intelligence',

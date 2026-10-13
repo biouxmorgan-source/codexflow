@@ -12,6 +12,16 @@ return [
         ],
     ],
 
+    '0.61.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Demomodus vóór de Kickstarter',
+        'items' => [
+            'Nieuwe demomodus, in te schakelen via Beheer › Abonnementen: elk nieuw account krijgt het Demo-abonnement, met een eigen kopie van de demonstratiecampagne en een banner die de komende crowdfundingcampagne aankondigt.',
+            'De demonstratie van een demo-account is vergrendeld: alles is te bekijken, maar alleen de sessie, notities, pionnen op de kaart en het tafelscherm zijn te gebruiken. Het account kan ook een kleine eigen campagne maken (50 MB, 3 leden, zonder AI of export).',
+            'Een uitnodiging van een beheerder opent een normaal account. Bij ‘Accounts’ zet ‘Ontgrendelen’ een demo-account op het gratis abonnement en start de proefperiode, die de demo niet opmaakt.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Het logo van Autistic Intelligence',

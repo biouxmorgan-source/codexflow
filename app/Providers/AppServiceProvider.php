@@ -6,6 +6,8 @@ use App\Http\Middleware\EnsureFeature;
 use App\Models\Campaign;
 use App\Models\User;
 use App\Models\UserLogin;
+use App\Support\Demo\DemoLock;
+use App\Support\Demo\DemoLockedException;
 use App\Support\Plans\Plans;
 use App\Support\RechecksAuthorization;
 use Illuminate\Auth\Events\Login;
@@ -14,6 +16,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Livewire;
+
+use function Livewire\on;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -46,6 +50,16 @@ class AppServiceProvider extends ServiceProvider
         // Droits revérifiés à chaque requête Livewire, pas seulement à l'ouverture de la page.
         RechecksAuthorization::register();
         Livewire::addPersistentMiddleware([EnsureFeature::class]);
+
+        // Démonstration verrouillée d'un compte démo : écriture refusée, et dans une page Livewire
+        // un simple message plutôt qu'une page d'erreur.
+        DemoLock::register();
+        on('exception', function ($component, \Throwable $e, callable $stopPropagation) {
+            if ($e instanceof DemoLockedException) {
+                $stopPropagation();
+                $component->dispatch('demo-locked', message: __(DemoLockedException::MESSAGE));
+            }
+        });
 
         // Indicateur de la console d'administration : la date de connexion, rien d'autre.
         Event::listen(Login::class, function (Login $event) {
