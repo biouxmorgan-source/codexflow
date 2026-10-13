@@ -108,6 +108,10 @@
             <h2 class="text-3xl font-semibold tracking-tight">{{ __('Prêt pour votre prochaine séance ?') }}</h2>
             <p class="mt-3 text-stone-700">{{ __('SagaWyn est en développement actif : de nouvelles fonctions arrivent régulièrement, et vos retours comptent.') }}</p>
             <a href="{{ route('register') }}" class="btn-primary mt-6 inline-block px-5 py-2.5 text-base">{{ __('Créer mon compte') }}</a>
+            @if ($discord = config('codexflow.discord_url'))
+                <p class="mt-8 text-stone-700">{{ __('Une question, une idée ? Retrouvez d’autres maîtres de jeu et l’équipe SagaWyn sur Discord.') }}</p>
+                <a href="{{ $discord }}" class="btn-secondary mt-3 inline-block px-5 py-2.5 text-base" target="_blank" rel="noopener">{{ __('Rejoindre la communauté sur Discord') }}</a>
+            @endif
         </section>
     </main>
 
