@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.62.0' => [
+        'date' => '2026-10-13',
+        'title' => 'The community on Discord',
+        'items' => [
+            'SagaWyn has its own Discord server: a link at the bottom of every page and on the home page to ask questions, suggest ideas and meet other game masters.',
+        ],
+    ],
+
     '0.61.0' => [
         'date' => '2026-10-13',
         'title' => 'Demo mode before the Kickstarter',

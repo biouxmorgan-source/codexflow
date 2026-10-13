@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.62.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Społeczność na Discordzie',
+        'items' => [
+            'SagaWyn ma własny serwer Discord: link na dole każdej strony i na stronie głównej, by zadawać pytania, zgłaszać pomysły i poznawać innych mistrzów gry.',
+        ],
+    ],
+
     '0.61.0' => [
         'date' => '2026-10-13',
         'title' => 'Tryb demo przed Kickstarterem',

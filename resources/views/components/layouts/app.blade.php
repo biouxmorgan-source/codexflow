@@ -81,6 +81,9 @@
         · <a href="{{ route('preferences') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Préférences') }}</a>
         · <a href="{{ route('help') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Aide') }}</a>
         · <a href="{{ route('privacy') }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Confidentialité') }}</a>
+        @if ($discord = config('codexflow.discord_url'))
+            · <a href="{{ $discord }}" class="hover:text-ink hover:underline" target="_blank" rel="noopener">Discord</a>
+        @endif
         · <a href="{{ route('bugs.create', request()->routeIs('bugs.*') ? [] : ['page' => '/'.ltrim(request()->path(), '/')]) }}" class="hover:text-ink hover:underline" wire:navigate>{{ __('Signaler un problème') }}</a>
         @can('admin')
             @php($newReports = \App\Models\BugReport::where('status', 'new')->count())
