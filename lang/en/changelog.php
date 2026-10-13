@@ -22,6 +22,14 @@ return [
         ],
     ],
 
+    '0.59.1' => [
+        'date' => '2026-10-13',
+        'title' => 'A more accurate go-live check',
+        'items' => [
+            'Administration: `sagawyn:check` no longer wrongly reports debug logging when LOG_LEVEL is warning.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'The Autistic Intelligence logo',

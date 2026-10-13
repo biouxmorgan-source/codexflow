@@ -22,6 +22,14 @@ return [
         ],
     ],
 
+    '0.59.1' => [
+        'date' => '2026-10-13',
+        'title' => 'Verificação de publicação mais precisa',
+        'items' => [
+            'Administração: `sagawyn:check` deixa de indicar por engano um registo em modo de depuração quando LOG_LEVEL é warning.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'O logótipo da Autistic Intelligence',

@@ -22,6 +22,14 @@ return [
         ],
     ],
 
+    '0.59.1' => [
+        'date' => '2026-10-13',
+        'title' => 'Genauere Prüfung vor dem Livegang',
+        'items' => [
+            'Administration: `sagawyn:check` meldet kein Debug-Logging mehr fälschlich, wenn LOG_LEVEL auf warning steht.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Das Logo von Autistic Intelligence',

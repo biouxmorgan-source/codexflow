@@ -22,6 +22,14 @@ return [
         ],
     ],
 
+    '0.59.1' => [
+        'date' => '2026-10-13',
+        'title' => 'Dokładniejsza kontrola przed uruchomieniem',
+        'items' => [
+            'Administracja: `sagawyn:check` nie zgłasza już błędnie logowania w trybie debugowania, gdy LOG_LEVEL ma wartość warning.',
+        ],
+    ],
+
     '0.59.0' => [
         'date' => '2026-10-13',
         'title' => 'Logo Autistic Intelligence',
