@@ -12,6 +12,16 @@ return [
         ],
     ],
 
+    '0.61.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Modo demo antes del Kickstarter',
+        'items' => [
+            'Nuevo modo demo, que se activa en Administración › Planes: cada cuenta nueva recibe el plan Demo, con su propia copia de la campaña de demostración y un aviso que anuncia la próxima campaña de micromecenazgo.',
+            'La demostración de una cuenta demo está bloqueada: todo se puede visitar, pero solo se usan la sesión, las notas, las fichas del mapa y la pantalla de mesa. La cuenta también puede crear una pequeña campaña propia (50 MB, 3 miembros, sin IA ni exportación).',
+            'Una invitación de un administrador abre una cuenta normal. En «Cuentas», «Desbloquear» pasa una cuenta demo al plan gratuito e inicia su prueba, que la demo no consume.',
+        ],
+    ],
+
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Contenido casero',

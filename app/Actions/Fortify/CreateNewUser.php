@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Support\Plans\Plans;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -34,10 +35,18 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        // Mode démo : formule Démo. Qui arrive par une invitation d'un administrateur en sort en
+        // l'acceptant (InvitationController) : l'invitation n'est utilisable qu'une fois.
+        if (Plans::demoMode() && ! $user->is_admin) {
+            $user->forceFill(['plan' => Plans::DEMO])->save();
+        }
+
+        return $user;
     }
 }

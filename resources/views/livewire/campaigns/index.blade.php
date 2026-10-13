@@ -6,7 +6,9 @@
         </div>
         @unless ($creating || $importing)
             <div class="flex flex-wrap gap-2">
-                <button type="button" wire:click="$set('importing', true)" class="btn-secondary">{{ __('Importer une campagne') }}</button>
+                @if (\App\Support\Plans\Plans::effective(auth()->user()) !== \App\Support\Plans\Plans::DEMO)
+                    <button type="button" wire:click="$set('importing', true)" class="btn-secondary">{{ __('Importer une campagne') }}</button>
+                @endif
                 <button type="button" wire:click="$set('creating', true)" class="btn-primary">{{ __('Nouvelle campagne') }}</button>
             </div>
         @endunless

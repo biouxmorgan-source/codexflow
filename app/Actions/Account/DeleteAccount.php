@@ -9,6 +9,7 @@ use App\Models\GameSystem;
 use App\Models\User;
 use App\Models\World;
 use App\Support\Billing\Billing;
+use App\Support\Demo\DemoLock;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -28,7 +29,8 @@ class DeleteAccount
             throw ValidationException::withMessages(['deletePassword' => __('Vous êtes le seul administrateur : confiez d’abord l’administration à un autre compte.')]);
         }
 
-        DB::transaction(function () use ($user) {
+        // Un compte démo part avec sa démonstration verrouillée.
+        DemoLock::bypass(fn () => DB::transaction(function () use ($user) {
             $user->ownedCampaigns()->each(fn (Campaign $campaign) => $campaign->delete());
 
             $user->worlds()->each(function (World $world) {
@@ -43,6 +45,6 @@ class DeleteAccount
             DB::table('sessions')->where('user_id', $user->id)->delete();
             DB::table('password_reset_tokens')->where('email', $user->email)->delete();
             $user->delete();
-        });
+        }));
     }
 }

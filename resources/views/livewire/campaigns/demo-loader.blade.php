@@ -1,4 +1,5 @@
-{{-- Charger la démonstration, dans la langue de l'interface ou une autre. --}}
+{{-- Charger la démonstration, dans la langue de l'interface ou une autre. Un compte démo a déjà la sienne. --}}
+@if (\App\Support\Plans\Plans::effective(auth()->user()) !== \App\Support\Plans\Plans::DEMO)
 <span class="inline-flex flex-wrap items-center gap-2">
     <label for="demoLocale{{ $suffix ?? '' }}" class="sr-only">{{ __('Langue de la démonstration') }}</label>
     <select id="demoLocale{{ $suffix ?? '' }}" wire:model="demoLocale" class="rounded-md border border-stone-300 bg-white py-1 pr-8 pl-2 text-sm">
@@ -11,3 +12,4 @@
         <span wire:loading wire:target="loadDemo">{{ __('Chargement…') }}</span>
     </button>
 </span>
+@endif

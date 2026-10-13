@@ -24,14 +24,24 @@ class Plans
     /** Essai : un compte gratuit récent a toutes les fonctions pendant quelques semaines. */
     public const TRIAL = 'trial';
 
+    /**
+     * Démo : formule des comptes créés pendant le mode démo (avant le Kickstarter). Une copie
+     * verrouillée de la campagne de démonstration, une petite campagne à soi, pas d'essai ;
+     * l'administrateur débloque le compte à la main.
+     */
+    public const DEMO = 'demo';
+
     /** Formules qu'un administrateur attribue (l'administration est un rôle à part). */
-    public const ASSIGNABLE = [self::FREE, self::PREMIUM];
+    public const ASSIGNABLE = [self::FREE, self::PREMIUM, self::DEMO];
 
     /** Fonctions que la formule gratuite peut perdre. */
     public const FEATURES = ['ai', 'table', 'maps', 'duplication', 'archive'];
 
     /** Message d'une page refusée faute de formule (traduit par la page d'erreur). */
     public const NOT_INCLUDED = 'Cette fonction n’est pas comprise dans la formule de cette campagne.';
+
+    /** Invitation refusée : la campagne d'un compte démo a déjà tous ses membres (traduit par la page d'erreur). */
+    public const DEMO_FULL = 'Cette campagne de démonstration a déjà tous ses joueurs.';
 
     public const DEFAULTS = [
         'free_storage_mb' => 250,
@@ -44,12 +54,18 @@ class Plans
         // Période offerte (Noël…) : fonctions Premium pour les campagnes des comptes gratuits, dates incluses.
         'gift_starts_on' => null,
         'gift_ends_on' => null,
+        // Mode démo : chaque nouveau compte reçoit la formule Démo, sauf invitation d'un administrateur.
+        'demo_mode' => false,
+        'demo_storage_mb' => 50,
+        'demo_max_campaigns' => 1,
+        'demo_max_players' => 3,
+        'demo_features' => ['table', 'maps'],
     ];
 
     /** @return array<string, string> */
     public static function labels(): array
     {
-        return [self::ADMIN => __('Administrateur'), self::PREMIUM => __('Premium'), self::TRIAL => __('Essai'), self::FREE => __('Gratuit')];
+        return [self::ADMIN => __('Administrateur'), self::PREMIUM => __('Premium'), self::TRIAL => __('Essai'), self::FREE => __('Gratuit'), self::DEMO => __('Démo')];
     }
 
     /** @return array<string, string> */
@@ -64,7 +80,7 @@ class Plans
         ];
     }
 
-    /** @return array{free_storage_mb: int, premium_storage_mb: int, founder_bonus_mb: int, free_max_campaigns: int, free_features: list<string>, trial_weeks: int, gift_starts_on: ?string, gift_ends_on: ?string} */
+    /** @return array{free_storage_mb: int, premium_storage_mb: int, founder_bonus_mb: int, free_max_campaigns: int, free_features: list<string>, trial_weeks: int, gift_starts_on: ?string, gift_ends_on: ?string, demo_mode: bool, demo_storage_mb: int, demo_max_campaigns: int, demo_max_players: int, demo_features: list<string>} */
     public static function settings(): array
     {
         $saved = Setting::get('plans', []);
@@ -85,6 +101,11 @@ class Plans
     {
         if ($user->is_admin) {
             return self::ADMIN;
+        }
+
+        // Un compte démo n'entame pas son essai : il commence quand l'administrateur le débloque.
+        if ($user->plan === self::DEMO) {
+            return self::DEMO;
         }
 
         $active = $user->plan === self::PREMIUM && ($user->plan_ends_at === null || ! $user->plan_ends_at->isPast() || $user->plan_ends_at->isToday());
@@ -125,16 +146,26 @@ class Plans
         }
 
         $settings = self::settings();
-        $mb = $user->storage_quota_mb
-            ?? $settings[$plan === self::FREE ? 'free_storage_mb' : 'premium_storage_mb'] + ($user->isFounder() ? $settings['founder_bonus_mb'] : 0);
+        $mb = $user->storage_quota_mb ?? match ($plan) {
+            self::DEMO => $settings['demo_storage_mb'],
+            self::FREE => $settings['free_storage_mb'] + ($user->isFounder() ? $settings['founder_bonus_mb'] : 0),
+            default => $settings['premium_storage_mb'] + ($user->isFounder() ? $settings['founder_bonus_mb'] : 0),
+        };
 
         return (int) $mb * 1024 * 1024;
     }
 
-    /** Campagnes que le compte peut posséder (comme MJ propriétaire) ; null = sans limite. */
+    /**
+     * Campagnes que le compte peut posséder (comme MJ propriétaire) ; null = sans limite.
+     * En démo, la copie de la campagne de démonstration ne compte pas.
+     */
     public static function maxCampaigns(User $user): ?int
     {
-        return self::effective($user) === self::FREE ? (int) self::settings()['free_max_campaigns'] : null;
+        return match (self::effective($user)) {
+            self::FREE => (int) self::settings()['free_max_campaigns'],
+            self::DEMO => (int) self::settings()['demo_max_campaigns'],
+            default => null,
+        };
     }
 
     /** Refuse une action dont la fonction n'est pas comprise dans la formule. */
@@ -156,7 +187,38 @@ class Plans
             return true;
         }
 
-        return self::effective($owner) !== self::FREE || self::giftActive() || in_array($feature, self::settings()['free_features'], true);
+        return match (self::effective($owner)) {
+            self::DEMO => in_array($feature, self::settings()['demo_features'], true),
+            self::FREE => self::giftActive() || in_array($feature, self::settings()['free_features'], true),
+            default => true,
+        };
+    }
+
+    public static function demoMode(): bool
+    {
+        return (bool) self::settings()['demo_mode'];
+    }
+
+    /** Membres que peut inviter un compte démo dans sa campagne, en plus de lui ; null = sans limite. */
+    public static function maxMembers(User $owner): ?int
+    {
+        return self::effective($owner) === self::DEMO ? (int) self::settings()['demo_max_players'] : null;
+    }
+
+    /**
+     * Sort un compte de la démo : sa formule devient celle donnée et, puisqu'il possède déjà sa
+     * copie de démonstration, son essai commence maintenant.
+     */
+    public static function leaveDemo(User $user, string $plan = self::FREE): void
+    {
+        if ($user->plan !== self::DEMO) {
+            return;
+        }
+
+        $user->forceFill([
+            'plan' => $plan,
+            'trial_started_at' => $user->trial_started_at ?? ($user->ownedCampaigns()->exists() ? now() : null),
+        ])->save();
     }
 
     /**
@@ -175,7 +237,9 @@ class Plans
     {
         $max = self::maxCampaigns($user);
 
-        if ($max !== null && $user->ownedCampaigns()->count() >= $max) {
+        $owned = $user->ownedCampaigns()->when(self::effective($user) === self::DEMO, fn ($query) => $query->where('is_demo', false))->count();
+
+        if ($max !== null && $owned >= $max) {
             throw ValidationException::withMessages([$field => trans_choice('Votre formule permet :count campagne en tant que MJ.|Votre formule permet :count campagnes en tant que MJ.', $max)]);
         }
     }

@@ -26,6 +26,17 @@ class PlanSettings extends Component
     /** @var list<string> */
     public array $freeFeatures = [];
 
+    public bool $demoMode = false;
+
+    public int $demoStorageMb = 0;
+
+    public int $demoMaxCampaigns = 0;
+
+    public int $demoMaxPlayers = 0;
+
+    /** @var list<string> */
+    public array $demoFeatures = [];
+
     public function mount(): void
     {
         $this->authorize('admin');
@@ -39,6 +50,11 @@ class PlanSettings extends Component
         $this->freeFeatures = array_values($settings['free_features']);
         $this->giftStartsOn = $settings['gift_starts_on'];
         $this->giftEndsOn = $settings['gift_ends_on'];
+        $this->demoMode = (bool) $settings['demo_mode'];
+        $this->demoStorageMb = (int) $settings['demo_storage_mb'];
+        $this->demoMaxCampaigns = (int) $settings['demo_max_campaigns'];
+        $this->demoMaxPlayers = (int) $settings['demo_max_players'];
+        $this->demoFeatures = array_values($settings['demo_features']);
     }
 
     public function save(): void
@@ -55,6 +71,12 @@ class PlanSettings extends Component
             'freeFeatures.*' => [Rule::in(Plans::FEATURES)],
             'giftStartsOn' => ['nullable', 'date_format:Y-m-d', 'required_with:giftEndsOn'],
             'giftEndsOn' => ['nullable', 'date_format:Y-m-d', 'required_with:giftStartsOn', 'after_or_equal:giftStartsOn'],
+            'demoMode' => ['boolean'],
+            'demoStorageMb' => ['required', 'integer', 'min:0', 'max:10000000'],
+            'demoMaxCampaigns' => ['required', 'integer', 'min:0', 'max:1000'],
+            'demoMaxPlayers' => ['required', 'integer', 'min:0', 'max:1000'],
+            'demoFeatures' => ['array'],
+            'demoFeatures.*' => [Rule::in(Plans::FEATURES)],
         ], attributes: [
             'freeStorageMb' => __('stockage de la formule gratuite'),
             'premiumStorageMb' => __('stockage de la formule premium'),
@@ -63,6 +85,9 @@ class PlanSettings extends Component
             'trialWeeks' => __('durée de l’essai'),
             'giftStartsOn' => __('début de la période offerte'),
             'giftEndsOn' => __('fin de la période offerte'),
+            'demoStorageMb' => __('stockage de la formule Démo'),
+            'demoMaxCampaigns' => __('campagnes de la formule Démo'),
+            'demoMaxPlayers' => __('membres de la formule Démo'),
         ]);
 
         Plans::save([
@@ -74,6 +99,11 @@ class PlanSettings extends Component
             'free_features' => array_values(array_intersect(Plans::FEATURES, $this->freeFeatures)),
             'gift_starts_on' => $this->giftStartsOn ?: null,
             'gift_ends_on' => $this->giftEndsOn ?: null,
+            'demo_mode' => $this->demoMode,
+            'demo_storage_mb' => $this->demoStorageMb,
+            'demo_max_campaigns' => $this->demoMaxCampaigns,
+            'demo_max_players' => $this->demoMaxPlayers,
+            'demo_features' => array_values(array_intersect(Plans::FEATURES, $this->demoFeatures)),
         ]);
 
         session()->now('status', __('Formules enregistrées.'));

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\CampaignRole;
 use App\Enums\CampaignStatus;
+use App\Support\Plans\Plans;
 use Database\Factories\CampaignFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,9 +23,10 @@ class Campaign extends Model
 
     protected static function booted(): void
     {
-        // Sa première campagne fait du compte un MJ : son essai commence.
+        // Sa première campagne fait du compte un MJ : son essai commence. Un compte démo attend
+        // d'être débloqué (Plans::leaveDemo).
         static::created(function (Campaign $campaign) {
-            User::whereKey($campaign->user_id)->whereNull('trial_started_at')->update(['trial_started_at' => now()]);
+            User::whereKey($campaign->user_id)->whereNull('trial_started_at')->where('plan', '!=', Plans::DEMO)->update(['trial_started_at' => now()]);
         });
 
         // Une à une, pour que chaque entité supprime ses fichiers.

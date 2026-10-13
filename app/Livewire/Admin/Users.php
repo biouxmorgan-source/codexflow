@@ -134,6 +134,7 @@ class Users extends Component
             'premium' => $plans[Plans::PREMIUM] ?? 0,
             'trial' => $plans[Plans::TRIAL] ?? 0,
             'free' => $plans[Plans::FREE] ?? 0,
+            'demo' => $plans[Plans::DEMO] ?? 0,
             'admins' => $plans[Plans::ADMIN] ?? 0,
             'founders' => $users->filter(fn (User $user) => $user->isFounder())->count(),
             'active' => UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->distinct('user_id')->count('user_id'),
@@ -162,6 +163,17 @@ class Users extends Component
         $this->giftCount = '';
     }
 
+    /** Sort un compte de la démo : formule gratuite, essai qui commence maintenant. */
+    public function unlock(int $id): void
+    {
+        $this->authorize('admin');
+        $user = User::findOrFail($id);
+        Plans::leaveDemo($user);
+
+        session()->now('status', __('Compte débloqué : :email.', ['email' => $user->email]));
+        unset($this->rows, $this->totals);
+    }
+
     public function save(): void
     {
         $this->authorize('admin');
@@ -179,6 +191,11 @@ class Users extends Component
             'planEndsAt' => __('fin'),
             'storageQuotaMb' => __('stockage'),
         ]);
+
+        // Débloqué : le compte quitte la démo et son essai commence.
+        if ($this->plan !== Plans::DEMO) {
+            Plans::leaveDemo($user, $this->plan);
+        }
 
         // On ne se retire pas soi-même l'administration : il resterait peut-être personne.
         $isAdmin = $user->is(auth()->user()) ? true : $this->isAdmin;

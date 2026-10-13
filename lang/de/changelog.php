@@ -12,6 +12,16 @@ return [
         ],
     ],
 
+    '0.61.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Demo-Modus vor dem Kickstarter',
+        'items' => [
+            'Neuer Demo-Modus, einzuschalten unter Administration › Tarife: Jedes neue Konto erhält den Demo-Tarif mit einer eigenen Kopie der Demo-Kampagne und einem Banner, das die kommende Crowdfunding-Kampagne ankündigt.',
+            'Die Demo-Kampagne eines Demo-Kontos ist gesperrt: Alles lässt sich ansehen, nutzbar sind aber nur Sitzung, Notizen, Spielmarken der Karte und Tischbildschirm. Das Konto kann auch eine kleine eigene Kampagne anlegen (50 MB, 3 Mitglieder, ohne KI und Export).',
+            'Eine Einladung eines Administrators öffnet ein normales Konto. Unter „Konten“ setzt „Entsperren“ ein Demo-Konto auf den kostenlosen Tarif und startet seine Testphase, die die Demo nicht verbraucht.',
+        ],
+    ],
+
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Hausinhalte',
