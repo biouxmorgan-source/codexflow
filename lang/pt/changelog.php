@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.62.0' => [
+        'date' => '2026-10-13',
+        'title' => 'A comunidade no Discord',
+        'items' => [
+            'O SagaWyn tem o seu servidor Discord: uma ligação no fundo de cada página e na página inicial para fazer perguntas, sugerir ideias e conhecer outros mestres de jogo.',
+        ],
+    ],
+
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Conteúdo caseiro',

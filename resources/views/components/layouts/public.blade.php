@@ -27,6 +27,9 @@
             <nav class="flex flex-wrap gap-x-4 gap-y-1">
                 <a href="{{ route('help') }}" class="hover:text-ink hover:underline">{{ __('Aide') }}</a>
                 <a href="{{ route('privacy') }}" class="hover:text-ink hover:underline">{{ __('Confidentialité et mentions légales') }}</a>
+                @if ($discord = config('codexflow.discord_url'))
+                    <a href="{{ $discord }}" class="hover:text-ink hover:underline" target="_blank" rel="noopener">Discord</a>
+                @endif
             </nav>
             <nav class="flex flex-wrap gap-x-3 gap-y-1 text-xs" aria-label="{{ __('Langue') }}">
                 @foreach ($locales as $code => $name)

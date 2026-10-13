@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.62.0' => [
+        'date' => '2026-10-13',
+        'title' => 'De community op Discord',
+        'items' => [
+            'SagaWyn heeft een eigen Discord-server: een link onderaan elke pagina en op de startpagina om vragen te stellen, ideeën voor te stellen en andere spelleiders te ontmoeten.',
+        ],
+    ],
+
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Huisinhoud',
