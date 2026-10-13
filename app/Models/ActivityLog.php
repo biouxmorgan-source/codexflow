@@ -49,6 +49,7 @@ class ActivityLog extends Model
         'role' => 'Rôle', 'character' => 'Personnage', 'kind' => 'Nature', 'body' => 'Texte', 'quantity' => 'Quantité', 'player_editable' => 'Modifiable par le joueur',
         'added_by_player' => 'Ajouté par le joueur', 'validated' => 'Validé par le MJ',
         'relation' => 'Relation', 'attachment' => 'Fichier joint', 'tags' => 'Tags',
+        'is_house' => 'Contenu maison', 'official_version' => 'Version officielle',
     ];
 
     private static ?string $batch = null;
@@ -84,6 +85,7 @@ class ActivityLog extends Model
             'role' => __('Rôle'), 'character' => __('Personnage'), 'kind' => __('Nature'), 'body' => __('Texte'), 'quantity' => __('Quantité'), 'player_editable' => __('Modifiable par le joueur'),
             'added_by_player' => __('Ajouté par le joueur'), 'validated' => __('Validé par le MJ'),
             'relation' => __('Relation'), 'attachment' => __('Fichier joint'), 'tags' => __('Tags'),
+            'is_house' => __('Contenu maison'), 'official_version' => __('Version officielle'),
         ];
     }
 

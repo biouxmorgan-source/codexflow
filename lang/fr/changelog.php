@@ -22,6 +22,16 @@ return [
         ],
     ],
 
+    '0.60.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Contenu maison',
+        'items' => [
+            'Nouvelle coche « Contenu maison » sur les fiches (PNJ, sorts, objets, lieux…) : sans coche, la fiche est officielle. Un badge « Maison » la signale dans la liste et sur la fiche, et un filtre Officiel / Maison trie l’univers.',
+            'Pour une fiche maison ou une règle d’origine « Maison », la version officielle remplacée se note à côté (par exemple l’initiative au D10 au lieu du D20) : elle reste en zone MJ, repliée sous la fiche ou la règle.',
+            'La liste des règles se filtre par origine. L’export et l’import de campagne gardent le contenu maison et la version officielle.',
+        ],
+    ],
+
     '0.59.1' => [
         'date' => '2026-10-13',
         'title' => 'Vérification de mise en ligne plus juste',

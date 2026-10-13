@@ -19,9 +19,10 @@ use Illuminate\Support\Str;
 /**
  * Fiche d'entité. Zone publique : name, summary, description. Zone MJ : gm_notes.
  * Les champs libres (field_values) sont rangés par zone selon leur définition : masqués à la sérialisation.
+ * Contenu maison (is_house) et version officielle remplacée (official_version) : zone MJ.
  */
-#[Fillable(['entity_type_id', 'name', 'summary', 'description', 'gm_notes', 'image_path'])]
-#[Hidden(['gm_notes', 'field_values'])]
+#[Fillable(['entity_type_id', 'name', 'summary', 'description', 'gm_notes', 'image_path', 'is_house', 'official_version'])]
+#[Hidden(['gm_notes', 'field_values', 'is_house', 'official_version'])]
 class Entity extends Model
 {
     /** @use HasFactory<EntityFactory> */
@@ -36,6 +37,7 @@ class Entity extends Model
     {
         return [
             'field_values' => 'array',
+            'is_house' => 'boolean',
         ];
     }
 

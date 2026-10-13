@@ -29,6 +29,10 @@ class Show extends Component
     #[Url(as: 'tag', except: '')]
     public string $tag = '';
 
+    /** « maison » : contenu maison seulement ; « officiel » : le reste. */
+    #[Url(as: 'origine', except: '')]
+    public string $origin = '';
+
     public function mount(Campaign $campaign): void
     {
         $user = auth()->user();
@@ -69,6 +73,7 @@ class Show extends Component
             ->when($this->search !== '', fn ($q) => $q->where('name', 'ilike', '%'.addcslashes($this->search, '%_\\').'%'))
             ->when($this->type !== '', fn ($q) => $q->where('entity_type_id', $this->type))
             ->when($this->tag !== '', fn ($q) => $q->whereHas('tags', fn ($t) => $t->whereKey((int) $this->tag)))
+            ->when(in_array($this->origin, ['maison', 'officiel'], true), fn ($q) => $q->where('is_house', $this->origin === 'maison'))
             ->orderBy('name')
             ->get();
     }

@@ -2273,5 +2273,17 @@
     "membres de la formule Démo": "członkowie planu Demo",
     "stockage de la formule Démo": "miejsce planu Demo",
     "Campagne de démonstration : son contenu se consulte mais ne se modifie pas. Créez votre propre campagne pour essayer.": "Kampania demonstracyjna: jej treść można przeglądać, ale nie zmieniać. Utwórz własną kampanię, aby wypróbować.",
-    "Cette campagne de démonstration a déjà tous ses joueurs.": "Ta kampania demonstracyjna ma już wszystkich graczy."
+    "Cette campagne de démonstration a déjà tous ses joueurs.": "Ta kampania demonstracyjna ma już wszystkich graczy.",
+    "Contenu maison": "Treść domowa",
+    "Sans coche, la fiche est officielle (tirée du jeu ou du scénario publié).": "Bez zaznaczenia karta jest oficjalna (z gry lub opublikowanego scenariusza).",
+    "Version officielle remplacée": "Zastąpiona wersja oficjalna",
+    "Ce que dit la version officielle, pour la retrouver si besoin.": "Co mówi wersja oficjalna, by móc do niej wrócić w razie potrzeby.",
+    "version officielle": "wersja oficjalna",
+    "Version officielle": "Wersja oficjalna",
+    "Contenu maison : remplace ou complète la version officielle": "Treść domowa: zastępuje lub uzupełnia wersję oficjalną",
+    "Officiel et maison": "Oficjalne i domowe",
+    "Officiel": "Oficjalne",
+    "Toutes les origines": "Wszystkie pochodzenia",
+    "(facultatif, jamais visible des joueurs)": "(opcjonalnie, nigdy niewidoczne dla graczy)",
+    "Initiative : 1d20 + modificateur de Dextérité.": "Inicjatywa: 1k20 + modyfikator Zręczności."
 }

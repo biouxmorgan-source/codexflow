@@ -22,6 +22,16 @@ return [
         ],
     ],
 
+    '0.60.0' => [
+        'date' => '2026-10-13',
+        'title' => 'House content',
+        'items' => [
+            'New “House content” checkbox on sheets (NPCs, spells, items, places…): unticked, the sheet is official. A “House” badge marks it in the list and on the sheet, and an Official / House filter sorts the universe.',
+            'For a house sheet or a rule whose origin is “House”, the official version it replaces can be noted alongside (for example initiative on a d10 instead of a d20): it stays in the GM zone, folded under the sheet or rule.',
+            'The rules list can be filtered by origin. Campaign export and import keep house content and the official version.',
+        ],
+    ],
+
     '0.59.1' => [
         'date' => '2026-10-13',
         'title' => 'A more accurate go-live check',

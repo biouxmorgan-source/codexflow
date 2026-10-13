@@ -2273,5 +2273,17 @@
     "membres de la formule Démo": "Demo plan members",
     "stockage de la formule Démo": "Demo plan storage",
     "Campagne de démonstration : son contenu se consulte mais ne se modifie pas. Créez votre propre campagne pour essayer.": "Demo campaign: its content can be viewed but not changed. Create your own campaign to try things out.",
-    "Cette campagne de démonstration a déjà tous ses joueurs.": "This demo campaign already has all its players."
+    "Cette campagne de démonstration a déjà tous ses joueurs.": "This demo campaign already has all its players.",
+    "Contenu maison": "House content",
+    "Sans coche, la fiche est officielle (tirée du jeu ou du scénario publié).": "Unticked, the sheet is official (from the game or the published scenario).",
+    "Version officielle remplacée": "Official version replaced",
+    "Ce que dit la version officielle, pour la retrouver si besoin.": "What the official version says, to find it again if needed.",
+    "version officielle": "official version",
+    "Version officielle": "Official version",
+    "Contenu maison : remplace ou complète la version officielle": "House content: replaces or adds to the official version",
+    "Officiel et maison": "Official and house",
+    "Officiel": "Official",
+    "Toutes les origines": "All origins",
+    "(facultatif, jamais visible des joueurs)": "(optional, never visible to players)",
+    "Initiative : 1d20 + modificateur de Dextérité.": "Initiative: 1d20 + Dexterity modifier."
 }

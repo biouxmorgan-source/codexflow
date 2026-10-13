@@ -171,6 +171,8 @@ final class CampaignExport
                 'summary' => $entity->summary,
                 'description' => $entity->description,
                 'gm_notes' => $entity->gm_notes,
+                'is_house' => (bool) $entity->is_house,
+                'official_version' => $entity->official_version,
                 'field_values' => json_decode((string) $entity->field_values, true) ?: [],
                 'image' => $this->file('local', $entity->image_path),
                 'tags' => $tagLinks['entities']->get($entity->id, collect())->all(),
@@ -221,7 +223,7 @@ final class CampaignExport
             'rules' => $rules->map(fn ($rule) => [
                 'id' => $rule->id,
                 'in_campaign' => $rule->campaign_id !== null,
-                ...collect((array) $rule)->only(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'status', 'zone'])
+                ...collect((array) $rule)->only(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'official_version', 'status', 'zone'])
                     // Un modèle part chez d'autres MJ : les liens gardent le nom, pas l'identifiant d'une fiche d'ici.
                     ->map(fn ($value) => is_string($value) ? preg_replace('/\[\[([^\[\]|\n]+?)\|\d+\]\]/u', '[[$1]]', $value) : $value)
                     ->all(),
@@ -367,7 +369,7 @@ final class CampaignExport
             ])->all(),
             'rules' => $rules->map(fn ($rule) => [
                 'id' => $rule->id,
-                ...collect((array) $rule)->only(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'status', 'zone'])
+                ...collect((array) $rule)->only(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'official_version', 'status', 'zone'])
                     // Un modèle part chez d'autres MJ : les liens gardent le nom, pas l'identifiant d'une fiche d'ici.
                     ->map(fn ($value) => is_string($value) ? preg_replace('/\[\[([^\[\]|\n]+?)\|\d+\]\]/u', '[[$1]]', $value) : $value)
                     ->all(),

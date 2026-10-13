@@ -98,13 +98,21 @@
                     </select>
                 </div>
             @endif
+            <div>
+                <label for="origin" class="sr-only">{{ __('Origine') }}</label>
+                <select id="origin" wire:model.live="origin" class="field">
+                    <option value="">{{ __('Officiel et maison') }}</option>
+                    <option value="officiel">{{ __('Officiel') }}</option>
+                    <option value="maison">{{ __('Maison') }}</option>
+                </select>
+            </div>
             <a href="{{ route('exports.download', [$campaign, 'fiches', 'type' => $type ?: null]) }}" class="btn-secondary" title="{{ __('Fichier CSV réimportable, à utiliser comme modèle') }}">{{ __('Exporter') }}</a>
             <a href="{{ route('entities.create', $campaign) }}" class="btn-primary" wire:navigate>{{ __('Nouvelle entité') }}</a>
         </div>
 
         @if ($this->entities->isEmpty())
             <div class="rounded-xl border border-dashed border-stone-300 bg-white p-10 text-center">
-                @if ($search !== '' || $type !== '' || $tag !== '')
+                @if ($search !== '' || $type !== '' || $tag !== '' || $origin !== '')
                     <p class="text-stone-600">{{ __('Aucune entité ne correspond à ces critères.') }}</p>
                 @else
                     <p class="text-lg font-medium">{{ __("Aucune entité pour l'instant.") }}</p>
@@ -135,6 +143,9 @@
                                     </span>
                                 @endif
                             </span>
+                            @if ($entity->is_house)
+                                <x-house-badge />
+                            @endif
                             @if ($state?->status)
                                 <span class="shrink-0 rounded-full bg-flow/10 px-2 py-0.5 text-xs font-medium text-flow">{{ $state->status }}</span>
                             @endif

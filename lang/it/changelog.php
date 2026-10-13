@@ -22,6 +22,16 @@ return [
         ],
     ],
 
+    '0.60.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Contenuti della casa',
+        'items' => [
+            'Nuova casella «Contenuto della casa» sulle schede (PNG, incantesimi, oggetti, luoghi…): senza spunta la scheda è ufficiale. Un distintivo «Casa» la segnala nell’elenco e sulla scheda, e un filtro Ufficiale / Casa ordina l’universo.',
+            'Per una scheda della casa o una regola di origine «Casa», la versione ufficiale sostituita si annota accanto (per esempio l’iniziativa con 1d10 invece di 1d20): resta nella zona del master, ripiegata sotto la scheda o la regola.',
+            'L’elenco delle regole si filtra per origine. Esportazione e importazione della campagna conservano i contenuti della casa e la versione ufficiale.',
+        ],
+    ],
+
     '0.59.1' => [
         'date' => '2026-10-13',
         'title' => 'Verifica di messa online più precisa',

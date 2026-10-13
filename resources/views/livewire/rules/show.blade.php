@@ -55,6 +55,9 @@
                 @if ($rule->source)
                     <p class="mt-4 text-sm text-stone-500">{{ __('Source : :source', ['source' => $rule->source]) }}</p>
                 @endif
+                @if ($rule->origin === \App\Enums\RuleOrigin::House && $rule->official_version)
+                    <x-official-version :text="\App\Support\EntityLinks::render($rule->official_version, $campaign)" />
+                @endif
             </section>
 
             @if ($rule->gm_notes)

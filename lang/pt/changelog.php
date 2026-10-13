@@ -22,6 +22,16 @@ return [
         ],
     ],
 
+    '0.60.0' => [
+        'date' => '2026-10-13',
+        'title' => 'Conteúdo caseiro',
+        'items' => [
+            'Nova caixa «Conteúdo caseiro» nas fichas (PNJ, feitiços, objetos, lugares…): sem marcar, a ficha é oficial. Um distintivo «Caseiro» assinala-a na lista e na ficha, e um filtro Oficial / Caseiro ordena o universo.',
+            'Para uma ficha caseira ou uma regra de origem «Caseira», a versão oficial substituída anota-se ao lado (por exemplo a iniciativa com 1d10 em vez de 1d20): fica na zona do MJ, recolhida sob a ficha ou a regra.',
+            'A lista de regras filtra-se por origem. A exportação e a importação da campanha mantêm o conteúdo caseiro e a versão oficial.',
+        ],
+    ],
+
     '0.59.1' => [
         'date' => '2026-10-13',
         'title' => 'Verificação de publicação mais precisa',

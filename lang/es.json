@@ -2273,5 +2273,17 @@
     "membres de la formule Démo": "miembros del plan Demo",
     "stockage de la formule Démo": "almacenamiento del plan Demo",
     "Campagne de démonstration : son contenu se consulte mais ne se modifie pas. Créez votre propre campagne pour essayer.": "Campaña de demostración: su contenido se puede consultar pero no modificar. Crea tu propia campaña para probar.",
-    "Cette campagne de démonstration a déjà tous ses joueurs.": "Esta campaña de demostración ya tiene todos sus jugadores."
+    "Cette campagne de démonstration a déjà tous ses joueurs.": "Esta campaña de demostración ya tiene todos sus jugadores.",
+    "Contenu maison": "Contenido casero",
+    "Sans coche, la fiche est officielle (tirée du jeu ou du scénario publié).": "Sin marcar, la ficha es oficial (del juego o del escenario publicado).",
+    "Version officielle remplacée": "Versión oficial sustituida",
+    "Ce que dit la version officielle, pour la retrouver si besoin.": "Lo que dice la versión oficial, para recuperarla si hace falta.",
+    "version officielle": "versión oficial",
+    "Version officielle": "Versión oficial",
+    "Contenu maison : remplace ou complète la version officielle": "Contenido casero: sustituye o completa la versión oficial",
+    "Officiel et maison": "Oficial y casero",
+    "Officiel": "Oficial",
+    "Toutes les origines": "Todos los orígenes",
+    "(facultatif, jamais visible des joueurs)": "(opcional, nunca visible para los jugadores)",
+    "Initiative : 1d20 + modificateur de Dextérité.": "Iniciativa: 1d20 + modificador de Destreza."
 }

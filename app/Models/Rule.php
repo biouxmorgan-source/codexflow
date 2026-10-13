@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Règle ou aide de jeu saisie librement par le MJ. Rattachée au jeu, elle sert à toutes
  * ses campagnes ; rattachée à une campagne, elle reste locale.
  */
-#[Fillable(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'status', 'zone'])]
+#[Fillable(['title', 'category', 'summary', 'procedure', 'gm_notes', 'source', 'origin', 'official_version', 'status', 'zone'])]
 class Rule extends Model
 {
     use RecordsActivity;
@@ -28,8 +28,8 @@ class Rule extends Model
         'zone' => 'public',
     ];
 
-    /** Les notes MJ ne sortent jamais par la sérialisation. */
-    protected $hidden = ['gm_notes'];
+    /** Les notes MJ et la version officielle remplacée par une règle maison ne sortent jamais par la sérialisation. */
+    protected $hidden = ['gm_notes', 'official_version'];
 
     protected function casts(): array
     {

@@ -24,6 +24,13 @@
                 <option value="{{ $ruleStatus->value }}">{{ $ruleStatus->label() }}</option>
             @endforeach
         </select>
+        <label for="origin" class="sr-only">{{ __('Origine') }}</label>
+        <select id="origin" wire:model.live="origin" class="field w-auto py-1.5 text-sm">
+            <option value="">{{ __('Toutes les origines') }}</option>
+            @foreach (\App\Enums\RuleOrigin::cases() as $ruleOrigin)
+                <option value="{{ $ruleOrigin->value }}">{{ $ruleOrigin->label() }}</option>
+            @endforeach
+        </select>
         @foreach ($this->tags as $tagName)
             <button type="button" wire:click="$set('tag', @js($tag === $tagName ? '' : $tagName))"
                 @class(['rounded-full px-2.5 py-0.5 text-sm', 'bg-codex text-on-accent' => $tag === $tagName, 'bg-stone-100 text-stone-700 hover:bg-codex-soft' => $tag !== $tagName])>{{ $tagName }}</button>
@@ -32,7 +39,7 @@
 
     @if ($this->rules->isEmpty())
         <div class="rounded-xl border border-dashed border-stone-300 bg-white p-10 text-center">
-            @if ($status !== '' || $tag !== '')
+            @if ($status !== '' || $tag !== '' || $origin !== '')
                 <p class="text-stone-600">{{ __('Aucune règle ne correspond à ce filtre.') }}</p>
             @else
                 <p class="text-lg font-medium">{{ __("Aucune règle pour l'instant.") }}</p>
@@ -51,6 +58,9 @@
                                 <a href="{{ route('rules.show', [$campaign, $rule]) }}" class="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-3 hover:bg-codex-soft" wire:navigate>
                                     <span class="font-medium text-codex">{{ $rule->title }}</span>
                                     <span class="rounded-full px-2 py-0.5 text-xs font-medium {{ $rule->status->badge() }}">{{ $rule->status->label() }}</span>
+                                    @if ($rule->origin === \App\Enums\RuleOrigin::House)
+                                        <x-house-badge />
+                                    @endif
                                     <span class="text-xs text-stone-500">{{ $rule->origin->label() }} · {{ $rule->isShared() ? __('Jeu') : __('Campagne') }}</span>
                                     @if ($rule->summary)
                                         <span class="w-full text-sm text-stone-600">{{ \Illuminate\Support\Str::limit($rule->summary, 160) }}</span>
