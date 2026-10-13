@@ -2930,5 +2930,11 @@
     "Ce document sert de carte. Image actuelle : :width × :height pixels.": "Questo documento è usato come mappa. Immagine attuale: :width × :height pixel.",
     "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.": "Un’immagine di altre dimensioni è accettata, ma pedine, sagome e punti mantengono la loro posizione in pixel: si sposteranno sul disegno e andranno riposizionati.",
     "Lancers de cette feuille": "Tiri di questa scheda",
-    "« Enregistrer ce lancer », dans les dés de la feuille, le garde avec ce personnage : chaque feuille a ses propres lancers, qu’on recharge d’un geste et qu’on retire avec ×.": "«Salva questo tiro», nei dadi della scheda, lo conserva con questo personaggio: ogni scheda ha i suoi tiri, che si ricaricano con un tocco e si tolgono con ×."
+    "« Enregistrer ce lancer », dans les dés de la feuille, le garde avec ce personnage : chaque feuille a ses propres lancers, qu’on recharge d’un geste et qu’on retire avec ×.": "«Salva questo tiro», nei dadi della scheda, lo conserva con questo personaggio: ogni scheda ha i suoi tiri, che si ricaricano con un tocco e si tolgono con ×.",
+    "Accès offerts": "Accessi gratuiti",
+    "Accès offert": "Accesso gratuito",
+    "Accès offert : :note": "Accesso gratuito: :note",
+    "Accès offert (ami, testeur…)": "Accesso gratuito (amico, tester…)",
+    "Note sur l’accès offert": "Nota sull’accesso gratuito",
+    "ami, testeur…": "amico, tester…"
 }

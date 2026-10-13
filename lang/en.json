@@ -2930,5 +2930,11 @@
     "Ce document sert de carte. Image actuelle : :width × :height pixels.": "This document is used as a map. Current image: :width × :height pixels.",
     "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.": "An image of another size is accepted, but tokens, templates and points keep their position in pixels: they will shift on the picture and need to be moved back.",
     "Lancers de cette feuille": "This sheet’s rolls",
-    "« Enregistrer ce lancer », dans les dés de la feuille, le garde avec ce personnage : chaque feuille a ses propres lancers, qu’on recharge d’un geste et qu’on retire avec ×.": "“Save this roll”, in the sheet’s dice, keeps it with this character: each sheet has its own rolls, reloaded in one tap and removed with ×."
+    "« Enregistrer ce lancer », dans les dés de la feuille, le garde avec ce personnage : chaque feuille a ses propres lancers, qu’on recharge d’un geste et qu’on retire avec ×.": "“Save this roll”, in the sheet’s dice, keeps it with this character: each sheet has its own rolls, reloaded in one tap and removed with ×.",
+    "Accès offerts": "Complimentary access",
+    "Accès offert": "Complimentary access",
+    "Accès offert : :note": "Complimentary access: :note",
+    "Accès offert (ami, testeur…)": "Complimentary access (friend, tester…)",
+    "Note sur l’accès offert": "Note on the complimentary access",
+    "ami, testeur…": "friend, tester…"
 }

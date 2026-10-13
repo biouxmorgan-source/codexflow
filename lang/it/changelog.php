@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.88.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Riconoscere gli accessi gratuiti',
+        'items' => [
+            'Console di amministrazione, pagina Account: una casella «Accesso gratuito» per ogni account, con una nota facoltativa (amico, tester…). Gli accessi gratuiti compaiono sotto l’indirizzo, hanno il loro totale in cima alla pagina e il filtro «Mostra».',
+        ],
+    ],
+
     '0.87.1' => [
         'date' => '2026-10-20',
         'title' => 'Nomi dei punti leggibili sulla mappa',

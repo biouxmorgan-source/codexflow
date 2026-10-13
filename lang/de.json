@@ -2930,5 +2930,11 @@
     "Ce document sert de carte. Image actuelle : :width × :height pixels.": "Dieses Dokument dient als Karte. Aktuelles Bild: :width × :height Pixel.",
     "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.": "Ein Bild in anderer Größe wird akzeptiert, aber Spielfiguren, Schablonen und Punkte behalten ihre Position in Pixeln: Sie verschieben sich auf dem Bild und müssen neu platziert werden.",
     "Lancers de cette feuille": "Würfe dieses Bogens",
-    "« Enregistrer ce lancer », dans les dés de la feuille, le garde avec ce personnage : chaque feuille a ses propres lancers, qu’on recharge d’un geste et qu’on retire avec ×.": "„Diesen Wurf speichern“ in den Würfeln des Bogens bewahrt ihn bei diesem Charakter auf: Jeder Bogen hat eigene Würfe, die man mit einem Tippen lädt und mit × entfernt."
+    "« Enregistrer ce lancer », dans les dés de la feuille, le garde avec ce personnage : chaque feuille a ses propres lancers, qu’on recharge d’un geste et qu’on retire avec ×.": "„Diesen Wurf speichern“ in den Würfeln des Bogens bewahrt ihn bei diesem Charakter auf: Jeder Bogen hat eigene Würfe, die man mit einem Tippen lädt und mit × entfernt.",
+    "Accès offerts": "Kostenlose Zugänge",
+    "Accès offert": "Kostenloser Zugang",
+    "Accès offert : :note": "Kostenloser Zugang: :note",
+    "Accès offert (ami, testeur…)": "Kostenloser Zugang (Freund, Tester…)",
+    "Note sur l’accès offert": "Notiz zum kostenlosen Zugang",
+    "ami, testeur…": "Freund, Tester…"
 }

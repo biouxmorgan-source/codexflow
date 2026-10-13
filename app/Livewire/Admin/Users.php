@@ -39,6 +39,10 @@ class Users extends Component
     #[Url(except: 30)]
     public int $period = 30;
 
+    /** Filtre de la liste : '' (tous), 'complimentary' (accès offert) ou 'founders'. */
+    #[Url(except: '')]
+    public string $show = '';
+
     public ?int $editingId = null;
 
     public string $plan = Plans::FREE;
@@ -55,6 +59,11 @@ class Users extends Component
 
     /** Récompense choisie sur le Kickstarter (repère libre, ex. « The Whole Table »). */
     public string $backerReward = '';
+
+    /** Accès offert (ami, testeur…) : un repère pour savoir qui ne paie pas, avec une note facultative. */
+    public bool $isComplimentary = false;
+
+    public string $complimentaryNote = '';
 
     public string $giftCount = '';
 
@@ -81,6 +90,8 @@ class Users extends Component
 
         $rows = User::query()
             ->when($this->search !== '', fn ($query) => $query->where('email', 'ilike', '%'.addcslashes($this->search, '%_\\').'%'))
+            ->when($this->show === 'complimentary', fn ($query) => $query->where('complimentary', true))
+            ->when($this->show === 'founders', fn ($query) => $query->whereNotNull('founder_since'))
             ->withCount([
                 'ownedCampaigns',
                 'campaigns',
@@ -137,6 +148,7 @@ class Users extends Component
             'demo' => $plans[Plans::DEMO] ?? 0,
             'admins' => $plans[Plans::ADMIN] ?? 0,
             'founders' => $users->filter(fn (User $user) => $user->isFounder())->count(),
+            'complimentary' => $users->where('complimentary', true)->count(),
             'active' => UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->distinct('user_id')->count('user_id'),
             'logins' => (int) UserLogin::where('logged_in_at', '>=', now()->subDays($this->period))->selectRaw('count(distinct (user_id, date(logged_in_at))) as days')->value('days'),
         ];
@@ -160,6 +172,8 @@ class Users extends Component
         $this->isAdmin = $user->is_admin;
         $this->isFounder = $user->isFounder();
         $this->backerReward = (string) $user->backer_reward;
+        $this->isComplimentary = $user->complimentary;
+        $this->complimentaryNote = (string) $user->complimentary_note;
         $this->giftCount = '';
     }
 
@@ -185,11 +199,13 @@ class Users extends Component
             'planEndsAt' => ['nullable', 'date', 'after_or_equal:planStartedAt'],
             'storageQuotaMb' => ['nullable', 'integer', 'min:0', 'max:10000000'],
             'backerReward' => ['nullable', 'string', 'max:120'],
+            'complimentaryNote' => ['nullable', 'string', 'max:120'],
         ], attributes: [
             'plan' => __('formule'),
             'planStartedAt' => __('début'),
             'planEndsAt' => __('fin'),
             'storageQuotaMb' => __('stockage'),
+            'complimentaryNote' => __('note'),
         ]);
 
         // Débloqué : le compte quitte la démo et son essai commence.
@@ -209,6 +225,9 @@ class Users extends Component
             // La date d'origine reste : retirer puis remettre le marqueur la remet à aujourd'hui.
             'founder_since' => $this->isFounder ? ($user->founder_since ?? today()) : null,
             'backer_reward' => trim($this->backerReward) ?: null,
+            'complimentary' => $this->isComplimentary,
+            // La note n'a de sens qu'avec la case : décocher efface aussi « ami », « testeur »…
+            'complimentary_note' => $this->isComplimentary ? (trim($this->complimentaryNote) ?: null) : null,
         ])->save();
 
         $this->editingId = null;
