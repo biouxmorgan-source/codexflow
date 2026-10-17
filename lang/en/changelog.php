@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.68.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Raw roll',
+        'items' => [
+            'New “Raw” reading, selected by default: pick the dice types and counts (1d20 + 2d6…), roll, and each die shows as it falls, with no total, no threshold and no other rule.',
+        ],
+    ],
+
     '0.67.0' => [
         'date' => '2026-10-17',
         'title' => 'Your content, your rights',

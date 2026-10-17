@@ -5,15 +5,15 @@ namespace App\Support\Dice;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Ce qu'on lance et comment on le lit, sans nommer aucun jeu : un nombre de dés d'un même type,
- * une lecture (additionner, viser un seuil, compter les réussites, garder les meilleurs, lire les
+ * Ce qu'on lance et comment on le lit, sans nommer aucun jeu : des dés d'un ou plusieurs types,
+ * une lecture (brut, additionner, viser un seuil, compter les réussites, garder les meilleurs, lire les
  * chiffres), un bonus et, au besoin, des dés qui relancent sur leur valeur haute ou sur le 1.
  *
  * Construite depuis un tableau venu du navigateur : chaque valeur est vérifiée et bornée ici.
  */
 final class DiceFormula
 {
-    public const READINGS = ['sum', 'above', 'below', 'count', 'keep', 'digits'];
+    public const READINGS = ['raw', 'sum', 'above', 'below', 'count', 'keep', 'digits'];
 
     public const EXPLODES = ['none', 'up', 'down', 'both'];
 
@@ -90,7 +90,7 @@ final class DiceFormula
 
         // Ce qui n'a pas de sens pour une lecture est remis à zéro : la formule enregistrée reste lisible.
         $explode = match ($reading) {
-            'digits' => 'none',
+            'raw', 'digits' => 'none',
             'count' => in_array($explode, ['up', 'both'], true) ? 'up' : 'none',
             default => $explode,
         };
@@ -164,6 +164,7 @@ final class DiceFormula
         $parts = [$this->dice()];
 
         $parts[] = match ($this->reading) {
+            'raw' => __('bruts'),
             'sum' => __('additionnés'),
             'above' => __('total à :threshold ou plus', ['threshold' => $threshold]),
             'below' => __('total à :threshold ou moins', ['threshold' => $threshold]),

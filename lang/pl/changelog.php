@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.68.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Surowy rzut',
+        'items' => [
+            'Nowy odczyt „Surowy”, wybrany domyślnie: wybierz rodzaj i liczbę kości (1d20 + 2d6…), rzuć, a każda kość pokaże się tak, jak upadła, bez sumy, bez progu i bez innych zasad.',
+        ],
+    ],
+
     '0.67.0' => [
         'date' => '2026-10-17',
         'title' => 'Twoje treści, Twoje prawa',

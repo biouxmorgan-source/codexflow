@@ -26,7 +26,7 @@
             </span>
         @endforeach
     </div>
-    <div>
+    <div @if ($roll['reading'] === 'raw') class="sr-only" @endif>
         <p @class(['font-semibold tracking-tight', 'text-4xl md:text-6xl' => $large, 'text-2xl' => ! $large, 'text-wyn' => $result['success'] === true, 'text-flow' => $result['success'] === false])
             @if ($rolling) x-data x-init="$el.classList.add('dice-reveal')" @endif>{{ $roll['headline'] }}</p>
         @if ($result['total'] !== null && $result['success'] !== null)

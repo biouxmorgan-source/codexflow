@@ -5,7 +5,7 @@ document.addEventListener('alpine:init', () => {
     const MAX_KINDS = 6;
     const blank = () => ({
         pool: [{ count: 1, sides: 20 }],
-        reading: 'sum',
+        reading: 'raw',
         threshold: '',
         count_high: true,
         keep: 1,
@@ -121,11 +121,11 @@ document.addEventListener('alpine:init', () => {
         },
 
         get canExplode() {
-            return this.reading !== 'digits';
+            return !['raw', 'digits'].includes(this.reading);
         },
 
         get canExplodeDown() {
-            return !['count', 'digits'].includes(this.reading);
+            return !['raw', 'count', 'digits'].includes(this.reading);
         },
 
         setReading(reading) {

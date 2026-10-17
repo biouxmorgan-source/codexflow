@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.68.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Rolagem bruta',
+        'items' => [
+            'Nova leitura «Bruto», escolhida por padrão: escolha o tipo e a quantidade de dados (1d20 + 2d6…), role, e cada dado aparece como caiu, sem total, sem limiar nem outra regra.',
+        ],
+    ],
+
     '0.67.0' => [
         'date' => '2026-10-17',
         'title' => 'Os seus conteúdos, os seus direitos',

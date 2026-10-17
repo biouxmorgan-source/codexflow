@@ -1,5 +1,6 @@
 {{-- Composer un lancer : combien de dés, de quel type, comment les lire. Variables Alpine de diceBuilder. --}}
 @php($readings = [
+    'raw' => ['⚀', __('Brut'), __('Chaque dé tel qu’il tombe, sans total ni règle.'), "reading === 'raw'"],
     'sum' => ['Σ', __('Additionner'), __('Le total des dés, plus le bonus.'), "reading === 'sum'"],
     'total' => ['≥', __('Seuil sur le total'), __('Réussi si le total des dés atteint le seuil, ou s’il ne le dépasse pas.'), "['above', 'below'].includes(reading)"],
     'count' => ['✓', __('Seuil par dé'), __('Chaque dé au-dessus (ou au-dessous) du seuil compte une réussite.'), "reading === 'count'"],

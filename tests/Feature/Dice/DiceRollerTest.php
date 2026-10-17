@@ -168,4 +168,17 @@ class DiceRollerTest extends TestCase
 
         $this->assertSame(2, DiceRoller::read($formula, $faces)['successes']);
     }
+
+    public function test_a_raw_roll_shows_each_die_without_any_rule(): void
+    {
+        $formula = DiceFormula::fromArray(['pool' => [['count' => 1, 'sides' => 20], ['count' => 2, 'sides' => 6]], 'reading' => 'raw', 'modifier' => 3, 'threshold' => 10, 'explode' => 'up']);
+
+        $this->assertSame(['raw', 0, null, 'none'], [$formula->reading, $formula->modifier, $formula->threshold, $formula->explode]);
+        $this->assertSame('1d20 + 2d6, bruts', $formula->describe());
+
+        $result = DiceRoller::read($formula, $this->faces([17, 6, 2]));
+        $this->assertNull($result['total']);
+        $this->assertNull($result['success']);
+        $this->assertSame('17 · 6 · 2', DiceRoller::headline($result));
+    }
 }

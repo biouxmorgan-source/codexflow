@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.68.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Tirada en bruto',
+        'items' => [
+            'Nueva lectura «En bruto», elegida por defecto: eliges el tipo y el número de dados (1d20 + 2d6…), tiras, y cada dado se muestra tal como cae, sin total, sin umbral ni otra regla.',
+        ],
+    ],
+
     '0.67.0' => [
         'date' => '2026-10-17',
         'title' => 'Tus contenidos, tus derechos',

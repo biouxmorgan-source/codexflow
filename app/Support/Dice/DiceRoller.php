@@ -123,6 +123,10 @@ final class DiceRoller
                 }
                 break;
 
+            case 'raw':
+                // Brut : les dés tels qu'ils tombent, sans total ni règle.
+                break;
+
             default:
                 $sum = array_sum(array_column($groups, 'value'));
 
@@ -169,6 +173,11 @@ final class DiceRoller
             return $result['success']
                 ? __('Réussite de :margin', ['margin' => abs($result['margin'])])
                 : __('Échec de :margin', ['margin' => abs($result['margin'])]);
+        }
+
+        if ($result['total'] === null) {
+            // Lancer brut : chaque dé tel qu'il tombe.
+            return implode(' · ', array_map(fn (array $group) => $group['value'], $result['dice']));
         }
 
         return (string) $result['total'];

@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.68.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Ruwe worp',
+        'items' => [
+            'Nieuwe lezing ‘Ruw’, standaard gekozen: kies de soort en het aantal dobbelstenen (1d20 + 2d6…), gooi, en elke dobbelsteen verschijnt zoals hij valt, zonder totaal, zonder drempel of andere regel.',
+        ],
+    ],
+
     '0.67.0' => [
         'date' => '2026-10-17',
         'title' => 'Uw inhoud, uw rechten',
