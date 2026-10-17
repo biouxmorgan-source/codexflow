@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Flächenschablonen auf der Karte',
+        'items' => [
+            'Neue Schablonen auf der Kartenseite: Kreis, Quadrat, Rechteck, Kegel und Linie, in Feldern bemessen (oder in der Einheit des Maßstabs). Man zieht sie über die Karte, dreht sie, verbirgt sie, und die Liste der getroffenen Token erscheint sofort.',
+            'Sichtbare Schablonen erscheinen auf dem Tischbildschirm, unter den Token.',
+        ],
+    ],
+
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Gemeinsame Kampfkarte',

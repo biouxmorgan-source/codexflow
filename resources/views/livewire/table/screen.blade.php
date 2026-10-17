@@ -72,7 +72,7 @@
             @case('map')
                 {{-- Chacun glisse les jetons qu'il a le droit de déplacer (vérifié côté serveur). --}}
                 <div x-data="mapTokens" class="h-full w-full touch-none" x-on:pointerdown="down($event)" x-on:pointermove="move($event)" x-on:pointerup="up($event)" x-on:pointercancel="up($event)">
-                    <x-table-map :map="$display['map']" :tokens="$display['map']->tokens" :movable="$movable"
+                    <x-table-map :map="$display['map']" :tokens="$display['map']->tokens" :templates="$display['map']->templates" :movable="$movable"
                         :image-url="$this->fileUrl('file', ['v' => $display['key']])"
                         :token-url="fn ($token) => $this->fileUrl('token', ['v' => $token->entity?->updated_at?->timestamp], $token)" />
                 </div>

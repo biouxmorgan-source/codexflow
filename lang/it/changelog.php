@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Sagome d\'area sulla mappa',
+        'items' => [
+            'Nuove sagome nella pagina della mappa: cerchio, quadrato, rettangolo, cono e linea, misurate in caselle (o nell\'unità della scala). Si trascinano sulla mappa, si orientano, si nascondono, e l\'elenco dei segnalini colpiti appare subito.',
+            'Le sagome visibili compaiono sullo schermo del tavolo, sotto i segnalini.',
+        ],
+    ],
+
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Mappa di combattimento condivisa',

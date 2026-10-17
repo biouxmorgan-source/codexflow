@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Area templates on the map',
+        'items' => [
+            'New templates on the map page: circle, square, rectangle, cone and line, sized in squares (or in the scale\'s unit). Drag them on the map, turn them, hide them, and the list of tokens caught in the area shows up straight away.',
+            'Visible templates appear on the table screen, under the tokens.',
+        ],
+    ],
+
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Shared battle map',

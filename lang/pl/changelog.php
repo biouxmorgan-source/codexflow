@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Szablony obszaru na mapie',
+        'items' => [
+            'Nowe szablony na stronie mapy: koło, kwadrat, prostokąt, stożek i linia, mierzone w polach (lub w jednostce skali). Przeciąga się je po mapie, obraca, ukrywa, a lista trafionych żetonów pojawia się od razu.',
+            'Widoczne szablony pojawiają się na ekranie stołu, pod żetonami.',
+        ],
+    ],
+
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Wspólna mapa bitewna',
