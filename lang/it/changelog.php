@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.67.0' => [
+        'date' => '2026-10-17',
+        'title' => 'I tuoi contenuti, i tuoi diritti',
+        'items' => [
+            'La pagina «Privacy e note legali» precisa che SagaWyn non è proprietario di ciò che vi inserisci: ogni utente resta proprietario dei suoi contenuti e responsabile di ciò che pubblica.',
+            'Nuove sezioni: «Importazione e strutturazione dei contenuti», «Servizi di intelligenza artificiale», «Segnalare un contenuto illecito», «Disponibilità e backup» e «Giochi e marchi». Le pagine di importazione vi rimandano.',
+        ],
+    ],
+
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Dadi misti e tiri personali',

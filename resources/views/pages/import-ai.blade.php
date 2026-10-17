@@ -23,7 +23,9 @@
         @endif
     </ol>
 
-    <p class="mb-6 max-w-3xl rounded-lg bg-amber-50 px-4 py-2 text-sm text-amber-900">{{ __('Utilisez uniquement des documents que vous possédez, pour votre usage personnel. Le prompt demande tout le contenu utile pour jouer, avec la page du livre : gardez les fichiers produits pour vous.') }}</p>
+    <p class="mb-6 max-w-3xl rounded-lg bg-amber-50 px-4 py-2 text-sm text-amber-900">{{ __('Utilisez uniquement des documents que vous possédez, pour votre usage personnel. Le prompt demande tout le contenu utile pour jouer, avec la page du livre : gardez les fichiers produits pour vous.') }}
+        <a href="{{ route('privacy') }}#importation" class="font-medium underline">{{ __('Importation et structuration de contenus') }}</a>
+    </p>
 
     <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm" x-data="{ copied: false }">
         <div class="mb-3 flex flex-wrap items-center gap-3">

@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.67.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Ihre Inhalte, Ihre Rechte',
+        'items' => [
+            'Die Seite „Datenschutz und Impressum“ stellt klar, dass SagaWyn nicht Eigentümer dessen ist, was Sie dort ablegen: Jede Person bleibt Eigentümerin ihrer Inhalte und ist für das verantwortlich, was sie veröffentlicht.',
+            'Neue Abschnitte: „Import und Strukturierung von Inhalten“, „KI-Dienste“, „Rechtswidrige Inhalte melden“, „Verfügbarkeit und Sicherungen“ und „Spiele und Marken“. Die Importseiten verweisen darauf.',
+        ],
+    ],
+
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Gemischte Würfel und eigene gespeicherte Würfe',

@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.67.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Twoje treści, Twoje prawa',
+        'items' => [
+            'Strona „Prywatność i informacje prawne” wyjaśnia, że SagaWyn nie jest właścicielem tego, co w nim umieszczasz: każdy użytkownik pozostaje właścicielem swoich treści i odpowiada za to, co publikuje.',
+            'Nowe sekcje: „Importowanie i porządkowanie treści”, „Usługi sztucznej inteligencji”, „Zgłoś nielegalną treść”, „Dostępność i kopie zapasowe” oraz „Gry i znaki towarowe”. Strony importu do nich odsyłają.',
+        ],
+    ],
+
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Mieszane kości i własne zapisane rzuty',
