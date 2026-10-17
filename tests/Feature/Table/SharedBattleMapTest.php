@@ -13,6 +13,7 @@ use App\Models\Entity;
 use App\Models\MapToken;
 use App\Models\TableMap;
 use App\Models\User;
+use App\Support\QrCode;
 use App\Support\TableDisplay;
 use App\Support\TableInitiative;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -171,6 +172,9 @@ class SharedBattleMapTest extends TestCase
         $remote = Livewire::actingAs($this->gm)->test(Remote::class, ['campaign' => $this->campaign])->call('createGuestLink');
         $token = $this->campaign->fresh()->table_guest_token;
         $this->assertSame(40, strlen($token));
+        // Chaque lien a son QR code, à scanner au téléphone.
+        $remote->assertSee(route('table.guest', $token))->assertSee('QR code');
+        $this->assertStringStartsWith('<svg', QrCode::svg(route('table.guest', $token)));
 
         auth()->logout();
         $this->get(route('table.guest', $token))->assertOk()->assertSee('Harvey')->assertDontSee('Goule');
@@ -189,5 +193,29 @@ class SharedBattleMapTest extends TestCase
         $this->assertNull($this->campaign->fresh()->table_guest_token);
         $this->get(route('table.guest', $token))->assertNotFound();
         $this->get(route('table.guest.file', $token))->assertNotFound();
+    }
+
+    /** Taper l'adresse ne suffit pas : chaque page revérifie le rôle dans la campagne. */
+    public function test_typing_the_address_without_the_right_role_leads_nowhere(): void
+    {
+        $outsider = User::factory()->create();
+        $pages = [
+            route('table.remote', $this->campaign),
+            route('table.screen', $this->campaign),
+            route('table.file', $this->campaign),
+            route('maps.show', [$this->campaign, $this->map]),
+            route('campaigns.show', $this->campaign),
+        ];
+
+        foreach ($pages as $url) {
+            $this->get($url)->assertRedirect(route('login'));
+            $this->actingAs($outsider)->get($url)->assertForbidden();
+            auth()->logout();
+        }
+
+        // Un joueur suit l'écran partagé, mais ne pilote rien.
+        $this->actingAs($this->alex)->get(route('table.remote', $this->campaign))->assertForbidden();
+        $this->actingAs($this->alex)->get(route('maps.show', [$this->campaign, $this->map]))->assertForbidden();
+        $this->actingAs($this->alex)->get(route('table.screen', $this->campaign))->assertOk();
     }
 }

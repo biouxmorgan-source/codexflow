@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Modelos medidos como a régua',
+        'items' => [
+            'Os modelos ajustam-se na mesma unidade que a régua (metros, pés…): o «Tamanho real de uma casa», em Grelha, calibra os dois, seja qual for o tamanho das casas no ecrã.',
+            'Um botão «Eliminar» mais visível em cada modelo, e «Eliminar todos os modelos» no fim do feitiço.',
+            'Cada ligação de «Juntar-se à distância» tem o seu código QR, para os jogadores o lerem com o telemóvel.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Modelos de área no mapa',

@@ -90,8 +90,9 @@ class MapTemplatesTest extends TestCase
         TableDisplay::show($this->campaign, 'map', $this->map->id);
 
         $editor = Livewire::actingAs($this->gm)->test(Show::class, ['campaign' => $this->campaign, 'map' => $this->map])
+            ->assertSet('templateSize', '4.5')
             ->set('templateShape', 'circle')
-            ->set('templateSize', '3')
+            ->set('templateSize', '4,5')
             ->call('addTemplate')
             ->assertHasNoErrors()
             ->assertSee('Cercle, rayon 4,5 m')
@@ -99,12 +100,14 @@ class MapTemplatesTest extends TestCase
             ->assertSee('Harvey');
 
         $template = $this->map->templates()->sole();
-        $this->assertSame([500.0, 500.0, false], [$template->x, $template->y, $template->hidden]);
+        // Saisi en mètres, comme la règle : 4,5 m à 1,5 m la case = 3 cases.
+        $this->assertSame([500.0, 500.0, false, 3.0], [$template->x, $template->y, $template->hidden, $template->size]);
 
         $editor->call('moveTemplate', $template->id, 690, 690)->assertSee('Loup')->assertDontSee('Harvey, Loup');
         $editor->call('rotateTemplate', $template->id, '-90')->call('resizeTemplate', $template->id, '5');
         $template->refresh();
-        $this->assertSame([270.0, 5.0], [$template->angle, $template->size]);
+        $this->assertSame([270.0, 3.3333], [$template->angle, $template->size]);
+        $this->assertSame('Cercle, rayon 5 m', $template->describe($this->map));
 
         $editor->set('templateShape', 'line')->set('templateSize2', '')->call('addTemplate')->assertHasErrors('templateSize2');
         $editor->call('resizeTemplate', $template->id, '0')->assertHasErrors('size');
@@ -119,6 +122,11 @@ class MapTemplatesTest extends TestCase
 
         $this->actingAs($this->gm);
         $editor->call('deleteTemplate', $template->id);
+        $this->assertSame(0, $this->map->templates()->count());
+
+        $editor->set('templateShape', 'cone')->call('addTemplate')->call('addTemplate')->assertSee('Supprimer tous les gabarits');
+        $this->assertSame(2, $this->map->templates()->count());
+        $editor->call('deleteAllTemplates');
         $this->assertSame(0, $this->map->templates()->count());
     }
 }
