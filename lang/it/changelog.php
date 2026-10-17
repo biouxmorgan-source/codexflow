@@ -4,13 +4,22 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
-    '0.64.0' => [
+    '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'I dadi al tavolo',
         'items' => [
             'Nuovo pulsante «Dadi» in fondo a ogni pagina della campagna: il numero e il tipo di dadi (da 4 a 100 facce, o altro), poi come leggerli: sommare, raggiungere una soglia, restare sotto una soglia, contare i successi, tenere i migliori o i più bassi, leggere in cifre. Con un bonus e dadi che si ritirano sul massimo (+) o sull\'1 (−).',
             'Il Master chiede un tiro a tutto il tavolo o ad alcuni personaggi, alla vista di tutti o in modo discreto. Ai giocatori interessati si apre una finestra; senza soglia, ognuno inserisce la sua e aggiunge il suo bonus, e una soglia nascosta resta al Master, che vede chi ha tirato cosa.',
             'I tiri al tavolo rotolano per qualche secondo sullo schermo del tavolo; un tiro discreto lo vede solo il Master. Il Master salva i suoi tiri abituali per tutto il tavolo, e i dadi si disattivano in «Funzioni della campagna».',
+        ],
+    ],
+
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Sagome d\'area sulla mappa',
+        'items' => [
+            'Nuove sagome nella pagina della mappa: cerchio, quadrato, rettangolo, cono e linea, misurate in caselle (o nell\'unità della scala). Si trascinano sulla mappa, si orientano, si nascondono, e l\'elenco dei segnalini colpiti appare subito.',
+            'Le sagome visibili compaiono sullo schermo del tavolo, sotto i segnalini.',
         ],
     ],
 

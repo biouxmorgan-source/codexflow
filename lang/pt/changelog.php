@@ -4,13 +4,22 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
-    '0.64.0' => [
+    '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Os dados na mesa',
         'items' => [
             'Novo botão «Dados» no rodapé de cada página da campanha: o número e o tipo de dados (de 4 a 100 faces, ou outro), e como lê-los: somar, atingir um limiar, ficar abaixo de um limiar, contar sucessos, manter os melhores ou os mais baixos, ler em algarismos. Com um bônus e dados que rolam de novo no máximo (+) ou no 1 (−).',
             'O Mestre pede uma rolagem a toda a mesa ou a alguns personagens, à vista de todos ou em discreto. Uma janela abre para os jogadores envolvidos; sem limiar, cada um informa o seu e soma seu bônus, e um limiar oculto fica com o Mestre, que vê quem rolou o quê.',
             'As rolagens à mesa rolam alguns segundos na tela da mesa; uma rolagem discreta só aparece para o Mestre. O Mestre salva suas rolagens habituais para toda a mesa, e os dados podem ser desligados em «Funções da campanha».',
+        ],
+    ],
+
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Modelos de área no mapa',
+        'items' => [
+            'Novos modelos na página do mapa: círculo, quadrado, retângulo, cone e linha, medidos em casas (ou na unidade da escala). Arrastam-se no mapa, orientam-se, ocultam-se, e a lista de tokens atingidos aparece logo.',
+            'Os modelos visíveis aparecem no ecrã da mesa, por baixo dos tokens.',
         ],
     ],
 

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
-    /** Demande de Morgan (2026-10-17), notée dans les évolutions et livrée en 0.64.0. */
+    /** Demande de Morgan (2026-10-17), notée dans les évolutions et livrée en 0.65.0. */
     public function up(): void
     {
         DB::table('evolutions')->insert([
@@ -14,7 +14,7 @@ return new class extends Migration
                 .'Le MJ demande un lancer à toute la table ou à certains personnages, à la vue de tous ou en discret, avec un seuil fixé, saisi par chaque joueur ou caché. Lancers enregistrés pour la table, affichage sur l’écran de table, aucun nom de jeu.',
             'status' => 'done',
             'priority' => 'normal',
-            'target' => 'v0.64.0',
+            'target' => 'v0.65.0',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

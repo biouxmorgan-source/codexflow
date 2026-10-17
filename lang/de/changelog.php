@@ -4,13 +4,22 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
-    '0.64.0' => [
+    '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Würfel am Tisch',
         'items' => [
             'Neue Schaltfläche „Würfel“ unten auf jeder Seite der Kampagne: Anzahl und Art der Würfel (4 bis 100 Seiten oder andere), dann wie sie gelesen werden: addieren, Schwelle erreichen, unter der Schwelle bleiben, Erfolge zählen, die besten oder niedrigsten behalten, als Ziffern lesen. Mit Bonus und Würfeln, die beim Höchstwert (+) oder bei einer 1 (−) nachgewürfelt werden.',
             'Die SL verlangt einen Wurf vom ganzen Tisch oder von einzelnen Charakteren, offen oder diskret. Bei den betroffenen Spielenden öffnet sich ein Fenster; ohne Schwelle gibt jede Person ihre eigene ein und fügt ihren Bonus hinzu, und eine verdeckte Schwelle bleibt bei der SL, die sieht, wer was gewürfelt hat.',
             'Würfe am Tisch rollen einige Sekunden über den Tischbildschirm; ein diskreter Wurf wird nur der SL gezeigt. Die SL speichert ihre üblichen Würfe für den ganzen Tisch, und die Würfel lassen sich unter „Funktionen der Kampagne“ abschalten.',
+        ],
+    ],
+
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Flächenschablonen auf der Karte',
+        'items' => [
+            'Neue Schablonen auf der Kartenseite: Kreis, Quadrat, Rechteck, Kegel und Linie, in Feldern bemessen (oder in der Einheit des Maßstabs). Man zieht sie über die Karte, dreht sie, verbirgt sie, und die Liste der getroffenen Token erscheint sofort.',
+            'Sichtbare Schablonen erscheinen auf dem Tischbildschirm, unter den Token.',
         ],
     ],
 
