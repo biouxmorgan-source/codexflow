@@ -121,7 +121,7 @@ class AiImportPromptTest extends TestCase
                 ->assertHasNoErrors()
                 ->assertSee('Importer '.(count($lines) - 1).' lignes');
             $this->assertNotContains('new', $page->get('mapping'), 'Chaque colonne correspond à un champ déjà importé.');
-            $page->call('import')->assertHasNoErrors();
+            $page->set('rightsDeclared', true)->call('import')->assertHasNoErrors();
         };
 
         $import('fields', '1-champs.csv', [

@@ -4,6 +4,7 @@ namespace App\Livewire\Fields;
 
 use App\Enums\FieldType;
 use App\Enums\Zone;
+use App\Livewire\Concerns\DeclaresContentRights;
 use App\Models\Campaign;
 use App\Models\EntityType;
 use App\Models\FieldDefinition;
@@ -23,7 +24,7 @@ use Livewire\WithFileUploads;
  */
 class Manage extends Component
 {
-    use WithFileUploads;
+    use DeclaresContentRights, WithFileUploads;
 
     public Campaign $campaign;
 
@@ -240,11 +241,17 @@ class Manage extends Component
         $this->validate(['template' => ['required', 'file', 'extensions:json', 'max:5120']], attributes: ['template' => __('modèle')]);
         Plans::ensure($this->campaign->owner, 'archive');
 
-        try {
-            $added = (new CampaignImport($this->campaign->owner))->template((string) file_get_contents($this->template->getRealPath()), $this->campaign);
-        } catch (ArchiveException $e) {
-            $this->addError('template', $e->getMessage());
+        $added = $this->withDeclaredRights('template', $this->campaign, function () {
+            try {
+                return (new CampaignImport($this->campaign->owner))->template((string) file_get_contents($this->template->getRealPath()), $this->campaign);
+            } catch (ArchiveException $e) {
+                $this->addError('template', $e->getMessage());
 
+                return false;
+            }
+        });
+
+        if ($added === false) {
             return;
         }
 

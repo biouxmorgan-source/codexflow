@@ -11,7 +11,6 @@
         {{ __('Vous avez le PDF d’un jeu ou d’un scénario ?') }}
         <a href="{{ route('imports.ai', $campaign) }}" class="link font-medium" wire:navigate>{{ __('Préparez les fichiers avec une IA') }}</a>
     </p>
-    <x-import-rights-notice class="-mt-4 mb-6" />
 
     @if ($result)
         <div class="mb-6 rounded-xl border border-codex/30 bg-codex-soft p-4" role="status">
@@ -291,8 +290,10 @@
                     @endif
                 </div>
 
-                <div class="mt-6 flex flex-wrap items-center gap-3">
-                    <button type="submit" class="btn-primary" @disabled($plan['valid'] === 0) wire:loading.attr="disabled" wire:target="import">
+                <x-import-declaration class="mt-6" />
+
+                <div class="mt-4 flex flex-wrap items-center gap-3">
+                    <button type="submit" class="btn-primary" @disabled($plan['valid'] === 0 || ! $rightsDeclared) x-bind:disabled="{{ $plan['valid'] === 0 ? 'true' : '! $wire.rightsDeclared' }}" wire:loading.attr="disabled" wire:target="import">
                         {{ trans_choice('Importer :count ligne|Importer :count lignes', $plan['valid']) }}
                     </button>
                     <a href="{{ route('campaigns.show', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Annuler') }}</a>

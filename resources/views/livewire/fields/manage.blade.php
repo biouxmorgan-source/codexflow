@@ -158,7 +158,8 @@
                     <input id="template" type="file" wire:model="template" accept=".json,application/json" class="block w-full text-sm">
                     @error('template') <p class="error">{{ $message }}</p> @enderror
                     <p class="text-xs text-stone-500">{{ __('Les champs et règles qui existent déjà sous le même nom ne sont pas touchés.') }}</p>
-                    <button type="submit" class="btn-primary" wire:loading.attr="disabled" wire:target="template,importTemplate">{{ __('Importer') }}</button>
+                    <x-import-declaration class="text-xs" />
+                    <button type="submit" class="btn-primary" @disabled(! $rightsDeclared) x-bind:disabled="! $wire.rightsDeclared" wire:loading.attr="disabled" wire:target="template,importTemplate">{{ __('Importer') }}</button>
                 </form>
             </section>
         </aside>
