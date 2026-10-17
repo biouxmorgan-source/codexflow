@@ -78,7 +78,7 @@ class TimelineTest extends TestCase
         $event = TimelineEvent::first();
         Livewire::actingAs($this->alex)->test(Index::class, ['campaign' => $this->campaign])->call('delete', $event->id)->assertForbidden();
 
-        $this->actingAs(User::factory()->create())->get(route('timeline.index', $this->campaign))->assertForbidden();
+        $this->actingAs(User::factory()->create())->get(route('timeline.index', $this->campaign))->assertNotFound();
     }
 
     public function test_events_are_edited_reordered_and_deleted(): void

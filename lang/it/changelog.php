@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Accessi verificati ovunque',
+        'items' => [
+            'Digitare un indirizzo a mano non apre mai una campagna, una scheda o un file a cui non si ha diritto. Un account che non è membro riceve ora «Pagina non trovata», come per un indirizzo inesistente: provare dei numeri non rivela nemmeno che una campagna esiste.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Sagome d\'area sulla mappa',

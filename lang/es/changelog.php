@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Accesos comprobados en todas partes',
+        'items' => [
+            'Escribir una dirección a mano nunca abre una campaña, una ficha o un archivo al que no se tiene derecho. Una cuenta que no es miembro recibe ahora «Página no encontrada», como para una dirección que no existe: probar números ni siquiera revela que una campaña existe.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Plantillas de área en el mapa',

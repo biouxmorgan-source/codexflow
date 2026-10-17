@@ -5,15 +5,16 @@ namespace App\Policies;
 use App\Models\Document;
 use App\Models\User;
 use App\Support\CoGameMaster;
+use Illuminate\Auth\Access\Response;
 
 /**
  * Le MJ propriétaire et ses co-MJ accèdent aux documents ; les joueurs les consultent par leurs personnages.
  */
 class DocumentPolicy
 {
-    public function view(User $user, Document $model): bool
+    public function view(User $user, Document $model): bool|Response
     {
-        return CoGameMaster::canPrepare($user, $model, edit: false);
+        return CoGameMaster::canPrepare($user, $model, edit: false) ?: Response::denyAsNotFound();
     }
 
     public function update(User $user, Document $model): bool

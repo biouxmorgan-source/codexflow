@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Accès vérifiés partout',
+        'items' => [
+            'Taper une adresse à la main n’ouvre jamais une campagne, une fiche ou un fichier auquel on n’a pas droit. Un compte qui n’est pas membre reçoit désormais « Page introuvable », comme pour une adresse qui n’existe pas : essayer des numéros n’apprend même pas qu’une campagne existe.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Gabarits de zone sur la carte',

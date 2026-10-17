@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Dostęp sprawdzany wszędzie',
+        'items' => [
+            'Wpisanie adresu ręcznie nigdy nie otwiera kampanii, karty ani pliku, do którego nie ma się prawa. Konto, które nie jest członkiem, otrzymuje teraz „Nie znaleziono strony”, tak jak dla adresu, który nie istnieje: próbowanie numerów nie zdradza nawet, że kampania istnieje.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Szablony obszaru na mapie',

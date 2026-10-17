@@ -44,7 +44,9 @@ class Screen extends Component
         }
 
         // Le MJ l'affiche sur la télé ; un joueur le suit sur son appareil si le MJ le partage.
-        abort_unless($campaign !== null && auth()->check() && TableDisplay::canWatch(auth()->user(), $campaign), 403);
+        abort_if($campaign === null, 404);
+        $this->authorize('view', $campaign);
+        abort_unless(auth()->check() && TableDisplay::canWatch(auth()->user(), $campaign), 403);
         $this->campaign = $campaign;
     }
 

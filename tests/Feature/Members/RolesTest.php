@@ -109,7 +109,7 @@ class RolesTest extends TestCase
 
         // Retiré de la campagne, il n'a plus accès à rien.
         Livewire::actingAs($this->owner)->test(Index::class, ['campaign' => $this->campaign])->call('remove', $coGm->id);
-        $this->actingAs($coGm)->get(route('entities.show', [$this->campaign, $this->morel]))->assertForbidden();
+        $this->actingAs($coGm)->get(route('entities.show', [$this->campaign, $this->morel]))->assertNotFound();
     }
 
     public function test_a_spectator_only_watches_the_table_screen(): void

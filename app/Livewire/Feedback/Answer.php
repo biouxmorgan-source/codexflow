@@ -28,6 +28,7 @@ class Answer extends Component
 
     public function mount(Campaign $campaign, FeedbackRequest $feedbackRequest): void
     {
+        $this->authorize('view', $campaign);
         abort_unless($feedbackRequest->campaign_id === $campaign->id, 404);
         abort_unless($campaign->roleOf(auth()->user()) === CampaignRole::Player, 403);
     }

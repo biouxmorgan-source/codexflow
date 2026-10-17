@@ -127,9 +127,10 @@ class ScenesTest extends TestCase
         $this->campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);
         $other = Campaign::factory()->for($this->gm, 'owner')->create();
 
-        foreach ([$player, User::factory()->create()] as $user) {
-            $this->actingAs($user)->get(route('scenes.show', [$this->campaign, $scene]))->assertForbidden();
-            $this->actingAs($user)->get(route('scenarios.index', $this->campaign))->assertForbidden();
+        // Le joueur sait que la campagne existe (403) ; un compte étranger reçoit la même réponse qu'une campagne inexistante (404).
+        foreach ([[$player, 403], [User::factory()->create(), 404]] as [$user, $status]) {
+            $this->actingAs($user)->get(route('scenes.show', [$this->campaign, $scene]))->assertStatus($status);
+            $this->actingAs($user)->get(route('scenarios.index', $this->campaign))->assertStatus($status);
         }
 
         $this->actingAs($this->gm)->get(route('scenes.show', [$other, $scene]))->assertNotFound();

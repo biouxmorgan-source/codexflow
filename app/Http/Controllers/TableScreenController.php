@@ -7,6 +7,7 @@ use App\Models\Entity;
 use App\Models\MapToken;
 use App\Support\TableAudio;
 use App\Support\TableDisplay;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -19,6 +20,7 @@ class TableScreenController extends Controller
 {
     public function file(Campaign $campaign): StreamedResponse
     {
+        Gate::authorize('view', $campaign);
         abort_unless(TableDisplay::canWatch(auth()->user(), $campaign), 403);
 
         return $this->shownFile($campaign);
@@ -76,6 +78,7 @@ class TableScreenController extends Controller
     /** Morceau joué par l'écran de table : au MJ et au spectateur, jamais aux joueurs. */
     public function audio(Campaign $campaign): BinaryFileResponse
     {
+        Gate::authorize('view', $campaign);
         abort_unless(TableAudio::canHear(auth()->user(), $campaign), 403);
         $audio = TableAudio::current($campaign);
         abort_if($audio === null, 404);
@@ -86,6 +89,7 @@ class TableScreenController extends Controller
     /** Portrait d'un jeton visible de la carte affichée. */
     public function token(Campaign $campaign, MapToken $token): StreamedResponse
     {
+        Gate::authorize('view', $campaign);
         abort_unless(TableDisplay::canWatch(auth()->user(), $campaign), 403);
 
         return $this->tokenPortrait($campaign, $token);
@@ -107,6 +111,7 @@ class TableScreenController extends Controller
 
     public function image(Campaign $campaign): StreamedResponse
     {
+        Gate::authorize('view', $campaign);
         abort_unless(TableDisplay::canWatch(auth()->user(), $campaign), 403);
 
         return $this->shownImage($campaign);

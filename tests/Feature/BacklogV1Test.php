@@ -203,8 +203,8 @@ class BacklogV1Test extends TestCase
             ->assertHasErrors('name');
 
         // Un joueur de la campagne n'ouvre ni le jeu ni le monde de son MJ.
-        $this->actingAs($this->alex)->get(route('worlds.show', $world))->assertForbidden();
-        $this->actingAs($this->alex)->get(route('games.show', $game))->assertForbidden();
+        $this->actingAs($this->alex)->get(route('worlds.show', $world))->assertNotFound();
+        $this->actingAs($this->alex)->get(route('games.show', $game))->assertNotFound();
     }
 
     public function test_secrets_have_a_kind_and_a_state_deduced_from_who_knows_them(): void

@@ -121,7 +121,7 @@ class BacklogV6Test extends TestCase
             ->call('save')
             ->assertForbidden();
         Livewire::actingAs($this->coGm)->test(GameShow::class, ['gameSystem' => $game])->assertOk()->assertDontSee('Gérer les champs →');
-        Livewire::actingAs($this->alex)->test(WorldShow::class, ['world' => $world])->assertForbidden();
+        Livewire::actingAs($this->alex)->test(WorldShow::class, ['world' => $world])->assertNotFound();
 
         // Les champs : refusés, puis confiés par le propriétaire.
         Livewire::actingAs($this->coGm)->test(FieldsManage::class, ['campaign' => $this->campaign])->assertForbidden();

@@ -131,8 +131,8 @@ class EntityFilesTest extends TestCase
         $this->campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);
 
         foreach ([$player, User::factory()->create()] as $user) {
-            $this->actingAs($user)->get(route('attachments.show', $attachment))->assertForbidden();
-            $this->actingAs($user)->get(route('entities.image', $this->npc))->assertForbidden();
+            $this->actingAs($user)->get(route('attachments.show', $attachment))->assertNotFound();
+            $this->actingAs($user)->get(route('entities.image', $this->npc))->assertNotFound();
         }
 
         auth()->logout();

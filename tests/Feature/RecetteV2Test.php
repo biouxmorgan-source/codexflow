@@ -193,8 +193,8 @@ class RecetteV2Test extends TestCase
 
         // Un compte étranger reçoit 403 que la feuille existe ou non.
         $this->actingAs(User::factory()->create())
-            ->get(route('characters.sheet', [$this->campaign, $this->harvey]))->assertForbidden();
-        $this->get(route('characters.portrait', [$this->campaign, $this->harvey]))->assertForbidden();
+            ->get(route('characters.sheet', [$this->campaign, $this->harvey]))->assertNotFound();
+        $this->get(route('characters.portrait', [$this->campaign, $this->harvey]))->assertNotFound();
     }
 
     public function test_a_player_without_character_is_sent_to_their_campaigns(): void

@@ -58,7 +58,7 @@ class TableScreenTest extends TestCase
         $this->assertTrue($this->campaign->fresh()->table_shared);
         $this->actingAs($player)->get(route('table.screen', $this->campaign))->assertOk();
 
-        $this->actingAs(User::factory()->create())->get(route('table.screen', $this->campaign))->assertForbidden();
+        $this->actingAs(User::factory()->create())->get(route('table.screen', $this->campaign))->assertNotFound();
 
         Livewire::actingAs($player)->test(Live::class, ['campaign' => $this->campaign])->assertForbidden();
     }
@@ -85,7 +85,7 @@ class TableScreenTest extends TestCase
 
         $this->campaign->forceFill(['table_shared' => true])->save();
         $this->actingAs($player)->get(route('table.file', $this->campaign))->assertNotFound();
-        $this->actingAs($player)->get(route('documents.file', $secret))->assertForbidden();
+        $this->actingAs($player)->get(route('documents.file', $secret))->assertNotFound();
 
         $this->actingAs($this->gm);
         TableDisplay::showDocument($this->campaign, $map);

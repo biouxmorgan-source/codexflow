@@ -114,8 +114,9 @@ class PlayerFeedbackTest extends TestCase
         $request = $this->ask();
         $stranger = User::factory()->create();
 
-        foreach ([$this->spectator, $stranger, $this->gm] as $user) {
-            Livewire::actingAs($user)->test(Answer::class, ['campaign' => $this->campaign, 'feedbackRequest' => $request])->assertForbidden();
+        // Un compte étranger reçoit la même réponse qu'une campagne inexistante.
+        foreach ([[$this->spectator, 403], [$stranger, 404], [$this->gm, 403]] as [$user, $status]) {
+            Livewire::actingAs($user)->test(Answer::class, ['campaign' => $this->campaign, 'feedbackRequest' => $request])->assertStatus($status);
         }
 
         $other = Campaign::factory()->for($this->gm, 'owner')->create();

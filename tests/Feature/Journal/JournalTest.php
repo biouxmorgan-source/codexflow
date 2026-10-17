@@ -102,7 +102,7 @@ class JournalTest extends TestCase
         $player = User::factory()->create();
         $this->campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);
         $this->actingAs($player)->get(route('journal.index', $this->campaign))->assertForbidden();
-        $this->actingAs(User::factory()->create())->get(route('journal.index', $this->campaign))->assertForbidden();
+        $this->actingAs(User::factory()->create())->get(route('journal.index', $this->campaign))->assertNotFound();
 
         $this->actingAs($this->gm)->get(route('campaigns.show', $this->campaign))->assertSee(route('journal.index', $this->campaign));
     }

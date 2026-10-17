@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Enums\CampaignRole;
 use App\Models\PlayerCharacter;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 /**
  * Le MJ voit et modifie tous les personnages de sa campagne ; un joueur, seulement le sien,
@@ -12,12 +13,16 @@ use App\Models\User;
  */
 class PlayerCharacterPolicy
 {
-    public function view(User $user, PlayerCharacter $character): bool
+    public function view(User $user, PlayerCharacter $character): bool|Response
     {
         $role = $character->campaign->roleOf($user);
 
-        return $role === CampaignRole::GameMaster
-            || ($role === CampaignRole::Player && $character->isPlayedBy($user));
+        if ($role === CampaignRole::GameMaster || ($role === CampaignRole::Player && $character->isPlayedBy($user))) {
+            return true;
+        }
+
+        // Hors de la campagne : la même réponse qu'un personnage inexistant.
+        return $role === null ? Response::denyAsNotFound() : Response::deny();
     }
 
     /** Modifier les champs ouverts aux joueurs et les compteurs. */
@@ -28,7 +33,7 @@ class PlayerCharacterPolicy
         }
 
         // Personnage au repos : le joueur relit sa fiche, sans la modifier.
-        return $this->view($user, $character) && ! $character->locked && $character->is_active;
+        return $this->view($user, $character) === true && ! $character->locked && $character->is_active;
     }
 
     public function manage(User $user, PlayerCharacter $character): bool

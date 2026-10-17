@@ -172,9 +172,10 @@ class SessionModeTest extends TestCase
         $session = $this->campaign->playSessions()->create(['number' => 1, 'started_at' => now(), 'ended_at' => now()]);
         $other = Campaign::factory()->for($this->gm, 'owner')->create();
 
-        foreach ([$player, User::factory()->create()] as $user) {
-            $this->actingAs($user)->get(route('sessions.live', $this->campaign))->assertForbidden();
-            $this->actingAs($user)->get(route('sessions.show', [$this->campaign, $session]))->assertForbidden();
+        // Le joueur sait que la campagne existe (403) ; un compte étranger reçoit la même réponse qu'une campagne inexistante (404).
+        foreach ([[$player, 403], [User::factory()->create(), 404]] as [$user, $status]) {
+            $this->actingAs($user)->get(route('sessions.live', $this->campaign))->assertStatus($status);
+            $this->actingAs($user)->get(route('sessions.show', [$this->campaign, $session]))->assertStatus($status);
         }
 
         $this->actingAs($this->gm)->get(route('sessions.show', [$other, $session]))->assertNotFound();

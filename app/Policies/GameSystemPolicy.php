@@ -6,12 +6,13 @@ use App\Models\Campaign;
 use App\Models\GameSystem;
 use App\Models\User;
 use App\Support\CoGameMaster;
+use Illuminate\Auth\Access\Response;
 
 class GameSystemPolicy
 {
-    public function view(User $user, GameSystem $gameSystem): bool
+    public function view(User $user, GameSystem $gameSystem): bool|Response
     {
-        return CoGameMaster::canPrepare($user, $gameSystem, edit: false);
+        return CoGameMaster::canPrepare($user, $gameSystem, edit: false) ?: Response::denyAsNotFound();
     }
 
     public function update(User $user, GameSystem $gameSystem): bool
