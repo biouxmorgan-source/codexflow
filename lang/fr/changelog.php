@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.67.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Vos contenus, vos droits',
+        'items' => [
+            'La page « Confidentialité et mentions légales » précise que SagaWyn n’est pas propriétaire de ce que vous y mettez : chaque utilisateur reste propriétaire de ses contenus et responsable de ce qu’il publie.',
+            'Nouvelles rubriques : « Importation et structuration de contenus », « Services d’intelligence artificielle », « Signaler un contenu illicite », « Disponibilité et sauvegardes » et « Jeux et marques ». Les pages d’import y renvoient.',
+        ],
+    ],
+
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Dés mélangés et lancers à soi',

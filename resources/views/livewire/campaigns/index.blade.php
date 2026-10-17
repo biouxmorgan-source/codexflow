@@ -36,6 +36,7 @@
                 {{ __('Vous partez d’un livre de jeu de rôle (PDF) ?') }}
                 <a href="{{ route('imports.ai.archive') }}" class="font-medium text-codex hover:underline" wire:navigate>{{ __('Préparez l’archive avec une IA') }}</a>
             </p>
+            <x-import-rights-notice />
             <div class="flex gap-2">
                 <button type="submit" class="btn-primary" wire:loading.attr="disabled" wire:target="archive,importArchive">{{ __('Importer') }}</button>
                 <button type="button" wire:click="$set('importing', false)" class="btn-secondary">{{ __('Annuler') }}</button>
