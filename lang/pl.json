@@ -2481,5 +2481,8 @@
     "Réussi si le total des dés atteint le seuil, ou s’il ne le dépasse pas.": "Sukces, jeśli suma kości osiąga próg albo go nie przekracza.",
     "Seuil par dé": "Próg na kość",
     "Seuil sur le total": "Próg dla sumy",
-    "le max relance et s’ajoute": "maksimum przerzuca się i dodaje"
+    "le max relance et s’ajoute": "maksimum przerzuca się i dodaje",
+    "Brut": "Surowy",
+    "Chaque dé tel qu’il tombe, sans total ni règle.": "Każda kość tak, jak upadła, bez sumy i bez zasad.",
+    "bruts": "surowe"
 }

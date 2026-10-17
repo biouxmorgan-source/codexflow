@@ -2481,5 +2481,8 @@
     "Réussi si le total des dés atteint le seuil, ou s’il ne le dépasse pas.": "Sucesso se o total dos dados atinge o limiar, ou se não o ultrapassa.",
     "Seuil par dé": "Limiar por dado",
     "Seuil sur le total": "Limiar sobre o total",
-    "le max relance et s’ajoute": "o máximo rola de novo e soma"
+    "le max relance et s’ajoute": "o máximo rola de novo e soma",
+    "Brut": "Bruto",
+    "Chaque dé tel qu’il tombe, sans total ni règle.": "Cada dado como cai, sem total nem regra.",
+    "bruts": "brutos"
 }

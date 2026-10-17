@@ -2481,5 +2481,8 @@
     "Réussi si le total des dés atteint le seuil, ou s’il ne le dépasse pas.": "Gelungen, wenn die Würfelsumme die Schwelle erreicht oder sie nicht überschreitet.",
     "Seuil par dé": "Schwelle pro Würfel",
     "Seuil sur le total": "Schwelle auf die Summe",
-    "le max relance et s’ajoute": "das Maximum wird neu geworfen und addiert"
+    "le max relance et s’ajoute": "das Maximum wird neu geworfen und addiert",
+    "Brut": "Roh",
+    "Chaque dé tel qu’il tombe, sans total ni règle.": "Jeder Würfel, wie er fällt, ohne Summe und ohne Regel.",
+    "bruts": "roh"
 }

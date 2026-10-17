@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.67.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Lancer brut',
+        'items' => [
+            'Nouvelle lecture « Brut », choisie par défaut : on prend le type et le nombre de dés (1d20 + 2d6…), on lance, et chaque dé s’affiche tel qu’il tombe, sans total, sans seuil ni autre règle.',
+        ],
+    ],
+
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Dés mélangés et lancers à soi',

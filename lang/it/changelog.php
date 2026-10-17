@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.67.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Tiro grezzo',
+        'items' => [
+            'Nuova lettura «Grezzo», scelta come predefinita: scegli tipo e numero di dadi (1d20 + 2d6…), tiri, e ogni dado appare così come cade, senza totale, senza soglia né altre regole.',
+        ],
+    ],
+
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Dadi misti e tiri personali',

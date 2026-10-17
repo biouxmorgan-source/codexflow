@@ -2481,5 +2481,8 @@
     "Réussi si le total des dés atteint le seuil, ou s’il ne le dépasse pas.": "Riuscito se il totale dei dadi raggiunge la soglia, o se non la supera.",
     "Seuil par dé": "Soglia per dado",
     "Seuil sur le total": "Soglia sul totale",
-    "le max relance et s’ajoute": "il massimo si ritira e si somma"
+    "le max relance et s’ajoute": "il massimo si ritira e si somma",
+    "Brut": "Grezzo",
+    "Chaque dé tel qu’il tombe, sans total ni règle.": "Ogni dado così come cade, senza totale né regole.",
+    "bruts": "grezzi"
 }

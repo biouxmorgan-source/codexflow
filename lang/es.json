@@ -2481,5 +2481,8 @@
     "Réussi si le total des dés atteint le seuil, ou s’il ne le dépasse pas.": "Éxito si el total de los dados alcanza el umbral, o si no lo supera.",
     "Seuil par dé": "Umbral por dado",
     "Seuil sur le total": "Umbral sobre el total",
-    "le max relance et s’ajoute": "el máximo se repite y se suma"
+    "le max relance et s’ajoute": "el máximo se repite y se suma",
+    "Brut": "En bruto",
+    "Chaque dé tel qu’il tombe, sans total ni règle.": "Cada dado tal como cae, sin total ni regla.",
+    "bruts": "en bruto"
 }

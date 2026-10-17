@@ -2481,5 +2481,8 @@
     "Réussi si le total des dés atteint le seuil, ou s’il ne le dépasse pas.": "Geslaagd als het totaal van de dobbelstenen de drempel haalt, of er niet boven komt.",
     "Seuil par dé": "Drempel per dobbelsteen",
     "Seuil sur le total": "Drempel op het totaal",
-    "le max relance et s’ajoute": "het maximum wordt opnieuw gegooid en opgeteld"
+    "le max relance et s’ajoute": "het maximum wordt opnieuw gegooid en opgeteld",
+    "Brut": "Ruw",
+    "Chaque dé tel qu’il tombe, sans total ni règle.": "Elke dobbelsteen zoals hij valt, zonder totaal of regel.",
+    "bruts": "ruw"
 }
