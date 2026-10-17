@@ -161,15 +161,41 @@ class TableDiceTest extends TestCase
 
     public function test_the_gm_saves_rolls_for_the_table(): void
     {
-        $this->tray($this->gm)->call('savePreset', ['count' => 6, 'sides' => 6, 'reading' => 'count', 'threshold' => 5], 'Combat')->assertHasNoErrors();
+        $this->tray($this->gm)->call('savePreset', ['count' => 6, 'sides' => 6, 'reading' => 'count', 'threshold' => 5], 'Combat', 'table')->assertHasNoErrors();
         $this->assertSame('Combat', TableDice::presets($this->campaign->fresh())[0]['label']);
 
         $this->tray($this->alex)->call('toggle')->assertSee('Combat');
-        $this->tray($this->alex)->call('savePreset', ['count' => 1, 'sides' => 6], 'Triche')->assertForbidden();
+        $this->tray($this->alex)->call('savePreset', ['count' => 1, 'sides' => 6], 'Triche', 'table')->assertForbidden();
 
         $id = TableDice::presets($this->campaign->fresh())[0]['id'];
-        $this->tray($this->gm)->call('removePreset', $id);
+        $this->tray($this->alex)->call('removePreset', $id, 'table')->assertForbidden();
+        $this->tray($this->gm)->call('removePreset', $id, 'table');
         $this->assertSame([], TableDice::presets($this->campaign->fresh()));
+    }
+
+    public function test_each_player_saves_reloads_and_updates_their_own_rolls(): void
+    {
+        $id = $this->tray($this->alex)->call('savePreset', ['count' => 1, 'sides' => 100, 'reading' => 'below', 'threshold' => 45], 'Tir', 'mine')->assertHasNoErrors()->effects['returns'][0];
+
+        $this->assertSame('Tir', TableDice::presets($this->campaign, $this->alex)[0]['label']);
+        $this->assertSame([], TableDice::presets($this->campaign), 'Un lancer personnel ne va pas à la table.');
+        $this->assertSame([], TableDice::presets($this->campaign, $this->sam));
+        $this->tray($this->alex)->call('toggle')->assertSee('Mes lancers')->assertSee('Tir');
+        $this->tray($this->sam)->call('toggle')->assertDontSee('Tir');
+
+        // Le personnage progresse : le même lancer, avec un seuil plus haut.
+        $this->tray($this->alex)->call('savePreset', ['count' => 1, 'sides' => 100, 'reading' => 'below', 'threshold' => 50], 'Tir', 'mine', $id);
+        $presets = TableDice::presets($this->campaign, $this->alex);
+        $this->assertCount(1, $presets);
+        $this->assertSame(50, $presets[0]['formula']['threshold']);
+
+        // Un autre joueur ne touche pas aux lancers d'Alex, même avec son identifiant.
+        $this->tray($this->sam)->call('removePreset', $id, 'mine');
+        $this->assertCount(1, TableDice::presets($this->campaign, $this->alex));
+
+        $this->tray($this->alex)->call('savePreset', ['count' => 1, 'sides' => 6], ' ', 'mine')->assertHasErrors('presetLabel');
+        $this->tray($this->alex)->call('removePreset', $id, 'mine');
+        $this->assertSame([], TableDice::presets($this->campaign, $this->alex));
     }
 
     public function test_dice_can_be_switched_off_and_spectators_do_not_roll(): void

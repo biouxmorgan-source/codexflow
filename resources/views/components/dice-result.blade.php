@@ -20,7 +20,7 @@
                     @if ($step > 0)
                         <span @class(['font-bold', $face['sub'] ? 'text-flow' : 'text-codex', $large ? 'text-xl' : 'text-xs']) aria-hidden="true">{{ $face['sub'] ? '−' : '+' }}</span>
                     @endif
-                    <x-die :sides="$roll['sides']" :value="$face['v']" :state="$state" :size="$step === 0 ? $size : $small" :rolling="$rolling"
+                    <x-die :sides="$group['sides'] ?? $roll['sides']" :value="$face['v']" :state="$state" :size="$step === 0 ? $size : $small" :rolling="$rolling"
                         style="{{ $rolling ? 'animation-delay: '.(($index * 60) + ($step * 120)).'ms' : '' }}" />
                 @endforeach
             </span>

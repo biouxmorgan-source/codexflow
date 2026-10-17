@@ -23,6 +23,12 @@ final class DiceFormula
 
     public const MAX_SIDES = 1000;
 
+    /** Types de dés différents dans un même lancer (1d20 + 1d6 + 2d4…). */
+    public const MAX_KINDS = 6;
+
+    /**
+     * @param  list<array{count: int, sides: int}>  $pool  les dés lancés, par type ; count et sides : nombre total et premier type
+     */
     public function __construct(
         public readonly int $count,
         public readonly int $sides,
@@ -39,7 +45,14 @@ final class DiceFormula
         public readonly int $modifier = 0,
         /** Le seuil reste chez le MJ : les autres voient les dés et le total, pas la réussite. */
         public readonly bool $hideThreshold = false,
+        public readonly array $pool = [],
     ) {}
+
+    /** @return list<array{count: int, sides: int}> */
+    public function pool(): array
+    {
+        return $this->pool !== [] ? $this->pool : [['count' => $this->count, 'sides' => $this->sides]];
+    }
 
     /** @param array<string, mixed> $data */
     public static function fromArray(array $data): self
@@ -49,8 +62,29 @@ final class DiceFormula
             : $default;
 
         $reading = in_array($data['reading'] ?? null, self::READINGS, true) ? $data['reading'] : 'sum';
-        $sides = $int('sides', 2, self::MAX_SIDES, 6);
-        $count = $int('count', 1, self::MAX_COUNT, 1);
+        // Plusieurs types de dés (pool), ou un seul (count + sides, comme les lancers enregistrés avant).
+        $kinds = is_array($data['pool'] ?? null) && $data['pool'] !== [] ? $data['pool'] : [['count' => $data['count'] ?? 1, 'sides' => $data['sides'] ?? 6]];
+        $pool = [];
+        $left = self::MAX_COUNT;
+        foreach ($kinds as $kind) {
+            if (! is_array($kind) || $left <= 0) {
+                continue;
+            }
+            $kindSides = is_numeric($kind['sides'] ?? null) ? max(2, min(self::MAX_SIDES, (int) $kind['sides'])) : 6;
+            $kindCount = is_numeric($kind['count'] ?? null) ? max(1, min($left, (int) $kind['count'])) : 1;
+            $same = array_search($kindSides, array_column($pool, 'sides'), true);
+            if ($same !== false) {
+                $pool[$same]['count'] += $kindCount;
+            } elseif (count($pool) < self::MAX_KINDS) {
+                $pool[] = ['count' => $kindCount, 'sides' => $kindSides];
+            } else {
+                continue;
+            }
+            $left -= $kindCount;
+        }
+        $pool = $pool ?: [['count' => 1, 'sides' => 6]];
+        $sides = $pool[0]['sides'];
+        $count = array_sum(array_column($pool, 'count'));
         $explode = in_array($data['explode'] ?? null, self::EXPLODES, true) ? $data['explode'] : 'none';
         $threshold = is_numeric($data['threshold'] ?? null) ? max(-9999, min(9999, (int) $data['threshold'])) : null;
 
@@ -72,6 +106,7 @@ final class DiceFormula
             explode: $explode,
             modifier: in_array($reading, ['sum', 'above', 'below', 'keep'], true) ? $int('modifier', -999, 999, 0) : 0,
             hideThreshold: in_array($reading, ['above', 'below'], true) && (bool) ($data['hide_threshold'] ?? false),
+            pool: $pool,
         );
     }
 
@@ -81,6 +116,7 @@ final class DiceFormula
         return [
             'count' => $this->count,
             'sides' => $this->sides,
+            'pool' => $this->pool(),
             'reading' => $this->reading,
             'threshold' => $this->threshold,
             'count_high' => $this->countHigh,
@@ -115,10 +151,10 @@ final class DiceFormula
         }
     }
 
-    /** « 3d6 », « 2d20 », « 1d100 » : notation courte, la même dans toutes les langues. */
+    /** « 3d6 », « 1d20 + 1d6 » : notation courte, la même dans toutes les langues. */
     public function dice(): string
     {
-        return $this->count.'d'.$this->sides;
+        return implode(' + ', array_map(fn (array $kind) => $kind['count'].'d'.$kind['sides'], $this->pool()));
     }
 
     /** Description en mots simples : « 2d6 additionnés, +1 », « 6d6, réussite sur 5 ou plus, le 6 relance ». */
@@ -146,7 +182,7 @@ final class DiceFormula
         }
 
         if (in_array($this->explode, ['up', 'both'], true)) {
-            $parts[] = __('le :max relance et s’ajoute', ['max' => $this->sides]);
+            $parts[] = count($this->pool()) > 1 ? __('le max relance et s’ajoute') : __('le :max relance et s’ajoute', ['max' => $this->sides]);
         }
         if (in_array($this->explode, ['down', 'both'], true)) {
             $parts[] = __('le 1 relance et se retranche');

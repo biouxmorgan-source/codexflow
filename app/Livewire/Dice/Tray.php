@@ -106,24 +106,34 @@ class Tray extends Component
         $this->lastRollId = $roll->id;
     }
 
-    /** @param array<string, mixed> $formula */
-    public function savePreset(array $formula, string $label): void
+    /**
+     * Enregistre le lancer composé, pour soi (mine) ou pour toute la table (MJ) ; avec $id, met à jour ce lancer.
+     *
+     * @param  array<string, mixed>  $formula
+     */
+    public function savePreset(array $formula, string $label, string $scope = 'mine', ?string $id = null): ?string
     {
-        $this->authorize('update', $this->campaign);
+        if ($scope === 'table') {
+            $this->authorize('update', $this->campaign);
+        }
 
         if (trim($label) === '') {
             $this->addError('presetLabel', __('Donnez un nom au lancer.'));
 
-            return;
+            return null;
         }
+        $this->resetErrorBag('presetLabel');
 
-        TableDice::savePreset($this->campaign, $label, DiceFormula::fromArray($formula));
+        return TableDice::savePreset($this->campaign->refresh(), $label, DiceFormula::fromArray($formula), $scope === 'table' ? null : auth()->user(), $id);
     }
 
-    public function removePreset(string $id): void
+    public function removePreset(string $id, string $scope = 'mine'): void
     {
-        $this->authorize('update', $this->campaign);
-        TableDice::removePreset($this->campaign->refresh(), $id);
+        if ($scope === 'table') {
+            $this->authorize('update', $this->campaign);
+        }
+
+        TableDice::removePreset($this->campaign->refresh(), $id, $scope === 'table' ? null : auth()->user());
     }
 
     /**
@@ -237,6 +247,7 @@ class Tray extends Component
         return view('livewire.dice.tray', [
             'usable' => $usable,
             'presets' => TableDice::presets($this->campaign),
+            'mine' => TableDice::presets($this->campaign, auth()->user()),
             'examples' => TableDice::examples(),
             'last' => $this->presentRoll($this->lastRollId),
             'answered' => $this->presentRoll($this->answeredRollId),

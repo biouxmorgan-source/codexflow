@@ -25,17 +25,18 @@ final class DiceRoller
     public function roll(DiceFormula $formula): array
     {
         $groups = [];
-        for ($i = 0; $i < $formula->count; $i++) {
-            $groups[] = $this->rollDie($formula);
+        foreach ($formula->pool() as $kind) {
+            for ($i = 0; $i < $kind['count']; $i++) {
+                $groups[] = $this->rollDie($formula, $kind['sides']);
+            }
         }
 
         return self::read($formula, $groups);
     }
 
-    /** @return array{rolls: list<array{v: int, sub: bool}>, value: int, kept: bool, hits: int|null} */
-    private function rollDie(DiceFormula $formula): array
+    /** @return array{sides: int, rolls: list<array{v: int, sub: bool}>, value: int, kept: bool, hits: int|null} */
+    private function rollDie(DiceFormula $formula, int $sides): array
     {
-        $sides = $formula->sides;
         $first = $this->face($sides);
         $rolls = [['v' => $first, 'sub' => false]];
 
@@ -58,7 +59,7 @@ final class DiceRoller
 
         $value = array_sum(array_map(fn (array $roll) => $roll['sub'] ? -$roll['v'] : $roll['v'], $rolls));
 
-        return ['rolls' => $rolls, 'value' => $value, 'kept' => true, 'hits' => null];
+        return ['sides' => $sides, 'rolls' => $rolls, 'value' => $value, 'kept' => true, 'hits' => null];
     }
 
     private function face(int $sides): int
@@ -115,7 +116,8 @@ final class DiceRoller
 
             case 'digits':
                 $faces = array_map(fn (array $group) => $group['rolls'][0]['v'], $groups);
-                $result['digits'] = implode('', array_map(fn (int $face) => $formula->sides === 10 ? $face % 10 : $face, $faces));
+                // Un dé à 10 faces donne 0 à 9.
+                $result['digits'] = implode('', array_map(fn (array $group) => ($group['sides'] ?? $formula->sides) === 10 ? $group['rolls'][0]['v'] % 10 : $group['rolls'][0]['v'], $groups));
                 if (count($faces) >= 2 && count(array_unique($faces)) === 1) {
                     $result['special'] = count($faces) === 2 ? 'double' : 'triple';
                 }
