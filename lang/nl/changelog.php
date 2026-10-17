@@ -4,11 +4,20 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
-    '0.67.0' => [
+    '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Ruwe worp',
         'items' => [
             'Nieuwe lezing ‘Ruw’, standaard gekozen: kies de soort en het aantal dobbelstenen (1d20 + 2d6…), gooi, en elke dobbelsteen verschijnt zoals hij valt, zonder totaal, zonder drempel of andere regel.',
+        ],
+    ],
+
+    '0.67.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Uw inhoud, uw rechten',
+        'items' => [
+            'De pagina „Privacy en juridische informatie” verduidelijkt dat SagaWyn geen eigenaar is van wat u erop zet: elke gebruiker blijft eigenaar van zijn inhoud en verantwoordelijk voor wat hij publiceert.',
+            'Nieuwe rubrieken: „Importeren en structureren van inhoud”, „Diensten voor kunstmatige intelligentie”, „Onrechtmatige inhoud melden”, „Beschikbaarheid en back-ups” en „Spellen en merken”. De importpagina’s verwijzen ernaar.',
         ],
     ],
 

@@ -4,11 +4,20 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
-    '0.67.0' => [
+    '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Raw roll',
         'items' => [
             'New “Raw” reading, selected by default: pick the dice types and counts (1d20 + 2d6…), roll, and each die shows as it falls, with no total, no threshold and no other rule.',
+        ],
+    ],
+
+    '0.67.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Your content, your rights',
+        'items' => [
+            'The “Privacy and legal notice” page now states that SagaWyn does not own what you put on it: every user keeps ownership of their content and is responsible for what they publish.',
+            'New sections: “Importing and structuring content”, “Artificial intelligence services”, “Report illegal content”, “Availability and backups” and “Games and trademarks”. The import pages link to them.',
         ],
     ],
 

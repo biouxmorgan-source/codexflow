@@ -11,6 +11,7 @@
         {{ __('Vous avez le PDF d’un jeu ou d’un scénario ?') }}
         <a href="{{ route('imports.ai', $campaign) }}" class="link font-medium" wire:navigate>{{ __('Préparez les fichiers avec une IA') }}</a>
     </p>
+    <x-import-rights-notice class="-mt-4 mb-6" />
 
     @if ($result)
         <div class="mb-6 rounded-xl border border-codex/30 bg-codex-soft p-4" role="status">

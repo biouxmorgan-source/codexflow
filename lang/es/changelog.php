@@ -4,11 +4,20 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
-    '0.67.0' => [
+    '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Tirada en bruto',
         'items' => [
             'Nueva lectura «En bruto», elegida por defecto: eliges el tipo y el número de dados (1d20 + 2d6…), tiras, y cada dado se muestra tal como cae, sin total, sin umbral ni otra regla.',
+        ],
+    ],
+
+    '0.67.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Tus contenidos, tus derechos',
+        'items' => [
+            'La página «Privacidad y aviso legal» precisa que SagaWyn no es propietario de lo que subes: cada usuario sigue siendo propietario de sus contenidos y responsable de lo que publica.',
+            'Nuevas secciones: «Importación y estructuración de contenidos», «Servicios de inteligencia artificial», «Denunciar un contenido ilícito», «Disponibilidad y copias de seguridad» y «Juegos y marcas». Las páginas de importación remiten a ellas.',
         ],
     ],
 

@@ -4,11 +4,20 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
-    '0.67.0' => [
+    '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Rolagem bruta',
         'items' => [
             'Nova leitura «Bruto», escolhida por padrão: escolha o tipo e a quantidade de dados (1d20 + 2d6…), role, e cada dado aparece como caiu, sem total, sem limiar nem outra regra.',
+        ],
+    ],
+
+    '0.67.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Os seus conteúdos, os seus direitos',
+        'items' => [
+            'A página «Privacidade e informações legais» esclarece que o SagaWyn não é proprietário do que lá coloca: cada utilizador continua proprietário dos seus conteúdos e responsável pelo que publica.',
+            'Novas secções: «Importação e estruturação de conteúdos», «Serviços de inteligência artificial», «Denunciar um conteúdo ilícito», «Disponibilidade e cópias de segurança» e «Jogos e marcas». As páginas de importação remetem para elas.',
         ],
     ],
 
