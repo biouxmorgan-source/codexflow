@@ -33,7 +33,8 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            // Jamais servi directement (/storage/…) : chaque fichier passe par une route qui vérifie les droits.
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],

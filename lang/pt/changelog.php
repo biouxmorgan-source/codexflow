@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.65.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Acessos verificados em todo o lado',
+        'items' => [
+            'Escrever um endereço à mão nunca abre uma campanha, uma ficha ou um ficheiro a que não se tem direito. Uma conta que não é membro recebe agora «Página não encontrada», como para um endereço que não existe: experimentar números nem sequer revela que uma campanha existe.',
+        ],
+    ],
+
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Os dados na mesa',

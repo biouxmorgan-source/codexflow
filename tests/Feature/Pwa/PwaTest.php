@@ -84,7 +84,7 @@ class PwaTest extends TestCase
 
         $stranger = User::factory()->create();
         $this->actingAs($stranger)->get(route('characters.show', [$this->campaign, $this->character]))
-            ->assertForbidden()
+            ->assertNotFound()
             ->assertHeaderMissing(AvailableOffline::HEADER);
     }
 

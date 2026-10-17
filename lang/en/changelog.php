@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.65.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Access checked everywhere',
+        'items' => [
+            'Typing an address by hand never opens a campaign, sheet or file you are not allowed to see. An account that is not a member now gets “Page not found”, just like for an address that does not exist: trying numbers does not even reveal that a campaign exists.',
+        ],
+    ],
+
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Dice at the table',

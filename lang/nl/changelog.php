@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.65.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Toegang overal gecontroleerd',
+        'items' => [
+            'Een met de hand getypt adres opent nooit een campagne, fiche of bestand waar je geen recht op hebt. Een account dat geen lid is, krijgt nu „Pagina niet gevonden”, net als bij een adres dat niet bestaat: nummers uitproberen verraadt niet eens dat een campagne bestaat.',
+        ],
+    ],
+
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Dobbelstenen aan tafel',

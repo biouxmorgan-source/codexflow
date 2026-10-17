@@ -209,7 +209,8 @@ class SharedBattleMapTest extends TestCase
 
         foreach ($pages as $url) {
             $this->get($url)->assertRedirect(route('login'));
-            $this->actingAs($outsider)->get($url)->assertForbidden();
+            // Même réponse qu'une campagne inexistante : rien n'indique qu'elle existe.
+            $this->actingAs($outsider)->get($url)->assertNotFound();
             auth()->logout();
         }
 

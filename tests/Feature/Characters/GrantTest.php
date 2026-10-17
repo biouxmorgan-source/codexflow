@@ -221,7 +221,7 @@ class GrantTest extends TestCase
         $this->sheet('Harvey')->assertSee(['Documents', 'Lettre de Jackson']);
         $this->actingAs($alex)->get(route('characters.document', [$this->campaign, $harvey, $document]))->assertOk();
         $this->actingAs($sam)->get(route('characters.document', [$this->campaign, $jack, $document]))->assertNotFound();
-        $this->actingAs($alex)->get(route('documents.file', $document))->assertForbidden();
+        $this->actingAs($alex)->get(route('documents.file', $document))->assertNotFound();
 
         $this->actingAs($this->gm)->get(route('documents.show', [$this->campaign, $document]))->assertSee('Donner aux joueurs');
         $this->assertSame(1, CharacterGrant::count());

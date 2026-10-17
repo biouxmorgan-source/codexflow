@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\AudioTrack;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 /**
  * La bibliothèque sonore appartient à la préparation : le MJ propriétaire et ses co-MJ seulement.
@@ -11,9 +12,9 @@ use App\Models\User;
  */
 class AudioTrackPolicy
 {
-    public function view(User $user, AudioTrack $track): bool
+    public function view(User $user, AudioTrack $track): bool|Response
     {
-        return $user->can('update', $track->campaign);
+        return $user->can('update', $track->campaign) ?: Response::denyAsNotFound();
     }
 
     public function update(User $user, AudioTrack $track): bool

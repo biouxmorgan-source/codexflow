@@ -5,12 +5,13 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\World;
 use App\Support\CoGameMaster;
+use Illuminate\Auth\Access\Response;
 
 class WorldPolicy
 {
-    public function view(User $user, World $world): bool
+    public function view(User $user, World $world): bool|Response
     {
-        return CoGameMaster::canPrepare($user, $world, edit: false);
+        return CoGameMaster::canPrepare($user, $world, edit: false) ?: Response::denyAsNotFound();
     }
 
     public function update(User $user, World $world): bool

@@ -222,8 +222,8 @@ class CampaignArchiveTest extends TestCase
         $this->actingAs($this->gm)->get(route('archives.campaign', $this->campaign))
             ->assertOk()->assertHeader('content-type', 'application/zip');
 
-        $this->actingAs($this->other)->get(route('archives.campaign', $this->campaign))->assertForbidden();
-        $this->actingAs($this->other)->get(route('archives.template', $this->campaign))->assertForbidden();
+        $this->actingAs($this->other)->get(route('archives.campaign', $this->campaign))->assertNotFound();
+        $this->actingAs($this->other)->get(route('archives.template', $this->campaign))->assertNotFound();
     }
 
     public function test_the_import_form_creates_the_campaign_and_refuses_a_foreign_file(): void

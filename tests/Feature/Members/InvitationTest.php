@@ -155,7 +155,7 @@ class InvitationTest extends TestCase
         $this->campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);
 
         $this->actingAs($player)->get(route('members.index', $this->campaign))->assertForbidden();
-        $this->actingAs(User::factory()->create())->get(route('members.index', $this->campaign))->assertForbidden();
+        $this->actingAs(User::factory()->create())->get(route('members.index', $this->campaign))->assertNotFound();
         $this->post(route('invitations.accept', 'x'))->assertStatus(410);
 
         $this->actingAs($this->gm)->get(route('campaigns.show', $this->campaign))->assertSee(route('members.index', $this->campaign));

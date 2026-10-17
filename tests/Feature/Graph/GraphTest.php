@@ -141,6 +141,6 @@ class GraphTest extends TestCase
         $this->actingAs($this->alex)->get(route('graph.index', [$this->campaign, 'comme' => $other->id]))->assertNotFound();
 
         $stranger = User::factory()->create();
-        $this->actingAs($stranger)->get(route('graph.index', $this->campaign))->assertForbidden();
+        $this->actingAs($stranger)->get(route('graph.index', $this->campaign))->assertNotFound();
     }
 }

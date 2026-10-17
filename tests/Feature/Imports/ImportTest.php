@@ -325,8 +325,8 @@ class ImportTest extends TestCase
     {
         $stranger = User::factory()->create();
 
-        $this->actingAs($stranger)->get(route('imports.create', $this->campaign))->assertForbidden();
-        $this->actingAs($stranger)->get(route('imports.example', [$this->campaign, 'fiches']))->assertForbidden();
+        $this->actingAs($stranger)->get(route('imports.create', $this->campaign))->assertNotFound();
+        $this->actingAs($stranger)->get(route('imports.example', [$this->campaign, 'fiches']))->assertNotFound();
 
         $this->actingAs($this->gm)
             ->get(route('imports.example', [$this->campaign, 'champs']))
