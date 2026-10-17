@@ -71,6 +71,9 @@ class Show extends Component
             'gridColor' => $map->grid_color,
             'scaleValue' => $map->scale_value === null ? '' : self::number($map->scale_value),
             'scaleUnit' => (string) $map->scale_unit,
+            // Gabarit proposé : 3 cases sur 1, dans l'unité de l'échelle.
+            'templateSize' => self::number(3 * ($map->scale_value ?: 1)),
+            'templateSize2' => self::number($map->scale_value ?: 1),
         ]);
     }
 
@@ -242,14 +245,20 @@ class Show extends Component
         TableDisplay::mapChanged($this->map);
     }
 
-    /** Un gabarit de zone, au centre de la vue, visible tout de suite : on le pose pendant le combat. */
+    /**
+     * Un gabarit de zone, au centre de la vue, visible tout de suite : on le pose pendant le combat.
+     * Ses dimensions se saisissent dans l'unité de l'échelle (comme la règle), en cases sinon.
+     */
     public function addTemplate(): void
     {
         $this->authorize('update', $this->campaign);
+        $second = MapTemplate::hasSecondSize($this->templateShape);
+        $this->templateSize = str_replace(',', '.', trim($this->templateSize));
+        $this->templateSize2 = str_replace(',', '.', trim($this->templateSize2));
         $this->validate([
             'templateShape' => ['required', Rule::in(MapTemplate::SHAPES)],
-            'templateSize' => ['required', 'numeric', 'gt:0', 'max:'.MapTemplate::MAX_SIZE],
-            'templateSize2' => [MapTemplate::hasSecondSize($this->templateShape) ? 'required' : 'nullable', 'numeric', 'gt:0', 'max:'.MapTemplate::MAX_SIZE],
+            'templateSize' => ['required', 'numeric', 'gt:0', 'max:'.$this->maxLength()],
+            'templateSize2' => [$second ? 'required' : 'nullable', 'numeric', 'gt:0', 'max:'.$this->maxLength()],
         ], attributes: ['templateShape' => __('forme'), 'templateSize' => __('taille'), 'templateSize2' => __('taille')]);
 
         [$vx, $vy, $vw, $vh] = $this->map->viewBox();
@@ -257,8 +266,8 @@ class Show extends Component
 
         $this->map->templates()->create([
             'shape' => $this->templateShape,
-            'size' => round((float) $this->templateSize, 2),
-            'size2' => MapTemplate::hasSecondSize($this->templateShape) ? round((float) $this->templateSize2, 2) : null,
+            'size' => $this->cells($this->templateSize),
+            'size2' => $second ? $this->cells($this->templateSize2) : null,
             'x' => round($vx + $vw / 2, 2),
             'y' => round($vy + $vh / 2, 2),
             'angle' => 0,
@@ -266,6 +275,18 @@ class Show extends Component
             'hidden' => false,
         ]);
         TableDisplay::mapChanged($this->map);
+    }
+
+    /** Une longueur saisie dans l'unité de l'échelle, convertie en cases. */
+    private function cells(string $length): float
+    {
+        return round((float) $length / ($this->map->scale_value ?: 1), 4);
+    }
+
+    /** Plus grande longueur qu'on peut saisir, dans l'unité de l'échelle. */
+    private function maxLength(): float
+    {
+        return MapTemplate::MAX_SIZE * ($this->map->scale_value ?: 1);
     }
 
     /** Déplacé à la main : le panneau se redessine, les jetons touchés changent. */
@@ -289,15 +310,17 @@ class Show extends Component
         TableDisplay::mapChanged($this->map);
     }
 
+    /** Nouvelles dimensions, dans l'unité de l'échelle comme à la pose. */
     public function resizeTemplate(int $id, string $size, ?string $size2 = null): void
     {
         $template = $this->template($id);
-        $rule = ['required', 'numeric', 'gt:0', 'max:'.MapTemplate::MAX_SIZE];
-        validator(['size' => str_replace(',', '.', $size), 'size2' => $size2 === null ? null : str_replace(',', '.', $size2)], ['size' => $rule, 'size2' => ['nullable', ...array_slice($rule, 1)]])->validate();
+        $values = ['size' => str_replace(',', '.', trim($size)), 'size2' => $size2 === null ? null : str_replace(',', '.', trim($size2))];
+        $rule = ['numeric', 'gt:0', 'max:'.$this->maxLength()];
+        validator($values, ['size' => ['required', ...$rule], 'size2' => ['nullable', ...$rule]])->validate();
 
         $template->update([
-            'size' => round((float) str_replace(',', '.', $size), 2),
-            'size2' => MapTemplate::hasSecondSize($template->shape) && $size2 !== null ? round((float) str_replace(',', '.', $size2), 2) : $template->size2,
+            'size' => $this->cells($values['size']),
+            'size2' => MapTemplate::hasSecondSize($template->shape) && $values['size2'] !== null ? $this->cells($values['size2']) : $template->size2,
         ]);
         TableDisplay::mapChanged($this->map);
     }
@@ -320,6 +343,15 @@ class Show extends Component
     public function deleteTemplate(int $id): void
     {
         $this->template($id)->delete();
+        TableDisplay::mapChanged($this->map);
+    }
+
+    /** Fin du sort : tous les gabarits de la carte disparaissent. */
+    public function deleteAllTemplates(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $this->map->templates()->delete();
         TableDisplay::mapChanged($this->map);
     }
 

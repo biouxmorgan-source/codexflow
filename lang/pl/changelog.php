@@ -14,6 +14,16 @@ return [
         ],
     ],
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Szablony mierzone jak linijka',
+        'items' => [
+            'Szablony ustawia się w tej samej jednostce co linijkę (metry, stopy…): „Rzeczywisty rozmiar pola” w Siatce kalibruje oba, bez względu na rozmiar pól na ekranie.',
+            'Wyraźniejszy przycisk „Usuń” przy każdym szablonie i „Usuń wszystkie szablony” po zaklęciu.',
+            'Każdy link w „Dołącz zdalnie” ma swój kod QR, który gracze mogą zeskanować telefonem.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Szablony obszaru na mapie',

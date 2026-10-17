@@ -14,6 +14,16 @@ return [
         ],
     ],
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Templates measured like the ruler',
+        'items' => [
+            'Templates are set in the same unit as the ruler (metres, feet…): the “Real size of a square”, under Grid, calibrates both, whatever the size of the squares on screen.',
+            'A clearer “Delete” button on each template, and “Delete all templates” once the spell is over.',
+            'Each “Join remotely” link has its QR code, to show so players can scan it with their phone.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Area templates on the map',

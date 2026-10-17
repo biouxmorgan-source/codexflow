@@ -107,6 +107,8 @@
             </section>
 
             <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                @php($unit = $map->scale_value ? ($map->scale_unit ?: __('cases')) : __('cases'))
+                @php($inUnit = fn (?float $cells) => rtrim(rtrim(number_format(($cells ?? 1) * ($map->scale_value ?: 1), 2, '.', ''), '0'), '.'))
                 <h2 class="mb-3 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Gabarits de zone') }}</h2>
                 <form wire:submit="addTemplate" class="space-y-2">
                     <div class="flex flex-wrap items-end gap-2">
@@ -119,24 +121,25 @@
                             </select>
                         </div>
                         <div>
-                            <label for="template-size" class="label">{{ match ($templateShape) { 'circle' => __('Rayon'), 'square' => __('Côté'), 'rectangle' => __('Largeur'), default => __('Longueur') } }}</label>
-                            <input id="template-size" type="number" min="0.5" step="0.5" max="{{ \App\Models\MapTemplate::MAX_SIZE }}" wire:model="templateSize" class="field w-20 py-1.5 text-sm">
+                            <label for="template-size" class="label">{{ match ($templateShape) { 'circle' => __('Rayon'), 'square' => __('Côté'), 'rectangle' => __('Largeur'), default => __('Longueur') } }} <span class="font-normal text-stone-500">({{ $unit }})</span></label>
+                            <input id="template-size" type="number" min="0" step="any" wire:model="templateSize" class="field w-20 py-1.5 text-sm">
                         </div>
                         @if (\App\Models\MapTemplate::hasSecondSize($templateShape))
                             <div>
-                                <label for="template-size2" class="label">{{ $templateShape === 'rectangle' ? __('Hauteur') : __('Largeur') }}</label>
-                                <input id="template-size2" type="number" min="0.5" step="0.5" max="{{ \App\Models\MapTemplate::MAX_SIZE }}" wire:model="templateSize2" class="field w-20 py-1.5 text-sm">
+                                <label for="template-size2" class="label">{{ $templateShape === 'rectangle' ? __('Hauteur') : __('Largeur') }} <span class="font-normal text-stone-500">({{ $unit }})</span></label>
+                                <input id="template-size2" type="number" min="0" step="any" wire:model="templateSize2" class="field w-20 py-1.5 text-sm">
                             </div>
                         @endif
                         <button type="submit" class="btn-primary py-1.5 text-sm">{{ __('Poser') }}</button>
                     </div>
                     @error('templateSize') <p class="error">{{ $message }}</p> @enderror
                     @error('templateSize2') <p class="error">{{ $message }}</p> @enderror
-                    <p class="text-xs text-stone-500">{{ $map->scale_value ? __('Dimensions en cases (1 case = :scale).', ['scale' => $map->lengthLabel(1)]) : __('Dimensions en cases.') }} {{ __('Le gabarit arrive au centre de la vue, visible à la table : glissez-le sur la carte. Le cône part de son point et s’ouvre autant qu’il est long.') }}</p>
+                    <p class="text-xs text-stone-500">{{ $map->scale_value ? __('Mesures en :unit, comme la règle (1 case = :scale).', ['unit' => $unit, 'scale' => $map->lengthLabel(1)]) : __('Mesures en cases : donnez la taille réelle d’une case dans « Grille » pour mesurer en mètres ou en pieds.') }} {{ __('Le gabarit arrive au centre de la vue, visible à la table : glissez-le sur la carte. Le cône part de son point et s’ouvre autant qu’il est long.') }}</p>
                 </form>
 
                 @if ($templates->isNotEmpty())
-                    <ul class="mt-3 divide-y divide-stone-100">
+                    <button type="button" wire:click="deleteAllTemplates" wire:confirm="{{ __('Supprimer tous les gabarits de la carte ?') }}" class="mt-3 text-xs text-red-700 hover:underline">{{ __('Supprimer tous les gabarits') }}</button>
+                    <ul class="mt-1 divide-y divide-stone-100">
                         @foreach ($templates as $template)
                             @php($caught = $template->caught($tokens, $map->grid_size))
                             <li wire:key="template-row-{{ $template->id }}" class="space-y-1.5 py-2 text-sm">
@@ -146,15 +149,15 @@
                                     <button type="button" wire:click="toggleTemplate({{ $template->id }})" @class(['w-16 rounded px-1.5 py-0.5 text-xs', 'bg-stone-100 text-stone-600' => $template->hidden, 'bg-flow/15 text-flow' => ! $template->hidden])>
                                         {{ $template->hidden ? __('Masqué') : __('Visible') }}
                                     </button>
-                                    <button type="button" wire:click="deleteTemplate({{ $template->id }})" class="text-stone-400 hover:text-red-700" aria-label="{{ __('Retirer le gabarit') }}">×</button>
+                                    <button type="button" wire:click="deleteTemplate({{ $template->id }})" class="text-xs text-red-700 hover:underline">{{ __('Supprimer') }}</button>
                                 </div>
                                 <div class="flex flex-wrap items-center gap-2 pl-7 text-xs text-stone-500">
-                                    <input type="number" min="0.5" step="0.5" value="{{ $template->size + 0 }}" wire:change="resizeTemplate({{ $template->id }}, $event.target.value)" class="field w-16 px-1.5 py-0.5 text-xs" aria-label="{{ __('Taille') }}">
+                                    <input type="number" min="0" step="any" value="{{ $inUnit($template->size) }}" wire:change="resizeTemplate({{ $template->id }}, $event.target.value)" class="field w-16 px-1.5 py-0.5 text-xs" aria-label="{{ __('Taille') }}">
                                     @if (\App\Models\MapTemplate::hasSecondSize($template->shape))
                                         ×
-                                        <input type="number" min="0.5" step="0.5" value="{{ ($template->size2 ?? 1) + 0 }}" wire:change="resizeTemplate({{ $template->id }}, '{{ $template->size + 0 }}', $event.target.value)" class="field w-16 px-1.5 py-0.5 text-xs" aria-label="{{ __('Seconde dimension') }}">
+                                        <input type="number" min="0" step="any" value="{{ $inUnit($template->size2) }}" wire:change="resizeTemplate({{ $template->id }}, '{{ $inUnit($template->size) }}', $event.target.value)" class="field w-16 px-1.5 py-0.5 text-xs" aria-label="{{ __('Seconde dimension') }}">
                                     @endif
-                                    {{ __('cases') }}
+                                    {{ $unit }}
                                     @if ($template->rotates())
                                         <label class="ml-auto flex items-center gap-1">
                                             {{ __('Orientation') }}
@@ -209,13 +212,13 @@
                     <input id="grid-color" type="color" wire:model.live.debounce.300ms="gridColor" class="h-8 w-12 rounded border border-stone-200">
                 </div>
                 <div>
-                    <label for="scale-value" class="label">{{ __('Échelle : 1 case =') }}</label>
+                    <label for="scale-value" class="label">{{ __('Taille réelle d’une case') }}</label>
                     <div class="flex gap-2">
                         <input id="scale-value" type="number" min="0" step="0.1" wire:model.live.debounce.500ms="scaleValue" class="field w-24 py-1 text-sm" placeholder="1,5">
                         <input type="text" wire:model.live.debounce.500ms="scaleUnit" class="field w-24 py-1 text-sm" maxlength="20" placeholder="m" aria-label="{{ __('unité') }}">
                     </div>
                     @error('scaleValue') <p class="error">{{ $message }}</p> @enderror
-                    <p class="mt-1 text-xs text-stone-500">{{ __('Facultatif : la règle affiche alors la distance. La grille n’impose aucun déplacement.') }}</p>
+                    <p class="mt-1 text-xs text-stone-500">{{ __('Par exemple 1,5 m ou 5 ft. Elle calibre la règle et les gabarits, quelle que soit la taille des cases à l’écran. La grille n’impose aucun déplacement.') }}</p>
                 </div>
             </section>
 

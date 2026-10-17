@@ -14,6 +14,16 @@ return [
         ],
     ],
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Plantillas medidas como la regla',
+        'items' => [
+            'Las plantillas se ajustan en la misma unidad que la regla (metros, pies…): el «Tamaño real de una casilla», en Cuadrícula, calibra ambas, sea cual sea el tamaño de las casillas en pantalla.',
+            'Un botón «Eliminar» más visible en cada plantilla, y «Eliminar todas las plantillas» al terminar el conjuro.',
+            'Cada enlace de «Unirse a distancia» tiene su código QR, para que los jugadores lo escaneen con el móvil.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Plantillas de área en el mapa',

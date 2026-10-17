@@ -14,6 +14,16 @@ return [
         ],
     ],
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Schablonen gemessen wie das Lineal',
+        'items' => [
+            'Schablonen werden in derselben Einheit wie das Lineal eingestellt (Meter, Fuß…): die „Echte Größe eines Feldes“ unter Raster kalibriert beide, egal wie groß die Felder auf dem Bildschirm sind.',
+            'Eine deutlichere Schaltfläche „Löschen“ an jeder Schablone und „Alle Schablonen löschen“ nach dem Zauber.',
+            'Jeder Link unter „Aus der Ferne beitreten“ hat seinen QR-Code, den die Spieler mit dem Handy scannen können.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Flächenschablonen auf der Karte',

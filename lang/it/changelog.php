@@ -14,6 +14,16 @@ return [
         ],
     ],
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Sagome misurate come il righello',
+        'items' => [
+            'Le sagome si impostano nella stessa unità del righello (metri, piedi…): la «Dimensione reale di una casella», in Griglia, calibra entrambi, qualunque sia la dimensione delle caselle sullo schermo.',
+            'Un pulsante «Elimina» più visibile su ogni sagoma, ed «Elimina tutte le sagome» a fine incantesimo.',
+            'Ogni link di «Partecipa a distanza» ha il suo codice QR, da mostrare perché i giocatori lo scansionino con il telefono.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Sagome d\'area sulla mappa',

@@ -14,6 +14,16 @@ return [
         ],
     ],
 
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Gabarits mesurés comme la règle, QR codes',
+        'items' => [
+            'Les gabarits se règlent dans la même unité que la règle (mètres, pieds…) : la « Taille réelle d’une case », dans Grille, calibre les deux, quelle que soit la taille des cases à l’écran.',
+            'Un bouton « Supprimer » plus visible sur chaque gabarit, et « Supprimer tous les gabarits » à la fin du sort.',
+            'Chaque lien de « Rejoindre à distance » a son QR code, à montrer pour que les joueurs le scannent avec leur téléphone.',
+        ],
+    ],
+
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Gabarits de zone sur la carte',
