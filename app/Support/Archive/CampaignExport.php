@@ -3,6 +3,7 @@
 namespace App\Support\Archive;
 
 use App\Models\Campaign;
+use App\Support\Dice\TableDice;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -146,7 +147,7 @@ final class CampaignExport
                 'description' => $world->description,
                 'image' => $this->file('local', $world->image_path),
             ] : null,
-            'campaign' => ['name' => $campaign->name, 'description' => $campaign->description, 'table_theme' => $campaign->table_theme, 'exchanges_need_approval' => $campaign->exchanges_need_approval, 'players_edit_profile' => (bool) $campaign->players_edit_profile, 'disabled_features' => $campaign->disabled_features ?? []],
+            'campaign' => ['name' => $campaign->name, 'description' => $campaign->description, 'table_theme' => $campaign->table_theme, 'exchanges_need_approval' => $campaign->exchanges_need_approval, 'players_edit_profile' => (bool) $campaign->players_edit_profile, 'disabled_features' => $campaign->disabled_features ?? [], 'dice_presets' => TableDice::presets($campaign)],
             'entity_types' => DB::table('entity_types')->whereIn('id', $typeIds)->orderBy('id')->get(['id', 'key', 'name'])
                 ->map(fn ($type) => (array) $type)->all(),
             'tags' => DB::table('tags')->whereIn('id', $tagIds)->orderBy('id')->get(['id', 'name', 'color'])

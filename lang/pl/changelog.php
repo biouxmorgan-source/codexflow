@@ -4,11 +4,31 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
-    '0.64.1' => [
+    '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Dostęp sprawdzany wszędzie',
         'items' => [
             'Wpisanie adresu ręcznie nigdy nie otwiera kampanii, karty ani pliku, do którego nie ma się prawa. Konto, które nie jest członkiem, otrzymuje teraz „Nie znaleziono strony”, tak jak dla adresu, który nie istnieje: próbowanie numerów nie zdradza nawet, że kampania istnieje.',
+        ],
+    ],
+
+    '0.65.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Kości przy stole',
+        'items' => [
+            'Nowy przycisk „Kości” na dole każdej strony kampanii: liczba i rodzaj kości (od 4 do 100 ścianek lub inne), a potem sposób odczytu: dodać, osiągnąć próg, zostać poniżej progu, liczyć sukcesy, zachować najlepsze lub najsłabsze, odczytać jako cyfry. Z premią i kośćmi rzucanymi ponownie przy maksimum (+) lub przy 1 (−).',
+            'MG prosi o rzut cały stół lub wybrane postacie, jawnie lub dyskretnie. U odpowiednich graczy otwiera się okno; bez progu każdy wpisuje własny i dodaje swoją premię, a ukryty próg zostaje u MG, który widzi, kto co wyrzucił.',
+            'Rzuty przy stole toczą się przez kilka sekund na ekranie stołu; dyskretny rzut widzi tylko MG. MG zapisuje swoje typowe rzuty dla całego stołu, a kości można wyłączyć w „Funkcjach kampanii”.',
+        ],
+    ],
+
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Szablony mierzone jak linijka',
+        'items' => [
+            'Szablony ustawia się w tej samej jednostce co linijkę (metry, stopy…): „Rzeczywisty rozmiar pola” w Siatce kalibruje oba, bez względu na rozmiar pól na ekranie.',
+            'Wyraźniejszy przycisk „Usuń” przy każdym szablonie i „Usuń wszystkie szablony” po zaklęciu.',
+            'Każdy link w „Dołącz zdalnie” ma swój kod QR, który gracze mogą zeskanować telefonem.',
         ],
     ],
 

@@ -17,6 +17,7 @@ use App\Models\TimelineEvent;
 use App\Models\ToPlayItem;
 use App\Models\User;
 use App\Support\CampaignFeatures;
+use App\Support\Dice\TableDice;
 use App\Support\EntityLinks;
 use App\Support\TableTheme;
 use Illuminate\Support\Facades\DB;
@@ -71,6 +72,7 @@ class DuplicateCampaign
         $campaign->exchanges_need_approval = $source->exchanges_need_approval ?? true;
         $campaign->players_edit_profile = (bool) $source->players_edit_profile;
         $campaign->disabled_features = CampaignFeatures::clean($source->disabled_features);
+        $campaign->dice_presets = TableDice::cleanPresets($source->dice_presets) ?: null;
         $campaign->save();
         $campaign->members()->attach($owner, ['role' => CampaignRole::GameMaster->value]);
 

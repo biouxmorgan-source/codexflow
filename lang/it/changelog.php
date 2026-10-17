@@ -4,11 +4,31 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
-    '0.64.1' => [
+    '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Accessi verificati ovunque',
         'items' => [
             'Digitare un indirizzo a mano non apre mai una campagna, una scheda o un file a cui non si ha diritto. Un account che non è membro riceve ora «Pagina non trovata», come per un indirizzo inesistente: provare dei numeri non rivela nemmeno che una campagna esiste.',
+        ],
+    ],
+
+    '0.65.0' => [
+        'date' => '2026-10-17',
+        'title' => 'I dadi al tavolo',
+        'items' => [
+            'Nuovo pulsante «Dadi» in fondo a ogni pagina della campagna: il numero e il tipo di dadi (da 4 a 100 facce, o altro), poi come leggerli: sommare, raggiungere una soglia, restare sotto una soglia, contare i successi, tenere i migliori o i più bassi, leggere in cifre. Con un bonus e dadi che si ritirano sul massimo (+) o sull\'1 (−).',
+            'Il Master chiede un tiro a tutto il tavolo o ad alcuni personaggi, alla vista di tutti o in modo discreto. Ai giocatori interessati si apre una finestra; senza soglia, ognuno inserisce la sua e aggiunge il suo bonus, e una soglia nascosta resta al Master, che vede chi ha tirato cosa.',
+            'I tiri al tavolo rotolano per qualche secondo sullo schermo del tavolo; un tiro discreto lo vede solo il Master. Il Master salva i suoi tiri abituali per tutto il tavolo, e i dadi si disattivano in «Funzioni della campagna».',
+        ],
+    ],
+
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Sagome misurate come il righello',
+        'items' => [
+            'Le sagome si impostano nella stessa unità del righello (metri, piedi…): la «Dimensione reale di una casella», in Griglia, calibra entrambi, qualunque sia la dimensione delle caselle sullo schermo.',
+            'Un pulsante «Elimina» più visibile su ogni sagoma, ed «Elimina tutte le sagome» a fine incantesimo.',
+            'Ogni link di «Partecipa a distanza» ha il suo codice QR, da mostrare perché i giocatori lo scansionino con il telefono.',
         ],
     ],
 

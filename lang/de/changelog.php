@@ -4,11 +4,31 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
-    '0.64.1' => [
+    '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Zugriffe überall geprüft',
         'items' => [
             'Eine von Hand eingetippte Adresse öffnet nie eine Kampagne, ein Blatt oder eine Datei, auf die man kein Recht hat. Ein Konto, das nicht Mitglied ist, erhält jetzt „Seite nicht gefunden“, wie bei einer Adresse, die es nicht gibt: Wer Nummern ausprobiert, erfährt nicht einmal, dass eine Kampagne existiert.',
+        ],
+    ],
+
+    '0.65.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Würfel am Tisch',
+        'items' => [
+            'Neue Schaltfläche „Würfel“ unten auf jeder Seite der Kampagne: Anzahl und Art der Würfel (4 bis 100 Seiten oder andere), dann wie sie gelesen werden: addieren, Schwelle erreichen, unter der Schwelle bleiben, Erfolge zählen, die besten oder niedrigsten behalten, als Ziffern lesen. Mit Bonus und Würfeln, die beim Höchstwert (+) oder bei einer 1 (−) nachgewürfelt werden.',
+            'Die SL verlangt einen Wurf vom ganzen Tisch oder von einzelnen Charakteren, offen oder diskret. Bei den betroffenen Spielenden öffnet sich ein Fenster; ohne Schwelle gibt jede Person ihre eigene ein und fügt ihren Bonus hinzu, und eine verdeckte Schwelle bleibt bei der SL, die sieht, wer was gewürfelt hat.',
+            'Würfe am Tisch rollen einige Sekunden über den Tischbildschirm; ein diskreter Wurf wird nur der SL gezeigt. Die SL speichert ihre üblichen Würfe für den ganzen Tisch, und die Würfel lassen sich unter „Funktionen der Kampagne“ abschalten.',
+        ],
+    ],
+
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Schablonen gemessen wie das Lineal',
+        'items' => [
+            'Schablonen werden in derselben Einheit wie das Lineal eingestellt (Meter, Fuß…): die „Echte Größe eines Feldes“ unter Raster kalibriert beide, egal wie groß die Felder auf dem Bildschirm sind.',
+            'Eine deutlichere Schaltfläche „Löschen“ an jeder Schablone und „Alle Schablonen löschen“ nach dem Zauber.',
+            'Jeder Link unter „Aus der Ferne beitreten“ hat seinen QR-Code, den die Spieler mit dem Handy scannen können.',
         ],
     ],
 

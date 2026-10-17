@@ -4,11 +4,31 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
-    '0.64.1' => [
+    '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Acessos verificados em todo o lado',
         'items' => [
             'Escrever um endereço à mão nunca abre uma campanha, uma ficha ou um ficheiro a que não se tem direito. Uma conta que não é membro recebe agora «Página não encontrada», como para um endereço que não existe: experimentar números nem sequer revela que uma campanha existe.',
+        ],
+    ],
+
+    '0.65.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Os dados na mesa',
+        'items' => [
+            'Novo botão «Dados» no rodapé de cada página da campanha: o número e o tipo de dados (de 4 a 100 faces, ou outro), e como lê-los: somar, atingir um limiar, ficar abaixo de um limiar, contar sucessos, manter os melhores ou os mais baixos, ler em algarismos. Com um bônus e dados que rolam de novo no máximo (+) ou no 1 (−).',
+            'O Mestre pede uma rolagem a toda a mesa ou a alguns personagens, à vista de todos ou em discreto. Uma janela abre para os jogadores envolvidos; sem limiar, cada um informa o seu e soma seu bônus, e um limiar oculto fica com o Mestre, que vê quem rolou o quê.',
+            'As rolagens à mesa rolam alguns segundos na tela da mesa; uma rolagem discreta só aparece para o Mestre. O Mestre salva suas rolagens habituais para toda a mesa, e os dados podem ser desligados em «Funções da campanha».',
+        ],
+    ],
+
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Modelos medidos como a régua',
+        'items' => [
+            'Os modelos ajustam-se na mesma unidade que a régua (metros, pés…): o «Tamanho real de uma casa», em Grelha, calibra os dois, seja qual for o tamanho das casas no ecrã.',
+            'Um botão «Eliminar» mais visível em cada modelo, e «Eliminar todos os modelos» no fim do feitiço.',
+            'Cada ligação de «Juntar-se à distância» tem o seu código QR, para os jogadores o lerem com o telemóvel.',
         ],
     ],
 

@@ -4,11 +4,31 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
-    '0.64.1' => [
+    '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Toegang overal gecontroleerd',
         'items' => [
             'Een met de hand getypt adres opent nooit een campagne, fiche of bestand waar je geen recht op hebt. Een account dat geen lid is, krijgt nu „Pagina niet gevonden”, net als bij een adres dat niet bestaat: nummers uitproberen verraadt niet eens dat een campagne bestaat.',
+        ],
+    ],
+
+    '0.65.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Dobbelstenen aan tafel',
+        'items' => [
+            'Nieuwe knop ‘Dobbelstenen’ onderaan elke pagina van de campagne: het aantal en soort dobbelstenen (4 tot 100 zijden, of ander), en hoe je ze leest: optellen, een drempel halen, onder een drempel blijven, successen tellen, de beste of laagste houden, als cijfers lezen. Met een bonus en dobbelstenen die opnieuw gooien bij het maximum (+) of bij een 1 (−).',
+            'De SL vraagt een worp aan de hele tafel of aan bepaalde personages, zichtbaar voor iedereen of discreet. Bij de betrokken spelers opent een venster; zonder drempel vult ieder zijn eigen drempel in en telt zijn bonus erbij, en een verborgen drempel blijft bij de SL, die ziet wie wat gooide.',
+            'Worpen aan tafel rollen een paar seconden over het tafelscherm; een discrete worp ziet alleen de SL. De SL slaat zijn vaste worpen op voor de hele tafel, en de dobbelstenen kunnen uit in ‘Functies van de campagne’.',
+        ],
+    ],
+
+    '0.64.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Sjablonen gemeten zoals de liniaal',
+        'items' => [
+            'Sjablonen worden ingesteld in dezelfde eenheid als de liniaal (meter, voet…): de „Echte grootte van een vakje” onder Raster kalibreert beide, hoe groot de vakjes op het scherm ook zijn.',
+            'Een duidelijkere knop „Verwijderen” bij elk sjabloon, en „Alle sjablonen verwijderen” na de spreuk.',
+            'Elke link onder „Op afstand meedoen” heeft een QR-code, die spelers met hun telefoon kunnen scannen.',
         ],
     ],
 

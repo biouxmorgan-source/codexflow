@@ -4,6 +4,7 @@ namespace App\Livewire\Table;
 
 use App\Models\Campaign;
 use App\Models\MapToken;
+use App\Support\Dice\TableDice;
 use App\Support\TableAudio;
 use App\Support\TableDisplay;
 use App\Support\TableInitiative;
@@ -134,6 +135,7 @@ class Screen extends Component
             'display' => $display,
             'stopped' => ! $watching,
             'initiative' => $watching ? TableInitiative::forTable($this->campaign) : null,
+            'dice' => $watching ? TableDice::forScreen($this->campaign) : null,
             'movable' => ($display['kind'] ?? null) === 'map' && $this->guest === null
                 ? MapToken::movableIds(auth()->user(), $this->campaign, $display['map']->tokens)
                 : [],

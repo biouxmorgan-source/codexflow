@@ -49,6 +49,7 @@ class Campaign extends Model
             'table_shared' => 'boolean',
             'table_audio' => 'array',
             'table_initiative' => 'array',
+            'dice_presets' => 'array',
             'exchanges_need_approval' => 'boolean',
             'co_gm_manage_fields' => 'boolean',
             'players_edit_profile' => 'boolean',
@@ -93,6 +94,18 @@ class Campaign extends Model
     public function playerCharacters(): HasMany
     {
         return $this->hasMany(PlayerCharacter::class);
+    }
+
+    /** @return HasMany<DiceRoll, $this> */
+    public function diceRolls(): HasMany
+    {
+        return $this->hasMany(DiceRoll::class);
+    }
+
+    /** @return HasMany<DiceRequest, $this> */
+    public function diceRequests(): HasMany
+    {
+        return $this->hasMany(DiceRequest::class);
     }
 
     /** @return HasMany<Message, $this> */

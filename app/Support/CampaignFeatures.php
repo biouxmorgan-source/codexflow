@@ -12,7 +12,7 @@ use App\Support\Plans\Plans;
  */
 class CampaignFeatures
 {
-    public const SWITCHABLE = ['table', 'maps', 'exchanges', 'graph', 'timeline', 'ai'];
+    public const SWITCHABLE = ['table', 'dice', 'maps', 'exchanges', 'graph', 'timeline', 'ai'];
 
     /** Message d'une page refusée parce que le MJ a coupé la fonction (traduit par la page d'erreur). */
     public const DISABLED = 'Cette fonction est désactivée dans cette campagne.';
@@ -22,6 +22,7 @@ class CampaignFeatures
     {
         return [
             'table' => ['label' => __('Écran de table et télécommande'), 'hint' => __('Le second écran montré aux joueurs, « Afficher à la table » et la télécommande.')],
+            'dice' => ['label' => __('Dés'), 'hint' => __('Lancers libres, lancers demandés par le MJ et lancers enregistrés.')],
             'maps' => ['label' => __('Cartes et jetons'), 'hint' => __('Cartes avec grille, jetons et règle.')],
             'exchanges' => ['label' => __('Échanges entre joueurs'), 'hint' => __('Les joueurs se donnent objets et connaissances.')],
             'graph' => ['label' => __('Graphe des relations'), 'hint' => __('La carte des liens entre les fiches.')],
