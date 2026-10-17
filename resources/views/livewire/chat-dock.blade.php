@@ -1,4 +1,5 @@
-<div class="fixed inset-x-2 bottom-2 z-40 sm:inset-x-auto sm:right-4 sm:bottom-4 sm:w-96">
+{{-- Repliée, la discussion n'occupe que son bouton à droite : le bouton des dés reste libre à gauche. --}}
+<div @class(['fixed bottom-2 z-40 sm:right-4 sm:bottom-4', 'inset-x-2 sm:left-auto sm:w-96' => $open, 'right-2' => ! $open])>
     @if (! $open)
         <div class="flex justify-end">
             <button type="button" wire:click="toggle" class="flex items-center gap-2 rounded-full bg-codex px-4 py-2.5 text-sm font-semibold text-on-accent shadow-lg hover:bg-ink">

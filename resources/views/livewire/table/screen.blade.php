@@ -123,6 +123,17 @@
         </aside>
     @endif
 
+    @if ($dice)
+        {{-- Dernier lancer à la table : il roule sur l'écran, puis s'efface au bout de quelques secondes. --}}
+        @php($remaining = max(1, \App\Support\Dice\TableDice::SCREEN_SECONDS - (int) $dice['at']->diffInSeconds(now(), true)))
+        <aside wire:key="table-dice-{{ $dice['id'] }}" x-data="{ show: true }" x-init="setTimeout(() => show = false, {{ $remaining * 1000 }})" x-show="show" x-transition.opacity.duration.500ms
+            class="absolute inset-x-4 bottom-16 mx-auto max-w-3xl rounded-3xl bg-black/75 px-6 py-5 text-white shadow-2xl ring-1 ring-white/20 backdrop-blur-sm" aria-live="polite" aria-label="{{ __('Lancer de dés') }}">
+            <p class="text-center text-lg text-white/80 md:text-2xl"><span class="font-semibold text-white">{{ $dice['who'] }}</span>@if ($dice['label']) · {{ $dice['label'] }}@endif</p>
+            <x-dice-result :roll="$dice" rolling large class="mt-3" />
+            <p class="mt-2 text-center text-sm text-white/60">{{ $dice['describe'] }}</p>
+        </aside>
+    @endif
+
     {{-- Musique lancée par le MJ : jouée ici, par les enceintes de l’écran de table. --}}
     <div wire:ignore x-data="tableAudio($wire.audio)" x-on:table-audio.window="apply($event.detail.state)">
         <button type="button" x-show="blocked" x-cloak x-on:click="unlock()"

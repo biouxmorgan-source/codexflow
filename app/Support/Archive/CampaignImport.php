@@ -21,6 +21,7 @@ use App\Models\Tag;
 use App\Models\TimelineEvent;
 use App\Models\User;
 use App\Support\CampaignFeatures;
+use App\Support\Dice\TableDice;
 use App\Support\EntityLinks;
 use App\Support\TableTheme;
 use Illuminate\Database\Eloquent\Model;
@@ -197,6 +198,7 @@ final class CampaignImport
         $campaign->exchanges_need_approval = (bool) ($campaignData['exchanges_need_approval'] ?? true);
         $campaign->players_edit_profile = (bool) ($campaignData['players_edit_profile'] ?? false);
         $campaign->disabled_features = CampaignFeatures::clean($campaignData['disabled_features'] ?? []);
+        $campaign->dice_presets = TableDice::cleanPresets($campaignData['dice_presets'] ?? []) ?: null;
         $campaign->save();
         $campaign->members()->attach($this->user, ['role' => CampaignRole::GameMaster->value]);
 

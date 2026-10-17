@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Kości przy stole',
+        'items' => [
+            'Nowy przycisk „Kości” na dole każdej strony kampanii: liczba i rodzaj kości (od 4 do 100 ścianek lub inne), a potem sposób odczytu: dodać, osiągnąć próg, zostać poniżej progu, liczyć sukcesy, zachować najlepsze lub najsłabsze, odczytać jako cyfry. Z premią i kośćmi rzucanymi ponownie przy maksimum (+) lub przy 1 (−).',
+            'MG prosi o rzut cały stół lub wybrane postacie, jawnie lub dyskretnie. U odpowiednich graczy otwiera się okno; bez progu każdy wpisuje własny i dodaje swoją premię, a ukryty próg zostaje u MG, który widzi, kto co wyrzucił.',
+            'Rzuty przy stole toczą się przez kilka sekund na ekranie stołu; dyskretny rzut widzi tylko MG. MG zapisuje swoje typowe rzuty dla całego stołu, a kości można wyłączyć w „Funkcjach kampanii”.',
+        ],
+    ],
+
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Wspólna mapa bitewna',

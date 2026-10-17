@@ -100,4 +100,9 @@
             @livewire(\App\Livewire\ChatDock::class, ['campaign' => $searchCampaign], key('chat-'.$searchCampaign->id))
         @endpersist
     @endif
+    @if ($searchCampaign instanceof \App\Models\Campaign && auth()->user()->can('play', $searchCampaign) && \App\Support\CampaignFeatures::usable($searchCampaign, 'dice'))
+        @persist('dice-'.$searchCampaign->id)
+            @livewire(\App\Livewire\Dice\Tray::class, ['campaign' => $searchCampaign], key('dice-'.$searchCampaign->id))
+        @endpersist
+    @endif
 </x-layouts.base>
