@@ -110,8 +110,8 @@ class BacklogV3Test extends TestCase
         $this->actingAs($this->gm)->get(route('worlds.show', $world))->assertSee(route('worlds.image', $world));
         $this->actingAs($this->gm)->get(route('games.show', $game))->assertSee(route('games.image', $game));
         $this->actingAs($this->gm)->get(route('worlds.image', $world))->assertOk();
-        $this->actingAs($this->alex)->get(route('worlds.image', $world))->assertForbidden();
-        $this->actingAs($this->alex)->get(route('games.image', $game))->assertForbidden();
+        $this->actingAs($this->alex)->get(route('worlds.image', $world))->assertNotFound();
+        $this->actingAs($this->alex)->get(route('games.image', $game))->assertNotFound();
 
         // Un fichier qui n'est pas une image est refusé.
         Livewire::actingAs($this->gm)->test(WorldShow::class, ['world' => $world])
@@ -126,7 +126,7 @@ class BacklogV3Test extends TestCase
 
         // Supprimer un jeu efface aussi son image.
         $gamePath = $game->fresh()->image_path;
-        Livewire::actingAs($this->alex)->test(WorldShow::class, ['world' => $world])->assertForbidden();
+        Livewire::actingAs($this->alex)->test(WorldShow::class, ['world' => $world])->assertNotFound();
         $this->campaign->delete();
         $game->fresh()->delete();
         Storage::disk('local')->assertMissing($gamePath);

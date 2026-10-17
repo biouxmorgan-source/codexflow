@@ -144,7 +144,7 @@ class RecetteV1Test extends TestCase
 
         $stranger = User::factory()->create(['preferences' => ['locale' => 'fr']]);
         $this->actingAs($stranger)->get(route('campaigns.show', $this->campaign))
-            ->assertForbidden()->assertSee('Accès refusé')->assertSee('Mes campagnes')->assertDontSee('This action is unauthorized');
+            ->assertNotFound()->assertSee('Page introuvable')->assertSee('Mes campagnes')->assertDontSee('Not Found');
 
         // Un joueur qui ouvre la page MJ de la campagne arrive sur la fiche de son personnage.
         $this->actingAs($this->alex)->get(route('campaigns.show', $this->campaign))

@@ -102,11 +102,11 @@ class PlayerCharacterTest extends TestCase
         $this->campaign->members()->attach($other, ['role' => CampaignRole::Player->value]);
         $this->actingAs($other)->get(route('characters.show', [$this->campaign, $character]))->assertForbidden();
         $this->get(route('characters.sheet', [$this->campaign, $character]))->assertForbidden();
-        $this->actingAs(User::factory()->create())->get(route('characters.show', [$this->campaign, $character]))->assertForbidden();
+        $this->actingAs(User::factory()->create())->get(route('characters.show', [$this->campaign, $character]))->assertNotFound();
 
         // Un joueur retiré de la campagne perd l'accès.
         $this->campaign->members()->detach($this->player);
-        $this->actingAs($this->player)->get(route('characters.show', [$this->campaign, $character]))->assertForbidden();
+        $this->actingAs($this->player)->get(route('characters.show', [$this->campaign, $character]))->assertNotFound();
     }
 
     public function test_counters_and_editable_fields_are_changed_by_the_player_and_kept_in_the_journal(): void

@@ -5,15 +5,16 @@ namespace App\Policies;
 use App\Models\Entity;
 use App\Models\User;
 use App\Support\CoGameMaster;
+use Illuminate\Auth\Access\Response;
 
 /**
  * Le MJ propriétaire et ses co-MJ accèdent aux fiches ; les joueurs les consultent par leurs personnages.
  */
 class EntityPolicy
 {
-    public function view(User $user, Entity $entity): bool
+    public function view(User $user, Entity $entity): bool|Response
     {
-        return CoGameMaster::canPrepare($user, $entity, edit: false);
+        return CoGameMaster::canPrepare($user, $entity, edit: false) ?: Response::denyAsNotFound();
     }
 
     public function update(User $user, Entity $entity): bool

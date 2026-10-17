@@ -172,9 +172,11 @@ class EntityPagesTest extends TestCase
         foreach ([$player, $stranger] as $user) {
             // Le joueur sans personnage est renvoyé vers ses campagnes ; l'étranger est refusé.
             $campaignPage = $this->actingAs($user)->get(route('campaigns.show', $this->campaignA));
-            $user->is($player) ? $campaignPage->assertRedirect(route('campaigns.index'))->assertDontSee('Secret absolu') : $campaignPage->assertForbidden();
-            $this->actingAs($user)->get(route('entities.show', [$this->campaignA, $npc]))->assertForbidden();
-            $this->actingAs($user)->get(route('entities.edit', [$this->campaignA, $npc]))->assertForbidden();
+            $user->is($player) ? $campaignPage->assertRedirect(route('campaigns.index'))->assertDontSee('Secret absolu') : $campaignPage->assertNotFound();
+            // Un compte étranger reçoit la même réponse qu'une campagne inexistante.
+            $status = $user->is($player) ? 403 : 404;
+            $this->actingAs($user)->get(route('entities.show', [$this->campaignA, $npc]))->assertStatus($status);
+            $this->actingAs($user)->get(route('entities.edit', [$this->campaignA, $npc]))->assertStatus($status);
         }
     }
 

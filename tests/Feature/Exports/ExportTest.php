@@ -136,7 +136,7 @@ class ExportTest extends TestCase
         $this->campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);
 
         $this->actingAs($player)->get(route('exports.download', [$this->campaign, 'fiches']))->assertForbidden();
-        $this->actingAs(User::factory()->create())->get(route('exports.download', [$this->campaign, 'regles']))->assertForbidden();
+        $this->actingAs(User::factory()->create())->get(route('exports.download', [$this->campaign, 'regles']))->assertNotFound();
         $this->actingAs($this->gm)->get(route('exports.download', [$this->campaign, 'autre']))->assertNotFound();
 
         $this->actingAs($this->gm)->get(route('campaigns.show', $this->campaign))->assertSee(route('exports.download', [$this->campaign, 'fiches']));

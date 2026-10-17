@@ -14,6 +14,14 @@ return [
         ],
     ],
 
+    '0.65.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Accessi verificati ovunque',
+        'items' => [
+            'Digitare un indirizzo a mano non apre mai una campagna, una scheda o un file a cui non si ha diritto. Un account che non è membro riceve ora «Pagina non trovata», come per un indirizzo inesistente: provare dei numeri non rivela nemmeno che una campagna esiste.',
+        ],
+    ],
+
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'I dadi al tavolo',

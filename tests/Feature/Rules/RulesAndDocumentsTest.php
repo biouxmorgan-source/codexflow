@@ -262,12 +262,13 @@ class RulesAndDocumentsTest extends TestCase
         $player = User::factory()->create();
         $this->campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);
 
-        foreach ([$player, User::factory()->create()] as $user) {
-            $this->actingAs($user)->get(route('rules.index', $this->campaign))->assertForbidden();
-            $this->actingAs($user)->get(route('rules.show', [$this->campaign, $rule]))->assertForbidden();
-            $this->actingAs($user)->get(route('documents.index', $this->campaign))->assertForbidden();
-            $this->actingAs($user)->get(route('documents.show', [$this->campaign, $document]))->assertForbidden();
-            $this->actingAs($user)->get(route('documents.file', $document))->assertForbidden();
+        // Le joueur sait que la campagne existe (403) ; un compte étranger reçoit la même réponse qu'une campagne inexistante (404).
+        foreach ([[$player, 403], [User::factory()->create(), 404]] as [$user, $status]) {
+            $this->actingAs($user)->get(route('rules.index', $this->campaign))->assertStatus($status);
+            $this->actingAs($user)->get(route('rules.show', [$this->campaign, $rule]))->assertStatus($status);
+            $this->actingAs($user)->get(route('documents.index', $this->campaign))->assertStatus($status);
+            $this->actingAs($user)->get(route('documents.show', [$this->campaign, $document]))->assertStatus($status);
+            $this->actingAs($user)->get(route('documents.file', $document))->assertNotFound();
         }
 
         // Un co-MJ ne peut pas ranger un document dans le jeu d'un autre compte.

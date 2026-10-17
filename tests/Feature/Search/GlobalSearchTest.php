@@ -95,7 +95,7 @@ class GlobalSearchTest extends TestCase
 
         $this->actingAs(User::factory()->create())
             ->get(route('search.index', [$this->campaign, 'q' => 'aldric']))
-            ->assertForbidden();
+            ->assertNotFound();
     }
 
     public function test_content_from_other_campaigns_and_worlds_stays_out(): void

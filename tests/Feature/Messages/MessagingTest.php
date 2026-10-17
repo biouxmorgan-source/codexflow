@@ -168,6 +168,6 @@ class MessagingTest extends TestCase
 
     public function test_outsiders_cannot_read_the_messages(): void
     {
-        $this->actingAs(User::factory()->create())->get(route('messages.index', $this->campaign))->assertForbidden();
+        $this->actingAs(User::factory()->create())->get(route('messages.index', $this->campaign))->assertNotFound();
     }
 }

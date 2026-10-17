@@ -117,7 +117,7 @@ class SecurityTest extends TestCase
         $form = Livewire::actingAs($coGm)->test(EntityForm::class, ['campaign' => $this->campaign])->set('name', 'Intrus');
 
         $this->campaign->members()->detach($coGm);
-        $form->call('save')->assertForbidden();
+        $form->call('save')->assertNotFound();
         $this->assertFalse(Entity::where('name', 'Intrus')->exists());
     }
 

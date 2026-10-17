@@ -68,7 +68,7 @@ class FieldDefinitionsTest extends TestCase
         $this->campaign->members()->attach($coGm, ['role' => CampaignRole::GameMaster->value]);
 
         $this->actingAs($coGm)->get(route('fields.index', $this->campaign))->assertForbidden();
-        $this->actingAs(User::factory()->create())->get(route('fields.index', $this->campaign))->assertForbidden();
+        $this->actingAs(User::factory()->create())->get(route('fields.index', $this->campaign))->assertNotFound();
         $this->actingAs($this->gm)->get(route('fields.index', $this->campaign))->assertOk();
     }
 

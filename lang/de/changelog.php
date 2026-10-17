@@ -14,6 +14,14 @@ return [
         ],
     ],
 
+    '0.65.1' => [
+        'date' => '2026-10-17',
+        'title' => 'Zugriffe überall geprüft',
+        'items' => [
+            'Eine von Hand eingetippte Adresse öffnet nie eine Kampagne, ein Blatt oder eine Datei, auf die man kein Recht hat. Ein Konto, das nicht Mitglied ist, erhält jetzt „Seite nicht gefunden“, wie bei einer Adresse, die es nicht gibt: Wer Nummern ausprobiert, erfährt nicht einmal, dass eine Kampagne existiert.',
+        ],
+    ],
+
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Würfel am Tisch',

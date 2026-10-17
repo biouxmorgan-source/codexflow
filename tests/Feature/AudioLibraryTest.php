@@ -114,8 +114,8 @@ class AudioLibraryTest extends TestCase
         $track = $this->track();
 
         Livewire::actingAs($this->player)->test(AudioIndex::class, ['campaign' => $this->campaign])->assertForbidden();
-        $this->actingAs($this->player)->get(route('audio.file', $track))->assertForbidden();
-        $this->actingAs($this->spectator)->get(route('audio.file', $track))->assertForbidden();
+        $this->actingAs($this->player)->get(route('audio.file', $track))->assertNotFound();
+        $this->actingAs($this->spectator)->get(route('audio.file', $track))->assertNotFound();
         $this->actingAs($this->gm)->get(route('audio.file', $track))->assertOk()->assertHeader('Content-Type', 'audio/mpeg');
     }
 
