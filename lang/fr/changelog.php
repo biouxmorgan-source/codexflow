@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.65.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Les dés à la table',
+        'items' => [
+            'Nouveau bouton « Dés » en bas de chaque page de la campagne : le nombre et le type de dés (4 à 100 faces, ou autre), puis la façon de les lire : additionner, atteindre un seuil, rester sous un seuil, compter les réussites, garder les meilleurs ou les plus faibles, lire en chiffres. Avec un bonus, et des dés qui relancent sur le max (+) ou sur le 1 (−).',
+            'Le MJ demande un lancer à toute la table ou à certains personnages, à la vue de tous ou en discret. Une fenêtre s’ouvre chez les joueurs concernés ; sans seuil, chacun saisit le sien et ajoute son bonus, et un seuil caché reste chez le MJ, qui voit qui a lancé quoi.',
+            'Les lancers à la table roulent quelques secondes sur l’écran de table ; un lancer discret ne se montre qu’au MJ. Le MJ enregistre ses lancers habituels pour toute la table, et les dés se coupent dans « Fonctions de la campagne ».',
+        ],
+    ],
+
     '0.64.1' => [
         'date' => '2026-10-17',
         'title' => 'Gabarits mesurés comme la règle, QR codes',

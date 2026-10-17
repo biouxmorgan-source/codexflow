@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.65.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Dobbelstenen aan tafel',
+        'items' => [
+            'Nieuwe knop ‘Dobbelstenen’ onderaan elke pagina van de campagne: het aantal en soort dobbelstenen (4 tot 100 zijden, of ander), en hoe je ze leest: optellen, een drempel halen, onder een drempel blijven, successen tellen, de beste of laagste houden, als cijfers lezen. Met een bonus en dobbelstenen die opnieuw gooien bij het maximum (+) of bij een 1 (−).',
+            'De SL vraagt een worp aan de hele tafel of aan bepaalde personages, zichtbaar voor iedereen of discreet. Bij de betrokken spelers opent een venster; zonder drempel vult ieder zijn eigen drempel in en telt zijn bonus erbij, en een verborgen drempel blijft bij de SL, die ziet wie wat gooide.',
+            'Worpen aan tafel rollen een paar seconden over het tafelscherm; een discrete worp ziet alleen de SL. De SL slaat zijn vaste worpen op voor de hele tafel, en de dobbelstenen kunnen uit in ‘Functies van de campagne’.',
+        ],
+    ],
+
     '0.64.1' => [
         'date' => '2026-10-17',
         'title' => 'Sjablonen gemeten zoals de liniaal',

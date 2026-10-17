@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.65.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Los dados en la mesa',
+        'items' => [
+            'Nuevo botón «Dados» al pie de cada página de la campaña: el número y el tipo de dados (de 4 a 100 caras, u otro), y cómo leerlos: sumar, alcanzar un umbral, quedar bajo un umbral, contar éxitos, quedarse con los mejores o los más bajos, leer en cifras. Con un bonificador y dados que se vuelven a tirar con el máximo (+) o con el 1 (−).',
+            'El DJ pide una tirada a toda la mesa o a algunos personajes, a la vista de todos o en discreto. Se abre una ventana a los jugadores afectados; sin umbral, cada uno indica el suyo y añade su bonificador, y un umbral oculto se queda con el DJ, que ve quién ha tirado qué.',
+            'Las tiradas a la mesa ruedan unos segundos en la pantalla de mesa; una tirada discreta solo la ve el DJ. El DJ guarda sus tiradas habituales para toda la mesa, y los dados se desactivan en «Funciones de la campaña».',
+        ],
+    ],
+
     '0.64.1' => [
         'date' => '2026-10-17',
         'title' => 'Plantillas medidas como la regla',

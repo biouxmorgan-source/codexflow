@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.65.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Dice at the table',
+        'items' => [
+            'New “Dice” button at the bottom of every campaign page: the number and type of dice (4 to 100 sides, or other), then how to read them: add up, reach a threshold, stay under a threshold, count successes, keep the best or the lowest, read as digits. With a bonus, and dice that roll again on the max (+) or on a 1 (−).',
+            'The GM asks for a roll from the whole table or from some characters, in plain view or discreetly. A window opens for the players concerned; without a threshold, each enters their own and adds their bonus, and a hidden threshold stays with the GM, who sees who rolled what.',
+            'Rolls at the table tumble for a few seconds on the table screen; a discreet roll is shown to the GM only. The GM saves their usual rolls for the whole table, and dice can be switched off in “Campaign features”.',
+        ],
+    ],
+
     '0.64.1' => [
         'date' => '2026-10-17',
         'title' => 'Templates measured like the ruler',
