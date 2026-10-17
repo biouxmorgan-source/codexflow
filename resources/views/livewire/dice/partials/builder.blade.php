@@ -1,48 +1,63 @@
 {{-- Composer un lancer : combien de dés, de quel type, comment les lire. Variables Alpine de diceBuilder. --}}
 @php($readings = [
-    'sum' => ['Σ', __('Additionner'), __('Le total des dés, plus le bonus.')],
-    'above' => ['≥', __('Atteindre un seuil'), __('Réussi si le total atteint le seuil.')],
-    'below' => ['≤', __('Rester sous un seuil'), __('Réussi si le total ne dépasse pas le seuil.')],
-    'count' => ['✓', __('Compter les réussites'), __('Chaque dé qui atteint le seuil compte une réussite.')],
-    'keep' => ['★', __('Garder les meilleurs'), __('Seuls les meilleurs dés comptent (ou les plus faibles).')],
-    'digits' => ['#', __('Lire en chiffres'), __('Chaque dé donne un chiffre : 3, 5 et 1 font 351.')],
+    'sum' => ['Σ', __('Additionner'), __('Le total des dés, plus le bonus.'), "reading === 'sum'"],
+    'total' => ['≥', __('Seuil sur le total'), __('Réussi si le total des dés atteint le seuil, ou s’il ne le dépasse pas.'), "['above', 'below'].includes(reading)"],
+    'count' => ['✓', __('Seuil par dé'), __('Chaque dé au-dessus (ou au-dessous) du seuil compte une réussite.'), "reading === 'count'"],
+    'keep' => ['★', __('Garder les meilleurs'), __('Seuls les meilleurs dés comptent (ou les plus faibles).'), "reading === 'keep'"],
+    'digits' => ['#', __('Lire en chiffres'), __('Chaque dé donne un chiffre : 3, 5 et 1 font 351.'), "reading === 'digits'"],
 ])
 <div class="space-y-3">
-    <div class="flex items-center gap-2">
-        <div class="flex items-center rounded-lg border border-stone-200" role="group" aria-label="{{ __('Nombre de dés') }}">
-            <button type="button" x-on:click="bump(-1)" class="px-3 py-1.5 text-lg text-stone-600 hover:text-codex" aria-label="{{ __('Un dé de moins') }}">−</button>
-            <span class="w-8 text-center text-lg font-semibold tabular-nums" x-text="count" aria-live="polite"></span>
-            <button type="button" x-on:click="bump(1)" class="px-3 py-1.5 text-lg text-stone-600 hover:text-codex" aria-label="{{ __('Un dé de plus') }}">+</button>
-        </div>
-        <p class="text-lg font-semibold text-codex" translate="no"><span x-text="count"></span>d<span x-text="sides"></span></p>
+    <div>
+        <p class="flex items-baseline justify-between gap-2">
+            <span class="label mb-0">{{ __('Dés lancés') }}</span>
+            <span class="text-base font-semibold text-codex" translate="no" x-text="notation"></span>
+        </p>
+        <ul class="mt-1 space-y-1">
+            <template x-for="(kind, index) in pool" :key="kind.sides">
+                <li class="flex items-center gap-2 rounded-lg border border-stone-200 px-2 py-1">
+                    <span class="w-14 text-sm font-semibold" translate="no" x-text="'d' + kind.sides"></span>
+                    <div class="flex items-center" role="group" :aria-label="@js(__('Nombre de dés')) + ' d' + kind.sides">
+                        <button type="button" x-on:click="bump(index, -1)" class="px-2.5 text-lg text-stone-600 hover:text-codex" aria-label="{{ __('Un dé de moins') }}">−</button>
+                        <span class="w-7 text-center text-lg font-semibold tabular-nums" x-text="kind.count" aria-live="polite"></span>
+                        <button type="button" x-on:click="bump(index, 1)" class="px-2.5 text-lg text-stone-600 hover:text-codex" aria-label="{{ __('Un dé de plus') }}">+</button>
+                    </div>
+                    <button type="button" x-show="pool.length > 1" x-on:click="removeKind(index)" class="ml-auto px-1 text-stone-400 hover:text-red-700" aria-label="{{ __('Retirer ce type de dé') }}">×</button>
+                </li>
+            </template>
+        </ul>
     </div>
 
-    <div class="flex flex-wrap items-center gap-1.5" role="group" aria-label="{{ __('Type de dé') }}">
-        @foreach (\App\Support\Dice\DiceFormula::COMMON_SIDES as $sides)
-            <button type="button" x-on:click="pick({{ $sides }})" class="rounded-lg p-0.5 ring-codex transition hover:scale-105"
-                :class="Number(sides) === {{ $sides }} && custom === '' ? 'ring-2' : 'opacity-70'" aria-label="{{ __('Dé à :sides faces', ['sides' => $sides]) }}"
-                :aria-pressed="(Number(sides) === {{ $sides }} && custom === '').toString()">
-                <x-die :sides="$sides" :value="$sides === 100 ? '%' : $sides" size="size-9" />
-            </button>
-        @endforeach
-        <input type="text" inputmode="numeric" x-model="custom" x-on:input="customSides()" maxlength="4" class="field w-16 px-2 py-1 text-center text-sm"
-            placeholder="{{ __('autre') }}" aria-label="{{ __('Nombre de faces (autre dé)') }}">
+    <div>
+        <p class="label">{{ __('Ajouter un dé') }} <span class="font-normal text-stone-500">{{ __('(touchez plusieurs types pour les mélanger)') }}</span></p>
+        <div class="flex flex-wrap items-center gap-1.5" role="group" aria-label="{{ __('Type de dé') }}">
+            @foreach (\App\Support\Dice\DiceFormula::COMMON_SIDES as $sides)
+                <button type="button" x-on:click="add({{ $sides }})" class="rounded-lg p-0.5 ring-codex transition hover:scale-105"
+                    :class="pool.some((kind) => kind.sides === {{ $sides }}) ? 'ring-2' : 'opacity-70'" aria-label="{{ __('Ajouter un dé à :sides faces', ['sides' => $sides]) }}">
+                    <x-die :sides="$sides" :value="$sides === 100 ? '%' : $sides" size="size-9" />
+                </button>
+            @endforeach
+            <form x-on:submit.prevent="addCustom()" class="flex items-center gap-1">
+                <input type="text" inputmode="numeric" x-model="custom" maxlength="4" class="field w-16 px-2 py-1 text-center text-sm"
+                    placeholder="{{ __('autre') }}" aria-label="{{ __('Nombre de faces (autre dé)') }}">
+                <button type="submit" x-show="custom !== ''" class="btn-secondary px-2 py-1 text-xs">{{ __('Ajouter') }}</button>
+            </form>
+        </div>
     </div>
 
     <fieldset>
         <legend class="label">{{ __('Comment les lire') }}</legend>
         <div class="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
-            @foreach ($readings as $key => [$icon, $name, $hint])
+            @foreach ($readings as $key => [$icon, $name, $hint, $active])
                 <button type="button" x-on:click="setReading('{{ $key }}')" title="{{ $hint }}"
                     class="flex items-center gap-2 rounded-lg border px-2 py-1.5 text-left text-xs leading-tight"
-                    :class="reading === '{{ $key }}' ? 'border-codex bg-codex-soft font-semibold text-ink' : 'border-stone-200 text-stone-600 hover:border-codex'"
-                    :aria-pressed="(reading === '{{ $key }}').toString()">
+                    :class="{{ $active }} ? 'border-codex bg-codex-soft font-semibold text-ink' : 'border-stone-200 text-stone-600 hover:border-codex'"
+                    :aria-pressed="({{ $active }}).toString()">
                     <span class="w-4 shrink-0 text-center text-base font-bold text-codex" aria-hidden="true">{{ $icon }}</span>{{ $name }}
                 </button>
             @endforeach
         </div>
-        @foreach ($readings as $key => [$icon, $name, $hint])
-            <p x-show="reading === '{{ $key }}'" x-cloak class="mt-1 text-xs text-stone-500">{{ $hint }}</p>
+        @foreach ($readings as $key => [$icon, $name, $hint, $active])
+            <p x-show="{{ $active }}" x-cloak class="mt-1 text-xs text-stone-500">{{ $hint }}</p>
         @endforeach
     </fieldset>
 
@@ -50,6 +65,13 @@
         <label x-show="needsThreshold" x-cloak class="flex flex-col gap-1">
             <span class="label mb-0">{{ __('Seuil') }}</span>
             <input type="text" inputmode="numeric" x-model="threshold" maxlength="5" class="field w-20 py-1 text-center" placeholder="{{ $thresholdPlaceholder ?? '' }}">
+        </label>
+        <label x-show="['above', 'below'].includes(reading)" x-cloak class="flex flex-col gap-1">
+            <span class="label mb-0">{{ __('Le total réussit') }}</span>
+            <select class="field py-1" x-on:change="reading = $event.target.value">
+                <option value="above" :selected="reading === 'above'">{{ __('au seuil ou plus') }}</option>
+                <option value="below" :selected="reading === 'below'">{{ __('au seuil ou moins') }}</option>
+            </select>
         </label>
         <label x-show="reading === 'count'" x-cloak class="flex flex-col gap-1">
             <span class="label mb-0">{{ __('Un dé réussit') }}</span>

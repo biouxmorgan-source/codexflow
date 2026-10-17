@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.66.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Gemengde dobbelstenen en eigen opgeslagen worpen',
+        'items' => [
+            'Eén worp kan meerdere soorten dobbelstenen mengen: tik een d20 en daarna twee d6 aan, en er wordt 1d20 + 2d6 gegooid. Elke soort heeft een eigen aantal, dat je kunt aanpassen of verwijderen.',
+            'De drempel geldt voor het totaal (‘Drempel op het totaal’, gehaald of niet overschreden) of voor elke dobbelsteen (‘Drempel per dobbelsteen’: bijvoorbeeld elke dobbelsteen van 4 of meer is een succes).',
+            'Iedereen, speler of SL, slaat eigen worpen op in ‘Mijn worpen’, laadt ze met één tik en werkt ze bij als het personage groeit. De SL houdt ook de ‘Worpen van de campagne’ voor de hele tafel.',
+        ],
+    ],
+
     '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Toegang overal gecontroleerd',

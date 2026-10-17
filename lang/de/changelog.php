@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.66.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Gemischte Würfel und eigene gespeicherte Würfe',
+        'items' => [
+            'Ein Wurf kann mehrere Würfelarten mischen: Tippe einen W20 und dann zwei W6 an, und es wird 1d20 + 2d6 geworfen. Jede Art hat ihre eigene Anzahl, die du ändern oder entfernen kannst.',
+            'Die Schwelle gilt entweder für die Summe („Schwelle auf die Summe“, erreicht oder nicht überschritten) oder für jeden Würfel („Schwelle pro Würfel“: zum Beispiel ist jeder Würfel ab 4 ein Erfolg).',
+            'Alle, Spielende wie SL, speichern ihre eigenen Würfe unter „Meine Würfe“, laden sie mit einem Tipp und aktualisieren sie, wenn sich ihr Charakter entwickelt. Die SL behält außerdem die „Würfe der Kampagne“ für den ganzen Tisch.',
+        ],
+    ],
+
     '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Zugriffe überall geprüft',

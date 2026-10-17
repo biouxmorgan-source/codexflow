@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.66.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Dadi misti e tiri personali',
+        'items' => [
+            'Uno stesso tiro può mescolare più tipi di dadi: tocca un d20 e poi due d6, e si tira 1d20 + 2d6. Ogni tipo ha il suo numero, modificabile o rimovibile.',
+            'La soglia vale per il totale («Soglia sul totale», raggiunta o non superata) o per ogni dado («Soglia per dado»: per esempio ogni dado da 4 in su è un successo).',
+            'Ognuno, giocatore o Master, salva i propri tiri in «I miei tiri», li ricarica con un tocco e li aggiorna quando il personaggio cresce. Il Master conserva anche i «Tiri della campagna» per tutto il tavolo.',
+        ],
+    ],
+
     '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Accessi verificati ovunque',

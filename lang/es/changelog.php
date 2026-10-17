@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.66.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Dados mezclados y tiradas propias',
+        'items' => [
+            'Una misma tirada puede mezclar varios tipos de dados: toca un d20 y luego dos d6, y se lanza 1d20 + 2d6. Cada tipo tiene su número, que puedes ajustar o quitar.',
+            'El umbral se aplica al total («Umbral sobre el total», alcanzado o sin superar) o a cada dado («Umbral por dado»: por ejemplo, todos los dados de 4 o más son éxitos).',
+            'Cada persona, jugador o DJ, guarda sus propias tiradas en «Mis tiradas», las recarga con un toque y las actualiza cuando su personaje evoluciona. El DJ conserva además las «Tiradas de la campaña» para toda la mesa.',
+        ],
+    ],
+
     '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Accesos comprobados en todas partes',

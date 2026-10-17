@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.66.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Mixed dice and your own saved rolls',
+        'items' => [
+            'One roll can mix several dice types: tap a d20 then two d6, and the tray rolls 1d20 + 2d6. Each type has its own count, which you can change or remove.',
+            'The threshold applies either to the total (“Threshold on the total”, reached or not exceeded) or to each die (“Threshold per die”: every die at 4 or more is a success, for example).',
+            'Everyone, player or GM, saves their own rolls in “My rolls”, reloads them in one tap and updates them as their character evolves. The GM also keeps the “Campaign rolls” for the whole table.',
+        ],
+    ],
+
     '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Access checked everywhere',

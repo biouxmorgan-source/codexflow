@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.66.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Mieszane kości i własne zapisane rzuty',
+        'items' => [
+            'Jeden rzut może łączyć kilka rodzajów kości: dotknij k20, a potem dwóch k6, i rzucane jest 1d20 + 2d6. Każdy rodzaj ma własną liczbę kości, którą można zmienić lub usunąć.',
+            'Próg dotyczy sumy („Próg dla sumy”, osiągnięty lub nieprzekroczony) albo każdej kości („Próg na kość”: na przykład każda kość z wynikiem 4 lub więcej to sukces).',
+            'Każdy, gracz czy MG, zapisuje własne rzuty w „Moje rzuty”, wczytuje je jednym dotknięciem i aktualizuje, gdy postać się rozwija. MG ma też „Rzuty kampanii” dla całego stołu.',
+        ],
+    ],
+
     '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Dostęp sprawdzany wszędzie',

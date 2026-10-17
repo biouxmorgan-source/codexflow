@@ -1,9 +1,10 @@
 // Plateau de dés : le lancer se compose ici (nombre, type de dé, lecture, options), puis part au
 // serveur qui tire les dés. Le dernier lancer composé est retenu pour la campagne, sur cet appareil.
 document.addEventListener('alpine:init', () => {
-    const blank = {
-        count: 1,
-        sides: 20,
+    const MAX_DICE = 30;
+    const MAX_KINDS = 6;
+    const blank = () => ({
+        pool: [{ count: 1, sides: 20 }],
         reading: 'sum',
         threshold: '',
         count_high: true,
@@ -12,15 +13,18 @@ document.addEventListener('alpine:init', () => {
         explode: 'none',
         modifier: 0,
         hide_threshold: false,
-    };
+    });
 
     window.Alpine.data('diceBuilder', (storageKey) => ({
-        ...blank,
+        ...blank(),
         custom: '',
         visibility: 'table',
         label: '',
         targets: [],
         presetName: '',
+        presetScope: 'mine',
+        // Lancer enregistré chargé dans le plateau : { id, scope, label }, pour le mettre à jour.
+        loaded: null,
 
         init() {
             try {
@@ -37,16 +41,37 @@ document.addEventListener('alpine:init', () => {
         },
 
         load(formula, label = null) {
-            Object.assign(this, blank, formula);
+            const { count, sides, ...rest } = formula;
+            Object.assign(this, blank(), rest);
+            // Un lancer enregistré avant le mélange des dés n'a qu'un type : count + sides.
+            this.pool = (formula.pool ?? [{ count: count ?? 1, sides: sides ?? 6 }]).map((kind) => ({ count: Number(kind.count), sides: Number(kind.sides) }));
             this.threshold = formula.threshold ?? '';
-            this.custom = [4, 6, 8, 10, 12, 20, 100].includes(Number(this.sides)) ? '' : String(this.sides);
+            this.custom = '';
             if (label !== null) this.label = label;
+        },
+
+        loadPreset(formula, label, scope, id) {
+            this.load(formula, label);
+            this.presetName = label;
+            this.presetScope = scope;
+            this.loaded = { id, scope, label };
+        },
+
+        get count() {
+            return this.pool.reduce((total, kind) => total + kind.count, 0);
+        },
+
+        get sides() {
+            return this.pool[0]?.sides ?? 6;
+        },
+
+        get notation() {
+            return this.pool.map((kind) => kind.count + 'd' + kind.sides).join(' + ');
         },
 
         get formula() {
             return {
-                count: Number(this.count),
-                sides: Number(this.sides),
+                pool: this.pool.map((kind) => ({ count: kind.count, sides: kind.sides })),
                 reading: this.reading,
                 threshold: this.threshold === '' ? null : Number(this.threshold),
                 count_high: this.count_high,
@@ -58,18 +83,32 @@ document.addEventListener('alpine:init', () => {
             };
         },
 
-        pick(sides) {
-            this.sides = sides;
+        // Toucher un type de dé en ajoute un ; plusieurs types se mélangent dans le même lancer.
+        add(sides) {
+            const kind = this.pool.find((item) => item.sides === sides);
+            if (this.count >= MAX_DICE) return;
+            if (kind) {
+                kind.count++;
+            } else if (this.pool.length < MAX_KINDS) {
+                this.pool.push({ count: 1, sides });
+            }
+        },
+
+        addCustom() {
+            const value = parseInt(this.custom, 10);
+            if (value >= 2 && value <= 1000) this.add(value);
             this.custom = '';
         },
 
-        customSides() {
-            const value = parseInt(this.custom, 10);
-            if (value >= 2 && value <= 1000) this.sides = value;
+        bump(index, delta) {
+            const kind = this.pool[index];
+            if (delta > 0 && this.count >= MAX_DICE) return;
+            kind.count = Math.max(1, kind.count + delta);
+            this.keep = Math.min(this.keep, this.count);
         },
 
-        bump(delta) {
-            this.count = Math.max(1, Math.min(30, Number(this.count) + delta));
+        removeKind(index) {
+            if (this.pool.length > 1) this.pool.splice(index, 1);
             this.keep = Math.min(this.keep, this.count);
         },
 
@@ -90,6 +129,8 @@ document.addEventListener('alpine:init', () => {
         },
 
         setReading(reading) {
+            // « Seuil sur le total » : au seuil ou plus (above) ou au seuil ou moins (below).
+            if (reading === 'total') reading = ['above', 'below'].includes(this.reading) ? this.reading : 'above';
             this.reading = reading;
             if (!this.canExplodeDown && ['down', 'both'].includes(this.explode)) this.explode = this.reading === 'count' && this.explode === 'both' ? 'up' : 'none';
             if (!this.canExplode) this.explode = 'none';

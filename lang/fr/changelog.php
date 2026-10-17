@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.66.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Dés mélangés et lancers à soi',
+        'items' => [
+            'Un même lancer peut mêler plusieurs types de dés : touchez un d20 puis deux d6, et le plateau lance 1d20 + 2d6. Chaque type a son nombre, réglable ou retirable.',
+            'Le seuil se pose au choix sur le total (« Seuil sur le total », atteint ou à ne pas dépasser) ou sur chaque dé (« Seuil par dé » : tous les dés à 4 ou plus sont des réussites, par exemple).',
+            'Chacun, joueur comme MJ, enregistre ses propres lancers dans « Mes lancers », les recharge d’un geste et les met à jour quand son personnage évolue. Le MJ garde aussi les « Lancers de la campagne » pour toute la table.',
+        ],
+    ],
+
     '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Accès vérifiés partout',

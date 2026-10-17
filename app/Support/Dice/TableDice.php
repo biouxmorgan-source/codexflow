@@ -12,6 +12,7 @@ use App\Support\CampaignFeatures;
 use App\Support\Live;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -42,17 +43,28 @@ final class TableDice
             ['label' => __('Additionner'), 'formula' => ['count' => 2, 'sides' => 6, 'reading' => 'sum']],
             ['label' => __('Atteindre un seuil'), 'formula' => ['count' => 1, 'sides' => 20, 'reading' => 'above', 'threshold' => 15]],
             ['label' => __('Rester sous un seuil'), 'formula' => ['count' => 1, 'sides' => 100, 'reading' => 'below']],
-            ['label' => __('Compter les réussites'), 'formula' => ['count' => 6, 'sides' => 6, 'reading' => 'count', 'threshold' => 5, 'explode' => 'up']],
+            ['label' => __('Seuil par dé'), 'formula' => ['count' => 6, 'sides' => 6, 'reading' => 'count', 'threshold' => 5, 'explode' => 'up']],
+            ['label' => __('Dés mélangés'), 'formula' => ['pool' => [['count' => 1, 'sides' => 20], ['count' => 1, 'sides' => 6]], 'reading' => 'sum']],
             ['label' => __('Garder le meilleur'), 'formula' => ['count' => 2, 'sides' => 20, 'reading' => 'keep', 'keep' => 1]],
             ['label' => __('Lire en chiffres'), 'formula' => ['count' => 3, 'sides' => 6, 'reading' => 'digits']],
             ['label' => __('Ouvert en haut et en bas'), 'formula' => ['count' => 1, 'sides' => 100, 'reading' => 'sum', 'explode' => 'both']],
         ];
     }
 
-    /** @return list<array{id: string, label: string, formula: array<string, mixed>}> */
-    public static function presets(Campaign $campaign): array
+    /**
+     * Lancers enregistrés : ceux de la table (préparés par le MJ), ou ceux d'une personne pour elle-même.
+     *
+     * @return list<array{id: string, label: string, formula: array<string, mixed>}>
+     */
+    public static function presets(Campaign $campaign, ?User $owner = null): array
     {
-        return self::cleanPresets($campaign->dice_presets ?? []);
+        if ($owner === null) {
+            return self::cleanPresets($campaign->dice_presets ?? []);
+        }
+
+        $raw = self::membership($campaign, $owner)->value('dice_presets');
+
+        return self::cleanPresets(is_string($raw) ? json_decode($raw, true) : $raw);
     }
 
     /**
@@ -75,25 +87,51 @@ final class TableDice
             ->all();
     }
 
-    public static function savePreset(Campaign $campaign, string $label, DiceFormula $formula): void
+    /** Enregistre un lancer ; avec $id, met à jour celui qui porte cet identifiant. */
+    public static function savePreset(Campaign $campaign, string $label, DiceFormula $formula, ?User $owner = null, ?string $id = null): string
     {
         CampaignFeatures::ensure($campaign, 'dice');
-        $presets = self::presets($campaign);
+        $presets = self::presets($campaign, $owner);
+        $entry = ['label' => mb_substr(trim($label), 0, 60), 'formula' => $formula->toArray()];
+        $index = $id === null ? false : array_search($id, array_column($presets, 'id'), true);
 
-        if (count($presets) >= self::MAX_PRESETS) {
-            throw ValidationException::withMessages(['presetLabel' => __('Trente lancers enregistrés au plus.')]);
+        if ($index !== false) {
+            $presets[$index] = ['id' => $id] + $entry;
+        } else {
+            if (count($presets) >= self::MAX_PRESETS) {
+                throw ValidationException::withMessages(['presetLabel' => __('Trente lancers enregistrés au plus.')]);
+            }
+            $presets[] = ['id' => $id = Str::random(8)] + $entry;
         }
 
-        $presets[] = ['id' => Str::random(8), 'label' => mb_substr(trim($label), 0, 60), 'formula' => $formula->toArray()];
-        $campaign->forceFill(['dice_presets' => $presets])->save();
-        self::notify($campaign, self::everyone($campaign));
+        self::storePresets($campaign, $owner, $presets);
+
+        return $id;
     }
 
-    public static function removePreset(Campaign $campaign, string $id): void
+    public static function removePreset(Campaign $campaign, string $id, ?User $owner = null): void
     {
-        $presets = array_values(array_filter(self::presets($campaign), fn (array $preset) => $preset['id'] !== $id));
-        $campaign->forceFill(['dice_presets' => $presets === [] ? null : $presets])->save();
-        self::notify($campaign, self::everyone($campaign));
+        $presets = array_values(array_filter(self::presets($campaign, $owner), fn (array $preset) => $preset['id'] !== $id));
+        self::storePresets($campaign, $owner, $presets);
+    }
+
+    /** @param list<array<string, mixed>> $presets */
+    private static function storePresets(Campaign $campaign, ?User $owner, array $presets): void
+    {
+        if ($owner === null) {
+            $campaign->forceFill(['dice_presets' => $presets === [] ? null : $presets])->save();
+            self::notify($campaign, self::everyone($campaign));
+
+            return;
+        }
+
+        abort_unless(self::membership($campaign, $owner)->exists(), 403);
+        self::membership($campaign, $owner)->update(['dice_presets' => $presets === [] ? null : json_encode($presets)]);
+    }
+
+    private static function membership(Campaign $campaign, User $user): \Illuminate\Database\Query\Builder
+    {
+        return DB::table('campaign_memberships')->where('campaign_id', $campaign->id)->where('user_id', $user->id);
     }
 
     /** Les personnages qu'une personne joue dans la campagne (pour lancer en leur nom). */

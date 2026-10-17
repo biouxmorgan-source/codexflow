@@ -73,27 +73,30 @@
                                 @endforeach
                             @endif
 
-                            @if ($presets !== [])
-                                <div>
-                                    <p class="label">{{ __('Lancers de la campagne') }}</p>
-                                    <ul class="flex flex-wrap gap-1.5">
-                                        @foreach ($presets as $preset)
-                                            <li wire:key="preset-{{ $preset['id'] }}" class="inline-flex items-center rounded-full border border-codex/40 bg-codex-soft text-xs">
-                                                <button type="button" x-on:click="load(@js($preset['formula']), @js($preset['label']))" class="px-2.5 py-1 font-medium"
-                                                    title="{{ \App\Support\Dice\DiceFormula::fromArray($preset['formula'])->describe() }}">{{ $preset['label'] }}</button>
-                                                @if ($this->isGameMaster)
-                                                    <button type="button" wire:click="removePreset(@js($preset['id']))" wire:confirm="{{ __('Retirer ce lancer enregistré ?') }}" class="pr-2 text-stone-400 hover:text-red-700" aria-label="{{ __('Retirer :name', ['name' => $preset['label']]) }}">×</button>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                            @foreach (['mine' => [__('Mes lancers'), $mine, true], 'table' => [__('Lancers de la campagne'), $presets, $this->isGameMaster]] as $scope => [$title, $list, $removable])
+                                @if ($list !== [])
+                                    <div>
+                                        <p class="label">{{ $title }}</p>
+                                        <ul class="flex flex-wrap gap-1.5">
+                                            @foreach ($list as $preset)
+                                                <li wire:key="preset-{{ $scope }}-{{ $preset['id'] }}" class="inline-flex items-center rounded-full border text-xs"
+                                                    :class="loaded?.id === @js($preset['id']) ? 'border-codex bg-codex text-on-accent' : 'border-codex/40 bg-codex-soft'">
+                                                    <button type="button" x-on:click="loadPreset(@js($preset['formula']), @js($preset['label']), '{{ $scope }}', @js($preset['id']))" class="px-2.5 py-1 font-medium"
+                                                        title="{{ \App\Support\Dice\DiceFormula::fromArray($preset['formula'])->describe() }}">{{ $preset['label'] }}</button>
+                                                    @if ($removable)
+                                                        <button type="button" wire:click="removePreset(@js($preset['id']), '{{ $scope }}')" x-on:click="if (loaded?.id === @js($preset['id'])) loaded = null" wire:confirm="{{ __('Retirer ce lancer enregistré ?') }}" class="pr-2 opacity-60 hover:text-red-700 hover:opacity-100" aria-label="{{ __('Retirer :name', ['name' => $preset['label']]) }}">×</button>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                            @endforeach
                             <div>
                                 <p class="label">{{ __('Exemples') }}</p>
                                 <ul class="-mx-3 flex gap-1.5 overflow-x-auto px-3 pb-1">
                                     @foreach ($examples as $example)
-                                        <li class="shrink-0"><button type="button" x-on:click="load(@js($example['formula']))" class="rounded-full border border-stone-200 px-2.5 py-1 text-xs whitespace-nowrap hover:border-codex"
+                                        <li class="shrink-0"><button type="button" x-on:click="load(@js($example['formula'])); loaded = null" class="rounded-full border border-stone-200 px-2.5 py-1 text-xs whitespace-nowrap hover:border-codex"
                                             title="{{ \App\Support\Dice\DiceFormula::fromArray($example['formula'])->describe() }}">{{ $example['label'] }}</button></li>
                                     @endforeach
                                 </ul>
@@ -111,13 +114,26 @@
                                             @endforeach
                                         </select>
                                     @endif
-                                    @if ($this->isGameMaster)
+                                    {{-- Un lancer qu'on refait souvent : on l'enregistre, on le recharge, on le met à jour quand le personnage évolue. --}}
+                                    <div class="space-y-1.5 rounded-lg bg-stone-50 p-2">
+                                        <p class="label mb-0">{{ __('Enregistrer ce lancer') }}</p>
                                         <div class="flex gap-2">
                                             <input type="text" x-model="presetName" maxlength="60" class="field min-w-0 py-1 text-xs" placeholder="{{ __('Nom : Attaque, Sauvegarde…') }}" aria-label="{{ __('Nom du lancer enregistré') }}">
-                                            <button type="button" x-on:click="$wire.savePreset(formula, presetName).then(() => presetName = '')" class="btn-secondary shrink-0 py-1 text-xs">{{ __('Enregistrer pour la table') }}</button>
+                                            @if ($this->isGameMaster)
+                                                <select x-model="presetScope" class="field w-auto py-1 text-xs" aria-label="{{ __('Pour qui') }}">
+                                                    <option value="mine">{{ __('Pour moi') }}</option>
+                                                    <option value="table">{{ __('Pour la table') }}</option>
+                                                </select>
+                                            @endif
+                                        </div>
+                                        <div class="flex flex-wrap gap-2">
+                                            <button type="button" x-show="loaded" x-cloak x-on:click="$wire.savePreset(formula, presetName || loaded.label, loaded.scope, loaded.id).then((id) => { if (id) loaded.label = presetName || loaded.label })"
+                                                class="btn-secondary py-1 text-xs"><span x-text="@js(__('Mettre à jour')) + ' « ' + (loaded?.label ?? '') + ' »'"></span></button>
+                                            <button type="button" x-on:click="$wire.savePreset(formula, presetName, presetScope, null).then((id) => { if (id) loaded = { id, scope: presetScope, label: presetName } })"
+                                                class="btn-secondary py-1 text-xs" x-text="loaded ? @js(__('Enregistrer comme nouveau')) : @js(__('Enregistrer'))"></button>
                                         </div>
                                         @error('presetLabel') <p class="error">{{ $message }}</p> @enderror
-                                    @endif
+                                    </div>
                                 </div>
                             @else
                                 <div class="space-y-2 border-t border-stone-100 pt-3">
@@ -156,7 +172,7 @@
                                 </div>
                                 @error('threshold') <p class="error">{{ $message }}</p> @enderror
                                 <button type="button" x-on:click="$wire.roll(formula, visibility, label)" wire:loading.attr="disabled" class="btn-primary w-full justify-center gap-2 py-2.5 text-base">
-                                    {{ __('Lancer') }} <span class="font-normal opacity-80" translate="no" x-text="count + 'd' + sides"></span>
+                                    {{ __('Lancer') }} <span class="font-normal opacity-80" translate="no" x-text="notation"></span>
                                 </button>
                             @else
                                 <div class="flex gap-1.5 text-xs" role="group" aria-label="{{ __('Qui voit les résultats') }}">
@@ -193,9 +209,9 @@
                             <h2 id="dice-prompt-title" class="mt-1 text-2xl font-semibold">{{ $request->label }}</h2>
                             <p class="mt-1 text-sm text-stone-600">{{ $formula->describe(! $formula->hideThreshold) }}</p>
                             <div class="mt-4 flex justify-center gap-2" aria-hidden="true">
-                                @for ($i = 0; $i < min($formula->count, 6); $i++)
-                                    <x-die :sides="$formula->sides" value="?" size="size-12" />
-                                @endfor
+                                @foreach (collect($formula->pool())->flatMap(fn ($kind) => array_fill(0, $kind['count'], $kind['sides']))->take(8) as $sides)
+                                    <x-die :sides="$sides" value="?" size="size-12" />
+                                @endforeach
                             </div>
                             <div class="mt-4 flex flex-wrap justify-center gap-3">
                                 @if ($formula->needsThreshold() && $formula->threshold === null)

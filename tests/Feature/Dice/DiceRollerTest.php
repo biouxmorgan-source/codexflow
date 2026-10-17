@@ -129,4 +129,43 @@ class DiceRollerTest extends TestCase
         $this->assertSame('none', $formula->explode);
         $this->assertSame('30d2, additionnés', $formula->describe());
     }
+
+    public function test_several_kinds_of_dice_in_one_roll(): void
+    {
+        $formula = DiceFormula::fromArray(['pool' => [['count' => 1, 'sides' => 20], ['count' => 2, 'sides' => 6], ['count' => 1, 'sides' => 20]], 'modifier' => 1]);
+
+        $this->assertSame([['count' => 2, 'sides' => 20], ['count' => 2, 'sides' => 6]], $formula->pool());
+        $this->assertSame(4, $formula->count);
+        $this->assertSame('2d20 + 2d6, additionnés, +1', $formula->describe());
+
+        $result = (new DiceRoller(new Randomizer(new Mt19937(7))))->roll($formula);
+        $this->assertSame([20, 20, 6, 6], array_column($result['dice'], 'sides'));
+        foreach ($result['dice'] as $group) {
+            $this->assertLessThanOrEqual($group['sides'], $group['rolls'][0]['v']);
+        }
+        $this->assertSame(array_sum(array_column($result['dice'], 'value')) + 1, $result['total']);
+    }
+
+    public function test_a_mixed_pool_is_bounded_and_old_formulas_still_read(): void
+    {
+        $pool = DiceFormula::fromArray(['pool' => array_fill(0, 10, ['count' => 20, 'sides' => 'x'])])->pool();
+        $this->assertSame([['count' => 30, 'sides' => 6]], $pool);
+
+        $kinds = DiceFormula::fromArray(['pool' => array_map(fn ($sides) => ['count' => 1, 'sides' => $sides], [4, 6, 8, 10, 12, 20, 100])]);
+        $this->assertCount(DiceFormula::MAX_KINDS, $kinds->pool());
+
+        $old = DiceFormula::fromArray(['count' => 3, 'sides' => 8]);
+        $this->assertSame([['count' => 3, 'sides' => 8]], $old->pool());
+        $this->assertSame('3d8', $old->dice());
+    }
+
+    public function test_count_successes_per_die_across_kinds(): void
+    {
+        $formula = DiceFormula::fromArray(['pool' => [['count' => 2, 'sides' => 6], ['count' => 1, 'sides' => 10]], 'reading' => 'count', 'threshold' => 4]);
+        $faces = [['sides' => 6, 'rolls' => [['v' => 5, 'sub' => false]], 'value' => 5, 'kept' => true, 'hits' => null],
+            ['sides' => 6, 'rolls' => [['v' => 2, 'sub' => false]], 'value' => 2, 'kept' => true, 'hits' => null],
+            ['sides' => 10, 'rolls' => [['v' => 9, 'sub' => false]], 'value' => 9, 'kept' => true, 'hits' => null]];
+
+        $this->assertSame(2, DiceRoller::read($formula, $faces)['successes']);
+    }
 }

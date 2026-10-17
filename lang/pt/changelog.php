@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.66.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Dados misturados e rolagens próprias',
+        'items' => [
+            'Uma mesma rolagem pode misturar vários tipos de dados: toque em um d20 e depois em dois d6, e são rolados 1d20 + 2d6. Cada tipo tem sua quantidade, que pode ser ajustada ou removida.',
+            'O limiar vale para o total («Limiar sobre o total», atingido ou não ultrapassado) ou para cada dado («Limiar por dado»: por exemplo, todo dado com 4 ou mais é um sucesso).',
+            'Cada pessoa, jogador ou Mestre, salva suas próprias rolagens em «Minhas rolagens», recarrega-as com um toque e as atualiza quando o personagem evolui. O Mestre mantém também as «Rolagens da campanha» para toda a mesa.',
+        ],
+    ],
+
     '0.65.1' => [
         'date' => '2026-10-17',
         'title' => 'Acessos verificados em todo o lado',
