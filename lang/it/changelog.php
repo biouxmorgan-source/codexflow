@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Mappa di combattimento condivisa',
+        'items' => [
+            'Sullo schermo del tavolo condiviso, ogni giocatore muove la pedina del proprio personaggio. Nella mappa, «Mosso da» affida un\'altra pedina a un giocatore: seguace, famiglio, nemico controllato…',
+            'Nuovo ordine di iniziativa, dal telecomando o dalla mappa: PG e nemici con il loro valore, turno in corso, round. Il GM lo mostra sopra lo schermo quando vuole; le righe nascoste restano a lui, e una fila «Presenti anche» mostra PNG o oggetti senza iniziativa.',
+            '«Partecipa a distanza» nel telecomando: il link dello schermo per i giocatori e un link ospite senza account, in sola lettura e revocabile, per chi vuole solo guardare.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'La community su Discord',

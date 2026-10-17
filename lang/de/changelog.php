@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Gemeinsame Kampfkarte',
+        'items' => [
+            'Auf dem geteilten Tischbildschirm bewegt jeder Spieler die Spielmarke seines Charakters. In der Karte vertraut „Bewegt von“ einem Spieler eine weitere Spielmarke an: Gefolgsmann, Vertrauter, kontrollierter Gegner…',
+            'Neue Initiativereihenfolge, über die Fernbedienung oder die Karte: SC und Gegner mit ihrem Wert, aktueller Zug, Runden. Die SL zeigt sie über dem Bildschirm, wann sie möchte; verborgene Zeilen bleiben bei ihr, und eine Reihe „Ebenfalls anwesend“ zeigt NSC oder Gegenstände ohne Initiative.',
+            '„Aus der Ferne beitreten“ in der Fernbedienung: der Bildschirmlink für die Spieler und ein Gastlink ohne Konto, nur lesend und widerrufbar, für jemanden, der nur zuschauen möchte.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'Die Community auf Discord',

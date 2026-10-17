@@ -74,7 +74,7 @@
                     </div>
                     <ul class="mt-2 divide-y divide-stone-100">
                         @foreach ($tokens as $token)
-                            <li wire:key="row-{{ $token->id }}" class="flex items-center gap-2 py-2 text-sm">
+                            <li wire:key="row-{{ $token->id }}" class="py-2 text-sm"><div class="flex items-center gap-2">
                                 <button type="button" wire:click="recolorToken({{ $token->id }})" class="size-5 shrink-0 rounded-full border-2 border-white shadow ring-1 ring-stone-300" style="background: {{ $token->color }}" title="{{ __('Changer la couleur') }}" aria-label="{{ __('Changer la couleur de :name', ['name' => $token->label]) }}"></button>
                                 <span @class(['min-w-0 flex-1 truncate', 'text-stone-400' => $token->hidden])>{{ $token->label }}</span>
                                 <select wire:change="resizeToken({{ $token->id }}, $event.target.value)" class="rounded border-stone-200 py-0.5 pr-6 pl-1 text-xs" aria-label="{{ __('Taille de :name', ['name' => $token->label]) }}">
@@ -87,11 +87,28 @@
                                     {{ $token->hidden ? __('Masqué') : __('Visible') }}
                                 </button>
                                 <button type="button" wire:click="deleteToken({{ $token->id }})" wire:confirm="{{ __('Supprimer ce jeton ?') }}" class="text-stone-400 hover:text-red-700" aria-label="{{ __('Supprimer :name', ['name' => $token->label]) }}">×</button>
+                                </div>
+                            @if ($players->isNotEmpty())
+                                @php($owner = $token->entity_id ? $characters->get($token->entity_id)?->player : null)
+                                <div class="mt-1 flex items-center gap-2 pl-7 text-xs text-stone-500">
+                                    <label for="control-{{ $token->id }}" class="shrink-0">{{ __('Déplacé par') }}</label>
+                                    <select id="control-{{ $token->id }}" wire:change="setController({{ $token->id }}, $event.target.value)" class="min-w-0 flex-1 rounded border-stone-200 py-0.5 pr-6 pl-1 text-xs">
+                                        <option value="">{{ $owner ? __('MJ et :name (son personnage)', ['name' => $owner->name]) : __('MJ seulement') }}</option>
+                                        @foreach ($players as $player)
+                                            <option value="{{ $player->id }}" @selected($token->controller_id === $player->id)>{{ $owner ? __('Aussi :name', ['name' => $player->name]) : $player->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
                             </li>
                         @endforeach
                     </ul>
                 @endif
             </section>
+
+            @if (\App\Support\CampaignFeatures::usable($campaign, 'table'))
+                <livewire:table.initiative :campaign="$campaign" :key="'initiative-'.$campaign->id" />
+            @endif
 
             <section class="space-y-3 rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
                 <h2 class="text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Grille') }}</h2>

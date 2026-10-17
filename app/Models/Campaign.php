@@ -48,6 +48,7 @@ class Campaign extends Model
             'table_display' => 'array',
             'table_shared' => 'boolean',
             'table_audio' => 'array',
+            'table_initiative' => 'array',
             'exchanges_need_approval' => 'boolean',
             'co_gm_manage_fields' => 'boolean',
             'players_edit_profile' => 'boolean',

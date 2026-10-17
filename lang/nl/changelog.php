@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Gedeelde gevechtskaart',
+        'items' => [
+            'Op het gedeelde tafelscherm verplaatst elke speler de pion van zijn personage. In de kaart vertrouwt „Verplaatst door” een andere pion toe aan een speler: volgeling, familiar, bestuurde vijand…',
+            'Nieuwe initiatiefvolgorde, vanaf de afstandsbediening of de kaart: SP\'s en vijanden met hun waarde, huidige beurt, rondes. De SL toont ze over het scherm wanneer hij wil; verborgen regels blijven bij hem, en een rij „Ook aanwezig” toont NPC\'s of voorwerpen zonder initiatief.',
+            '„Op afstand meedoen” in de afstandsbediening: de schermlink voor de spelers, en een gastlink zonder account, alleen lezen en intrekbaar, voor wie alleen wil kijken.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'De community op Discord',

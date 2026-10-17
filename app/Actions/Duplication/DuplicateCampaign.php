@@ -320,7 +320,7 @@ class DuplicateCampaign
                     continue;
                 }
 
-                $tokenCopy = $token->replicate();
+                $tokenCopy = $token->replicate(['controller_id']);
                 $tokenCopy->setRelations([]);
                 $tokenCopy->table_map_id = $copy->id;
                 $tokenCopy->entity_id = $token->entity_id === null ? null : $entities[$token->entity_id];

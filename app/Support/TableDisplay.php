@@ -11,6 +11,7 @@ use App\Models\Entity;
 use App\Models\TableMap;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * Écran de table : ce que le MJ montre aux joueurs sur un second écran (carte, image,
@@ -165,6 +166,37 @@ class TableDisplay
             CampaignRole::Player => (bool) $campaign->table_shared,
             null => false,
         };
+    }
+
+    /**
+     * Lien invité : une personne sans compte regarde l'écran, en lecture seule, tant que le MJ
+     * le partage aux joueurs. Ni musique, ni jeton à déplacer. Révoqué, le lien ne mène plus à rien.
+     */
+    public static function guestLink(Campaign $campaign): string
+    {
+        CampaignFeatures::ensure($campaign, 'table');
+
+        if ($campaign->table_guest_token === null) {
+            $campaign->forceFill(['table_guest_token' => Str::random(40)])->save();
+        }
+
+        return route('table.guest', $campaign->table_guest_token);
+    }
+
+    public static function revokeGuestLink(Campaign $campaign): void
+    {
+        $campaign->forceFill(['table_guest_token' => null])->save();
+    }
+
+    /** La campagne d'un lien invité, null si le lien a été révoqué. */
+    public static function guestCampaign(string $token): ?Campaign
+    {
+        return strlen($token) === 40 ? Campaign::query()->where('table_guest_token', $token)->first() : null;
+    }
+
+    public static function guestCanWatch(Campaign $campaign): bool
+    {
+        return $campaign->table_guest_token !== null && (bool) $campaign->table_shared && CampaignFeatures::usable($campaign, 'table');
     }
 
     /**

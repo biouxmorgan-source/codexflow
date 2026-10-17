@@ -29,6 +29,20 @@
             <input type="checkbox" wire:click="toggleShare" @checked($campaign->table_shared)>
             {{ __('Les joueurs suivent l’écran sur leur appareil') }}
         </label>
+        <details class="mt-3 text-sm" @if ($campaign->table_guest_token) open @endif>
+            <summary class="cursor-pointer text-stone-600">{{ __('Rejoindre à distance') }}</summary>
+            <div class="mt-2 space-y-3">
+                <x-copy-link :url="route('table.screen', $campaign)" :label="__('Lien pour les joueurs (avec leur compte)')" />
+                <p class="text-xs text-stone-500">{{ __('Les membres de la campagne y déplacent le jeton de leur personnage et ceux que vous leur confiez. Pour quelqu’un qui n’est pas encore membre, envoyez une invitation depuis la page Joueurs.') }}</p>
+                @if ($campaign->table_guest_token)
+                    <x-copy-link :url="route('table.guest', $campaign->table_guest_token)" :label="__('Lien invité, sans compte (lecture seule)')" />
+                    <button type="button" wire:click="revokeGuestLink" wire:confirm="{{ __('Le lien invité ne fonctionnera plus. Continuer ?') }}" class="link text-xs">{{ __('Révoquer le lien invité') }}</button>
+                @else
+                    <button type="button" wire:click="createGuestLink" class="btn-secondary py-1.5 text-sm">{{ __('Créer un lien invité (lecture seule)') }}</button>
+                @endif
+                <p class="text-xs text-stone-500">{{ __('Le lien invité montre l’écran sans compte, tant que les joueurs le suivent. Pas de musique, aucun jeton à déplacer, jamais rien de la zone MJ.') }}</p>
+            </div>
+        </details>
         <div class="mt-3">
             <label for="table-theme" class="label">{{ __('Ambiance de l’écran') }}</label>
             <select id="table-theme" wire:change="setTheme($event.target.value)" class="field py-1.5 text-sm">
@@ -80,6 +94,8 @@
             <a href="{{ route('maps.show', [$campaign, $map]) }}" class="link mt-3 inline-block text-sm" wire:navigate>{{ __('Préparer la carte →') }}</a>
         </section>
     @endif
+
+    <livewire:table.initiative :campaign="$campaign" :key="'initiative-'.$campaign->id" />
 
     <section class="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm">
         <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">

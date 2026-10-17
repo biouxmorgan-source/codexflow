@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Mapa de combate compartido',
+        'items' => [
+            'En la pantalla de mesa compartida, cada jugador mueve la ficha de su personaje. En el mapa, «Movido por» confía otra ficha a un jugador: seguidor, familiar, enemigo controlado…',
+            'Nuevo orden de iniciativa, desde el mando o el mapa: PJ y enemigos con su valor, turno actual, rondas. El DJ lo muestra sobre la pantalla cuando quiere; las líneas ocultas se quedan con él, y una fila «También presentes» muestra PNJ u objetos sin iniciativa.',
+            '«Unirse a distancia» en el mando: el enlace de la pantalla para los jugadores y un enlace de invitado sin cuenta, de solo lectura y revocable, para quien solo quiere mirar.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'La comunidad en Discord',

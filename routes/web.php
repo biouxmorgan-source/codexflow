@@ -81,6 +81,13 @@ Route::view('/confidentialite', 'pages.privacy')->name('privacy');
 Route::livewire('/signaler-un-probleme', ReportBug::class)->name('bugs.create');
 
 Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('invitations.show');
+// Lien invité de l'écran de table : regarder sans compte, en lecture seule (le jeton fait office de clé).
+Route::middleware('throttle:120,1')->group(function () {
+    Route::livewire('/ecran/{token}', TableScreen::class)->name('table.guest');
+    Route::get('/ecran/{token}/fichier', [TableScreenController::class, 'guestFile'])->name('table.guest.file');
+    Route::get('/ecran/{token}/image', [TableScreenController::class, 'guestImage'])->name('table.guest.image');
+    Route::get('/ecran/{token}/jetons/{mapToken}', [TableScreenController::class, 'guestToken'])->name('table.guest.token')->whereNumber('mapToken');
+});
 // Code cadeau partagé par un contributeur du Kickstarter (limité : on ne devine pas les codes).
 Route::get('/cadeau/{code}', [GiftCodeController::class, 'show'])->middleware('throttle:30,1')->name('gifts.show');
 
