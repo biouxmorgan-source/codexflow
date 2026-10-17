@@ -1,4 +1,4 @@
-// Carte de la table, côté MJ : glisser la carte ou un jeton, zoomer à la molette, tracer la règle.
+// Carte de la table, côté MJ : glisser la carte, un jeton ou un gabarit, zoomer à la molette, tracer la règle.
 // Le cadrage envoyé au serveur est celui de l'écran de table.
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('mapEditor', () => ({
@@ -47,7 +47,7 @@ document.addEventListener('alpine:init', () => {
                 return;
             }
 
-            const token = event.target.closest('[data-token]');
+            const token = event.target.closest('[data-token]') ?? event.target.closest('[data-template]');
             const p = this.point(event);
             this.$refs.stage.setPointerCapture(event.pointerId);
 
@@ -59,7 +59,7 @@ document.addEventListener('alpine:init', () => {
                 this.ruler = true;
             } else if (token) {
                 const [tx, ty] = token.getAttribute('transform').match(/-?[\d.]+/g).map(Number);
-                this.drag = { type: 'token', el: token, id: Number(token.dataset.token), dx: p.x - tx, dy: p.y - ty, x: tx, y: ty, moved: false };
+                this.drag = { type: token.dataset.template ? 'template' : 'token', el: token, id: Number(token.dataset.token ?? token.dataset.template), dx: p.x - tx, dy: p.y - ty, x: tx, y: ty, moved: false };
             } else {
                 this.drag = { type: 'pan', cx: event.clientX, cy: event.clientY, view: this.viewBox(), upp: this.unitsPerPixel() };
             }
@@ -73,7 +73,7 @@ document.addEventListener('alpine:init', () => {
             if (this.drag.type === 'pan') {
                 const { view, upp } = this.drag;
                 this.setViewBox(view.x - (event.clientX - this.drag.cx) * upp, view.y - (event.clientY - this.drag.cy) * upp, view.w, view.h);
-            } else if (this.drag.type === 'token') {
+            } else if (this.drag.type === 'token' || this.drag.type === 'template') {
                 const p = this.point(event);
                 this.drag.x = Math.round((p.x - this.drag.dx) * 100) / 100;
                 this.drag.y = Math.round((p.y - this.drag.dy) * 100) / 100;
@@ -99,6 +99,8 @@ document.addEventListener('alpine:init', () => {
                 this.saveView();
             } else if (drag.type === 'token' && drag.moved) {
                 this.$wire.moveToken(drag.id, drag.x, drag.y);
+            } else if (drag.type === 'template' && drag.moved) {
+                this.$wire.moveTemplate(drag.id, drag.x, drag.y);
             } else if (drag.type === 'ruler') {
                 this.ruler = false;
                 if (Math.hypot(drag.x2 - drag.x1, drag.y2 - drag.y1) > this.size().grid / 4) {

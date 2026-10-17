@@ -37,7 +37,7 @@
                 :class="mode === 'ruler' ? 'cursor-crosshair' : 'cursor-move'"
                 x-on:pointerdown="down($event)" x-on:pointermove="move($event)" x-on:pointerup="up($event)" x-on:pointercancel="up($event)"
                 x-on:wheel.prevent="wheel($event)">
-                <x-table-map :map="$map" :tokens="$tokens" gm
+                <x-table-map :map="$map" :tokens="$tokens" :templates="$templates" gm
                     :image-url="route('documents.file', $map->document)"
                     :token-url="fn ($token) => route('entities.image', [$token->entity, 'v' => $token->entity->updated_at?->timestamp])" />
                 {{-- Règle en cours de tracé, avant l'envoi. --}}
@@ -48,7 +48,7 @@
                     </g>
                 </svg>
             </div>
-            <p class="mt-2 text-xs text-stone-500">{{ __('Molette pour zoomer, glisser pour déplacer la carte ou un jeton. Ce cadrage est celui de l’écran de table. Les jetons en pointillés sont masqués aux joueurs.') }}</p>
+            <p class="mt-2 text-xs text-stone-500">{{ __('Molette pour zoomer, glisser pour déplacer la carte, un jeton ou un gabarit. Ce cadrage est celui de l’écran de table. Les jetons en pointillés sont masqués aux joueurs.') }}</p>
         </section>
 
         <aside class="space-y-6">
@@ -100,6 +100,76 @@
                                     </select>
                                 </div>
                             @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </section>
+
+            <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                <h2 class="mb-3 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Gabarits de zone') }}</h2>
+                <form wire:submit="addTemplate" class="space-y-2">
+                    <div class="flex flex-wrap items-end gap-2">
+                        <div>
+                            <label for="template-shape" class="label">{{ __('Forme') }}</label>
+                            <select id="template-shape" wire:model.live="templateShape" class="field py-1.5 text-sm">
+                                @foreach (\App\Models\MapTemplate::labels() as $value => $label)
+                                    <option value="{{ $value }}">{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="template-size" class="label">{{ match ($templateShape) { 'circle' => __('Rayon'), 'square' => __('Côté'), 'rectangle' => __('Largeur'), default => __('Longueur') } }}</label>
+                            <input id="template-size" type="number" min="0.5" step="0.5" max="{{ \App\Models\MapTemplate::MAX_SIZE }}" wire:model="templateSize" class="field w-20 py-1.5 text-sm">
+                        </div>
+                        @if (\App\Models\MapTemplate::hasSecondSize($templateShape))
+                            <div>
+                                <label for="template-size2" class="label">{{ $templateShape === 'rectangle' ? __('Hauteur') : __('Largeur') }}</label>
+                                <input id="template-size2" type="number" min="0.5" step="0.5" max="{{ \App\Models\MapTemplate::MAX_SIZE }}" wire:model="templateSize2" class="field w-20 py-1.5 text-sm">
+                            </div>
+                        @endif
+                        <button type="submit" class="btn-primary py-1.5 text-sm">{{ __('Poser') }}</button>
+                    </div>
+                    @error('templateSize') <p class="error">{{ $message }}</p> @enderror
+                    @error('templateSize2') <p class="error">{{ $message }}</p> @enderror
+                    <p class="text-xs text-stone-500">{{ $map->scale_value ? __('Dimensions en cases (1 case = :scale).', ['scale' => $map->lengthLabel(1)]) : __('Dimensions en cases.') }} {{ __('Le gabarit arrive au centre de la vue, visible à la table : glissez-le sur la carte. Le cône part de son point et s’ouvre autant qu’il est long.') }}</p>
+                </form>
+
+                @if ($templates->isNotEmpty())
+                    <ul class="mt-3 divide-y divide-stone-100">
+                        @foreach ($templates as $template)
+                            @php($caught = $template->caught($tokens, $map->grid_size))
+                            <li wire:key="template-row-{{ $template->id }}" class="space-y-1.5 py-2 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <button type="button" wire:click="recolorTemplate({{ $template->id }})" class="size-5 shrink-0 rounded border-2 border-white shadow ring-1 ring-stone-300" style="background: {{ $template->color }}" aria-label="{{ __('Changer la couleur') }}"></button>
+                                    <span @class(['min-w-0 flex-1 truncate', 'text-stone-400' => $template->hidden])>{{ $template->describe($map) }}</span>
+                                    <button type="button" wire:click="toggleTemplate({{ $template->id }})" @class(['w-16 rounded px-1.5 py-0.5 text-xs', 'bg-stone-100 text-stone-600' => $template->hidden, 'bg-flow/15 text-flow' => ! $template->hidden])>
+                                        {{ $template->hidden ? __('Masqué') : __('Visible') }}
+                                    </button>
+                                    <button type="button" wire:click="deleteTemplate({{ $template->id }})" class="text-stone-400 hover:text-red-700" aria-label="{{ __('Retirer le gabarit') }}">×</button>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-2 pl-7 text-xs text-stone-500">
+                                    <input type="number" min="0.5" step="0.5" value="{{ $template->size + 0 }}" wire:change="resizeTemplate({{ $template->id }}, $event.target.value)" class="field w-16 px-1.5 py-0.5 text-xs" aria-label="{{ __('Taille') }}">
+                                    @if (\App\Models\MapTemplate::hasSecondSize($template->shape))
+                                        ×
+                                        <input type="number" min="0.5" step="0.5" value="{{ ($template->size2 ?? 1) + 0 }}" wire:change="resizeTemplate({{ $template->id }}, '{{ $template->size + 0 }}', $event.target.value)" class="field w-16 px-1.5 py-0.5 text-xs" aria-label="{{ __('Seconde dimension') }}">
+                                    @endif
+                                    {{ __('cases') }}
+                                    @if ($template->rotates())
+                                        <label class="ml-auto flex items-center gap-1">
+                                            {{ __('Orientation') }}
+                                            <input type="range" min="0" max="359" step="15" value="{{ (int) $template->angle }}" wire:change="rotateTemplate({{ $template->id }}, $event.target.value)" class="w-24">
+                                        </label>
+                                    @endif
+                                </div>
+                                <p class="pl-7 text-xs">
+                                    @if ($caught->isEmpty())
+                                        <span class="text-stone-400">{{ __('Aucun jeton dans la zone.') }}</span>
+                                    @else
+                                        <span class="font-medium">{{ trans_choice(':count touché|:count touchés', $caught->count(), ['count' => $caught->count()]) }} :</span>
+                                        {{ $caught->pluck('label')->implode(', ') }}
+                                    @endif
+                                </p>
                             </li>
                         @endforeach
                     </ul>

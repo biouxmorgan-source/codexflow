@@ -204,7 +204,7 @@ class Remote extends Component
     {
         $this->campaign->refresh();
         $state = $this->campaign->table_display;
-        $map = ($state['kind'] ?? null) === 'map' ? $this->campaign->maps()->with(['document', 'tokens.entity'])->find((int) $state['id']) : null;
+        $map = ($state['kind'] ?? null) === 'map' ? $this->campaign->maps()->with(['document', 'tokens.entity', 'templates'])->find((int) $state['id']) : null;
 
         return view('livewire.table.remote', [
             'label' => TableDisplay::label($this->campaign),

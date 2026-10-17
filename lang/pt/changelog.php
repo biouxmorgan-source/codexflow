@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Modelos de área no mapa',
+        'items' => [
+            'Novos modelos na página do mapa: círculo, quadrado, retângulo, cone e linha, medidos em casas (ou na unidade da escala). Arrastam-se no mapa, orientam-se, ocultam-se, e a lista de tokens atingidos aparece logo.',
+            'Os modelos visíveis aparecem no ecrã da mesa, por baixo dos tokens.',
+        ],
+    ],
+
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Mapa de combate partilhado',

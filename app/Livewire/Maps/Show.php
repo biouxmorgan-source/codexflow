@@ -5,6 +5,7 @@ namespace App\Livewire\Maps;
 use App\Enums\CampaignRole;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
+use App\Models\MapTemplate;
 use App\Models\MapToken;
 use App\Models\TableMap;
 use App\Models\User;
@@ -49,6 +50,12 @@ class Show extends Component
     public ?int $tokenEntityId = null;
 
     public string $tokenLabel = '';
+
+    public string $templateShape = 'circle';
+
+    public string $templateSize = '3';
+
+    public string $templateSize2 = '1';
 
     public function mount(Campaign $campaign, TableMap $map): void
     {
@@ -235,6 +242,94 @@ class Show extends Component
         TableDisplay::mapChanged($this->map);
     }
 
+    /** Un gabarit de zone, au centre de la vue, visible tout de suite : on le pose pendant le combat. */
+    public function addTemplate(): void
+    {
+        $this->authorize('update', $this->campaign);
+        $this->validate([
+            'templateShape' => ['required', Rule::in(MapTemplate::SHAPES)],
+            'templateSize' => ['required', 'numeric', 'gt:0', 'max:'.MapTemplate::MAX_SIZE],
+            'templateSize2' => [MapTemplate::hasSecondSize($this->templateShape) ? 'required' : 'nullable', 'numeric', 'gt:0', 'max:'.MapTemplate::MAX_SIZE],
+        ], attributes: ['templateShape' => __('forme'), 'templateSize' => __('taille'), 'templateSize2' => __('taille')]);
+
+        [$vx, $vy, $vw, $vh] = $this->map->viewBox();
+        $count = $this->map->templates()->count();
+
+        $this->map->templates()->create([
+            'shape' => $this->templateShape,
+            'size' => round((float) $this->templateSize, 2),
+            'size2' => MapTemplate::hasSecondSize($this->templateShape) ? round((float) $this->templateSize2, 2) : null,
+            'x' => round($vx + $vw / 2, 2),
+            'y' => round($vy + $vh / 2, 2),
+            'angle' => 0,
+            'color' => MapTemplate::COLORS[$count % count(MapTemplate::COLORS)],
+            'hidden' => false,
+        ]);
+        TableDisplay::mapChanged($this->map);
+    }
+
+    /** Déplacé à la main : le panneau se redessine, les jetons touchés changent. */
+    public function moveTemplate(int $id, float $x, float $y): void
+    {
+        $template = $this->template($id);
+        $template->update([
+            'x' => round(max(0, min($this->map->width, $x)), 2),
+            'y' => round(max(0, min($this->map->height, $y)), 2),
+        ]);
+        TableDisplay::mapChanged($this->map);
+    }
+
+    /** Oriente un cône, une ligne ou un rectangle (degrés, dans le sens des aiguilles d'une montre). */
+    public function rotateTemplate(int $id, string $angle): void
+    {
+        $template = $this->template($id);
+        abort_unless(is_numeric($angle), 422);
+
+        $template->update(['angle' => round(fmod(fmod((float) $angle, 360) + 360, 360), 2)]);
+        TableDisplay::mapChanged($this->map);
+    }
+
+    public function resizeTemplate(int $id, string $size, ?string $size2 = null): void
+    {
+        $template = $this->template($id);
+        $rule = ['required', 'numeric', 'gt:0', 'max:'.MapTemplate::MAX_SIZE];
+        validator(['size' => str_replace(',', '.', $size), 'size2' => $size2 === null ? null : str_replace(',', '.', $size2)], ['size' => $rule, 'size2' => ['nullable', ...array_slice($rule, 1)]])->validate();
+
+        $template->update([
+            'size' => round((float) str_replace(',', '.', $size), 2),
+            'size2' => MapTemplate::hasSecondSize($template->shape) && $size2 !== null ? round((float) str_replace(',', '.', $size2), 2) : $template->size2,
+        ]);
+        TableDisplay::mapChanged($this->map);
+    }
+
+    public function toggleTemplate(int $id): void
+    {
+        $template = $this->template($id);
+        $template->update(['hidden' => ! $template->hidden]);
+        TableDisplay::mapChanged($this->map);
+    }
+
+    public function recolorTemplate(int $id): void
+    {
+        $template = $this->template($id);
+        $index = array_search($template->color, MapTemplate::COLORS, true);
+        $template->update(['color' => MapTemplate::COLORS[($index === false ? 0 : $index + 1) % count(MapTemplate::COLORS)]]);
+        TableDisplay::mapChanged($this->map);
+    }
+
+    public function deleteTemplate(int $id): void
+    {
+        $this->template($id)->delete();
+        TableDisplay::mapChanged($this->map);
+    }
+
+    private function template(int $id): MapTemplate
+    {
+        $this->authorize('update', $this->campaign);
+
+        return $this->map->templates()->findOrFail($id);
+    }
+
     public function setRuler(float $x1, float $y1, float $x2, float $y2): void
     {
         $this->authorize('update', $this->campaign);
@@ -270,13 +365,14 @@ class Show extends Component
 
     public function render()
     {
-        $this->map->load(['document', 'tokens.entity']);
+        $this->map->load(['document', 'tokens.entity', 'templates']);
 
         // Jetons des personnages joueurs : leur joueur les déplace déjà sans qu'on les confie.
         $characters = $this->campaign->playerCharacters()->whereNotNull('user_id')->with('player')->get()->keyBy('entity_id');
 
         return view('livewire.maps.show', [
             'tokens' => $this->map->tokens,
+            'templates' => $this->map->templates,
             'players' => $this->players(),
             'characters' => $characters,
         ])->title(__(':map · Cartes · :name', ['map' => $this->map->name, 'name' => $this->campaign->name]));

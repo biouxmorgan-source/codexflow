@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Gebiedssjablonen op de kaart',
+        'items' => [
+            'Nieuwe sjablonen op de kaartpagina: cirkel, vierkant, rechthoek, kegel en lijn, gemeten in vakjes (of in de eenheid van de schaal). Je sleept ze over de kaart, draait ze, verbergt ze, en de lijst van geraakte pionnen verschijnt meteen.',
+            'Zichtbare sjablonen verschijnen op het tafelscherm, onder de pionnen.',
+        ],
+    ],
+
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Gedeelde gevechtskaart',

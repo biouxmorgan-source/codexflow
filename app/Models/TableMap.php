@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Carte de la table : une image de la campagne, montrée sur l'écran de table, avec une grille
- * carrée facultative, des jetons facultatifs et une règle temporaire. Pas une table virtuelle :
+ * carrée facultative, des jetons facultatifs, des gabarits de zone et une règle temporaire. Pas une table virtuelle :
  * aucune mécanique de déplacement, aucun brouillard. Coordonnées en pixels de l'image d'origine.
  */
 #[Fillable(['name', 'grid_enabled', 'grid_size', 'grid_offset_x', 'grid_offset_y', 'grid_color', 'scale_value', 'scale_unit'])]
@@ -48,6 +48,12 @@ class TableMap extends Model
     public function tokens(): HasMany
     {
         return $this->hasMany(MapToken::class)->orderBy('id');
+    }
+
+    /** @return HasMany<MapTemplate, $this> gabarits de zone (cercle, cône…) */
+    public function templates(): HasMany
+    {
+        return $this->hasMany(MapTemplate::class)->orderBy('id');
     }
 
     /** Taille de case proposée à la création : vingt cases dans la largeur. */
@@ -90,8 +96,12 @@ class TableMap extends Model
      */
     public function distanceLabel(float $x1, float $y1, float $x2, float $y2): string
     {
-        $cells = hypot($x2 - $x1, $y2 - $y1) / max(1, $this->grid_size);
+        return $this->lengthLabel(hypot($x2 - $x1, $y2 - $y1) / max(1, $this->grid_size));
+    }
 
+    /** Une longueur en cases : « 4,5 m » si une échelle est donnée, sinon « 3 cases ». */
+    public function lengthLabel(float $cells): string
+    {
         if ($this->scale_value) {
             return trim(self::number($cells * $this->scale_value).' '.($this->scale_unit ?: trans_choice('case|cases', $cells * $this->scale_value < 2 ? 1 : 2)));
         }

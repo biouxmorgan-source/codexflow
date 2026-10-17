@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Gabarits de zone sur la carte',
+        'items' => [
+            'Nouveaux gabarits dans la page de la carte : cercle, carré, rectangle, cône et ligne, dimensionnés en cases (ou dans l’unité de l’échelle). On les glisse sur la carte, on les oriente, on les masque, et la liste des jetons pris dans la zone s’affiche aussitôt.',
+            'Les gabarits visibles apparaissent sur l’écran de table, sous les jetons.',
+        ],
+    ],
+
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Carte de combat partagée',

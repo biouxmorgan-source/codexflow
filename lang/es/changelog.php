@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.64.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Plantillas de área en el mapa',
+        'items' => [
+            'Nuevas plantillas en la página del mapa: círculo, cuadrado, rectángulo, cono y línea, medidas en casillas (o en la unidad de la escala). Se arrastran por el mapa, se orientan, se ocultan, y la lista de tokens alcanzados aparece al instante.',
+            'Las plantillas visibles aparecen en la pantalla de mesa, bajo los tokens.',
+        ],
+    ],
+
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Mapa de combate compartido',

@@ -226,7 +226,7 @@ class TableDisplay
             'rule' => ($rule = $campaign->availableRules()->find($state['id'] ?? 0))
                 ? ['kind' => 'rule', 'rule' => $rule, 'key' => $key]
                 : null,
-            'map' => CampaignFeatures::enabled($campaign, 'maps') && ($map = $campaign->maps()->with(['document', 'tokens' => fn ($q) => $q->where('hidden', false)->with('entity')])->find($state['id'] ?? 0))
+            'map' => CampaignFeatures::enabled($campaign, 'maps') && ($map = $campaign->maps()->with(['document', 'tokens' => fn ($q) => $q->where('hidden', false)->with('entity'), 'templates' => fn ($q) => $q->where('hidden', false)])->find($state['id'] ?? 0))
                 ? ['kind' => 'map', 'map' => $map, 'key' => $key]
                 : null,
             'text' => filled($state['text'] ?? null) ? ['kind' => 'text', 'text' => $state['text'], 'key' => $key] : null,

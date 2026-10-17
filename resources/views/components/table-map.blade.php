@@ -1,8 +1,9 @@
-@props(['map', 'tokens', 'imageUrl', 'tokenUrl', 'gm' => false, 'movable' => []])
+@props(['map', 'tokens', 'imageUrl', 'tokenUrl', 'gm' => false, 'movable' => [], 'templates' => []])
 {{--
     Carte dessinée en SVG, dans les pixels de l'image : la vue (zoom, déplacement) est le viewBox.
     Écran de table : seulement les jetons visibles (filtrés côté serveur). Côté MJ ($gm), les jetons
     masqués restent à leur place, en transparence. Sur l'écran, les jetons de $movable se déplacent.
+    Gabarits de zone ($templates) sous les jetons ; côté MJ, on les glisse aussi, et un gabarit masqué est en pointillés.
 --}}
 @php
     [$vx, $vy, $vw, $vh] = $map->viewBox();
@@ -24,6 +25,23 @@
     @if ($map->grid_enabled)
         <rect x="0" y="0" width="{{ $map->width }}" height="{{ $map->height }}" fill="url(#map-grid-{{ $map->id }})" pointer-events="none" />
     @endif
+
+    @foreach ($templates as $template)
+        @php($outline = $template->outline($gs))
+        <g wire:key="template-{{ $template->id }}" transform="translate({{ $template->x }} {{ $template->y }})"
+            @if ($gm) data-template="{{ $template->id }}" class="cursor-grab" @else pointer-events="none" @endif
+            @if ($template->hidden) opacity="0.5" @endif>
+            <g transform="rotate({{ $template->angle }})" fill="{{ $template->color }}" fill-opacity="0.28" stroke="{{ $template->color }}" stroke-width="{{ max(2, $gs / 14) }}" stroke-linejoin="round"
+                @if ($template->hidden) stroke-dasharray="{{ $gs / 4 }} {{ $gs / 6 }}" @endif>
+                @if ($outline['type'] === 'circle')
+                    <circle r="{{ $outline['r'] }}" />
+                @else
+                    <polygon points="{{ $outline['points'] }}" />
+                @endif
+            </g>
+            <circle r="{{ max(3, $gs / 10) }}" fill="{{ $template->color }}" stroke="#fff" stroke-width="{{ max(1, $gs / 30) }}" />
+        </g>
+    @endforeach
 
     @foreach ($tokens as $token)
         @php($d = $map->tokenDiameter($token))
