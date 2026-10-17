@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Mapa de combate partilhado',
+        'items' => [
+            'No ecrã de mesa partilhado, cada jogador move a ficha da sua personagem. No mapa, «Movido por» confia outra ficha a um jogador: seguidor, familiar, inimigo controlado…',
+            'Nova ordem de iniciativa, a partir do comando ou do mapa: PJ e inimigos com o seu valor, turno atual, rondas. O MJ mostra-a sobre o ecrã quando quiser; as linhas ocultas ficam com ele, e uma fila «Também presentes» mostra PNJ ou objetos sem iniciativa.',
+            '«Juntar-se à distância» no comando: a ligação do ecrã para os jogadores e uma ligação de convidado sem conta, só de leitura e revogável, para quem só quer ver.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'A comunidade no Discord',

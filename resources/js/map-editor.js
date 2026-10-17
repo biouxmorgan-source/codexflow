@@ -160,3 +160,53 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 });
+
+// Carte sur l'écran de table : chacun glisse les jetons qu'on lui laisse déplacer (data-movable).
+// Le serveur revérifie le droit ; la vue, elle, reste celle choisie par le MJ.
+document.addEventListener('alpine:init', () => {
+    window.Alpine.data('mapTokens', () => ({
+        drag: null,
+
+        point(svg, event) {
+            const p = svg.createSVGPoint();
+            p.x = event.clientX;
+            p.y = event.clientY;
+            return p.matrixTransform(svg.getScreenCTM().inverse());
+        },
+
+        down(event) {
+            const token = event.button === 0 ? event.target.closest('[data-movable]') : null;
+
+            if (!token) {
+                return;
+            }
+
+            const svg = token.ownerSVGElement;
+            const p = this.point(svg, event);
+            const [tx, ty] = token.getAttribute('transform').match(/-?[\d.]+/g).map(Number);
+            this.$root.setPointerCapture(event.pointerId);
+            this.drag = { el: token, svg, id: Number(token.dataset.token), dx: p.x - tx, dy: p.y - ty, x: tx, y: ty, moved: false };
+        },
+
+        move(event) {
+            if (!this.drag) {
+                return;
+            }
+
+            const p = this.point(this.drag.svg, event);
+            this.drag.x = Math.round((p.x - this.drag.dx) * 100) / 100;
+            this.drag.y = Math.round((p.y - this.drag.dy) * 100) / 100;
+            this.drag.moved = true;
+            this.drag.el.setAttribute('transform', `translate(${this.drag.x} ${this.drag.y})`);
+        },
+
+        up() {
+            const drag = this.drag;
+            this.drag = null;
+
+            if (drag?.moved) {
+                this.$wire.moveToken(drag.id, drag.x, drag.y);
+            }
+        },
+    }));
+});

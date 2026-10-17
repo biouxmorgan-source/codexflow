@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Shared battle map',
+        'items' => [
+            'On the shared table screen, each player moves their character\'s token. In the map, “Moved by” hands another token to a player: follower, familiar, controlled enemy…',
+            'New initiative order, from the remote or the map: PCs and enemies with their value, current turn, rounds. The GM shows it over the screen whenever they like; hidden lines stay with them, and an “Also present” row shows NPCs or objects without initiative.',
+            '“Join remotely” in the remote: the screen link for players, and a guest link without an account, read-only and revocable, for someone who only wants to watch.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'The community on Discord',

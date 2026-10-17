@@ -109,6 +109,21 @@ class Remote extends Component
         TableDisplay::share($this->campaign, ! $this->campaign->table_shared);
     }
 
+    /** Lien invité : regarder l'écran sans compte, en lecture seule. */
+    public function createGuestLink(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableDisplay::guestLink($this->campaign);
+    }
+
+    public function revokeGuestLink(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        TableDisplay::revokeGuestLink($this->campaign);
+    }
+
     public function setTheme(string $theme): void
     {
         $this->authorize('update', $this->campaign);

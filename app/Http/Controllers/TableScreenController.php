@@ -13,13 +13,43 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Fichiers de l'écran de table : seulement ce que le MJ montre en ce moment, à tous les
- * membres de la campagne. Rien d'autre de la bibliothèque n'est servi aux joueurs ici.
+ * membres de la campagne (et au lien invité, quand le MJ en a créé un). Rien d'autre de la bibliothèque n'est servi aux joueurs ici.
  */
 class TableScreenController extends Controller
 {
     public function file(Campaign $campaign): StreamedResponse
     {
         abort_unless(TableDisplay::canWatch(auth()->user(), $campaign), 403);
+
+        return $this->shownFile($campaign);
+    }
+
+    /** Les mêmes fichiers, par le lien invité (sans compte). */
+    public function guestFile(string $token): StreamedResponse
+    {
+        return $this->shownFile($this->guest($token));
+    }
+
+    public function guestImage(string $token): StreamedResponse
+    {
+        return $this->shownImage($this->guest($token));
+    }
+
+    public function guestToken(string $token, MapToken $mapToken): StreamedResponse
+    {
+        return $this->tokenPortrait($this->guest($token), $mapToken);
+    }
+
+    private function guest(string $token): Campaign
+    {
+        $campaign = TableDisplay::guestCampaign($token);
+        abort_unless($campaign !== null && TableDisplay::guestCanWatch($campaign), 404);
+
+        return $campaign;
+    }
+
+    private function shownFile(Campaign $campaign): StreamedResponse
+    {
         $display = TableDisplay::current($campaign);
 
         if (($display['kind'] ?? null) === 'attachment') {
@@ -57,6 +87,12 @@ class TableScreenController extends Controller
     public function token(Campaign $campaign, MapToken $token): StreamedResponse
     {
         abort_unless(TableDisplay::canWatch(auth()->user(), $campaign), 403);
+
+        return $this->tokenPortrait($campaign, $token);
+    }
+
+    private function tokenPortrait(Campaign $campaign, MapToken $token): StreamedResponse
+    {
         $display = TableDisplay::current($campaign);
 
         abort_unless(($display['kind'] ?? null) === 'map', 404);
@@ -72,6 +108,12 @@ class TableScreenController extends Controller
     public function image(Campaign $campaign): StreamedResponse
     {
         abort_unless(TableDisplay::canWatch(auth()->user(), $campaign), 403);
+
+        return $this->shownImage($campaign);
+    }
+
+    private function shownImage(Campaign $campaign): StreamedResponse
+    {
         $display = TableDisplay::current($campaign);
 
         abort_unless(in_array($display['kind'] ?? null, ['entity', 'portrait'], true) && $display['entity']->hasImage(), 404);

@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Wspólna mapa bitewna',
+        'items' => [
+            'Na wspólnym ekranie stołu każdy gracz przesuwa żeton swojej postaci. Na mapie opcja „Przesuwa” powierza graczowi inny żeton: towarzysza, chowańca, kontrolowanego wroga…',
+            'Nowa kolejność inicjatywy, z pilota lub z mapy: BG i wrogowie z wartością, bieżąca tura, rundy. MG pokazuje ją na ekranie, kiedy chce; ukryte wiersze zostają u niego, a rząd „Obecni także” pokazuje BN lub przedmioty bez inicjatywy.',
+            '„Dołącz zdalnie” w pilocie: link do ekranu dla graczy oraz link dla gościa bez konta, tylko do podglądu i możliwy do unieważnienia, dla kogoś, kto chce tylko oglądać.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'Społeczność na Discordzie',

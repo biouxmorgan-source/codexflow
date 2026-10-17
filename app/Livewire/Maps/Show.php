@@ -2,11 +2,14 @@
 
 namespace App\Livewire\Maps;
 
+use App\Enums\CampaignRole;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
 use App\Models\MapToken;
 use App\Models\TableMap;
+use App\Models\User;
 use App\Support\TableDisplay;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Renderless;
@@ -209,6 +212,23 @@ class Show extends Component
         TableDisplay::mapChanged($this->map);
     }
 
+    /** Le MJ confie le jeton à un joueur de la campagne, qui pourra le déplacer sur l'écran partagé. */
+    public function setController(int $id, string $userId): void
+    {
+        $token = $this->token($id);
+        $controller = $userId === '' ? null : $this->players()->firstWhere('id', (int) $userId);
+        abort_if($userId !== '' && $controller === null, 422);
+
+        $token->forceFill(['controller_id' => $controller?->id])->save();
+        TableDisplay::mapChanged($this->map);
+    }
+
+    /** @return Collection<int, User> */
+    private function players()
+    {
+        return $this->campaign->members()->wherePivot('role', CampaignRole::Player->value)->orderBy('name')->get();
+    }
+
     public function deleteToken(int $id): void
     {
         $this->token($id)->delete();
@@ -252,8 +272,13 @@ class Show extends Component
     {
         $this->map->load(['document', 'tokens.entity']);
 
+        // Jetons des personnages joueurs : leur joueur les déplace déjà sans qu'on les confie.
+        $characters = $this->campaign->playerCharacters()->whereNotNull('user_id')->with('player')->get()->keyBy('entity_id');
+
         return view('livewire.maps.show', [
             'tokens' => $this->map->tokens,
+            'players' => $this->players(),
+            'characters' => $characters,
         ])->title(__(':map · Cartes · :name', ['map' => $this->map->name, 'name' => $this->campaign->name]));
     }
 }

@@ -1,8 +1,8 @@
-@props(['map', 'tokens', 'imageUrl', 'tokenUrl', 'gm' => false])
+@props(['map', 'tokens', 'imageUrl', 'tokenUrl', 'gm' => false, 'movable' => []])
 {{--
     Carte dessinée en SVG, dans les pixels de l'image : la vue (zoom, déplacement) est le viewBox.
     Écran de table : seulement les jetons visibles (filtrés côté serveur). Côté MJ ($gm), les jetons
-    masqués restent à leur place, en transparence.
+    masqués restent à leur place, en transparence. Sur l'écran, les jetons de $movable se déplacent.
 --}}
 @php
     [$vx, $vy, $vw, $vh] = $map->viewBox();
@@ -28,7 +28,8 @@
     @foreach ($tokens as $token)
         @php($d = $map->tokenDiameter($token))
         <g wire:key="token-{{ $token->id }}" transform="translate({{ $token->x }} {{ $token->y }})" data-token="{{ $token->id }}"
-            @if ($gm) class="cursor-grab" @endif
+            @if ($gm || in_array($token->id, $movable, true)) class="cursor-grab" @endif
+            @if (in_array($token->id, $movable, true)) data-movable @endif
             @if ($token->hidden) opacity="0.45" @endif>
             <circle r="{{ $d / 2 }}" fill="{{ $token->color }}" stroke="#fff" stroke-width="{{ max(1.5, $d / 18) }}" @if ($token->hidden) stroke-dasharray="{{ $d / 8 }} {{ $d / 10 }}" @endif />
             @if ($token->hasPortrait())

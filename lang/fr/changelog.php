@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.63.0' => [
+        'date' => '2026-10-17',
+        'title' => 'Carte de combat partagée',
+        'items' => [
+            'Sur l’écran de table partagé, chaque joueur déplace le jeton de son personnage. Dans la carte, « Déplacé par » confie un autre jeton à un joueur : suivant, familier, ennemi contrôlé…',
+            'Nouvel ordre d’initiative, depuis la télécommande ou la carte : PJ et ennemis avec leur valeur, tour en cours, rounds. Le MJ le montre par-dessus l’écran quand il le souhaite ; les lignes masquées restent chez lui, et une rangée « Aussi présents » montre des PNJ ou objets sans initiative.',
+            '« Rejoindre à distance » dans la télécommande : le lien de l’écran pour les joueurs, et un lien invité sans compte, en lecture seule et révocable, pour quelqu’un qui veut seulement regarder.',
+        ],
+    ],
+
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'La communauté sur Discord',

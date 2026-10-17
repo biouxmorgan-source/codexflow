@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Event;
  * secrets, cartes, champs, invitations…), pour qu'elle ne devienne pas une table de jeu.
  *
  * Restent permis, comme bac à sable : lancer une séance (scènes jouées, notes, événements de la
- * chronologie notés en séance), déplacer les jetons de la carte, la liste « À jouer », les
+ * chronologie notés en séance), déplacer les jetons de la carte, l'ordre d'initiative, la liste « À jouer », les
  * réglages de l'écran de table.
  *
  * Le verrou tient côté serveur, sur les modèles eux-mêmes : quelle que soit la page ou l'action,
@@ -65,7 +65,7 @@ class DemoLock
 
     /** Colonnes qui restent modifiables : l'écran de table de la campagne, l'avancée des scènes en séance. */
     private const SANDBOX_COLUMNS = [
-        Campaign::class => ['table_display', 'table_shared', 'table_audio', 'table_theme', 'disabled_features', 'updated_at'],
+        Campaign::class => ['table_display', 'table_shared', 'table_audio', 'table_theme', 'table_initiative', 'disabled_features', 'updated_at'],
         Scene::class => ['status', 'updated_at'],
     ];
 
