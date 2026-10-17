@@ -7,6 +7,7 @@ use App\Actions\Imports\ImportFieldDefinitions;
 use App\Actions\Imports\ImportRules;
 use App\Actions\Imports\ImportScenes;
 use App\Enums\Zone;
+use App\Livewire\Concerns\DeclaresContentRights;
 use App\Models\ActivityLog;
 use App\Models\Campaign;
 use App\Models\EntityType;
@@ -26,7 +27,7 @@ use Livewire\WithFileUploads;
  */
 class Create extends Component
 {
-    use WithFileUploads;
+    use DeclaresContentRights, WithFileUploads;
 
     private const MODES = ['entities', 'fields', 'rules', 'scenes'];
 
@@ -146,7 +147,7 @@ class Create extends Component
             return;
         }
 
-        $this->result = ActivityLog::batch(fn () => $action->run());
+        $this->result = $this->withDeclaredRights('csv-'.$this->mode, $this->campaign, fn () => ActivityLog::batch(fn () => $action->run()));
         $this->reset('file', 'mapping');
         unset($this->definitions, $this->table, $this->plan);
     }

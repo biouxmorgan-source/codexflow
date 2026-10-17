@@ -44,6 +44,8 @@ class DeleteAccount
             $user->notifications()->delete();
             DB::table('sessions')->where('user_id', $user->id)->delete();
             DB::table('password_reset_tokens')->where('email', $user->email)->delete();
+            // Les déclarations de droits restent, le temps de la prescription (ContentDeclaration).
+            $user->contentDeclarations()->update(['account_deleted_at' => now()]);
             $user->delete();
         }));
     }

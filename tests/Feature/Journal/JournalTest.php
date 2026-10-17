@@ -77,6 +77,7 @@ class JournalTest extends TestCase
 
         Livewire::test(Create::class, ['campaign' => $this->campaign, 'mode' => 'scenes'])
             ->set('file', UploadedFile::fake()->createWithContent('s.csv', "Scénario;Scène\n1. La cité;Départ\n1. La cité;Arrivée"))
+            ->set('rightsDeclared', true)
             ->call('import');
 
         $batches = ActivityLog::whereNotNull('batch')->pluck('batch')->unique();

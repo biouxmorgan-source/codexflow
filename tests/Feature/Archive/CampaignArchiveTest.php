@@ -233,6 +233,7 @@ class CampaignArchiveTest extends TestCase
         Livewire::actingAs($this->other)->test(CampaignIndex::class)
             ->set('importing', true)
             ->set('archive', UploadedFile::fake()->createWithContent('campagne.zip', file_get_contents($path)))
+            ->set('rightsDeclared', true)
             ->call('importArchive')
             ->assertHasNoErrors()
             ->assertRedirect();
@@ -249,6 +250,7 @@ class CampaignArchiveTest extends TestCase
         Livewire::actingAs($this->other)->test(CampaignIndex::class)
             ->set('importing', true)
             ->set('archive', UploadedFile::fake()->createWithContent('autre.zip', file_get_contents($junk)))
+            ->set('rightsDeclared', true)
             ->call('importArchive')
             ->assertHasErrors('archive');
 
@@ -297,6 +299,7 @@ class CampaignArchiveTest extends TestCase
 
         Livewire::actingAs($this->other)->test(FieldsManage::class, ['campaign' => $theirs])
             ->set('template', UploadedFile::fake()->createWithContent('modele.json', json_encode(CampaignExport::template($this->campaign, false))))
+            ->set('rightsDeclared', true)
             ->call('importTemplate')
             ->assertHasNoErrors()
             ->assertSee('Courage');

@@ -96,6 +96,12 @@ class User extends Authenticatable implements HasLocalePreference
         return $this->hasMany(Campaign::class);
     }
 
+    /** @return HasMany<ContentDeclaration, $this> */
+    public function contentDeclarations(): HasMany
+    {
+        return $this->hasMany(ContentDeclaration::class);
+    }
+
     /** @return HasMany<UserLogin, $this> */
     public function logins(): HasMany
     {

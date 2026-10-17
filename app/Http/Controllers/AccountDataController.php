@@ -55,6 +55,15 @@ class AccountDataController extends Controller
                 'body' => $message->body,
                 'created_at' => $message->created_at?->toIso8601String(),
             ])->all(),
+            'content_declarations' => $user->contentDeclarations()->orderBy('accepted_at')->get()->map(fn ($declaration) => [
+                'import_id' => $declaration->id,
+                'kind' => $declaration->kind,
+                'import_type' => $declaration->import_type,
+                'declaration_version' => $declaration->declaration_version,
+                'declaration_accepted' => $declaration->declaration_accepted,
+                'accepted_at' => $declaration->accepted_at->toIso8601String(),
+                'import_status' => $declaration->import_status,
+            ])->all(),
             'bug_reports' => BugReport::where('user_id', $user->id)->orderBy('created_at')->get()->map(fn ($report) => [
                 'message' => $report->message,
                 'url' => $report->url,
