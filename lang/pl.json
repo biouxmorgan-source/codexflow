@@ -2343,5 +2343,13 @@
     "Seconde dimension": "Drugi wymiar",
     "Taille": "Rozmiar",
     "forme": "kształt",
-    "taille": "rozmiar"
+    "taille": "rozmiar",
+    "Mesures en :unit, comme la règle (1 case = :scale).": "Wymiary w :unit, jak linijka (1 pole = :scale).",
+    "Mesures en cases : donnez la taille réelle d’une case dans « Grille » pour mesurer en mètres ou en pieds.": "Wymiary w polach: podaj rzeczywisty rozmiar pola w „Siatce”, aby mierzyć w metrach lub stopach.",
+    "Par exemple 1,5 m ou 5 ft. Elle calibre la règle et les gabarits, quelle que soit la taille des cases à l’écran. La grille n’impose aucun déplacement.": "Na przykład 1,5 m lub 5 ft. Kalibruje linijkę i szablony bez względu na rozmiar pól na ekranie. Siatka nie narzuca żadnego ruchu.",
+    "Supprimer tous les gabarits": "Usuń wszystkie szablony",
+    "Supprimer tous les gabarits de la carte ?": "Usunąć wszystkie szablony z mapy?",
+    "Taille réelle d’une case": "Rzeczywisty rozmiar pola",
+    "QR code": "Kod QR",
+    "QR code de :label": "Kod QR: :label"
 }

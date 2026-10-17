@@ -2343,5 +2343,13 @@
     "Seconde dimension": "Seconda misura",
     "Taille": "Dimensione",
     "forme": "forma",
-    "taille": "dimensione"
+    "taille": "dimensione",
+    "Mesures en :unit, comme la règle (1 case = :scale).": "Misure in :unit, come il righello (1 casella = :scale).",
+    "Mesures en cases : donnez la taille réelle d’une case dans « Grille » pour mesurer en mètres ou en pieds.": "Misure in caselle: indica la dimensione reale di una casella in «Griglia» per misurare in metri o piedi.",
+    "Par exemple 1,5 m ou 5 ft. Elle calibre la règle et les gabarits, quelle que soit la taille des cases à l’écran. La grille n’impose aucun déplacement.": "Ad esempio 1,5 m o 5 ft. Calibra il righello e le sagome, qualunque sia la dimensione delle caselle sullo schermo. La griglia non impone alcun movimento.",
+    "Supprimer tous les gabarits": "Elimina tutte le sagome",
+    "Supprimer tous les gabarits de la carte ?": "Eliminare tutte le sagome della mappa?",
+    "Taille réelle d’une case": "Dimensione reale di una casella",
+    "QR code": "Codice QR",
+    "QR code de :label": "Codice QR di :label"
 }

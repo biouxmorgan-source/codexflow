@@ -2343,5 +2343,13 @@
     "Seconde dimension": "Second size",
     "Taille": "Size",
     "forme": "shape",
-    "taille": "size"
+    "taille": "size",
+    "Mesures en :unit, comme la règle (1 case = :scale).": "Sizes in :unit, like the ruler (1 square = :scale).",
+    "Mesures en cases : donnez la taille réelle d’une case dans « Grille » pour mesurer en mètres ou en pieds.": "Sizes in squares: give the real size of a square under “Grid” to measure in metres or feet.",
+    "Par exemple 1,5 m ou 5 ft. Elle calibre la règle et les gabarits, quelle que soit la taille des cases à l’écran. La grille n’impose aucun déplacement.": "For example 1.5 m or 5 ft. It calibrates the ruler and the templates, whatever the size of the squares on screen. The grid imposes no movement.",
+    "Supprimer tous les gabarits": "Delete all templates",
+    "Supprimer tous les gabarits de la carte ?": "Delete all the templates on the map?",
+    "Taille réelle d’une case": "Real size of a square",
+    "QR code": "QR code",
+    "QR code de :label": "QR code for :label"
 }

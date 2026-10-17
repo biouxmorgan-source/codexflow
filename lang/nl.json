@@ -2343,5 +2343,13 @@
     "Seconde dimension": "Tweede afmeting",
     "Taille": "Grootte",
     "forme": "vorm",
-    "taille": "grootte"
+    "taille": "grootte",
+    "Mesures en :unit, comme la règle (1 case = :scale).": "Afmetingen in :unit, zoals de liniaal (1 vakje = :scale).",
+    "Mesures en cases : donnez la taille réelle d’une case dans « Grille » pour mesurer en mètres ou en pieds.": "Afmetingen in vakjes: geef bij „Raster” de echte grootte van een vakje op om in meters of voet te meten.",
+    "Par exemple 1,5 m ou 5 ft. Elle calibre la règle et les gabarits, quelle que soit la taille des cases à l’écran. La grille n’impose aucun déplacement.": "Bijvoorbeeld 1,5 m of 5 ft. Ze kalibreert de liniaal en de sjablonen, hoe groot de vakjes op het scherm ook zijn. Het raster legt geen beweging op.",
+    "Supprimer tous les gabarits": "Alle sjablonen verwijderen",
+    "Supprimer tous les gabarits de la carte ?": "Alle sjablonen van de kaart verwijderen?",
+    "Taille réelle d’une case": "Echte grootte van een vakje",
+    "QR code": "QR-code",
+    "QR code de :label": "QR-code voor :label"
 }

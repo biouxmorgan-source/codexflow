@@ -2343,5 +2343,13 @@
     "Seconde dimension": "Segunda medida",
     "Taille": "Tamanho",
     "forme": "forma",
-    "taille": "tamanho"
+    "taille": "tamanho",
+    "Mesures en :unit, comme la règle (1 case = :scale).": "Medidas em :unit, como a régua (1 casa = :scale).",
+    "Mesures en cases : donnez la taille réelle d’une case dans « Grille » pour mesurer en mètres ou en pieds.": "Medidas em casas: indique o tamanho real de uma casa em «Grelha» para medir em metros ou pés.",
+    "Par exemple 1,5 m ou 5 ft. Elle calibre la règle et les gabarits, quelle que soit la taille des cases à l’écran. La grille n’impose aucun déplacement.": "Por exemplo 1,5 m ou 5 ft. Calibra a régua e os modelos, seja qual for o tamanho das casas no ecrã. A grelha não impõe nenhum movimento.",
+    "Supprimer tous les gabarits": "Eliminar todos os modelos",
+    "Supprimer tous les gabarits de la carte ?": "Eliminar todos os modelos do mapa?",
+    "Taille réelle d’une case": "Tamanho real de uma casa",
+    "QR code": "Código QR",
+    "QR code de :label": "Código QR de :label"
 }
