@@ -105,7 +105,7 @@ class ViewAsTest extends TestCase
         // Vue MJ habituelle : contrôles présents, entrée vers « Voir comme ».
         $this->actingAs($this->gm)->get($normal)
             ->assertOk()
-            ->assertSee(['Cacher', 'Ajouter 1 à Points de vie', 'Voir comme Harvey'])
+            ->assertSee(['Cacher', 'Ajouter le montant à Points de vie', 'Voir comme Harvey'])
             ->assertDontSee('Lecture seule');
 
         $this->actingAs($this->gm)->get(route('characters.show', [$this->campaign, $this->harvey, 'comme' => 1]))
@@ -114,7 +114,7 @@ class ViewAsTest extends TestCase
             ->assertSee(['Jackson Elias', 'Adresse à Harlem', 'Harvey pour le MJ', 'Jack pour toute la table', 'Jack se confie à Harvey'])
             ->assertSee(route('characters.entity', [$this->campaign, $this->harvey, $elias, 'comme' => 1]), false)
             // Aucun contrôle du MJ.
-            ->assertDontSee(['Cacher', 'Retirer', 'Ajouter 1 à Points de vie', 'Écrire au joueur', 'Fiche complète', 'wire:click="edit"'], false)
+            ->assertDontSee(['Cacher', 'Retirer', 'Ajouter le montant à Points de vie', 'Écrire au joueur', 'Fiche complète', 'wire:click="edit"'], false)
             // Ni la zone MJ, ni ce que savent les autres personnages, ni les notes que le joueur ne lit pas.
             ->assertDontSee(['Sera possédé', 'Code du coffre', 'Jack pour le MJ', 'Journal intime'])
             // La recherche de l'en-tête passe par le personnage.

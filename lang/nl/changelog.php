@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.71.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Meerdere punten tegelijk aftrekken of optellen',
+        'items' => [
+            'Onder elke teller die de speler mag wijzigen (HP, munitie, geld…), een vakje „Aantal”: typ 8 en dan −, en de teller verliest er 8 in één keer. Standaard is het 1.',
+        ],
+    ],
+
     '0.71.0' => [
         'date' => '2026-10-18',
         'title' => 'Korte uitleg op meer schermen',
