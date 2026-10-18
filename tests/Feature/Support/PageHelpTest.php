@@ -5,6 +5,7 @@ namespace Tests\Feature\Support;
 use App\Enums\CampaignRole;
 use App\Livewire\Dice\Tray;
 use App\Models\Campaign;
+use App\Models\Entity;
 use App\Models\User;
 use App\Support\PageHelp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -54,6 +55,28 @@ class PageHelpTest extends TestCase
 
         $this->actingAs($this->gm)->get(route('reveals.index', $this->campaign))->assertOk()
             ->assertSee('Mode d’emploi : Révéler, Donner et Indices');
+    }
+
+    public function test_preparation_and_table_screens_carry_their_how_to(): void
+    {
+        $scenario = $this->campaign->scenarios()->create(['name' => 'Prologue']);
+        $scene = $scenario->scenes()->create(['name' => 'Le quai']);
+        $sheet = Entity::factory()->for($this->gm, 'owner')->create(['campaign_id' => $this->campaign->id, 'world_id' => null, 'name' => 'Mira']);
+
+        $pages = [
+            'La fiche' => route('entities.show', [$this->campaign, $sheet]),
+            'Mode Session' => route('sessions.live', $this->campaign),
+            'Scénarios et scènes' => route('scenarios.index', $this->campaign),
+            'Importer depuis un fichier' => route('imports.create', $this->campaign),
+            'Membres' => route('members.index', $this->campaign),
+        ];
+
+        foreach ($pages as $title => $url) {
+            $this->actingAs($this->gm)->get($url)->assertOk()->assertSee('Mode d’emploi : '.$title);
+        }
+
+        $this->actingAs($this->gm)->get(route('scenes.show', [$this->campaign, $scene]))->assertOk()
+            ->assertSee('Mode d’emploi : Scénarios et scènes');
     }
 
     public function test_each_how_to_points_to_an_existing_help_question(): void

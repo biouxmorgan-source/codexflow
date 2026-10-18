@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instrukcja na kolejnych ekranach',
+        'items' => [
+            'Przycisk „?” pojawia się też na karcie (po stronie MG), w trybie Sesji, w scenariuszach i scenach, przy imporcie plików i wśród członków kampanii.',
+            'Strona Pomocy wyjaśnia teraz surowy rzut i premie odczytywane z karty postaci.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'Instrukcja na trudniejszych ekranach',

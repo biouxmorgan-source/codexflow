@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Un mode d’emploi sur plus d’écrans',
+        'items' => [
+            'Le bouton « ? » arrive aussi sur la fiche (côté MJ), le mode Session, les scénarios et les scènes, l’import de fichiers et les membres de la campagne.',
+            'La page « Aide » explique désormais le lancer brut et les bonus lus sur la fiche du personnage.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'Un mode d’emploi sur les écrans délicats',

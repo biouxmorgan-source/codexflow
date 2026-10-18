@@ -10,7 +10,10 @@
             @if ($scene->chapter)
                 <p class="text-xs font-semibold tracking-wide text-stone-500 uppercase">{{ $scene->chapter }}</p>
             @endif
-            <h1 class="text-2xl font-semibold">{{ $scene->name }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-semibold">{{ $scene->name }}</h1>
+                <x-page-help topic="scenarios" />
+            </div>
             <div class="mt-2">
                 <label for="status" class="sr-only">{{ __('Statut') }}</label>
                 <select id="status" wire:change="setStatus($event.target.value)" class="rounded-full border-0 py-1 pr-8 pl-3 text-sm font-medium {{ $scene->status->badge() }}">

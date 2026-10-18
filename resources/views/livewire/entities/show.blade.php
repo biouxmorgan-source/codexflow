@@ -12,7 +12,12 @@
                 </a>
             @endif
             <div class="min-w-0">
-                <h1 class="text-2xl font-semibold break-words">{{ $entity->name }}</h1>
+                <div class="flex items-center gap-2">
+                    <h1 class="min-w-0 text-2xl font-semibold break-words">{{ $entity->name }}</h1>
+                    @can('update', $entity)
+                        <x-page-help topic="entity" />
+                    @endcan
+                </div>
                 <p class="mt-1 flex flex-wrap items-center gap-x-1 text-sm text-stone-600">
                     <span>{{ $entity->type->name }} ·
                     {{ $entity->isWorldEntity() ? __('Monde « :name »', ['name' => $entity->world->name]) : __('Propre à cette campagne') }}</span>

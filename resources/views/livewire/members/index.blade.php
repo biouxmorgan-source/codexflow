@@ -4,7 +4,10 @@
         › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
-    <h1 class="text-2xl font-semibold">{{ __('Membres') }}</h1>
+    <div class="flex items-center gap-2">
+        <h1 class="text-2xl font-semibold">{{ __('Membres') }}</h1>
+        <x-page-help topic="members" />
+    </div>
     <p class="mt-1 mb-6 text-sm text-stone-600">
         @can('manage', $campaign)
             {{ __("Créez un lien d'invitation par personne et envoyez-le-lui comme vous voulez (message, Discord, courriel…).") }}
