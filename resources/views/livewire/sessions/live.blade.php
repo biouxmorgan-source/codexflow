@@ -26,7 +26,10 @@
                 <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
                 › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
             </nav>
-            <h1 class="text-2xl font-semibold">{{ $session ? $session->label() : __('Mode Session') }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-semibold">{{ $session ? $session->label() : __('Mode Session') }}</h1>
+                <x-page-help topic="session" />
+            </div>
             @if ($session)
                 <p class="text-sm text-stone-500">{{ __('Commencée :time', ['time' => $session->started_at->diffForHumans()]) }}</p>
             @endif

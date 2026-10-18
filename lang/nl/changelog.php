@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Korte uitleg op meer schermen',
+        'items' => [
+            'De ‘?’-knop staat nu ook op de fiche (SL-kant), de sessie-modus, scenario’s en scènes, het importeren van bestanden en de leden van de campagne.',
+            'De hulppagina legt nu de ruwe worp en bonussen van de personagefiche uit.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'Een korte uitleg op de lastigere schermen',

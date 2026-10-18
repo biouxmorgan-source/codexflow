@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instruções em mais telas',
+        'items' => [
+            'O botão «?» aparece também na ficha (lado do Mestre), no modo Sessão, nos cenários e cenas, na importação de arquivos e nos membros da campanha.',
+            'A página «Ajuda» agora explica a rolagem bruta e os bônus lidos na ficha do personagem.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'Instruções nas telas mais delicadas',

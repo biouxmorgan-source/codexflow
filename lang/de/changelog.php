@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Kurzanleitung auf weiteren Seiten',
+        'items' => [
+            'Der „?“-Knopf erscheint jetzt auch auf dem Blatt (SL-Seite), im Sitzungsmodus, bei Szenarien und Szenen, beim Dateiimport und bei den Mitgliedern der Kampagne.',
+            'Die Hilfeseite erklärt jetzt den Rohwurf und Boni vom Charakterblatt.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'Eine Kurzanleitung auf den kniffligen Seiten',

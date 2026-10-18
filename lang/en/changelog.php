@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'A how-to on more screens',
+        'items' => [
+            'The “?” button now also appears on the sheet (GM side), Session mode, scenarios and scenes, file import and campaign members.',
+            'The Help page now explains raw rolls and bonuses read from the character’s sheet.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'A how-to on the trickier screens',

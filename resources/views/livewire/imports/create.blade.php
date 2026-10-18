@@ -4,7 +4,10 @@
         › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
-    <h1 class="text-2xl font-semibold">{{ __('Importer depuis un fichier') }}</h1>
+    <div class="flex items-center gap-2">
+        <h1 class="text-2xl font-semibold">{{ __('Importer depuis un fichier') }}</h1>
+        <x-page-help topic="imports" />
+    </div>
     <p class="mt-1 mb-6 text-sm text-stone-600">{{ __("Fichier CSV (Excel, LibreOffice, Google Sheets) ou JSON. Rien n'est créé avant que vous cliquiez sur « Importer ».") }}</p>
 
     <p class="mb-6 rounded-lg border border-codex/30 bg-codex-soft px-4 py-3 text-sm">

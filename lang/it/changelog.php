@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Istruzioni su altre schermate',
+        'items' => [
+            'Il pulsante «?» compare anche sulla scheda (lato Master), nella modalità Sessione, negli scenari e nelle scene, nell’importazione di file e nei membri della campagna.',
+            'La pagina «Aiuto» ora spiega il tiro grezzo e i bonus letti dalla scheda del personaggio.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'Istruzioni sulle schermate più delicate',

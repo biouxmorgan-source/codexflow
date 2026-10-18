@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Modo de uso en más pantallas',
+        'items' => [
+            'El botón «?» aparece también en la ficha (lado del DJ), el modo Sesión, los escenarios y escenas, la importación de archivos y los miembros de la campaña.',
+            'La página «Ayuda» explica ahora la tirada en bruto y los bonificadores leídos en la ficha del personaje.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'Un modo de uso en las pantallas delicadas',
