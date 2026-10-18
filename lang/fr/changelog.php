@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Rangez vos écrans à votre façon',
+        'items' => [
+            'Nouveau bouton « Organiser l’écran » sur la page de la campagne et en mode Session : glissez chaque bloc par sa poignée ⠿, à la souris ou au doigt, ou utilisez les flèches.',
+            'En mode Session, un bloc peut passer d’une colonne à l’autre : la musique en haut, les notes à droite, comme vous préférez.',
+            '« Masquer » retire un bloc dont vous ne vous servez pas, « Afficher » le fait revenir, « Disposition par défaut » remet tout en place. Cette disposition n’appartient qu’à vous : joueurs et co-MJ gardent la leur.',
+        ],
+    ],
+
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Votre fiche, même sans réseau',

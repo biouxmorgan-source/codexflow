@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Organiza tus pantallas a tu manera',
+        'items' => [
+            'Nuevo botón «Organizar la pantalla» en la página de la campaña y en el modo Sesión: arrastra cada bloque por su asa ⠿, con el ratón o con el dedo, o usa las flechas.',
+            'En el modo Sesión, un bloque puede pasar de una columna a otra: la música arriba, las notas a la derecha, como prefieras.',
+            '«Ocultar» quita un bloque que no usas, «Mostrar» lo recupera, «Disposición por defecto» lo devuelve todo a su sitio. Esta disposición es solo tuya: jugadores y co-DJ conservan la suya.',
+        ],
+    ],
+
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Tu ficha, incluso sin conexión',

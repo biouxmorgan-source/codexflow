@@ -137,3 +137,4 @@ import './pwa';
 import './offline-sheet';
 import './audio-deck';
 import './dice';
+import './screen-arranger';

@@ -3,6 +3,7 @@
 namespace App\Livewire\Sessions;
 
 use App\Enums\SceneStatus;
+use App\Livewire\Concerns\ArrangesScreen;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\AudioTrack;
 use App\Models\Campaign;
@@ -31,6 +32,7 @@ use Livewire\Component;
  */
 class Live extends Component
 {
+    use ArrangesScreen;
     use SuggestsEntities;
 
     public Campaign $campaign;
@@ -55,6 +57,11 @@ class Live extends Component
     public function mount(Campaign $campaign): void
     {
         $this->authorize('update', $campaign);
+    }
+
+    protected function screenLayoutName(): string
+    {
+        return 'session';
     }
 
     #[Computed]

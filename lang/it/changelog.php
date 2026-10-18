@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Disponi le tue schermate a modo tuo',
+        'items' => [
+            'Nuovo pulsante «Organizza la schermata» nella pagina della campagna e in modalità Sessione: trascina ogni blocco dalla sua maniglia ⠿, con il mouse o con il dito, oppure usa le frecce.',
+            'In modalità Sessione un blocco può passare da una colonna all’altra: la musica in alto, le note a destra, come preferisci.',
+            '«Nascondi» toglie un blocco che non usi, «Mostra» lo fa tornare, «Disposizione predefinita» rimette tutto a posto. Questa disposizione è solo tua: giocatori e co-master mantengono la loro.',
+        ],
+    ],
+
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'La tua scheda, anche senza rete',
