@@ -2418,7 +2418,6 @@
     "Qui voit le résultat": "Quem vê o resultado",
     "Qui voit les résultats": "Quem vê os resultados",
     "Rester sous un seuil": "Ficar abaixo de um limiar",
-    "Retirer ce lancer enregistré ?": "Remover esta rolagem salva?",
     "Réduire les dés": "Recolher os dados",
     "Résultats à la vue de tous": "Resultados à vista de todos",
     "Réussi si le total atteint le seuil.": "Sucesso se o total atinge o limiar.",
@@ -2529,5 +2528,6 @@
     "Retirer ce bonus": "Remover este bônus",
     "Valeur du bonus": "Valor do bônus",
     "bonus": "bônus",
-    "ou une valeur de la fiche :": "ou um valor da ficha:"
+    "ou une valeur de la fiche :": "ou um valor da ficha:",
+    "Supprimer ce lancer enregistré ?": "Excluir esta rolagem salva?"
 }

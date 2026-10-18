@@ -84,7 +84,7 @@
                                                     <button type="button" x-on:click="loadPreset(@js($preset['formula']), @js($preset['label']), '{{ $scope }}', @js($preset['id']))" class="px-2.5 py-1 font-medium"
                                                         title="{{ \App\Support\Dice\DiceFormula::fromArray($preset['formula'])->describe() }}">{{ $preset['label'] }}</button>
                                                     @if ($removable)
-                                                        <button type="button" wire:click="removePreset(@js($preset['id']), '{{ $scope }}')" x-on:click="if (loaded?.id === @js($preset['id'])) loaded = null" wire:confirm="{{ __('Retirer ce lancer enregistré ?') }}" class="pr-2 opacity-60 hover:text-red-700 hover:opacity-100" aria-label="{{ __('Retirer :name', ['name' => $preset['label']]) }}">×</button>
+                                                        <button type="button" wire:click="removePreset(@js($preset['id']), '{{ $scope }}')" x-on:click="if (loaded?.id === @js($preset['id'])) loaded = null" wire:confirm="{{ __('Supprimer ce lancer enregistré ?') }}" class="px-2 py-1 text-sm leading-none hover:text-red-700" aria-label="{{ __('Supprimer :name', ['name' => $preset['label']]) }}" title="{{ __('Supprimer :name', ['name' => $preset['label']]) }}">×</button>
                                                     @endif
                                                 </li>
                                             @endforeach
@@ -121,6 +121,9 @@
                                                 class="btn-secondary py-1 text-xs"><span x-text="@js(__('Mettre à jour')) + ' « ' + (loaded?.label ?? '') + ' »'"></span></button>
                                             <button type="button" x-on:click="$wire.savePreset(formula, presetName, presetScope, null).then((id) => { if (id) loaded = { id, scope: presetScope, label: presetName } })"
                                                 class="btn-secondary py-1 text-xs" x-text="loaded ? @js(__('Enregistrer comme nouveau')) : @js(__('Enregistrer'))"></button>
+                                            <button type="button" x-show="loaded && (loaded.scope === 'mine' || @js($this->isGameMaster))" x-cloak
+                                                x-on:click="if (confirm(@js(__('Supprimer ce lancer enregistré ?')))) $wire.removePreset(loaded.id, loaded.scope).then(() => { loaded = null; presetName = '' })"
+                                                class="rounded-md border border-red-200 px-2.5 py-1 text-xs text-red-700 hover:bg-red-50"><span x-text="@js(__('Supprimer')) + ' « ' + (loaded?.label ?? '') + ' »'"></span></button>
                                         </div>
                                         @error('presetLabel') <p class="error">{{ $message }}</p> @enderror
                                     </div>

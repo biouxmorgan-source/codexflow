@@ -11,6 +11,7 @@ return [
             'Nei dadi, il bonus può prendere uno o più valori dalla scheda del personaggio (caratteristica, abilità, qualsiasi campo numero o contatore della zona pubblica), interi o come decina, metà o quinto, oltre al bonus libero. Anche la soglia può essere letta sulla scheda. I valori si leggono al momento del tiro, sulla scheda di ogni personaggio che tira.',
             'Più bonus con nome (Arma +2, Ferita −1…) si sommano nello stesso tiro, insieme ai valori della scheda.',
             'Gli esempi già pronti spariscono dal vassoio: restano i tuoi tiri salvati.',
+            'Un tiro salvato si elimina con un tocco: la × sulla sua etichetta, o «Elimina» una volta caricato.',
         ],
     ],
 

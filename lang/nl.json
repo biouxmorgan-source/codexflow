@@ -2418,7 +2418,6 @@
     "Qui voit le résultat": "Wie de uitslag ziet",
     "Qui voit les résultats": "Wie de uitslagen ziet",
     "Rester sous un seuil": "Onder een drempel blijven",
-    "Retirer ce lancer enregistré ?": "Deze opgeslagen worp verwijderen?",
     "Réduire les dés": "Dobbelstenen inklappen",
     "Résultats à la vue de tous": "Uitslagen voor iedereen zichtbaar",
     "Réussi si le total atteint le seuil.": "Gelukt als het totaal de drempel haalt.",
@@ -2529,5 +2528,6 @@
     "Retirer ce bonus": "Deze bonus verwijderen",
     "Valeur du bonus": "Waarde van de bonus",
     "bonus": "bonus",
-    "ou une valeur de la fiche :": "of een waarde van het blad:"
+    "ou une valeur de la fiche :": "of een waarde van het blad:",
+    "Supprimer ce lancer enregistré ?": "Deze opgeslagen worp verwijderen?"
 }

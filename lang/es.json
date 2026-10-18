@@ -2418,7 +2418,6 @@
     "Qui voit le résultat": "Quién ve el resultado",
     "Qui voit les résultats": "Quién ve los resultados",
     "Rester sous un seuil": "Quedar bajo un umbral",
-    "Retirer ce lancer enregistré ?": "¿Quitar esta tirada guardada?",
     "Réduire les dés": "Plegar los dados",
     "Résultats à la vue de tous": "Resultados a la vista de todos",
     "Réussi si le total atteint le seuil.": "Éxito si el total alcanza el umbral.",
@@ -2529,5 +2528,6 @@
     "Retirer ce bonus": "Quitar este bonificador",
     "Valeur du bonus": "Valor del bonificador",
     "bonus": "bonificador",
-    "ou une valeur de la fiche :": "o un valor de la ficha:"
+    "ou une valeur de la fiche :": "o un valor de la ficha:",
+    "Supprimer ce lancer enregistré ?": "¿Eliminar esta tirada guardada?"
 }

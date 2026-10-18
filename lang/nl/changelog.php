@@ -11,6 +11,7 @@ return [
             'Bij de dobbelstenen kan de bonus een of meer waarden van het personageblad overnemen (eigenschap, vaardigheid, elk getal- of tellerveld in de openbare zone), heel of als tiental, helft of vijfde, naast de vrije bonus. Ook de drempel kan van het blad komen. De waarden worden bij de worp gelezen van het blad van elk personage dat gooit.',
             'Meerdere benoemde bonussen (Wapen +2, Wond −1…) tellen op in dezelfde worp, naast waarden van het blad.',
             'De kant-en-klare voorbeelden verdwijnen van het dobbelbord: je opgeslagen worpen blijven.',
+            'Een opgeslagen worp verwijder je met één tik: het × op het label, of ‘Verwijderen’ als hij geladen is.',
         ],
     ],
 

@@ -2418,7 +2418,6 @@
     "Qui voit le résultat": "Who sees the result",
     "Qui voit les résultats": "Who sees the results",
     "Rester sous un seuil": "Stay under a threshold",
-    "Retirer ce lancer enregistré ?": "Remove this saved roll?",
     "Réduire les dés": "Collapse the dice",
     "Résultats à la vue de tous": "Results in plain view",
     "Réussi si le total atteint le seuil.": "Success if the total reaches the threshold.",
@@ -2529,5 +2528,6 @@
     "Retirer ce bonus": "Remove this bonus",
     "Valeur du bonus": "Bonus value",
     "bonus": "bonus",
-    "ou une valeur de la fiche :": "or a value from the sheet:"
+    "ou une valeur de la fiche :": "or a value from the sheet:",
+    "Supprimer ce lancer enregistré ?": "Delete this saved roll?"
 }

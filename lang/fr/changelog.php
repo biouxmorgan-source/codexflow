@@ -11,6 +11,7 @@ return [
             'Dans les dés, le bonus peut reprendre une ou plusieurs valeurs de la fiche du personnage (caractéristique, compétence, tout champ nombre ou compteur de la zone publique), entières ou en dizaine, moitié ou cinquième, en plus du bonus libre. Le seuil peut aussi se lire sur la fiche. Les valeurs sont lues au moment du lancer, sur la fiche de chaque personnage qui lance.',
             'Plusieurs bonus nommés (Arme +2, Blessure −1…) s’ajoutent au même lancer, avec les valeurs de la fiche.',
             'Les exemples tout faits disparaissent du plateau : il garde vos lancers enregistrés.',
+            'Un lancer enregistré se supprime d’un geste : le × sur sa pastille, ou « Supprimer » une fois chargé.',
         ],
     ],
 

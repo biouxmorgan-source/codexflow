@@ -11,6 +11,7 @@ return [
             'W kościach premia może brać jedną lub kilka wartości z karty postaci (cecha, umiejętność, dowolne pole liczbowe lub licznik w strefie publicznej), w całości albo jako dziesiątki, połowę lub piątą część, obok wolnej premii. Próg też może pochodzić z karty. Wartości są odczytywane w chwili rzutu z karty każdej postaci, która rzuca.',
             'Kilka nazwanych premii (Broń +2, Rana −1…) sumuje się w jednym rzucie, razem z wartościami z karty.',
             'Gotowe przykłady znikają z tacki: zostają twoje zapisane rzuty.',
+            'Zapisany rzut usuwa się jednym dotknięciem: × na jego etykiecie lub „Usuń” po wczytaniu.',
         ],
     ],
 

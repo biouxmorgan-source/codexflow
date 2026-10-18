@@ -2418,7 +2418,6 @@
     "Qui voit le résultat": "Chi vede il risultato",
     "Qui voit les résultats": "Chi vede i risultati",
     "Rester sous un seuil": "Restare sotto una soglia",
-    "Retirer ce lancer enregistré ?": "Rimuovere questo tiro salvato?",
     "Réduire les dés": "Riduci i dadi",
     "Résultats à la vue de tous": "Risultati visibili a tutti",
     "Réussi si le total atteint le seuil.": "Riuscito se il totale raggiunge la soglia.",
@@ -2529,5 +2528,6 @@
     "Retirer ce bonus": "Rimuovi questo bonus",
     "Valeur du bonus": "Valore del bonus",
     "bonus": "bonus",
-    "ou une valeur de la fiche :": "o un valore della scheda:"
+    "ou une valeur de la fiche :": "o un valore della scheda:",
+    "Supprimer ce lancer enregistré ?": "Eliminare questo tiro salvato?"
 }

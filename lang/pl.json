@@ -2418,7 +2418,6 @@
     "Qui voit le résultat": "Kto widzi wynik",
     "Qui voit les résultats": "Kto widzi wyniki",
     "Rester sous un seuil": "Zostać poniżej progu",
-    "Retirer ce lancer enregistré ?": "Usunąć ten zapisany rzut?",
     "Réduire les dés": "Zwiń kości",
     "Résultats à la vue de tous": "Wyniki widoczne dla wszystkich",
     "Réussi si le total atteint le seuil.": "Sukces, jeśli suma osiągnie próg.",
@@ -2529,5 +2528,6 @@
     "Retirer ce bonus": "Usuń tę premię",
     "Valeur du bonus": "Wartość premii",
     "bonus": "premia",
-    "ou une valeur de la fiche :": "lub wartość z karty:"
+    "ou une valeur de la fiche :": "lub wartość z karty:",
+    "Supprimer ce lancer enregistré ?": "Usunąć ten zapisany rzut?"
 }

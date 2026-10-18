@@ -2418,7 +2418,6 @@
     "Qui voit le résultat": "Wer das Ergebnis sieht",
     "Qui voit les résultats": "Wer die Ergebnisse sieht",
     "Rester sous un seuil": "Unter der Schwelle bleiben",
-    "Retirer ce lancer enregistré ?": "Diesen gespeicherten Wurf entfernen?",
     "Réduire les dés": "Würfel einklappen",
     "Résultats à la vue de tous": "Ergebnisse für alle sichtbar",
     "Réussi si le total atteint le seuil.": "Erfolg, wenn die Summe die Schwelle erreicht.",
@@ -2529,5 +2528,6 @@
     "Retirer ce bonus": "Diesen Bonus entfernen",
     "Valeur du bonus": "Wert des Bonus",
     "bonus": "Bonus",
-    "ou une valeur de la fiche :": "oder ein Wert vom Bogen:"
+    "ou une valeur de la fiche :": "oder ein Wert vom Bogen:",
+    "Supprimer ce lancer enregistré ?": "Diesen gespeicherten Wurf löschen?"
 }
