@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Your characters played elsewhere',
+        'items' => [
+            'New “My sheets” page: store the characters you play outside SagaWyn, at a friend’s, at a club or elsewhere. Only you can see them.',
+            'Each character has its PDF sheet, a portrait, free fields (texts and counters to adjust with − and + during play) and your notes, with the game and table names to find them again.',
+        ],
+    ],
+
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'A sound library for all your campaigns',

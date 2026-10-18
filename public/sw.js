@@ -95,6 +95,9 @@ async function networkFirst(request) {
         const cache = await caches.open(PAGES);
         const cached = await cache.match(request) ?? await cache.match(request, { ignoreSearch: true });
         if (cached) {
+            // Une feuille PDF ou un portrait repart tel quel : seul le HTML est relu comme du texte.
+            if (!cached.headers.get('content-type')?.includes('text/html')) return cached;
+
             // Marque la page servie depuis l'appareil : le bandeau « Hors ligne » s'affiche même si
             // l'appareil a du réseau (serveur injoignable).
             const html = (await cached.text()).replace('<head>', '<head><meta name="sagawyn-offline" content="1">');

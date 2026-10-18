@@ -7,16 +7,18 @@ use App\Models\AudioTrack;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\GameSystem;
+use App\Models\PersonalCharacter;
 use App\Models\PlayerCharacter;
 use App\Models\User;
 use App\Models\World;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;
 
 /**
  * Espace occupé par les fichiers d'un compte : documents, pièces jointes, images de fiches
- * et feuilles PDF des personnages de ses campagnes.
+ * et feuilles PDF des personnages de ses campagnes, et ses feuilles de personnage personnelles.
  */
 class StorageUsage
 {
@@ -44,7 +46,8 @@ class StorageUsage
     {
         $bytes = (int) Document::where('user_id', $user->id)->sum('size')
             + (int) Attachment::where('user_id', $user->id)->sum('size')
-            + (int) AudioTrack::where('user_id', $user->id)->sum('size');
+            + (int) AudioTrack::where('user_id', $user->id)->sum('size')
+            + (int) PersonalCharacter::where('user_id', $user->id)->sum(DB::raw('coalesce(portrait_size, 0) + coalesce(sheet_size, 0)'));
 
         $disk = Storage::disk(Entity::FILES_DISK);
         Entity::where('user_id', $user->id)->whereNotNull('image_path')->pluck('image_path')

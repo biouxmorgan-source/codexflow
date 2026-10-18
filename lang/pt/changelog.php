@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'As suas personagens jogadas noutro sítio',
+        'items' => [
+            'Nova página «As minhas fichas»: guarde as personagens que joga fora do SagaWyn, em casa de um amigo, num clube ou noutro sítio. Só você as vê.',
+            'Cada personagem tem a sua ficha PDF, um retrato, campos livres (textos e contadores a ajustar com − e + durante a partida) e as suas notas, com o nome do jogo e da mesa para a encontrar.',
+        ],
+    ],
+
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Uma biblioteca de sons para todas as suas campanhas',

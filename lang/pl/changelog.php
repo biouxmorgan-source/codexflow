@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Twoje postacie z innych stołów',
+        'items' => [
+            'Nowa strona „Moje karty”: przechowuj postacie, którymi grasz poza SagaWyn, u znajomych, w klubie lub gdzie indziej. Widzisz je tylko Ty.',
+            'Każda postać ma swoją kartę PDF, portret, dowolne pola (teksty i liczniki ustawiane przyciskami − i + podczas gry) oraz Twoje notatki, z nazwą gry i drużyny, by łatwo ją odnaleźć.',
+        ],
+    ],
+
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Biblioteka dźwięków dla wszystkich kampanii',
