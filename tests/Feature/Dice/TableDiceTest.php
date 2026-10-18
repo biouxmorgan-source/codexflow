@@ -3,11 +3,14 @@
 namespace Tests\Feature\Dice;
 
 use App\Enums\CampaignRole;
+use App\Enums\FieldType;
+use App\Enums\Zone;
 use App\Livewire\Dice\Tray;
 use App\Livewire\Table\Screen;
 use App\Models\Campaign;
 use App\Models\DiceRoll;
 use App\Models\Entity;
+use App\Models\FieldDefinition;
 use App\Models\PlayerCharacter;
 use App\Models\User;
 use App\Support\CampaignFeatures;
@@ -231,5 +234,91 @@ class TableDiceTest extends TestCase
         $this->assertCount(1, $presets);
         $this->assertSame(30, $presets[0]['formula']['count']);
         $this->assertSame([], TableDice::cleanPresets('pas une liste'));
+    }
+
+    /** @return array{0: FieldDefinition, 1: FieldDefinition, 2: FieldDefinition} Force, Esquive, secret MJ */
+    private function sheet(): array
+    {
+        $game = $this->campaign->gameSystem;
+        $strength = $game->fieldDefinitions()->create(['name' => 'Force', 'group' => 'Caractéristiques', 'type' => FieldType::Number, 'zone' => Zone::Public, 'position' => 1]);
+        $dodge = $game->fieldDefinitions()->create(['name' => 'Esquive', 'group' => 'Compétences', 'type' => FieldType::Number, 'zone' => Zone::Public, 'position' => 2]);
+        $secret = $game->fieldDefinitions()->create(['name' => 'Destin', 'type' => FieldType::Number, 'zone' => Zone::GameMaster, 'position' => 3]);
+
+        $this->harvey->entity->setFieldValues([$strength->id => 47, $dodge->id => 35, $secret->id => 9]);
+        $this->harvey->entity->save();
+        $this->june->entity->setFieldValues([$strength->id => 62, $dodge->id => 50]);
+        $this->june->entity->save();
+
+        return [$strength, $dodge, $secret];
+    }
+
+    public function test_the_bonus_and_threshold_come_from_the_rolling_characters_sheet(): void
+    {
+        [$strength, $dodge, $secret] = $this->sheet();
+        $formula = ['count' => 1, 'sides' => 100, 'reading' => 'below', 'modifier' => 2,
+            'threshold_from' => ['field' => $dodge->id, 'take' => 'value'],
+            'bonus_from' => [['field' => $strength->id, 'take' => 'tens'], ['field' => $secret->id, 'take' => 'value']]];
+
+        $this->tray($this->alex)->assertDontSee('Esquive')->call('toggle')->assertSee('Esquive')->assertDontSee('Destin')
+            ->call('roll', $formula, 'table', 'Esquive');
+
+        $roll = DiceRoll::latest('id')->first();
+        // Esquive 35, bonus +2 et dizaine de Force 4 ; un champ de la zone MJ n'est jamais lu.
+        $this->assertSame(35, $roll->formula()->threshold);
+        $this->assertSame(6, $roll->formula()->modifier);
+        $this->assertSame(41, $roll->result['threshold']);
+        $this->assertStringContainsString('35 (Esquive)', $roll->formula()->describe());
+        $this->assertStringContainsString('bonus +6 (+2, dizaine de Force +4) au seuil', $roll->formula()->describe());
+    }
+
+    public function test_a_request_reads_each_characters_own_sheet(): void
+    {
+        [$strength, $dodge] = $this->sheet();
+        $this->tray($this->gm)->call('ask', ['count' => 1, 'sides' => 100, 'reading' => 'below', 'threshold_from' => ['field' => $dodge->id, 'take' => 'half']], 'Esquive', null);
+
+        $this->tray($this->alex)->assertSee('17 (moitié de Esquive)')->call('answer')->assertHasNoErrors();
+        $this->tray($this->sam)->assertSee('25 (moitié de Esquive)')->call('answer')->assertHasNoErrors();
+
+        $this->assertEqualsCanonicalizing([17, 25], DiceRoll::all()->map(fn (DiceRoll $roll) => $roll->formula()->threshold)->all());
+    }
+
+    public function test_without_a_value_on_the_sheet_the_threshold_is_typed(): void
+    {
+        [, $dodge] = $this->sheet();
+        $this->june->entity->setFieldValues([$dodge->id => null]);
+        $this->june->entity->save();
+        $this->tray($this->gm)->call('ask', ['count' => 1, 'sides' => 100, 'reading' => 'below', 'threshold_from' => ['field' => $dodge->id, 'take' => 'value']], 'Esquive', [$this->june->id]);
+
+        $this->tray($this->sam)->call('answer')->assertHasErrors('answerThreshold')
+            ->set('answerThreshold', '40')->call('answer')->assertHasNoErrors();
+        $this->assertSame(40, DiceRoll::latest('id')->first()->formula()->threshold);
+    }
+
+    public function test_a_gm_roll_without_a_character_cannot_read_a_sheet_threshold(): void
+    {
+        [, $dodge] = $this->sheet();
+
+        $this->tray($this->gm)->call('roll', ['count' => 1, 'sides' => 100, 'reading' => 'below', 'threshold' => 99, 'threshold_from' => ['field' => $dodge->id, 'take' => 'value', 'got' => 99]])
+            ->assertHasErrors('threshold');
+        $this->assertSame(0, DiceRoll::count());
+    }
+
+    public function test_several_named_bonuses_add_up_with_sheet_values(): void
+    {
+        [$strength] = $this->sheet();
+        $formula = ['count' => 2, 'sides' => 6, 'reading' => 'sum', 'modifier' => 1, 'bonus_from' => [
+            ['fixed' => 2, 'name' => 'Arme'], ['fixed' => -1, 'name' => 'Blessure'], ['field' => $strength->id, 'take' => 'tens'],
+        ]];
+
+        $this->tray($this->alex)->call('roll', $formula, 'table', 'Coup');
+        $this->tray($this->gm)->call('roll', $formula, 'table', 'Coup');
+
+        [$alex, $gm] = DiceRoll::orderBy('id')->get()->all();
+        // Alex : 1 + 2 − 1 + dizaine de Force 4 ; le MJ, sans fiche, garde les bonus nommés.
+        $this->assertSame(6, $alex->formula()->modifier);
+        $this->assertSame('2d6, additionnés, +6 (+1, Arme +2, Blessure -1, dizaine de Force +4)', $alex->formula()->describe());
+        $this->assertSame(2, $gm->formula()->modifier);
+        $this->assertSame('2d6, additionnés, +1 Arme +2 Blessure -1 + dizaine de Force', $gm->formula()->describe());
+        $this->assertSame(array_sum(array_column($alex->result['dice'], 'value')) + 6, $alex->result['total']);
     }
 }

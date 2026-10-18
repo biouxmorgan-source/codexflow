@@ -1,7 +1,7 @@
 {{-- Sans Reverb, le plateau se resynchronise tout seul (demandes du MJ, lancers des autres). --}}
 <div wire:poll.15s>
     @if ($usable)
-        <div @class(['fixed bottom-2 left-2 sm:bottom-4 sm:left-4', 'z-50' => $open, 'z-30' => ! $open]) x-data="diceBuilder(@js('sagawyn-dice-'.$campaign->id))">
+        <div @class(['fixed bottom-2 left-2 sm:bottom-4 sm:left-4', 'z-50' => $open, 'z-30' => ! $open]) x-data="diceBuilder(@js('sagawyn-dice-'.$campaign->id), @js(['value' => ':name', 'tens' => __('dizaine de :name'), 'half' => __('moitié de :name'), 'fifth' => __('cinquième de :name')]))">
             @if (! $open)
                 <button type="button" wire:click="toggle" class="flex items-center gap-2 rounded-full bg-codex px-4 py-2.5 text-sm font-semibold text-on-accent shadow-lg hover:bg-ink">
                     <x-die sides="6" value="6" size="size-5" state="dropped" aria-hidden="true" />
@@ -84,7 +84,7 @@
                                                     <button type="button" x-on:click="loadPreset(@js($preset['formula']), @js($preset['label']), '{{ $scope }}', @js($preset['id']))" class="px-2.5 py-1 font-medium"
                                                         title="{{ \App\Support\Dice\DiceFormula::fromArray($preset['formula'])->describe() }}">{{ $preset['label'] }}</button>
                                                     @if ($removable)
-                                                        <button type="button" wire:click="removePreset(@js($preset['id']), '{{ $scope }}')" x-on:click="if (loaded?.id === @js($preset['id'])) loaded = null" wire:confirm="{{ __('Retirer ce lancer enregistré ?') }}" class="pr-2 opacity-60 hover:text-red-700 hover:opacity-100" aria-label="{{ __('Retirer :name', ['name' => $preset['label']]) }}">×</button>
+                                                        <button type="button" wire:click="removePreset(@js($preset['id']), '{{ $scope }}')" x-on:click="if (loaded?.id === @js($preset['id'])) loaded = null" wire:confirm="{{ __('Supprimer ce lancer enregistré ?') }}" class="px-2 py-1 text-sm leading-none hover:text-red-700" aria-label="{{ __('Supprimer :name', ['name' => $preset['label']]) }}" title="{{ __('Supprimer :name', ['name' => $preset['label']]) }}">×</button>
                                                     @endif
                                                 </li>
                                             @endforeach
@@ -92,16 +92,6 @@
                                     </div>
                                 @endif
                             @endforeach
-                            <div>
-                                <p class="label">{{ __('Exemples') }}</p>
-                                <ul class="-mx-3 flex gap-1.5 overflow-x-auto px-3 pb-1">
-                                    @foreach ($examples as $example)
-                                        <li class="shrink-0"><button type="button" x-on:click="load(@js($example['formula'])); loaded = null" class="rounded-full border border-stone-200 px-2.5 py-1 text-xs whitespace-nowrap hover:border-codex"
-                                            title="{{ \App\Support\Dice\DiceFormula::fromArray($example['formula'])->describe() }}">{{ $example['label'] }}</button></li>
-                                    @endforeach
-                                </ul>
-                            </div>
-
                             @include('livewire.dice.partials.builder', ['thresholdPlaceholder' => $tab === 'ask' ? __('chacun') : ''])
 
                             @if ($tab === 'roll')
@@ -131,6 +121,9 @@
                                                 class="btn-secondary py-1 text-xs"><span x-text="@js(__('Mettre à jour')) + ' « ' + (loaded?.label ?? '') + ' »'"></span></button>
                                             <button type="button" x-on:click="$wire.savePreset(formula, presetName, presetScope, null).then((id) => { if (id) loaded = { id, scope: presetScope, label: presetName } })"
                                                 class="btn-secondary py-1 text-xs" x-text="loaded ? @js(__('Enregistrer comme nouveau')) : @js(__('Enregistrer'))"></button>
+                                            <button type="button" x-show="loaded && (loaded.scope === 'mine' || @js($this->isGameMaster))" x-cloak
+                                                x-on:click="if (confirm(@js(__('Supprimer ce lancer enregistré ?')))) $wire.removePreset(loaded.id, loaded.scope).then(() => { loaded = null; presetName = '' })"
+                                                class="rounded-md border border-red-200 px-2.5 py-1 text-xs text-red-700 hover:bg-red-50"><span x-text="@js(__('Supprimer')) + ' « ' + (loaded?.label ?? '') + ' »'"></span></button>
                                         </div>
                                         @error('presetLabel') <p class="error">{{ $message }}</p> @enderror
                                     </div>
@@ -203,7 +196,7 @@
                         </div>
                     @else
                         @php($request = $prompt['request'])
-                        @php($formula = $request->formula())
+                        @php($formula = \App\Support\Dice\SheetValues::apply($request->formula(), $campaign, $prompt['character']))
                         <form wire:submit="answer" wire:key="prompt-{{ $request->id }}-{{ $prompt['character']->id }}">
                             <p class="text-sm font-medium text-flow">{{ __('Le MJ demande un lancer') }} · {{ $prompt['character']->entity->name }}</p>
                             <h2 id="dice-prompt-title" class="mt-1 text-2xl font-semibold">{{ $request->label }}</h2>

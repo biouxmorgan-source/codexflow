@@ -4,6 +4,17 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bônus e limiar lidos na ficha',
+        'items' => [
+            'Nos dados, o bônus pode pegar um ou mais valores da ficha do personagem (característica, perícia, qualquer campo número ou contador da zona pública), inteiros ou em dezena, metade ou quinto, além do bônus livre. O limiar também pode ser lido na ficha. Os valores são lidos no momento da rolagem, na ficha de cada personagem que rola.',
+            'Vários bônus com nome (Arma +2, Ferimento −1…) se somam na mesma rolagem, junto com os valores da ficha.',
+            'Os exemplos prontos saem da bandeja: ela mantém suas rolagens salvas.',
+            'Uma rolagem salva é excluída com um toque: o × na etiqueta, ou «Excluir» depois de carregada.',
+        ],
+    ],
+
     '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Rolagem bruta',

@@ -4,6 +4,17 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus und Schwelle vom Bogen',
+        'items' => [
+            'Beim Würfeln kann der Bonus einen oder mehrere Werte vom Charakterbogen übernehmen (Eigenschaft, Fertigkeit, jedes Zahl- oder Zählerfeld der öffentlichen Zone), ganz oder als Zehner, Hälfte oder Fünftel, zusätzlich zum freien Bonus. Auch die Schwelle kann vom Bogen kommen. Die Werte werden beim Wurf vom Bogen jedes würfelnden Charakters gelesen.',
+            'Mehrere benannte Boni (Waffe +2, Wunde −1…) addieren sich im selben Wurf, zusammen mit Werten vom Bogen.',
+            'Die fertigen Beispiele verschwinden vom Würfelbrett: Es behält deine gespeicherten Würfe.',
+            'Ein gespeicherter Wurf wird mit einem Tipp gelöscht: das × auf seinem Chip oder „Löschen“, wenn er geladen ist.',
+        ],
+    ],
+
     '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Roher Wurf',
