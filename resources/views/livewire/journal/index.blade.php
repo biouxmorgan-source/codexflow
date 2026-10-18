@@ -4,7 +4,10 @@
         › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
-    <h1 class="text-2xl font-semibold">{{ __('Journal des modifications') }}</h1>
+    <div class="flex items-center gap-2">
+        <h1 class="text-2xl font-semibold">{{ __('Journal des modifications') }}</h1>
+        <x-page-help topic="journal" />
+    </div>
     <p class="mt-1 mb-6 text-sm text-stone-600">
         {{ __("Tout ce qui a été créé, modifié ou supprimé dans la campagne, son monde et son jeu, avec l'ancienne et la nouvelle valeur.") }}
         {{ __('Visible par vous seul : le journal contient la zone MJ.') }}

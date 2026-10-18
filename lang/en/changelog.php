@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'The how-to everywhere',
+        'items' => [
+            'The “?” button now appears on sounds, the relationship graph, the timeline, player feedback, the AI assistant, the log and the character sheet.',
+            'On the graph, the timeline and the character sheet, players read a how-to written for them.',
+        ],
+    ],
+
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Remove or add several points at once',

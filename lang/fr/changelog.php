@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Le mode d’emploi partout',
+        'items' => [
+            'Le bouton « ? » arrive sur les sons, le graphe des relations, la chronologie, les avis des joueurs, l’assistant IA, le journal et la fiche de personnage.',
+            'Sur le graphe, la chronologie et la fiche de personnage, les joueurs lisent un mode d’emploi écrit pour eux.',
+        ],
+    ],
+
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Retirer ou ajouter plusieurs points d’un coup',
