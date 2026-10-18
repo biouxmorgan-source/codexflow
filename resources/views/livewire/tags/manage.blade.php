@@ -4,7 +4,10 @@
     </nav>
 
     <div class="mb-6">
-        <h1 class="text-2xl font-semibold">{{ __('Tags') }}</h1>
+        <div class="flex items-center gap-2">
+            <h1 class="text-2xl font-semibold">{{ __('Tags') }}</h1>
+            <x-page-help topic="tags" />
+        </div>
         <p class="mt-1 text-sm text-stone-600">{{ __('Vos tags, dans toutes vos campagnes. Renommez-les, donnez-leur une couleur, réunissez les doublons.') }}</p>
     </div>
 

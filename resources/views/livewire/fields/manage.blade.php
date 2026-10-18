@@ -6,7 +6,10 @@
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-semibold">{{ __('Champs du jeu :name', ['name' => $this->gameSystem->name]) }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-semibold">{{ __('Champs du jeu :name', ['name' => $this->gameSystem->name]) }}</h1>
+                <x-page-help topic="fields" />
+            </div>
             <p class="mt-1 text-sm text-stone-600">{{ __('Nommez vos caractéristiques, compétences ou capacités. Elles apparaîtront sur les fiches de toutes les campagnes de ce jeu.') }}</p>
         </div>
         <div class="flex flex-wrap gap-2">

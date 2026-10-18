@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Un modo de uso en las pantallas delicadas',
+        'items' => [
+            'Un botón «?» junto al título de las pantallas que no se explican solas abre su modo de uso en pocas líneas: tipos de ficha, campos del juego, etiquetas, dados, mapas, mando de la pantalla de mesa, pistas e historial de revelaciones.',
+            'Cada modo de uso enlaza con la pregunta correspondiente de la página «Ayuda», que se abre directamente en ella.',
+        ],
+    ],
+
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonificador y umbral leídos en la ficha',

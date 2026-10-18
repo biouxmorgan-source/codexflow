@@ -13,7 +13,8 @@
             @else
                 <section class="fixed inset-x-2 bottom-2 z-50 flex max-h-[85vh] flex-col overflow-hidden rounded-xl border border-stone-200 bg-white shadow-2xl sm:inset-x-auto sm:bottom-4 sm:left-4 sm:w-[27rem]" aria-label="{{ __('Dés') }}">
                     <header class="flex items-center gap-1 border-b border-stone-200 bg-stone-50 px-3 py-2">
-                        <h2 class="mr-2 text-sm font-semibold">{{ __('Dés') }}</h2>
+                        <h2 class="text-sm font-semibold">{{ __('Dés') }}</h2>
+                        <x-page-help topic="dice" :gm="$this->isGameMaster" beside class="mr-2" />
                         @foreach (array_filter(['roll' => __('Lancer'), 'ask' => $this->isGameMaster ? __('Demander') : null, 'history' => __('Derniers lancers')]) as $key => $name)
                             <button type="button" wire:click="select('{{ $key }}')" @class(['rounded-md px-2 py-1 text-xs', 'bg-codex text-on-accent' => $tab === $key, 'text-stone-700 hover:bg-codex-soft' => $tab !== $key])
                                 @if ($tab === $key) aria-current="true" @endif>{{ $name }}</button>

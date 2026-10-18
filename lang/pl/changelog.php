@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instrukcja na trudniejszych ekranach',
+        'items' => [
+            'Przycisk „?” obok tytułu ekranów, które nie tłumaczą się same, otwiera krótką instrukcję: typy kart, pola gry, tagi, kości, mapy, pilot ekranu stołu, tropy i historia ujawnień.',
+            'Każda instrukcja prowadzi do odpowiedniego pytania na stronie Pomocy, które otwiera się od razu.',
+        ],
+    ],
+
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Premia i próg z karty',

@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Een korte uitleg op de lastigere schermen',
+        'items' => [
+            'Een ‘?’-knop naast de titel van schermen die niet voor zich spreken, opent een korte uitleg: fichetypes, velden van het spel, tags, dobbelstenen, kaarten, afstandsbediening van het tafelscherm, aanwijzingen en onthullingsgeschiedenis.',
+            'Elke uitleg verwijst naar de bijbehorende vraag op de hulppagina, die meteen daar opengaat.',
+        ],
+    ],
+
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonus en drempel van het blad',

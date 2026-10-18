@@ -6,7 +6,10 @@
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-semibold">{{ __('Indices') }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-semibold">{{ __('Indices') }}</h1>
+                <x-page-help topic="reveals" />
+            </div>
             <p class="mt-1 max-w-2xl text-sm text-stone-600">{{ __('Une information à part, reliée à des fiches, scènes ou documents : « Morel travaille pour le Culte ». Cliquez sur un personnage pour la lui révéler, recliquez pour annuler.') }}</p>
         </div>
         <div class="flex flex-wrap gap-2">

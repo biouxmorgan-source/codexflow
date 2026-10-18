@@ -6,7 +6,10 @@
     </nav>
 
     <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 class="text-2xl font-semibold">{{ $map->name }}</h1>
+        <div class="flex items-center gap-2">
+            <h1 class="text-2xl font-semibold">{{ $map->name }}</h1>
+            <x-page-help topic="maps" />
+        </div>
         <div class="flex flex-wrap items-center gap-2">
             <livewire:table.show-button :campaign="$campaign" kind="map" :item-id="$map->id" :key="'show-map-'.$map->id" />
             @if (\App\Support\CampaignFeatures::usable($campaign, 'table'))
