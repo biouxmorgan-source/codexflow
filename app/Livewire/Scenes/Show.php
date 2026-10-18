@@ -31,6 +31,20 @@ class Show extends Component
         $this->scene->save();
     }
 
+    /** « Jouée comme prévu » d'un geste, après la partie : la scène passe aussi en « Jouée ». */
+    public function togglePlayedAsPlanned(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        $this->scene->played_as_planned = ! $this->scene->played_as_planned;
+
+        if ($this->scene->played_as_planned && $this->scene->status !== SceneStatus::Skipped) {
+            $this->scene->status = SceneStatus::Played;
+        }
+
+        $this->scene->save();
+    }
+
     public string $toPlayBody = '';
 
     public function addToPlay(): void
@@ -69,6 +83,7 @@ class Show extends Component
 
         return view('livewire.scenes.show', [
             'description' => EntityLinks::render($this->scene->description, $this->campaign),
+            'whatHappened' => EntityLinks::render($this->scene->what_happened, $this->campaign),
             'entities' => $this->scene->entities()
                 ->with(['type', 'campaignStates' => fn ($q) => $q->where('campaign_id', $this->campaign->id)])
                 ->get(),

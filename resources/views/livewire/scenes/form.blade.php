@@ -53,11 +53,26 @@
             </div>
 
             <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm">
-                <h2 class="mb-1 font-semibold text-flow">{{ __('Préparation') }}</h2>
+                <h2 class="mb-1 font-semibold text-flow">{{ __('Ce qui est prévu') }}</h2>
                 <p class="mb-4 text-sm text-stone-600">{{ __('Ce qui se passe, ce que veulent les PNJ, les indices à placer. Réservé au MJ.') }}</p>
-                <label for="description" class="label sr-only">{{ __('Préparation') }}</label>
+                <label for="description" class="label sr-only">{{ __('Ce qui est prévu') }}</label>
                 <x-link-textarea id="description" model="description" rows="8" />
                 @error('description') <p class="error">{{ $message }}</p> @enderror
+            </section>
+
+            <section class="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-1 font-semibold text-emerald-700">{{ __('Ce qui s’est passé') }}</h2>
+                <p class="mb-4 text-sm text-stone-600">{{ __('Après la partie : ce qui a vraiment eu lieu à la table. Il nourrit le livre des aventures. Réservé au MJ.') }}</p>
+                <label class="mb-4 flex items-start gap-2 text-sm">
+                    <input type="checkbox" wire:model="playedAsPlanned" class="mt-0.5 rounded border-stone-300">
+                    <span><span class="font-medium">{{ __('Jouée comme prévu') }}</span>
+                        <span class="block text-stone-500">{{ __('La table a suivi ce qui était prévu : inutile de le réécrire. La scène passe en « Jouée ».') }}</span></span>
+                </label>
+                <div>
+                    <label for="whatHappened" class="label">{{ __('Récit') }} <span class="font-normal text-stone-500">{{ __('(choix des joueurs, PNJ épargnés, indices manqués… S’il est écrit, le livre le reprend à la place de ce qui était prévu.)') }}</span></label>
+                    <x-link-textarea id="whatHappened" model="whatHappened" rows="6" />
+                    @error('whatHappened') <p class="error">{{ $message }}</p> @enderror
+                </div>
             </section>
 
             <section class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">

@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Ce qui s’est passé, et le livre des aventures',
+        'items' => [
+            'Chaque scène a maintenant deux parties : « Ce qui est prévu » et « Ce qui s’est passé ». Si la table a suivi le plan, cochez simplement « Jouée comme prévu ».',
+            'Nouveau « Livre des aventures » dans la campagne : les scènes jouées, scénario par scénario, puis les résumés des séances, à lire, imprimer ou enregistrer en PDF.',
+            'Une version rédigée peut s’y ajouter, écrite par vous ou par l’IA de votre choix (texte à copier, ou votre propre clé d’API, à vos frais). Le livre reste réservé au MJ.',
+        ],
+    ],
+
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Rangez vos écrans à votre façon',

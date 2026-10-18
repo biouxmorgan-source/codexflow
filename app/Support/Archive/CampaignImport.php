@@ -572,6 +572,8 @@ final class CampaignImport
                     'chapter' => $this->string($scene['chapter'] ?? null, 100),
                     'name' => $this->string($scene['name'] ?? null, 255) ?? __('Scène'),
                     'description' => $this->links($this->string($scene['description'] ?? null, 20000)),
+                    'what_happened' => $this->links($this->string($scene['what_happened'] ?? null, 20000)),
+                    'played_as_planned' => (bool) ($scene['played_as_planned'] ?? false),
                     'status' => SceneStatus::tryFrom((string) ($scene['status'] ?? ''))?->value ?? SceneStatus::Planned->value,
                     'position' => $scenePosition + 1,
                     'created_at' => $this->now,
@@ -812,6 +814,12 @@ final class CampaignImport
      */
     private function table(array $table, Campaign $campaign): void
     {
+        $book = $this->links($this->string($table['adventure_book'] ?? null, 200000));
+
+        if ($book !== null) {
+            DB::table('campaigns')->where('id', $campaign->id)->update(['adventure_book' => $book]);
+        }
+
         foreach ($this->list($table['characters'] ?? []) as $character) {
             $id = $this->int($character['id'] ?? null);
             $entityId = $this->entity($character['entity_id'] ?? null);

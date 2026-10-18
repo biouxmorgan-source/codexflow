@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Lo que pasó, y el libro de aventuras',
+        'items' => [
+            'Cada escena tiene ahora dos partes: «Lo previsto» y «Lo que pasó». Si la mesa siguió el plan, basta con marcar «Jugada según lo previsto».',
+            'Nuevo «Libro de aventuras» en la campaña: las escenas jugadas, escenario por escenario, y luego los resúmenes de las sesiones, para leer, imprimir o guardar en PDF.',
+            'Puede añadirse una versión redactada, escrita por ti o por la IA que elijas (texto para copiar, o tu propia clave de API, a tu cargo). El libro sigue reservado al DJ.',
+        ],
+    ],
+
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Organiza tus pantallas a tu manera',

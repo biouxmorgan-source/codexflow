@@ -15,7 +15,7 @@ class PageHelp
     /** @return list<string> */
     public static function topics(): array
     {
-        return ['entity-types', 'fields', 'tags', 'dice', 'maps', 'table', 'reveals', 'entity', 'session', 'scenarios', 'imports', 'members', 'audio', 'graph', 'timeline', 'feedback', 'ai', 'journal', 'character', 'my-sheets', 'campaign-map', 'campaign'];
+        return ['entity-types', 'fields', 'tags', 'dice', 'maps', 'table', 'reveals', 'entity', 'session', 'scenarios', 'imports', 'members', 'audio', 'graph', 'timeline', 'feedback', 'ai', 'journal', 'character', 'my-sheets', 'campaign-map', 'campaign', 'book'];
     }
 
     /** @return array{title: string, lines: list<string>, gm: list<string>, player?: list<string>, faq: string} */
@@ -144,6 +144,7 @@ class PageHelp
                     __('Un scénario découpe la campagne ; ses scènes se rangent par chapitre si vous le souhaitez, dans l’ordre où vous comptez les jouer.'),
                     __('Le statut suit l’avancée : Prévue, Disponible, En cours, Jouée ou Ignorée. Le mode Session part de la scène en cours.'),
                     __('Une scène rassemble ce qui sert pour la jouer : fiches avec une note courte, documents, règles, sons, et la liste « À jouer ». Les indices qui la concernent s’affichent à côté.'),
+                    __('Après la partie, « Ce qui s’est passé » raconte ce qui a vraiment eu lieu. Si la table a suivi le plan, cochez simplement « Jouée comme prévu ».'),
                     __('Supprimer un scénario ou une scène ne supprime jamais les fiches liées.'),
                 ],
                 'gm' => [],
@@ -283,6 +284,18 @@ class PageHelp
                 ],
                 'gm' => [],
                 'faq' => __('Comment faire une grande carte de campagne avec des sous-cartes ?'),
+            ],
+            'book' => [
+                'title' => __('Livre des aventures'),
+                'lines' => [
+                    __('Le livre rassemble les scènes jouées, scénario par scénario, puis les résumés des séances.'),
+                    __('Pour chaque scène : « Ce qui s’est passé » s’il est écrit, sinon ce qui était prévu, quand elle est cochée « Jouée comme prévu » ou passée en « Jouée ».'),
+                    __('« Version rédigée » garde un récit écrit par vous ou par une IA : copiez le texte proposé dans l’IA de votre choix, ou utilisez votre propre clé d’API, à vos frais.'),
+                    __('« Imprimer ou enregistrer en PDF » ouvre une page simple : choisissez « Enregistrer au format PDF » comme imprimante.'),
+                    __('Le livre contient vos notes MJ : vous seul le voyez. Partagez le PDF si vous le souhaitez.'),
+                ],
+                'gm' => [],
+                'faq' => __('Comment garder une trace de toute la campagne ?'),
             ],
             default => throw new InvalidArgumentException("Aide inconnue : {$topic}"),
         };

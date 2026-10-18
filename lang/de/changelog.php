@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Was geschah, und das Abenteuerbuch',
+        'items' => [
+            'Jede Szene hat jetzt zwei Teile: „Was geplant ist“ und „Was geschah“. Hat die Runde den Plan befolgt, kreuzen Sie einfach „Wie geplant gespielt“ an.',
+            'Neu in der Kampagne: das „Abenteuerbuch“ mit den gespielten Szenen, Szenario für Szenario, und danach den Zusammenfassungen der Sitzungen, zum Lesen, Drucken oder Speichern als PDF.',
+            'Dazu kann eine ausformulierte Fassung kommen, von Ihnen oder von der KI Ihrer Wahl (Text zum Kopieren oder Ihr eigener API-Schlüssel, auf Ihre Kosten). Das Buch bleibt der SL vorbehalten.',
+        ],
+    ],
+
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Ordnen Sie Ihre Bildschirme nach Ihrem Geschmack',

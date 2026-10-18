@@ -241,6 +241,8 @@ final class CampaignExport
                     'name' => $scene->name,
                     'description' => $scene->description,
                     'status' => $scene->status,
+                    // Ce qui s'est passé à la table ne part pas dans un modèle confié à d'autres MJ.
+                    ...($this->complete ? ['what_happened' => $scene->what_happened, 'played_as_planned' => (bool) $scene->played_as_planned] : []),
                     'tags' => $tagLinks['scenes']->get($scene->id, collect())->all(),
                     'entities' => $sceneEntities->get($scene->id, collect())->map(fn ($row) => ['id' => $row->entity_id, 'note' => $row->note])->values()->all(),
                     'documents' => $sceneDocuments->get($scene->id, collect())->pluck('document_id')->all(),
@@ -300,6 +302,7 @@ final class CampaignExport
 
         return [
             'player_sheets' => $playerSheets,
+            'adventure_book' => $campaign->adventure_book,
             'characters' => $characters->map(fn ($character) => [
                 'id' => $character->id,
                 'entity_id' => $character->entity_id,
