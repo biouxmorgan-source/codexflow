@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'La grande carte de campagne',
+        'items' => [
+            'Nouvelle « Carte de campagne » : choisissez une carte comme vue d’ensemble et posez-y des points d’intérêt, une ville, un donjon, le lieu d’une scène.',
+            'Un point peut ouvrir une sous-carte d’un clic, qui a elle-même ses points ; le fil d’Ariane permet de remonter jusqu’à la vue d’ensemble.',
+            'Reliés à une scène, les points montrent ce qui est joué, en cours ou à venir ; reliés à une fiche, ils l’ouvrent. Tout reste au MJ, sauf le nom des points « Visibles à la table », affiché sur l’écran de table.',
+        ],
+    ],
+
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Vos personnages joués ailleurs',

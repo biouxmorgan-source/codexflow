@@ -44,6 +44,7 @@ use App\Livewire\Journal\Index as JournalIndex;
 use App\Livewire\Library\GameShow;
 use App\Livewire\Library\Sounds as LibrarySounds;
 use App\Livewire\Library\WorldShow;
+use App\Livewire\Maps\Atlas as MapAtlas;
 use App\Livewire\Maps\Index as MapIndex;
 use App\Livewire\Maps\Show as MapShow;
 use App\Livewire\Members\Index as MemberIndex;
@@ -150,6 +151,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/campagnes/{campaign}/ecran-de-table/jetons/{token}', [TableScreenController::class, 'token'])->name('table.token')->middleware('feature:table')->whereNumber(['campaign', 'token']);
     Route::livewire('/campagnes/{campaign}/telecommande', TableRemote::class)->name('table.remote')->middleware('feature:table')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/cartes', MapIndex::class)->name('maps.index')->middleware('feature:maps')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/carte-de-campagne/{map?}', MapAtlas::class)->name('maps.atlas')->middleware('feature:maps')->whereNumber(['campaign', 'map']);
     Route::livewire('/campagnes/{campaign}/cartes/{map}', MapShow::class)->name('maps.show')->middleware('feature:maps')->whereNumber(['campaign', 'map']);
     Route::livewire('/campagnes/{campaign}/chronologie', TimelineIndex::class)->name('timeline.index')->middleware('feature:timeline')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/graphe', GraphIndex::class)->name('graph.index')->middleware('feature:graph')->whereNumber('campaign');

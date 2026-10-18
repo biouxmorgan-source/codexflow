@@ -29,6 +29,7 @@ class TableMap extends Model
             'view_y' => 'float',
             'view_zoom' => 'float',
             'ruler' => 'array',
+            'is_campaign_map' => 'boolean',
         ];
     }
 
@@ -54,6 +55,47 @@ class TableMap extends Model
     public function templates(): HasMany
     {
         return $this->hasMany(MapTemplate::class)->orderBy('id');
+    }
+
+    /** @return HasMany<MapPoint, $this> points d'intérêt posés sur la carte */
+    public function points(): HasMany
+    {
+        return $this->hasMany(MapPoint::class)->orderBy('id');
+    }
+
+    /** @return HasMany<MapPoint, $this> points d'autres cartes qui mènent à celle-ci */
+    public function pointsLeadingHere(): HasMany
+    {
+        return $this->hasMany(MapPoint::class, 'target_map_id');
+    }
+
+    /**
+     * Chemin depuis la carte de campagne jusqu'à cette carte, sans elle : on remonte par les
+     * points qui y mènent (le premier posé si plusieurs cartes y mènent). S'arrête sur une boucle.
+     *
+     * @return list<TableMap>
+     */
+    public function parents(): array
+    {
+        $chain = [];
+        $seen = [$this->id];
+        $current = $this;
+
+        while (! $current->is_campaign_map) {
+            $parent = TableMap::query()->where('campaign_id', $this->campaign_id)
+                ->whereIn('id', MapPoint::query()->where('target_map_id', $current->id)->select('table_map_id'))
+                ->orderByDesc('is_campaign_map')->orderBy('id')->first();
+
+            if ($parent === null || in_array($parent->id, $seen, true)) {
+                break;
+            }
+
+            array_unshift($chain, $parent);
+            $seen[] = $parent->id;
+            $current = $parent;
+        }
+
+        return $chain;
     }
 
     /** Taille de case proposée à la création : vingt cases dans la largeur. */

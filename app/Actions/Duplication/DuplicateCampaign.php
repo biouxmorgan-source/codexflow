@@ -110,7 +110,7 @@ class DuplicateCampaign
 
         $this->copyTimeline($source, $campaign, $owner, $scenes);
 
-        $this->copyMaps($source, $campaign, $entities, $documents);
+        $this->copyMaps($source, $campaign, $entities, $documents, $scenes);
 
         foreach ($source->pins()->get() as $pin) {
             if (isset($entities[$pin->id])) {
@@ -307,14 +307,19 @@ class DuplicateCampaign
 
     /**
      * Cartes et jetons préparés, sans la vue ni la règle du moment. Les jetons des personnages
-     * joueurs restent à la table d'origine.
+     * joueurs restent à la table d'origine. Les points d'intérêt suivent, reliés aux copies des
+     * sous-cartes, scènes et fiches.
      *
      * @param  array<int, int>  $entities
      * @param  array<int, int>  $documents
+     * @param  array<int, int>  $scenes
      */
-    private function copyMaps(Campaign $source, Campaign $campaign, array $entities, array $documents): void
+    private function copyMaps(Campaign $source, Campaign $campaign, array $entities, array $documents, array $scenes): void
     {
-        foreach ($source->maps()->with('tokens')->get() as $map) {
+        $maps = [];
+        $sourceMaps = $source->maps()->with(['tokens', 'points'])->get();
+
+        foreach ($sourceMaps as $map) {
             if (! isset($documents[$map->document_id])) {
                 continue;
             }
@@ -324,6 +329,7 @@ class DuplicateCampaign
             $copy->campaign_id = $campaign->id;
             $copy->document_id = $documents[$map->document_id];
             $copy->save();
+            $maps[$map->id] = $copy->id;
 
             foreach ($map->tokens as $token) {
                 if ($token->entity_id !== null && ! isset($entities[$token->entity_id])) {
@@ -335,6 +341,18 @@ class DuplicateCampaign
                 $tokenCopy->table_map_id = $copy->id;
                 $tokenCopy->entity_id = $token->entity_id === null ? null : $entities[$token->entity_id];
                 $tokenCopy->save();
+            }
+        }
+
+        foreach ($sourceMaps as $map) {
+            foreach (isset($maps[$map->id]) ? $map->points : [] as $point) {
+                $pointCopy = $point->replicate();
+                $pointCopy->setRelations([]);
+                $pointCopy->table_map_id = $maps[$map->id];
+                $pointCopy->target_map_id = $maps[$point->target_map_id] ?? null;
+                $pointCopy->scene_id = $scenes[$point->scene_id] ?? null;
+                $pointCopy->entity_id = $entities[$point->entity_id] ?? null;
+                $pointCopy->save();
             }
         }
     }

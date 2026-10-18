@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Die große Kampagnenkarte',
+        'items' => [
+            'Neue „Kampagnenkarte“: Wähle eine Karte als Übersicht und setze darauf Orte von Interesse, eine Stadt, ein Verlies, den Ort einer Szene.',
+            'Ein Punkt kann mit einem Klick eine Unterkarte öffnen, die selbst Punkte hat; über die Brotkrumen geht es zurück bis zur Übersicht.',
+            'Mit einer Szene verknüpft zeigen die Punkte, was gespielt, laufend oder noch geplant ist; mit einem Bogen verknüpft öffnen sie ihn. Alles bleibt beim SL, außer den Namen der Punkte „Am Tisch sichtbar“, die der Tischbildschirm zeigt.',
+        ],
+    ],
+
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Ihre anderswo gespielten Charaktere',

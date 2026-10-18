@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'La grande mappa della campagna',
+        'items' => [
+            'Nuova «Mappa della campagna»: scegli una mappa come vista d’insieme e posiziona punti di interesse, una città, un dungeon, il luogo di una scena.',
+            'Un punto può aprire una sottomappa con un clic, che ha a sua volta i suoi punti; il percorso di navigazione permette di risalire alla vista d’insieme.',
+            'Collegati a una scena, i punti mostrano ciò che è giocato, in corso o ancora da giocare; collegati a una scheda, la aprono. Tutto resta al master, tranne il nome dei punti «Visibili al tavolo», mostrato sullo schermo del tavolo.',
+        ],
+    ],
+
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'I tuoi personaggi giocati altrove',

@@ -620,6 +620,29 @@ class LoadDemoCampaign
             $token->save();
         }
 
+        // Carte de campagne : le plan du port, avec les lieux des scènes, déjà jouées ou à venir.
+        $map->is_campaign_map = true;
+        $points = [
+            // fiche du lieu, scène, x, y, couleur, visible à la table
+            ['quay', 'lantern', 0.3, 0.62, '#1d4ed8', true],
+            ['hall', 'register', 0.63, 0.2, '#7e22ce', true],
+            ['marshes', 'poles', 0.14, 0.24, '#15803d', false],
+            ['lighthouse', 'cellar', 0.9, 0.62, '#b91c1c', false],
+        ];
+
+        foreach ($points as [$place, $scene, $x, $y, $color, $shown]) {
+            $point = $map->points()->make([
+                'label' => $this->entities[$place]->name,
+                'color' => $color,
+                'x' => round($x * $width, 2),
+                'y' => round($y * $height, 2),
+                'shown_at_table' => $shown,
+            ]);
+            $point->entity()->associate($this->entities[$place]);
+            $point->scene()->associate($this->scenes[$scene]);
+            $point->save();
+        }
+
         $map->ruler = ['x1' => round(0.24 * $width, 2), 'y1' => round(0.71 * $height, 2), 'x2' => round(0.64 * $width, 2), 'y2' => round(0.69 * $height, 2)];
         $map->setView($width / 2, $height / 2, 1.1);
         $map->save();

@@ -53,6 +53,7 @@
         <x-tool-link :href="route('audio.index', $campaign)" icon="music" :label="__('Sons')" />
         <x-tool-link :href="route('feedback.index', $campaign)" icon="star" :label="__('Avis des joueurs')" />
         <x-tool-link :href="route('maps.index', $campaign)" icon="map" :label="__('Cartes')" feature="maps" :campaign="$campaign" />
+        <x-tool-link :href="route('maps.atlas', $campaign)" icon="pin" :label="__('Carte de campagne')" feature="maps" :campaign="$campaign" />
         <x-tool-link :href="route('graph.index', $campaign)" icon="graph" :label="__('Graphe')" feature="graph" :campaign="$campaign" />
         <x-tool-link :href="route('timeline.index', $campaign)" icon="timeline" :label="__('Chronologie')" feature="timeline" :campaign="$campaign" />
         <x-tool-link :href="route('ai.index', $campaign)" icon="ai" :label="__('Assistant IA')" feature="ai" :campaign="$campaign" />

@@ -60,7 +60,7 @@
         <section class="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm">
             <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Carte : :name', ['name' => $map->name]) }}</h2>
             <div class="aspect-video overflow-hidden rounded-lg bg-black">
-                <x-table-map :map="$map" :tokens="$map->tokens" :templates="$map->templates" gm
+                <x-table-map :map="$map" :tokens="$map->tokens" :templates="$map->templates" :points="$map->points" gm
                     :image-url="route('documents.file', $map->document)"
                     :token-url="fn ($token) => route('entities.image', [$token->entity, 'v' => $token->entity->updated_at?->timestamp])" />
             </div>

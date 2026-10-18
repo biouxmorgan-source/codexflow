@@ -12,9 +12,12 @@
             </div>
             <p class="mt-1 max-w-2xl text-sm text-stone-600">{{ __("Une image envoyée sur l'écran de table, avec une grille et des jetons si besoin. Vos figurines restent sur la table : la carte est un support, pas une table virtuelle.") }}</p>
         </div>
-        @if (\App\Support\CampaignFeatures::usable($campaign, 'table'))
-            <a href="{{ route('table.remote', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Télécommande') }}</a>
-        @endif
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('maps.atlas', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Carte de campagne') }}</a>
+            @if (\App\Support\CampaignFeatures::usable($campaign, 'table'))
+                <a href="{{ route('table.remote', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Télécommande') }}</a>
+            @endif
+        </div>
     </div>
 
     <form wire:submit="create" class="mb-6 rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
@@ -57,9 +60,13 @@
                     </a>
                     <div class="space-y-2 p-4">
                         <a href="{{ route('maps.show', [$campaign, $map]) }}" wire:navigate class="font-medium hover:text-codex">{{ $map->name }}</a>
+                        @if ($map->is_campaign_map)
+                            <span class="ml-1 rounded-full bg-codex/10 px-2 py-0.5 text-xs font-medium text-codex">{{ __('Carte de campagne') }}</span>
+                        @endif
                         <p class="text-xs text-stone-500">
                             {{ $map->grid_enabled ? __('Grille') : __('Sans grille') }}
                             · {{ trans_choice(':count jeton|:count jetons', $map->tokens_count) }}
+                            · <a href="{{ route('maps.atlas', [$campaign, $map]) }}" class="link" wire:navigate>{{ trans_choice(':count point d’intérêt|:count points d’intérêt', $map->points_count) }}</a>
                         </p>
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <livewire:table.show-button :campaign="$campaign" kind="map" :item-id="$map->id" compact :key="'show-map-'.$map->id" />

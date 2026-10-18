@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'De grote campagnekaart',
+        'items' => [
+            'Nieuwe „Campagnekaart”: kies een kaart als overzicht en zet er interessante punten op, een stad, een kerker, de plek van een scène.',
+            'Een punt kan met één klik een subkaart openen, die zelf ook punten heeft; via het kruimelpad ga je terug naar het overzicht.',
+            'Gekoppeld aan een scène tonen de punten wat gespeeld, bezig of nog te komen is; gekoppeld aan een fiche openen ze die. Alles blijft bij de SL, behalve de namen van punten „Zichtbaar aan tafel”, die het tafelscherm toont.',
+        ],
+    ],
+
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Je personages van elders',

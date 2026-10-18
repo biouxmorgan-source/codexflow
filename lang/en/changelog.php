@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'The big campaign map',
+        'items' => [
+            'New “Campaign map”: choose one map as the overview and place points of interest on it, a city, a dungeon, the place of a scene.',
+            'A point can open a sub-map in one click, which has its own points; the breadcrumb takes you back up to the overview.',
+            'Linked to a scene, points show what has been played, is in progress or is still to come; linked to a sheet, they open it. Everything stays with the GM, except the names of points marked “Visible at the table”, shown on the table screen.',
+        ],
+    ],
+
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Your characters played elsewhere',
