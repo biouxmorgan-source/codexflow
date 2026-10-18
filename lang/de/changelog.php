@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Die Anleitung überall',
+        'items' => [
+            'Die Schaltfläche „?“ gibt es jetzt auch bei Klängen, Beziehungsgraph, Zeitleiste, Spielerfeedback, KI-Assistent, Protokoll und Charakterbogen.',
+            'Bei Graph, Zeitleiste und Charakterbogen lesen Spieler eine Anleitung, die für sie geschrieben ist.',
+        ],
+    ],
+
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Mehrere Punkte auf einmal abziehen oder hinzufügen',

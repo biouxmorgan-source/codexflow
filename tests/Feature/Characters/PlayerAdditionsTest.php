@@ -107,7 +107,7 @@ class PlayerAdditionsTest extends TestCase
         $this->assertModelMissing($lamp);
 
         $this->harvey->update(['locked' => true]);
-        $this->sheet($this->alex)->assertDontSee('+ Ajouter un objet')->call('openAdd', 'information')->assertForbidden();
+        $this->sheet($this->alex)->assertDontSeeHtml('wire:click="openAdd(')->call('openAdd', 'information')->assertForbidden();
     }
 
     public function test_a_pending_object_cannot_be_given_away(): void

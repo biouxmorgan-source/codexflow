@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instrukcja wszędzie',
+        'items' => [
+            'Przycisk „?” pojawia się też przy dźwiękach, grafie relacji, osi czasu, opiniach graczy, asystencie AI, dzienniku i karcie postaci.',
+            'Na grafie, osi czasu i karcie postaci gracze czytają instrukcję napisaną dla nich.',
+        ],
+    ],
+
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Odejmij lub dodaj kilka punktów naraz',

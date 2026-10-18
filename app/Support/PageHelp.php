@@ -8,17 +8,17 @@ use InvalidArgumentException;
 /**
  * Mode d'emploi court des écrans qui ne s'expliquent pas tout seuls : le bouton « ? »
  * à côté du titre (composant x-page-help). Quelques lignes, puis un lien vers la question
- * correspondante de la page « Aide ». Les lignes « gm » ne s'affichent qu'au MJ.
+ * correspondante de la page « Aide ». Les lignes « gm » ne s'affichent qu'au MJ, les lignes « player » qu'aux autres.
  */
 class PageHelp
 {
     /** @return list<string> */
     public static function topics(): array
     {
-        return ['entity-types', 'fields', 'tags', 'dice', 'maps', 'table', 'reveals', 'entity', 'session', 'scenarios', 'imports', 'members'];
+        return ['entity-types', 'fields', 'tags', 'dice', 'maps', 'table', 'reveals', 'entity', 'session', 'scenarios', 'imports', 'members', 'audio', 'graph', 'timeline', 'feedback', 'ai', 'journal', 'character'];
     }
 
-    /** @return array{title: string, lines: list<string>, gm: list<string>, faq: string} */
+    /** @return array{title: string, lines: list<string>, gm: list<string>, player?: list<string>, faq: string} */
     public static function topic(string $topic): array
     {
         return match ($topic) {
@@ -158,6 +158,94 @@ class PageHelp
                 ],
                 'gm' => [],
                 'faq' => __('Comment inviter mes joueurs ?'),
+            ],
+            'audio' => [
+                'title' => __('Sons'),
+                'lines' => [
+                    __('Téléversez vos musiques et ambiances (mp3, ogg, m4a, wav ou flac, 50 Mo max.) et rangez-les avec des tags.'),
+                    __('Liez un son à une scène : en mode Session, le bloc « Musique » propose d’abord ceux de la scène en cours.'),
+                    __('« Ici » joue le son sur votre appareil ; « Table » le joue sur l’écran de table, branché sur les enceintes. « En boucle » pour une ambiance, « Une fois » pour un effet.'),
+                    __('Au premier morceau, l’écran de table peut demander « Activer le son » : c’est le navigateur qui l’exige.'),
+                ],
+                'gm' => [],
+                'faq' => __('Comment lancer une musique pendant la partie ?'),
+            ],
+            'graph' => [
+                'title' => __('Graphe des relations'),
+                'lines' => [
+                    __('Le graphe dessine les fiches et leurs relations (« travaille pour », « rival de »…), ajoutées depuis les fiches.'),
+                    __('Cliquez sur une fiche pour la mettre au centre. « Profondeur » montre 1 à 3 relations autour d’elle, « Type de fiche » filtre. Survolez une fiche pour lire ses relations, glissez-la pour la déplacer.'),
+                ],
+                'gm' => [
+                    __('« Voir comme… » montre le réseau tel qu’un personnage le connaît : seulement les fiches qu’il connaît et les relations visibles entre elles.'),
+                ],
+                'player' => [
+                    __('Vous ne voyez que les fiches que votre personnage connaît, et les relations visibles entre elles.'),
+                ],
+                'faq' => __('Comment voir qui est lié à qui ?'),
+            ],
+            'timeline' => [
+                'title' => __('Chronologie'),
+                'lines' => [
+                    __('La chronologie range l’histoire du monde, ce qui doit arriver et ce qui s’est passé à la table, avec des dates libres (« 12 mars 1924 », « Jour 3 »).'),
+                ],
+                'gm' => [
+                    __('Un événement noté pendant une séance (« Noter un événement joué ») est rattaché à la séance et à la scène en cours.'),
+                    __('Cochez « Visible des joueurs » pour qu’ils le lisent ; sinon il reste en zone MJ. Dans une description, [[Nom]] crée un lien vers une fiche.'),
+                ],
+                'player' => [
+                    __('Vous y lisez ce que le MJ a rendu visible des joueurs : ce que votre groupe sait de l’histoire du monde et de vos aventures.'),
+                ],
+                'faq' => __('À quoi sert la chronologie ?'),
+            ],
+            'feedback' => [
+                'title' => __('Avis des joueurs'),
+                'lines' => [
+                    __('« Demander un avis » porte sur toute la campagne ou sur une séance ; chaque joueur reçoit une notification.'),
+                    __('Chacun donne une note de 1 à 5 étoiles, ce qui lui a plu et ce qui pourrait être mieux.'),
+                    __('« Réponses anonymes » masque les noms, et les joueurs le savent avant de répondre.'),
+                    __('« Clore » arrête les réponses, « Rouvrir » les relance.'),
+                ],
+                'gm' => [],
+                'faq' => __('Comment savoir ce que mes joueurs ont pensé de la partie ?'),
+            ],
+            'ai' => [
+                'title' => __('Assistant IA'),
+                'lines' => [
+                    __('Choisissez une séance : SagaWyn prépare un texte avec vos notes et le contexte de la campagne.'),
+                    __('Copiez-le dans l’IA de votre choix, puis collez sa réponse ici : elle devient des propositions (résumé, événements, relations, statuts, notes, révélations).'),
+                    __('Chaque proposition s’accepte, se modifie ou se rejette : rien ne change dans la campagne sans vous.'),
+                    __('Avec votre propre clé d’API, dans « Préférences », « Analyser directement » évite le copier-coller. Les appels sont facturés par le fournisseur, sur votre compte.'),
+                ],
+                'gm' => [],
+                'faq' => __('Comment une IA peut-elle m’aider après une séance ?'),
+            ],
+            'journal' => [
+                'title' => __('Journal des modifications'),
+                'lines' => [
+                    __('Tout ce qui a été créé, modifié ou supprimé dans la campagne, son monde et son jeu s’inscrit ici, avec qui l’a fait et quand.'),
+                    __('Filtrez par type d’élément ou cherchez par nom ; « Détails » montre ce qui a changé.'),
+                    __('Il n’est visible que des MJ, car il contient la zone MJ. Ce qui concerne un personnage (révélations, dons, échanges) se retrouve aussi dans le « Journal » de sa page.'),
+                ],
+                'gm' => [],
+                'faq' => __('Où relire ce qui s’est passé ?'),
+            ],
+            'character' => [
+                'title' => __('Fiche de personnage'),
+                'lines' => [
+                    __('Compteurs (PV, munitions, argent…) : − et + retirent ou ajoutent le montant choisi. Seuls les champs que le MJ a rendus modifiables bougent.'),
+                    __('Connaissances, possessions, règles et documents : ce que le personnage a appris ou reçu. Ils appartiennent au personnage, pas au joueur.'),
+                ],
+                'gm' => [
+                    __('« Voir comme » montre la fiche exactement comme son joueur la voit, sans la zone MJ.'),
+                    __('Ce que le joueur ajoute (une connaissance, un objet, un échange) attend votre validation ici. Ses intentions « À jouer » arrivent dans le mode Session.'),
+                ],
+                'player' => [
+                    __('« + Noter » ou « + Ajouter un objet » : le MJ en est informé et le valide. « Donner » ou « Transmettre » propose un objet ou une connaissance à un autre personnage ; le MJ valide l’échange.'),
+                    __('Vos notes se partagent avec vous seul, vous et le MJ, certains joueurs ou toute la table. « À jouer » dit au MJ ce que vous voulez tenter.'),
+                    __('« Fil de la campagne » montre ce que toute la table sait ; « Journal » retrace ce qui a changé sur votre fiche.'),
+                ],
+                'faq' => __('Où trouver la fiche de mon personnage ?'),
             ],
             default => throw new InvalidArgumentException("Aide inconnue : {$topic}"),
         };

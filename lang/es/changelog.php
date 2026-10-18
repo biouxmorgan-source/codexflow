@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'El modo de empleo en todas partes',
+        'items' => [
+            'El botón «?» llega a los sonidos, el grafo de relaciones, la cronología, las opiniones de los jugadores, el asistente IA, el registro y la hoja de personaje.',
+            'En el grafo, la cronología y la hoja de personaje, los jugadores leen un modo de empleo escrito para ellos.',
+        ],
+    ],
+
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Restar o sumar varios puntos de una vez',

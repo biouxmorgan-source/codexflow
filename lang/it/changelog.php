@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Le istruzioni ovunque',
+        'items' => [
+            'Il pulsante «?» arriva su suoni, grafo delle relazioni, cronologia, opinioni dei giocatori, assistente IA, registro e scheda del personaggio.',
+            'Su grafo, cronologia e scheda del personaggio, i giocatori leggono istruzioni scritte per loro.',
+        ],
+    ],
+
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Togliere o aggiungere più punti in una volta',

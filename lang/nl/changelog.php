@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'De handleiding overal',
+        'items' => [
+            'De knop „?” staat nu ook bij geluiden, de relatiegrafiek, de tijdlijn, spelersfeedback, de AI-assistent, het logboek en het personageblad.',
+            'Bij de grafiek, de tijdlijn en het personageblad lezen spelers een handleiding die voor hen geschreven is.',
+        ],
+    ],
+
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Meerdere punten tegelijk aftrekken of optellen',

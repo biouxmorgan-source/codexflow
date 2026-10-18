@@ -40,7 +40,10 @@
         @endif
         {{-- min-w-48 : sur téléphone, les boutons passent à la ligne au lieu d'écraser le nom. --}}
         <div class="min-w-48 flex-1">
-            <h1 class="text-2xl font-semibold break-words">{{ $entity->name }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="min-w-0 text-2xl font-semibold break-words">{{ $entity->name }}</h1>
+                <x-page-help topic="character" :gm="$this->isGameMaster" />
+            </div>
             @if ($entity->summary)
                 <p class="mt-1 text-stone-700">{{ $entity->summary }}</p>
             @endif

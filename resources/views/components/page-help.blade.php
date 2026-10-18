@@ -3,6 +3,7 @@
     Bouton « ? » à côté du titre d'un écran : son mode d'emploi en quelques lignes (App\Support\PageHelp),
     puis un lien vers la question de la page « Aide ». Sur grand écran l'encadré s'ouvre sous le bouton ;
     sur téléphone il s'étale en haut de l'écran pour ne jamais déborder. Échap ou un clic ailleurs le ferme.
+    $gm : ajoute les lignes « gm » du sujet, sinon ses lignes « player » s'il en a.
     $beside : à droite du plateau de dés (fixé en bas à gauche, 27rem de large), qui couperait un encadré ouvert dessous.
 --}}
 @php($help = \App\Support\PageHelp::topic($topic))
@@ -23,11 +24,9 @@
             @foreach ($help['lines'] as $line)
                 <li>{{ $line }}</li>
             @endforeach
-            @if ($gm)
-                @foreach ($help['gm'] as $line)
-                    <li>{{ $line }}</li>
-                @endforeach
-            @endif
+            @foreach ($gm ? $help['gm'] : $help['player'] ?? [] as $line)
+                <li>{{ $line }}</li>
+            @endforeach
         </ul>
         <a href="{{ route('help') }}#{{ \App\Support\PageHelp::anchor($help['faq']) }}" class="link mt-3 inline-block text-xs">{{ __('En savoir plus dans l’aide') }}</a>
     </div>

@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'O modo de usar em todo o lado',
+        'items' => [
+            'O botão «?» chega aos sons, ao grafo de relações, à cronologia, às opiniões dos jogadores, ao assistente IA, ao registo e à ficha de personagem.',
+            'No grafo, na cronologia e na ficha de personagem, os jogadores leem um modo de usar escrito para eles.',
+        ],
+    ],
+
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Subtrair ou somar vários pontos de uma vez',

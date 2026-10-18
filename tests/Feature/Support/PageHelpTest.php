@@ -6,6 +6,7 @@ use App\Enums\CampaignRole;
 use App\Livewire\Dice\Tray;
 use App\Models\Campaign;
 use App\Models\Entity;
+use App\Models\EntityType;
 use App\Models\User;
 use App\Support\PageHelp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -77,6 +78,41 @@ class PageHelpTest extends TestCase
 
         $this->actingAs($this->gm)->get(route('scenes.show', [$this->campaign, $scene]))->assertOk()
             ->assertSee('Mode d’emploi : Scénarios et scènes');
+    }
+
+    public function test_reference_and_follow_up_screens_carry_their_how_to(): void
+    {
+        $pages = [
+            'Sons' => route('audio.index', $this->campaign),
+            'Graphe des relations' => route('graph.index', $this->campaign),
+            'Chronologie' => route('timeline.index', $this->campaign),
+            'Avis des joueurs' => route('feedback.index', $this->campaign),
+            'Assistant IA' => route('ai.index', $this->campaign),
+            'Journal des modifications' => route('journal.index', $this->campaign),
+        ];
+
+        foreach ($pages as $title => $url) {
+            $this->actingAs($this->gm)->get($url)->assertOk()->assertSee('Mode d’emploi : '.$title);
+        }
+    }
+
+    public function test_players_read_a_how_to_written_for_them(): void
+    {
+        $entity = Entity::factory()->for($this->gm, 'owner')->for($this->campaign)->create(['name' => 'Harvey', 'entity_type_id' => EntityType::standard('character')->id]);
+        $character = $this->campaign->playerCharacters()->create(['entity_id' => $entity->id, 'user_id' => $this->player->id]);
+        $sheet = route('characters.show', [$this->campaign, $character]);
+        $gmLine = 'montre la fiche exactement comme son joueur la voit';
+        $playerLine = 'retrace ce qui a changé sur votre fiche';
+
+        $this->actingAs($this->gm)->get($sheet)->assertOk()
+            ->assertSee('Mode d’emploi : Fiche de personnage')->assertSee($gmLine)->assertDontSee($playerLine);
+        $this->actingAs($this->player)->get($sheet)->assertOk()
+            ->assertSee('Mode d’emploi : Fiche de personnage')->assertSee($playerLine)->assertDontSee($gmLine);
+
+        $this->actingAs($this->player)->get(route('timeline.index', $this->campaign))->assertOk()
+            ->assertSee('Mode d’emploi : Chronologie')->assertDontSee('Noter un événement joué');
+        $this->actingAs($this->player)->get(route('graph.index', $this->campaign))->assertOk()
+            ->assertSee('Vous ne voyez que les fiches que votre personnage connaît');
     }
 
     public function test_each_how_to_points_to_an_existing_help_question(): void

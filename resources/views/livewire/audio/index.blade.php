@@ -4,7 +4,10 @@
         › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
-    <h1 class="text-2xl font-semibold">{{ __('Sons') }}</h1>
+    <div class="flex items-center gap-2">
+        <h1 class="text-2xl font-semibold">{{ __('Sons') }}</h1>
+        <x-page-help topic="audio" />
+    </div>
     <p class="mb-6 text-sm text-stone-600">{{ __('Musiques et ambiances de la campagne. Liez-les à une scène, puis lancez-les en mode Session, sur votre appareil ou sur l’écran de table.') }}</p>
 
     @php($onTable = \App\Support\CampaignFeatures::enabled($campaign, 'table') && auth()->user()->can('use-feature', ['table', $campaign]))

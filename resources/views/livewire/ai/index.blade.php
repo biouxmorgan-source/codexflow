@@ -5,7 +5,10 @@
     </nav>
 
     <div class="mb-6">
-        <h1 class="text-2xl font-semibold">{{ __('Assistant IA') }}</h1>
+        <div class="flex items-center gap-2">
+            <h1 class="text-2xl font-semibold">{{ __('Assistant IA') }}</h1>
+            <x-page-help topic="ai" />
+        </div>
         <p class="mt-1 max-w-3xl text-sm text-stone-600">{{ __('L’IA propose, vous décidez. SagaWyn prépare un texte avec le contexte de la séance ; collez-le dans l’IA de votre choix (ChatGPT, Claude, Le Chat, Gemini…), puis collez sa réponse ici. Chaque proposition s’accepte, se modifie ou se rejette : rien ne change dans la campagne sans vous.') }}</p>
     </div>
 

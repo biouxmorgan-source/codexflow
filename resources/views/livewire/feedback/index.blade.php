@@ -4,7 +4,10 @@
         › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
     </nav>
 
-    <h1 class="text-2xl font-semibold">{{ __('Avis des joueurs') }}</h1>
+    <div class="flex items-center gap-2">
+        <h1 class="text-2xl font-semibold">{{ __('Avis des joueurs') }}</h1>
+        <x-page-help topic="feedback" />
+    </div>
     <p class="mb-6 text-sm text-stone-600">{{ __('En fin de séance ou de campagne, demandez à vos joueurs une note en étoiles et ce qu’ils ont aimé : de quoi savoir ce qui les intéresse.') }}</p>
 
     @if (session('status'))
