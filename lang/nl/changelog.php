@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Je fiche, ook zonder netwerk',
+        'items' => [
+            'Offline blijft de fiche van je personage bruikbaar: stel je tellers bij met − en +, wijzig de velden die de SL je laat aanpassen en schrijf notities.',
+            'Alles wordt op het apparaat bewaard en veld voor veld verstuurd zodra de verbinding terug is: een teller krijgt wat je hebt afgetrokken of toegevoegd, en wat de SL intussen heeft veranderd (een onthuld geheim, een gewijzigd veld) blijft behouden.',
+            'Na het versturen vertelt een overzicht wat is bijgewerkt en wijst het op velden die de SL tegelijk met jou heeft gewijzigd.',
+        ],
+    ],
+
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'De grote campagnekaart',

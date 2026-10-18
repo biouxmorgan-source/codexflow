@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Tu ficha, incluso sin conexión',
+        'items' => [
+            'Sin conexión, la ficha de tu personaje sigue siendo utilizable: ajusta tus contadores con − y +, modifica los campos que el DJ te permite y escribe notas.',
+            'Todo se guarda en el dispositivo y se envía al volver la conexión, campo por campo: un contador recibe lo que quitaste o añadiste, y lo que el DJ cambió mientras tanto (un secreto revelado, un campo modificado) se conserva.',
+            'Tras el envío, un resumen indica lo que se actualizó y señala cualquier campo que el DJ modificó al mismo tiempo que tú.',
+        ],
+    ],
+
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'El gran mapa de campaña',

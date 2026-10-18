@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Sua ficha, mesmo sem rede',
+        'items' => [
+            'Offline, a ficha do seu personagem continua utilizável: ajuste seus contadores com − e +, edite os campos que o mestre permite e escreva notas.',
+            'Tudo fica guardado no dispositivo e é enviado quando a conexão volta, campo por campo: um contador recebe o que você tirou ou acrescentou, e o que o mestre mudou nesse meio-tempo (um segredo revelado, um campo editado) é mantido.',
+            'Depois do envio, um resumo diz o que foi atualizado e aponta qualquer campo que o mestre mudou ao mesmo tempo que você.',
+        ],
+    ],
+
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'O grande mapa da campanha',

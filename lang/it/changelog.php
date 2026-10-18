@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'La tua scheda, anche senza rete',
+        'items' => [
+            'Offline, la scheda del tuo personaggio resta utilizzabile: regola i contatori con − e +, modifica i campi che il master ti lascia cambiare e scrivi note.',
+            'Tutto viene conservato sul dispositivo e inviato al ritorno della connessione, campo per campo: un contatore riceve ciò che hai tolto o aggiunto, e ciò che il master ha cambiato nel frattempo (un segreto rivelato, un campo modificato) viene mantenuto.',
+            'Dopo l’invio, un riepilogo indica cosa è stato aggiornato e segnala i campi che il master ha modificato insieme a te.',
+        ],
+    ],
+
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'La grande mappa della campagna',

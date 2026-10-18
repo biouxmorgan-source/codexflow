@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Votre fiche, même sans réseau',
+        'items' => [
+            'Hors ligne, la fiche de votre personnage reste utilisable : réglez vos compteurs avec − et +, modifiez les champs que le MJ vous laisse et écrivez des notes.',
+            'Tout est gardé sur l’appareil puis envoyé au retour de la connexion, champ par champ : un compteur reçoit ce que vous avez retiré ou ajouté, et ce que le MJ a changé entre-temps (un secret révélé, un champ modifié) est gardé.',
+            'Après l’envoi, un résumé dit ce qui a été mis à jour, et signale un champ que le MJ a modifié en même temps que vous.',
+        ],
+    ],
+
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'La grande carte de campagne',

@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Ihr Bogen, auch ohne Netz',
+        'items' => [
+            'Offline bleibt der Bogen Ihres Charakters nutzbar: Passen Sie Ihre Zähler mit − und + an, ändern Sie die Felder, die der SL Ihnen freigibt, und schreiben Sie Notizen.',
+            'Alles wird auf dem Gerät gespeichert und bei wiederhergestellter Verbindung Feld für Feld gesendet: Ein Zähler erhält, was Sie abgezogen oder hinzugefügt haben, und was der SL inzwischen geändert hat (ein enthülltes Geheimnis, ein geändertes Feld), bleibt erhalten.',
+            'Nach dem Senden zeigt eine Zusammenfassung, was aktualisiert wurde, und weist auf Felder hin, die der SL gleichzeitig mit Ihnen geändert hat.',
+        ],
+    ],
+
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'Die große Kampagnenkarte',
