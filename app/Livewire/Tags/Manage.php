@@ -151,6 +151,10 @@ class Manage extends Component
             ->concat($tag->audioTracks()->orderBy('title')->limit(100)->get()->map(function ($track) use ($pick, $tag) {
                 $campaign = $pick($track->campaign_id);
 
+                if ($track->campaign_id === null) {
+                    return ['type' => __('Son'), 'label' => $track->title, 'url' => route('library.sounds', ['tag' => $tag->name]), 'place' => __('Ma bibliothèque')];
+                }
+
                 return ['type' => __('Son'), 'label' => $track->title, 'url' => $campaign ? route('audio.index', [$campaign, 'tag' => $tag->name]) : null, 'place' => $campaign?->name];
             }));
     }

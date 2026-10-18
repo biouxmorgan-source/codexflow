@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'A sound library for all your campaigns',
+        'items' => [
+            'New “My sounds” page: your music and ambiences, stored once in your account, then added to the campaigns you run. The file is not copied and only counts once against your storage.',
+            'On a campaign’s Sounds page: “From my library” to add your sounds, “Move to my library” to reuse a sound elsewhere, and a box to store a new upload straight in the library.',
+            'Moving a sound already uploaded in another campaign into the library merges both copies: scenes keep their music and the space is freed.',
+        ],
+    ],
+
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'The how-to everywhere',

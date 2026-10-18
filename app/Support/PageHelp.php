@@ -163,6 +163,7 @@ class PageHelp
                 'title' => __('Sons'),
                 'lines' => [
                     __('Téléversez vos musiques et ambiances (mp3, ogg, m4a, wav ou flac, 50 Mo max.) et rangez-les avec des tags.'),
+                    __('Un son qui sert dans plusieurs campagnes va dans « Mes sons », votre bibliothèque : ajoutez-le ici avec « Depuis ma bibliothèque », sans le téléverser à nouveau.'),
                     __('Liez un son à une scène : en mode Session, le bloc « Musique » propose d’abord ceux de la scène en cours.'),
                     __('« Ici » joue le son sur votre appareil ; « Table » le joue sur l’écran de table, branché sur les enceintes. « En boucle » pour une ambiance, « Une fois » pour un effet.'),
                     __('Au premier morceau, l’écran de table peut demander « Activer le son » : c’est le navigateur qui l’exige.'),

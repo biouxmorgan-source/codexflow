@@ -30,7 +30,7 @@ class RouteAccessTest extends TestCase
         'home', 'help', 'manifest', 'robots', 'sitemap', 'privacy', 'bugs.create', 'up',
         'invitations.show', 'gifts.show', 'table.guest', 'table.guest.file', 'table.guest.image', 'table.guest.token',
         'billing.success', 'campaigns.index', 'preferences', 'rewards', 'changelog', 'recommended', 'account.data',
-        'notifications.index', 'notifications.open', 'entity-types.index', 'tags.index', 'search.all', 'bugs.index',
+        'notifications.index', 'notifications.open', 'entity-types.index', 'tags.index', 'library.sounds', 'search.all', 'bugs.index',
         'imports.ai.archive', 'imports.ai.archive.prompt', 'imports.ai.archive.skill', 'account.email.confirm',
     ];
 

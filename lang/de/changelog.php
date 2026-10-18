@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Eine Klangbibliothek für alle Kampagnen',
+        'items' => [
+            'Neue Seite „Meine Sounds“: Musik und Ambiente, einmal im Konto gespeichert und dann zu den Kampagnen hinzugefügt, die du leitest. Die Datei wird nicht kopiert und zählt nur einmal für deinen Speicher.',
+            'Auf der Seite Sounds einer Kampagne: „Aus meiner Bibliothek“ fügt deine Sounds hinzu, „In meine Bibliothek verschieben“ macht einen Sound anderswo nutzbar, und ein Kästchen legt einen neuen Upload direkt in der Bibliothek ab.',
+            'Wird ein Sound, der schon in einer anderen Kampagne hochgeladen wurde, in die Bibliothek verschoben, werden beide Kopien zusammengeführt: Szenen behalten ihre Musik und der Speicher wird frei.',
+        ],
+    ],
+
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'Die Anleitung überall',

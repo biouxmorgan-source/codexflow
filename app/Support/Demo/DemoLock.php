@@ -95,6 +95,16 @@ class DemoLock
         }
     }
 
+    /** Refuse un lien écrit hors modèle (table pivot) vers la démonstration verrouillée du compte. */
+    public static function guardCampaign(Campaign $campaign): void
+    {
+        $user = auth()->user();
+
+        if (! self::$bypassed && $user instanceof User && Plans::effective($user) === Plans::DEMO && self::touchesLockedScope($campaign, $user)) {
+            throw new DemoLockedException;
+        }
+    }
+
     private static function guard(Model $model, bool $deleting): void
     {
         $user = auth()->user();

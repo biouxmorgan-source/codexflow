@@ -42,6 +42,7 @@ use App\Livewire\Graph\Index as GraphIndex;
 use App\Livewire\Imports\Create as ImportCreate;
 use App\Livewire\Journal\Index as JournalIndex;
 use App\Livewire\Library\GameShow;
+use App\Livewire\Library\Sounds as LibrarySounds;
 use App\Livewire\Library\WorldShow;
 use App\Livewire\Maps\Index as MapIndex;
 use App\Livewire\Maps\Show as MapShow;
@@ -123,6 +124,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications/{notification}', [NotificationController::class, 'open'])->name('notifications.open')->whereUuid('notification');
     Route::livewire('/types-de-fiche', EntityTypesManage::class)->name('entity-types.index');
     Route::livewire('/tags', TagsManage::class)->name('tags.index');
+    Route::livewire('/ma-bibliotheque/sons', LibrarySounds::class)->name('library.sounds');
     Route::livewire('/jeux/{gameSystem}', GameShow::class)->name('games.show')->whereNumber('gameSystem');
     Route::livewire('/mondes/{world}', WorldShow::class)->name('worlds.show')->whereNumber('world');
     Route::livewire('/campagnes/{campaign}', CampaignShow::class)->name('campaigns.show')->whereNumber('campaign');

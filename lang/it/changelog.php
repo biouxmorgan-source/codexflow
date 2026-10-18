@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Una libreria di suoni per tutte le tue campagne',
+        'items' => [
+            'Nuova pagina «I miei suoni»: musiche e atmosfere salvate una sola volta nel tuo account, poi aggiunte alle campagne che conduci. Il file non viene copiato e conta una sola volta nel tuo spazio.',
+            'Nella pagina Suoni di una campagna: «Dalla mia libreria» per aggiungere i tuoi suoni, «Sposta nella mia libreria» per riutilizzare un suono altrove, e una casella per salvare un nuovo caricamento direttamente nella libreria.',
+            'Spostare nella libreria un suono già caricato in un’altra campagna unisce le due copie: le scene mantengono la loro musica e lo spazio viene liberato.',
+        ],
+    ],
+
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'Le istruzioni ovunque',

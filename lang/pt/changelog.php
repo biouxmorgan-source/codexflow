@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Uma biblioteca de sons para todas as suas campanhas',
+        'items' => [
+            'Nova página «Os meus sons»: as suas músicas e ambientes, guardados uma só vez na sua conta e depois adicionados às campanhas que conduz. O ficheiro não é copiado e só conta uma vez no seu espaço.',
+            'Na página Sons de uma campanha: «Da minha biblioteca» para adicionar os seus sons, «Guardar na minha biblioteca» para reutilizar um som noutro lado, e uma caixa para guardar um novo envio diretamente na biblioteca.',
+            'Guardar na biblioteca um som já enviado noutra campanha junta as duas cópias: as cenas mantêm a música e o espaço é libertado.',
+        ],
+    ],
+
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'O modo de usar em todo o lado',
