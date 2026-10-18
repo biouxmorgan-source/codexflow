@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Ihre anderswo gespielten Charaktere',
+        'items' => [
+            'Neue Seite „Meine Bögen“: Bewahren Sie die Charaktere auf, die Sie außerhalb von SagaWyn spielen, bei Freunden, im Verein oder anderswo. Nur Sie sehen sie.',
+            'Jeder Charakter hat seinen PDF-Bogen, ein Porträt, freie Felder (Texte und Zähler, die Sie während des Spiels mit − und + einstellen) und Ihre Notizen, dazu Spiel und Runde, um ihn wiederzufinden.',
+        ],
+    ],
+
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Eine Klangbibliothek für alle Kampagnen',

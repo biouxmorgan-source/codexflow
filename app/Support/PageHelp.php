@@ -15,7 +15,7 @@ class PageHelp
     /** @return list<string> */
     public static function topics(): array
     {
-        return ['entity-types', 'fields', 'tags', 'dice', 'maps', 'table', 'reveals', 'entity', 'session', 'scenarios', 'imports', 'members', 'audio', 'graph', 'timeline', 'feedback', 'ai', 'journal', 'character'];
+        return ['entity-types', 'fields', 'tags', 'dice', 'maps', 'table', 'reveals', 'entity', 'session', 'scenarios', 'imports', 'members', 'audio', 'graph', 'timeline', 'feedback', 'ai', 'journal', 'character', 'my-sheets'];
     }
 
     /** @return array{title: string, lines: list<string>, gm: list<string>, player?: list<string>, faq: string} */
@@ -247,6 +247,17 @@ class PageHelp
                     __('« Fil de la campagne » montre ce que toute la table sait ; « Journal » retrace ce qui a changé sur votre fiche.'),
                 ],
                 'faq' => __('Où trouver la fiche de mon personnage ?'),
+            ],
+            'my-sheets' => [
+                'title' => __('Mes feuilles de personnage'),
+                'lines' => [
+                    __('Rangez ici les personnages que vous jouez hors de SagaWyn : vous seul les voyez, ni les MJ ni les autres joueurs de vos campagnes.'),
+                    __('Ajoutez la feuille PDF de votre personnage et un portrait, puis, avec « Modifier », les champs que vous voulez garder sous la main.'),
+                    __('Un champ « Texte » garde une caractéristique, un métier ou de l’équipement. Un « Compteur » (PV, Santé mentale, munitions) se règle pendant la partie avec − et +, du montant choisi.'),
+                    __('Le jeu et la table servent à retrouver vos personnages : touchez le nom d’un jeu pour ne voir que les siens.'),
+                ],
+                'gm' => [],
+                'faq' => __('Puis-je garder les personnages que je joue ailleurs ?'),
             ],
             default => throw new InvalidArgumentException("Aide inconnue : {$topic}"),
         };

@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Vos personnages joués ailleurs',
+        'items' => [
+            'Nouvelle page « Mes feuilles » : rangez les personnages que vous jouez hors de SagaWyn, chez un ami, en club ou ailleurs. Vous seul les voyez.',
+            'Chaque personnage a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et vos notes, avec le nom du jeu et de la table pour les retrouver.',
+        ],
+    ],
+
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Une bibliothèque de sons pour toutes vos campagnes',

@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\GameSystem;
+use App\Models\PersonalCharacter;
 use App\Models\PlayerCharacter;
 use App\Models\World;
 use Illuminate\Support\Facades\Gate;
@@ -124,6 +125,30 @@ class FileController
         abort_unless($character->entity->hasImage(), 404);
 
         return Storage::disk(Entity::FILES_DISK)->response($character->entity->image_path, null, [
+            'X-Content-Type-Options' => 'nosniff',
+            'Cache-Control' => 'private, max-age=3600',
+        ]);
+    }
+
+    /** Feuille PDF d'un personnage personnel, pour son seul propriétaire. */
+    public function personalSheet(PersonalCharacter $personalCharacter): StreamedResponse
+    {
+        Gate::authorize('view', $personalCharacter);
+        abort_unless($personalCharacter->hasSheet(), 404);
+
+        return Storage::disk(PersonalCharacter::DISK)->response($personalCharacter->sheet_path, $personalCharacter->sheet_name, [
+            'Content-Type' => 'application/pdf',
+            'X-Content-Type-Options' => 'nosniff',
+            'Cache-Control' => 'private, max-age=600',
+        ], 'inline');
+    }
+
+    public function personalPortrait(PersonalCharacter $personalCharacter): StreamedResponse
+    {
+        Gate::authorize('view', $personalCharacter);
+        abort_unless($personalCharacter->hasPortrait(), 404);
+
+        return Storage::disk(PersonalCharacter::DISK)->response($personalCharacter->portrait_path, null, [
             'X-Content-Type-Options' => 'nosniff',
             'Cache-Control' => 'private, max-age=3600',
         ]);

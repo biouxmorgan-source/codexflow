@@ -44,6 +44,14 @@ class AccountDataController extends Controller
                 'name' => $character->entity?->name,
                 'campaign' => $character->campaign?->name,
             ])->all(),
+            'personal_characters' => $user->personalCharacters()->orderBy('name')->get()->map(fn ($character) => [
+                'name' => $character->name,
+                'game' => $character->game,
+                'table' => $character->table_name,
+                'fields' => $character->fieldRows(),
+                'notes' => $character->notes,
+                'sheet' => $character->sheet_name,
+            ])->all(),
             'notes' => CharacterNote::with('character.campaign')->where('user_id', $user->id)->orderBy('created_at')->get()->map(fn ($note) => [
                 'campaign' => $note->character?->campaign?->name,
                 'visibility' => $note->visibility,

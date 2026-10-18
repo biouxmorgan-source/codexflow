@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Je personages van elders',
+        'items' => [
+            'Nieuwe pagina ‘Mijn bladen’: bewaar de personages die je buiten SagaWyn speelt, bij een vriend, in een club of elders. Alleen jij ziet ze.',
+            'Elk personage heeft zijn pdf-blad, een portret, vrije velden (teksten en tellers die je tijdens het spel met − en + aanpast) en je notities, met de naam van het spel en de tafel om het terug te vinden.',
+        ],
+    ],
+
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Een geluidsbibliotheek voor al je campagnes',
