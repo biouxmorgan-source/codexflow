@@ -15,7 +15,7 @@ class PageHelp
     /** @return list<string> */
     public static function topics(): array
     {
-        return ['entity-types', 'fields', 'tags', 'dice', 'maps', 'table', 'reveals', 'entity', 'session', 'scenarios', 'imports', 'members', 'audio', 'graph', 'timeline', 'feedback', 'ai', 'journal', 'character', 'my-sheets'];
+        return ['entity-types', 'fields', 'tags', 'dice', 'maps', 'table', 'reveals', 'entity', 'session', 'scenarios', 'imports', 'members', 'audio', 'graph', 'timeline', 'feedback', 'ai', 'journal', 'character', 'my-sheets', 'campaign-map'];
     }
 
     /** @return array{title: string, lines: list<string>, gm: list<string>, player?: list<string>, faq: string} */
@@ -77,6 +77,7 @@ class PageHelp
                     __('Jetons : un nouveau jeton arrive masqué, montrez-le quand les joueurs doivent le voir. « Déplacé par » choisit qui peut le bouger : le MJ seul, ou aussi le joueur du personnage, depuis son appareil.'),
                     __('Gabarits de zone : cercle, carré, rectangle, cône ou ligne, pour montrer une zone d’effet.'),
                     __('« Afficher à la table » l’envoie sur l’écran de table. Pour les joueurs absents, la télécommande donne les liens « Rejoindre à distance ».'),
+                    __('« Carte de campagne » relie vos cartes entre elles par des points d’intérêt : un clic sur la vue d’ensemble ouvre la sous-carte.'),
                 ],
                 'gm' => [],
                 'faq' => __('Comment utiliser une carte avec une grille et des jetons ?'),
@@ -258,6 +259,18 @@ class PageHelp
                 ],
                 'gm' => [],
                 'faq' => __('Puis-je garder les personnages que je joue ailleurs ?'),
+            ],
+            'campaign-map' => [
+                'title' => __('Carte de campagne'),
+                'lines' => [
+                    __('La carte de campagne est la vue d’ensemble : choisissez une de vos cartes avec « En faire la carte de campagne ».'),
+                    __('« Placer des points », puis cliquez sur la carte pour poser un point d’intérêt ; glissez-le pour le déplacer.'),
+                    __('Un point peut mener à une sous-carte (une ville, un donjon) : en « Explorer », un clic l’ouvre, et le fil d’Ariane en haut permet de remonter. Les sous-cartes ont elles-mêmes leurs points, sans limite de profondeur.'),
+                    __('Reliez un point à une scène pour voir d’un coup d’œil le chemin parcouru (✓ jouée) et ce qui reste à venir, et à une fiche pour l’ouvrir d’un clic.'),
+                    __('Tout reste au MJ. « Visible à la table » affiche seulement le nom du point sur l’écran de table, quand la carte y est montrée.'),
+                ],
+                'gm' => [],
+                'faq' => __('Comment faire une grande carte de campagne avec des sous-cartes ?'),
             ],
             default => throw new InvalidArgumentException("Aide inconnue : {$topic}"),
         };

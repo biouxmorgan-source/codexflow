@@ -397,7 +397,7 @@ class Show extends Component
 
     public function render()
     {
-        $this->map->load(['document', 'tokens.entity', 'templates']);
+        $this->map->load(['document', 'tokens.entity', 'templates', 'points']);
 
         // Jetons des personnages joueurs : leur joueur les déplace déjà sans qu'on les confie.
         $characters = $this->campaign->playerCharacters()->whereNotNull('user_id')->with('player')->get()->keyBy('entity_id');

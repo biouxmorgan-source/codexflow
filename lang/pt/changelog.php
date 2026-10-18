@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'O grande mapa da campanha',
+        'items' => [
+            'Novo «Mapa da campanha»: escolha um mapa como visão geral e coloque nele pontos de interesse, uma cidade, uma masmorra, o local de uma cena.',
+            'Um ponto pode abrir um submapa com um clique, que tem os seus próprios pontos; o caminho de navegação permite voltar à visão geral.',
+            'Ligados a uma cena, os pontos mostram o que foi jogado, está em curso ou ainda está por vir; ligados a uma ficha, abrem-na. Tudo fica com o mestre, exceto o nome dos pontos «Visíveis na mesa», mostrado no ecrã da mesa.',
+        ],
+    ],
+
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'As suas personagens jogadas noutro sítio',

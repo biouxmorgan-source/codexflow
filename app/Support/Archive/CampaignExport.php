@@ -125,6 +125,7 @@ final class CampaignExport
 
         $maps = DB::table('table_maps')->where('campaign_id', $campaign->id)->whereIn('document_id', $documentIds)->orderBy('id')->get();
         $tokens = DB::table('map_tokens')->whereIn('table_map_id', $maps->pluck('id'))->orderBy('id')->get()->groupBy('table_map_id');
+        $points = DB::table('map_points')->whereIn('table_map_id', $maps->pluck('id'))->orderBy('id')->get()->groupBy('table_map_id');
 
         $sceneEntities = DB::table('scene_entity')->whereIn('scene_id', $sceneIds)->whereIn('entity_id', $entityIds)->orderBy('position')->get()->groupBy('scene_id');
         $sceneDocuments = DB::table('document_scene')->whereIn('scene_id', $sceneIds)->whereIn('document_id', $documentIds)->orderBy('position')->get()->groupBy('scene_id');
@@ -261,8 +262,15 @@ final class CampaignExport
                 'scenes' => $secretLinks['scenes']->get($secret->id, collect())->all(),
             ])->all(),
             'maps' => $maps->map(fn ($map) => [
-                ...collect((array) $map)->only(['document_id', 'name', 'width', 'height', 'grid_enabled', 'grid_size', 'grid_offset_x', 'grid_offset_y', 'grid_color', 'scale_value', 'scale_unit'])->all(),
+                ...collect((array) $map)->only(['id', 'document_id', 'name', 'width', 'height', 'grid_enabled', 'grid_size', 'grid_offset_x', 'grid_offset_y', 'grid_color', 'scale_value', 'scale_unit', 'is_campaign_map'])->all(),
                 'tokens' => $tokens->get($map->id, collect())->map(fn ($token) => collect((array) $token)->only(['entity_id', 'label', 'color', 'x', 'y', 'size', 'hidden', 'show_label'])->all())->values()->all(),
+                // Liens vers une sous-carte, une scène ou une fiche : seulement s'ils partent aussi dans l'archive.
+                'points' => $points->get($map->id, collect())->map(fn ($point) => [
+                    ...collect((array) $point)->only(['label', 'note', 'color', 'x', 'y', 'shown_at_table'])->all(),
+                    'target_map_id' => $maps->contains('id', $point->target_map_id) ? $point->target_map_id : null,
+                    'scene_id' => in_array($point->scene_id, $sceneIds, true) ? $point->scene_id : null,
+                    'entity_id' => in_array($point->entity_id, $entityIds, true) ? $point->entity_id : null,
+                ])->values()->all(),
             ])->all(),
             'timeline' => DB::table('timeline_events')->where('campaign_id', $campaign->id)->orderBy('position')->orderBy('id')->get()
                 ->map(fn ($event) => collect((array) $event)->only(['kind', 'date_label', 'title', 'description', 'zone', 'scene_id', ...($this->complete ? ['play_session_id'] : [])])->all())->all(),

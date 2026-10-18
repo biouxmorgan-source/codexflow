@@ -4,8 +4,10 @@ namespace App\Livewire\Scenes;
 
 use App\Enums\SceneStatus;
 use App\Models\Campaign;
+use App\Models\MapPoint;
 use App\Models\Scene;
 use App\Models\ToPlayItem;
+use App\Support\CampaignFeatures;
 use App\Support\EntityLinks;
 use Livewire\Component;
 
@@ -76,6 +78,10 @@ class Show extends Component
             'tracks' => $this->scene->audioTracks()->availableIn($this->campaign)->get(),
             'previous' => $index > 0 ? $siblings[$index - 1] : null,
             'next' => $siblings[$index + 1] ?? null,
+            // Les points de la carte de campagne qui situent la scène.
+            'mapPoints' => CampaignFeatures::enabled($this->campaign, 'maps')
+                ? MapPoint::query()->where('scene_id', $this->scene->id)->whereHas('map', fn ($q) => $q->where('campaign_id', $this->campaign->id))->with('map')->get()
+                : collect(),
         ])->title($this->scene->name);
     }
 }

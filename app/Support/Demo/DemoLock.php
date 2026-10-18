@@ -13,6 +13,7 @@ use App\Models\EntityRelation;
 use App\Models\FeedbackRequest;
 use App\Models\FieldDefinition;
 use App\Models\GameSystem;
+use App\Models\MapPoint;
 use App\Models\PlayerCharacter;
 use App\Models\Rule;
 use App\Models\Scenario;
@@ -29,7 +30,7 @@ use Illuminate\Support\Facades\Event;
 /**
  * Campagne de démonstration verrouillée : un compte démo visite sa copie de la démonstration,
  * chaque fonction visible, mais n'en modifie pas le contenu (fiches, scènes, règles, documents,
- * secrets, cartes, champs, invitations…), pour qu'elle ne devienne pas une table de jeu.
+ * secrets, cartes et leurs points d'intérêt, champs, invitations…), pour qu'elle ne devienne pas une table de jeu.
  *
  * Restent permis, comme bac à sable : lancer une séance (scènes jouées, notes, événements de la
  * chronologie notés en séance), déplacer les jetons de la carte, l'ordre d'initiative, les dés, la liste « À jouer », les
@@ -57,6 +58,7 @@ class DemoLock
         Scene::class => ['scenario_id'],
         Secret::class => ['campaign_id'],
         TableMap::class => ['campaign_id'],
+        MapPoint::class => ['table_map_id'],
         TimelineEvent::class => ['campaign_id'],
         AudioTrack::class => ['campaign_id'],
         PlayerCharacter::class => ['campaign_id'],
@@ -165,6 +167,7 @@ class DemoLock
                     'campaign_id', 'world_id', 'game_system_id' => in_array((int) $value, $scope[$column], true),
                     'entity_id', 'from_entity_id' => ($parent = Entity::find($value)) !== null && self::belongsToScope($parent, $scope),
                     'scenario_id' => ($parent = Scenario::find($value)) !== null && self::belongsToScope($parent, $scope),
+                    'table_map_id' => ($parent = TableMap::find($value)) !== null && self::belongsToScope($parent, $scope),
                     default => false,
                 };
 

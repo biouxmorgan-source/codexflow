@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Wielka mapa kampanii',
+        'items' => [
+            'Nowa „Mapa kampanii”: wybierz mapę jako widok ogólny i umieść na niej ciekawe miejsca, miasto, loch, miejsce sceny.',
+            'Punkt może jednym kliknięciem otworzyć mapę szczegółową, która ma własne punkty; ścieżka nawigacji pozwala wrócić do widoku ogólnego.',
+            'Powiązane ze sceną punkty pokazują, co rozegrano, co trwa, a co dopiero nadejdzie; powiązane z kartą otwierają ją. Wszystko zostaje u MG, poza nazwami punktów „Widoczne przy stole”, pokazywanymi na ekranie stołu.',
+        ],
+    ],
+
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Twoje postacie z innych stołów',

@@ -29,6 +29,15 @@
                     @endforeach
                 </p>
             @endif
+            @if ($mapPoints->isNotEmpty())
+                <p class="mt-2 flex flex-wrap items-center gap-x-2 text-sm text-stone-600">
+                    <x-icon name="pin" class="size-4 text-stone-400" />
+                    {{ __('Sur la carte :') }}
+                    @foreach ($mapPoints as $mapPoint)
+                        <a href="{{ route('maps.atlas', [$campaign, $mapPoint->map]) }}" class="link" wire:navigate>{{ $mapPoint->map->name }} · {{ $mapPoint->label }}</a>
+                    @endforeach
+                </p>
+            @endif
         </div>
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('journal.index', [$campaign, 'sujet' => 'scene:'.$scene->id]) }}" class="btn-secondary" wire:navigate>{{ __('Historique') }}</a>

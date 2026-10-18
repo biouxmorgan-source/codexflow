@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['name', 'description', 'game_system_id', 'world_id', 'status', 'archived_at', 'exchanges_need_approval'])]
 class Campaign extends Model
@@ -154,6 +155,12 @@ class Campaign extends Model
     public function maps(): HasMany
     {
         return $this->hasMany(TableMap::class)->orderBy('name');
+    }
+
+    /** @return HasOne<TableMap, $this> la carte de campagne, vue d'ensemble d'où l'on ouvre les sous-cartes */
+    public function campaignMap(): HasOne
+    {
+        return $this->hasOne(TableMap::class)->where('is_campaign_map', true);
     }
 
     /** @return HasMany<PlaySession, $this> */

@@ -11,6 +11,7 @@
             <x-page-help topic="maps" />
         </div>
         <div class="flex flex-wrap items-center gap-2">
+            <a href="{{ route('maps.atlas', [$campaign, $map]) }}" class="btn-secondary" wire:navigate>{{ __('Points d’intérêt') }}</a>
             <livewire:table.show-button :campaign="$campaign" kind="map" :item-id="$map->id" :key="'show-map-'.$map->id" />
             @if (\App\Support\CampaignFeatures::usable($campaign, 'table'))
             <a href="{{ route('table.remote', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Télécommande') }}</a>
@@ -40,7 +41,7 @@
                 :class="mode === 'ruler' ? 'cursor-crosshair' : 'cursor-move'"
                 x-on:pointerdown="down($event)" x-on:pointermove="move($event)" x-on:pointerup="up($event)" x-on:pointercancel="up($event)"
                 x-on:wheel.prevent="wheel($event)">
-                <x-table-map :map="$map" :tokens="$tokens" :templates="$templates" gm
+                <x-table-map :map="$map" :tokens="$tokens" :templates="$templates" :points="$map->points" gm
                     :image-url="route('documents.file', $map->document)"
                     :token-url="fn ($token) => route('entities.image', [$token->entity, 'v' => $token->entity->updated_at?->timestamp])" />
                 {{-- Règle en cours de tracé, avant l'envoi. --}}
