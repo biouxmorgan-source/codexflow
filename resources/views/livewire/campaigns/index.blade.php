@@ -8,6 +8,7 @@
             <div class="flex flex-wrap gap-2">
                 @if (\App\Support\Plans\Plans::effective(auth()->user()) !== \App\Support\Plans\Plans::DEMO)
                     <button type="button" wire:click="$set('importing', true)" class="btn-secondary">{{ __('Importer une campagne') }}</button>
+                    <a href="{{ route('demo-library') }}" class="btn-secondary" wire:navigate>{{ __('Bibliothèque de démos') }}</a>
                 @endif
                 <button type="button" wire:click="$set('creating', true)" class="btn-primary">{{ __('Nouvelle campagne') }}</button>
             </div>
@@ -117,6 +118,9 @@
             <p class="mt-1 text-stone-600">{{ __('Créez votre première campagne pour commencer à préparer vos parties.') }}</p>
             <p class="mt-4 text-stone-600">{{ __('Ou chargez la campagne de démonstration : un jeu inventé et une intrigue complète, pour visiter l’application sans rien préparer.') }}</p>
             <div class="mt-3">@include('livewire.campaigns.demo-loader', ['class' => 'btn-secondary'])</div>
+            @if (\App\Models\DemoLibraryItem::published()->exists() && \App\Support\Plans\Plans::effective(auth()->user()) !== \App\Support\Plans\Plans::DEMO)
+                <p class="mt-3 text-sm"><a href="{{ route('demo-library') }}" class="font-medium text-codex hover:underline" wire:navigate>{{ __('Voir les autres démos de la bibliothèque') }}</a></p>
+            @endif
         </div>
     @else
         @php([$archived, $current] = $this->campaigns->partition(fn ($campaign) => $campaign->status === \App\Enums\CampaignStatus::Archived))

@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Demobibliotheek',
+        'items' => [
+            'Nieuwe ‘Demobibliotheek’, vanuit ‘Mijn campagnes’: speelklare campagnes (een wereld, een kort scenario, voorgemaakte personages) waarvan je met één klik je eigen kopie laadt.',
+            'Elke demo van een auteur of uitgever houdt een link ‘Het spel kopen’, in de bibliotheek en bovenaan je kopie.',
+            'De Premium-prijs staat nu op de abonnementsknop in Voorkeuren: € 4,99 per maand.',
+        ],
+    ],
+
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Wat er gebeurde, en het avonturenboek',

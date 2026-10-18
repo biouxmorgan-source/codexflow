@@ -5,6 +5,7 @@ namespace App\Support\Billing;
 use App\Models\User;
 use App\Support\Plans\Plans;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Number;
 use Stripe\StripeClient;
 
 /**
@@ -37,6 +38,20 @@ class Billing
     public static function intervals(): array
     {
         return ['monthly' => __('Mensuel'), 'yearly' => __('Annuel')];
+    }
+
+    /** Prix affiché d'un intervalle (« 4,99 €/mois »), ou null s'il n'est pas renseigné. */
+    public static function displayPrice(string $interval): ?string
+    {
+        $amount = config("services.stripe.amounts.$interval");
+
+        if (! is_numeric($amount)) {
+            return null;
+        }
+
+        $price = Number::currency((float) $amount, 'EUR', app()->getLocale());
+
+        return $interval === 'yearly' ? __(':price/an', ['price' => $price]) : __(':price/mois', ['price' => $price]);
     }
 
     /** Adresse de la page de paiement Stripe pour passer premium. */

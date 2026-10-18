@@ -36,6 +36,11 @@ return [
             'monthly' => env('STRIPE_PRICE_MONTHLY'),
             'yearly' => env('STRIPE_PRICE_YEARLY'),
         ],
+        // Montants affichés sur les boutons, en euros TTC ; ils doivent suivre les prix créés dans Stripe.
+        'amounts' => [
+            'monthly' => env('PREMIUM_PRICE_MONTHLY', '4.99'),
+            'yearly' => env('PREMIUM_PRICE_YEARLY'),
+        ],
     ],
 
     'slack' => [

@@ -73,6 +73,16 @@ class Campaign extends Model
         return $this->belongsTo(GameSystem::class);
     }
 
+    /**
+     * Démo de la bibliothèque dont cette campagne est la copie.
+     *
+     * @return BelongsTo<DemoLibraryItem, $this>
+     */
+    public function demoLibraryItem(): BelongsTo
+    {
+        return $this->belongsTo(DemoLibraryItem::class);
+    }
+
     /** @return BelongsTo<World, $this> */
     public function world(): BelongsTo
     {

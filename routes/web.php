@@ -21,6 +21,7 @@ use App\Http\Controllers\TableScreenController;
 use App\Livewire\Account\Preferences;
 use App\Livewire\Account\Rewards;
 use App\Livewire\Admin\Backlog as AdminBacklog;
+use App\Livewire\Admin\DemoLibrary as AdminDemoLibrary;
 use App\Livewire\Admin\Evolutions as AdminEvolutions;
 use App\Livewire\Admin\Health as AdminHealth;
 use App\Livewire\Admin\PlanSettings as AdminPlans;
@@ -29,6 +30,7 @@ use App\Livewire\Admin\Users as AdminUsers;
 use App\Livewire\Ai\Index as AiIndex;
 use App\Livewire\Audio\Index as AudioIndex;
 use App\Livewire\Book\Show as BookShow;
+use App\Livewire\Campaigns\DemoLibrary;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
@@ -107,6 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/abonnement/{interval}', [BillingController::class, 'checkout'])->whereIn('interval', ['monthly', 'yearly'])->name('billing.checkout');
     Route::post('/invitation/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::livewire('/campagnes', CampaignIndex::class)->name('campaigns.index');
+    Route::livewire('/bibliotheque-de-demos', DemoLibrary::class)->name('demo-library');
     Route::livewire('/preferences', Preferences::class)->name('preferences');
     Route::livewire('/mes-recompenses', Rewards::class)->name('rewards');
     Route::post('/cadeau/{code}', [GiftCodeController::class, 'redeem'])->middleware('throttle:10,1')->name('gifts.redeem');
@@ -118,6 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['can:admin', 'password.confirm'])->group(function () {
         Route::livewire('/admin', AdminUsers::class)->name('admin.users');
         Route::livewire('/admin/formules', AdminPlans::class)->name('admin.plans');
+        Route::livewire('/admin/bibliotheque-de-demos', AdminDemoLibrary::class)->name('admin.demo-library');
         Route::livewire('/admin/backlog', AdminBacklog::class)->name('admin.backlog');
         Route::livewire('/admin/evolutions', AdminEvolutions::class)->name('admin.evolutions');
         Route::livewire('/admin/recettes', AdminRecettes::class)->name('admin.recettes');

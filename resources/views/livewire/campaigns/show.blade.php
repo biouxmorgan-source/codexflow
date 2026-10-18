@@ -22,6 +22,12 @@
                     {{ $campaign->world ? __('Monde : :name', ['name' => $campaign->world->name]) : __('Sans monde partagé') }}
                 @endif
             </p>
+            @if (($demo = $campaign->demoLibraryItem) && $demo->store_url)
+                <p class="mt-1 text-sm text-stone-600">
+                    {{ __('Démo de « :game ».', ['game' => $demo->game_name]) }}
+                    <a href="{{ $demo->store_url }}" target="_blank" rel="noopener noreferrer" class="font-medium text-codex hover:underline">{{ __('Acheter le jeu') }} ↗</a>
+                </p>
+            @endif
         </div>
         <x-screen.toolbar screen="campaign" :layout="$this->screenLayout" :arranging="$arranging" />
     </div>

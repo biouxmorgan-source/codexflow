@@ -29,7 +29,7 @@ class RouteAccessTest extends TestCase
     private const OPEN = [
         'home', 'help', 'manifest', 'robots', 'sitemap', 'privacy', 'bugs.create', 'up',
         'invitations.show', 'gifts.show', 'table.guest', 'table.guest.file', 'table.guest.image', 'table.guest.token',
-        'billing.success', 'campaigns.index', 'preferences', 'rewards', 'changelog', 'recommended', 'account.data',
+        'billing.success', 'campaigns.index', 'demo-library', 'preferences', 'rewards', 'changelog', 'recommended', 'account.data',
         'notifications.index', 'notifications.open', 'entity-types.index', 'tags.index', 'library.sounds', 'my-sheets.index', 'search.all', 'bugs.index',
         'imports.ai.archive', 'imports.ai.archive.prompt', 'imports.ai.archive.skill', 'account.email.confirm',
     ];

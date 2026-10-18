@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Demo-Bibliothek',
+        'items' => [
+            'Neue „Demo-Bibliothek“ unter „Meine Kampagnen“: spielfertige Kampagnen (eine Welt, ein kurzes Szenario, vorgefertigte Charaktere), von denen du mit einem Klick deine eigene Kopie lädst.',
+            'Jede Demo eines Autors oder Verlags behält einen Link „Spiel kaufen“, in der Bibliothek und oben in deiner Kopie.',
+            'Der Premium-Preis steht jetzt auf dem Abo-Button in den Einstellungen: 4,99 € pro Monat.',
+        ],
+    ],
+
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Was geschah, und das Abenteuerbuch',
