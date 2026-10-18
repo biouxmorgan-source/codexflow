@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.70.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Remove or add several points at once',
+        'items' => [
+            'Under each counter the player may change (HP, ammo, money…), an “Amount” box: type 8 then −, and the counter loses 8 at once. It defaults to 1.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'A how-to on the trickier screens',

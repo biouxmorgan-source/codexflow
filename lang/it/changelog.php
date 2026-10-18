@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.70.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Togliere o aggiungere più punti in una volta',
+        'items' => [
+            'Sotto ogni contatore che il giocatore può modificare (PF, munizioni, denaro…), un campo «Quantità»: scrivi 8 e poi −, e il contatore perde 8 in un colpo. Il valore predefinito è 1.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'Istruzioni sulle schermate più delicate',

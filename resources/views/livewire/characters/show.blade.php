@@ -79,19 +79,25 @@
                 @foreach ($counters as $definition)
                     @php($counter = $entity->fieldValue($definition))
                     @php($canChange = $this->canPlay && $definition->player_editable)
-                    <li wire:key="counter-{{ $definition->id }}" class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                    <li wire:key="counter-{{ $definition->id }}" class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm" @if ($canChange) x-data="{ amount: 1, step() { return Math.min(1000, Math.abs(parseInt(this.amount, 10)) || 1) } }" @endif>
                         <p class="text-sm text-stone-600">{{ $definition->name }}</p>
                         <div class="mt-1 flex items-center gap-2">
                             @if ($canChange)
-                                <button type="button" wire:click="adjust({{ $definition->id }}, -1)" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Retirer 1 à :name', ['name' => $definition->name]) }}">−</button>
+                                <button type="button" x-on:click="$wire.adjust({{ $definition->id }}, -step())" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Retirer le montant à :name', ['name' => $definition->name]) }}">−</button>
                             @endif
                             <p class="flex-1 text-center text-2xl font-semibold tabular-nums" aria-live="polite">
                                 {{ $counter === null ? '—' : $definition->type->format($counter) }}
                             </p>
                             @if ($canChange)
-                                <button type="button" wire:click="adjust({{ $definition->id }}, 1)" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Ajouter 1 à :name', ['name' => $definition->name]) }}">+</button>
+                                <button type="button" x-on:click="$wire.adjust({{ $definition->id }}, step())" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Ajouter le montant à :name', ['name' => $definition->name]) }}">+</button>
                             @endif
                         </div>
+                        @if ($canChange)
+                            <label class="mt-2 flex items-center justify-center gap-2 text-sm text-stone-600">
+                                {{ __('Montant') }}
+                                <input type="number" min="1" max="1000" inputmode="numeric" x-model="amount" x-on:focus="$el.select()" class="field w-20 py-1 text-center tabular-nums" aria-label="{{ __('Montant pour :name', ['name' => $definition->name]) }}">
+                            </label>
+                        @endif
                         @if (isset($counter['max']) && $counter['max'] > 0)
                             <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-stone-100" aria-hidden="true">
                                 <div class="h-full rounded-full bg-codex" style="width: {{ min(100, max(0, $counter['value'] / $counter['max'] * 100)) }}%"></div>

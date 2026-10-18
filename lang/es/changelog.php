@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.70.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Restar o sumar varios puntos de una vez',
+        'items' => [
+            'Bajo cada contador que el jugador puede modificar (PV, munición, dinero…), un campo «Cantidad»: escribe 8 y pulsa −, y el contador pierde 8 de golpe. Por defecto vale 1.',
+        ],
+    ],
+
     '0.70.0' => [
         'date' => '2026-10-18',
         'title' => 'Un modo de uso en las pantallas delicadas',

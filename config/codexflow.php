@@ -4,7 +4,7 @@ return [
 
     // Version affichée dans l'appli. À chaque mise à jour notable : l'augmenter et décrire
     // les nouveautés dans lang/fr/changelog.php (la fenêtre « Quoi de neuf » s'affiche alors une fois).
-    'version' => '0.70.0',
+    'version' => '0.70.1',
 
     // Lien d'invitation permanent vers le serveur Discord de la communauté (pied de page et
     // page d'accueil). Vide : le lien n'est pas affiché.
