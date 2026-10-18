@@ -7,6 +7,7 @@ use App\Enums\CampaignStatus;
 use App\Support\Plans\Plans;
 use Database\Factories\CampaignFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['name', 'description', 'game_system_id', 'world_id', 'status', 'archived_at', 'exchanges_need_approval'])]
+// Le livre des aventures rédigé relève de la zone MJ.
+#[Hidden(['adventure_book'])]
 class Campaign extends Model
 {
     /** @use HasFactory<CampaignFactory> */

@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'What happened, and the adventure book',
+        'items' => [
+            'Each scene now has two parts: "What\'s planned" and "What happened". If the table followed the plan, just tick "Played as planned".',
+            'New "Adventure book" in the campaign: the played scenes, scenario by scenario, then the session summaries, to read, print or save as PDF.',
+            'A written version can be added, by you or by the AI of your choice (text to copy, or your own API key, at your expense). The book stays GM-only.',
+        ],
+    ],
+
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Arrange your screens your way',

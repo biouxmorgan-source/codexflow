@@ -14,7 +14,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 
 /**
- * Création et modification d'une scène : texte de préparation et fiches présentes.
+ * Création et modification d'une scène : ce qui est prévu, ce qui s'est passé à la table, fiches présentes.
  */
 class Form extends Component
 {
@@ -32,6 +32,10 @@ class Form extends Component
     public string $name = '';
 
     public string $description = '';
+
+    public string $whatHappened = '';
+
+    public bool $playedAsPlanned = false;
 
     public string $status = 'planned';
 
@@ -69,6 +73,8 @@ class Form extends Component
             $this->chapter = (string) $scene->chapter;
             $this->name = $scene->name;
             $this->description = (string) $scene->description;
+            $this->whatHappened = (string) $scene->what_happened;
+            $this->playedAsPlanned = $scene->played_as_planned;
             $this->status = $scene->status->value;
             $this->linked = $scene->entities()->with('type')->get()
                 ->map(fn (Entity $entity) => self::row($entity, (string) $entity->pivot->note))
@@ -181,6 +187,8 @@ class Form extends Component
             'chapter' => ['nullable', 'string', 'max:100'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:20000'],
+            'whatHappened' => ['nullable', 'string', 'max:20000'],
+            'playedAsPlanned' => ['boolean'],
             'status' => ['required', Rule::enum(SceneStatus::class)],
             'tags' => ['nullable', 'string', 'max:1000'],
             'linked' => ['array', 'max:100'],
@@ -188,6 +196,7 @@ class Form extends Component
         ], attributes: [
             'scenarioId' => __('scénario'),
             'chapter' => __('chapitre'),
+            'whatHappened' => __('ce qui s’est passé'),
             'linked.*.note' => __('précision'),
         ]);
 
@@ -197,7 +206,10 @@ class Form extends Component
             'chapter' => trim($this->chapter) ?: null,
             'name' => trim($this->name),
             'description' => $this->description ?: null,
-            'status' => $this->status,
+            'what_happened' => trim($this->whatHappened) ?: null,
+            'played_as_planned' => $this->playedAsPlanned,
+            // Jouée comme prévu : la scène est jouée.
+            'status' => $this->playedAsPlanned && $this->status !== SceneStatus::Skipped->value ? SceneStatus::Played->value : $this->status,
         ]);
         $scene->scenario_id = (int) $this->scenarioId;
 

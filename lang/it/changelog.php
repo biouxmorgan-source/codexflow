@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Cosa è successo, e il libro delle avventure',
+        'items' => [
+            'Ogni scena ha ora due parti: «Cosa è previsto» e «Cosa è successo». Se il tavolo ha seguito il piano, basta spuntare «Giocata come previsto».',
+            'Nuovo «Libro delle avventure» nella campagna: le scene giocate, scenario per scenario, poi i riassunti delle sessioni, da leggere, stampare o salvare in PDF.',
+            'Si può aggiungere una versione scritta, da te o dall’IA che preferisci (testo da copiare, o la tua chiave API, a tue spese). Il libro resta riservato al master.',
+        ],
+    ],
+
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Disponi le tue schermate a modo tuo',

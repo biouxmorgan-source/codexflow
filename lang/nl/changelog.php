@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Wat er gebeurde, en het avonturenboek',
+        'items' => [
+            'Elke scène heeft nu twee delen: "Wat gepland is" en "Wat er gebeurde". Volgde de tafel het plan, vink dan gewoon "Gespeeld zoals gepland" aan.',
+            'Nieuw "Avonturenboek" in de campagne: de gespeelde scènes, scenario per scenario, en daarna de samenvattingen van de sessies, om te lezen, af te drukken of als pdf op te slaan.',
+            'Er kan een uitgeschreven versie bij, door jou of door de AI van je keuze (tekst om te kopiëren, of je eigen API-sleutel, op eigen kosten). Het boek blijft alleen voor de spelleider.',
+        ],
+    ],
+
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Richt je schermen in zoals jij wilt',

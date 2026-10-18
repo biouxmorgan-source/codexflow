@@ -95,7 +95,7 @@ class ScenesTest extends TestCase
 
         Livewire::actingAs($this->gm)
             ->test(Show::class, ['campaign' => $this->campaign, 'scene' => $scene->fresh()])
-            ->assertSeeInOrder(['Préparation', 'Les joueurs entrent.', 'Aldric', 'Dans cette scène', 'Le Poney fringant', 'Aldric', 'derrière le comptoir'])
+            ->assertSeeInOrder(['Ce qui est prévu', 'Les joueurs entrent.', 'Aldric', 'Dans cette scène', 'Le Poney fringant', 'Aldric', 'derrière le comptoir'])
             ->assertSeeHtml('href="'.route('entities.show', [$this->campaign, $this->aldric]).'"');
 
         Livewire::actingAs($this->gm)

@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Co się wydarzyło, i księga przygód',
+        'items' => [
+            'Każda scena ma teraz dwie części: „Co jest zaplanowane” i „Co się wydarzyło”. Jeśli drużyna trzymała się planu, wystarczy zaznaczyć „Rozegrana zgodnie z planem”.',
+            'Nowa „Księga przygód” w kampanii: rozegrane sceny, scenariusz po scenariuszu, a potem podsumowania sesji, do czytania, drukowania lub zapisania jako PDF.',
+            'Można dodać wersję spisaną przez ciebie lub przez wybraną SI (tekst do skopiowania albo własny klucz API, na twój koszt). Księga pozostaje tylko dla MG.',
+        ],
+    ],
+
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Ułóż swoje ekrany po swojemu',

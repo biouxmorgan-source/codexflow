@@ -46,14 +46,35 @@
     </div>
 
     <div class="grid gap-6 lg:grid-cols-3">
-        <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm lg:col-span-2">
-            <h2 class="mb-3 font-semibold text-flow">{{ __('Préparation') }}</h2>
-            @if ($scene->description)
-                <div class="text-stone-700">{{ $description }}</div>
-            @else
-                <p class="text-sm text-stone-500">{{ __("Rien de préparé pour l'instant.") }}</p>
-            @endif
-        </section>
+        <div class="space-y-6 lg:col-span-2">
+            <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm">
+                <h2 class="mb-3 font-semibold text-flow">{{ __('Ce qui est prévu') }}</h2>
+                @if ($scene->description)
+                    <div class="text-stone-700">{{ $description }}</div>
+                @else
+                    <p class="text-sm text-stone-500">{{ __("Rien de préparé pour l'instant.") }}</p>
+                @endif
+            </section>
+
+            <section class="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
+                <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+                    <h2 class="font-semibold text-emerald-700">{{ __('Ce qui s’est passé') }}</h2>
+                    <label class="flex items-center gap-2 text-sm">
+                        <input type="checkbox" wire:click="togglePlayedAsPlanned" @checked($scene->played_as_planned) class="rounded border-stone-300">
+                        {{ __('Jouée comme prévu') }}
+                    </label>
+                </div>
+                @if ($scene->what_happened)
+                    <div class="text-stone-700">{{ $whatHappened }}</div>
+                @elseif (\App\Support\AdventureBook::happened($scene) !== '')
+                    <p class="text-sm text-stone-600">{{ __('Le récit est écrit plus haut, dans une section « Ce qui s’est passé » : le livre des aventures le reprend.') }}</p>
+                @elseif ($scene->played_as_planned)
+                    <p class="text-sm text-stone-600">{{ __('La table a suivi ce qui était prévu : le livre des aventures le reprend tel quel.') }}</p>
+                @else
+                    <p class="text-sm text-stone-500">{{ __('Après la partie, cochez « Jouée comme prévu » ou racontez ce qui a changé avec « Modifier la scène ».') }}</p>
+                @endif
+            </section>
+        </div>
 
         <aside class="space-y-6">
             <livewire:secrets.panel :campaign="$campaign" :items="['scene' => [$scene->id]]" :link="'scene:'.$scene->id" wire:key="secrets-scene" />

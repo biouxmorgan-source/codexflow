@@ -75,6 +75,7 @@
                             <x-tool-link :href="route('members.index', $campaign)" icon="members" :label="__('Membres')" />
                             <x-tool-link :href="route('messages.index', $campaign)" icon="messages" :label="__('Messages')" :badge="$unread ?: null" />
                             <x-tool-link :href="route('journal.index', $campaign)" icon="journal" :label="__('Journal')" />
+                            <x-tool-link :href="route('book.show', $campaign)" icon="book" :label="__('Livre des aventures')" />
                             <x-tool-link :href="route('table.remote', $campaign)" icon="remote" :label="__('Télécommande')" feature="table" :campaign="$campaign" />
                             @can('manageFields', [$campaign->gameSystem, $campaign])
                                 <x-tool-link :href="route('fields.index', $campaign)" icon="fields" :label="__('Champs du jeu')" />

@@ -11,18 +11,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Scène préparée par le MJ. Tout son contenu relève de la zone MJ.
+ * Scène préparée par le MJ. Tout son contenu relève de la zone MJ : la description dit
+ * ce qui est prévu, what_happened ce qui s'est passé à la table (ou played_as_planned).
  */
-#[Fillable(['chapter', 'name', 'description', 'status', 'position'])]
+#[Fillable(['chapter', 'name', 'description', 'what_happened', 'played_as_planned', 'status', 'position'])]
 class Scene extends Model
 {
     use RecordsActivity;
 
-    protected $attributes = ['status' => 'planned'];
+    protected $attributes = ['status' => 'planned', 'played_as_planned' => false];
 
     protected function casts(): array
     {
-        return ['status' => SceneStatus::class];
+        return ['status' => SceneStatus::class, 'played_as_planned' => 'boolean'];
     }
 
     /** @return BelongsTo<Scenario, $this> */

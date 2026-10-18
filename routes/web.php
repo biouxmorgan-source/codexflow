@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountDataController;
+use App\Http\Controllers\AdventureBookController;
 use App\Http\Controllers\AiImportPromptController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\BillingController;
@@ -27,6 +28,7 @@ use App\Livewire\Admin\Recettes as AdminRecettes;
 use App\Livewire\Admin\Users as AdminUsers;
 use App\Livewire\Ai\Index as AiIndex;
 use App\Livewire\Audio\Index as AudioIndex;
+use App\Livewire\Book\Show as BookShow;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
@@ -157,6 +159,8 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/chronologie', TimelineIndex::class)->name('timeline.index')->middleware('feature:timeline')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/graphe', GraphIndex::class)->name('graph.index')->middleware('feature:graph')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/assistant-ia', AiIndex::class)->name('ai.index')->middleware('feature:ai')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/livre-des-aventures', BookShow::class)->name('book.show')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/livre-des-aventures/imprimer', [AdventureBookController::class, 'print'])->name('book.print')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 
     Route::livewire('/campagnes/{campaign}/regles', RuleIndex::class)->name('rules.index')->whereNumber('campaign');
