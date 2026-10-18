@@ -246,6 +246,7 @@ class PageHelp
                     __('« + Noter » ou « + Ajouter un objet » : le MJ en est informé et le valide. « Donner » ou « Transmettre » propose un objet ou une connaissance à un autre personnage ; le MJ valide l’échange.'),
                     __('Vos notes se partagent avec vous seul, vous et le MJ, certains joueurs ou toute la table. « À jouer » dit au MJ ce que vous voulez tenter.'),
                     __('« Fil de la campagne » montre ce que toute la table sait ; « Journal » retrace ce qui a changé sur votre fiche.'),
+                    __('Sans réseau, la fiche déjà ouverte sur l’appareil reste utilisable : réglez vos compteurs, modifiez vos champs et écrivez des notes. Tout part au retour de la connexion, sans effacer ce que le MJ a changé entre-temps.'),
                 ],
                 'faq' => __('Où trouver la fiche de mon personnage ?'),
             ],

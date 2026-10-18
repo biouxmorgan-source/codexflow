@@ -5,6 +5,7 @@ use App\Http\Controllers\AiImportPromptController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CharacterKnowledgeController;
+use App\Http\Controllers\CharacterOfflineSyncController;
 use App\Http\Controllers\ConfirmEmailChangeController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
@@ -172,6 +173,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/recherche', SearchIndex::class)->name('search.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/personnages', CharacterIndex::class)->name('characters.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/personnages/{character}', CharacterShow::class)->name('characters.show')->middleware('offline')->whereNumber(['campaign', 'character']);
+    Route::post('/campagnes/{campaign}/personnages/{character}/synchroniser', CharacterOfflineSyncController::class)->name('characters.offline-sync')->middleware('throttle:30,1')->whereNumber(['campaign', 'character']);
     Route::get('/campagnes/{campaign}/personnages/{character}/feuille.pdf', [FileController::class, 'characterSheet'])->name('characters.sheet')->middleware('offline')->whereNumber(['campaign', 'character']);
     Route::get('/campagnes/{campaign}/personnages/{character}/portrait', [FileController::class, 'characterPortrait'])->name('characters.portrait')->middleware('offline')->whereNumber(['campaign', 'character']);
     Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}', [CharacterKnowledgeController::class, 'entity'])->name('characters.entity')->middleware('offline')->whereNumber(['campaign', 'character', 'entity']);

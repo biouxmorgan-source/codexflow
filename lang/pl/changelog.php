@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Twoja karta, nawet bez sieci',
+        'items' => [
+            'Offline karta Twojej postaci pozostaje użyteczna: ustawiaj liczniki przyciskami − i +, zmieniaj pola, na które pozwala MG, i pisz notatki.',
+            'Wszystko zostaje na urządzeniu i jest wysyłane po powrocie połączenia, pole po polu: licznik otrzymuje to, co odjąłeś lub dodałeś, a to, co MG zmienił w międzyczasie (ujawniony sekret, zmienione pole), zostaje zachowane.',
+            'Po wysłaniu podsumowanie pokazuje, co zostało zaktualizowane, i wskazuje pola, które MG zmienił w tym samym czasie co Ty.',
+        ],
+    ],
+
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'Wielka mapa kampanii',

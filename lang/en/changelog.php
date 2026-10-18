@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Your sheet, even without a connection',
+        'items' => [
+            'Offline, your character\'s sheet stays usable: adjust your counters with − and +, edit the fields the GM lets you change and write notes.',
+            'Everything is kept on the device and sent when the connection comes back, field by field: a counter receives what you removed or added, and whatever the GM changed in the meantime (a revealed secret, an edited field) is kept.',
+            'After sending, a summary says what was updated and points out any field the GM changed at the same time as you.',
+        ],
+    ],
+
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'The big campaign map',

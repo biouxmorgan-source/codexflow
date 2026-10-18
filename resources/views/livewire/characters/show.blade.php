@@ -1,7 +1,8 @@
 @php($entity = $this->entity)
 @php($counters = $this->fields->where('type', \App\Enums\FieldType::Counter))
 @php($others = $this->fields->reject(fn ($definition) => $definition->type === \App\Enums\FieldType::Counter))
-<div>
+@php($offline = $this->offlineData)
+<div @if ($offline) x-data="offlineSheet" @endif>
     @if ($viewAs)
         <x-view-as-banner :name="$entity->name" :exit="route('characters.show', [$campaign, $character])" />
     @endif
@@ -75,6 +76,10 @@
         @endif
     </header>
 
+    @if ($offline)
+        @include('livewire.characters.partials.offline-panel')
+    @endif
+
     @if ($counters->isNotEmpty())
         <section aria-labelledby="counters-title" class="mb-8">
             <h2 id="counters-title" class="mb-2 font-semibold">{{ __('Compteurs') }}</h2>
@@ -86,13 +91,19 @@
                         <p class="text-sm text-stone-600">{{ $definition->name }}</p>
                         <div class="mt-1 flex items-center gap-2">
                             @if ($canChange)
-                                <button type="button" x-on:click="$wire.adjust({{ $definition->id }}, -step())" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Retirer le montant à :name', ['name' => $definition->name]) }}">−</button>
+                                <button type="button" x-on:click="{{ $offline ? 'offline ? queueCounter('.$definition->id.', -step()) : ' : '' }}$wire.adjust({{ $definition->id }}, -step())" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Retirer le montant à :name', ['name' => $definition->name]) }}">−</button>
                             @endif
                             <p class="flex-1 text-center text-2xl font-semibold tabular-nums" aria-live="polite">
-                                {{ $counter === null ? '—' : $definition->type->format($counter) }}
+                                @if ($offline && $canChange)
+                                    <span x-show="! hasCounter({{ $definition->id }})">{{ $counter === null ? '—' : $definition->type->format($counter) }}</span>
+                                    <span x-show="hasCounter({{ $definition->id }})" x-cloak x-text="counterText({{ $definition->id }})"></span>
+                                    <span x-show="hasCounter({{ $definition->id }})" x-cloak class="block text-xs font-normal text-flow">{{ __('en attente d’envoi') }}</span>
+                                @else
+                                    {{ $counter === null ? '—' : $definition->type->format($counter) }}
+                                @endif
                             </p>
                             @if ($canChange)
-                                <button type="button" x-on:click="$wire.adjust({{ $definition->id }}, step())" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Ajouter le montant à :name', ['name' => $definition->name]) }}">+</button>
+                                <button type="button" x-on:click="{{ $offline ? 'offline ? queueCounter('.$definition->id.', step()) : ' : '' }}$wire.adjust({{ $definition->id }}, step())" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Ajouter le montant à :name', ['name' => $definition->name]) }}">+</button>
                             @endif
                         </div>
                         @if ($canChange)
