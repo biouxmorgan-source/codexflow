@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus en drempel van het blad',
+        'items' => [
+            'Bij de dobbelstenen kan de bonus een of meer waarden van het personageblad overnemen (eigenschap, vaardigheid, elk getal- of tellerveld in de openbare zone), heel of als tiental, helft of vijfde, naast de vrije bonus. Ook de drempel kan van het blad komen. De waarden worden bij de worp gelezen van het blad van elk personage dat gooit.',
+        ],
+    ],
+
     '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Ruwe worp',

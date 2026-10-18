@@ -2509,5 +2509,20 @@
     "Vous restez responsable des documents que vous importez et des droits nécessaires pour les utiliser.": "Sigues siendo responsable de los documentos que importas y de los derechos necesarios para utilizarlos.",
     "Brut": "En bruto",
     "Chaque dé tel qu’il tombe, sans total ni règle.": "Cada dado tal como cae, sin total ni regla.",
-    "bruts": "en bruto"
+    "bruts": "en bruto",
+    "Ajouter au bonus une valeur de la fiche": "Añadir al bonificador un valor de la ficha",
+    "Ce qu’on prend de la valeur": "Qué se toma del valor",
+    "Le seuil se lit sur une fiche : lancez pour un personnage qui a cette valeur.": "El umbral se lee en una ficha: tira para un personaje que tenga ese valor.",
+    "Les valeurs se lisent sur la fiche du personnage qui lance, au moment du lancer.": "Los valores se leen en la ficha del personaje que tira, en el momento de la tirada.",
+    "Nombre saisi": "Número escrito",
+    "Retirer cette valeur": "Quitar este valor",
+    "Seuil lu sur la fiche": "Umbral leído en la ficha",
+    "Valeur de la fiche": "Valor de la ficha",
+    "cinquième de :name": "quinto de :name",
+    "dizaine de :name": "decena de :name",
+    "moitié de :name": "mitad de :name",
+    "la dizaine": "la decena",
+    "la moitié": "la mitad",
+    "la valeur": "el valor",
+    "le cinquième": "el quinto"
 }

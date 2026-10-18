@@ -2509,5 +2509,20 @@
     "Vous restez responsable des documents que vous importez et des droits nécessaires pour les utiliser.": "You remain responsible for the documents you import and for the rights needed to use them.",
     "Brut": "Raw",
     "Chaque dé tel qu’il tombe, sans total ni règle.": "Each die as it falls, with no total and no rule.",
-    "bruts": "raw"
+    "bruts": "raw",
+    "Ajouter au bonus une valeur de la fiche": "Add a sheet value to the bonus",
+    "Ce qu’on prend de la valeur": "What to take from the value",
+    "Le seuil se lit sur une fiche : lancez pour un personnage qui a cette valeur.": "The threshold is read from a sheet: roll for a character who has this value.",
+    "Les valeurs se lisent sur la fiche du personnage qui lance, au moment du lancer.": "Values are read from the rolling character's sheet at the moment of the roll.",
+    "Nombre saisi": "Typed number",
+    "Retirer cette valeur": "Remove this value",
+    "Seuil lu sur la fiche": "Threshold read from the sheet",
+    "Valeur de la fiche": "Sheet value",
+    "cinquième de :name": "fifth of :name",
+    "dizaine de :name": "tens of :name",
+    "moitié de :name": "half of :name",
+    "la dizaine": "the tens",
+    "la moitié": "half",
+    "la valeur": "the value",
+    "le cinquième": "a fifth"
 }

@@ -155,6 +155,7 @@ final class TableDice
         abort_unless(in_array($campaign->roleOf($user), [CampaignRole::GameMaster, CampaignRole::Player], true), 403);
         abort_unless(in_array($visibility, [self::TABLE, self::GM], true), 422);
         abort_if($character !== null && ($character->campaign_id !== $campaign->id || $character->user_id !== $user->id), 403);
+        $formula = SheetValues::apply($formula, $campaign, $character);
         $formula->ensureComplete();
 
         $roll = $campaign->diceRolls()->create([

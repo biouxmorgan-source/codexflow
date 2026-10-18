@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus und Schwelle vom Bogen',
+        'items' => [
+            'Beim Würfeln kann der Bonus einen oder mehrere Werte vom Charakterbogen übernehmen (Eigenschaft, Fertigkeit, jedes Zahl- oder Zählerfeld der öffentlichen Zone), ganz oder als Zehner, Hälfte oder Fünftel, zusätzlich zum freien Bonus. Auch die Schwelle kann vom Bogen kommen. Die Werte werden beim Wurf vom Bogen jedes würfelnden Charakters gelesen.',
+        ],
+    ],
+
     '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Roher Wurf',

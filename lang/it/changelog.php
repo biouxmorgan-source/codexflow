@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus e soglia letti sulla scheda',
+        'items' => [
+            'Nei dadi, il bonus può prendere uno o più valori dalla scheda del personaggio (caratteristica, abilità, qualsiasi campo numero o contatore della zona pubblica), interi o come decina, metà o quinto, oltre al bonus libero. Anche la soglia può essere letta sulla scheda. I valori si leggono al momento del tiro, sulla scheda di ogni personaggio che tira.',
+        ],
+    ],
+
     '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Tiro grezzo',

@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus et seuil lus sur la fiche',
+        'items' => [
+            'Dans les dés, le bonus peut reprendre une ou plusieurs valeurs de la fiche du personnage (caractéristique, compétence, tout champ nombre ou compteur de la zone publique), entières ou en dizaine, moitié ou cinquième, en plus du bonus libre. Le seuil peut aussi se lire sur la fiche. Les valeurs sont lues au moment du lancer, sur la fiche de chaque personnage qui lance.',
+        ],
+    ],
+
     '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Lancer brut',

@@ -7,6 +7,8 @@
     'keep' => ['★', __('Garder les meilleurs'), __('Seuls les meilleurs dés comptent (ou les plus faibles).'), "reading === 'keep'"],
     'digits' => ['#', __('Lire en chiffres'), __('Chaque dé donne un chiffre : 3, 5 et 1 font 351.'), "reading === 'digits'"],
 ])
+@php($fieldGroups = collect($sheetFields ?? [])->groupBy('group'))
+@php($takeNames = ['value' => __('la valeur'), 'tens' => __('la dizaine'), 'half' => __('la moitié'), 'fifth' => __('le cinquième')])
 <div class="space-y-3">
     <div>
         <p class="flex items-baseline justify-between gap-2">
@@ -65,7 +67,28 @@
     <div class="flex flex-wrap items-end gap-3 text-sm">
         <label x-show="needsThreshold" x-cloak class="flex flex-col gap-1">
             <span class="label mb-0">{{ __('Seuil') }}</span>
-            <input type="text" inputmode="numeric" x-model="threshold" maxlength="5" class="field w-20 py-1 text-center" placeholder="{{ $thresholdPlaceholder ?? '' }}">
+            <span class="flex gap-1">
+                <input type="text" inputmode="numeric" x-model="threshold" x-show="! threshold_from" maxlength="5" class="field w-20 py-1 text-center" placeholder="{{ $thresholdPlaceholder ?? '' }}">
+                @if ($fieldGroups->isNotEmpty())
+                    <select class="field max-w-40 py-1" aria-label="{{ __('Seuil lu sur la fiche') }}"
+                        x-on:change="setThresholdFrom($event.target.value, threshold_from?.take ?? 'value', $event.target.selectedOptions[0].text)">
+                        <option value="" :selected="! threshold_from">{{ __('Nombre saisi') }}</option>
+                        @foreach ($fieldGroups as $group => $fields)
+                            <optgroup label="{{ $group }}">
+                                @foreach ($fields as $field)
+                                    <option value="{{ $field['id'] }}" :selected="threshold_from?.field === {{ $field['id'] }}">{{ $field['name'] }}</option>
+                                @endforeach
+                            </optgroup>
+                        @endforeach
+                    </select>
+                    <select x-show="threshold_from" x-cloak class="field py-1" aria-label="{{ __('Ce qu’on prend de la valeur') }}"
+                        x-on:change="threshold_from.take = $event.target.value">
+                        @foreach ($takeNames as $take => $name)
+                            <option value="{{ $take }}" :selected="threshold_from?.take === '{{ $take }}'">{{ $name }}</option>
+                        @endforeach
+                    </select>
+                @endif
+            </span>
         </label>
         <label x-show="['above', 'below'].includes(reading)" x-cloak class="flex flex-col gap-1">
             <span class="label mb-0">{{ __('Le total réussit') }}</span>
@@ -96,6 +119,39 @@
             <input type="number" min="-999" max="999" x-model="modifier" class="field w-20 py-1 text-center">
         </label>
     </div>
+
+    @if ($fieldGroups->isNotEmpty())
+        <div x-show="hasModifier" x-cloak class="rounded-lg border border-stone-200 p-2 text-sm">
+            <p class="label mb-1">{{ __('Ajouter au bonus une valeur de la fiche') }}</p>
+            <ul class="mb-1.5 flex flex-wrap gap-1.5" x-show="bonus_from.length">
+                <template x-for="(item, index) in bonus_from" :key="index">
+                    <li class="inline-flex items-center gap-1 rounded-full border border-codex bg-codex-soft px-2.5 py-0.5 text-xs font-semibold">
+                        <span x-text="'+ ' + takeLabel(item)"></span>
+                        <button type="button" x-on:click="removeSource(index)" class="text-stone-500 hover:text-red-700" aria-label="{{ __('Retirer cette valeur') }}">×</button>
+                    </li>
+                </template>
+            </ul>
+            <div class="flex flex-wrap items-center gap-1" x-show="bonus_from.length < 4">
+                <select x-model="sourceTake" class="field py-1" aria-label="{{ __('Ce qu’on prend de la valeur') }}">
+                    @foreach ($takeNames as $take => $name)
+                        <option value="{{ $take }}">{{ $name }}</option>
+                    @endforeach
+                </select>
+                <select x-model="sourceField" x-ref="sourceField" class="field max-w-44 py-1" aria-label="{{ __('Valeur de la fiche') }}">
+                    <option value="">{{ __('Choisir…') }}</option>
+                    @foreach ($fieldGroups as $group => $fields)
+                        <optgroup label="{{ $group }}">
+                            @foreach ($fields as $field)
+                                <option value="{{ $field['id'] }}">{{ $field['name'] }}</option>
+                            @endforeach
+                        </optgroup>
+                    @endforeach
+                </select>
+                <button type="button" x-on:click="addSource($refs.sourceField.selectedOptions[0].text)" :disabled="sourceField === ''" class="btn-secondary px-2.5 py-1 text-xs">{{ __('Ajouter') }}</button>
+            </div>
+        </div>
+        <p x-show="threshold_from || (hasModifier && bonus_from.length)" x-cloak class="text-xs text-stone-500">{{ __('Les valeurs se lisent sur la fiche du personnage qui lance, au moment du lancer.') }}</p>
+    @endif
 
     <fieldset x-show="canExplode" x-cloak>
         <legend class="label">{{ __('Dés qui relancent') }}</legend>

@@ -13,10 +13,18 @@ document.addEventListener('alpine:init', () => {
         explode: 'none',
         modifier: 0,
         hide_threshold: false,
+        // Valeurs de la fiche du personnage qui lance : ajoutées au bonus, ou prises comme seuil.
+        bonus_from: [],
+        threshold_from: null,
     });
+    const MAX_SOURCES = 4;
+    const source = (item) => ({ field: Number(item.field), take: item.take ?? 'value', name: item.name ?? '' });
 
-    window.Alpine.data('diceBuilder', (storageKey) => ({
+    window.Alpine.data('diceBuilder', (storageKey, takes = {}) => ({
         ...blank(),
+        takes,
+        sourceField: '',
+        sourceTake: 'value',
         custom: '',
         visibility: 'table',
         label: '',
@@ -73,14 +81,37 @@ document.addEventListener('alpine:init', () => {
             return {
                 pool: this.pool.map((kind) => ({ count: kind.count, sides: kind.sides })),
                 reading: this.reading,
-                threshold: this.threshold === '' ? null : Number(this.threshold),
+                threshold: this.threshold === '' || this.threshold_from ? null : Number(this.threshold),
                 count_high: this.count_high,
                 keep: Number(this.keep),
                 keep_high: this.keep_high,
                 explode: this.explode,
                 modifier: Number(this.modifier) || 0,
-                hide_threshold: this.hide_threshold,
+                hide_threshold: this.hide_threshold && !this.threshold_from,
+                bonus_from: this.bonus_from.map(source),
+                threshold_from: this.threshold_from ? source(this.threshold_from) : null,
             };
+        },
+
+        takeLabel(item) {
+            const label = this.takes[item.take] ?? ':name';
+            return label.replace(':name', item.name || '?');
+        },
+
+        // Le nom vient de l'option choisie : la liste des champs n'est écrite que dans le plateau ouvert.
+        addSource(name) {
+            if (this.sourceField === '' || this.bonus_from.length >= MAX_SOURCES) return;
+            this.bonus_from.push({ field: Number(this.sourceField), take: this.sourceTake, name });
+            this.sourceField = '';
+            this.sourceTake = 'value';
+        },
+
+        removeSource(index) {
+            this.bonus_from.splice(index, 1);
+        },
+
+        setThresholdFrom(id, take, name) {
+            this.threshold_from = id === '' ? null : { field: Number(id), take, name };
         },
 
         // Toucher un type de dé en ajoute un ; plusieurs types se mélangent dans le même lancer.

@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus and threshold read from the sheet',
+        'items' => [
+            'In the dice tray, the bonus can take one or more values from the character’s sheet (attribute, skill, any number or counter field in the public zone), whole or as tens, half or fifth, on top of the free bonus. The threshold can also be read from the sheet. Values are read at the moment of the roll, from the sheet of each character who rolls.',
+        ],
+    ],
+
     '0.68.0' => [
         'date' => '2026-10-17',
         'title' => 'Raw roll',
