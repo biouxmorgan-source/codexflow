@@ -5,12 +5,11 @@ namespace App\Livewire\Audio;
 use App\Models\AudioTrack;
 use App\Models\Campaign;
 use App\Models\Tag;
-use App\Support\Plans\Plans;
+use App\Support\Demo\DemoLock;
+use App\Support\SoundLibrary;
 use App\Support\TableAudio;
-use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -19,7 +18,8 @@ use Livewire\WithFileUploads;
 
 /**
  * Bibliothèque sonore de la campagne : musiques et ambiances préparées avant la partie,
- * lancées ensuite depuis le mode Session.
+ * lancées ensuite depuis le mode Session. On y ajoute aussi les sons de sa bibliothèque
+ * personnelle, sans copier le fichier.
  */
 class Index extends Component
 {
@@ -36,6 +36,12 @@ class Index extends Component
     public string $tags = '';
 
     public bool $loop = true;
+
+    /** Téléverser dans sa bibliothèque personnelle (et l'ajouter ici) plutôt que dans la campagne. */
+    public bool $toLibrary = false;
+
+    /** @var list<int|string> sons de sa bibliothèque à ajouter à la campagne */
+    public array $libraryPicks = [];
 
     public ?int $editingId = null;
 
@@ -54,8 +60,8 @@ class Index extends Component
     #[Computed]
     public function tracks(): Collection
     {
-        return $this->campaign->audioTracks()
-            ->with('tags')
+        return $this->campaign->availableTracks()
+            ->with(['tags', 'owner:id,name'])
             ->when($this->tag !== '', fn (Builder $q) => $q->whereHas('tags', fn (Builder $t) => $t->whereRaw('lower(tags.name) = ?', [mb_strtolower($this->tag)])))
             ->orderByRaw('lower(title)')
             ->get();
@@ -66,54 +72,79 @@ class Index extends Component
     public function tagNames(): array
     {
         return Tag::query()
-            ->whereHas('audioTracks', fn (Builder $q) => $q->where('campaign_id', $this->campaign->id))
+            ->whereHas('audioTracks', fn (Builder $q) => $q->availableIn($this->campaign))
             ->orderByRaw('lower(name)')
             ->pluck('name')
             ->all();
+    }
+
+    /** @return Collection<int, AudioTrack> sons de ma bibliothèque pas encore dans la campagne */
+    #[Computed]
+    public function libraryChoices(): Collection
+    {
+        return auth()->user()->libraryTracks()
+            ->whereNotIn('id', $this->campaign->availableTracks()->select('audio_tracks.id'))
+            ->orderByRaw('lower(title)')
+            ->get();
     }
 
     public function saveUploads(): void
     {
         $this->authorize('update', $this->campaign);
 
-        $this->validate([
-            'uploads' => ['required', 'array', 'max:20'],
-            'uploads.*' => ['file', 'max:'.AudioTrack::MAX_KB, function (string $attribute, mixed $file, Closure $fail) {
-                if (! $file instanceof TemporaryUploadedFile || ! AudioTrack::accepts($file)) {
-                    $fail(__('Le fichier doit être un son : mp3, ogg, m4a, wav, flac ou webm.'));
-                }
-            }],
-            'tags' => ['nullable', 'string', 'max:1000'],
-        ], attributes: ['uploads' => __('fichiers'), 'uploads.*' => __('fichier')]);
+        $this->validate(SoundLibrary::rules(), attributes: ['uploads' => __('fichiers'), 'uploads.*' => __('fichier')]);
 
-        Plans::ensureRoom($this->campaign->owner, array_sum(array_map(fn ($file) => (int) $file->getSize(), $this->uploads)), 'uploads');
+        $owner = $this->toLibrary ? auth()->user() : $this->campaign->owner;
+        DemoLock::guardCampaign($this->campaign);
+        $ids = SoundLibrary::store($this->uploads, $owner, $this->toLibrary ? null : $this->campaign, $this->loop, Tag::idsFromInput($owner, $this->tags));
 
-        $tagIds = Tag::idsFromInput($this->campaign->owner, $this->tags);
-
-        foreach ($this->uploads as $file) {
-            $name = mb_substr($file->getClientOriginalName(), 0, 255);
-            $track = new AudioTrack([
-                'title' => mb_substr(pathinfo($name, PATHINFO_FILENAME) ?: $name, 0, 255),
-                'loop' => $this->loop,
-                'disk' => AudioTrack::DISK,
-                'path' => $file->storeAs('audio', Str::random(40).'.'.strtolower($file->getClientOriginalExtension()), AudioTrack::DISK),
-                'original_name' => $name,
-                'mime_type' => AudioTrack::audioMime($file),
-                'size' => $file->getSize(),
-            ]);
-            $track->owner()->associate($this->campaign->owner);
-            $track->campaign()->associate($this->campaign);
-            $track->save();
-            $track->tags()->sync($tagIds);
+        if ($this->toLibrary) {
+            $this->campaign->libraryTracks()->syncWithoutDetaching($ids);
         }
 
         $this->reset('uploads', 'tags');
-        unset($this->tracks, $this->tagNames);
+        unset($this->tracks, $this->tagNames, $this->libraryChoices);
+    }
+
+    /** Ajoute à la campagne des sons de ma bibliothèque : le fichier n'est pas copié. */
+    public function addFromLibrary(): void
+    {
+        $this->authorize('update', $this->campaign);
+
+        foreach (auth()->user()->libraryTracks()->whereKey(array_map('intval', $this->libraryPicks))->get() as $track) {
+            SoundLibrary::link($track, $this->campaign);
+        }
+
+        $this->reset('libraryPicks');
+        unset($this->tracks, $this->tagNames, $this->libraryChoices);
+    }
+
+    /** Range un son de la campagne dans ma bibliothèque, pour le réutiliser ailleurs. */
+    public function moveToLibrary(int $id): void
+    {
+        $track = $this->track($id);
+        abort_if($track->inLibrary() || $track->user_id !== auth()->id(), 403);
+
+        SoundLibrary::moveToLibrary($track);
+
+        unset($this->tracks, $this->tagNames, $this->libraryChoices);
+    }
+
+    /** Un son de bibliothèque quitte la campagne ; il reste dans la bibliothèque de son MJ. */
+    public function removeFromCampaign(int $id): void
+    {
+        $track = $this->track($id);
+        abort_unless($track->inLibrary(), 404);
+
+        SoundLibrary::detach($track, $this->campaign);
+
+        unset($this->tracks, $this->tagNames, $this->libraryChoices);
     }
 
     public function edit(int $id): void
     {
         $track = $this->track($id);
+        $this->authorize('update', $track);
 
         $this->resetValidation();
         $this->editingId = $track->id;
@@ -131,6 +162,7 @@ class Index extends Component
     public function update(): void
     {
         $track = $this->track((int) $this->editingId);
+        $this->authorize('update', $track);
 
         $this->validate([
             'editTitle' => ['required', 'string', 'max:255'],
@@ -138,7 +170,7 @@ class Index extends Component
         ], attributes: ['editTitle' => __('titre'), 'editTags' => __('tags')]);
 
         $track->update(['title' => trim($this->editTitle), 'loop' => $this->editLoop]);
-        $track->tags()->sync(Tag::idsFromInput($this->campaign->owner, $this->editTags));
+        $track->tags()->sync(Tag::idsFromInput($track->owner, $this->editTags));
 
         $this->cancel();
         unset($this->tracks, $this->tagNames);
@@ -147,14 +179,11 @@ class Index extends Component
     public function delete(int $id): void
     {
         $track = $this->track($id);
+        abort_if($track->inLibrary(), 404);
         $this->authorize('delete', $track);
 
-        if (($this->campaign->table_audio['track'] ?? null) === $track->id) {
-            TableAudio::stop($this->campaign);
-        }
-
-        $track->delete();
-        unset($this->tracks, $this->tagNames);
+        SoundLibrary::delete($track);
+        unset($this->tracks, $this->tagNames, $this->libraryChoices);
     }
 
     public function playOnTable(int $id): void
@@ -168,7 +197,7 @@ class Index extends Component
     {
         $this->authorize('update', $this->campaign);
 
-        return $this->campaign->audioTracks()->with('tags')->findOrFail($id);
+        return $this->campaign->availableTracks()->with('tags')->findOrFail($id);
     }
 
     public function render()

@@ -108,7 +108,7 @@ class Live extends Component
         $scene = $this->session?->currentScene;
         $sceneIds = $scene ? $scene->audioTracks()->pluck('audio_tracks.id')->all() : [];
 
-        return $this->campaign->audioTracks()->orderByRaw('lower(title)')->get()
+        return $this->campaign->availableTracks()->orderByRaw('lower(title)')->get()
             ->sortBy(fn (AudioTrack $track) => ($pos = array_search($track->id, $sceneIds, true)) === false ? PHP_INT_MAX : $pos)
             ->each(fn (AudioTrack $track) => $track->setAttribute('in_scene', in_array($track->id, $sceneIds, true)))
             ->values();
@@ -125,7 +125,7 @@ class Live extends Component
     {
         $this->authorize('update', $this->campaign);
 
-        TableAudio::play($this->campaign, $this->campaign->audioTracks()->findOrFail($trackId));
+        TableAudio::play($this->campaign, $this->campaign->availableTracks()->findOrFail($trackId));
         unset($this->tableAudio);
     }
 

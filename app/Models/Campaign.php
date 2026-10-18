@@ -197,6 +197,18 @@ class Campaign extends Model
         return $this->hasMany(FeedbackRequest::class);
     }
 
+    /** @return Builder<AudioTrack> les sons de la campagne et ceux ajoutés depuis la bibliothèque d'un MJ */
+    public function availableTracks(): Builder
+    {
+        return AudioTrack::query()->availableIn($this);
+    }
+
+    /** @return BelongsToMany<AudioTrack, $this> sons de bibliothèque ajoutés à la campagne */
+    public function libraryTracks(): BelongsToMany
+    {
+        return $this->belongsToMany(AudioTrack::class, 'audio_track_campaign');
+    }
+
     /** @return HasMany<AudioTrack, $this> */
     public function audioTracks(): HasMany
     {

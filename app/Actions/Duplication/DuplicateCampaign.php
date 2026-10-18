@@ -252,7 +252,15 @@ class DuplicateCampaign
     {
         $map = [];
 
-        foreach ($source->audioTracks()->with('tags')->get() as $track) {
+        foreach ($source->availableTracks()->with('tags')->get() as $track) {
+            // Un son de la bibliothèque du nouveau MJ est seulement ajouté à la copie, sans copier le fichier.
+            if ($track->inLibrary() && $track->user_id === $campaign->user_id) {
+                $campaign->libraryTracks()->syncWithoutDetaching([$track->id]);
+                $map[$track->id] = $track->id;
+
+                continue;
+            }
+
             $path = $files->copy($track->disk, $track->path, 'audio');
 
             if ($path === null) {

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Actions\Duplication\DuplicateCampaign;
 use App\Enums\CampaignRole;
 use App\Livewire\Audio\Index as AudioIndex;
+use App\Livewire\Library\Sounds as LibrarySounds;
 use App\Livewire\Scenes\Form as SceneForm;
 use App\Livewire\Sessions\Live;
 use App\Livewire\Table\Screen;
@@ -240,6 +241,167 @@ class AudioLibraryTest extends TestCase
 
         $this->assertSame(['Taverne', true, 'audio/mpeg', ['taverne']], [$restored->title, $restored->loop, $restored->mime_type, $restored->tags->pluck('name')->all()]);
         $this->assertSame(Storage::disk('local')->get($track->path), Storage::disk('local')->get($restored->path));
+        $this->assertSame([$restored->id], $imported->scenes()->sole()->audioTracks()->pluck('audio_tracks.id')->all());
+    }
+
+    private function libraryTrack(User $owner, string $title = 'Orage'): AudioTrack
+    {
+        $track = new AudioTrack([
+            'title' => $title, 'loop' => true, 'disk' => AudioTrack::DISK, 'original_name' => $title.'.mp3', 'mime_type' => 'audio/mpeg', 'size' => 414,
+            'path' => self::mp3()->storeAs('audio', 'lib-'.$title.'.mp3', AudioTrack::DISK),
+        ]);
+        $track->owner()->associate($owner);
+        $track->save();
+
+        return $track;
+    }
+
+    public function test_gm_keeps_sounds_in_a_personal_library_and_adds_them_to_campaigns_without_copy(): void
+    {
+        $second = Campaign::factory()->for($this->gm, 'owner')->create(['name' => 'Le Puits']);
+
+        Livewire::actingAs($this->gm)->test(LibrarySounds::class)
+            ->set('uploads', [self::mp3('Orage lointain.mp3')])
+            ->set('tags', 'météo')
+            ->call('saveUploads')
+            ->assertHasNoErrors()
+            ->assertSee('Orage lointain')
+            ->assertSee('aucune campagne');
+
+        $track = AudioTrack::sole();
+        $this->assertNull($track->campaign_id);
+        $this->actingAs($this->gm)->get(route('library.sounds'))->assertOk()->assertSee('Orage lointain');
+        $this->actingAs($this->player)->get(route('library.sounds'))->assertOk()->assertDontSee('Orage lointain');
+        $this->assertSame(['météo'], $track->tags->pluck('name')->all());
+
+        $library = Livewire::actingAs($this->gm)->test(LibrarySounds::class);
+        foreach ([$this->campaign, $second] as $campaign) {
+            $library->set("addTo.{$track->id}", (string) $campaign->id)->call('addToCampaign', $track->id);
+        }
+
+        // Un seul fichier, compté une fois, utilisable dans les deux campagnes.
+        $this->assertSame(1, AudioTrack::count());
+        $this->assertSame($track->size, StorageUsage::bytes($this->gm->fresh()));
+        $this->assertSame([$track->id], $this->campaign->availableTracks()->pluck('id')->all());
+        $this->assertSame([$track->id], $second->availableTracks()->pluck('id')->all());
+
+        Livewire::actingAs($this->gm)->test(AudioIndex::class, ['campaign' => $second])
+            ->assertSee('Orage lointain')
+            ->assertSee('Ma bibliothèque');
+
+        // Lié à une scène, joué sur la table, servi aux MJ de la campagne seulement.
+        Livewire::actingAs($this->gm)->test(SceneForm::class, ['campaign' => $this->campaign, 'scene' => $this->scene])
+            ->set('pickedTrackId', $track->id)->call('addTrack')->call('save')->assertHasNoErrors();
+        $this->assertSame([$track->id], $this->scene->audioTracks()->pluck('audio_tracks.id')->all());
+        TableAudio::play($this->campaign, $track);
+        $this->assertSame($track->id, TableAudio::current($this->campaign->fresh())['track']->id);
+        $this->actingAs($this->gm)->get(route('audio.file', $track))->assertOk();
+        $this->actingAs($this->player)->get(route('audio.file', $track))->assertNotFound();
+
+        // Retirer d'une campagne garde le fichier et arrête la table qui le jouait.
+        Livewire::actingAs($this->gm)->test(AudioIndex::class, ['campaign' => $this->campaign])
+            ->call('removeFromCampaign', $track->id);
+        $this->assertModelExists($track);
+        $this->assertSame([], $this->campaign->availableTracks()->pluck('id')->all());
+        $this->assertSame([], $this->scene->audioTracks()->pluck('audio_tracks.id')->all());
+        $this->assertNull($this->campaign->fresh()->table_audio);
+
+        // Supprimer de la bibliothèque l'enlève partout, avec son fichier.
+        Livewire::actingAs($this->gm)->test(LibrarySounds::class)->call('delete', $track->id);
+        $this->assertModelMissing($track);
+        Storage::disk('local')->assertMissing($track->path);
+        $this->assertSame([], $second->availableTracks()->pluck('id')->all());
+    }
+
+    public function test_campaign_upload_can_go_to_the_library(): void
+    {
+        Livewire::actingAs($this->gm)->test(AudioIndex::class, ['campaign' => $this->campaign])
+            ->set('uploads', [self::mp3('Forêt.mp3')])
+            ->set('toLibrary', true)
+            ->call('saveUploads')
+            ->assertHasNoErrors();
+
+        $track = AudioTrack::sole();
+        $this->assertTrue($track->inLibrary());
+        $this->assertSame([$track->id], $this->campaign->availableTracks()->pluck('id')->all());
+    }
+
+    public function test_moving_a_campaign_sound_to_the_library_merges_identical_copies(): void
+    {
+        $second = Campaign::factory()->for($this->gm, 'owner')->create(['name' => 'Le Puits']);
+        $first = $this->track('Taverne');
+        $this->scene->audioTracks()->attach($first, ['position' => 0]);
+
+        Livewire::actingAs($this->gm)->test(AudioIndex::class, ['campaign' => $this->campaign])
+            ->call('moveToLibrary', $first->id)
+            ->assertSee('Ma bibliothèque');
+        $this->assertNull($first->fresh()->campaign_id);
+        $this->assertSame([$first->id], $this->campaign->availableTracks()->pluck('id')->all());
+
+        // La même musique téléversée dans une autre campagne : la copie disparaît, l'original la remplace.
+        $copy = new AudioTrack(['title' => 'Taverne (copie)', 'loop' => true, 'disk' => AudioTrack::DISK, 'original_name' => 'Taverne.mp3', 'mime_type' => 'audio/mpeg', 'size' => 414,
+            'path' => self::mp3()->storeAs('audio', 'copie.mp3', AudioTrack::DISK)]);
+        $copy->owner()->associate($this->gm);
+        $copy->campaign()->associate($second);
+        $copy->save();
+        $otherScene = $second->scenarios()->create(['name' => 'Acte I', 'position' => 1])->scenes()->create(['name' => 'Le puits', 'position' => 1]);
+        $otherScene->audioTracks()->attach($copy, ['position' => 0]);
+        $this->assertSame(828, StorageUsage::bytes($this->gm->fresh()));
+
+        Livewire::actingAs($this->gm)->test(AudioIndex::class, ['campaign' => $second])->call('moveToLibrary', $copy->id);
+
+        $this->assertModelMissing($copy);
+        Storage::disk('local')->assertMissing($copy->path);
+        $this->assertSame([$first->id], $second->availableTracks()->pluck('id')->all());
+        $this->assertSame([$first->id], $otherScene->audioTracks()->pluck('audio_tracks.id')->all());
+        $this->assertSame(414, StorageUsage::bytes($this->gm->fresh(), fresh: true));
+    }
+
+    public function test_library_sounds_stay_private_to_their_owner(): void
+    {
+        $coGm = User::factory()->create();
+        $this->campaign->members()->attach($coGm, ['role' => CampaignRole::GameMaster->value]);
+        $mine = $this->libraryTrack($coGm, 'Cloches');
+        $stranger = User::factory()->create();
+        $foreign = $this->libraryTrack($stranger, 'Secret');
+
+        // Le co-MJ ajoute son son : le MJ l'écoute et le lance, mais ne peut ni le modifier ni le supprimer.
+        Livewire::actingAs($coGm)->test(AudioIndex::class, ['campaign' => $this->campaign])
+            ->set('libraryPicks', [$mine->id, $foreign->id])
+            ->call('addFromLibrary');
+        $this->assertSame([$mine->id], $this->campaign->availableTracks()->pluck('id')->all());
+
+        $this->actingAs($this->gm)->get(route('audio.file', $mine))->assertOk();
+        $this->actingAs($this->gm)->get(route('audio.file', $foreign))->assertNotFound();
+        Livewire::actingAs($this->gm)->test(AudioIndex::class, ['campaign' => $this->campaign])
+            ->assertSee('Cloches')
+            ->call('edit', $mine->id)->assertForbidden();
+        Livewire::actingAs($this->gm)->test(AudioIndex::class, ['campaign' => $this->campaign])
+            ->call('delete', $mine->id)->assertNotFound();
+        Livewire::actingAs($this->gm)->test(LibrarySounds::class)->call('delete', $mine->id)->assertNotFound();
+        $this->assertModelExists($mine);
+
+        // Le co-MJ quitte la campagne : son son n'y est plus.
+        $this->campaign->members()->detach($coGm);
+        $this->assertSame([], $this->campaign->availableTracks()->pluck('id')->all());
+        $this->actingAs($this->gm)->get(route('audio.file', $mine))->assertNotFound();
+    }
+
+    public function test_duplication_links_own_library_sounds_and_export_includes_them(): void
+    {
+        $track = $this->libraryTrack($this->gm, 'Orage');
+        $track->linkedCampaigns()->attach($this->campaign);
+        $this->scene->audioTracks()->attach($track, ['position' => 0]);
+
+        $copy = app(DuplicateCampaign::class)->handle($this->campaign, $this->gm);
+        $this->assertSame(1, AudioTrack::count());
+        $this->assertSame([$track->id], $copy->availableTracks()->pluck('id')->all());
+        $this->assertSame([$track->id], $copy->scenes()->sole()->audioTracks()->pluck('audio_tracks.id')->all());
+
+        $path = (new CampaignExport($this->campaign->fresh()))->write();
+        $imported = (new CampaignImport($this->gm))->handle($path);
+        $restored = $imported->audioTracks()->sole();
+        $this->assertSame('Orage', $restored->title);
         $this->assertSame([$restored->id], $imported->scenes()->sole()->audioTracks()->pluck('audio_tracks.id')->all());
     }
 }

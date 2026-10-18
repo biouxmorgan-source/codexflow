@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Een geluidsbibliotheek voor al je campagnes',
+        'items' => [
+            'Nieuwe pagina „Mijn geluiden”: je muziek en sferen, één keer in je account bewaard en daarna toegevoegd aan de campagnes die je leidt. Het bestand wordt niet gekopieerd en telt maar één keer mee voor je opslag.',
+            'Op de pagina Geluiden van een campagne: „Uit mijn bibliotheek” om je geluiden toe te voegen, „In mijn bibliotheek zetten” om een geluid elders te hergebruiken, en een vakje om een nieuwe upload meteen in de bibliotheek te zetten.',
+            'Een geluid dat al in een andere campagne is geüpload in de bibliotheek zetten voegt beide kopieën samen: scènes houden hun muziek en de ruimte komt vrij.',
+        ],
+    ],
+
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'De handleiding overal',

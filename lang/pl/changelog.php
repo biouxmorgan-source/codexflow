@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Biblioteka dźwięków dla wszystkich kampanii',
+        'items' => [
+            'Nowa strona „Moje dźwięki”: muzyka i ambienty zapisane raz na koncie, a potem dodawane do prowadzonych kampanii. Plik nie jest kopiowany i liczy się tylko raz do miejsca na dane.',
+            'Na stronie Dźwięki kampanii: „Z mojej biblioteki”, aby dodać swoje dźwięki, „Przenieś do mojej biblioteki”, aby użyć dźwięku gdzie indziej, oraz pole, by nowy plik trafił od razu do biblioteki.',
+            'Przeniesienie do biblioteki dźwięku wgranego już w innej kampanii scala obie kopie: sceny zachowują muzykę, a miejsce zostaje zwolnione.',
+        ],
+    ],
+
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'Instrukcja wszędzie',

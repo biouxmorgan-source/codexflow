@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Une bibliothèque de sons pour toutes vos campagnes',
+        'items' => [
+            'Nouvelle page « Mes sons » : vos musiques et ambiances, rangées une seule fois dans votre compte, puis ajoutées aux campagnes que vous menez. Le fichier n’est pas copié et ne compte qu’une fois dans votre espace.',
+            'Dans la page Sons d’une campagne : « Depuis ma bibliothèque » pour y ajouter vos sons, « Ranger dans ma bibliothèque » pour réutiliser un son ailleurs, et une case pour ranger un nouveau téléversement directement dans la bibliothèque.',
+            'Ranger dans la bibliothèque un son déjà téléversé dans une autre campagne fusionne les deux copies : les scènes gardent leur musique et l’espace est libéré.',
+        ],
+    ],
+
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'Le mode d’emploi partout',

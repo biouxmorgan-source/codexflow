@@ -160,7 +160,7 @@ class Form extends Component
 
     public function addTrack(): void
     {
-        if ($this->pickedTrackId && $this->campaign->audioTracks()->whereKey($this->pickedTrackId)->exists()) {
+        if ($this->pickedTrackId && $this->campaign->availableTracks()->whereKey($this->pickedTrackId)->exists()) {
             $this->trackIds = array_values(array_unique([...$this->trackIds, (int) $this->pickedTrackId]));
         }
 
@@ -225,7 +225,7 @@ class Form extends Component
         $scene->tags()->sync(Tag::idsFromInput($this->campaign->owner, $this->tags));
         $scene->rules()->sync(self::positions($this->campaign->availableRules()->whereKey($this->ruleIds)->pluck('id')->all(), $this->ruleIds));
         $scene->documents()->sync(self::positions($this->campaign->availableDocuments()->whereKey($this->documentIds)->pluck('id')->all(), $this->documentIds));
-        $scene->audioTracks()->sync(self::positions($this->campaign->audioTracks()->whereKey($this->trackIds)->pluck('id')->all(), $this->trackIds));
+        $scene->audioTracks()->sync(self::positions($this->campaign->availableTracks()->whereKey($this->trackIds)->pluck('id')->all(), $this->trackIds));
 
         $this->redirectRoute('scenes.show', [$this->campaign, $scene], navigate: true);
     }
@@ -258,7 +258,7 @@ class Form extends Component
             'scenarios' => $this->campaign->scenarios()->get(),
             'rules' => $this->campaign->availableRules()->orderByRaw('lower(title)')->get(['id', 'title', 'category'])->keyBy('id'),
             'documents' => $this->campaign->availableDocuments()->orderByRaw('lower(title)')->get(['id', 'title', 'mime_type'])->keyBy('id'),
-            'tracks' => $this->campaign->audioTracks()->orderByRaw('lower(title)')->get(['id', 'title'])->keyBy('id'),
+            'tracks' => $this->campaign->availableTracks()->orderByRaw('lower(title)')->get(['id', 'title'])->keyBy('id'),
         ])->title($this->scene ? __('Modifier :name', ['name' => $this->scene->name]) : __('Nouvelle scène'));
     }
 }

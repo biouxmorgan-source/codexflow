@@ -99,7 +99,7 @@ final class CampaignExport
             'documents' => $this->pivot('document_tag', 'document_id', $documentIds, 'tag_id'),
             'rules' => $this->pivot('rule_tag', 'rule_id', $ruleIds, 'tag_id'),
             'scenes' => $this->pivot('scene_tag', 'scene_id', $sceneIds, 'tag_id'),
-            'audio_tracks' => $this->pivot('audio_track_tag', 'audio_track_id', DB::table('audio_tracks')->where('campaign_id', $campaign->id)->pluck('id')->all(), 'tag_id'),
+            'audio_tracks' => $this->pivot('audio_track_tag', 'audio_track_id', $campaign->availableTracks()->pluck('audio_tracks.id')->all(), 'tag_id'),
         ];
         $tagIds = collect($tagLinks)->flatMap(fn (Collection $links) => $links->flatten())->unique()->all();
 
@@ -128,7 +128,8 @@ final class CampaignExport
 
         $sceneEntities = DB::table('scene_entity')->whereIn('scene_id', $sceneIds)->whereIn('entity_id', $entityIds)->orderBy('position')->get()->groupBy('scene_id');
         $sceneDocuments = DB::table('document_scene')->whereIn('scene_id', $sceneIds)->whereIn('document_id', $documentIds)->orderBy('position')->get()->groupBy('scene_id');
-        $tracks = DB::table('audio_tracks')->where('campaign_id', $campaign->id)->orderBy('id')->get();
+        // Les sons ajoutés depuis la bibliothèque d'un MJ partent aussi : l'archive se suffit à elle-même.
+        $tracks = $campaign->availableTracks()->toBase()->orderBy('id')->get();
         $sceneTracks = DB::table('audio_track_scene')->whereIn('scene_id', $sceneIds)->whereIn('audio_track_id', $tracks->pluck('id'))->orderBy('position')->get()->groupBy('scene_id');
         $sceneRules = DB::table('rule_scene')->whereIn('scene_id', $sceneIds)->whereIn('rule_id', $ruleIds)->orderBy('position')->get()->groupBy('scene_id');
 
