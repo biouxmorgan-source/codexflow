@@ -29,8 +29,8 @@ final class DiceFormula
     /** Ce qu'on prend d'une valeur de la fiche : la valeur, sa dizaine, sa moitié ou son cinquième. */
     public const TAKES = ['value', 'tens', 'half', 'fifth'];
 
-    /** Valeurs de la fiche ajoutées au bonus, au plus. */
-    public const MAX_SOURCES = 4;
+    /** Bonus nommés et valeurs de la fiche ajoutés au bonus, au plus. */
+    public const MAX_SOURCES = 6;
 
     /**
      * @param  list<array{count: int, sides: int}>  $pool  les dés lancés, par type ; count et sides : nombre total et premier type
@@ -58,9 +58,22 @@ final class DiceFormula
         public readonly ?array $thresholdFrom = null,
     ) {}
 
-    /** @return array{field: int, take: string, name: string, got?: int}|null */
-    private static function source(mixed $source): ?array
+    /**
+     * Un bonus : une valeur de la fiche {field, take, name, got?} ou un bonus nommé {fixed, name, got?}.
+     *
+     * @return array<string, mixed>|null
+     */
+    private static function source(mixed $source, bool $allowFixed = false): ?array
     {
+        if ($allowFixed && is_array($source) && is_numeric($source['fixed'] ?? null) && ! isset($source['field'])) {
+            $clean = ['fixed' => max(-999, min(999, (int) $source['fixed'])), 'name' => mb_substr(trim((string) ($source['name'] ?? '')), 0, 60)];
+            if (isset($source['got'])) {
+                $clean['got'] = $clean['fixed'];
+            }
+
+            return $clean;
+        }
+
         if (! is_array($source) || ! is_numeric($source['field'] ?? null)) {
             return null;
         }
@@ -80,6 +93,10 @@ final class DiceFormula
     /** « Force », « dizaine de Force », « moitié de Force », « cinquième de Force ». */
     public static function sourceLabel(array $source): string
     {
+        if (isset($source['fixed'])) {
+            return $source['name'] !== '' ? $source['name'] : __('bonus');
+        }
+
         $name = $source['name'] !== '' ? $source['name'] : '?';
 
         return match ($source['take']) {
@@ -117,9 +134,12 @@ final class DiceFormula
         $data = $this->toArray();
         // Le bonus saisi, sans les valeurs déjà lues sur une fiche.
         $base = $this->modifier - array_sum(array_map(fn (array $source) => $source['got'] ?? 0, $this->bonusFrom));
-        $known = array_values(array_filter($this->bonusFrom, fn (array $source) => isset($names[$source['field']])));
+        $known = array_values(array_filter($this->bonusFrom, fn (array $source) => isset($source['fixed']) || isset($names[$source['field']])));
         $data['bonus_from'] = array_map(function (array $source) use ($read, $names, $onSheet) {
             unset($source['got']);
+            if (isset($source['fixed'])) {
+                return $source + ['got' => $source['fixed']];
+            }
             $source['name'] = $names[$source['field']];
             $value = $read($source['field']);
             if ($value !== null || $onSheet) {
@@ -195,7 +215,7 @@ final class DiceFormula
         $explode = in_array($data['explode'] ?? null, self::EXPLODES, true) ? $data['explode'] : 'none';
         $threshold = is_numeric($data['threshold'] ?? null) ? max(-9999, min(9999, (int) $data['threshold'])) : null;
         $bonusFrom = in_array($reading, ['sum', 'above', 'below', 'keep'], true) && is_array($data['bonus_from'] ?? null)
-            ? array_slice(array_values(array_filter(array_map(self::source(...), $data['bonus_from']))), 0, self::MAX_SOURCES)
+            ? array_slice(array_values(array_filter(array_map(fn ($source) => self::source($source, allowFixed: true), $data['bonus_from']))), 0, self::MAX_SOURCES)
             : [];
         $thresholdFrom = in_array($reading, ['above', 'below', 'count'], true) ? self::source($data['threshold_from'] ?? null) : null;
 
@@ -301,12 +321,17 @@ final class DiceFormula
 
         $signed = fn (int $n) => ($n >= 0 ? '+' : '').$n;
         $read = $this->bonusFrom !== [] && collect($this->bonusFrom)->every(fn (array $source) => isset($source['got']));
+        // Le bonus libre, sans les bonus déjà comptés.
+        $free = $this->modifier - array_sum(array_map(fn (array $source) => $source['got'] ?? 0, $this->bonusFrom));
         $bonus = match (true) {
             // Valeurs lues : le bonus total, puis d'où il vient.
-            $read => $signed($this->modifier).' ('.implode(', ', array_map(fn (array $source) => self::sourceLabel($source).' '.$source['got'], $this->bonusFrom)).')',
+            $read => $signed($this->modifier).' ('.implode(', ', array_filter([
+                $free !== 0 ? $signed($free) : null,
+                ...array_map(fn (array $source) => self::sourceLabel($source).' '.$signed($source['got']), $this->bonusFrom),
+            ])).')',
             $this->bonusFrom !== [] => implode(' ', array_filter([
-                $this->modifier !== 0 ? $signed($this->modifier) : null,
-                ...array_map(fn (array $source) => '+ '.self::sourceLabel($source), $this->bonusFrom),
+                $free !== 0 ? $signed($free) : null,
+                ...array_map(fn (array $source) => isset($source['fixed']) ? self::sourceLabel($source).' '.$signed($source['fixed']) : '+ '.self::sourceLabel($source), $this->bonusFrom),
             ])),
             $this->modifier !== 0 => $signed($this->modifier),
             default => null,

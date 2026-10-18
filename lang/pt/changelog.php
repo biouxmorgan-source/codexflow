@@ -9,6 +9,8 @@ return [
         'title' => 'Bônus e limiar lidos na ficha',
         'items' => [
             'Nos dados, o bônus pode pegar um ou mais valores da ficha do personagem (característica, perícia, qualquer campo número ou contador da zona pública), inteiros ou em dezena, metade ou quinto, além do bônus livre. O limiar também pode ser lido na ficha. Os valores são lidos no momento da rolagem, na ficha de cada personagem que rola.',
+            'Vários bônus com nome (Arma +2, Ferimento −1…) se somam na mesma rolagem, junto com os valores da ficha.',
+            'Os exemplos prontos saem da bandeja: ela mantém suas rolagens salvas.',
         ],
     ],
 

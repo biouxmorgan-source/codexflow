@@ -17,14 +17,19 @@ document.addEventListener('alpine:init', () => {
         bonus_from: [],
         threshold_from: null,
     });
-    const MAX_SOURCES = 4;
-    const source = (item) => ({ field: Number(item.field), take: item.take ?? 'value', name: item.name ?? '' });
+    const MAX_SOURCES = 6;
+    // Un bonus nommé (fixed) ou une valeur de la fiche (field) ; ce qui a été lu au lancer (got) reste au serveur.
+    const source = (item) => item.fixed !== undefined
+        ? { fixed: Number(item.fixed), name: item.name ?? '' }
+        : { field: Number(item.field), take: item.take ?? 'value', name: item.name ?? '' };
 
     window.Alpine.data('diceBuilder', (storageKey, takes = {}) => ({
         ...blank(),
         takes,
         sourceField: '',
         sourceTake: 'value',
+        fixedName: '',
+        fixedValue: '',
         custom: '',
         visibility: 'table',
         label: '',
@@ -94,8 +99,9 @@ document.addEventListener('alpine:init', () => {
         },
 
         takeLabel(item) {
+            if (item.fixed !== undefined) return (item.name ? item.name + ' ' : '') + (item.fixed >= 0 ? '+' : '') + item.fixed;
             const label = this.takes[item.take] ?? ':name';
-            return label.replace(':name', item.name || '?');
+            return '+ ' + label.replace(':name', item.name || '?');
         },
 
         // Le nom vient de l'option choisie : la liste des champs n'est écrite que dans le plateau ouvert.
@@ -104,6 +110,14 @@ document.addEventListener('alpine:init', () => {
             this.bonus_from.push({ field: Number(this.sourceField), take: this.sourceTake, name });
             this.sourceField = '';
             this.sourceTake = 'value';
+        },
+
+        addFixed() {
+            const value = parseInt(this.fixedValue, 10);
+            if (!value || this.bonus_from.length >= MAX_SOURCES) return;
+            this.bonus_from.push({ fixed: Math.max(-999, Math.min(999, value)), name: this.fixedName.trim() });
+            this.fixedName = '';
+            this.fixedValue = '';
         },
 
         removeSource(index) {

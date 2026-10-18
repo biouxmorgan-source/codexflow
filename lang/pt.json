@@ -2510,12 +2510,10 @@
     "Brut": "Bruto",
     "Chaque dé tel qu’il tombe, sans total ni règle.": "Cada dado como cai, sem total nem regra.",
     "bruts": "brutos",
-    "Ajouter au bonus une valeur de la fiche": "Adicionar ao bônus um valor da ficha",
     "Ce qu’on prend de la valeur": "O que se pega do valor",
     "Le seuil se lit sur une fiche : lancez pour un personnage qui a cette valeur.": "O limiar é lido em uma ficha: role para um personagem que tenha esse valor.",
     "Les valeurs se lisent sur la fiche du personnage qui lance, au moment du lancer.": "Os valores são lidos na ficha do personagem que rola, no momento da rolagem.",
     "Nombre saisi": "Número digitado",
-    "Retirer cette valeur": "Remover este valor",
     "Seuil lu sur la fiche": "Limiar lido na ficha",
     "Valeur de la fiche": "Valor da ficha",
     "cinquième de :name": "quinto de :name",
@@ -2524,5 +2522,12 @@
     "la dizaine": "a dezena",
     "la moitié": "a metade",
     "la valeur": "o valor",
-    "le cinquième": "um quinto"
+    "le cinquième": "um quinto",
+    "Arme, Blessure…": "Arma, Ferimento…",
+    "Autres bonus": "Outros bônus",
+    "Nom du bonus": "Nome do bônus",
+    "Retirer ce bonus": "Remover este bônus",
+    "Valeur du bonus": "Valor do bônus",
+    "bonus": "bônus",
+    "ou une valeur de la fiche :": "ou um valor da ficha:"
 }

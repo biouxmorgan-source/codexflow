@@ -250,7 +250,6 @@ class Tray extends Component
             'usable' => $usable,
             'presets' => TableDice::presets($this->campaign),
             'mine' => TableDice::presets($this->campaign, auth()->user()),
-            'examples' => TableDice::examples(),
             // Les champs de la fiche ne s'écrivent que dans le plateau ouvert.
             'sheetFields' => $this->open ? SheetValues::choices($this->campaign) : [],
             'last' => $this->presentRoll($this->lastRollId),

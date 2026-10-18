@@ -9,6 +9,8 @@ return [
         'title' => 'Bonificador y umbral leídos en la ficha',
         'items' => [
             'En los dados, el bonificador puede tomar uno o varios valores de la ficha del personaje (característica, habilidad, cualquier campo número o contador de la zona pública), enteros o en decena, mitad o quinto, además del bonificador libre. El umbral también puede leerse en la ficha. Los valores se leen en el momento de la tirada, en la ficha de cada personaje que tira.',
+            'Varios bonificadores con nombre (Arma +2, Herida −1…) se suman en la misma tirada, junto a los valores de la ficha.',
+            'Los ejemplos predefinidos desaparecen de la bandeja: conserva tus tiradas guardadas.',
         ],
     ],
 

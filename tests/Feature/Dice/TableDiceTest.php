@@ -268,7 +268,7 @@ class TableDiceTest extends TestCase
         $this->assertSame(6, $roll->formula()->modifier);
         $this->assertSame(41, $roll->result['threshold']);
         $this->assertStringContainsString('35 (Esquive)', $roll->formula()->describe());
-        $this->assertStringContainsString('dizaine de Force 4', $roll->formula()->describe());
+        $this->assertStringContainsString('bonus +6 (+2, dizaine de Force +4) au seuil', $roll->formula()->describe());
     }
 
     public function test_a_request_reads_each_characters_own_sheet(): void
@@ -301,5 +301,24 @@ class TableDiceTest extends TestCase
         $this->tray($this->gm)->call('roll', ['count' => 1, 'sides' => 100, 'reading' => 'below', 'threshold' => 99, 'threshold_from' => ['field' => $dodge->id, 'take' => 'value', 'got' => 99]])
             ->assertHasErrors('threshold');
         $this->assertSame(0, DiceRoll::count());
+    }
+
+    public function test_several_named_bonuses_add_up_with_sheet_values(): void
+    {
+        [$strength] = $this->sheet();
+        $formula = ['count' => 2, 'sides' => 6, 'reading' => 'sum', 'modifier' => 1, 'bonus_from' => [
+            ['fixed' => 2, 'name' => 'Arme'], ['fixed' => -1, 'name' => 'Blessure'], ['field' => $strength->id, 'take' => 'tens'],
+        ]];
+
+        $this->tray($this->alex)->call('roll', $formula, 'table', 'Coup');
+        $this->tray($this->gm)->call('roll', $formula, 'table', 'Coup');
+
+        [$alex, $gm] = DiceRoll::orderBy('id')->get()->all();
+        // Alex : 1 + 2 − 1 + dizaine de Force 4 ; le MJ, sans fiche, garde les bonus nommés.
+        $this->assertSame(6, $alex->formula()->modifier);
+        $this->assertSame('2d6, additionnés, +6 (+1, Arme +2, Blessure -1, dizaine de Force +4)', $alex->formula()->describe());
+        $this->assertSame(2, $gm->formula()->modifier);
+        $this->assertSame('2d6, additionnés, +1 Arme +2 Blessure -1 + dizaine de Force', $gm->formula()->describe());
+        $this->assertSame(array_sum(array_column($alex->result['dice'], 'value')) + 6, $alex->result['total']);
     }
 }

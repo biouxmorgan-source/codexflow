@@ -92,16 +92,6 @@
                                     </div>
                                 @endif
                             @endforeach
-                            <div>
-                                <p class="label">{{ __('Exemples') }}</p>
-                                <ul class="-mx-3 flex gap-1.5 overflow-x-auto px-3 pb-1">
-                                    @foreach ($examples as $example)
-                                        <li class="shrink-0"><button type="button" x-on:click="load(@js($example['formula'])); loaded = null" class="rounded-full border border-stone-200 px-2.5 py-1 text-xs whitespace-nowrap hover:border-codex"
-                                            title="{{ \App\Support\Dice\DiceFormula::fromArray($example['formula'])->describe() }}">{{ $example['label'] }}</button></li>
-                                    @endforeach
-                                </ul>
-                            </div>
-
                             @include('livewire.dice.partials.builder', ['thresholdPlaceholder' => $tab === 'ask' ? __('chacun') : ''])
 
                             @if ($tab === 'roll')

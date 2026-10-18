@@ -33,25 +33,6 @@ final class TableDice
     public const SCREEN_SECONDS = 30;
 
     /**
-     * Exemples prêts à l'emploi, sans nom de jeu : de quoi remplir le plateau d'un geste.
-     *
-     * @return list<array{label: string, formula: array<string, mixed>}>
-     */
-    public static function examples(): array
-    {
-        return [
-            ['label' => __('Additionner'), 'formula' => ['count' => 2, 'sides' => 6, 'reading' => 'sum']],
-            ['label' => __('Atteindre un seuil'), 'formula' => ['count' => 1, 'sides' => 20, 'reading' => 'above', 'threshold' => 15]],
-            ['label' => __('Rester sous un seuil'), 'formula' => ['count' => 1, 'sides' => 100, 'reading' => 'below']],
-            ['label' => __('Seuil par dé'), 'formula' => ['count' => 6, 'sides' => 6, 'reading' => 'count', 'threshold' => 5, 'explode' => 'up']],
-            ['label' => __('Dés mélangés'), 'formula' => ['pool' => [['count' => 1, 'sides' => 20], ['count' => 1, 'sides' => 6]], 'reading' => 'sum']],
-            ['label' => __('Garder le meilleur'), 'formula' => ['count' => 2, 'sides' => 20, 'reading' => 'keep', 'keep' => 1]],
-            ['label' => __('Lire en chiffres'), 'formula' => ['count' => 3, 'sides' => 6, 'reading' => 'digits']],
-            ['label' => __('Ouvert en haut et en bas'), 'formula' => ['count' => 1, 'sides' => 100, 'reading' => 'sum', 'explode' => 'both']],
-        ];
-    }
-
-    /**
      * Lancers enregistrés : ceux de la table (préparés par le MJ), ou ceux d'une personne pour elle-même.
      *
      * @return list<array{id: string, label: string, formula: array<string, mixed>}>

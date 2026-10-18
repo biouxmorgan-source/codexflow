@@ -2510,12 +2510,10 @@
     "Brut": "Ruw",
     "Chaque dé tel qu’il tombe, sans total ni règle.": "Elke dobbelsteen zoals hij valt, zonder totaal of regel.",
     "bruts": "ruw",
-    "Ajouter au bonus une valeur de la fiche": "Een waarde van het blad bij de bonus optellen",
     "Ce qu’on prend de la valeur": "Wat je van de waarde neemt",
     "Le seuil se lit sur une fiche : lancez pour un personnage qui a cette valeur.": "De drempel komt van een blad: gooi voor een personage dat deze waarde heeft.",
     "Les valeurs se lisent sur la fiche du personnage qui lance, au moment du lancer.": "De waarden worden bij de worp gelezen van het blad van het personage dat gooit.",
     "Nombre saisi": "Ingevuld getal",
-    "Retirer cette valeur": "Deze waarde verwijderen",
     "Seuil lu sur la fiche": "Drempel van het blad",
     "Valeur de la fiche": "Waarde van het blad",
     "cinquième de :name": "vijfde van :name",
@@ -2524,5 +2522,12 @@
     "la dizaine": "het tiental",
     "la moitié": "de helft",
     "la valeur": "de waarde",
-    "le cinquième": "een vijfde"
+    "le cinquième": "een vijfde",
+    "Arme, Blessure…": "Wapen, Wond…",
+    "Autres bonus": "Andere bonussen",
+    "Nom du bonus": "Naam van de bonus",
+    "Retirer ce bonus": "Deze bonus verwijderen",
+    "Valeur du bonus": "Waarde van de bonus",
+    "bonus": "bonus",
+    "ou une valeur de la fiche :": "of een waarde van het blad:"
 }

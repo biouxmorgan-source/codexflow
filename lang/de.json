@@ -2510,12 +2510,10 @@
     "Brut": "Roh",
     "Chaque dé tel qu’il tombe, sans total ni règle.": "Jeder Würfel, wie er fällt, ohne Summe und ohne Regel.",
     "bruts": "roh",
-    "Ajouter au bonus une valeur de la fiche": "Einen Wert vom Bogen zum Bonus hinzufügen",
     "Ce qu’on prend de la valeur": "Was vom Wert genommen wird",
     "Le seuil se lit sur une fiche : lancez pour un personnage qui a cette valeur.": "Die Schwelle wird vom Bogen gelesen: Würfle für einen Charakter, der diesen Wert hat.",
     "Les valeurs se lisent sur la fiche du personnage qui lance, au moment du lancer.": "Die Werte werden beim Wurf vom Bogen des würfelnden Charakters gelesen.",
     "Nombre saisi": "Eingegebene Zahl",
-    "Retirer cette valeur": "Diesen Wert entfernen",
     "Seuil lu sur la fiche": "Schwelle vom Bogen",
     "Valeur de la fiche": "Wert vom Bogen",
     "cinquième de :name": "Fünftel von :name",
@@ -2524,5 +2522,12 @@
     "la dizaine": "den Zehner",
     "la moitié": "die Hälfte",
     "la valeur": "den Wert",
-    "le cinquième": "ein Fünftel"
+    "le cinquième": "ein Fünftel",
+    "Arme, Blessure…": "Waffe, Wunde…",
+    "Autres bonus": "Weitere Boni",
+    "Nom du bonus": "Name des Bonus",
+    "Retirer ce bonus": "Diesen Bonus entfernen",
+    "Valeur du bonus": "Wert des Bonus",
+    "bonus": "Bonus",
+    "ou une valeur de la fiche :": "oder ein Wert vom Bogen:"
 }

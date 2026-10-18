@@ -2510,12 +2510,10 @@
     "Brut": "Grezzo",
     "Chaque dé tel qu’il tombe, sans total ni règle.": "Ogni dado così come cade, senza totale né regole.",
     "bruts": "grezzi",
-    "Ajouter au bonus une valeur de la fiche": "Aggiungi al bonus un valore della scheda",
     "Ce qu’on prend de la valeur": "Cosa si prende dal valore",
     "Le seuil se lit sur une fiche : lancez pour un personnage qui a cette valeur.": "La soglia si legge su una scheda: tira per un personaggio che ha questo valore.",
     "Les valeurs se lisent sur la fiche du personnage qui lance, au moment du lancer.": "I valori si leggono sulla scheda del personaggio che tira, al momento del tiro.",
     "Nombre saisi": "Numero inserito",
-    "Retirer cette valeur": "Rimuovi questo valore",
     "Seuil lu sur la fiche": "Soglia letta sulla scheda",
     "Valeur de la fiche": "Valore della scheda",
     "cinquième de :name": "quinto di :name",
@@ -2524,5 +2522,12 @@
     "la dizaine": "la decina",
     "la moitié": "la metà",
     "la valeur": "il valore",
-    "le cinquième": "un quinto"
+    "le cinquième": "un quinto",
+    "Arme, Blessure…": "Arma, Ferita…",
+    "Autres bonus": "Altri bonus",
+    "Nom du bonus": "Nome del bonus",
+    "Retirer ce bonus": "Rimuovi questo bonus",
+    "Valeur du bonus": "Valore del bonus",
+    "bonus": "bonus",
+    "ou une valeur de la fiche :": "o un valore della scheda:"
 }

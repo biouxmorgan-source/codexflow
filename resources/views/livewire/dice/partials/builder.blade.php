@@ -120,18 +120,24 @@
         </label>
     </div>
 
-    @if ($fieldGroups->isNotEmpty())
-        <div x-show="hasModifier" x-cloak class="rounded-lg border border-stone-200 p-2 text-sm">
-            <p class="label mb-1">{{ __('Ajouter au bonus une valeur de la fiche') }}</p>
-            <ul class="mb-1.5 flex flex-wrap gap-1.5" x-show="bonus_from.length">
-                <template x-for="(item, index) in bonus_from" :key="index">
-                    <li class="inline-flex items-center gap-1 rounded-full border border-codex bg-codex-soft px-2.5 py-0.5 text-xs font-semibold">
-                        <span x-text="'+ ' + takeLabel(item)"></span>
-                        <button type="button" x-on:click="removeSource(index)" class="text-stone-500 hover:text-red-700" aria-label="{{ __('Retirer cette valeur') }}">×</button>
-                    </li>
-                </template>
-            </ul>
-            <div class="flex flex-wrap items-center gap-1" x-show="bonus_from.length < 4">
+    <div x-show="hasModifier" x-cloak class="space-y-1.5 rounded-lg border border-stone-200 p-2 text-sm">
+        <p class="label mb-0">{{ __('Autres bonus') }}</p>
+        <ul class="flex flex-wrap gap-1.5" x-show="bonus_from.length">
+            <template x-for="(item, index) in bonus_from" :key="index">
+                <li class="inline-flex items-center gap-1 rounded-full border border-codex bg-codex-soft px-2.5 py-0.5 text-xs font-semibold">
+                    <span x-text="takeLabel(item)"></span>
+                    <button type="button" x-on:click="removeSource(index)" class="text-stone-500 hover:text-red-700" aria-label="{{ __('Retirer ce bonus') }}">×</button>
+                </li>
+            </template>
+        </ul>
+        <form class="flex flex-wrap items-center gap-1" x-show="bonus_from.length < {{ \App\Support\Dice\DiceFormula::MAX_SOURCES }}" x-on:submit.prevent="addFixed()">
+            <input type="text" x-model="fixedName" maxlength="60" class="field w-32 py-1" placeholder="{{ __('Arme, Blessure…') }}" aria-label="{{ __('Nom du bonus') }}">
+            <input type="number" x-model="fixedValue" min="-999" max="999" class="field w-16 py-1 text-center" placeholder="+2" aria-label="{{ __('Valeur du bonus') }}">
+            <button type="submit" :disabled="fixedValue === '' || Number(fixedValue) === 0" class="btn-secondary px-2.5 py-1 text-xs">{{ __('Ajouter') }}</button>
+        </form>
+        @if ($fieldGroups->isNotEmpty())
+            <p class="pt-1 text-xs text-stone-500">{{ __('ou une valeur de la fiche :') }}</p>
+            <div class="flex flex-wrap items-center gap-1" x-show="bonus_from.length < {{ \App\Support\Dice\DiceFormula::MAX_SOURCES }}">
                 <select x-model="sourceTake" class="field py-1" aria-label="{{ __('Ce qu’on prend de la valeur') }}">
                     @foreach ($takeNames as $take => $name)
                         <option value="{{ $take }}">{{ $name }}</option>
@@ -149,8 +155,10 @@
                 </select>
                 <button type="button" x-on:click="addSource($refs.sourceField.selectedOptions[0].text)" :disabled="sourceField === ''" class="btn-secondary px-2.5 py-1 text-xs">{{ __('Ajouter') }}</button>
             </div>
-        </div>
-        <p x-show="threshold_from || (hasModifier && bonus_from.length)" x-cloak class="text-xs text-stone-500">{{ __('Les valeurs se lisent sur la fiche du personnage qui lance, au moment du lancer.') }}</p>
+        @endif
+    </div>
+    @if ($fieldGroups->isNotEmpty())
+        <p x-show="threshold_from || (hasModifier && bonus_from.some((item) => item.field))" x-cloak class="text-xs text-stone-500">{{ __('Les valeurs se lisent sur la fiche du personnage qui lance, au moment du lancer.') }}</p>
     @endif
 
     <fieldset x-show="canExplode" x-cloak>
