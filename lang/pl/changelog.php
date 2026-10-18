@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Ułóż swoje ekrany po swojemu',
+        'items' => [
+            'Nowy przycisk „Uporządkuj ekran” na stronie kampanii i w trybie Sesji: przeciągnij każdy blok za uchwyt ⠿, myszą lub palcem, albo użyj strzałek.',
+            'W trybie Sesji blok może przejść z jednej kolumny do drugiej: muzyka na górze, notatki po prawej, jak wolisz.',
+            '„Ukryj” usuwa blok, którego nie używasz, „Pokaż” go przywraca, „Układ domyślny” przywraca wszystko. Ten układ należy tylko do ciebie: gracze i współprowadzący zachowują własny.',
+        ],
+    ],
+
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Twoja karta, nawet bez sieci',

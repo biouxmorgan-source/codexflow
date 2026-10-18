@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Richt je schermen in zoals jij wilt',
+        'items' => [
+            'Nieuwe knop ‘Scherm indelen’ op de campagnepagina en in de sessiemodus: sleep elk blok aan zijn greep ⠿, met de muis of met je vinger, of gebruik de pijlen.',
+            'In de sessiemodus kan een blok van de ene kolom naar de andere: muziek bovenaan, notities rechts, zoals jij wilt.',
+            '‘Verbergen’ haalt een blok weg dat je niet gebruikt, ‘Tonen’ brengt het terug, ‘Standaardindeling’ zet alles terug. Deze indeling is alleen van jou: spelers en co-SL’s houden hun eigen indeling.',
+        ],
+    ],
+
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Je fiche, ook zonder netwerk',

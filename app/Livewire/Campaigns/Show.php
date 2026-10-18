@@ -4,6 +4,7 @@ namespace App\Livewire\Campaigns;
 
 use App\Actions\Duplication\DuplicateCampaign;
 use App\Enums\CampaignRole;
+use App\Livewire\Concerns\ArrangesScreen;
 use App\Models\Campaign;
 use App\Models\Entity;
 use App\Models\EntityType;
@@ -18,6 +19,8 @@ use Livewire\Component;
 
 class Show extends Component
 {
+    use ArrangesScreen;
+
     public Campaign $campaign;
 
     #[Url(as: 'q', except: '')]
@@ -52,6 +55,11 @@ class Show extends Component
                 default => $this->authorize('update', $campaign),
             };
         }
+    }
+
+    protected function screenLayoutName(): string
+    {
+        return 'campaign';
     }
 
     private function redirectToCampaigns(): void

@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Arrange your screens your way',
+        'items' => [
+            'New “Arrange screen” button on the campaign page and in Session mode: drag each block by its ⠿ handle, with a mouse or a finger, or use the arrows.',
+            'In Session mode, a block can move from one column to the other: music at the top, notes on the right, as you prefer.',
+            '“Hide” removes a block you don’t use, “Show” brings it back, “Default layout” puts everything back. This layout is yours alone: players and co-GMs keep their own.',
+        ],
+    ],
+
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Your sheet, even without a connection',

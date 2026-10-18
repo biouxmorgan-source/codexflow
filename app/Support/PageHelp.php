@@ -15,7 +15,7 @@ class PageHelp
     /** @return list<string> */
     public static function topics(): array
     {
-        return ['entity-types', 'fields', 'tags', 'dice', 'maps', 'table', 'reveals', 'entity', 'session', 'scenarios', 'imports', 'members', 'audio', 'graph', 'timeline', 'feedback', 'ai', 'journal', 'character', 'my-sheets', 'campaign-map'];
+        return ['entity-types', 'fields', 'tags', 'dice', 'maps', 'table', 'reveals', 'entity', 'session', 'scenarios', 'imports', 'members', 'audio', 'graph', 'timeline', 'feedback', 'ai', 'journal', 'character', 'my-sheets', 'campaign-map', 'campaign'];
     }
 
     /** @return array{title: string, lines: list<string>, gm: list<string>, player?: list<string>, faq: string} */
@@ -123,9 +123,20 @@ class PageHelp
                     __('Les notes de session se prennent vite (touche N) et restent rattachées à la scène.'),
                     __('Le bloc « Écran de table » y montre une carte, un document, une fiche ou une annonce ; « Partager avec les joueurs » le fait suivre sur leur appareil. Le mode focus masque tout le reste.'),
                     __('« Terminer la session » range tout dans la page de la séance, où vous pouvez écrire son résumé.'),
+                    __('« Organiser l’écran » vous laisse déplacer les blocs (poignée ⠿ ou flèches), d’une colonne à l’autre, et masquer ceux dont vous ne vous servez pas. Cette disposition n’appartient qu’à vous.'),
                 ],
                 'gm' => [],
                 'faq' => __('À quoi sert le mode Session ?'),
+            ],
+            'campaign' => [
+                'title' => __('Page de la campagne'),
+                'lines' => [
+                    __('C’est votre point de départ pour préparer : le mode Session, les zones (scénarios, documents, règles, personnages), les outils en icônes et l’univers des fiches.'),
+                    __('« Organiser l’écran » fait apparaître une poignée ⠿ sur chaque bloc : glissez-la, ou utilisez les flèches, pour changer l’ordre. « Masquer » retire un bloc, « Afficher » le fait revenir, « Disposition par défaut » remet tout en place.'),
+                    __('Cette disposition n’appartient qu’à vous et vaut pour toutes vos campagnes : les joueurs et les autres MJ gardent la leur. Rien n’est effacé.'),
+                ],
+                'gm' => [],
+                'faq' => __('Puis-je ranger mes écrans à ma façon ?'),
             ],
             'scenarios' => [
                 'title' => __('Scénarios et scènes'),

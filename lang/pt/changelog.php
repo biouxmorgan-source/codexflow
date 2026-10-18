@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Organize os seus ecrãs à sua maneira',
+        'items' => [
+            'Novo botão «Organizar o ecrã» na página da campanha e no modo Sessão: arraste cada bloco pela sua pega ⠿, com o rato ou com o dedo, ou use as setas.',
+            'No modo Sessão, um bloco pode passar de uma coluna para a outra: a música em cima, as notas à direita, como preferir.',
+            '«Ocultar» retira um bloco que não usa, «Mostrar» trá-lo de volta, «Disposição predefinida» repõe tudo. Esta disposição é só sua: jogadores e co-mestres mantêm a deles.',
+        ],
+    ],
+
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Sua ficha, mesmo sem rede',

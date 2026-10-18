@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Ordnen Sie Ihre Bildschirme nach Ihrem Geschmack',
+        'items' => [
+            'Neue Schaltfläche „Bildschirm anordnen“ auf der Kampagnenseite und im Sitzungsmodus: Ziehen Sie jeden Block an seinem Griff ⠿, mit der Maus oder dem Finger, oder nutzen Sie die Pfeile.',
+            'Im Sitzungsmodus kann ein Block von einer Spalte in die andere wechseln: Musik oben, Notizen rechts, ganz wie Sie möchten.',
+            '„Ausblenden“ entfernt einen Block, den Sie nicht nutzen, „Anzeigen“ holt ihn zurück, „Standardanordnung“ stellt alles wieder her. Diese Anordnung gehört nur Ihnen: Spieler und Co-SL behalten ihre eigene.',
+        ],
+    ],
+
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Ihr Bogen, auch ohne Netz',
