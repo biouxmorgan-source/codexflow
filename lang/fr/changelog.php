@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Un mode d’emploi sur les écrans délicats',
+        'items' => [
+            'Un bouton « ? » à côté du titre des écrans qui ne s’expliquent pas tout seuls ouvre leur mode d’emploi en quelques lignes : types de fiche, champs du jeu, tags, dés, cartes, télécommande de l’écran de table, indices et historique des révélations.',
+            'Chaque mode d’emploi renvoie à la question correspondante de la page « Aide », qui s’ouvre directement dessus.',
+        ],
+    ],
+
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonus et seuil lus sur la fiche',

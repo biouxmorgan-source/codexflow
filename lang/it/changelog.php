@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Istruzioni sulle schermate più delicate',
+        'items' => [
+            'Un pulsante «?» accanto al titolo delle schermate che non si spiegano da sole apre le istruzioni in poche righe: tipi di scheda, campi del gioco, tag, dadi, mappe, telecomando dello schermo da tavolo, indizi e cronologia delle rivelazioni.',
+            'Ogni istruzione rimanda alla domanda corrispondente della pagina «Aiuto», che si apre direttamente lì.',
+        ],
+    ],
+
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonus e soglia letti sulla scheda',

@@ -78,7 +78,7 @@
                 <h2 class="mb-3 font-semibold">{{ $heading }}</h2>
                 <div class="divide-y divide-stone-200">
                     @foreach ($questions as [$question, $answer])
-                        <details class="group py-2">
+                        <details id="{{ \App\Support\PageHelp::anchor($question) }}" class="group scroll-mt-20 py-2">
                             <summary class="cursor-pointer list-none font-medium text-codex marker:hidden">
                                 <span class="mr-1 inline-block transition group-open:rotate-90" aria-hidden="true">›</span>{{ $question }}
                             </summary>
@@ -96,4 +96,15 @@
             <a href="{{ route('bugs.create') }}" class="btn-primary mt-3 inline-block" @auth wire:navigate @endauth>{{ __('Signaler un problème') }}</a>
         </section>
     </div>
+
+    {{-- Arrivée depuis le « ? » d'un écran : la question visée s'ouvre. --}}
+    <script nonce="{{ Vite::cspNonce() }}">
+        (() => {
+            const question = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+            if (question instanceof HTMLDetailsElement) {
+                question.open = true;
+                question.scrollIntoView();
+            }
+        })();
+    </script>
 </x-dynamic-component>

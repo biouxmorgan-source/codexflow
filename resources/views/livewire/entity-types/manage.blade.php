@@ -3,7 +3,10 @@
         <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
     </nav>
 
-    <h1 class="text-2xl font-semibold">{{ __('Types de fiche') }}</h1>
+    <div class="flex items-center gap-2">
+        <h1 class="text-2xl font-semibold">{{ __('Types de fiche') }}</h1>
+        <x-page-help topic="entity-types" />
+    </div>
     <p class="mt-1 mb-6 text-sm text-stone-600">{{ __('Les six types standards sont toujours là. Ajoutez les vôtres pour coller à votre univers : Faction, Divinité, Vaisseau, Sort…') }}</p>
 
     @error('delete') <p class="error mb-4">{{ $message }}</p> @enderror

@@ -6,7 +6,10 @@
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-semibold">{{ __('Cartes') }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-semibold">{{ __('Cartes') }}</h1>
+                <x-page-help topic="maps" />
+            </div>
             <p class="mt-1 max-w-2xl text-sm text-stone-600">{{ __("Une image envoyée sur l'écran de table, avec une grille et des jetons si besoin. Vos figurines restent sur la table : la carte est un support, pas une table virtuelle.") }}</p>
         </div>
         @if (\App\Support\CampaignFeatures::usable($campaign, 'table'))

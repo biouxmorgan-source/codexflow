@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'A how-to on the trickier screens',
+        'items' => [
+            'A “?” button next to the title of screens that don’t explain themselves opens a few-line how-to: sheet types, game fields, tags, dice, maps, table screen remote, clues and reveal history.',
+            'Each how-to links to the matching question on the Help page, which opens right on it.',
+        ],
+    ],
+
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonus and threshold read from the sheet',

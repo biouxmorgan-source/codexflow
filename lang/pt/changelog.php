@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instruções nas telas mais delicadas',
+        'items' => [
+            'Um botão «?» ao lado do título das telas que não se explicam sozinhas abre as instruções em poucas linhas: tipos de ficha, campos do jogo, tags, dados, mapas, controle remoto da tela da mesa, pistas e histórico de revelações.',
+            'Cada instrução leva à pergunta correspondente da página «Ajuda», que abre direto nela.',
+        ],
+    ],
+
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bônus e limiar lidos na ficha',

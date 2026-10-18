@@ -5,7 +5,10 @@
     </nav>
 
     <div class="mb-6">
-        <h1 class="text-2xl font-semibold">{{ __('Historique des révélations') }}</h1>
+        <div class="flex items-center gap-2">
+            <h1 class="text-2xl font-semibold">{{ __('Historique des révélations') }}</h1>
+            <x-page-help topic="reveals" />
+        </div>
         <p class="mt-1 text-sm text-stone-600">{{ __('Qui a appris quoi, quand, et pendant quelle séance. Une révélation annulée retire l’élément au personnage et reste visible dans le journal.') }}</p>
     </div>
 

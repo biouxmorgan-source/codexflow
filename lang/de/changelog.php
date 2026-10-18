@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Eine Kurzanleitung auf den kniffligen Seiten',
+        'items' => [
+            'Ein „?“-Knopf neben dem Titel der Seiten, die sich nicht von selbst erklären, öffnet eine kurze Anleitung: Blatttypen, Felder des Spiels, Tags, Würfel, Karten, Fernbedienung des Tischbildschirms, Hinweise und Enthüllungsverlauf.',
+            'Jede Anleitung verweist auf die passende Frage der Hilfeseite, die sich direkt dort öffnet.',
+        ],
+    ],
+
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonus und Schwelle vom Bogen',
