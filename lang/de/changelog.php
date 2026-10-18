@@ -4,11 +4,20 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
-    '0.70.1' => [
+    '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Mehrere Punkte auf einmal abziehen oder hinzufügen',
         'items' => [
             'Unter jedem Zähler, den der Spieler ändern darf (LP, Munition, Geld…), ein Feld „Betrag“: 8 eingeben, dann −, und der Zähler verliert 8 auf einmal. Standardwert ist 1.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Kurzanleitung auf weiteren Seiten',
+        'items' => [
+            'Der „?“-Knopf erscheint jetzt auch auf dem Blatt (SL-Seite), im Sitzungsmodus, bei Szenarien und Szenen, beim Dateiimport und bei den Mitgliedern der Kampagne.',
+            'Die Hilfeseite erklärt jetzt den Rohwurf und Boni vom Charakterblatt.',
         ],
     ],
 

@@ -4,11 +4,20 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
-    '0.70.1' => [
+    '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Odejmij lub dodaj kilka punktów naraz',
         'items' => [
             'Pod każdym licznikiem, który gracz może zmieniać (PŻ, amunicja, pieniądze…), pole „Wartość”: wpisz 8, potem −, a licznik straci 8 naraz. Domyślnie to 1.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instrukcja na kolejnych ekranach',
+        'items' => [
+            'Przycisk „?” pojawia się też na karcie (po stronie MG), w trybie Sesji, w scenariuszach i scenach, przy imporcie plików i wśród członków kampanii.',
+            'Strona Pomocy wyjaśnia teraz surowy rzut i premie odczytywane z karty postaci.',
         ],
     ],
 

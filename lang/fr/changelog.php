@@ -4,11 +4,20 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
-    '0.70.1' => [
+    '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Retirer ou ajouter plusieurs points d’un coup',
         'items' => [
             'Sous chaque compteur que le joueur peut modifier (PV, munitions, argent…), un champ « Montant » : on tape 8 puis −, et le compteur perd 8 d’un coup. Il revient à 1 par défaut.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Un mode d’emploi sur plus d’écrans',
+        'items' => [
+            'Le bouton « ? » arrive aussi sur la fiche (côté MJ), le mode Session, les scénarios et les scènes, l’import de fichiers et les membres de la campagne.',
+            'La page « Aide » explique désormais le lancer brut et les bonus lus sur la fiche du personnage.',
         ],
     ],
 

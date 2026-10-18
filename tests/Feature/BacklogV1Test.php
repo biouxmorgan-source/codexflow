@@ -313,7 +313,7 @@ class BacklogV1Test extends TestCase
         $this->manoir->save();
 
         $page = $this->actingAs($this->gm)->get(route('entities.show', [$this->campaign, $this->morel]))->assertOk();
-        $cited = str($page->getContent())->after('Cité dans')->before('Supprimer la fiche');
+        $cited = str($page->getContent())->after('>Cité dans</h2>')->before('Supprimer la fiche');
 
         $this->assertStringContainsString('Manoir Morgause', $cited);
         $this->assertStringContainsString('Incendie du moulin', $cited);

@@ -4,11 +4,20 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
-    '0.70.1' => [
+    '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Remove or add several points at once',
         'items' => [
             'Under each counter the player may change (HP, ammo, money…), an “Amount” box: type 8 then −, and the counter loses 8 at once. It defaults to 1.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'A how-to on more screens',
+        'items' => [
+            'The “?” button now also appears on the sheet (GM side), Session mode, scenarios and scenes, file import and campaign members.',
+            'The Help page now explains raw rolls and bonuses read from the character’s sheet.',
         ],
     ],
 

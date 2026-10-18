@@ -6,7 +6,10 @@
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-semibold">{{ __('Scénarios') }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-semibold">{{ __('Scénarios') }}</h1>
+                <x-page-help topic="scenarios" />
+            </div>
             <p class="mt-1 text-sm text-stone-600">{{ __('Découpez la campagne en scénarios, regroupez les scènes par chapitre si vous le souhaitez, et suivez ce qui a été joué.') }}</p>
         </div>
         <div class="flex flex-wrap gap-2">
