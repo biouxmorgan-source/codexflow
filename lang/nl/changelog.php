@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Meerdere notities en drie kolommen in Mijn bladen',
+        'items' => [
+            '‘+ Nieuwe notitie’ voegt een notitieblok toe: zoveel als je wilt (schulden, geruchten, contacten…). Je eerdere notities worden een eerste blok ‘Notities’.',
+            'Blokken plaats je nu over drie kolommen, notities inbegrepen, met ‘Blokken ordenen’.',
+        ],
+    ],
+
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Een bijgewerkte demo',

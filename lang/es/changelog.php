@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Varias notas y tres columnas en Mis hojas',
+        'items' => [
+            '«+ Nueva nota» añade un bloque de notas: tantos como quieras (deudas, rumores, contactos…). Tus notas anteriores pasan a un primer bloque «Notas».',
+            'Los bloques se colocan ahora en tres columnas, notas incluidas, con «Organizar los bloques».',
+        ],
+    ],
+
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Una demo al día',

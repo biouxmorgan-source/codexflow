@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Plusieurs notes et trois colonnes dans Mes feuilles',
+        'items' => [
+            '« + Nouvelle note » ajoute un bloc de notes : faites-en autant que vous voulez (dettes, rumeurs, contacts…). Vos notes d’avant deviennent un premier bloc « Notes ».',
+            'Les blocs se placent maintenant sur trois colonnes, notes comprises, avec « Organiser les blocs ».',
+        ],
+    ],
+
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Une démonstration à jour',

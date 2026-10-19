@@ -91,7 +91,6 @@ class MySheetsTest extends TestCase
             ->call('edit')
             ->assertCount('blocks', 1)
             ->set('tableName', 'Chez Paul')
-            ->set('notes', 'Doit 3 couronnes au forgeron.')
             ->set('blocks.0.title', 'Profil')
             ->call('addRow', 0, 'text')
             ->set('blocks.0.rows.0.label', 'Carrière')
@@ -204,6 +203,59 @@ class MySheetsTest extends TestCase
         $this->assertSame(7, $blocks[0]['rows'][0]['value']);
     }
 
+    public function test_several_note_blocks_are_placed_on_three_columns(): void
+    {
+        $character = $this->character();
+
+        Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+            ->call('edit')
+            ->call('removeBlock', 0)
+            ->call('addBlock', 'note')
+            ->set('blocks.0.text', 'Doit 3 couronnes au forgeron.')
+            ->call('addBlock', 'note')
+            ->set('blocks.1.title', 'Rumeurs')
+            ->set('blocks.1.text', 'Un skaven rôde sous le marché.')
+            ->call('addRow', 1, 'text')
+            ->assertStatus(422);
+
+        $component = Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+            ->call('edit')
+            ->call('removeBlock', 0)
+            ->call('addBlock', 'note')
+            ->set('blocks.0.text', 'Doit 3 couronnes au forgeron.')
+            ->call('addBlock', 'note')
+            ->set('blocks.1.title', 'Rumeurs')
+            ->set('blocks.1.text', 'Un skaven rôde sous le marché.')
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertSee('Doit 3 couronnes au forgeron.')
+            ->assertSee('Un skaven rôde sous le marché.');
+
+        [$debts, $rumours] = $character->refresh()->blockList();
+        $this->assertSame(['note', 'Notes'], [$debts['kind'], $debts['title']]);
+        $this->assertSame(1, $character->usedColumns());
+
+        $component->call('saveLayout', ['left' => [$debts['id']], 'middle' => [], 'right' => [$rumours['id']]]);
+
+        $character->refresh();
+        $this->assertSame(['left', 'right'], array_column($character->blockList(), 'column'));
+        $this->assertSame(3, $character->usedColumns());
+    }
+
+    public function test_the_former_single_note_becomes_a_note_block(): void
+    {
+        $migration = require database_path('migrations/2026_11_10_100000_move_personal_notes_into_blocks.php');
+        $character = $this->character(['blocks' => [['id' => 'stats', 'title' => 'Caractéristiques', 'column' => 'left', 'rows' => []]]]);
+        $migration->down();
+        DB::table('personal_characters')->where('id', $character->id)->update(['notes' => 'Doit 3 couronnes.']);
+
+        $migration->up();
+
+        $blocks = $character->refresh()->blockList();
+        $this->assertSame(['fields', 'note'], array_column($blocks, 'kind'));
+        $this->assertSame('Doit 3 couronnes.', $blocks[1]['text']);
+    }
+
     public function test_the_pdf_sheet_and_portrait_are_stored_privately_and_count_in_my_storage(): void
     {
         $character = $this->character();
@@ -254,7 +306,7 @@ class MySheetsTest extends TestCase
 
     public function test_my_data_export_includes_my_sheets(): void
     {
-        $this->character(['notes' => 'Doit 3 couronnes.']);
+        $this->character(['blocks' => [['id' => 'dettes', 'kind' => 'note', 'title' => 'Dettes', 'column' => 'left', 'text' => 'Doit 3 couronnes.']]]);
 
         $this->actingAs($this->me)->get(route('account.data'))
             ->assertOk()
