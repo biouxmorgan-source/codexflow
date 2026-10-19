@@ -2912,5 +2912,7 @@
     "Onglets de la feuille": "Pestañas de la hoja",
     "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "¿Quitar esta pestaña? Sus bloques pasan a la primera pestaña.",
     "Retirer l’onglet": "Quitar la pestaña",
-    "nom de l’onglet": "nombre de la pestaña"
+    "nom de l’onglet": "nombre de la pestaña",
+    "Une feuille garde au plus :count onglets.": "Una hoja guarda como máximo :count pestañas.",
+    "Une feuille garde au plus :count blocs.": "Una hoja guarda como máximo :count bloques."
 }

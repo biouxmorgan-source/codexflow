@@ -2912,5 +2912,7 @@
     "Onglets de la feuille": "Tabbladen van het blad",
     "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "Dit tabblad verwijderen? Zijn blokken gaan naar het eerste tabblad.",
     "Retirer l’onglet": "Tabblad verwijderen",
-    "nom de l’onglet": "naam van het tabblad"
+    "nom de l’onglet": "naam van het tabblad",
+    "Une feuille garde au plus :count onglets.": "Een blad houdt hoogstens :count tabbladen.",
+    "Une feuille garde au plus :count blocs.": "Een blad houdt hoogstens :count blokken."
 }

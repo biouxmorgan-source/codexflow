@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Más espacio en Mis hojas',
+        'items' => [
+            'Una hoja guarda ahora hasta 200 bloques, 500 campos y 30 pestañas. «+ Nueva nota» ya no lleva a una página de error: en el límite, un mensaje lo explica.',
+        ],
+    ],
+
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Pestañas en Mis hojas',

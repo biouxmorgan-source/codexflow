@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Mehr Platz in Meine Bögen',
+        'items' => [
+            'Ein Bogen fasst jetzt bis zu 200 Blöcke, 500 Felder und 30 Reiter. „+ Neue Notiz“ führt nicht mehr zu einer Fehlerseite: an der Grenze erklärt es eine Meldung.',
+        ],
+    ],
+
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Reiter in Meine Bögen',

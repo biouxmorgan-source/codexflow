@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Mais espaço em As minhas fichas',
+        'items' => [
+            'Uma ficha guarda agora até 200 blocos, 500 campos e 30 separadores. «+ Nova nota» já não leva a uma página de erro: no limite, uma mensagem explica-o.',
+        ],
+    ],
+
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Separadores em As minhas fichas',

@@ -102,7 +102,11 @@ class Show extends Component
 
     public function addTab(): void
     {
-        abort_unless(count($this->tabs) < PersonalCharacter::MAX_TABS, 422);
+        if (count($this->tabs) >= PersonalCharacter::MAX_TABS) {
+            $this->addError('tabs', __('Une feuille garde au plus :count onglets.', ['count' => PersonalCharacter::MAX_TABS]));
+
+            return;
+        }
 
         $this->tabs[] = ['id' => $id = Str::lower(Str::random(10)), 'name' => ''];
         $this->tab = $id;
@@ -138,7 +142,13 @@ class Show extends Component
 
     public function addBlock(string $kind = 'fields'): void
     {
-        abort_unless(in_array($kind, PersonalCharacter::KINDS, true) && count($this->blocks) < PersonalCharacter::MAX_BLOCKS, 422);
+        abort_unless(in_array($kind, PersonalCharacter::KINDS, true), 422);
+
+        if (count($this->blocks) >= PersonalCharacter::MAX_BLOCKS) {
+            $this->addError('blocks', __('Une feuille garde au plus :count blocs.', ['count' => PersonalCharacter::MAX_BLOCKS]));
+
+            return;
+        }
 
         $this->blocks[] = ['id' => Str::lower(Str::random(10)), 'kind' => $kind, 'title' => $kind === 'note' ? __('Notes') : '', 'tab' => $this->tab, 'column' => 'left', 'text' => '', 'rows' => []];
     }
@@ -151,7 +161,13 @@ class Show extends Component
 
     public function addRow(int $block, string $type): void
     {
-        abort_unless(($this->blocks[$block]['kind'] ?? null) === 'fields' && in_array($type, ['text', 'counter'], true) && $this->rowCount() < PersonalCharacter::MAX_FIELDS, 422);
+        abort_unless(($this->blocks[$block]['kind'] ?? null) === 'fields' && in_array($type, ['text', 'counter'], true), 422);
+
+        if ($this->rowCount() >= PersonalCharacter::MAX_FIELDS) {
+            $this->addError('blocks', __('Une feuille garde au plus :count champs.', ['count' => PersonalCharacter::MAX_FIELDS]));
+
+            return;
+        }
 
         $this->blocks[$block]['rows'][] = ['type' => $type, 'label' => '', 'value' => $type === 'counter' ? '0' : '', 'max' => '', 'note' => '', 'checkbox' => false, 'checked' => false];
     }

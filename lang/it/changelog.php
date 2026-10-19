@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Più spazio in Le mie schede',
+        'items' => [
+            'Una scheda tiene ora fino a 200 blocchi, 500 campi e 30 sezioni. «+ Nuova nota» non porta più a una pagina di errore: al limite, un messaggio lo spiega.',
+        ],
+    ],
+
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Sezioni in Le mie schede',

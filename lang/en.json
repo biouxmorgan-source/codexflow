@@ -2912,5 +2912,7 @@
     "Onglets de la feuille": "Sheet tabs",
     "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "Remove this tab? Its blocks move to the first tab.",
     "Retirer l’onglet": "Remove tab",
-    "nom de l’onglet": "tab name"
+    "nom de l’onglet": "tab name",
+    "Une feuille garde au plus :count onglets.": "A sheet holds at most :count tabs.",
+    "Une feuille garde au plus :count blocs.": "A sheet holds at most :count blocks."
 }

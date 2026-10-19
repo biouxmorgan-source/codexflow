@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Więcej miejsca w Moich kartach',
+        'items' => [
+            'Karta mieści teraz do 200 bloków, 500 pól i 30 zakładek. „+ Nowa notatka” nie prowadzi już do strony błędu: przy limicie wyjaśnia to komunikat.',
+        ],
+    ],
+
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Zakładki w Moich kartach',
