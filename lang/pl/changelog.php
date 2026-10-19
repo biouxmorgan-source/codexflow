@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Biblioteka dem',
+        'items' => [
+            'Nowa „Biblioteka dem” w „Moich kampaniach”: kampanie gotowe do gry (świat, krótki scenariusz, gotowe postacie), których własną kopię wczytujesz jednym kliknięciem.',
+            'Każde demo autora lub wydawcy ma link „Kup grę”, w bibliotece i na górze twojej kopii.',
+            'Cena Premium widnieje teraz na przycisku subskrypcji w Preferencjach: 4,99 € miesięcznie.',
+        ],
+    ],
+
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Co się wydarzyło, i księga przygód',

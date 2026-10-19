@@ -49,7 +49,7 @@
                     @foreach ($billing->prices() as $interval => $price)
                         <form method="POST" action="{{ route('billing.checkout', $interval) }}">
                             @csrf
-                            <button type="submit" class="btn-primary">{{ __('Passer Premium : :interval', ['interval' => \App\Support\Billing\Billing::intervals()[$interval]]) }}</button>
+                            <button type="submit" class="btn-primary">@if ($amount = \App\Support\Billing\Billing::displayPrice($interval)){{ __('Passer Premium : :price', ['price' => $amount]) }}@else{{ __('Passer Premium : :interval', ['interval' => \App\Support\Billing\Billing::intervals()[$interval]]) }}@endif</button>
                         </form>
                     @endforeach
                 @endif

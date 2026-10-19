@@ -4,6 +4,7 @@
     @foreach ([
         'admin.users' => __('Comptes'),
         'admin.plans' => __('Formules'),
+        'admin.demo-library' => __('Bibliothèque de démos'),
         'admin.backlog' => __('Backlog'),
         'admin.evolutions' => __('Évolutions'),
         'admin.recettes' => __('Recettes'),

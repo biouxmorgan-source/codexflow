@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Demo library',
+        'items' => [
+            'New "Demo library", from "My campaigns": ready-to-play campaigns (a setting, a short scenario, pregenerated characters) that you load as your own copy in one click.',
+            'Each demo from an author or publisher keeps a "Buy the game" link, in the library and at the top of your copy.',
+            'The Premium price now shows on the subscription button in Preferences: €4.99 per month.',
+        ],
+    ],
+
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'What happened, and the adventure book',

@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Bibliothèque de démos',
+        'items' => [
+            'Nouvelle « Bibliothèque de démos », depuis « Mes campagnes » : des campagnes prêtes à jouer (un univers, un court scénario, des prétirés), dont vous chargez votre propre copie en un clic.',
+            'Chaque démo d’un auteur ou d’un éditeur garde un lien « Acheter le jeu », dans la bibliothèque et en haut de votre copie.',
+            'Le prix de Premium s’affiche sur le bouton d’abonnement des Préférences : 4,99 € par mois.',
+        ],
+    ],
+
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Ce qui s’est passé, et le livre des aventures',

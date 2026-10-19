@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Biblioteca de demos',
+        'items' => [
+            'Nueva «Biblioteca de demos», desde «Mis campañas»: campañas listas para jugar (un mundo, un escenario corto, personajes pregenerados) de las que cargas tu propia copia en un clic.',
+            'Cada demo de un autor o una editorial conserva un enlace «Comprar el juego», en la biblioteca y en la parte superior de tu copia.',
+            'El precio de Premium aparece en el botón de suscripción de Preferencias: 4,99 € al mes.',
+        ],
+    ],
+
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Lo que pasó, y el libro de aventuras',
