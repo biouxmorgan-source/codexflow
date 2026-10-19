@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Campagnekaart: zoom, tafel en rijkere plekken',
+        'items' => [
+            'De campagnekaart zoomt (scrollwiel, + en −, knijpen op een tablet) en verschuift door te slepen. Tip: een 4K-afbeelding (3840 × 2160) blijft scherp.',
+            'Staat de kaart op het tafelscherm, dan vervangt de subkaart die je via een punt opent haar daar, en de bovenliggende kaart komt terug als je omhooggaat. In de subkaart houdt „Deze plek” de scènes en fiches van het punt binnen één klik.',
+            'Een punt kan nu aan meerdere scènes en meerdere fiches gekoppeld worden: de plek, haar NPC’s, alle scènes die er spelen.',
+        ],
+    ],
+
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Blokken, notities en selectievakjes in Mijn bladen',

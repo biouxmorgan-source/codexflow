@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Mapa kampanii: zoom, stół i bogatsze miejsca',
+        'items' => [
+            'Mapę kampanii można przybliżać (kółko, + i −, gest szczypania na tablecie) i przesuwać przeciąganiem. Rada: obraz 4K (3840 × 2160) pozostaje ostry.',
+            'Gdy mapa jest na ekranie stołu, otwarta z punktu mapa szczegółowa zastępuje ją tam, a mapa nadrzędna wraca, gdy cofasz się w górę. Na mapie szczegółowej „To miejsce” trzyma sceny i karty punktu o jedno kliknięcie.',
+            'Punkt można teraz powiązać z wieloma scenami i wieloma kartami: miejsce, jego BN, wszystkie sceny, które się tam rozgrywają.',
+        ],
+    ],
+
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Bloki, notatki i pola wyboru w Moich kartach',

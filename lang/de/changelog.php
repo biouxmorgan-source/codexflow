@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Kampagnenkarte: Zoom, Tisch und reichere Orte',
+        'items' => [
+            'Die Kampagnenkarte lässt sich zoomen (Mausrad, + und −, Zwei-Finger-Geste auf dem Tablet) und durch Ziehen verschieben. Tipp: Ein 4K-Bild (3840 × 2160) bleibt scharf.',
+            'Wenn die Karte auf dem Tischbildschirm ist, ersetzt die von einem Punkt geöffnete Unterkarte sie dort, und beim Zurückgehen kehrt die obere Karte zurück. In der Unterkarte hält „Dieser Ort“ die Szenen und Einträge des Punkts einen Klick entfernt.',
+            'Ein Punkt kann jetzt mit mehreren Szenen und mehreren Einträgen verknüpft werden: der Ort, seine NSC, alle Szenen, die dort spielen.',
+        ],
+    ],
+
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Blöcke, Notizen und Ankreuzfelder in Meine Bögen',

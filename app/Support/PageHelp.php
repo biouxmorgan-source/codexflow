@@ -280,9 +280,10 @@ class PageHelp
                 'title' => __('Carte de campagne'),
                 'lines' => [
                     __('La carte de campagne est la vue d’ensemble : choisissez une de vos cartes avec « En faire la carte de campagne ».'),
-                    __('« Placer des points », puis cliquez sur la carte pour poser un point d’intérêt ; glissez-le pour le déplacer.'),
+                    __('« Placer des points », puis cliquez sur la carte pour poser un point d’intérêt ; glissez-le pour le déplacer. Molette, + et − zooment, glisser le fond déplace la carte : une image 4K (3840 × 2160) reste nette.'),
                     __('Un point peut mener à une sous-carte (une ville, un donjon) : en « Explorer », un clic l’ouvre, et le fil d’Ariane en haut permet de remonter. Les sous-cartes ont elles-mêmes leurs points, sans limite de profondeur.'),
-                    __('Reliez un point à une scène pour voir d’un coup d’œil le chemin parcouru (✓ jouée) et ce qui reste à venir, et à une fiche pour l’ouvrir d’un clic.'),
+                    __('Si la carte est à l’écran de table, la sous-carte ouverte depuis un point l’y remplace, et la carte d’au-dessus revient quand vous remontez. Dans la sous-carte, « Ce lieu » garde les scènes et fiches du point à portée de clic.'),
+                    __('Reliez un point à autant de scènes et de fiches que vous voulez (le lieu, ses PNJ, les scènes qui s’y jouent) : le point montre le chemin parcouru (✓ tout est joué) et ce qui reste à venir.'),
                     __('Tout reste au MJ. « Visible à la table » affiche seulement le nom du point sur l’écran de table, quand la carte y est montrée.'),
                 ],
                 'gm' => [],

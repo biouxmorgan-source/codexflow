@@ -126,6 +126,9 @@ final class CampaignExport
         $maps = DB::table('table_maps')->where('campaign_id', $campaign->id)->whereIn('document_id', $documentIds)->orderBy('id')->get();
         $tokens = DB::table('map_tokens')->whereIn('table_map_id', $maps->pluck('id'))->orderBy('id')->get()->groupBy('table_map_id');
         $points = DB::table('map_points')->whereIn('table_map_id', $maps->pluck('id'))->orderBy('id')->get()->groupBy('table_map_id');
+        $pointIds = $points->flatten()->pluck('id');
+        $pointScenes = DB::table('map_point_scene')->whereIn('map_point_id', $pointIds)->whereIn('scene_id', $sceneIds)->orderBy('position')->get()->groupBy('map_point_id');
+        $pointEntities = DB::table('map_point_entity')->whereIn('map_point_id', $pointIds)->whereIn('entity_id', $entityIds)->orderBy('position')->get()->groupBy('map_point_id');
 
         $sceneEntities = DB::table('scene_entity')->whereIn('scene_id', $sceneIds)->whereIn('entity_id', $entityIds)->orderBy('position')->get()->groupBy('scene_id');
         $sceneDocuments = DB::table('document_scene')->whereIn('scene_id', $sceneIds)->whereIn('document_id', $documentIds)->orderBy('position')->get()->groupBy('scene_id');
@@ -270,8 +273,8 @@ final class CampaignExport
                 'points' => $points->get($map->id, collect())->map(fn ($point) => [
                     ...collect((array) $point)->only(['label', 'note', 'color', 'x', 'y', 'shown_at_table'])->all(),
                     'target_map_id' => $maps->contains('id', $point->target_map_id) ? $point->target_map_id : null,
-                    'scene_id' => in_array($point->scene_id, $sceneIds, true) ? $point->scene_id : null,
-                    'entity_id' => in_array($point->entity_id, $entityIds, true) ? $point->entity_id : null,
+                    'scenes' => $pointScenes->get($point->id, collect())->pluck('scene_id')->all(),
+                    'entities' => $pointEntities->get($point->id, collect())->pluck('entity_id')->all(),
                 ])->values()->all(),
             ])->all(),
             'timeline' => DB::table('timeline_events')->where('campaign_id', $campaign->id)->orderBy('position')->orderBy('id')->get()

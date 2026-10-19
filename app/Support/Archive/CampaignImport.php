@@ -726,7 +726,7 @@ final class CampaignImport
                 continue;
             }
 
-            DB::table('map_points')->insert([
+            $pointId = DB::table('map_points')->insertGetId([
                 'table_map_id' => $mapId,
                 'label' => $label,
                 'note' => $this->string($point['note'] ?? null, 5000),
@@ -734,12 +734,16 @@ final class CampaignImport
                 'x' => $this->number($point['x'] ?? null, 0, $width) ?? 0,
                 'y' => $this->number($point['y'] ?? null, 0, $height) ?? 0,
                 'target_map_id' => ($target = $maps[$this->int($point['target_map_id'] ?? null) ?? -1] ?? null) !== $mapId ? $target : null,
-                'scene_id' => $this->map['scenes'][$this->int($point['scene_id'] ?? null) ?? -1] ?? null,
-                'entity_id' => isset($point['entity_id']) ? $this->entity($point['entity_id']) : null,
                 'shown_at_table' => (bool) ($point['shown_at_table'] ?? false),
                 'created_at' => $this->now,
                 'updated_at' => $this->now,
             ]);
+
+            // Les archives de la v0.75 n'avaient qu'une scène et une fiche par point.
+            $sceneIds = $this->ids($point['scenes'] ?? [$point['scene_id'] ?? null], 'scenes');
+            $entityIds = $this->ids($point['entities'] ?? [$point['entity_id'] ?? null], 'entities');
+            DB::table('map_point_scene')->insert(array_map(fn ($id, $i) => ['map_point_id' => $pointId, 'scene_id' => $id, 'position' => $i], $sceneIds, array_keys($sceneIds)));
+            DB::table('map_point_entity')->insert(array_map(fn ($id, $i) => ['map_point_id' => $pointId, 'entity_id' => $id, 'position' => $i], $entityIds, array_keys($entityIds)));
         }
 
         foreach ($this->list($data['timeline'] ?? []) as $position => $event) {

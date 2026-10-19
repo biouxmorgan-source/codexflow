@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Campaign map: zoom, table and richer places',
+        'items' => [
+            'The campaign map zooms (wheel, + and −, pinch on a tablet) and pans by dragging. Tip: a 4K image (3840 × 2160) stays sharp.',
+            'When the map is on the table screen, the sub-map opened from a point replaces it there, and the map above comes back when you go back up. In the sub-map, “This place” keeps the point’s scenes and sheets one click away.',
+            'A point can now link to several scenes and several sheets: the place, its NPCs, every scene played there.',
+        ],
+    ],
+
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Blocks, notes and checkboxes in My sheets',

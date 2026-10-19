@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Carte de campagne : zoom, table et lieux plus riches',
+        'items' => [
+            'La carte de campagne se zoome (molette, + et −, pincer sur tablette) et se déplace en glissant. Conseil : une image 4K (3840 × 2160) reste nette.',
+            'Quand la carte est à l’écran de table, la sous-carte ouverte depuis un point l’y remplace, et la carte d’au-dessus revient quand vous remontez. Dans la sous-carte, « Ce lieu » garde les scènes et fiches du point à portée de clic.',
+            'Un point se relie maintenant à plusieurs scènes et plusieurs fiches : le lieu, ses PNJ, toutes les scènes qui s’y jouent.',
+        ],
+    ],
+
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Des blocs, des notes et des cases à cocher dans Mes feuilles',
