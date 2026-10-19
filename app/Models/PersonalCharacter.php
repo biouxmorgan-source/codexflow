@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Feuille de personnage personnelle : un personnage joué hors de SagaWyn, rangé dans le compte
  * et visible de son seul propriétaire. Sans campagne ni jeu, ses champs sont libres, rangés dans
- * des blocs nommés que l'on déplace (colonne gauche ou droite) : chaque ligne est un « texte »
- * (label, value) ou un « compteur » (label, value, max), avec une note et une case à cocher facultatives.
+ * des blocs nommés que l'on déplace sur trois colonnes. Un bloc « champs » a des lignes « texte »
+ * (label, value) ou « compteur » (label, value, max), avec une note et une case à cocher facultatives ;
+ * un bloc « note » garde un texte libre.
  */
 class PersonalCharacter extends Model
 {
@@ -20,7 +21,9 @@ class PersonalCharacter extends Model
 
     public const MAX_BLOCKS = 30;
 
-    public const COLUMNS = ['left', 'right'];
+    public const COLUMNS = ['left', 'middle', 'right'];
+
+    public const KINDS = ['fields', 'note'];
 
     protected $guarded = ['id'];
 
@@ -76,14 +79,16 @@ class PersonalCharacter extends Model
     /**
      * Blocs remis en forme : identifiant, titre, colonne et lignes complètes, quoi qu'en dise la base.
      *
-     * @return list<array{id: string, title: string, column: string, rows: list<array{type: string, label: string, value: string|int, max: int|null, note: string, checkbox: bool, checked: bool}>}>
+     * @return list<array{id: string, kind: string, title: string, column: string, text: string, rows: list<array{type: string, label: string, value: string|int, max: int|null, note: string, checkbox: bool, checked: bool}>}>
      */
     public function blockList(): array
     {
         return array_values(array_map(fn (array $block) => [
             'id' => (string) ($block['id'] ?? ''),
+            'kind' => ($block['kind'] ?? null) === 'note' ? 'note' : 'fields',
             'title' => (string) ($block['title'] ?? ''),
             'column' => in_array($block['column'] ?? null, self::COLUMNS, true) ? $block['column'] : 'left',
+            'text' => (string) ($block['text'] ?? ''),
             'rows' => array_values(array_map(fn (array $row) => [
                 'type' => ($row['type'] ?? null) === 'counter' ? 'counter' : 'text',
                 'label' => (string) ($row['label'] ?? ''),
@@ -94,5 +99,16 @@ class PersonalCharacter extends Model
                 'checked' => (bool) ($row['checked'] ?? false),
             ], array_filter($block['rows'] ?? [], 'is_array'))),
         ], array_filter($this->blocks ?? [], 'is_array')));
+    }
+
+    /** Nombre de colonnes à afficher : jusqu'à la dernière qui contient un bloc. */
+    public function usedColumns(): int
+    {
+        $last = 0;
+        foreach ($this->blockList() as $block) {
+            $last = max($last, array_search($block['column'], self::COLUMNS, true) + 1);
+        }
+
+        return max(1, $last);
     }
 }

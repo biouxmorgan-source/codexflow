@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Mehrere Notizen und drei Spalten in Meine Bögen',
+        'items' => [
+            '„+ Neue Notiz“ fügt einen Notizblock hinzu: so viele Sie möchten (Schulden, Gerüchte, Kontakte…). Ihre bisherigen Notizen werden zu einem ersten Block „Notizen“.',
+            'Blöcke lassen sich jetzt mit „Blöcke anordnen“ auf drei Spalten platzieren, Notizen eingeschlossen.',
+        ],
+    ],
+
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Eine aktuelle Demo',

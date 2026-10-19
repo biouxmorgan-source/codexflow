@@ -20,7 +20,7 @@
         </div>
         @unless ($editing)
             <span class="flex flex-wrap gap-2">
-                @if (count($sheetBlocks) > 1)
+                @if ($sheetBlocks !== [])
                     <button type="button" wire:click="toggleArranging" aria-pressed="{{ $arranging ? 'true' : 'false' }}" @class(['btn-secondary', 'border-codex text-codex' => $arranging])>{{ $arranging ? __('Terminé') : __('Organiser les blocs') }}</button>
                 @endif
                 <button type="button" wire:click="edit" class="btn-secondary">{{ __('Modifier') }}</button>
@@ -29,8 +29,8 @@
         @endunless
     </div>
 
-    <div class="grid gap-6 *:min-w-0 lg:grid-cols-3">
-        <div class="space-y-6 lg:col-span-2">
+    <div class="space-y-6">
+        <div class="space-y-6">
             @if ($editing)
                 <form wire:submit="save" class="space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                     <div class="grid gap-4 sm:grid-cols-3">
@@ -61,8 +61,15 @@
                                         <input id="blocks-{{ $b }}-title" type="text" wire:model="blocks.{{ $b }}.title" class="field font-semibold" maxlength="100" placeholder="{{ __('Titre du bloc : Caractéristiques, Compétences, Équipement…') }}">
                                         @error("blocks.$b.title") <p class="error">{{ $message }}</p> @enderror
                                     </div>
-                                    <button type="button" wire:click="removeBlock({{ $b }})" @if ($block['rows'] !== []) wire:confirm="{{ __('Retirer ce bloc et ses champs ?') }}" @endif class="rounded px-1.5 pt-2 text-sm text-stone-500 hover:text-red-700">{{ __('Retirer le bloc') }}</button>
+                                    <button type="button" wire:click="removeBlock({{ $b }})" @if ($block['rows'] !== [] || $block['text'] !== '') wire:confirm="{{ __('Retirer ce bloc et ses champs ?') }}" @endif class="rounded px-1.5 pt-2 text-sm text-stone-500 hover:text-red-700">{{ __('Retirer le bloc') }}</button>
                                 </div>
+                                @if ($block['kind'] === 'note')
+                                    <div>
+                                        <label for="blocks-{{ $b }}-text" class="sr-only">{{ __('Notes') }}</label>
+                                        <textarea id="blocks-{{ $b }}-text" wire:model="blocks.{{ $b }}.text" rows="6" class="field" maxlength="50000"></textarea>
+                                        @error("blocks.$b.text") <p class="error">{{ $message }}</p> @enderror
+                                    </div>
+                                @else
                                 @forelse ($block['rows'] as $r => $row)
                                     <div wire:key="row-{{ $block['id'] }}-{{ $r }}-{{ $row['type'] }}" class="space-y-2 rounded-lg border border-stone-200 bg-white p-2">
                                         <div class="flex flex-wrap items-start gap-2">
@@ -103,13 +110,13 @@
                                                 @error("blocks.$b.rows.$r.note") <p class="error">{{ $message }}</p> @enderror
                                             </div>
                                             <label class="flex items-center gap-1.5 text-sm text-stone-700"><input type="checkbox" wire:model="blocks.{{ $b }}.rows.{{ $r }}.checkbox"> {{ __('Case à cocher') }}</label>
-                                            @if (count($blocks) > 1)
+                                            @php($targets = collect($blocks)->where('kind', 'fields')->except($b))
+                                            @if ($targets->isNotEmpty())
                                                 <label class="flex items-center gap-1.5 text-sm text-stone-600">
                                                     <span class="sr-only">{{ __('Ranger dans un autre bloc') }}</span>
                                                     <select wire:change="moveRowToBlock({{ $b }}, {{ $r }}, $event.target.value)" class="field min-h-0 w-auto py-1 text-sm">
                                                         <option value="{{ $b }}">{{ __('Ranger dans…') }}</option>
-                                                        @foreach ($blocks as $t => $other)
-                                                            @continue($t === $b)
+                                                        @foreach ($targets as $t => $other)
                                                             <option value="{{ $t }}">{{ $other['title'] !== '' ? $other['title'] : __('Bloc :number', ['number' => $t + 1]) }}</option>
                                                         @endforeach
                                                     </select>
@@ -124,16 +131,14 @@
                                     <button type="button" wire:click="addRow({{ $b }}, 'text')" class="btn-secondary min-h-0 py-1 text-sm">{{ __('+ Texte') }}</button>
                                     <button type="button" wire:click="addRow({{ $b }}, 'counter')" class="btn-secondary min-h-0 py-1 text-sm">{{ __('+ Compteur') }}</button>
                                 </div>
+                                @endif
                             </fieldset>
                         @endforeach
                         @error('blocks') <p class="error">{{ $message }}</p> @enderror
-                        <button type="button" wire:click="addBlock" class="btn-secondary">{{ __('+ Nouveau bloc') }}</button>
-                    </div>
-
-                    <div>
-                        <label for="notes" class="label">{{ __('Notes') }}</label>
-                        <textarea id="notes" wire:model="notes" rows="8" class="field" maxlength="50000"></textarea>
-                        @error('notes') <p class="error">{{ $message }}</p> @enderror
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" wire:click="addBlock" class="btn-secondary">{{ __('+ Nouveau bloc') }}</button>
+                            <button type="button" wire:click="addBlock('note')" class="btn-secondary">{{ __('+ Nouvelle note') }}</button>
+                        </div>
                     </div>
 
                     <div class="flex gap-2">
@@ -146,10 +151,10 @@
                     <p class="rounded-xl border border-codex/30 bg-codex-soft/50 p-3 text-sm text-stone-700" role="status">{{ __('Glissez un bloc par sa poignée ⠿ (ou utilisez les flèches) pour le déplacer, y compris d’une colonne à l’autre.') }}</p>
                 @endif
                 @if ($sheetBlocks !== [])
-                    @php($twoColumns = $arranging || collect($sheetBlocks)->contains('column', 'right'))
-                    <div x-data="screenArranger" @class(['grid gap-4', 'items-start' => ! $arranging, 'sm:grid-cols-2' => $twoColumns])>
-                        @foreach (\App\Models\PersonalCharacter::COLUMNS as $column)
-                            <div data-screen-column="{{ $column }}" wire:key="column-{{ $column }}" @class(['space-y-4', 'hidden' => ! $twoColumns && $column === 'right', 'min-h-24 rounded-xl border-2 border-dashed border-stone-200 p-1' => $arranging])>
+                    @php($shown = $arranging ? 3 : $character->usedColumns())
+                    <div x-data="screenArranger" @class(['grid gap-4', 'items-start' => ! $arranging, 'sm:grid-cols-2' => $shown >= 2, 'lg:grid-cols-3' => $shown === 3])>
+                        @foreach (\App\Models\PersonalCharacter::COLUMNS as $position => $column)
+                            <div data-screen-column="{{ $column }}" wire:key="column-{{ $column }}" @class(['space-y-4', 'hidden' => $position >= $shown, 'min-h-24 rounded-xl border-2 border-dashed border-stone-200 p-1' => $arranging])>
                                 @foreach (collect($sheetBlocks)->where('column', $column) as $block)
                                     @php($title = $block['title'] !== '' ? $block['title'] : __('Sans titre'))
                                     <section wire:key="block-{{ $block['id'] }}" data-block="{{ $block['id'] }}" aria-label="{{ $title }}" @class(['rounded-xl border border-stone-200 bg-white p-4 shadow-sm', 'border-2 border-dashed border-codex/40' => $arranging])>
@@ -163,7 +168,9 @@
                                         @elseif ($block['title'] !== '')
                                             <h2 class="mb-2 font-semibold">{{ $block['title'] }}</h2>
                                         @endif
-                                        @if ($block['rows'] === [])
+                                        @if ($block['kind'] === 'note')
+                                            <p class="whitespace-pre-line">{{ $block['text'] !== '' ? $block['text'] : '—' }}</p>
+                                        @elseif ($block['rows'] === [])
                                             <p class="text-sm text-stone-500">{{ __('Bloc vide.') }}</p>
                                         @else
                                             <ul class="divide-y divide-stone-100">
@@ -212,18 +219,12 @@
                     </div>
                 @endif
 
-                @if ($sheetBlocks === [] && ! $character->notes)
+                @if ($sheetBlocks === [])
                     <div class="rounded-xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-600">
                         <p>{{ __('Feuille vide. « Modifier » ajoute ses blocs, caractéristiques, compteurs et notes.') }}</p>
                     </div>
                 @endif
 
-                @if ($character->notes)
-                    <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm" aria-labelledby="notes-title">
-                        <h2 id="notes-title" class="mb-1 font-semibold">{{ __('Notes') }}</h2>
-                        <p class="whitespace-pre-line">{{ $character->notes }}</p>
-                    </section>
-                @endif
             @endif
 
             @if ($character->hasSheet())
@@ -240,7 +241,7 @@
             @endif
         </div>
 
-        <aside class="space-y-4 self-start rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+        <aside class="grid gap-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm sm:grid-cols-2" aria-label="{{ __('Fichiers') }}">
             <div>
                 <label for="sheet" class="label">{{ $character->hasSheet() ? __('Remplacer la feuille PDF') : __('Feuille PDF') }} <span class="font-normal text-stone-500">{{ __('(30 Mo max.)') }}</span></label>
                 <input id="sheet" type="file" wire:model="sheet" accept="application/pdf,.pdf" class="block w-full text-sm">
@@ -259,7 +260,7 @@
                     <button type="button" wire:click="removePortrait" class="mt-1 text-sm text-red-700 hover:underline">{{ __('Retirer le portrait') }}</button>
                 @endif
             </div>
-            <p class="text-xs text-stone-500">{{ __('Les fichiers comptent dans l’espace de stockage de votre compte.') }}</p>
+            <p class="text-xs text-stone-500 sm:col-span-2">{{ __('Les fichiers comptent dans l’espace de stockage de votre compte.') }}</p>
         </aside>
     </div>
 </div>

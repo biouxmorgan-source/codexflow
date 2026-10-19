@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Wiele notatek i trzy kolumny w Moich kartach',
+        'items' => [
+            '„+ Nowa notatka” dodaje blok notatek: tyle, ile chcesz (długi, plotki, kontakty…). Twoje dotychczasowe notatki stają się pierwszym blokiem „Notatki”.',
+            'Bloki układasz teraz w trzech kolumnach, razem z notatkami, przez „Uporządkuj bloki”.',
+        ],
+    ],
+
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Aktualne demo',

@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Several notes and three columns in My sheets',
+        'items' => [
+            '“+ New note” adds a note block: make as many as you like (debts, rumours, contacts…). Your previous notes become a first “Notes” block.',
+            'Blocks can now be placed on three columns, notes included, with “Arrange blocks”.',
+        ],
+    ],
+
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'An up-to-date demo',

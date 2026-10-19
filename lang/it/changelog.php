@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Più note e tre colonne in Le mie schede',
+        'items' => [
+            '«+ Nuova nota» aggiunge un blocco di note: quanti ne vuoi (debiti, voci, contatti…). Le tue note precedenti diventano un primo blocco «Note».',
+            'I blocchi si posizionano ora su tre colonne, note comprese, con «Organizza i blocchi».',
+        ],
+    ],
+
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Una demo aggiornata',

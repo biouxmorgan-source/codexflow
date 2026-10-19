@@ -14,7 +14,8 @@ use Livewire\WithFileUploads;
 
 /**
  * Une feuille de personnage personnelle : identité, portrait, feuille PDF, champs libres rangés
- * en blocs déplaçables (textes et compteurs à − / +, avec note et case à cocher) et notes.
+ * en blocs déplaçables sur trois colonnes (textes et compteurs à − / +, avec note et case à cocher)
+ * et autant de blocs de notes que voulu.
  * Visible de son seul propriétaire.
  */
 class Show extends Component
@@ -32,9 +33,7 @@ class Show extends Component
 
     public string $tableName = '';
 
-    public string $notes = '';
-
-    /** @var list<array{id: string, title: string, column: string, rows: list<array{type: string, label: string, value: string, max: string, note: string, checkbox: bool, checked: bool}>}> */
+    /** @var list<array{id: string, kind: string, title: string, column: string, text: string, rows: list<array{type: string, label: string, value: string, max: string, note: string, checkbox: bool, checked: bool}>}> */
     public array $blocks = [];
 
     /** Les poignées des blocs ne s'affichent qu'en mode « Organiser ». */
@@ -57,7 +56,6 @@ class Show extends Component
         $this->name = $this->character->name;
         $this->gameName = (string) $this->character->game;
         $this->tableName = (string) $this->character->table_name;
-        $this->notes = (string) $this->character->notes;
         $this->blocks = array_map(fn (array $block) => [
             ...$block,
             'rows' => array_map(fn (array $row) => [
@@ -80,11 +78,11 @@ class Show extends Component
         $this->reset('editing', 'blocks');
     }
 
-    public function addBlock(): void
+    public function addBlock(string $kind = 'fields'): void
     {
-        abort_unless(count($this->blocks) < PersonalCharacter::MAX_BLOCKS, 422);
+        abort_unless(in_array($kind, PersonalCharacter::KINDS, true) && count($this->blocks) < PersonalCharacter::MAX_BLOCKS, 422);
 
-        $this->blocks[] = ['id' => Str::lower(Str::random(10)), 'title' => '', 'column' => 'left', 'rows' => []];
+        $this->blocks[] = ['id' => Str::lower(Str::random(10)), 'kind' => $kind, 'title' => $kind === 'note' ? __('Notes') : '', 'column' => 'left', 'text' => '', 'rows' => []];
     }
 
     public function removeBlock(int $block): void
@@ -95,7 +93,7 @@ class Show extends Component
 
     public function addRow(int $block, string $type): void
     {
-        abort_unless(isset($this->blocks[$block]) && in_array($type, ['text', 'counter'], true) && $this->rowCount() < PersonalCharacter::MAX_FIELDS, 422);
+        abort_unless(($this->blocks[$block]['kind'] ?? null) === 'fields' && in_array($type, ['text', 'counter'], true) && $this->rowCount() < PersonalCharacter::MAX_FIELDS, 422);
 
         $this->blocks[$block]['rows'][] = ['type' => $type, 'label' => '', 'value' => $type === 'counter' ? '0' : '', 'max' => '', 'note' => '', 'checkbox' => false, 'checked' => false];
     }
@@ -119,7 +117,7 @@ class Show extends Component
     /** Range une ligne dans un autre bloc, à la fin. */
     public function moveRowToBlock(int $block, int $row, int $target): void
     {
-        if ($block === $target || ! isset($this->blocks[$block]['rows'][$row], $this->blocks[$target])) {
+        if ($block === $target || ! isset($this->blocks[$block]['rows'][$row]) || ($this->blocks[$target]['kind'] ?? null) !== 'fields') {
             return;
         }
 
@@ -140,9 +138,10 @@ class Show extends Component
             'name' => ['required', 'string', 'max:255'],
             'gameName' => ['nullable', 'string', 'max:255'],
             'tableName' => ['nullable', 'string', 'max:255'],
-            'notes' => ['nullable', 'string', 'max:50000'],
             'blocks' => ['array', 'max:'.PersonalCharacter::MAX_BLOCKS],
+            'blocks.*.kind' => ['required', 'in:fields,note'],
             'blocks.*.title' => ['nullable', 'string', 'max:100'],
+            'blocks.*.text' => ['nullable', 'string', 'max:50000'],
             'blocks.*.rows' => ['array'],
             'blocks.*.rows.*.type' => ['required', 'in:text,counter'],
             'blocks.*.rows.*.label' => ['required', 'string', 'max:100'],
@@ -152,7 +151,7 @@ class Show extends Component
             'blocks.*.rows.*.checkbox' => ['boolean'],
             'blocks.*.rows.*.checked' => ['boolean'],
         ], attributes: [
-            'name' => __('nom'), 'gameName' => __('jeu'), 'tableName' => __('table'), 'notes' => __('notes'),
+            'name' => __('nom'), 'gameName' => __('jeu'), 'tableName' => __('table'), 'blocks.*.text' => __('notes'),
             'blocks.*.title' => __('titre du bloc'), 'blocks.*.rows.*.label' => __('nom du champ'), 'blocks.*.rows.*.value' => __('valeur'),
             'blocks.*.rows.*.max' => __('maximum'), 'blocks.*.rows.*.note' => __('note'),
         ]);
@@ -178,12 +177,13 @@ class Show extends Component
             'name' => trim($this->name),
             'game' => trim($this->gameName) ?: null,
             'table_name' => trim($this->tableName) ?: null,
-            'notes' => trim($this->notes) ?: null,
             'blocks' => array_map(fn (array $block) => [
                 'id' => preg_match('/^[a-z0-9]{1,20}$/', (string) $block['id']) ? $block['id'] : Str::lower(Str::random(10)),
+                'kind' => $block['kind'],
                 'title' => trim((string) $block['title']),
                 'column' => in_array($block['column'] ?? null, PersonalCharacter::COLUMNS, true) ? $block['column'] : 'left',
-                'rows' => array_map(fn (array $row) => [
+                'text' => $block['kind'] === 'note' ? trim((string) $block['text']) : '',
+                'rows' => $block['kind'] === 'note' ? [] : array_map(fn (array $row) => [
                     'type' => $row['type'],
                     'label' => trim($row['label']),
                     'value' => $row['type'] === 'counter' ? (int) trim($row['value']) : trim((string) $row['value']),
