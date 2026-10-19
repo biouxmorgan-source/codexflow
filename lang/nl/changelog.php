@@ -4,6 +4,17 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Een bijgewerkte demo',
+        'items' => [
+            'De democampagne toont nu de nieuwste functies: op de campagnekaart leidt de vuurtoren naar een subkaart, de kelder, klaar voor een gevecht met fiches, twee gebiedssjablonen en een initiatievolgorde. Elk punt koppelt meerdere bladen en meerdere scènes.',
+            'Dobbelstenen aan tafel: voorbereide worpen die de eigenschap van het blad lezen, een benoemde bonus en de worpen van sessie 1, waaronder een verzoek van de SL.',
+            'Ook: een geluid uit „Mijn geluiden”, een scène „Gespeeld zoals gepland” en een met „Wat er gebeurde”, een aanwijzing „Leugen”, een huisblad en een huisregel met hun officiële versie, en spelers die hun eigen portret aanvullen.',
+            'Laad de demo opnieuw via „Mijn campagnes” om hem te ontdekken: een al geladen kopie blijft zoals hij is.',
+        ],
+    ],
+
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Campagnekaart: zoom, tafel en rijkere plekken',

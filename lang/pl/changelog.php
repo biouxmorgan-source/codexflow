@@ -4,6 +4,17 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Aktualne demo',
+        'items' => [
+            'Kampania demonstracyjna pokazuje teraz najnowsze funkcje: na mapie kampanii latarnia prowadzi do podmapy, swojej piwnicy, gotowej do walki z żetonami, dwoma szablonami obszaru i kolejnością inicjatywy. Każdy punkt łączy kilka kart i kilka scen.',
+            'Kości przy stole: przygotowane rzuty, które odczytują cechę z karty, nazwana premia i rzuty z sesji 1, w tym prośba MG.',
+            'Także: dźwięk z „Moich dźwięków”, scena „Rozegrana zgodnie z planem” i druga z „Co się wydarzyło”, poszlaka „Kłamstwo”, karta i zasada domowa z ich oficjalną wersją oraz gracze, którzy sami uzupełniają swój portret.',
+            'Wczytaj demo ponownie z „Moje kampanie”, aby je poznać: już wczytana kopia pozostaje bez zmian.',
+        ],
+    ],
+
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Mapa kampanii: zoom, stół i bogatsze miejsca',
@@ -725,7 +736,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Kampania demonstracyjna',
         'items' => [
-            'Kampania demonstracyjna wczytywana jednym kliknięciem z „Moich kampanii”: wymyślona gra „Brume & Serment” i pełna intryga na trzy sesje, z kartami, portretami, relacjami, mapą, sekretami, zasadami, osią czasu i gotowymi postaciami.',
+            'Kampania demonstracyjna wczytywana jednym kliknięciem z „Moje kampanie”: wymyślona gra „Brume & Serment” i pełna intryga na trzy sesje, z kartami, portretami, relacjami, mapą, sekretami, zasadami, osią czasu i gotowymi postaciami.',
             'Małe przyciski z ikonami na stronie kampanii nie przesuwają się już po najechaniu myszą: nazwa pojawia się w dymku, nad resztą.',
             'Tagi wpisuje się wszędzie tak samo, a karta proponuje „Dodaj tag” tuż pod tytułem.',
         ],
@@ -745,7 +756,7 @@ return [
         'title' => 'Zabrać kampanię ze sobą',
         'items' => [
             'Eksport całej kampanii do archiwum .zip: gra, świat, karty, scenariusze, dokumenty, mapy, sekrety, oś czasu i pliki.',
-            'Import archiwum z „Moich kampanii”: odtwarza kampanię, u ciebie lub u innego MG.',
+            'Import archiwum z „Moje kampanie”: odtwarza kampanię, u ciebie lub u innego MG.',
             'Szablony gry do udostępnienia: typy kart, pola, etykiety i zasady, bez treści kampanii.',
         ],
     ],

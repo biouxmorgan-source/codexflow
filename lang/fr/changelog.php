@@ -4,6 +4,17 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Une démonstration à jour',
+        'items' => [
+            'La campagne de démonstration « Le Serment de Pierrecendre » montre les dernières nouveautés : sur la carte de campagne, le phare mène à une sous-carte, la cave, prête pour le combat avec ses jetons, deux gabarits de zone et un ordre d’initiative. Chaque point relie plusieurs fiches et plusieurs scènes.',
+            'Dés à la table : des lancers préparés qui reprennent la caractéristique de la fiche, un bonus nommé, et les lancers de la séance 1, dont une demande du MJ.',
+            'Aussi : un son de « Mes sons », une scène « Jouée comme prévu » et une autre avec « Ce qui s’est passé », un indice « Mensonge », une fiche et une règle maison avec leur version officielle, et des joueurs qui complètent leur portrait.',
+            'Chargez de nouveau la démonstration depuis « Mes campagnes » pour la découvrir : une copie déjà chargée reste telle quelle.',
+        ],
+    ],
+
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Carte de campagne : zoom, table et lieux plus riches',

@@ -313,11 +313,29 @@ return [
             'description' => 'Il porto, i suoi moli e la punta del faro. Si può mostrare al tavolo.',
             'file' => 'pianta-del-porto',
         ],
+        'cellar' => [
+            'title' => 'Pianta della cantina del faro',
+            'description' => 'La cantina allagata sotto il faro, per lo scontro della sessione 3. Riservata al master fino alla scena.',
+            'file' => 'pianta-cantina-del-faro',
+        ],
     ],
 
     'map' => [
         'name' => 'Il porto di Pierrecendre',
         'unit' => 'm',
+        // Note du MJ sur un point de la carte de campagne, par fiche du lieu.
+        'notes' => [
+            'quay' => 'Visibile al tavolo: il suo nome appare sullo schermo del tavolo.',
+            'lighthouse' => 'Un clic apre la sottomappa: la cantina del faro, pronta per lo scontro della sessione 3.',
+        ],
+        // Sous-carte du phare ; ses points : nom, note du MJ.
+        'cellar' => [
+            'name' => 'La cantina del faro',
+            'points' => [
+                'crate' => ['Casse di sale', 'Le tegole tolte dalla Sala. La 1147 è in cima alla pila.'],
+                'stairs' => ['Scala della lanterna', 'Lo Sconosciuto aspetta qui: la sua pedina resta nascosta finché non scende.'],
+            ],
+        ],
     ],
 
     'rules' => [
@@ -349,6 +367,7 @@ return [
             'summary' => 'Regola della casa: la nebbia sale di un grado a ogni sessione, finché gli Annegati non camminano in città.',
             'procedure' => "Tieni un conto da 0 a 6, visibile a tutto il tavolo.\n+1 alla fine di ogni sessione, +1 ogni volta che un giuramento viene infranto davanti a testimoni.\nA 3, il guado diventa incerto. A 6, gli Annegati entrano in Pierrecendre.",
             'gm_notes' => 'Conto dietro lo schermo, segreto fino a 3.',
+            'official_version' => 'Libretto base, p. 30: la nebbia è solo atmosfera, senza conteggio né conseguenze numeriche.',
         ],
         'word' => [
             'title' => 'Parola data al tavolo',
@@ -383,6 +402,7 @@ return [
             'description' => '[[hall]]: [[ysane]] nega l’accesso allo scaffale dell’anno della Grande Nebbia. [[elzevir]] tossisce.',
             'gm_notes' => 'Elzevir cederà se preso in disparte, lontano dagli occhi di Ysane. Altrimenti tossisce e cambia discorso.',
             'notes' => ['ysane' => 'dietro il leggio', 'elzevir' => 'tra gli scaffali'],
+            'what_happened' => 'Niente è andato come previsto: [[elzevir]] non ha ceduto, nemmeno preso in disparte. Uscendo, Teska l’ha visto infilare un biglietto sotto il leggio di [[ysane]], e il tavolo ha passato mezz’ora a chiedersi per chi fosse. Quel biglietto non era previsto: sfruttarlo nella sessione 2.',
         ],
         'poles' => [
             'name' => 'Le pertiche spostate',
@@ -441,6 +461,10 @@ return [
         'bought' => [
             'title' => 'Il Filo Grigio ha comprato due guardie del molo',
             'body' => 'Due uomini della Guardia dei Moli sono pagati dalla Compagnia del Filo Grigio. Mornevent non lo sa, e scoprirlo lo spezzerà.',
+        ],
+        'burnt' => [
+            'title' => 'Le tegole della grande nebbia sono bruciate',
+            'body' => 'È ciò che Elzevir ripete a chi lo interroga: un incendio, vent’anni fa, avrebbe distrutto lo scaffale. È falso: Ysane ha tolto le tegole e le ha nascoste nella cantina del faro.',
         ],
     ],
 
@@ -510,5 +534,30 @@ return [
         'bell' => 'Far suonare la campana del guado durante la traversata.',
         'mist' => 'Avviare il conteggio della nebbia alla prima uscita in barca.',
         'debt' => 'Ricordare a Teska che Brannoc le deve una barca.',
+    ],
+
+    // Contenu maison : la version officielle (du livret) remplacée, gardée côté MJ, par fiche.
+    'house' => [
+        'drowned' => 'Versione del libretto: gli Annegati non lasciano mai l’acqua. Annegano chi si attarda al guado con l’alta marea, poi tornano giù.',
+    ],
+
+    // Dés à la table : lancers préparés, bonus nommé, lancers de la séance 1, la marée dans l’initiative.
+    'dice' => [
+        'presets' => [
+            'body' => 'Tiro di Corpo',
+            'skill' => 'Tiro di Destrezza',
+            'mind' => 'Tiro di Mente',
+            'heart' => 'Tiro di Cuore',
+            'oath' => 'Mantenere un giuramento (Cuore)',
+            'reroll' => 'Ritiro (1 Respiro)',
+            'drowned' => 'Gli Annegati colpiscono',
+        ],
+        'oath_bonus' => 'Giuramento mantenuto',
+        'rolls' => [
+            'follow' => 'Seguire Brannoc senza farsi vedere',
+            'elzevir' => 'Convincere Elzevir',
+            'patrol' => 'La ronda nota Teska?',
+        ],
+        'tide' => 'La marea sale',
     ],
 ];

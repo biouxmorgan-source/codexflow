@@ -313,11 +313,29 @@ return [
             'description' => 'Le port, ses quais et la pointe du phare. Montrable à la table.',
             'file' => 'plan-du-port',
         ],
+        'cellar' => [
+            'title' => 'Plan de la cave du phare',
+            'description' => 'La cave inondée sous le phare, pour le combat de la séance 3. Réservé au MJ jusqu’à la scène.',
+            'file' => 'plan-cave-du-phare',
+        ],
     ],
 
     'map' => [
         'name' => 'Le port de Pierrecendre',
         'unit' => 'm',
+        // Note du MJ sur un point de la carte de campagne, par fiche du lieu.
+        'notes' => [
+            'quay' => 'Visible à la table : son nom s’affiche sur l’écran de table.',
+            'lighthouse' => 'Un clic ouvre la sous-carte : la cave du phare, prête pour le combat de la séance 3.',
+        ],
+        // Sous-carte du phare ; ses points : nom, note du MJ.
+        'cellar' => [
+            'name' => 'La cave du phare',
+            'points' => [
+                'crate' => ['Caisses à sel', 'Les tuiles retirées de la Halle. La 1147 est au-dessus de la pile.'],
+                'stairs' => ['Escalier de la lanterne', 'L’Inconnu attend ici : son jeton reste caché tant qu’il ne descend pas.'],
+            ],
+        ],
     ],
 
     'rules' => [
@@ -349,6 +367,7 @@ return [
             'summary' => 'Règle maison : la brume monte d’un cran à chaque séance, jusqu’à ce que les Noyeux marchent en ville.',
             'procedure' => "Tenez un compte de 0 à 6, visible de la table.\n+1 à chaque fin de séance, +1 chaque fois qu’un serment est rompu devant témoin.\nÀ 3, le gué devient incertain. À 6, les Noyeux entrent dans Pierrecendre.",
             'gm_notes' => 'Compte à l’écran de table, en secret jusqu’à 3.',
+            'official_version' => 'Livret de base, p. 30 : la brume n’est qu’une ambiance, sans compte ni conséquence chiffrée.',
         ],
         'word' => [
             'title' => 'Parole donnée à la table',
@@ -383,6 +402,7 @@ return [
             'description' => 'À [[hall]], [[ysane]] refuse l’accès au rayon de l’année de la grande brume. [[elzevir]] tousse.',
             'gm_notes' => 'Elzevir cédera s’il est pris à part, hors de la vue d’Ysane. Sinon il tousse et change de sujet.',
             'notes' => ['ysane' => 'derrière le pupitre', 'elzevir' => 'dans les rayons'],
+            'what_happened' => 'Rien ne s’est passé comme prévu : [[elzevir]] n’a pas cédé, même pris à part. En sortant, Teska l’a vu glisser un billet sous le pupitre de [[ysane]], et la table a passé une demi-heure à se demander pour qui. Ce billet n’était pas prévu : à exploiter en séance 2.',
         ],
         'poles' => [
             'name' => 'Les perches déplacées',
@@ -441,6 +461,10 @@ return [
         'bought' => [
             'title' => 'Le Fil Gris a acheté deux gardes du quai',
             'body' => 'Deux hommes de la Garde des Quais sont payés par la Compagnie du Fil Gris. Mornevent l’ignore, et le découvrir le brisera.',
+        ],
+        'burnt' => [
+            'title' => 'Les tuiles de la grande brume ont brûlé',
+            'body' => 'C’est ce que répète Elzevir à qui l’interroge : un incendie, il y a vingt ans, aurait détruit le rayon. C’est faux : Ysane a retiré les tuiles et les a cachées dans la cave du phare.',
         ],
     ],
 
@@ -510,5 +534,30 @@ return [
         'bell' => 'Faire sonner la cloche du gué pendant la traversée.',
         'mist' => 'Lancer le compte de brume dès la première sortie en barque.',
         'debt' => 'Rappeler à Teska que Brannoc lui doit une barque.',
+    ],
+
+    // Contenu maison : la version officielle (du livret) remplacée, gardée côté MJ, par fiche.
+    'house' => [
+        'drowned' => 'Version du livret : les Noyeux ne quittent jamais l’eau. Ils noient qui s’attarde au gué à marée haute, puis redescendent.',
+    ],
+
+    // Dés à la table : lancers préparés, bonus nommé, lancers de la séance 1, la marée dans l’initiative.
+    'dice' => [
+        'presets' => [
+            'body' => 'Jet de Corps',
+            'skill' => 'Jet d’Adresse',
+            'mind' => 'Jet d’Esprit',
+            'heart' => 'Jet de Cœur',
+            'oath' => 'Tenir un serment (Cœur)',
+            'reroll' => 'Relance (1 Souffle)',
+            'drowned' => 'Les Noyeux frappent',
+        ],
+        'oath_bonus' => 'Serment tenu',
+        'rolls' => [
+            'follow' => 'Suivre Brannoc sans être vue',
+            'elzevir' => 'Convaincre Elzevir',
+            'patrol' => 'La ronde remarque-t-elle Teska ?',
+        ],
+        'tide' => 'La marée monte',
     ],
 ];

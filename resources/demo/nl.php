@@ -313,11 +313,29 @@ return [
             'description' => 'De haven, de kades en de vuurtorenpunt. Kan aan tafel worden getoond.',
             'file' => 'plattegrond-van-de-haven',
         ],
+        'cellar' => [
+            'title' => 'Plattegrond van de vuurtorenkelder',
+            'description' => 'De ondergelopen kelder onder de vuurtoren, voor het gevecht van sessie 3. Alleen voor de SL tot de scène.',
+            'file' => 'plattegrond-vuurtorenkelder',
+        ],
     ],
 
     'map' => [
         'name' => 'De haven van Pierrecendre',
         'unit' => 'm',
+        // Note du MJ sur un point de la carte de campagne, par fiche du lieu.
+        'notes' => [
+            'quay' => 'Zichtbaar aan tafel: de naam verschijnt op het tafelscherm.',
+            'lighthouse' => 'Eén klik opent de subkaart: de vuurtorenkelder, klaar voor het gevecht van sessie 3.',
+        ],
+        // Sous-carte du phare ; ses points : nom, note du MJ.
+        'cellar' => [
+            'name' => 'De vuurtorenkelder',
+            'points' => [
+                'crate' => ['Zoutkisten', 'De tegels die uit de Hal zijn gehaald. Tegel 1147 ligt boven op de stapel.'],
+                'stairs' => ['Trap naar de lantaarn', 'De Onbekende wacht hier: zijn fiche blijft verborgen zolang hij niet naar beneden komt.'],
+            ],
+        ],
     ],
 
     'rules' => [
@@ -349,6 +367,7 @@ return [
             'summary' => 'Huisregel: de nevel stijgt elke sessie een stap, tot de Verdronkenen door de stad lopen.',
             'procedure' => "Houd een teller bij van 0 tot 6, zichtbaar voor de tafel.\n+1 aan het eind van elke sessie, +1 telkens wanneer een eed in het bijzijn van getuigen wordt gebroken.\nBij 3 wordt de doorwaadplaats onbetrouwbaar. Bij 6 trekken de Verdronkenen Pierrecendre binnen.",
             'gm_notes' => 'Teller achter het spelleiderscherm, geheim tot 3.',
+            'official_version' => 'Basisboekje, p. 30: de mist is alleen sfeer, zonder telling en zonder gevolgen in cijfers.',
         ],
         'word' => [
             'title' => 'Aan tafel gegeven woord',
@@ -383,6 +402,7 @@ return [
             'description' => 'In [[hall]] weigert [[ysane]] de toegang tot het rek van het jaar van de grote nevel. [[elzevir]] kucht.',
             'gm_notes' => 'Elzevir zwicht als je hem apart neemt, buiten het zicht van Ysane. Anders kucht hij en begint over iets anders.',
             'notes' => ['ysane' => 'achter de lessenaar', 'elzevir' => 'tussen de rekken'],
+            'what_happened' => 'Niets ging zoals gepland: [[elzevir]] gaf niet toe, zelfs niet onder vier ogen. Bij het weggaan zag Teska hem een briefje onder de lessenaar van [[ysane]] schuiven, en de tafel vroeg zich een half uur af voor wie het was. Dat briefje was niet gepland: gebruik het in sessie 2.',
         ],
         'poles' => [
             'name' => 'De verzette palen',
@@ -441,6 +461,10 @@ return [
         'bought' => [
             'title' => 'De Grijze Draad heeft twee kadewachters omgekocht',
             'body' => 'Twee mannen van de Kadewacht worden betaald door de Compagnie van de Grijze Draad. Mornevent weet het niet, en de ontdekking zal hem breken.',
+        ],
+        'burnt' => [
+            'title' => 'De tegels van de grote mist zijn verbrand',
+            'body' => 'Dat vertelt Elzevir iedereen die het vraagt: een brand, twintig jaar geleden, zou het rek hebben verwoest. Het is onwaar: Ysane heeft de tegels weggehaald en in de kelder van de vuurtoren verstopt.',
         ],
     ],
 
@@ -510,5 +534,30 @@ return [
         'bell' => 'De doorwaadbel laten luiden tijdens de oversteek.',
         'mist' => 'De misttelling starten bij de eerste boottocht.',
         'debt' => 'Teska eraan herinneren dat Brannoc haar een boot schuldig is.',
+    ],
+
+    // Contenu maison : la version officielle (du livret) remplacée, gardée côté MJ, par fiche.
+    'house' => [
+        'drowned' => 'Versie van het boekje: de Verdronkenen verlaten nooit het water. Ze verdrinken wie bij vloed bij de doorwaadplaats blijft hangen en zakken dan terug.',
+    ],
+
+    // Dés à la table : lancers préparés, bonus nommé, lancers de la séance 1, la marée dans l’initiative.
+    'dice' => [
+        'presets' => [
+            'body' => 'Lichaam-worp',
+            'skill' => 'Vaardigheid-worp',
+            'mind' => 'Geest-worp',
+            'heart' => 'Hart-worp',
+            'oath' => 'Een eed houden (Hart)',
+            'reroll' => 'Herworp (1 Adem)',
+            'drowned' => 'De Verdronkenen slaan toe',
+        ],
+        'oath_bonus' => 'Gehouden eed',
+        'rolls' => [
+            'follow' => 'Brannoc ongezien volgen',
+            'elzevir' => 'Elzevir overtuigen',
+            'patrol' => 'Merkt de patrouille Teska op?',
+        ],
+        'tide' => 'Het tij stijgt',
     ],
 ];

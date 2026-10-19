@@ -4,6 +4,17 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Una demo aggiornata',
+        'items' => [
+            'La campagna dimostrativa mostra ora le ultime novità: sulla mappa della campagna il faro porta a una sottomappa, la sua cantina, pronta per lo scontro con pedine, due sagome d’area e un ordine di iniziativa. Ogni punto collega più schede e più scene.',
+            'Dadi al tavolo: tiri preparati che leggono la caratteristica dalla scheda, un bonus con nome e i tiri della sessione 1, tra cui una richiesta del master.',
+            'Inoltre: un suono da «I miei suoni», una scena «Giocata come previsto» e un’altra con «Cosa è successo», un indizio «Menzogna», una scheda e una regola della casa con la loro versione ufficiale, e giocatori che completano il proprio ritratto.',
+            'Ricarica la demo da «Le mie campagne» per scoprirla: una copia già caricata resta com’è.',
+        ],
+    ],
+
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Mappa della campagna: zoom, tavolo e luoghi più ricchi',
