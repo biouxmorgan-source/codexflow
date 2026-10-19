@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Reiter in Meine Bögen',
+        'items' => [
+            'Unter „Bearbeiten“ teilt „+ Neuer Reiter“ einen Bogen in Reiter, die Sie benennen (Charakter, Zauber, Inventar…), ordnen und entfernen.',
+            'Jeder Block wählt seinen Reiter, und jeder Reiter ordnet seine Blöcke auf eigenen drei Spalten an. Ein bestehender Bogen behält alle Blöcke in einem ersten Reiter.',
+        ],
+    ],
+
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Mehrere Notizen und drei Spalten in Meine Bögen',

@@ -15,7 +15,7 @@ use Livewire\WithFileUploads;
 /**
  * Une feuille de personnage personnelle : identité, portrait, feuille PDF, champs libres rangés
  * en blocs déplaçables sur trois colonnes (textes et compteurs à − / +, avec note et case à cocher)
- * et autant de blocs de notes que voulu.
+ * et autant de blocs de notes que voulu, répartis dans des onglets nommés.
  * Visible de son seul propriétaire.
  */
 class Show extends Component
@@ -33,7 +33,13 @@ class Show extends Component
 
     public string $tableName = '';
 
-    /** @var list<array{id: string, kind: string, title: string, column: string, text: string, rows: list<array{type: string, label: string, value: string, max: string, note: string, checkbox: bool, checked: bool}>}> */
+    /** @var list<array{id: string, name: string}> */
+    public array $tabs = [];
+
+    /** Onglet affiché. */
+    public string $tab = PersonalCharacter::FIRST_TAB;
+
+    /** @var list<array{id: string, kind: string, title: string, tab: string, column: string, text: string, rows: list<array{type: string, label: string, value: string, max: string, note: string, checkbox: bool, checked: bool}>}> */
     public array $blocks = [];
 
     /** Les poignées des blocs ne s'affichent qu'en mode « Organiser ». */
@@ -47,6 +53,15 @@ class Show extends Component
     {
         $this->authorize('view', $personalCharacter);
         $this->character = $personalCharacter;
+        $this->tab = $personalCharacter->tabList()[0]['id'];
+    }
+
+    public function showTab(string $tab): void
+    {
+        $ids = array_column($this->editing ? $this->tabs : $this->character->tabList(), 'id');
+        abort_unless(in_array($tab, $ids, true), 404);
+
+        $this->tab = $tab;
     }
 
     public function edit(): void
@@ -56,6 +71,7 @@ class Show extends Component
         $this->name = $this->character->name;
         $this->gameName = (string) $this->character->game;
         $this->tableName = (string) $this->character->table_name;
+        $this->tabs = $this->character->tabList();
         $this->blocks = array_map(fn (array $block) => [
             ...$block,
             'rows' => array_map(fn (array $row) => [
@@ -65,7 +81,10 @@ class Show extends Component
             ], $block['rows']),
         ], $this->character->blockList());
 
-        if ($this->blocks === []) {
+        if (! in_array($this->tab, array_column($this->tabs, 'id'), true)) {
+            $this->tab = $this->tabs[0]['id'];
+        }
+        if (collect($this->blocks)->where('tab', $this->tab)->isEmpty()) {
             $this->addBlock();
         }
 
@@ -75,14 +94,53 @@ class Show extends Component
     public function cancel(): void
     {
         $this->resetValidation();
-        $this->reset('editing', 'blocks');
+        $this->reset('editing', 'blocks', 'tabs');
+        if (! in_array($this->tab, array_column($this->character->tabList(), 'id'), true)) {
+            $this->tab = $this->character->tabList()[0]['id'];
+        }
+    }
+
+    public function addTab(): void
+    {
+        abort_unless(count($this->tabs) < PersonalCharacter::MAX_TABS, 422);
+
+        $this->tabs[] = ['id' => $id = Str::lower(Str::random(10)), 'name' => ''];
+        $this->tab = $id;
+    }
+
+    /** Retire un onglet ; ses blocs rejoignent le premier onglet restant. */
+    public function removeTab(int $index): void
+    {
+        abort_unless(isset($this->tabs[$index]) && count($this->tabs) > 1, 422);
+
+        $removed = $this->tabs[$index]['id'];
+        unset($this->tabs[$index]);
+        $this->tabs = array_values($this->tabs);
+
+        foreach ($this->blocks as $b => $block) {
+            if ($block['tab'] === $removed) {
+                $this->blocks[$b]['tab'] = $this->tabs[0]['id'];
+            }
+        }
+        if ($this->tab === $removed) {
+            $this->tab = $this->tabs[0]['id'];
+        }
+    }
+
+    public function moveTab(int $index, int $direction): void
+    {
+        $target = $index + ($direction < 0 ? -1 : 1);
+
+        if (isset($this->tabs[$index], $this->tabs[$target])) {
+            [$this->tabs[$index], $this->tabs[$target]] = [$this->tabs[$target], $this->tabs[$index]];
+        }
     }
 
     public function addBlock(string $kind = 'fields'): void
     {
         abort_unless(in_array($kind, PersonalCharacter::KINDS, true) && count($this->blocks) < PersonalCharacter::MAX_BLOCKS, 422);
 
-        $this->blocks[] = ['id' => Str::lower(Str::random(10)), 'kind' => $kind, 'title' => $kind === 'note' ? __('Notes') : '', 'column' => 'left', 'text' => '', 'rows' => []];
+        $this->blocks[] = ['id' => Str::lower(Str::random(10)), 'kind' => $kind, 'title' => $kind === 'note' ? __('Notes') : '', 'tab' => $this->tab, 'column' => 'left', 'text' => '', 'rows' => []];
     }
 
     public function removeBlock(int $block): void
@@ -138,6 +196,8 @@ class Show extends Component
             'name' => ['required', 'string', 'max:255'],
             'gameName' => ['nullable', 'string', 'max:255'],
             'tableName' => ['nullable', 'string', 'max:255'],
+            'tabs' => ['required', 'array', 'min:1', 'max:'.PersonalCharacter::MAX_TABS],
+            'tabs.*.name' => ['nullable', 'string', 'max:40'],
             'blocks' => ['array', 'max:'.PersonalCharacter::MAX_BLOCKS],
             'blocks.*.kind' => ['required', 'in:fields,note'],
             'blocks.*.title' => ['nullable', 'string', 'max:100'],
@@ -151,7 +211,7 @@ class Show extends Component
             'blocks.*.rows.*.checkbox' => ['boolean'],
             'blocks.*.rows.*.checked' => ['boolean'],
         ], attributes: [
-            'name' => __('nom'), 'gameName' => __('jeu'), 'tableName' => __('table'), 'blocks.*.text' => __('notes'),
+            'name' => __('nom'), 'gameName' => __('jeu'), 'tableName' => __('table'), 'tabs.*.name' => __('nom de l’onglet'), 'blocks.*.text' => __('notes'),
             'blocks.*.title' => __('titre du bloc'), 'blocks.*.rows.*.label' => __('nom du champ'), 'blocks.*.rows.*.value' => __('valeur'),
             'blocks.*.rows.*.max' => __('maximum'), 'blocks.*.rows.*.note' => __('note'),
         ]);
@@ -173,14 +233,24 @@ class Show extends Component
             return;
         }
 
+        $tabs = [];
+        foreach ($this->tabs as $tab) {
+            $id = preg_match('/^[a-z0-9]{1,20}$/', (string) $tab['id']) ? $tab['id'] : Str::lower(Str::random(10));
+            $tabs[$id] = ['id' => $id, 'name' => trim((string) $tab['name'])];
+        }
+        $tabs = array_values($tabs);
+        $tabIds = array_column($tabs, 'id');
+
         $this->character->update([
             'name' => trim($this->name),
+            'tabs' => $tabs,
             'game' => trim($this->gameName) ?: null,
             'table_name' => trim($this->tableName) ?: null,
             'blocks' => array_map(fn (array $block) => [
                 'id' => preg_match('/^[a-z0-9]{1,20}$/', (string) $block['id']) ? $block['id'] : Str::lower(Str::random(10)),
                 'kind' => $block['kind'],
                 'title' => trim((string) $block['title']),
+                'tab' => in_array($block['tab'] ?? null, $tabIds, true) ? $block['tab'] : $tabIds[0],
                 'column' => in_array($block['column'] ?? null, PersonalCharacter::COLUMNS, true) ? $block['column'] : 'left',
                 'text' => $block['kind'] === 'note' ? trim((string) $block['text']) : '',
                 'rows' => $block['kind'] === 'note' ? [] : array_map(fn (array $row) => [
@@ -242,7 +312,7 @@ class Show extends Component
     }
 
     /**
-     * Nouvel ordre des blocs après un glisser-déposer ou une flèche : identifiants par colonne.
+     * Nouvel ordre des blocs de l'onglet affiché après un glisser-déposer ou une flèche : identifiants par colonne.
      *
      * @param  array<string, mixed>  $columns
      */
@@ -257,7 +327,7 @@ class Show extends Component
 
             foreach (PersonalCharacter::COLUMNS as $column) {
                 foreach (array_filter((array) ($columns[$column] ?? []), 'is_string') as $id) {
-                    if ($blocks->has($id) && ! isset($ordered[$id])) {
+                    if ($blocks->has($id) && $blocks[$id]['tab'] === $this->tab && ! isset($ordered[$id])) {
                         $ordered[$id] = [...$blocks[$id], 'column' => $column];
                     }
                 }

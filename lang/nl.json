@@ -2896,6 +2896,21 @@
     "« Placer des points », puis cliquez sur la carte pour poser un point d’intérêt ; glissez-le pour le déplacer. Molette, + et − zooment, glisser le fond déplace la carte : une image 4K (3840 × 2160) reste nette.": "„Punten plaatsen”, klik dan op de kaart om een interessant punt te plaatsen; sleep het om het te verplaatsen. Scrollwiel, + en − zoomen, de achtergrond slepen verschuift de kaart: een 4K-afbeelding (3840 × 2160) blijft scherp.",
     "« Organiser les blocs » : glissez un bloc par sa poignée ⠿, ou utilisez les flèches, pour le placer où vous voulez sur trois colonnes.": "‘Blokken ordenen’: sleep een blok aan zijn greep ⠿, of gebruik de pijlen, om het te plaatsen waar je wilt, over drie kolommen.",
     "« + Nouvelle note » ajoute un bloc de texte libre : faites-en autant que vous voulez (dettes, rumeurs, contacts…) et placez-les comme les autres blocs.": "‘+ Nieuwe notitie’ voegt een blok vrije tekst toe: maak er zoveel als je wilt (schulden, geruchten, contacten…) en plaats ze zoals de andere blokken.",
-    "Oui : « Mes feuilles » (dans le menu en haut) range les personnages que vous jouez hors de SagaWyn, visibles de vous seul. Chacun a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et autant de blocs de notes que vous voulez, que vous nommez et placez sur trois colonnes. Chaque champ peut porter une note et une case à cocher. Les fichiers comptent dans l'espace de stockage de votre compte.": "Ja: ‘Mijn bladen’ (in het menu bovenaan) bewaart de personages die je buiten SagaWyn speelt, alleen zichtbaar voor jou. Elk heeft zijn pdf-blad, een portret, vrije velden (teksten en tellers die je tijdens het spel met − en + aanpast) en zoveel notitieblokken als je wilt, die je een naam geeft en over drie kolommen plaatst. Elk veld kan een notitie en een selectievakje hebben. Bestanden tellen mee voor de opslagruimte van je account.",
-    "+ Nouvelle note": "+ Nieuwe notitie"
+    "Oui : « Mes feuilles » (dans le menu en haut) range les personnages que vous jouez hors de SagaWyn, visibles de vous seul. Chacun a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et autant de blocs de notes que vous voulez, que vous nommez et placez sur trois colonnes, dans des onglets que vous nommez aussi. Chaque champ peut porter une note et une case à cocher. Les fichiers comptent dans l'espace de stockage de votre compte.": "Ja: ‘Mijn bladen’ (in het menu bovenaan) bewaart de personages die je buiten SagaWyn speelt, alleen zichtbaar voor jou. Elk heeft zijn pdf-blad, een portret, vrije velden (teksten en tellers die je tijdens het spel met − en + aanpast) en zoveel notitieblokken als je wilt, die je een naam geeft en over drie kolommen plaatst, in tabbladen die je ook een naam geeft. Elk veld kan een notitie en een selectievakje hebben. Bestanden tellen mee voor de opslagruimte van je account.",
+    "+ Nouvelle note": "+ Nieuwe notitie",
+    "+ Nouvel onglet": "+ Nieuw tabblad",
+    "Blocs de l’onglet « :name ». Les onglets au-dessus montrent les autres.": "Blokken van het tabblad ‘:name’. De tabbladen hierboven tonen de andere.",
+    "Dans « Modifier », « + Nouvel onglet » partage la feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…). Chaque bloc choisit son onglet, et chaque onglet range ses blocs sur ses trois colonnes.": "In ‘Bewerken’ verdeelt ‘+ Nieuw tabblad’ het blad in tabbladen die je een naam geeft (Personage, Spreuken, Inventaris…). Elk blok kiest zijn tabblad, en elk tabblad zet zijn blokken op zijn eigen drie kolommen.",
+    "Descendre l’onglet": "Tabblad omlaag",
+    "Monter l’onglet": "Tabblad omhoog",
+    "Nom de l’onglet": "Naam van het tabblad",
+    "Onglet :number": "Tabblad :number",
+    "Onglet :number : Personnage, Sorts, Inventaire…": "Tabblad :number: Personage, Spreuken, Inventaris…",
+    "Onglet du bloc": "Tabblad van het blok",
+    "Onglet vide. « Modifier » y ajoute des blocs.": "Leeg tabblad. ‘Bewerken’ voegt er blokken aan toe.",
+    "Onglets": "Tabbladen",
+    "Onglets de la feuille": "Tabbladen van het blad",
+    "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "Dit tabblad verwijderen? Zijn blokken gaan naar het eerste tabblad.",
+    "Retirer l’onglet": "Tabblad verwijderen",
+    "nom de l’onglet": "naam van het tabblad"
 }

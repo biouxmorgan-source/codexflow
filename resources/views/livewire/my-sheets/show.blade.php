@@ -3,7 +3,9 @@
         <a href="{{ route('my-sheets.index') }}" class="crumb" wire:navigate>{{ __('Mes feuilles de personnage') }}</a>
     </nav>
 
-    @php($sheetBlocks = $character->blockList())
+    @php($sheetTabs = $editing ? $tabs : $character->tabList())
+    @php($currentTab = in_array($tab, array_column($sheetTabs, 'id'), true) ? $tab : $sheetTabs[0]['id'])
+    @php($sheetBlocks = collect($character->blockList())->where('tab', $currentTab)->values()->all())
     <div class="mb-6 flex flex-wrap items-center gap-4">
         @if ($character->hasPortrait())
             <img src="{{ route('my-sheets.portrait', $character) }}?v={{ $character->portrait_size }}" alt="{{ __('Portrait de :name', ['name' => $character->name]) }}" class="size-20 rounded-xl object-cover">
@@ -29,6 +31,16 @@
         @endunless
     </div>
 
+    @if (count($sheetTabs) > 1)
+        <nav class="mb-4 flex gap-1 overflow-x-auto border-b border-stone-200 pb-2" aria-label="{{ __('Onglets de la feuille') }}">
+            @foreach ($sheetTabs as $t => $sheetTab)
+                <button type="button" wire:key="tab-{{ $sheetTab['id'] }}" wire:click="showTab('{{ $sheetTab['id'] }}')"
+                    @class(['shrink-0 rounded-md px-3 py-1.5 text-sm', 'bg-codex text-on-accent' => $currentTab === $sheetTab['id'], 'text-stone-700 hover:bg-codex-soft' => $currentTab !== $sheetTab['id']])
+                    @if ($currentTab === $sheetTab['id']) aria-current="true" @endif>{{ \App\Models\PersonalCharacter::tabLabel($sheetTab, $t) }}</button>
+            @endforeach
+        </nav>
+    @endif
+
     <div class="space-y-6">
         <div class="space-y-6">
             @if ($editing)
@@ -51,8 +63,34 @@
                         </div>
                     </div>
 
+                    <fieldset class="space-y-2 rounded-xl border border-stone-200 p-3">
+                        <legend class="px-1 text-sm font-semibold">{{ __('Onglets') }}</legend>
+                        @foreach ($tabs as $t => $sheetTab)
+                            <div wire:key="edit-tab-{{ $sheetTab['id'] }}" class="flex flex-wrap items-center gap-2">
+                                <label for="tabs-{{ $t }}-name" class="sr-only">{{ __('Nom de l’onglet') }}</label>
+                                <input id="tabs-{{ $t }}-name" type="text" wire:model.blur="tabs.{{ $t }}.name" class="field min-w-40 flex-1" maxlength="40" placeholder="{{ __('Onglet :number : Personnage, Sorts, Inventaire…', ['number' => $t + 1]) }}">
+                                <span class="flex items-center gap-1">
+                                    <button type="button" wire:click="moveTab({{ $t }}, -1)" @disabled($t === 0) class="rounded px-1.5 text-stone-500 hover:bg-stone-100 disabled:opacity-30" aria-label="{{ __('Monter l’onglet') }}">↑</button>
+                                    <button type="button" wire:click="moveTab({{ $t }}, 1)" @disabled($t === count($tabs) - 1) class="rounded px-1.5 text-stone-500 hover:bg-stone-100 disabled:opacity-30" aria-label="{{ __('Descendre l’onglet') }}">↓</button>
+                                    @if (count($tabs) > 1)
+                                        <button type="button" wire:click="removeTab({{ $t }})" wire:confirm="{{ __('Retirer cet onglet ? Ses blocs passent dans le premier onglet.') }}" class="rounded px-1.5 text-stone-500 hover:bg-stone-100 hover:text-red-700" aria-label="{{ __('Retirer l’onglet') }}">×</button>
+                                    @endif
+                                </span>
+                                @error("tabs.$t.name") <p class="error w-full">{{ $message }}</p> @enderror
+                            </div>
+                        @endforeach
+                        @error('tabs') <p class="error">{{ $message }}</p> @enderror
+                        @if (count($tabs) < \App\Models\PersonalCharacter::MAX_TABS)
+                            <button type="button" wire:click="addTab" class="btn-secondary min-h-0 py-1 text-sm">{{ __('+ Nouvel onglet') }}</button>
+                        @endif
+                    </fieldset>
+
                     <div class="space-y-4">
+                        @if (count($tabs) > 1)
+                            <p class="text-sm text-stone-600">{{ __('Blocs de l’onglet « :name ». Les onglets au-dessus montrent les autres.', ['name' => \App\Models\PersonalCharacter::tabLabel(collect($tabs)->firstWhere('id', $currentTab), collect($tabs)->search(fn ($item) => $item['id'] === $currentTab))]) }}</p>
+                        @endif
                         @foreach ($blocks as $b => $block)
+                            @continue($block['tab'] !== $currentTab)
                             <fieldset wire:key="edit-block-{{ $block['id'] }}" class="space-y-2 rounded-xl border border-stone-200 bg-stone-50 p-3">
                                 <legend class="sr-only">{{ $block['title'] !== '' ? $block['title'] : __('Bloc :number', ['number' => $b + 1]) }}</legend>
                                 <div class="flex items-start gap-2">
@@ -61,6 +99,16 @@
                                         <input id="blocks-{{ $b }}-title" type="text" wire:model="blocks.{{ $b }}.title" class="field font-semibold" maxlength="100" placeholder="{{ __('Titre du bloc : Caractéristiques, Compétences, Équipement…') }}">
                                         @error("blocks.$b.title") <p class="error">{{ $message }}</p> @enderror
                                     </div>
+                                    @if (count($tabs) > 1)
+                                        <label class="flex items-center gap-1.5 pt-1 text-sm text-stone-600">
+                                            <span class="sr-only">{{ __('Onglet du bloc') }}</span>
+                                            <select wire:model.live="blocks.{{ $b }}.tab" class="field min-h-0 w-auto py-1 text-sm">
+                                                @foreach ($tabs as $t => $sheetTab)
+                                                    <option value="{{ $sheetTab['id'] }}">{{ \App\Models\PersonalCharacter::tabLabel($sheetTab, $t) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </label>
+                                    @endif
                                     <button type="button" wire:click="removeBlock({{ $b }})" @if ($block['rows'] !== [] || $block['text'] !== '') wire:confirm="{{ __('Retirer ce bloc et ses champs ?') }}" @endif class="rounded px-1.5 pt-2 text-sm text-stone-500 hover:text-red-700">{{ __('Retirer le bloc') }}</button>
                                 </div>
                                 @if ($block['kind'] === 'note')
@@ -110,7 +158,7 @@
                                                 @error("blocks.$b.rows.$r.note") <p class="error">{{ $message }}</p> @enderror
                                             </div>
                                             <label class="flex items-center gap-1.5 text-sm text-stone-700"><input type="checkbox" wire:model="blocks.{{ $b }}.rows.{{ $r }}.checkbox"> {{ __('Case à cocher') }}</label>
-                                            @php($targets = collect($blocks)->where('kind', 'fields')->except($b))
+                                            @php($targets = collect($blocks)->where('kind', 'fields')->where('tab', $currentTab)->except($b))
                                             @if ($targets->isNotEmpty())
                                                 <label class="flex items-center gap-1.5 text-sm text-stone-600">
                                                     <span class="sr-only">{{ __('Ranger dans un autre bloc') }}</span>
@@ -151,7 +199,7 @@
                     <p class="rounded-xl border border-codex/30 bg-codex-soft/50 p-3 text-sm text-stone-700" role="status">{{ __('Glissez un bloc par sa poignée ⠿ (ou utilisez les flèches) pour le déplacer, y compris d’une colonne à l’autre.') }}</p>
                 @endif
                 @if ($sheetBlocks !== [])
-                    @php($shown = $arranging ? 3 : $character->usedColumns())
+                    @php($shown = $arranging ? 3 : $character->usedColumns($currentTab))
                     <div x-data="screenArranger" @class(['grid gap-4', 'items-start' => ! $arranging, 'sm:grid-cols-2' => $shown >= 2, 'lg:grid-cols-3' => $shown === 3])>
                         @foreach (\App\Models\PersonalCharacter::COLUMNS as $position => $column)
                             <div data-screen-column="{{ $column }}" wire:key="column-{{ $column }}" @class(['space-y-4', 'hidden' => $position >= $shown, 'min-h-24 rounded-xl border-2 border-dashed border-stone-200 p-1' => $arranging])>
@@ -221,7 +269,7 @@
 
                 @if ($sheetBlocks === [])
                     <div class="rounded-xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-600">
-                        <p>{{ __('Feuille vide. « Modifier » ajoute ses blocs, caractéristiques, compteurs et notes.') }}</p>
+                        <p>{{ count($sheetTabs) > 1 ? __('Onglet vide. « Modifier » y ajoute des blocs.') : __('Feuille vide. « Modifier » ajoute ses blocs, caractéristiques, compteurs et notes.') }}</p>
                     </div>
                 @endif
 

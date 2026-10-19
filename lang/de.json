@@ -2896,6 +2896,21 @@
     "« Placer des points », puis cliquez sur la carte pour poser un point d’intérêt ; glissez-le pour le déplacer. Molette, + et − zooment, glisser le fond déplace la carte : une image 4K (3840 × 2160) reste nette.": "„Punkte setzen“, dann klicken Sie auf die Karte, um einen Ort von Interesse zu setzen; ziehen Sie ihn, um ihn zu verschieben. Mausrad, + und − zoomen, Ziehen des Hintergrunds verschiebt die Karte: Ein 4K-Bild (3840 × 2160) bleibt scharf.",
     "« Organiser les blocs » : glissez un bloc par sa poignée ⠿, ou utilisez les flèches, pour le placer où vous voulez sur trois colonnes.": "„Blöcke anordnen“: Ziehen Sie einen Block an seinem Griff ⠿ oder nutzen Sie die Pfeile, um ihn beliebig auf drei Spalten zu platzieren.",
     "« + Nouvelle note » ajoute un bloc de texte libre : faites-en autant que vous voulez (dettes, rumeurs, contacts…) et placez-les comme les autres blocs.": "„+ Neue Notiz“ fügt einen Block mit freiem Text hinzu: Legen Sie so viele an, wie Sie möchten (Schulden, Gerüchte, Kontakte…), und platzieren Sie sie wie die anderen Blöcke.",
-    "Oui : « Mes feuilles » (dans le menu en haut) range les personnages que vous jouez hors de SagaWyn, visibles de vous seul. Chacun a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et autant de blocs de notes que vous voulez, que vous nommez et placez sur trois colonnes. Chaque champ peut porter une note et une case à cocher. Les fichiers comptent dans l'espace de stockage de votre compte.": "Ja: „Meine Bögen“ (im Menü oben) bewahrt die Charaktere auf, die Sie außerhalb von SagaWyn spielen, nur für Sie sichtbar. Jeder hat seinen PDF-Bogen, ein Porträt, freie Felder (Texte und Zähler, die Sie während des Spiels mit − und + einstellen) und beliebig viele Notizblöcke, die Sie benennen und auf drei Spalten platzieren. Jedes Feld kann eine Notiz und ein Ankreuzfeld haben. Dateien zählen zum Speicherplatz Ihres Kontos.",
-    "+ Nouvelle note": "+ Neue Notiz"
+    "Oui : « Mes feuilles » (dans le menu en haut) range les personnages que vous jouez hors de SagaWyn, visibles de vous seul. Chacun a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et autant de blocs de notes que vous voulez, que vous nommez et placez sur trois colonnes, dans des onglets que vous nommez aussi. Chaque champ peut porter une note et une case à cocher. Les fichiers comptent dans l'espace de stockage de votre compte.": "Ja: „Meine Bögen“ (im Menü oben) bewahrt die Charaktere auf, die Sie außerhalb von SagaWyn spielen, nur für Sie sichtbar. Jeder hat seinen PDF-Bogen, ein Porträt, freie Felder (Texte und Zähler, die Sie während des Spiels mit − und + einstellen) und beliebig viele Notizblöcke, die Sie benennen und auf drei Spalten platzieren, in Reitern, die Sie ebenfalls benennen. Jedes Feld kann eine Notiz und ein Ankreuzfeld haben. Dateien zählen zum Speicherplatz Ihres Kontos.",
+    "+ Nouvelle note": "+ Neue Notiz",
+    "+ Nouvel onglet": "+ Neuer Reiter",
+    "Blocs de l’onglet « :name ». Les onglets au-dessus montrent les autres.": "Blöcke des Reiters „:name“. Die Reiter oben zeigen die anderen.",
+    "Dans « Modifier », « + Nouvel onglet » partage la feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…). Chaque bloc choisit son onglet, et chaque onglet range ses blocs sur ses trois colonnes.": "Unter „Bearbeiten“ teilt „+ Neuer Reiter“ den Bogen in Reiter, die Sie benennen (Charakter, Zauber, Inventar…). Jeder Block wählt seinen Reiter, und jeder Reiter ordnet seine Blöcke auf eigenen drei Spalten an.",
+    "Descendre l’onglet": "Reiter nach unten",
+    "Monter l’onglet": "Reiter nach oben",
+    "Nom de l’onglet": "Name des Reiters",
+    "Onglet :number": "Reiter :number",
+    "Onglet :number : Personnage, Sorts, Inventaire…": "Reiter :number: Charakter, Zauber, Inventar…",
+    "Onglet du bloc": "Reiter des Blocks",
+    "Onglet vide. « Modifier » y ajoute des blocs.": "Leerer Reiter. „Bearbeiten“ fügt Blöcke hinzu.",
+    "Onglets": "Reiter",
+    "Onglets de la feuille": "Reiter des Bogens",
+    "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "Diesen Reiter entfernen? Seine Blöcke kommen in den ersten Reiter.",
+    "Retirer l’onglet": "Reiter entfernen",
+    "nom de l’onglet": "Name des Reiters"
 }

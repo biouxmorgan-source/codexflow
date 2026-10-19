@@ -272,6 +272,7 @@ class PageHelp
                     __('Chaque champ peut porter une note et une case à cocher, que vous cochez pendant la partie (une compétence réussie, un sort préparé).'),
                     __('« + Nouvelle note » ajoute un bloc de texte libre : faites-en autant que vous voulez (dettes, rumeurs, contacts…) et placez-les comme les autres blocs.'),
                     __('« Organiser les blocs » : glissez un bloc par sa poignée ⠿, ou utilisez les flèches, pour le placer où vous voulez sur trois colonnes.'),
+                    __('Dans « Modifier », « + Nouvel onglet » partage la feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…). Chaque bloc choisit son onglet, et chaque onglet range ses blocs sur ses trois colonnes.'),
                     __('Le jeu et la table servent à retrouver vos personnages : touchez le nom d’un jeu pour ne voir que les siens.'),
                 ],
                 'gm' => [],

@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Sezioni in Le mie schede',
+        'items' => [
+            'In «Modifica», «+ Nuova sezione» divide una scheda in sezioni a cui dai un nome (Personaggio, Incantesimi, Inventario…), che riordini e rimuovi.',
+            'Ogni blocco sceglie la sua sezione, e ogni sezione dispone i suoi blocchi sulle proprie tre colonne. Una scheda esistente tiene tutti i blocchi in una prima sezione.',
+        ],
+    ],
+
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Più note e tre colonne in Le mie schede',

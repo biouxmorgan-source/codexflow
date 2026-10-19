@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Pestañas en Mis hojas',
+        'items' => [
+            'En «Editar», «+ Nueva pestaña» divide una hoja en pestañas que nombras (Personaje, Hechizos, Inventario…), ordenas y quitas.',
+            'Cada bloque elige su pestaña, y cada pestaña coloca sus bloques en sus propias tres columnas. Una hoja existente conserva todos sus bloques en una primera pestaña.',
+        ],
+    ],
+
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Varias notas y tres columnas en Mis hojas',

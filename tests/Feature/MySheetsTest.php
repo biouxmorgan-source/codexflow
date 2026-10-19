@@ -242,6 +242,64 @@ class MySheetsTest extends TestCase
         $this->assertSame(3, $character->usedColumns());
     }
 
+    public function test_named_tabs_each_hold_their_own_blocks(): void
+    {
+        $character = $this->character(['blocks' => [['id' => 'stats', 'title' => 'Profil du héros', 'column' => 'left', 'rows' => []]]]);
+
+        // Une feuille d'avant les onglets garde tous ses blocs dans un premier onglet, sans barre d'onglets.
+        $this->assertSame([['id' => PersonalCharacter::FIRST_TAB, 'name' => '']], $character->tabList());
+        $this->assertSame(PersonalCharacter::FIRST_TAB, $character->blockList()[0]['tab']);
+
+        $component = Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+            ->assertDontSee('Onglets de la feuille')
+            ->call('edit')
+            ->set('tabs.0.name', 'Personnage')
+            ->call('addTab')
+            ->set('tabs.1.name', 'Sorts')
+            ->call('addBlock', 'note')
+            ->set('blocks.1.title', 'Grimoire')
+            ->set('blocks.1.text', 'Boule de feu, Bouclier.')
+            ->call('addTab')
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertSee('Onglets de la feuille')
+            ->assertSee('Onglet vide.')
+            ->assertDontSee('Profil du héros');
+
+        $character->refresh();
+        [$personnage, $sorts, $third] = $character->tabList();
+        $this->assertSame(['Personnage', 'Sorts', ''], array_column($character->tabList(), 'name'));
+        $this->assertSame([PersonalCharacter::FIRST_TAB, $sorts['id']], array_column($character->blockList(), 'tab'));
+        $this->assertSame('Onglet 3', PersonalCharacter::tabLabel($third, 2));
+
+        $component->call('showTab', $sorts['id'])
+            ->assertSee('Boule de feu, Bouclier.')
+            ->call('showTab', $personnage['id'])
+            ->assertSee('Profil du héros')
+            ->assertDontSee('Boule de feu, Bouclier.')
+            ->call('showTab', 'ailleurs')
+            ->assertStatus(404);
+
+        // Organiser un onglet ne touche pas aux blocs des autres.
+        Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+            ->call('showTab', $sorts['id'])
+            ->call('saveLayout', ['left' => ['stats'], 'middle' => [], 'right' => [$character->blockList()[1]['id']]]);
+        $this->assertEquals(['stats' => 'left', $character->blockList()[1]['id'] => 'right'], array_column($character->refresh()->blockList(), 'column', 'id'));
+
+        // Ranger les onglets, puis en retirer un : ses blocs passent dans le premier onglet.
+        Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+            ->call('edit')
+            ->call('moveTab', 1, -1)
+            ->call('removeTab', 2)
+            ->call('removeTab', 1)
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $character->refresh();
+        $this->assertSame(['Sorts'], array_column($character->tabList(), 'name'));
+        $this->assertSame([$sorts['id'], $sorts['id']], array_column($character->blockList(), 'tab'));
+    }
+
     public function test_the_former_single_note_becomes_a_note_block(): void
     {
         $migration = require database_path('migrations/2026_11_10_100000_move_personal_notes_into_blocks.php');

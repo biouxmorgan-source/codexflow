@@ -2896,6 +2896,21 @@
     "« Placer des points », puis cliquez sur la carte pour poser un point d’intérêt ; glissez-le pour le déplacer. Molette, + et − zooment, glisser le fond déplace la carte : une image 4K (3840 × 2160) reste nette.": "„Umieszczaj punkty”, a potem kliknij mapę, aby umieścić ciekawe miejsce; przeciągnij je, aby je przesunąć. Kółko, + i − przybliżają, przeciąganie tła przesuwa mapę: obraz 4K (3840 × 2160) pozostaje ostry.",
     "« Organiser les blocs » : glissez un bloc par sa poignée ⠿, ou utilisez les flèches, pour le placer où vous voulez sur trois colonnes.": "„Uporządkuj bloki”: przeciągnij blok za uchwyt ⠿ lub użyj strzałek, aby umieścić go, gdzie chcesz, w trzech kolumnach.",
     "« + Nouvelle note » ajoute un bloc de texte libre : faites-en autant que vous voulez (dettes, rumeurs, contacts…) et placez-les comme les autres blocs.": "„+ Nowa notatka” dodaje blok wolnego tekstu: utwórz ich tyle, ile chcesz (długi, plotki, kontakty…), i układaj je jak inne bloki.",
-    "Oui : « Mes feuilles » (dans le menu en haut) range les personnages que vous jouez hors de SagaWyn, visibles de vous seul. Chacun a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et autant de blocs de notes que vous voulez, que vous nommez et placez sur trois colonnes. Chaque champ peut porter une note et une case à cocher. Les fichiers comptent dans l'espace de stockage de votre compte.": "Tak: „Moje karty” (w menu u góry) przechowują postacie, którymi grasz poza SagaWyn, widoczne tylko dla Ciebie. Każda ma swoją kartę PDF, portret, dowolne pola (teksty i liczniki ustawiane przyciskami − i + podczas gry) oraz dowolnie wiele bloków notatek, które nazywasz i układasz w trzech kolumnach. Każde pole może mieć notatkę i pole wyboru. Pliki wliczają się do miejsca na Twoim koncie.",
-    "+ Nouvelle note": "+ Nowa notatka"
+    "Oui : « Mes feuilles » (dans le menu en haut) range les personnages que vous jouez hors de SagaWyn, visibles de vous seul. Chacun a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et autant de blocs de notes que vous voulez, que vous nommez et placez sur trois colonnes, dans des onglets que vous nommez aussi. Chaque champ peut porter une note et une case à cocher. Les fichiers comptent dans l'espace de stockage de votre compte.": "Tak: „Moje karty” (w menu u góry) przechowują postacie, którymi grasz poza SagaWyn, widoczne tylko dla Ciebie. Każda ma swoją kartę PDF, portret, dowolne pola (teksty i liczniki ustawiane przyciskami − i + podczas gry) oraz dowolnie wiele bloków notatek, które nazywasz i układasz w trzech kolumnach, w zakładkach, które też nazywasz. Każde pole może mieć notatkę i pole wyboru. Pliki wliczają się do miejsca na Twoim koncie.",
+    "+ Nouvelle note": "+ Nowa notatka",
+    "+ Nouvel onglet": "+ Nowa zakładka",
+    "Blocs de l’onglet « :name ». Les onglets au-dessus montrent les autres.": "Bloki zakładki „:name”. Zakładki powyżej pokazują pozostałe.",
+    "Dans « Modifier », « + Nouvel onglet » partage la feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…). Chaque bloc choisit son onglet, et chaque onglet range ses blocs sur ses trois colonnes.": "W „Edytuj” przycisk „+ Nowa zakładka” dzieli kartę na zakładki, które nazywasz (Postać, Czary, Ekwipunek…). Każdy blok wybiera swoją zakładkę, a każda zakładka układa swoje bloki na własnych trzech kolumnach.",
+    "Descendre l’onglet": "Przesuń zakładkę w dół",
+    "Monter l’onglet": "Przesuń zakładkę w górę",
+    "Nom de l’onglet": "Nazwa zakładki",
+    "Onglet :number": "Zakładka :number",
+    "Onglet :number : Personnage, Sorts, Inventaire…": "Zakładka :number: Postać, Czary, Ekwipunek…",
+    "Onglet du bloc": "Zakładka bloku",
+    "Onglet vide. « Modifier » y ajoute des blocs.": "Pusta zakładka. „Edytuj” dodaje do niej bloki.",
+    "Onglets": "Zakładki",
+    "Onglets de la feuille": "Zakładki karty",
+    "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "Usunąć tę zakładkę? Jej bloki trafią do pierwszej zakładki.",
+    "Retirer l’onglet": "Usuń zakładkę",
+    "nom de l’onglet": "nazwa zakładki"
 }

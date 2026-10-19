@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Des onglets dans Mes feuilles',
+        'items' => [
+            'Dans « Modifier », « + Nouvel onglet » partage une feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…), que vous rangez et retirez.',
+            'Chaque bloc choisit son onglet, et chaque onglet place ses blocs sur ses trois colonnes. Une feuille existante garde tous ses blocs dans un premier onglet.',
+        ],
+    ],
+
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Plusieurs notes et trois colonnes dans Mes feuilles',
