@@ -242,6 +242,28 @@ class MySheetsTest extends TestCase
         $this->assertSame(3, $character->usedColumns());
     }
 
+    public function test_a_sheet_full_of_notes_still_takes_more_and_the_limit_is_explained(): void
+    {
+        $note = fn (int $i) => ['id' => 'n'.$i, 'kind' => 'note', 'title' => 'Note '.$i, 'column' => 'left', 'text' => 'Texte', 'rows' => []];
+        $character = $this->character(['blocks' => array_map($note, range(1, 30))]);
+
+        Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+            ->call('edit')
+            ->call('addBlock', 'note')
+            ->assertHasNoErrors()
+            ->call('save')
+            ->assertHasNoErrors();
+        $this->assertCount(31, $character->refresh()->blockList());
+
+        $character->update(['blocks' => array_map($note, range(1, PersonalCharacter::MAX_BLOCKS))]);
+        Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+            ->call('edit')
+            ->call('addBlock', 'note')
+            ->assertOk()
+            ->assertHasErrors('blocks')
+            ->assertSee('Une feuille garde au plus 200 blocs.');
+    }
+
     public function test_named_tabs_each_hold_their_own_blocks(): void
     {
         $character = $this->character(['blocks' => [['id' => 'stats', 'title' => 'Profil du héros', 'column' => 'left', 'rows' => []]]]);

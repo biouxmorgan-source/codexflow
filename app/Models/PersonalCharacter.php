@@ -17,15 +17,15 @@ class PersonalCharacter extends Model
 {
     public const DISK = 'local';
 
-    public const MAX_FIELDS = 100;
+    public const MAX_FIELDS = 500;
 
-    public const MAX_BLOCKS = 30;
+    public const MAX_BLOCKS = 200;
 
     public const COLUMNS = ['left', 'middle', 'right'];
 
     public const KINDS = ['fields', 'note'];
 
-    public const MAX_TABS = 12;
+    public const MAX_TABS = 30;
 
     /** Identifiant de l'onglet implicite d'une feuille qui n'en a encore créé aucun. */
     public const FIRST_TAB = 'main';

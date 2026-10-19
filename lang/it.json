@@ -2912,5 +2912,7 @@
     "Onglets de la feuille": "Sezioni della scheda",
     "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "Rimuovere questa sezione? I suoi blocchi passano nella prima sezione.",
     "Retirer l’onglet": "Rimuovi la sezione",
-    "nom de l’onglet": "nome della sezione"
+    "nom de l’onglet": "nome della sezione",
+    "Une feuille garde au plus :count onglets.": "Una scheda tiene al massimo :count sezioni.",
+    "Une feuille garde au plus :count blocs.": "Una scheda tiene al massimo :count blocchi."
 }

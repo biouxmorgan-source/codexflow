@@ -2912,5 +2912,7 @@
     "Onglets de la feuille": "Separadores da ficha",
     "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "Retirar este separador? Os seus blocos passam para o primeiro separador.",
     "Retirer l’onglet": "Retirar o separador",
-    "nom de l’onglet": "nome do separador"
+    "nom de l’onglet": "nome do separador",
+    "Une feuille garde au plus :count onglets.": "Uma ficha guarda no máximo :count separadores.",
+    "Une feuille garde au plus :count blocs.": "Uma ficha guarda no máximo :count blocos."
 }

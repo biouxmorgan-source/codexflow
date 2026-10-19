@@ -2912,5 +2912,7 @@
     "Onglets de la feuille": "Zakładki karty",
     "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "Usunąć tę zakładkę? Jej bloki trafią do pierwszej zakładki.",
     "Retirer l’onglet": "Usuń zakładkę",
-    "nom de l’onglet": "nazwa zakładki"
+    "nom de l’onglet": "nazwa zakładki",
+    "Une feuille garde au plus :count onglets.": "Karta mieści najwyżej :count zakładek.",
+    "Une feuille garde au plus :count blocs.": "Karta mieści najwyżej :count bloków."
 }

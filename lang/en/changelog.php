@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'More room in My sheets',
+        'items' => [
+            'A sheet now holds up to 200 blocks, 500 fields and 30 tabs. “+ New note” no longer leads to an error page: at the limit, a message explains it.',
+        ],
+    ],
+
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Tabs in My sheets',

@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Meer ruimte in Mijn bladen',
+        'items' => [
+            'Een blad houdt nu tot 200 blokken, 500 velden en 30 tabbladen. ‘+ Nieuwe notitie’ leidt niet meer naar een foutpagina: bij de limiet legt een melding het uit.',
+        ],
+    ],
+
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Tabbladen in Mijn bladen',

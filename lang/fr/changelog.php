@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Plus de place dans Mes feuilles',
+        'items' => [
+            'Une feuille garde maintenant jusqu’à 200 blocs, 500 champs et 30 onglets. « + Nouvelle note » ne renvoie plus de page d’erreur : à la limite, un message l’explique.',
+        ],
+    ],
+
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Des onglets dans Mes feuilles',

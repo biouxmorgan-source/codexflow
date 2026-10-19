@@ -2912,5 +2912,7 @@
     "Onglets de la feuille": "Reiter des Bogens",
     "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "Diesen Reiter entfernen? Seine Blöcke kommen in den ersten Reiter.",
     "Retirer l’onglet": "Reiter entfernen",
-    "nom de l’onglet": "Name des Reiters"
+    "nom de l’onglet": "Name des Reiters",
+    "Une feuille garde au plus :count onglets.": "Ein Bogen fasst höchstens :count Reiter.",
+    "Une feuille garde au plus :count blocs.": "Ein Bogen fasst höchstens :count Blöcke."
 }
