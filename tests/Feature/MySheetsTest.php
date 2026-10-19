@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Support\Plans\StorageUsage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -82,51 +83,125 @@ class MySheetsTest extends TestCase
         $this->actingAs($this->me)->get(route('my-sheets.show', $character))->assertOk()->assertSee('Aldric');
     }
 
-    public function test_free_fields_are_saved_and_counters_move_with_minus_and_plus(): void
+    public function test_free_fields_are_saved_in_blocks_and_counters_move_with_minus_and_plus(): void
     {
         $character = $this->character();
 
-        Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+        $component = Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
             ->call('edit')
+            ->assertCount('blocks', 1)
             ->set('tableName', 'Chez Paul')
             ->set('notes', 'Doit 3 couronnes au forgeron.')
-            ->call('addRow', 'text')
-            ->set('rows.0.label', 'Carrière')
-            ->set('rows.0.value', 'Ratier')
-            ->call('addRow', 'counter')
-            ->set('rows.1.label', 'Blessures')
-            ->set('rows.1.value', '11')
-            ->set('rows.1.max', '11')
+            ->set('blocks.0.title', 'Profil')
+            ->call('addRow', 0, 'text')
+            ->set('blocks.0.rows.0.label', 'Carrière')
+            ->set('blocks.0.rows.0.value', 'Ratier')
+            ->set('blocks.0.rows.0.note', 'Ancienne carrière : mendiant')
+            ->call('addBlock')
+            ->set('blocks.1.title', 'Santé')
+            ->call('addRow', 1, 'counter')
+            ->set('blocks.1.rows.0.label', 'Blessures')
+            ->set('blocks.1.rows.0.value', '11')
+            ->set('blocks.1.rows.0.max', '11')
             ->call('save')
             ->assertHasNoErrors()
             ->assertSet('editing', false)
-            ->call('adjust', 1, -4)
+            ->assertSee('Ancienne carrière : mendiant');
+
+        $health = $character->refresh()->blockList()[1]['id'];
+
+        $component->call('adjust', $health, 0, -4)
             ->assertSee('7 / 11')
-            ->call('adjust', 1, -20)
+            ->call('adjust', $health, 0, -20)
             ->assertSee('0 / 11');
 
         $character->refresh();
         $this->assertSame('Chez Paul', $character->table_name);
-        $this->assertEquals([
-            ['type' => 'text', 'label' => 'Carrière', 'value' => 'Ratier'],
-            ['type' => 'counter', 'label' => 'Blessures', 'value' => 0, 'max' => 11],
-        ], $character->fields);
+        $this->assertSame(['Profil', 'Santé'], array_column($character->blockList(), 'title'));
+        $this->assertEquals(['type' => 'counter', 'label' => 'Blessures', 'value' => 0, 'max' => 11, 'note' => '', 'checkbox' => false, 'checked' => false], $character->blockList()[1]['rows'][0]);
+    }
+
+    public function test_an_entry_with_a_checkbox_is_ticked_during_play(): void
+    {
+        $character = $this->character(['blocks' => [['id' => 'skills', 'title' => 'Compétences', 'column' => 'left', 'rows' => [
+            ['type' => 'text', 'label' => 'Bibliothèque', 'value' => '60 %', 'checkbox' => true],
+            ['type' => 'text', 'label' => 'Discrétion', 'value' => '20 %'],
+        ]]]]);
+
+        $component = Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+            ->assertSeeHtml('aria-label="Cocher « Bibliothèque »"')
+            ->call('toggleCheck', 'skills', 0);
+
+        $this->assertTrue($character->refresh()->blockList()[0]['rows'][0]['checked']);
+
+        $component->call('toggleCheck', 'skills', 0);
+        $this->assertFalse($character->refresh()->blockList()[0]['rows'][0]['checked']);
+
+        // Sans case, rien à cocher.
+        $component->call('toggleCheck', 'skills', 1)->assertNotFound();
+    }
+
+    public function test_blocks_are_moved_between_columns_and_rows_between_blocks(): void
+    {
+        $character = $this->character(['blocks' => [
+            ['id' => 'stats', 'title' => 'Caractéristiques', 'column' => 'left', 'rows' => [['type' => 'text', 'label' => 'Force', 'value' => '40']]],
+            ['id' => 'gear', 'title' => 'Équipement', 'column' => 'left', 'rows' => []],
+            ['id' => 'spells', 'title' => 'Sorts', 'column' => 'left', 'rows' => []],
+        ]]);
+
+        Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+            ->call('toggleArranging')
+            ->assertSee('Glissez un bloc')
+            ->call('saveLayout', ['left' => ['spells', 'stats'], 'right' => ['gear', 'inconnu']]);
+
+        $blocks = $character->refresh()->blockList();
+        $this->assertSame(['spells', 'stats', 'gear'], array_column($blocks, 'id'));
+        $this->assertSame(['left', 'left', 'right'], array_column($blocks, 'column'));
+
+        Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
+            ->call('edit')
+            ->call('moveRowToBlock', 1, 0, 2)
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $blocks = $character->refresh()->blockList();
+        $this->assertSame([], $blocks[1]['rows']);
+        $this->assertSame('Force', $blocks[2]['rows'][0]['label']);
+        $this->assertSame('right', $blocks[2]['column']);
     }
 
     public function test_a_counter_must_be_a_whole_number_and_text_rows_cannot_be_adjusted(): void
     {
-        $character = $this->character(['fields' => [['type' => 'text', 'label' => 'Carrière', 'value' => 'Ratier']]]);
+        $character = $this->character(['blocks' => [['id' => 'profil', 'title' => '', 'column' => 'left', 'rows' => [['type' => 'text', 'label' => 'Carrière', 'value' => 'Ratier']]]]]);
 
         Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
             ->call('edit')
-            ->call('addRow', 'counter')
-            ->set('rows.1.label', 'PV')
-            ->set('rows.1.value', 'beaucoup')
+            ->call('addRow', 0, 'counter')
+            ->set('blocks.0.rows.1.label', 'PV')
+            ->set('blocks.0.rows.1.value', 'beaucoup')
             ->call('save')
-            ->assertHasErrors('rows.1.value')
+            ->assertHasErrors('blocks.0.rows.1.value')
             ->call('cancel')
-            ->call('adjust', 0, 1)
+            ->call('adjust', 'profil', 0, 1)
             ->assertNotFound();
+    }
+
+    public function test_existing_fields_move_into_a_first_block(): void
+    {
+        $migration = require database_path('migrations/2026_11_08_100000_add_blocks_to_personal_characters.php');
+        $migration->down();
+
+        $id = DB::table('personal_characters')->insertGetId([
+            'user_id' => $this->me->id, 'name' => 'Aldric', 'created_at' => now(), 'updated_at' => now(),
+            'fields' => json_encode([['type' => 'counter', 'label' => 'Blessures', 'value' => 7, 'max' => 11]]),
+        ]);
+
+        $migration->up();
+
+        $blocks = PersonalCharacter::findOrFail($id)->blockList();
+        $this->assertCount(1, $blocks);
+        $this->assertSame('Blessures', $blocks[0]['rows'][0]['label']);
+        $this->assertSame(7, $blocks[0]['rows'][0]['value']);
     }
 
     public function test_the_pdf_sheet_and_portrait_are_stored_privately_and_count_in_my_storage(): void

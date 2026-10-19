@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Blocos, notas e caixas de seleção em As minhas fichas',
+        'items' => [
+            'Em «As minhas fichas», os campos arrumam-se em blocos que nomeia: Características, Perícias, Equipamento, Feitiços…',
+            '«Organizar os blocos»: arraste um bloco pela pega, ou use as setas, para o colocar onde quiser, numa ou duas colunas.',
+            'Cada campo pode ter uma nota e uma caixa de seleção para marcar durante a partida: uma perícia bem-sucedida, um feitiço preparado.',
+        ],
+    ],
+
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Biblioteca de demos',

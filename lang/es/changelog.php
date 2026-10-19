@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Bloques, notas y casillas en Mis hojas',
+        'items' => [
+            'En «Mis hojas», los campos se agrupan en bloques que nombras: Características, Habilidades, Equipo, Hechizos…',
+            '«Organizar los bloques»: arrastra un bloque por su asa, o usa las flechas, para colocarlo donde quieras, en una o dos columnas.',
+            'Cada campo puede llevar una nota y una casilla para marcar durante la partida: una habilidad superada, un hechizo preparado.',
+        ],
+    ],
+
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Biblioteca de demos',

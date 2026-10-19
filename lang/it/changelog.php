@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Blocchi, note e caselle in Le mie schede',
+        'items' => [
+            'In «Le mie schede», i campi si raccolgono in blocchi a cui dai un nome: Caratteristiche, Abilità, Equipaggiamento, Incantesimi…',
+            '«Organizza i blocchi»: trascina un blocco dalla sua maniglia, o usa le frecce, per metterlo dove vuoi, su una o due colonne.',
+            'Ogni campo può avere una nota e una casella da spuntare durante la partita: un’abilità riuscita, un incantesimo preparato.',
+        ],
+    ],
+
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Biblioteca delle demo',

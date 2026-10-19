@@ -267,7 +267,10 @@ class PageHelp
                 'lines' => [
                     __('Rangez ici les personnages que vous jouez hors de SagaWyn : vous seul les voyez, ni les MJ ni les autres joueurs de vos campagnes.'),
                     __('Ajoutez la feuille PDF de votre personnage et un portrait, puis, avec « Modifier », les champs que vous voulez garder sous la main.'),
+                    __('Rangez les champs dans des blocs nommés (Caractéristiques, Compétences, Équipement…) : « + Nouveau bloc » en crée un, « Ranger dans… » déplace un champ d’un bloc à l’autre.'),
                     __('Un champ « Texte » garde une caractéristique, un métier ou de l’équipement. Un « Compteur » (PV, Santé mentale, munitions) se règle pendant la partie avec − et +, du montant choisi.'),
+                    __('Chaque champ peut porter une note et une case à cocher, que vous cochez pendant la partie (une compétence réussie, un sort préparé).'),
+                    __('« Organiser les blocs » : glissez un bloc par sa poignée ⠿, ou utilisez les flèches, pour le déplacer, y compris d’une colonne à l’autre.'),
                     __('Le jeu et la table servent à retrouver vos personnages : touchez le nom d’un jeu pour ne voir que les siens.'),
                 ],
                 'gm' => [],

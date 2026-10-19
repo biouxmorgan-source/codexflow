@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Blocks, notes and checkboxes in My sheets',
+        'items' => [
+            'In “My sheets”, fields are arranged in blocks you name: Attributes, Skills, Equipment, Spells…',
+            '“Arrange blocks”: drag a block by its handle, or use the arrows, to place it where you like, on one or two columns.',
+            'Each field can carry a note and a checkbox, to tick during play: a successful skill, a prepared spell.',
+        ],
+    ],
+
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Demo library',
