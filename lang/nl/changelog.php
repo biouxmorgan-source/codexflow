@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Tabbladen in Mijn bladen',
+        'items' => [
+            'In ‘Bewerken’ verdeelt ‘+ Nieuw tabblad’ een blad in tabbladen die je een naam geeft, ordent en verwijdert (Personage, Spreuken, Inventaris…).',
+            'Elk blok kiest zijn tabblad, en elk tabblad zet zijn blokken op zijn eigen drie kolommen. Een bestaand blad houdt al zijn blokken in een eerste tabblad.',
+        ],
+    ],
+
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Meerdere notities en drie kolommen in Mijn bladen',

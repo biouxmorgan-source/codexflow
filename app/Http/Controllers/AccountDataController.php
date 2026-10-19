@@ -48,6 +48,7 @@ class AccountDataController extends Controller
                 'name' => $character->name,
                 'game' => $character->game,
                 'table' => $character->table_name,
+                'tabs' => $character->tabList(),
                 'blocks' => $character->blockList(),
                 'sheet' => $character->sheet_name,
             ])->all(),

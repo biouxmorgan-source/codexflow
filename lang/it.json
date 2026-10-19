@@ -2896,6 +2896,21 @@
     "« Placer des points », puis cliquez sur la carte pour poser un point d’intérêt ; glissez-le pour le déplacer. Molette, + et − zooment, glisser le fond déplace la carte : une image 4K (3840 × 2160) reste nette.": "«Posiziona punti», poi clicca sulla mappa per posizionare un punto di interesse; trascinalo per spostarlo. Rotella, + e − ingrandiscono, trascinare lo sfondo sposta la mappa: un’immagine 4K (3840 × 2160) resta nitida.",
     "« Organiser les blocs » : glissez un bloc par sa poignée ⠿, ou utilisez les flèches, pour le placer où vous voulez sur trois colonnes.": "«Organizza i blocchi»: trascina un blocco dalla sua maniglia ⠿, o usa le frecce, per metterlo dove vuoi su tre colonne.",
     "« + Nouvelle note » ajoute un bloc de texte libre : faites-en autant que vous voulez (dettes, rumeurs, contacts…) et placez-les comme les autres blocs.": "«+ Nuova nota» aggiunge un blocco di testo libero: creane quanti vuoi (debiti, voci, contatti…) e posizionali come gli altri blocchi.",
-    "Oui : « Mes feuilles » (dans le menu en haut) range les personnages que vous jouez hors de SagaWyn, visibles de vous seul. Chacun a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et autant de blocs de notes que vous voulez, que vous nommez et placez sur trois colonnes. Chaque champ peut porter une note et une case à cocher. Les fichiers comptent dans l'espace de stockage de votre compte.": "Sì: «Le mie schede» (nel menu in alto) conserva i personaggi che giochi fuori da SagaWyn, visibili solo a te. Ognuno ha la sua scheda PDF, un ritratto, campi liberi (testi e contatori da regolare con − e + durante la partita) e quanti blocchi di note vuoi, che nomini e posizioni su tre colonne. Ogni campo può avere una nota e una casella. I file contano nello spazio di archiviazione del tuo account.",
-    "+ Nouvelle note": "+ Nuova nota"
+    "Oui : « Mes feuilles » (dans le menu en haut) range les personnages que vous jouez hors de SagaWyn, visibles de vous seul. Chacun a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et autant de blocs de notes que vous voulez, que vous nommez et placez sur trois colonnes, dans des onglets que vous nommez aussi. Chaque champ peut porter une note et une case à cocher. Les fichiers comptent dans l'espace de stockage de votre compte.": "Sì: «Le mie schede» (nel menu in alto) conserva i personaggi che giochi fuori da SagaWyn, visibili solo a te. Ognuno ha la sua scheda PDF, un ritratto, campi liberi (testi e contatori da regolare con − e + durante la partita) e quanti blocchi di note vuoi, che nomini e posizioni su tre colonne, in sezioni a cui dai un nome. Ogni campo può avere una nota e una casella. I file contano nello spazio di archiviazione del tuo account.",
+    "+ Nouvelle note": "+ Nuova nota",
+    "+ Nouvel onglet": "+ Nuova sezione",
+    "Blocs de l’onglet « :name ». Les onglets au-dessus montrent les autres.": "Blocchi della sezione «:name». Le sezioni qui sopra mostrano le altre.",
+    "Dans « Modifier », « + Nouvel onglet » partage la feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…). Chaque bloc choisit son onglet, et chaque onglet range ses blocs sur ses trois colonnes.": "In «Modifica», «+ Nuova sezione» divide la scheda in sezioni a cui dai un nome (Personaggio, Incantesimi, Inventario…). Ogni blocco sceglie la sua sezione, e ogni sezione dispone i suoi blocchi sulle proprie tre colonne.",
+    "Descendre l’onglet": "Sposta giù la sezione",
+    "Monter l’onglet": "Sposta su la sezione",
+    "Nom de l’onglet": "Nome della sezione",
+    "Onglet :number": "Sezione :number",
+    "Onglet :number : Personnage, Sorts, Inventaire…": "Sezione :number: Personaggio, Incantesimi, Inventario…",
+    "Onglet du bloc": "Sezione del blocco",
+    "Onglet vide. « Modifier » y ajoute des blocs.": "Sezione vuota. «Modifica» vi aggiunge blocchi.",
+    "Onglets": "Sezioni",
+    "Onglets de la feuille": "Sezioni della scheda",
+    "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "Rimuovere questa sezione? I suoi blocchi passano nella prima sezione.",
+    "Retirer l’onglet": "Rimuovi la sezione",
+    "nom de l’onglet": "nome della sezione"
 }

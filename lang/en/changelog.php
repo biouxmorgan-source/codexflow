@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Tabs in My sheets',
+        'items' => [
+            'In “Edit”, “+ New tab” splits a sheet into tabs you name (Character, Spells, Inventory…), reorder and remove.',
+            'Each block picks its tab, and each tab places its blocks on its own three columns. An existing sheet keeps all its blocks in a first tab.',
+        ],
+    ],
+
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Several notes and three columns in My sheets',

@@ -4,6 +4,15 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Separadores em As minhas fichas',
+        'items' => [
+            'Em «Editar», «+ Novo separador» divide uma ficha em separadores a que dá um nome (Personagem, Feitiços, Inventário…), que ordena e remove.',
+            'Cada bloco escolhe o seu separador, e cada separador coloca os seus blocos nas suas próprias três colunas. Uma ficha existente mantém todos os blocos num primeiro separador.',
+        ],
+    ],
+
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Várias notas e três colunas em As minhas fichas',

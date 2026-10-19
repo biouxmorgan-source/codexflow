@@ -2896,6 +2896,21 @@
     "« Placer des points », puis cliquez sur la carte pour poser un point d’intérêt ; glissez-le pour le déplacer. Molette, + et − zooment, glisser le fond déplace la carte : une image 4K (3840 × 2160) reste nette.": "«Colocar puntos» y haz clic en el mapa para colocar un punto de interés; arrástralo para moverlo. La rueda, + y − amplían, arrastrar el fondo mueve el mapa: una imagen 4K (3840 × 2160) se mantiene nítida.",
     "« Organiser les blocs » : glissez un bloc par sa poignée ⠿, ou utilisez les flèches, pour le placer où vous voulez sur trois colonnes.": "«Organizar los bloques»: arrastra un bloque por su asa ⠿, o usa las flechas, para colocarlo donde quieras en tres columnas.",
     "« + Nouvelle note » ajoute un bloc de texte libre : faites-en autant que vous voulez (dettes, rumeurs, contacts…) et placez-les comme les autres blocs.": "«+ Nueva nota» añade un bloque de texto libre: crea tantos como quieras (deudas, rumores, contactos…) y colócalos como los demás bloques.",
-    "Oui : « Mes feuilles » (dans le menu en haut) range les personnages que vous jouez hors de SagaWyn, visibles de vous seul. Chacun a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et autant de blocs de notes que vous voulez, que vous nommez et placez sur trois colonnes. Chaque champ peut porter une note et une case à cocher. Les fichiers comptent dans l'espace de stockage de votre compte.": "Sí: «Mis hojas» (en el menú de arriba) guarda los personajes que juegas fuera de SagaWyn, visibles solo para ti. Cada uno tiene su hoja PDF, un retrato, campos libres (textos y contadores que se ajustan con − y + durante la partida) y tantos bloques de notas como quieras, que nombras y colocas en tres columnas. Cada campo puede llevar una nota y una casilla. Los archivos cuentan en el espacio de almacenamiento de tu cuenta.",
-    "+ Nouvelle note": "+ Nueva nota"
+    "Oui : « Mes feuilles » (dans le menu en haut) range les personnages que vous jouez hors de SagaWyn, visibles de vous seul. Chacun a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et autant de blocs de notes que vous voulez, que vous nommez et placez sur trois colonnes, dans des onglets que vous nommez aussi. Chaque champ peut porter une note et une case à cocher. Les fichiers comptent dans l'espace de stockage de votre compte.": "Sí: «Mis hojas» (en el menú de arriba) guarda los personajes que juegas fuera de SagaWyn, visibles solo para ti. Cada uno tiene su hoja PDF, un retrato, campos libres (textos y contadores que se ajustan con − y + durante la partida) y tantos bloques de notas como quieras, que nombras y colocas en tres columnas, en pestañas que también nombras. Cada campo puede llevar una nota y una casilla. Los archivos cuentan en el espacio de almacenamiento de tu cuenta.",
+    "+ Nouvelle note": "+ Nueva nota",
+    "+ Nouvel onglet": "+ Nueva pestaña",
+    "Blocs de l’onglet « :name ». Les onglets au-dessus montrent les autres.": "Bloques de la pestaña «:name». Las pestañas de arriba muestran las demás.",
+    "Dans « Modifier », « + Nouvel onglet » partage la feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…). Chaque bloc choisit son onglet, et chaque onglet range ses blocs sur ses trois colonnes.": "En «Editar», «+ Nueva pestaña» divide la hoja en pestañas que nombras (Personaje, Hechizos, Inventario…). Cada bloque elige su pestaña, y cada pestaña coloca sus bloques en sus propias tres columnas.",
+    "Descendre l’onglet": "Bajar la pestaña",
+    "Monter l’onglet": "Subir la pestaña",
+    "Nom de l’onglet": "Nombre de la pestaña",
+    "Onglet :number": "Pestaña :number",
+    "Onglet :number : Personnage, Sorts, Inventaire…": "Pestaña :number: Personaje, Hechizos, Inventario…",
+    "Onglet du bloc": "Pestaña del bloque",
+    "Onglet vide. « Modifier » y ajoute des blocs.": "Pestaña vacía. «Editar» le añade bloques.",
+    "Onglets": "Pestañas",
+    "Onglets de la feuille": "Pestañas de la hoja",
+    "Retirer cet onglet ? Ses blocs passent dans le premier onglet.": "¿Quitar esta pestaña? Sus bloques pasan a la primera pestaña.",
+    "Retirer l’onglet": "Quitar la pestaña",
+    "nom de l’onglet": "nombre de la pestaña"
 }

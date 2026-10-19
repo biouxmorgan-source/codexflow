@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Zakładki w Moich kartach',
+        'items' => [
+            'W „Edytuj” przycisk „+ Nowa zakładka” dzieli kartę na zakładki, które nazywasz (Postać, Czary, Ekwipunek…), układasz i usuwasz.',
+            'Każdy blok wybiera swoją zakładkę, a każda zakładka układa swoje bloki na własnych trzech kolumnach. Istniejąca karta zachowuje wszystkie bloki w pierwszej zakładce.',
+        ],
+    ],
+
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Wiele notatek i trzy kolumny w Moich kartach',
