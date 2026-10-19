@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Dobbelen vanaf het blad',
+        'items' => [
+            'Op een personageblad gooit een kleine dobbelsteen naast elk getal en elke teller met die waarde: ‘Onder … gooien (drempel)’ of ‘… bij de worp optellen (bonus)’. Het dobbelbakje opent klaar om te gooien en het resultaat gaat zoals altijd naar de tafel.',
+            'Op het blad van je eigen personage blijft de waarde aan het blad gekoppeld: verandert ze, dan volgt de opgeslagen worp. De SL kan ook vanaf het blad van een speler gooien.',
+            '‘Mijn bladen’ heeft eigen dobbelstenen: dezelfde kleine dobbelsteen naast getallen en een knop ‘Dobbelstenen’ onderaan het blad. Het resultaat staat op het blad, alleen voor jou zichtbaar.',
+        ],
+    ],
+
     '0.84.2' => [
         'date' => '2026-10-20',
         'title' => 'Nieuwe kaarten voor de demo',

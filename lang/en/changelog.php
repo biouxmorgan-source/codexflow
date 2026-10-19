@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Roll dice from the sheet',
+        'items' => [
+            'On a character sheet, a small die next to each number and counter rolls the dice with that value: “Roll under… (threshold)” or “Add… to the roll (bonus)”. The dice tray opens ready to roll, and the result goes to the table as usual.',
+            'On your own character’s sheet, the value stays linked to the sheet: if it changes, the saved roll follows. The GM can also roll from a player’s sheet.',
+            '“My sheets” has its own dice: the same small die next to numeric values, and a “Dice” button at the bottom of the sheet. The result shows on the sheet, visible to you only.',
+        ],
+    ],
+
     '0.84.2' => [
         'date' => '2026-10-20',
         'title' => 'New maps for the demo',

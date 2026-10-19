@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Rolar os dados a partir da ficha',
+        'items' => [
+            'Na ficha de um personagem, um pequeno dado ao lado de cada número e de cada contador rola os dados com esse valor: «Rolar abaixo de… (limiar)» ou «Somar… à rolagem (bônus)». A bandeja de dados abre pronta para rolar e o resultado vai para a mesa como sempre.',
+            'Na ficha do seu próprio personagem, o valor continua ligado à ficha: se mudar, a rolagem salva acompanha. O mestre também pode rolar a partir da ficha de um jogador.',
+            '«Minhas fichas» tem os próprios dados: o mesmo pequeno dado ao lado dos valores numéricos e um botão «Dados» no fim da ficha. O resultado aparece na ficha, visível só para você.',
+        ],
+    ],
+
     '0.84.2' => [
         'date' => '2026-10-20',
         'title' => 'Novos mapas para a demo',

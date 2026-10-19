@@ -230,7 +230,12 @@
                                                             @endif
                                                             <div class="min-w-0 flex-1">
                                                                 @if ($row['type'] === 'counter')
-                                                                    <p class="text-sm text-stone-600">{{ $row['label'] }}</p>
+                                                                    <div class="flex items-center justify-between gap-2">
+                                                                        <p class="text-sm text-stone-600">{{ $row['label'] }}</p>
+                                                                        @if (! $arranging && is_numeric($row['value']))
+                                                                            <x-dice-use :name="$row['label'] !== '' ? $row['label'] : __('Sans titre')" :value="(int) $row['value']" />
+                                                                        @endif
+                                                                    </div>
                                                                     <div class="mt-1 flex items-center gap-2">
                                                                         <button type="button" x-on:click="$wire.adjust('{{ $block['id'] }}', {{ $r }}, -step())" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Retirer le montant à :name', ['name' => $row['label']]) }}">−</button>
                                                                         <p class="flex-1 text-center text-2xl font-semibold tabular-nums" aria-live="polite">{{ $row['value'].($row['max'] !== null ? ' / '.$row['max'] : '') }}</p>
@@ -248,7 +253,12 @@
                                                                 @else
                                                                     <div class="grid gap-x-3 gap-y-0.5 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
                                                                         <span class="text-sm text-stone-600">{{ $row['label'] }}</span>
-                                                                        <span class="whitespace-pre-line">{{ $row['value'] !== '' ? $row['value'] : '—' }}</span>
+                                                                        <span class="flex min-w-0 items-start gap-1">
+                                                                            <span class="min-w-0 flex-1 whitespace-pre-line">{{ $row['value'] !== '' ? $row['value'] : '—' }}</span>
+                                                                            @if (! $arranging && is_numeric(trim($row['value'])))
+                                                                                <x-dice-use :name="$row['label'] !== '' ? $row['label'] : __('Sans titre')" :value="(int) trim($row['value'])" />
+                                                                            @endif
+                                                                        </span>
                                                                     </div>
                                                                 @endif
                                                                 @if ($row['note'] !== '')
@@ -311,4 +321,6 @@
             <p class="text-xs text-stone-500 sm:col-span-2">{{ __('Les fichiers comptent dans l’espace de stockage de votre compte.') }}</p>
         </aside>
     </div>
+
+    <livewire:dice.pad :character="$character" :key="'dice-pad-'.$character->id" />
 </div>

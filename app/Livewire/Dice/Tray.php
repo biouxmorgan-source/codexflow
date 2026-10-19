@@ -90,6 +90,17 @@ class Tray extends Component
         $this->remember();
     }
 
+    /** Ouvert depuis une feuille de personnage : on lance, au nom de ce personnage s'il est à soi. */
+    public function openFor(?int $characterId = null): void
+    {
+        $this->open = true;
+        $this->tab = 'roll';
+        if ($characterId !== null && $this->characters->contains('id', $characterId)) {
+            $this->characterId = $characterId;
+        }
+        $this->remember();
+    }
+
     public function select(string $tab): void
     {
         abort_unless(in_array($tab, $this->tabs(), true), 404);

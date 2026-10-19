@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Würfeln vom Bogen aus',
+        'items' => [
+            'Auf einem Charakterbogen würfelt ein kleiner Würfel neben jeder Zahl und jedem Zähler mit diesem Wert: „Unter … würfeln (Schwelle)“ oder „… zum Wurf addieren (Bonus)“. Die Würfelablage öffnet sich wurfbereit, und das Ergebnis geht wie gewohnt an den Tisch.',
+            'Auf dem Bogen deines eigenen Charakters bleibt der Wert mit dem Bogen verknüpft: Ändert er sich, folgt der gespeicherte Wurf. Die SL kann auch vom Bogen eines Spielers aus würfeln.',
+            '„Meine Bögen“ hat eigene Würfel: derselbe kleine Würfel neben Zahlenwerten und eine Schaltfläche „Würfel“ unten am Bogen. Das Ergebnis erscheint auf dem Bogen, nur für dich sichtbar.',
+        ],
+    ],
+
     '0.84.2' => [
         'date' => '2026-10-20',
         'title' => 'Neue Karten für die Demo',

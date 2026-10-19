@@ -2914,5 +2914,10 @@
     "Retirer l’onglet": "Usuń zakładkę",
     "nom de l’onglet": "nazwa zakładki",
     "Une feuille garde au plus :count onglets.": "Karta mieści najwyżej :count zakładek.",
-    "Une feuille garde au plus :count blocs.": "Karta mieści najwyżej :count bloków."
+    "Une feuille garde au plus :count blocs.": "Karta mieści najwyżej :count bloków.",
+    "Ajouter :value au jet (bonus)": "Dodaj :value do rzutu (premia)",
+    "Lancer les dés avec :name": "Rzuć kośćmi z :name",
+    "Lancer sous :value (seuil)": "Rzuć poniżej :value (próg)",
+    "Le petit dé à côté d’un nombre ou d’un compteur lance les dés avec cette valeur, comme seuil ou comme bonus.": "Mała kość obok liczby lub licznika rzuca kośćmi z tą wartością, jako próg albo jako premia.",
+    "Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.": "Mała kość obok wartości liczbowej rzuca nią, jako próg albo jako premia; „Kości” na dole karty rzucają dowolnie. Wynik zostaje na karcie, widoczny tylko dla ciebie."
 }

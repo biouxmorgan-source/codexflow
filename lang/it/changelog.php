@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Tirare i dadi dalla scheda',
+        'items' => [
+            'Sulla scheda di un personaggio, un piccolo dado accanto a ogni numero e a ogni contatore tira i dadi con quel valore: «Tira sotto… (soglia)» o «Aggiungi… al tiro (bonus)». Il vassoio dei dadi si apre pronto al tiro e il risultato va al tavolo come sempre.',
+            'Sulla scheda del tuo personaggio, il valore resta legato alla scheda: se cambia, il tiro salvato lo segue. Anche il master può tirare dalla scheda di un giocatore.',
+            '«Le mie schede» ha i suoi dadi: lo stesso piccolo dado accanto ai valori numerici e un pulsante «Dadi» in fondo alla scheda. Il risultato appare sulla scheda, visibile solo a te.',
+        ],
+    ],
+
     '0.84.2' => [
         'date' => '2026-10-20',
         'title' => 'Nuove mappe per la demo',

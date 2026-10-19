@@ -249,6 +249,7 @@ class PageHelp
                 'lines' => [
                     __('Compteurs (PV, munitions, argent…) : − et + retirent ou ajoutent le montant choisi. Seuls les champs que le MJ a rendus modifiables bougent.'),
                     __('Connaissances, possessions, règles et documents : ce que le personnage a appris ou reçu. Ils appartiennent au personnage, pas au joueur.'),
+                    __('Le petit dé à côté d’un nombre ou d’un compteur lance les dés avec cette valeur, comme seuil ou comme bonus.'),
                 ],
                 'gm' => [
                     __('« Voir comme » montre la fiche exactement comme son joueur la voit, sans la zone MJ.'),
@@ -273,6 +274,7 @@ class PageHelp
                     __('« + Nouvelle note » ajoute un bloc de texte libre : faites-en autant que vous voulez (dettes, rumeurs, contacts…) et placez-les comme les autres blocs.'),
                     __('« Organiser les blocs » : glissez un bloc par sa poignée ⠿, ou utilisez les flèches, pour le placer où vous voulez sur trois colonnes.'),
                     __('Dans « Modifier », « + Nouvel onglet » partage la feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…). Chaque bloc choisit son onglet, et chaque onglet range ses blocs sur ses trois colonnes.'),
+                    __('Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.'),
                     __('Le jeu et la table servent à retrouver vos personnages : touchez le nom d’un jeu pour ne voir que les siens.'),
                 ],
                 'gm' => [],

@@ -2914,5 +2914,10 @@
     "Retirer l’onglet": "Reiter entfernen",
     "nom de l’onglet": "Name des Reiters",
     "Une feuille garde au plus :count onglets.": "Ein Bogen fasst höchstens :count Reiter.",
-    "Une feuille garde au plus :count blocs.": "Ein Bogen fasst höchstens :count Blöcke."
+    "Une feuille garde au plus :count blocs.": "Ein Bogen fasst höchstens :count Blöcke.",
+    "Ajouter :value au jet (bonus)": ":value zum Wurf addieren (Bonus)",
+    "Lancer les dés avec :name": "Mit :name würfeln",
+    "Lancer sous :value (seuil)": "Unter :value würfeln (Schwelle)",
+    "Le petit dé à côté d’un nombre ou d’un compteur lance les dés avec cette valeur, comme seuil ou comme bonus.": "Der kleine Würfel neben einer Zahl oder einem Zähler würfelt mit diesem Wert, als Schwelle oder als Bonus.",
+    "Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.": "Der kleine Würfel neben einem Zahlenwert würfelt damit, als Schwelle oder als Bonus; „Würfel“ unten am Bogen würfelt frei. Das Ergebnis bleibt auf dem Bogen, nur für dich sichtbar."
 }
