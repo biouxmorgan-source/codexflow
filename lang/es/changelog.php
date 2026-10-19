@@ -4,6 +4,17 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Una demo al día',
+        'items' => [
+            'La campaña de demostración muestra ahora las últimas novedades: en el mapa de campaña, el faro lleva a un submapa, su sótano, listo para el combate con fichas, dos plantillas de área y un orden de iniciativa. Cada punto enlaza varias fichas y varias escenas.',
+            'Dados en la mesa: tiradas preparadas que leen la característica de la ficha, un bono con nombre y las tiradas de la sesión 1, incluida una petición del DJ.',
+            'Además: un sonido de «Mis sonidos», una escena «Jugada según lo previsto» y otra con «Lo que pasó», una pista «Mentira», una ficha y una regla de la casa con su versión oficial, y jugadores que completan su propio retrato.',
+            'Vuelve a cargar la demostración desde «Mis campañas» para descubrirla: una copia ya cargada se queda como está.',
+        ],
+    ],
+
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Mapa de campaña: zoom, mesa y lugares más completos',

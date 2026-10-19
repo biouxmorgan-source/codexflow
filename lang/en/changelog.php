@@ -4,6 +4,17 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'An up-to-date demo',
+        'items' => [
+            'The demo campaign "The Oath of Pierrecendre" now shows the latest features: on the campaign map, the lighthouse leads to a sub-map, its cellar, ready for a fight with tokens, two area templates and an initiative order. Each point links several sheets and several scenes.',
+            'Table dice: prepared rolls that read the characteristic from the sheet, a named bonus, and the rolls of session 1, including a GM request.',
+            'Also: a sound from "My sounds", a scene "Played as planned" and another with "What happened", a "Lie" clue, a house sheet and a house rule with their official version, and players who complete their own portrait.',
+            'Load the demo again from "My campaigns" to discover it: a copy you already loaded stays as it is.',
+        ],
+    ],
+
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Campaign map: zoom, table and richer places',

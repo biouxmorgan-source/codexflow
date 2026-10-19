@@ -313,11 +313,29 @@ return [
             'description' => 'El puerto, sus muelles y la punta del faro. Se puede mostrar en la mesa.',
             'file' => 'plano-del-puerto',
         ],
+        'cellar' => [
+            'title' => 'Plano del sótano del faro',
+            'description' => 'El sótano inundado bajo el faro, para el combate de la sesión 3. Reservado al DJ hasta la escena.',
+            'file' => 'plano-sotano-del-faro',
+        ],
     ],
 
     'map' => [
         'name' => 'El puerto de Pierrecendre',
         'unit' => 'm',
+        // Note du MJ sur un point de la carte de campagne, par fiche du lieu.
+        'notes' => [
+            'quay' => 'Visible en la mesa: su nombre aparece en la pantalla de mesa.',
+            'lighthouse' => 'Un clic abre el submapa: el sótano del faro, listo para el combate de la sesión 3.',
+        ],
+        // Sous-carte du phare ; ses points : nom, note du MJ.
+        'cellar' => [
+            'name' => 'El sótano del faro',
+            'points' => [
+                'crate' => ['Cajas de sal', 'Las tejas retiradas de la Sala. La 1147 está encima del montón.'],
+                'stairs' => ['Escalera de la linterna', 'El Desconocido espera aquí: su ficha sigue oculta mientras no baje.'],
+            ],
+        ],
     ],
 
     'rules' => [
@@ -349,6 +367,7 @@ return [
             'summary' => 'Regla de la casa: la bruma sube un grado en cada sesión, hasta que los Ahogados caminan por la ciudad.',
             'procedure' => "Lleva una cuenta de 0 a 6, visible para la mesa.\n+1 al final de cada sesión, +1 cada vez que se rompe un juramento ante testigos.\nA 3, el vado se vuelve incierto. A 6, los Ahogados entran en Pierrecendre.",
             'gm_notes' => 'Llévala tras la pantalla, en secreto hasta llegar a 3.',
+            'official_version' => 'Libreto básico, p. 30: la bruma es solo ambiente, sin cuenta ni consecuencia numérica.',
         ],
         'word' => [
             'title' => 'Palabra dada en la mesa',
@@ -383,6 +402,7 @@ return [
             'description' => 'En [[hall]], [[ysane]] niega el acceso al estante del año de la gran bruma. [[elzevir]] tose.',
             'gm_notes' => 'Elzevir cederá si lo llevan aparte, lejos de la vista de Ysane. Si no, tose y cambia de tema.',
             'notes' => ['ysane' => 'tras el atril', 'elzevir' => 'entre las estanterías'],
+            'what_happened' => 'Nada salió como estaba previsto: [[elzevir]] no cedió, ni siquiera a solas. Al salir, Teska lo vio deslizar una nota bajo el atril de [[ysane]], y la mesa pasó media hora preguntándose para quién era. Esa nota no estaba prevista: aprovecharla en la sesión 2.',
         ],
         'poles' => [
             'name' => 'Las pértigas movidas',
@@ -441,6 +461,10 @@ return [
         'bought' => [
             'title' => 'El Hilo Gris ha comprado a dos guardias del muelle',
             'body' => 'Dos hombres de la Guardia de los Muelles están a sueldo de la Compañía del Hilo Gris. Mornevent no lo sabe, y descubrirlo lo hundirá.',
+        ],
+        'burnt' => [
+            'title' => 'Las tejas de la gran bruma se quemaron',
+            'body' => 'Es lo que Elzevir repite a quien le pregunta: un incendio, hace veinte años, habría destruido la estantería. Es falso: Ysane retiró las tejas y las escondió en el sótano del faro.',
         ],
     ],
 
@@ -510,5 +534,30 @@ return [
         'bell' => 'Hacer sonar la campana del vado durante la travesía.',
         'mist' => 'Iniciar la cuenta de la bruma en la primera salida en barca.',
         'debt' => 'Recordar a Teska que Brannoc le debe una barca.',
+    ],
+
+    // Contenu maison : la version officielle (du livret) remplacée, gardée côté MJ, par fiche.
+    'house' => [
+        'drowned' => 'Versión del libreto: los Ahogados nunca salen del agua. Ahogan a quien se entretiene en el vado con la marea alta y luego vuelven a hundirse.',
+    ],
+
+    // Dés à la table : lancers préparés, bonus nommé, lancers de la séance 1, la marée dans l’initiative.
+    'dice' => [
+        'presets' => [
+            'body' => 'Tirada de Cuerpo',
+            'skill' => 'Tirada de Destreza',
+            'mind' => 'Tirada de Mente',
+            'heart' => 'Tirada de Corazón',
+            'oath' => 'Cumplir un juramento (Corazón)',
+            'reroll' => 'Repetir (1 Aliento)',
+            'drowned' => 'Los Ahogados golpean',
+        ],
+        'oath_bonus' => 'Juramento cumplido',
+        'rolls' => [
+            'follow' => 'Seguir a Brannoc sin ser vista',
+            'elzevir' => 'Convencer a Elzevir',
+            'patrol' => '¿La ronda se fija en Teska?',
+        ],
+        'tide' => 'Sube la marea',
     ],
 ];

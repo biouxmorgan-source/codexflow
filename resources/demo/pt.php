@@ -313,11 +313,29 @@ return [
             'description' => 'O porto, os seus cais e a ponta do farol. Pode ser mostrada à mesa.',
             'file' => 'planta-do-porto',
         ],
+        'cellar' => [
+            'title' => 'Planta da cave do farol',
+            'description' => 'A cave inundada debaixo do farol, para o combate da sessão 3. Reservada ao mestre até à cena.',
+            'file' => 'planta-cave-do-farol',
+        ],
     ],
 
     'map' => [
         'name' => 'O porto de Pierrecendre',
         'unit' => 'm',
+        // Note du MJ sur un point de la carte de campagne, par fiche du lieu.
+        'notes' => [
+            'quay' => 'Visível à mesa: o seu nome aparece no ecrã da mesa.',
+            'lighthouse' => 'Um clique abre o submapa: a cave do farol, pronta para o combate da sessão 3.',
+        ],
+        // Sous-carte du phare ; ses points : nom, note du MJ.
+        'cellar' => [
+            'name' => 'A cave do farol',
+            'points' => [
+                'crate' => ['Caixas de sal', 'As telhas retiradas do Salão. A 1147 está no topo da pilha.'],
+                'stairs' => ['Escada da lanterna', 'O Desconhecido espera aqui: o seu marcador fica escondido enquanto não descer.'],
+            ],
+        ],
     ],
 
     'rules' => [
@@ -349,6 +367,7 @@ return [
             'summary' => 'Regra da casa: a bruma sobe um nível a cada sessão, até os Afogados caminharem pela cidade.',
             'procedure' => "Mantenha uma contagem de 0 a 6, à vista da mesa.\n+1 no fim de cada sessão, +1 sempre que um juramento é quebrado diante de testemunhas.\nA 3, o vau torna-se incerto. A 6, os Afogados entram em Pierrecendre.",
             'gm_notes' => 'Contagem atrás do ecrã, em segredo até 3.',
+            'official_version' => 'Livreto básico, p. 30: a bruma é só ambiente, sem contagem nem consequência numérica.',
         ],
         'word' => [
             'title' => 'Palavra dada à mesa',
@@ -383,6 +402,7 @@ return [
             'description' => '[[hall]], entre as prateleiras de telhas: [[ysane]] recusa o acesso à fila do ano da grande bruma. [[elzevir]] tosse.',
             'gm_notes' => 'Elzevir cede se o apanharem à parte, longe da vista de Ysane. Caso contrário, tosse e muda de assunto.',
             'notes' => ['ysane' => 'atrás da escrivaninha', 'elzevir' => 'entre as prateleiras'],
+            'what_happened' => 'Nada correu como previsto: [[elzevir]] não cedeu, nem a sós. Ao sair, Teska viu-o meter um bilhete debaixo do púlpito de [[ysane]], e a mesa passou meia hora a perguntar-se para quem seria. Esse bilhete não estava previsto: aproveitá-lo na sessão 2.',
         ],
         'poles' => [
             'name' => 'As varas mudadas',
@@ -441,6 +461,10 @@ return [
         'bought' => [
             'title' => 'O Fio Cinzento comprou dois guardas do cais',
             'body' => 'Dois homens da Guarda dos Cais são pagos pela Companhia do Fio Cinzento. Mornevent não sabe, e descobri-lo vai destroçá-lo.',
+        ],
+        'burnt' => [
+            'title' => 'As telhas da grande bruma arderam',
+            'body' => 'É o que Elzevir repete a quem lhe pergunta: um incêndio, há vinte anos, teria destruído a estante. É falso: Ysane retirou as telhas e escondeu-as na cave do farol.',
         ],
     ],
 
@@ -510,5 +534,30 @@ return [
         'bell' => 'Fazer soar o sino do vau durante a travessia.',
         'mist' => 'Iniciar a contagem da bruma na primeira saída de barco.',
         'debt' => 'Lembrar à Teska que o Brannoc lhe deve um barco.',
+    ],
+
+    // Contenu maison : la version officielle (du livret) remplacée, gardée côté MJ, par fiche.
+    'house' => [
+        'drowned' => 'Versão do livreto: os Afogados nunca saem da água. Afogam quem se demora no vau na maré alta e depois voltam a descer.',
+    ],
+
+    // Dés à la table : lancers préparés, bonus nommé, lancers de la séance 1, la marée dans l’initiative.
+    'dice' => [
+        'presets' => [
+            'body' => 'Teste de Corpo',
+            'skill' => 'Teste de Destreza',
+            'mind' => 'Teste de Mente',
+            'heart' => 'Teste de Coração',
+            'oath' => 'Cumprir um juramento (Coração)',
+            'reroll' => 'Repetir (1 Fôlego)',
+            'drowned' => 'Os Afogados atacam',
+        ],
+        'oath_bonus' => 'Juramento cumprido',
+        'rolls' => [
+            'follow' => 'Seguir Brannoc sem ser vista',
+            'elzevir' => 'Convencer Elzevir',
+            'patrol' => 'A ronda repara em Teska?',
+        ],
+        'tide' => 'A maré sobe',
     ],
 ];

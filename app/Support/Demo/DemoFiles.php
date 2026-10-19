@@ -122,6 +122,45 @@ final class DemoFiles
         return self::png($image);
     }
 
+    /** Plan de la cave du phare : un sol de pierre, l'eau qui entre par le puits, l'escalier, les caisses. */
+    public static function cellar(int $width = 1200, int $height = 900): string
+    {
+        $image = imagecreatetruecolor($width, $height);
+        $rock = imagecolorallocate($image, 41, 37, 36);
+        $floor = imagecolorallocate($image, 87, 83, 78);
+        $slab = imagecolorallocate($image, 104, 99, 92);
+        $water = imagecolorallocate($image, 38, 66, 84);
+        $wood = imagecolorallocate($image, 120, 84, 52);
+        $step = imagecolorallocate($image, 142, 133, 120);
+
+        imagefilledrectangle($image, 0, 0, $width, $height, $rock);
+        imagefilledrectangle($image, 60, 60, $width - 60, $height - 60, $floor);
+
+        // Dalles irrégulières.
+        for ($y = 60; $y < $height - 60; $y += 90) {
+            for ($x = 60 + (intdiv($y - 60, 90) % 2) * 45; $x < $width - 60; $x += 90) {
+                imagerectangle($image, $x, $y, min($x + 90, $width - 60), min($y + 90, $height - 60), $slab);
+            }
+        }
+
+        // L'eau entre par le puits et couvre le bas de la cave à marée haute.
+        imagefilledpolygon($image, [420, $height - 60, 1140, $height - 60, 1140, 520, 900, 470, 700, 560, 520, 700], $water);
+        imagefilledellipse($image, 660, 560, 130, 130, $water);
+
+        // L'escalier qui remonte vers la lanterne, en haut à droite.
+        for ($i = 0; $i < 6; $i++) {
+            imagefilledrectangle($image, 960 + $i * 25, 80, 975 + $i * 25, 260, $step);
+        }
+
+        // Caisses à sel.
+        foreach ([[440, 680], [520, 720], [120, 600], [180, 680]] as [$x, $y]) {
+            imagefilledrectangle($image, $x, $y, $x + 70, $y + 60, $wood);
+            imagerectangle($image, $x, $y, $x + 70, $y + 60, $rock);
+        }
+
+        return self::png($image);
+    }
+
     /** PDF d'une page, en Helvetica, pour les documents de la démonstration. */
     public static function pdf(string $title, array $lines): string
     {

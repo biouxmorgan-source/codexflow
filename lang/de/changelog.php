@@ -4,6 +4,17 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Eine aktuelle Demo',
+        'items' => [
+            'Die Demo-Kampagne zeigt jetzt die neuesten Funktionen: Auf der Kampagnenkarte führt der Leuchtturm zu einer Unterkarte, seinem Keller, bereit für einen Kampf mit Spielsteinen, zwei Flächenschablonen und einer Initiativreihenfolge. Jeder Punkt verknüpft mehrere Bögen und mehrere Szenen.',
+            'Würfel am Tisch: vorbereitete Würfe, die den Wert vom Bogen übernehmen, ein benannter Bonus und die Würfe aus Sitzung 1, darunter eine Anfrage der SL.',
+            'Außerdem: ein Klang aus „Meine Sounds“, eine Szene „Wie geplant gespielt“ und eine mit „Was geschah“, ein Hinweis „Lüge“, ein Hausbogen und eine Hausregel mit ihrer offiziellen Fassung sowie Spieler, die ihr Porträt selbst ergänzen.',
+            'Lade die Demo unter „Meine Kampagnen“ erneut, um sie zu entdecken: Eine bereits geladene Kopie bleibt, wie sie ist.',
+        ],
+    ],
+
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Kampagnenkarte: Zoom, Tisch und reichere Orte',

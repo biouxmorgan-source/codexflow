@@ -313,11 +313,29 @@ return [
             'description' => 'The harbour, its quays and the lighthouse point. Safe to show at the table.',
             'file' => 'harbour-map',
         ],
+        'cellar' => [
+            'title' => 'Map of the lighthouse cellar',
+            'description' => 'The flooded cellar under the lighthouse, for the session 3 fight. GM only until the scene.',
+            'file' => 'lighthouse-cellar-map',
+        ],
     ],
 
     'map' => [
         'name' => 'Pierrecendre harbour',
         'unit' => 'm',
+        // Note du MJ sur un point de la carte de campagne, par fiche du lieu.
+        'notes' => [
+            'quay' => 'Shown at the table: its name appears on the table screen.',
+            'lighthouse' => 'One click opens the sub-map: the lighthouse cellar, ready for the session 3 fight.',
+        ],
+        // Sous-carte du phare ; ses points : nom, note du MJ.
+        'cellar' => [
+            'name' => 'The lighthouse cellar',
+            'points' => [
+                'crate' => ['Salt crates', 'The tiles taken from the Hall. Tile 1147 sits on top of the pile.'],
+                'stairs' => ['Lantern stairs', 'The Stranger waits here: his token stays hidden until he comes down.'],
+            ],
+        ],
     ],
 
     'rules' => [
@@ -349,6 +367,7 @@ return [
             'summary' => 'House rule: the mist rises one notch each session, until the Drowned walk the streets.',
             'procedure' => "Keep a count from 0 to 6, visible to the table.\n+1 at the end of each session, +1 each time an oath is broken before a witness.\nAt 3, the ford becomes unreliable. At 6, the Drowned enter Pierrecendre.",
             'gm_notes' => 'Track it behind the GM screen, secretly until it reaches 3.',
+            'official_version' => 'Core booklet, p. 30: the mist is only atmosphere, with no count and no numbered consequence.',
         ],
         'word' => [
             'title' => 'Word given at the table',
@@ -383,6 +402,7 @@ return [
             'description' => 'At [[hall]], [[ysane]] refuses access to the shelf for the year of the great mist. [[elzevir]] coughs.',
             'gm_notes' => 'Elzevir will give in if taken aside, out of Ysane’s sight. Otherwise he coughs and changes the subject.',
             'notes' => ['ysane' => 'behind the lectern', 'elzevir' => 'among the shelves'],
+            'what_happened' => 'Nothing went as planned: [[elzevir]] did not give in, even taken aside. On the way out, Teska saw him slip a note under [[ysane]]’s desk, and the table spent half an hour wondering who it was for. That note was not planned: use it in session 2.',
         ],
         'poles' => [
             'name' => 'The Moved Poles',
@@ -441,6 +461,10 @@ return [
         'bought' => [
             'title' => 'The Grey Thread has bought two watchmen',
             'body' => 'Two men of the Quay Watch are paid by the Grey Thread Company. Mornevent has no idea, and finding out will break him.',
+        ],
+        'burnt' => [
+            'title' => 'The tiles of the great mist burned',
+            'body' => 'That is what Elzevir tells anyone who asks: a fire, twenty years ago, destroyed the shelf. It is false: Ysane took the tiles away and hid them in the lighthouse cellar.',
         ],
     ],
 
@@ -510,5 +534,30 @@ return [
         'bell' => 'Ring the ford bell during the crossing.',
         'mist' => 'Start the mist count on the first boat trip.',
         'debt' => 'Remind Teska that Brannoc owes her a boat.',
+    ],
+
+    // Contenu maison : la version officielle (du livret) remplacée, gardée côté MJ, par fiche.
+    'house' => [
+        'drowned' => 'Booklet version: the Drowned never leave the water. They drown whoever lingers at the ford at high tide, then sink back.',
+    ],
+
+    // Dés à la table : lancers préparés, bonus nommé, lancers de la séance 1, la marée dans l’initiative.
+    'dice' => [
+        'presets' => [
+            'body' => 'Body roll',
+            'skill' => 'Skill roll',
+            'mind' => 'Mind roll',
+            'heart' => 'Heart roll',
+            'oath' => 'Keep an oath (Heart)',
+            'reroll' => 'Reroll (1 Breath)',
+            'drowned' => 'The Drowned strike',
+        ],
+        'oath_bonus' => 'Oath kept',
+        'rolls' => [
+            'follow' => 'Follow Brannoc unseen',
+            'elzevir' => 'Convince Elzevir',
+            'patrol' => 'Does the patrol notice Teska?',
+        ],
+        'tide' => 'The tide rises',
     ],
 ];

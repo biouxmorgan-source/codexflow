@@ -313,11 +313,29 @@ return [
             'description' => 'Port, jego nabrzeża i cypel z latarnią. Można pokazać przy stole.',
             'file' => 'plan-portu',
         ],
+        'cellar' => [
+            'title' => 'Plan piwnicy latarni',
+            'description' => 'Zalana piwnica pod latarnią, na walkę w sesji 3. Tylko dla MG do czasu sceny.',
+            'file' => 'plan-piwnicy-latarni',
+        ],
     ],
 
     'map' => [
         'name' => 'Port Pierrecendre',
         'unit' => 'm',
+        // Note du MJ sur un point de la carte de campagne, par fiche du lieu.
+        'notes' => [
+            'quay' => 'Widoczny przy stole: jego nazwa pojawia się na ekranie stołu.',
+            'lighthouse' => 'Jedno kliknięcie otwiera podmapę: piwnicę latarni, gotową na walkę w sesji 3.',
+        ],
+        // Sous-carte du phare ; ses points : nom, note du MJ.
+        'cellar' => [
+            'name' => 'Piwnica latarni',
+            'points' => [
+                'crate' => ['Skrzynie z solą', 'Płytki zabrane z Sali. Płytka 1147 leży na wierzchu stosu.'],
+                'stairs' => ['Schody do latarni', 'Nieznajomy czeka tutaj: jego żeton pozostaje ukryty, dopóki nie zejdzie.'],
+            ],
+        ],
     ],
 
     'rules' => [
@@ -349,6 +367,7 @@ return [
             'summary' => 'Zasada domowa: mgła podnosi się o stopień z każdą sesją, aż Topielcy wejdą do miasta.',
             'procedure' => "Prowadź licznik od 0 do 6, widoczny dla całego stołu.\n+1 na koniec każdej sesji, +1 za każdym razem, gdy ktoś złamie przysięgę przy świadkach.\nPrzy 3 bród staje się niepewny. Przy 6 Topielcy wkraczają do Pierrecendre.",
             'gm_notes' => 'Licz za zasłonką MG, w tajemnicy aż do 3.',
+            'official_version' => 'Podręcznik podstawowy, s. 30: mgła to tylko nastrój, bez licznika i bez liczbowych skutków.',
         ],
         'word' => [
             'title' => 'Słowo dane przy stole',
@@ -383,6 +402,7 @@ return [
             'description' => '[[hall]]. [[ysane]] odmawia dostępu do regału z roku Wielkiej Mgły. [[elzevir]] kaszle.',
             'gm_notes' => 'Elzevir ustąpi, jeśli ktoś weźmie go na stronę, z dala od oczu Ysane. W przeciwnym razie zakaszle i zmieni temat.',
             'notes' => ['ysane' => 'za pulpitem', 'elzevir' => 'między regałami'],
+            'what_happened' => 'Nic nie poszło zgodnie z planem: [[elzevir]] nie ustąpił, nawet na osobności. Wychodząc, Teska zobaczyła, jak wsuwa liścik pod pulpit [[ysane]], a stół przez pół godziny zastanawiał się, dla kogo. Tego liściku nie było w planie: wykorzystać w sesji 2.',
         ],
         'poles' => [
             'name' => 'Przestawione tyczki',
@@ -441,6 +461,10 @@ return [
         'bought' => [
             'title' => 'Szara Nić przekupiła dwóch strażników nabrzeża',
             'body' => 'Dwóch ludzi ze Straży Nabrzeży bierze pieniądze od Kompanii Szarej Nici. Mornevent o tym nie wie, a gdy się dowie, to go złamie.',
+        ],
+        'burnt' => [
+            'title' => 'Płytki wielkiej mgły spłonęły',
+            'body' => 'Tak Elzevir mówi każdemu, kto pyta: pożar sprzed dwudziestu lat miał zniszczyć regał. To nieprawda: Ysane zabrała płytki i ukryła je w piwnicy latarni.',
         ],
     ],
 
@@ -510,5 +534,30 @@ return [
         'bell' => 'Zadzwonić dzwonem brodu podczas przeprawy.',
         'mist' => 'Uruchomić licznik mgły przy pierwszym wypłynięciu łodzią.',
         'debt' => 'Przypomnieć Tesce, że Brannoc jest jej winien łódź.',
+    ],
+
+    // Contenu maison : la version officielle (du livret) remplacée, gardée côté MJ, par fiche.
+    'house' => [
+        'drowned' => 'Wersja z podręcznika: Topielcy nigdy nie opuszczają wody. Topią każdego, kto zwleka przy brodzie w czasie przypływu, i wracają w głąb.',
+    ],
+
+    // Dés à la table : lancers préparés, bonus nommé, lancers de la séance 1, la marée dans l’initiative.
+    'dice' => [
+        'presets' => [
+            'body' => 'Rzut na Ciało',
+            'skill' => 'Rzut na Zręczność',
+            'mind' => 'Rzut na Umysł',
+            'heart' => 'Rzut na Serce',
+            'oath' => 'Dotrzymać przysięgi (Serce)',
+            'reroll' => 'Przerzut (1 Oddech)',
+            'drowned' => 'Topielcy uderzają',
+        ],
+        'oath_bonus' => 'Dotrzymana przysięga',
+        'rolls' => [
+            'follow' => 'Śledzić Brannoca niezauważona',
+            'elzevir' => 'Przekonać Elzevira',
+            'patrol' => 'Czy patrol zauważy Teskę?',
+        ],
+        'tide' => 'Przypływ rośnie',
     ],
 ];

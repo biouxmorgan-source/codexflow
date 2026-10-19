@@ -3,6 +3,7 @@
 namespace Tests\Feature\Demo;
 
 use App\Actions\Demo\LoadDemoCampaign;
+use App\Enums\SceneStatus;
 use App\Enums\Zone;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Models\AudioTrack;
@@ -22,8 +23,11 @@ use App\Models\ToPlayItem;
 use App\Models\User;
 use App\Support\Archive\CampaignExport;
 use App\Support\Archive\CampaignImport;
+use App\Support\Dice\DiceFormula;
+use App\Support\Dice\TableDice;
 use App\Support\EntityLinks;
 use App\Support\Locale;
+use App\Support\TableInitiative;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -102,19 +106,42 @@ class DemoCampaignTest extends TestCase
         $this->assertGreaterThan(0, Rule::where('campaign_id', $campaign->id)->count());
         $this->assertGreaterThanOrEqual(3, Secret::where('campaign_id', $campaign->id)->count());
 
-        $map = TableMap::where('campaign_id', $campaign->id)->sole();
+        // Carte de campagne (le port) et sa sous-carte de combat (la cave du phare), ouverte d'un point.
+        $maps = TableMap::where('campaign_id', $campaign->id)->get();
+        $this->assertCount(2, $maps);
+        $map = $maps->sole('is_campaign_map', true);
         $this->assertTrue($map->grid_enabled);
         $this->assertGreaterThan(0, $map->width);
         $this->assertGreaterThanOrEqual(5, MapToken::where('table_map_id', $map->id)->count());
         $this->assertSame(1, MapToken::where('table_map_id', $map->id)->where('hidden', true)->count());
+        $this->assertGreaterThan(0, $map->points()->where('shown_at_table', true)->count());
+        // Un point relie plusieurs fiches (le lieu, ses PNJ) et plusieurs scènes.
+        $hall = $map->points()->where('label', $text['entities']['hall']['name'])->sole();
+        $this->assertCount(4, $hall->entities);
+        $this->assertCount(2, $hall->scenes);
+        $cellar = $maps->sole('is_campaign_map', false);
+        $this->assertSame($cellar->id, $map->points()->whereNotNull('target_map_id')->sole()->target_map_id);
+        $this->assertSame([$map->id], array_map(fn (TableMap $parent) => $parent->id, $cellar->parents()));
+        $this->assertGreaterThan(0, $cellar->points()->count());
+        $this->assertSame(1, $cellar->tokens()->where('hidden', true)->count());
+        $this->assertEqualsCanonicalizing(['circle', 'cone'], $cellar->templates()->pluck('shape')->all());
+        $this->assertSame(1, $cellar->templates()->where('hidden', true)->count());
+
+        // Ordre d'initiative préparé, pas encore montré ; les Noyeux cachés aux joueurs, la marée sans ordre.
+        $initiative = TableInitiative::state($campaign);
+        $this->assertFalse($initiative['shown']);
+        $this->assertCount(6, $initiative['entries']);
+        $this->assertSame(1, collect($initiative['entries'])->where('visible', false)->count());
+        $this->assertSame(1, collect($initiative['entries'])->where('ordered', false)->count());
 
         $events = TimelineEvent::where('campaign_id', $campaign->id)->get();
         $this->assertSame(['planned', 'played', 'world'], $events->pluck('kind')->unique()->sort()->values()->all());
         $this->assertGreaterThan(0, $events->where('zone', Zone::Public)->count());
 
-        // Sons en boucle dans la bibliothèque, liés aux scènes ; fichiers lisibles.
-        $tracks = AudioTrack::where('campaign_id', $campaign->id)->get();
+        // Sons en boucle, liés aux scènes, dont un de la bibliothèque « Mes sons » ; fichiers lisibles.
+        $tracks = $campaign->availableTracks()->orderBy('id')->get();
         $this->assertSame(array_values($text['sounds']), $tracks->pluck('title')->all());
+        $this->assertSame([$text['sounds']['storm']], AudioTrack::where('user_id', $gm->id)->whereNull('campaign_id')->pluck('title')->all());
         foreach ($tracks as $track) {
             $this->assertTrue($track->loop);
             $this->assertStringStartsWith('RIFF', (string) Storage::disk(AudioTrack::DISK)->get($track->path));
@@ -138,7 +165,31 @@ class DemoCampaignTest extends TestCase
         $this->assertSame($text['entities']['teska']['name'], $character->entity->name);
         $this->assertEqualsCanonicalizing(['document', 'entity', 'information', 'possession', 'rule'], $character->grants()->pluck('kind')->unique()->values()->all());
         $this->assertSame(1, $character->grants()->whereNotNull('secret_id')->count());
-        $this->assertSame(['clue', 'rumour', 'truth'], Secret::where('campaign_id', $campaign->id)->pluck('kind')->unique()->sort()->values()->all());
+        $this->assertSame(['clue', 'lie', 'rumour', 'truth'], Secret::where('campaign_id', $campaign->id)->pluck('kind')->unique()->sort()->values()->all());
+        $this->assertTrue($campaign->players_edit_profile);
+
+        // Scènes jouées : l'une comme prévu, l'autre racontée dans « Ce qui s'est passé ».
+        $played = $scenes->where('status', SceneStatus::Played);
+        $this->assertSame(1, $played->where('played_as_planned', true)->count());
+        $this->assertMatchesRegularExpression(EntityLinks::PATTERN, (string) $played->whereNotNull('what_happened')->sole()->what_happened);
+
+        // Contenu maison : la version officielle remplacée reste au MJ.
+        $this->assertNotNull($world->firstWhere('name', $text['entities']['drowned']['name'])->official_version);
+        $this->assertTrue($world->firstWhere('name', $text['entities']['drowned']['name'])->is_house);
+        $this->assertNotNull(Rule::where('campaign_id', $campaign->id)->where('title', $text['rules']['mist']['title'])->sole()->official_version);
+
+        // Dés : lancers de la table qui lisent la fiche, un lancer du MJ pour lui, trois lancers de la séance 1.
+        $presets = TableDice::presets($campaign);
+        $this->assertCount(6, $presets);
+        $this->assertTrue(DiceFormula::fromArray($presets[0]['formula'])->readsSheet());
+        $this->assertCount(1, TableDice::presets($campaign, $gm));
+        $rolls = $campaign->diceRolls()->get();
+        $this->assertCount(3, $rolls);
+        $skill = $character->entity->field_values[$byName[$text['fields']['skill']]->id];
+        $this->assertSame($skill, $rolls->firstWhere('label', $text['dice']['rolls']['follow'])->formula()->modifier);
+        $request = $campaign->diceRequests()->sole();
+        $this->assertFalse($request->isOpen());
+        $this->assertSame(1, $request->rolls()->count());
 
         // « À jouer » et fiches épinglées.
         $this->assertSame(4, ToPlayItem::where('campaign_id', $campaign->id)->count());
@@ -162,6 +213,12 @@ class DemoCampaignTest extends TestCase
             route('feedback.index', $campaign),
             route('secrets.index', $campaign),
             route('tags.index'),
+            route('maps.atlas', $campaign),
+            route('maps.atlas', [$campaign, $campaign->maps()->where('is_campaign_map', false)->sole()]),
+            route('maps.show', [$campaign, $campaign->maps()->where('is_campaign_map', false)->sole()]),
+            route('book.show', $campaign),
+            route('audio.index', $campaign),
+            route('library.sounds'),
         ] as $url) {
             $this->actingAs($gm)->get($url)->assertOk();
         }
@@ -230,7 +287,7 @@ class DemoCampaignTest extends TestCase
             TimelineEvent::where('campaign_id', $campaign->id)->count(),
             TimelineEvent::where('campaign_id', $imported->id)->count(),
         );
-        $this->assertSame(1, TableMap::where('campaign_id', $imported->id)->count());
+        $this->assertSame(2, TableMap::where('campaign_id', $imported->id)->count());
 
         // Les liens des scènes sont recalculés vers les nouvelles fiches.
         $brannoc = Entity::where('world_id', $imported->world_id)->where('name', LoadDemoCampaign::text('fr')['entities']['brannoc']['name'])->sole();

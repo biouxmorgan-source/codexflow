@@ -4,6 +4,17 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Uma demo atualizada',
+        'items' => [
+            'A campanha de demonstração mostra agora as últimas novidades: no mapa da campanha, o farol leva a um submapa, a sua cave, pronta para o combate com marcadores, dois moldes de área e uma ordem de iniciativa. Cada ponto liga várias fichas e várias cenas.',
+            'Dados à mesa: lançamentos preparados que leem a característica da ficha, um bónus com nome e os lançamentos da sessão 1, incluindo um pedido do mestre.',
+            'Também: um som de «Os meus sons», uma cena «Jogada como previsto» e outra com «O que aconteceu», uma pista «Mentira», uma ficha e uma regra da casa com a sua versão oficial, e jogadores que completam o próprio retrato.',
+            'Volte a carregar a demonstração em «Minhas campanhas» para a descobrir: uma cópia já carregada fica como está.',
+        ],
+    ],
+
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Mapa da campanha: zoom, mesa e locais mais ricos',
@@ -28,7 +39,7 @@ return [
         'date' => '2026-10-19',
         'title' => 'Biblioteca de demos',
         'items' => [
-            'Nova «Biblioteca de demos», a partir de «As minhas campanhas»: campanhas prontas a jogar (um cenário, uma aventura curta, personagens pré-gerados) de que carrega a sua própria cópia num clique.',
+            'Nova «Biblioteca de demos», a partir de «Minhas campanhas»: campanhas prontas a jogar (um cenário, uma aventura curta, personagens pré-gerados) de que carrega a sua própria cópia num clique.',
             'Cada demo de um autor ou editora mantém uma ligação «Comprar o jogo», na biblioteca e no topo da sua cópia.',
             'O preço do Premium aparece no botão de subscrição das Preferências: 4,99 € por mês.',
         ],

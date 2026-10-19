@@ -313,11 +313,29 @@ return [
             'description' => 'Der Hafen, seine Kais und die Landspitze mit dem Leuchtturm. Darf am Tisch gezeigt werden.',
             'file' => 'hafenplan',
         ],
+        'cellar' => [
+            'title' => 'Plan des Leuchtturmkellers',
+            'description' => 'Der überflutete Keller unter dem Leuchtturm, für den Kampf in Sitzung 3. Nur für die SL bis zur Szene.',
+            'file' => 'plan-leuchtturmkeller',
+        ],
     ],
 
     'map' => [
         'name' => 'Der Hafen von Pierrecendre',
         'unit' => 'm',
+        // Note du MJ sur un point de la carte de campagne, par fiche du lieu.
+        'notes' => [
+            'quay' => 'Am Tisch sichtbar: Sein Name erscheint auf dem Tischbildschirm.',
+            'lighthouse' => 'Ein Klick öffnet die Unterkarte: den Leuchtturmkeller, bereit für den Kampf in Sitzung 3.',
+        ],
+        // Sous-carte du phare ; ses points : nom, note du MJ.
+        'cellar' => [
+            'name' => 'Der Leuchtturmkeller',
+            'points' => [
+                'crate' => ['Salzkisten', 'Die aus der Halle entfernten Ziegel. Ziegel 1147 liegt oben auf dem Stapel.'],
+                'stairs' => ['Treppe zur Laterne', 'Der Fremde wartet hier: Sein Spielstein bleibt verborgen, bis er herunterkommt.'],
+            ],
+        ],
     ],
 
     'rules' => [
@@ -349,6 +367,7 @@ return [
             'summary' => 'Hausregel: Der Nebel steigt mit jeder Sitzung um eine Stufe, bis die Ertrunkenen durch die Stadt gehen.',
             'procedure' => "Führen Sie einen Zähler von 0 bis 6, für den Tisch sichtbar.\n+1 am Ende jeder Sitzung, +1 jedes Mal, wenn ein Eid vor Zeugen gebrochen wird.\nBei 3 wird die Furt unsicher. Bei 6 betreten die Ertrunkenen Pierrecendre.",
             'gm_notes' => 'Zähler auf dem Spielleiterschirm, bis 3 geheim.',
+            'official_version' => 'Grundheft, S. 30: Der Nebel ist nur Stimmung, ohne Zähler und ohne bezifferte Folgen.',
         ],
         'word' => [
             'title' => 'Am Tisch gegebenes Wort',
@@ -383,6 +402,7 @@ return [
             'description' => '[[hall]]: [[ysane]] verwehrt den Zugang zum Regal mit dem Jahr des Großen Nebels. [[elzevir]] hustet.',
             'gm_notes' => 'Elzevir gibt nach, wenn man ihn beiseitenimmt, außer Sichtweite von Ysane. Sonst hustet er und wechselt das Thema.',
             'notes' => ['ysane' => 'hinter dem Pult', 'elzevir' => 'zwischen den Regalen'],
+            'what_happened' => 'Nichts lief wie geplant: [[elzevir]] gab nicht nach, nicht einmal unter vier Augen. Beim Hinausgehen sah Teska, wie er einen Zettel unter das Pult von [[ysane]] schob, und die Runde rätselte eine halbe Stunde, für wen. Dieser Zettel war nicht geplant: in Sitzung 2 aufgreifen.',
         ],
         'poles' => [
             'name' => 'Die versetzten Stangen',
@@ -441,6 +461,10 @@ return [
         'bought' => [
             'title' => 'Der Graue Faden hat zwei Männer der Kaiwache gekauft',
             'body' => 'Zwei Männer der Kaiwache werden von der Kompanie vom Grauen Faden bezahlt. Mornevent ahnt nichts, und die Entdeckung wird ihn brechen.',
+        ],
+        'burnt' => [
+            'title' => 'Die Ziegel des großen Nebels sind verbrannt',
+            'body' => 'Das erzählt Elzevir jedem, der fragt: Ein Brand vor zwanzig Jahren habe das Regal zerstört. Das ist falsch: Ysane hat die Ziegel entfernt und im Keller des Leuchtturms versteckt.',
         ],
     ],
 
@@ -510,5 +534,30 @@ return [
         'bell' => 'Die Furtglocke während der Überquerung läuten lassen.',
         'mist' => 'Den Nebelzähler bei der ersten Bootsfahrt starten.',
         'debt' => 'Teska daran erinnern, dass Brannoc ihr ein Boot schuldet.',
+    ],
+
+    // Contenu maison : la version officielle (du livret) remplacée, gardée côté MJ, par fiche.
+    'house' => [
+        'drowned' => 'Fassung des Hefts: Die Ertrunkenen verlassen nie das Wasser. Sie ertränken, wer bei Flut an der Furt verweilt, und sinken dann zurück.',
+    ],
+
+    // Dés à la table : lancers préparés, bonus nommé, lancers de la séance 1, la marée dans l’initiative.
+    'dice' => [
+        'presets' => [
+            'body' => 'Körper-Wurf',
+            'skill' => 'Geschick-Wurf',
+            'mind' => 'Geist-Wurf',
+            'heart' => 'Herz-Wurf',
+            'oath' => 'Einen Schwur halten (Herz)',
+            'reroll' => 'Neuwurf (1 Atem)',
+            'drowned' => 'Die Ertrunkenen schlagen zu',
+        ],
+        'oath_bonus' => 'Gehaltener Schwur',
+        'rolls' => [
+            'follow' => 'Brannoc ungesehen folgen',
+            'elzevir' => 'Elzevir überzeugen',
+            'patrol' => 'Bemerkt die Streife Teska?',
+        ],
+        'tide' => 'Die Flut steigt',
     ],
 ];
