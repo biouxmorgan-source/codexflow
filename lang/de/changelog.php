@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Blöcke, Notizen und Ankreuzfelder in Meine Bögen',
+        'items' => [
+            'In „Meine Bögen“ ordnen sich die Felder in Blöcken, die Sie benennen: Werte, Fertigkeiten, Ausrüstung, Zauber…',
+            '„Blöcke anordnen“: Ziehen Sie einen Block an seinem Griff oder nutzen Sie die Pfeile, um ihn zu platzieren, wo Sie möchten, in einer oder zwei Spalten.',
+            'Jedes Feld kann eine Notiz und ein Ankreuzfeld haben, das Sie während des Spiels ankreuzen: eine gelungene Fertigkeit, ein vorbereiteter Zauber.',
+        ],
+    ],
+
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Demo-Bibliothek',

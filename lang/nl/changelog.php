@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Blokken, notities en selectievakjes in Mijn bladen',
+        'items' => [
+            'In ‘Mijn bladen’ staan de velden in blokken die je een naam geeft: Eigenschappen, Vaardigheden, Uitrusting, Spreuken…',
+            '‘Blokken ordenen’: sleep een blok aan zijn greep, of gebruik de pijlen, om het te plaatsen waar je wilt, in één of twee kolommen.',
+            'Elk veld kan een notitie en een selectievakje hebben om tijdens het spel aan te vinken: een geslaagde vaardigheid, een voorbereide spreuk.',
+        ],
+    ],
+
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Demobibliotheek',

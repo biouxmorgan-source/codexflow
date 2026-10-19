@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Des blocs, des notes et des cases à cocher dans Mes feuilles',
+        'items' => [
+            'Dans « Mes feuilles », les champs se rangent dans des blocs que vous nommez : Caractéristiques, Compétences, Équipement, Sorts…',
+            '« Organiser les blocs » : glissez un bloc par sa poignée, ou utilisez les flèches, pour le placer où vous voulez, sur une ou deux colonnes.',
+            'Chaque champ peut porter une note et une case à cocher, à cocher pendant la partie : une compétence réussie, un sort préparé.',
+        ],
+    ],
+
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Bibliothèque de démos',

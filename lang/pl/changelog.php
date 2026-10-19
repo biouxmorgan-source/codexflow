@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Bloki, notatki i pola wyboru w Moich kartach',
+        'items' => [
+            'W „Moich kartach” pola układają się w bloki, którym nadajesz nazwy: Cechy, Umiejętności, Ekwipunek, Czary…',
+            '„Uporządkuj bloki”: przeciągnij blok za uchwyt lub użyj strzałek, aby umieścić go, gdzie chcesz, w jednej lub dwóch kolumnach.',
+            'Każde pole może mieć notatkę i pole wyboru do zaznaczania podczas gry: udany test umiejętności, przygotowany czar.',
+        ],
+    ],
+
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Biblioteka dem',

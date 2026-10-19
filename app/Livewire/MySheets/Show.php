@@ -6,14 +6,16 @@ use App\Enums\FieldType;
 use App\Models\PersonalCharacter;
 use App\Support\Plans\Plans;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 /**
- * Une feuille de personnage personnelle : identité, portrait, feuille PDF, champs libres
- * (textes et compteurs à − / + pendant la partie) et notes. Visible de son seul propriétaire.
+ * Une feuille de personnage personnelle : identité, portrait, feuille PDF, champs libres rangés
+ * en blocs déplaçables (textes et compteurs à − / +, avec note et case à cocher) et notes.
+ * Visible de son seul propriétaire.
  */
 class Show extends Component
 {
@@ -32,8 +34,11 @@ class Show extends Component
 
     public string $notes = '';
 
-    /** @var list<array{type: string, label: string, value: string, max: string}> */
-    public array $rows = [];
+    /** @var list<array{id: string, title: string, column: string, rows: list<array{type: string, label: string, value: string, max: string, note: string, checkbox: bool, checked: bool}>}> */
+    public array $blocks = [];
+
+    /** Les poignées des blocs ne s'affichent qu'en mode « Organiser ». */
+    public bool $arranging = false;
 
     public ?TemporaryUploadedFile $portrait = null;
 
@@ -48,45 +53,83 @@ class Show extends Component
     public function edit(): void
     {
         $this->resetValidation();
+        $this->arranging = false;
         $this->name = $this->character->name;
         $this->gameName = (string) $this->character->game;
         $this->tableName = (string) $this->character->table_name;
         $this->notes = (string) $this->character->notes;
-        $this->rows = array_map(fn (array $row) => [
-            'type' => $row['type'] === 'counter' ? 'counter' : 'text',
-            'label' => (string) ($row['label'] ?? ''),
-            'value' => (string) ($row['value'] ?? ''),
-            'max' => isset($row['max']) ? (string) $row['max'] : '',
-        ], $this->character->fieldRows());
+        $this->blocks = array_map(fn (array $block) => [
+            ...$block,
+            'rows' => array_map(fn (array $row) => [
+                ...$row,
+                'value' => (string) $row['value'],
+                'max' => $row['max'] === null ? '' : (string) $row['max'],
+            ], $block['rows']),
+        ], $this->character->blockList());
+
+        if ($this->blocks === []) {
+            $this->addBlock();
+        }
+
         $this->editing = true;
     }
 
     public function cancel(): void
     {
         $this->resetValidation();
-        $this->reset('editing', 'rows');
+        $this->reset('editing', 'blocks');
     }
 
-    public function addRow(string $type): void
+    public function addBlock(): void
     {
-        abort_unless(in_array($type, ['text', 'counter'], true) && count($this->rows) < PersonalCharacter::MAX_FIELDS, 422);
+        abort_unless(count($this->blocks) < PersonalCharacter::MAX_BLOCKS, 422);
 
-        $this->rows[] = ['type' => $type, 'label' => '', 'value' => $type === 'counter' ? '0' : '', 'max' => ''];
+        $this->blocks[] = ['id' => Str::lower(Str::random(10)), 'title' => '', 'column' => 'left', 'rows' => []];
     }
 
-    public function removeRow(int $index): void
+    public function removeBlock(int $block): void
     {
-        unset($this->rows[$index]);
-        $this->rows = array_values($this->rows);
+        unset($this->blocks[$block]);
+        $this->blocks = array_values($this->blocks);
     }
 
-    public function moveRow(int $index, int $direction): void
+    public function addRow(int $block, string $type): void
     {
-        $target = $index + ($direction < 0 ? -1 : 1);
+        abort_unless(isset($this->blocks[$block]) && in_array($type, ['text', 'counter'], true) && $this->rowCount() < PersonalCharacter::MAX_FIELDS, 422);
 
-        if (isset($this->rows[$index], $this->rows[$target])) {
-            [$this->rows[$index], $this->rows[$target]] = [$this->rows[$target], $this->rows[$index]];
+        $this->blocks[$block]['rows'][] = ['type' => $type, 'label' => '', 'value' => $type === 'counter' ? '0' : '', 'max' => '', 'note' => '', 'checkbox' => false, 'checked' => false];
+    }
+
+    public function removeRow(int $block, int $row): void
+    {
+        unset($this->blocks[$block]['rows'][$row]);
+        $this->blocks[$block]['rows'] = array_values($this->blocks[$block]['rows'] ?? []);
+    }
+
+    public function moveRow(int $block, int $row, int $direction): void
+    {
+        $target = $row + ($direction < 0 ? -1 : 1);
+        $rows = &$this->blocks[$block]['rows'];
+
+        if (isset($rows[$row], $rows[$target])) {
+            [$rows[$row], $rows[$target]] = [$rows[$target], $rows[$row]];
         }
+    }
+
+    /** Range une ligne dans un autre bloc, à la fin. */
+    public function moveRowToBlock(int $block, int $row, int $target): void
+    {
+        if ($block === $target || ! isset($this->blocks[$block]['rows'][$row], $this->blocks[$target])) {
+            return;
+        }
+
+        $this->blocks[$target]['rows'][] = $this->blocks[$block]['rows'][$row];
+        $this->removeRow($block, $row);
+    }
+
+    private function rowCount(): int
+    {
+        return array_sum(array_map(fn (array $block) => count($block['rows']), $this->blocks));
     }
 
     public function save(): void
@@ -98,21 +141,32 @@ class Show extends Component
             'gameName' => ['nullable', 'string', 'max:255'],
             'tableName' => ['nullable', 'string', 'max:255'],
             'notes' => ['nullable', 'string', 'max:50000'],
-            'rows' => ['array', 'max:'.PersonalCharacter::MAX_FIELDS],
-            'rows.*.type' => ['required', 'in:text,counter'],
-            'rows.*.label' => ['required', 'string', 'max:100'],
-            'rows.*.value' => ['nullable', 'string', 'max:5000'],
-            'rows.*.max' => ['nullable', 'integer', 'min:0', 'max:1000000'],
+            'blocks' => ['array', 'max:'.PersonalCharacter::MAX_BLOCKS],
+            'blocks.*.title' => ['nullable', 'string', 'max:100'],
+            'blocks.*.rows' => ['array'],
+            'blocks.*.rows.*.type' => ['required', 'in:text,counter'],
+            'blocks.*.rows.*.label' => ['required', 'string', 'max:100'],
+            'blocks.*.rows.*.value' => ['nullable', 'string', 'max:5000'],
+            'blocks.*.rows.*.max' => ['nullable', 'integer', 'min:0', 'max:1000000'],
+            'blocks.*.rows.*.note' => ['nullable', 'string', 'max:2000'],
+            'blocks.*.rows.*.checkbox' => ['boolean'],
+            'blocks.*.rows.*.checked' => ['boolean'],
         ], attributes: [
             'name' => __('nom'), 'gameName' => __('jeu'), 'tableName' => __('table'), 'notes' => __('notes'),
-            'rows.*.label' => __('nom du champ'), 'rows.*.value' => __('valeur'), 'rows.*.max' => __('maximum'),
+            'blocks.*.title' => __('titre du bloc'), 'blocks.*.rows.*.label' => __('nom du champ'), 'blocks.*.rows.*.value' => __('valeur'),
+            'blocks.*.rows.*.max' => __('maximum'), 'blocks.*.rows.*.note' => __('note'),
         ]);
 
         $errors = [];
-        foreach ($this->rows as $index => $row) {
-            if ($row['type'] === 'counter' && trim($row['value']) !== '' && filter_var(trim($row['value']), FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => 1000000]]) === false) {
-                $errors["rows.$index.value"] = __('Un compteur est un nombre entier, de 0 à 1 000 000.');
+        foreach ($this->blocks as $b => $block) {
+            foreach ($block['rows'] as $r => $row) {
+                if ($row['type'] === 'counter' && trim($row['value']) !== '' && filter_var(trim($row['value']), FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => 1000000]]) === false) {
+                    $errors["blocks.$b.rows.$r.value"] = __('Un compteur est un nombre entier, de 0 à 1 000 000.');
+                }
             }
+        }
+        if ($this->rowCount() > PersonalCharacter::MAX_FIELDS) {
+            $errors['blocks'] = __('Une feuille garde au plus :count champs.', ['count' => PersonalCharacter::MAX_FIELDS]);
         }
         if ($errors !== []) {
             $this->setErrorBag($errors);
@@ -125,27 +179,96 @@ class Show extends Component
             'game' => trim($this->gameName) ?: null,
             'table_name' => trim($this->tableName) ?: null,
             'notes' => trim($this->notes) ?: null,
-            'fields' => array_map(fn (array $row) => $row['type'] === 'counter'
-                ? ['type' => 'counter', 'label' => trim($row['label']), 'value' => (int) trim($row['value']), 'max' => trim($row['max']) === '' ? null : (int) $row['max']]
-                : ['type' => 'text', 'label' => trim($row['label']), 'value' => trim($row['value'])], $this->rows),
+            'blocks' => array_map(fn (array $block) => [
+                'id' => preg_match('/^[a-z0-9]{1,20}$/', (string) $block['id']) ? $block['id'] : Str::lower(Str::random(10)),
+                'title' => trim((string) $block['title']),
+                'column' => in_array($block['column'] ?? null, PersonalCharacter::COLUMNS, true) ? $block['column'] : 'left',
+                'rows' => array_map(fn (array $row) => [
+                    'type' => $row['type'],
+                    'label' => trim($row['label']),
+                    'value' => $row['type'] === 'counter' ? (int) trim($row['value']) : trim((string) $row['value']),
+                    ...($row['type'] === 'counter' ? ['max' => trim((string) $row['max']) === '' ? null : (int) $row['max']] : []),
+                    'note' => trim((string) $row['note']),
+                    'checkbox' => (bool) $row['checkbox'],
+                    'checked' => (bool) $row['checkbox'] && (bool) $row['checked'],
+                ], $block['rows']),
+            ], $this->blocks),
         ]);
 
         $this->cancel();
     }
 
     /** − / + sur un compteur pendant la partie, enregistré tout de suite. */
-    public function adjust(int $index, int $delta): void
+    public function adjust(string $blockId, int $row, int $delta): void
     {
-        $this->authorize('update', $this->character);
         abort_unless(abs($delta) <= 1000, 422);
 
-        DB::transaction(function () use ($index, $delta) {
-            $character = PersonalCharacter::query()->lockForUpdate()->findOrFail($this->character->id);
-            $fields = $character->fieldRows();
-            abort_unless(($fields[$index]['type'] ?? null) === 'counter', 404);
+        $this->changeRow($blockId, $row, function (array $line) use ($delta) {
+            abort_unless($line['type'] === 'counter', 404);
 
-            $fields[$index] = [...$fields[$index], ...FieldType::adjustCounter(['value' => (int) $fields[$index]['value']], $delta)];
-            $character->update(['fields' => $fields]);
+            return [...$line, ...FieldType::adjustCounter(['value' => (int) $line['value']], $delta)];
+        });
+    }
+
+    /** Case à cocher d'une ligne, enregistrée tout de suite. */
+    public function toggleCheck(string $blockId, int $row): void
+    {
+        $this->changeRow($blockId, $row, function (array $line) {
+            abort_unless($line['checkbox'], 404);
+
+            return [...$line, 'checked' => ! $line['checked']];
+        });
+    }
+
+    private function changeRow(string $blockId, int $row, callable $change): void
+    {
+        $this->authorize('update', $this->character);
+
+        DB::transaction(function () use ($blockId, $row, $change) {
+            $character = PersonalCharacter::query()->lockForUpdate()->findOrFail($this->character->id);
+            $blocks = $character->blockList();
+            $index = collect($blocks)->search(fn (array $block) => $block['id'] === $blockId);
+            abort_if($index === false || ! isset($blocks[$index]['rows'][$row]), 404);
+
+            $blocks[$index]['rows'][$row] = $change($blocks[$index]['rows'][$row]);
+            $character->update(['blocks' => $blocks]);
+            $this->character = $character;
+        });
+    }
+
+    public function toggleArranging(): void
+    {
+        $this->arranging = ! $this->arranging;
+    }
+
+    /**
+     * Nouvel ordre des blocs après un glisser-déposer ou une flèche : identifiants par colonne.
+     *
+     * @param  array<string, mixed>  $columns
+     */
+    public function saveLayout(array $columns): void
+    {
+        $this->authorize('update', $this->character);
+
+        DB::transaction(function () use ($columns) {
+            $character = PersonalCharacter::query()->lockForUpdate()->findOrFail($this->character->id);
+            $blocks = collect($character->blockList())->keyBy('id');
+            $ordered = [];
+
+            foreach (PersonalCharacter::COLUMNS as $column) {
+                foreach (array_filter((array) ($columns[$column] ?? []), 'is_string') as $id) {
+                    if ($blocks->has($id) && ! isset($ordered[$id])) {
+                        $ordered[$id] = [...$blocks[$id], 'column' => $column];
+                    }
+                }
+            }
+
+            // Un bloc absent de l'envoi garde sa place, à la fin.
+            foreach ($blocks as $id => $block) {
+                $ordered[$id] ??= $block;
+            }
+
+            $character->update(['blocks' => array_values($ordered)]);
             $this->character = $character;
         });
     }
