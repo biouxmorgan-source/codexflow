@@ -15,6 +15,7 @@
             @if ($this->maps->isEmpty())
                 <p class="mt-3 text-sm text-stone-600">
                     {{ __('Créez d’abord une carte à partir d’une image des documents.') }}
+                    {{ __('Conseil : une image d’au moins 3840 × 2160 pixels (4K), en JPG, reste nette quand on zoome sur la carte de campagne ou à la table. Les documents acceptent jusqu’à 50 Mo.') }}
                     <a href="{{ route('maps.index', $campaign) }}" class="link" wire:navigate>{{ __('Cartes →') }}</a>
                 </p>
             @else
@@ -34,7 +35,7 @@
         @if ($parents !== [])
             <nav aria-label="{{ __('Cartes parentes') }}" class="mb-1 flex flex-wrap items-center gap-1 text-sm">
                 @foreach ($parents as $parent)
-                    <a href="{{ route('maps.atlas', [$campaign, $parent]) }}" class="link" wire:navigate>{{ $parent->name }}</a>
+                    <a href="{{ route('maps.atlas', [$campaign, $parent]) }}" wire:click.prevent="openMap({{ $parent->id }})" class="link">{{ $parent->name }}</a>
                     <span class="text-stone-400" aria-hidden="true">›</span>
                 @endforeach
             </nav>
@@ -50,7 +51,7 @@
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 @if ($parents !== [])
-                    <a href="{{ route('maps.atlas', [$campaign, end($parents)]) }}" class="btn-secondary" wire:navigate>{{ __('← Remonter') }}</a>
+                    <a href="{{ route('maps.atlas', [$campaign, end($parents)]) }}" wire:click.prevent="openMap({{ end($parents)->id }})" class="btn-secondary">{{ __('← Remonter') }}</a>
                 @endif
                 <livewire:table.show-button :campaign="$campaign" kind="map" :item-id="$map->id" :key="'show-atlas-'.$map->id" />
                 <a href="{{ route('maps.show', [$campaign, $map]) }}" class="btn-secondary" wire:navigate>{{ __('Grille et jetons') }}</a>
@@ -64,6 +65,11 @@
                         <button type="button" wire:click="$set('editing', false)" @class(['px-3 py-1.5', 'bg-codex text-white' => ! $editing, 'bg-white text-stone-700' => $editing]) aria-pressed="{{ $editing ? 'false' : 'true' }}">{{ __('Explorer') }}</button>
                         <button type="button" wire:click="$set('editing', true)" @class(['border-l border-stone-200 px-3 py-1.5', 'bg-codex text-white' => $editing, 'bg-white text-stone-700' => ! $editing]) aria-pressed="{{ $editing ? 'true' : 'false' }}">{{ __('Placer des points') }}</button>
                     </div>
+                    <span class="inline-flex items-center gap-1">
+                        <button type="button" x-on:click="zoomBy(1.4)" class="btn-secondary px-3 py-1.5" aria-label="{{ __('Zoomer') }}">+</button>
+                        <button type="button" x-on:click="zoomBy(1 / 1.4)" class="btn-secondary px-3 py-1.5" aria-label="{{ __('Dézoomer') }}">−</button>
+                        <button type="button" x-on:click="reset()" x-show="z > 1" x-cloak class="btn-secondary px-3 py-1.5">{{ __('Carte entière') }}</button>
+                    </span>
                     <span class="text-xs text-stone-500">
                         {{ $editing ? __('Cliquez sur la carte pour poser un point, glissez un point pour le déplacer.') : __('Cliquez sur un point : une sous-carte s’ouvre, sinon ses détails s’affichent.') }}
                     </span>
@@ -72,30 +78,33 @@
                 <div x-ref="stage" data-width="{{ $map->width }}" data-height="{{ $map->height }}" data-editing="{{ $editing ? '1' : '0' }}"
                     @class(['relative w-full touch-none overflow-hidden rounded-xl bg-stone-900 select-none', 'cursor-crosshair' => $editing])
                     style="aspect-ratio: {{ $map->width }} / {{ $map->height }}"
-                    x-on:click="add($event)">
+                    x-on:click="add($event)" x-on:wheel.prevent="wheel($event)"
+                    x-on:pointerdown="panStart($event)" x-on:pointermove="panMove($event)" x-on:pointerup="panEnd($event)" x-on:pointercancel="panEnd($event)">
+                    {{-- Zoom et déplacement côté navigateur : les points gardent leur taille à l'écran. --}}
+                    <div x-ref="canvas" class="absolute inset-0 origin-top-left" :style="`transform: translate(${tx}px, ${ty}px) scale(${z}); --z: ${z}`">
                     <img src="{{ route('documents.file', $map->document) }}" alt="{{ $map->name }}" class="pointer-events-none absolute inset-0 h-full w-full" draggable="false">
 
                     @foreach ($points as $point)
-                        @php($url = $point->target ? route('maps.atlas', [$campaign, $point->target]) : null)
+                        @php($progress = $point->progress())
                         <button type="button" wire:key="point-{{ $point->id }}" data-point="{{ $point->id }}"
-                            style="left: {{ round($point->x / $map->width * 100, 3) }}%; top: {{ round($point->y / $map->height * 100, 3) }}%"
+                            style="left: {{ round($point->x / $map->width * 100, 3) }}%; top: {{ round($point->y / $map->height * 100, 3) }}%; scale: calc(1 / var(--z, 1)); transform-origin: 50% 100%"
                             @class(['group absolute flex -translate-x-1/2 -translate-y-full flex-col items-center focus:outline-none', 'cursor-grab' => $editing, 'z-10' => $selectedId === $point->id])
                             x-on:pointerdown="grab($event, {{ $point->id }})" x-on:pointermove="drag($event)" x-on:pointerup="drop($event)" x-on:pointercancel="drop($event)"
-                            x-on:click.stop="open({{ $point->id }}, @js($url))"
-                            aria-label="{{ $point->label }}{{ $point->target ? ' · '.__('ouvre :map', ['map' => $point->target->name]) : '' }}{{ $point->scene ? ' · '.$point->scene->status->label() : '' }}">
+                            x-on:click.stop="open({{ $point->id }}, {{ $point->target_map_id ?? 'null' }})"
+                            aria-label="{{ $point->label }}{{ $point->target ? ' · '.__('ouvre :map', ['map' => $point->target->name]) : '' }}{{ $point->scenes->isNotEmpty() ? ' · '.$point->scenes->map(fn ($scene) => $scene->status->label())->implode(', ') : '' }}">
                             <span @class([
                                 'flex size-8 items-center justify-center rounded-full border-2 text-xs font-bold text-white shadow-md transition group-hover:scale-110 group-focus-visible:ring-2 group-focus-visible:ring-white',
                                 'border-white' => $point->shown_at_table,
                                 'border-dashed border-white/80' => ! $point->shown_at_table,
                                 'ring-2 ring-yellow-300' => $selectedId === $point->id,
-                                'opacity-70' => $point->played(),
+                                'opacity-70' => $progress === 'played',
                             ]) style="background: {{ $point->color }}">
                                 @if ($point->target)
                                     <x-icon name="map" class="size-4" />
-                                @elseif ($point->played())
+                                @elseif ($progress === 'played')
                                     <span aria-hidden="true">✓</span>
-                                @elseif ($point->scene)
-                                    <span aria-hidden="true">{{ $point->scene->status === \App\Enums\SceneStatus::InProgress ? '▶' : '•' }}</span>
+                                @elseif ($progress !== null)
+                                    <span aria-hidden="true">{{ $progress === 'in_progress' ? '▶' : '•' }}</span>
                                 @else
                                     <x-icon name="pin" class="size-4" />
                                 @endif
@@ -104,6 +113,7 @@
                             <span class="mt-0.5 max-w-40 truncate rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-white">{{ $point->label }}</span>
                         </button>
                     @endforeach
+                    </div>
                 </div>
                 <p class="mt-2 text-xs text-stone-500">
                     <span class="mr-3"><x-icon name="map" class="inline size-3.5" /> {{ __('ouvre une sous-carte') }}</span>
@@ -111,10 +121,30 @@
                     <span class="mr-3">▶ {{ __('scène en cours') }}</span>
                     <span class="mr-3">• {{ __('scène à venir') }}</span>
                     <span>{{ __('Bord en pointillés : point masqué à l’écran de table.') }}</span>
+                    <span class="block">{{ __('Molette, + et − pour zoomer, glisser pour déplacer la carte.') }}</span>
+                    @if ($editing && $map->width < 3840 && $map->height < 2160)
+                        <span class="block text-amber-700">{{ __('Image de :width × :height pixels : en dessous de la 4K (3840 × 2160), elle peut devenir floue au zoom.', ['width' => $map->width, 'height' => $map->height]) }}</span>
+                    @endif
                 </p>
             </section>
 
             <aside class="space-y-6">
+                {{-- Sous-carte ouverte depuis un lieu : ses scènes et fiches restent à portée de clic. --}}
+                @foreach ($places as $place)
+                    @if ($place->scenes->isNotEmpty() || $place->entities->isNotEmpty() || $place->note)
+                        <section wire:key="place-{{ $place->id }}" class="space-y-2 rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                            <h2 class="text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Ce lieu : :name', ['name' => $place->label]) }}</h2>
+                            @if ($places->count() > 1)
+                                <p class="text-xs text-stone-500">{{ __('Depuis :map', ['map' => $place->map->name]) }}</p>
+                            @endif
+                            @include('livewire.maps.partials.point-links', ['point' => $place])
+                            @if ($place->note)
+                                <p class="text-sm whitespace-pre-line text-stone-600">{{ $place->note }}</p>
+                            @endif
+                        </section>
+                    @endif
+                @endforeach
+
                 @if ($this->selected)
                     @php($point = $this->selected)
                     <section wire:key="editor-{{ $point->id }}" class="space-y-3 rounded-xl border border-codex/40 bg-white p-4 shadow-sm">
@@ -122,21 +152,37 @@
                             <h2 class="font-semibold">{{ $point->label }}</h2>
                             <button type="button" wire:click="deselect" class="text-stone-400 hover:text-stone-700" aria-label="{{ __('Fermer') }}">×</button>
                         </div>
-                        <div class="flex flex-wrap gap-2 text-sm">
-                            @if ($point->target)
-                                <a href="{{ route('maps.atlas', [$campaign, $point->target]) }}" class="btn-primary py-1.5 text-sm" wire:navigate>{{ __('Ouvrir :map', ['map' => $point->target->name]) }}</a>
-                            @endif
-                            @if ($point->scene)
-                                <a href="{{ route('scenes.show', [$campaign, $point->scene]) }}" class="btn-secondary py-1.5 text-sm" wire:navigate>{{ __('Scène') }} : {{ $point->scene->name }}</a>
-                                <span class="self-center rounded-full px-2 py-0.5 text-xs font-medium {{ $point->scene->status->badge() }}">{{ $point->scene->status->label() }}</span>
-                            @endif
-                            @if ($point->entity)
-                                <a href="{{ route('entities.show', [$campaign, $point->entity]) }}" class="btn-secondary py-1.5 text-sm" wire:navigate>{{ __('Fiche') }} : {{ $point->entity->name }}</a>
-                            @endif
-                        </div>
+                        @if ($point->target)
+                            <button type="button" wire:click="openMap({{ $point->target->id }})" class="btn-primary py-1.5 text-sm">{{ __('Ouvrir :map', ['map' => $point->target->name]) }}</button>
+                        @endif
+                        @include('livewire.maps.partials.point-links', ['point' => $point, 'removable' => true])
                         @if ($point->note)
                             <p class="text-sm whitespace-pre-line text-stone-600">{{ $point->note }}</p>
                         @endif
+
+                        <div class="space-y-2 border-t border-stone-100 pt-3">
+                            <div>
+                                <label for="point-scene" class="label">{{ __('Ajouter une scène') }}</label>
+                                <select id="point-scene" wire:change="addScene($event.target.value)" class="field py-1.5 text-sm">
+                                    <option value="">{{ __('Choisir une scène…') }}</option>
+                                    @foreach ($this->scenes->whereNotIn('id', $point->scenes->modelKeys())->groupBy('scenario_id') as $scenes)
+                                        <optgroup label="{{ $scenes->first()->scenario->name }}">
+                                            @foreach ($scenes as $scene)
+                                                <option value="{{ $scene->id }}">{{ $scene->name }} ({{ $scene->status->label() }})</option>
+                                            @endforeach
+                                        </optgroup>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <form wire:submit="addEntity">
+                                <label for="point-entity" class="label">{{ __('Ajouter une fiche') }} <span class="font-normal text-stone-500">{{ __('(le lieu, ses PNJ, ses objets…)') }}</span></label>
+                                <div class="flex gap-2">
+                                    <div class="min-w-0 flex-1" wire:key="point-entity-{{ $point->id }}-{{ $point->entities->count() }}"><x-entity-picker id="point-entity" model="pointEntityId" /></div>
+                                    <button type="submit" class="btn-secondary shrink-0 py-1.5 text-sm">{{ __('Ajouter') }}</button>
+                                </div>
+                                @error('pointEntityId') <p class="error">{{ $message }}</p> @enderror
+                            </form>
+                        </div>
 
                         <form wire:submit="savePoint" class="space-y-2 border-t border-stone-100 pt-3">
                             <div>
@@ -153,30 +199,6 @@
                                     @endforeach
                                 </select>
                                 @error('pointTarget') <p class="error">{{ $message }}</p> @enderror
-                            </div>
-                            <div>
-                                <label for="point-scene" class="label">{{ __('Scène') }}</label>
-                                <select id="point-scene" wire:model="pointScene" class="field py-1.5 text-sm">
-                                    <option value="">{{ __('Aucune') }}</option>
-                                    @foreach ($this->scenes->groupBy('scenario_id') as $scenes)
-                                        <optgroup label="{{ $scenes->first()->scenario->name }}">
-                                            @foreach ($scenes as $scene)
-                                                <option value="{{ $scene->id }}">{{ $scene->name }} ({{ $scene->status->label() }})</option>
-                                            @endforeach
-                                        </optgroup>
-                                    @endforeach
-                                </select>
-                                @error('pointScene') <p class="error">{{ $message }}</p> @enderror
-                            </div>
-                            <div>
-                                <label for="point-entity" class="label">{{ __('Fiche liée') }}</label>
-                                @if ($point->entity)
-                                    <p class="mb-1 flex items-center justify-between gap-2 text-sm">
-                                        <span class="truncate">{{ $point->entity->name }}</span>
-                                        <button type="button" wire:click="removeEntity" class="text-xs text-stone-500 hover:text-red-700">{{ __('Retirer') }}</button>
-                                    </p>
-                                @endif
-                                <div wire:key="point-entity-{{ $point->id }}-{{ $point->entity_id }}"><x-entity-picker id="point-entity" model="pointEntityId" /></div>
                             </div>
                             <div>
                                 <label for="point-note" class="label">{{ __('Note du MJ') }}</label>
@@ -210,8 +232,8 @@
                                             <span class="text-xs text-stone-500">→ {{ $point->target->name }}</span>
                                         @endif
                                     </button>
-                                    @if ($point->scene)
-                                        <span class="shrink-0 rounded-full px-2 py-0.5 text-xs font-medium {{ $point->scene->status->badge() }}">{{ $point->scene->status->label() }}</span>
+                                    @if ($point->scenes->isNotEmpty())
+                                        <span class="shrink-0 text-xs text-stone-500" title="{{ $point->scenes->pluck('name')->implode(', ') }}">{{ trans_choice(':count scène|:count scènes', $point->scenes->count()) }}</span>
                                     @endif
                                     <button type="button" wire:click="toggleShown({{ $point->id }})" @class(['w-16 shrink-0 rounded px-1.5 py-0.5 text-xs', 'bg-stone-100 text-stone-600' => ! $point->shown_at_table, 'bg-flow/15 text-flow' => $point->shown_at_table]) title="{{ __('Nom affiché sur l’écran de table') }}">
                                         {{ $point->shown_at_table ? __('Visible') : __('Masqué') }}

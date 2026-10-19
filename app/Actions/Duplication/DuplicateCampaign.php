@@ -317,7 +317,7 @@ class DuplicateCampaign
     private function copyMaps(Campaign $source, Campaign $campaign, array $entities, array $documents, array $scenes): void
     {
         $maps = [];
-        $sourceMaps = $source->maps()->with(['tokens', 'points'])->get();
+        $sourceMaps = $source->maps()->with(['tokens', 'points.scenes', 'points.entities'])->get();
 
         foreach ($sourceMaps as $map) {
             if (! isset($documents[$map->document_id])) {
@@ -350,9 +350,12 @@ class DuplicateCampaign
                 $pointCopy->setRelations([]);
                 $pointCopy->table_map_id = $maps[$map->id];
                 $pointCopy->target_map_id = $maps[$point->target_map_id] ?? null;
-                $pointCopy->scene_id = $scenes[$point->scene_id] ?? null;
-                $pointCopy->entity_id = $entities[$point->entity_id] ?? null;
                 $pointCopy->save();
+
+                foreach (['scenes' => $scenes, 'entities' => $entities] as $relation => $copies) {
+                    $pointCopy->{$relation}()->attach($point->{$relation}->filter(fn ($item) => isset($copies[$item->id]))
+                        ->mapWithKeys(fn ($item) => [$copies[$item->id] => ['position' => $item->pivot->position]])->all());
+                }
             }
         }
     }

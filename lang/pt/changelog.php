@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Mapa da campanha: zoom, mesa e locais mais ricos',
+        'items' => [
+            'O mapa da campanha faz zoom (roda, + e −, pinça no tablet) e desloca-se arrastando. Conselho: uma imagem 4K (3840 × 2160) mantém-se nítida.',
+            'Quando o mapa está no ecrã da mesa, o submapa aberto a partir de um ponto substitui-o lá, e o mapa de cima volta quando sobe. No submapa, «Este local» mantém as cenas e fichas do ponto à distância de um clique.',
+            'Um ponto pode agora ligar-se a várias cenas e várias fichas: o local, os seus PNJ, todas as cenas que lá se jogam.',
+        ],
+    ],
+
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Blocos, notas e caixas de seleção em As minhas fichas',

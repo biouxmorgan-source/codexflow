@@ -638,9 +638,9 @@ class LoadDemoCampaign
                 'y' => round($y * $height, 2),
                 'shown_at_table' => $shown,
             ]);
-            $point->entity()->associate($this->entities[$place]);
-            $point->scene()->associate($this->scenes[$scene]);
             $point->save();
+            $point->entities()->attach($this->entities[$place]);
+            $point->scenes()->attach($this->scenes[$scene]);
         }
 
         $map->ruler = ['x1' => round(0.24 * $width, 2), 'y1' => round(0.71 * $height, 2), 'x2' => round(0.64 * $width, 2), 'y2' => round(0.69 * $height, 2)];

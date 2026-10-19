@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Mappa della campagna: zoom, tavolo e luoghi più ricchi',
+        'items' => [
+            'La mappa della campagna si ingrandisce (rotella, + e −, pizzico su tablet) e si sposta trascinando. Consiglio: un’immagine 4K (3840 × 2160) resta nitida.',
+            'Quando la mappa è sullo schermo del tavolo, la sottomappa aperta da un punto la sostituisce lì, e la mappa superiore torna quando risali. Nella sottomappa, «Questo luogo» tiene a portata di clic le scene e le schede del punto.',
+            'Un punto ora può collegarsi a più scene e più schede: il luogo, i suoi PNG, tutte le scene che vi si giocano.',
+        ],
+    ],
+
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Blocchi, note e caselle in Le mie schede',

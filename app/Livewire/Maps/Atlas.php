@@ -7,6 +7,7 @@ use App\Models\Campaign;
 use App\Models\MapPoint;
 use App\Models\Scene;
 use App\Models\TableMap;
+use App\Support\Demo\DemoLock;
 use App\Support\TableDisplay;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +19,10 @@ use Livewire\Component;
 
 /**
  * La carte de campagne : la vue d'ensemble, avec des points d'intérêt posés par le MJ. Un point
- * mène à une sous-carte (un clic l'ouvre, et l'on remonte par le fil d'Ariane), à une scène,
- * jouée ou à venir, ou à une fiche. Tout est au MJ : seuls les noms des points « visibles à la
- * table » apparaissent sur l'écran de table, quand la carte y est affichée.
+ * mène à une sous-carte (un clic l'ouvre, et l'on remonte par le fil d'Ariane) et se relie à
+ * plusieurs scènes, jouées ou à venir, et fiches. Tout est au MJ : seuls les noms des points
+ * « visibles à la table » apparaissent sur l'écran de table, quand la carte y est affichée.
+ * Si la carte est à la table, la sous-carte ouverte depuis un point l'y remplace, et de même en remontant.
  */
 class Atlas extends Component
 {
@@ -44,9 +46,7 @@ class Atlas extends Component
 
     public string $pointTarget = '';
 
-    public string $pointScene = '';
-
-    /** Fiche choisie dans le sélecteur ; la fiche déjà liée reste tant qu'on n'en choisit pas d'autre. */
+    /** Fiche choisie dans le sélecteur, ajoutée au point par « Ajouter ». */
     public ?int $pointEntityId = null;
 
     public bool $pointShown = false;
@@ -78,7 +78,7 @@ class Atlas extends Component
     #[Computed]
     public function selected(): ?MapPoint
     {
-        return $this->selectedId === null ? null : $this->map?->points()->with(['target', 'scene', 'entity'])->find($this->selectedId);
+        return $this->selectedId === null ? null : $this->map?->points()->with(['target', 'scenes', 'entities'])->find($this->selectedId);
     }
 
     /** Cette carte devient la carte de campagne, celle qui s'ouvre en premier. */
@@ -133,7 +133,6 @@ class Atlas extends Component
             'pointLabel' => $point->label,
             'pointNote' => (string) $point->note,
             'pointTarget' => (string) $point->target_map_id,
-            'pointScene' => (string) $point->scene_id,
             'pointEntityId' => null,
             'pointShown' => $point->shown_at_table,
         ]);
@@ -155,8 +154,7 @@ class Atlas extends Component
             'pointLabel' => ['required', 'string', 'max:100'],
             'pointNote' => ['nullable', 'string', 'max:5000'],
             'pointTarget' => ['nullable', Rule::in($this->maps->modelKeys())],
-            'pointScene' => ['nullable', Rule::in($this->scenes->modelKeys())],
-        ], attributes: ['pointLabel' => __('nom'), 'pointNote' => __('note'), 'pointTarget' => __('sous-carte'), 'pointScene' => __('scène')]);
+        ], attributes: ['pointLabel' => __('nom'), 'pointNote' => __('note'), 'pointTarget' => __('sous-carte')]);
 
         if ($this->pointTarget === (string) $this->map->id) {
             $this->addError('pointTarget', __('Un point ne peut pas mener à sa propre carte.'));
@@ -164,32 +162,73 @@ class Atlas extends Component
             return;
         }
 
-        $entity = $this->pointEntityId === null ? null : $this->campaign->availableEntities()->find($this->pointEntityId);
-
         $point->fill([
             'label' => trim($this->pointLabel),
             'note' => trim($this->pointNote) ?: null,
             'shown_at_table' => $this->pointShown,
         ]);
         $point->target_map_id = $this->pointTarget === '' ? null : (int) $this->pointTarget;
-        $point->scene_id = $this->pointScene === '' ? null : (int) $this->pointScene;
-
-        if ($entity !== null) {
-            $point->entity()->associate($entity);
-        }
-
         $point->save();
-        $this->pointEntityId = null;
         unset($this->selected);
         TableDisplay::mapChanged($this->map);
         $this->dispatch('point-saved');
     }
 
-    public function removeEntity(): void
+    /** Une scène de plus qui se joue ici. */
+    public function addScene(string $sceneId): void
     {
         $point = $this->point((int) $this->selectedId);
-        $point->entity()->dissociate()->save();
+        $scene = $this->scenes->find((int) $sceneId);
+        abort_if($scene === null, 422);
+
+        DemoLock::guardCampaign($this->campaign);
+        $point->link('scenes', $scene->id);
         unset($this->selected);
+    }
+
+    /** La fiche choisie dans le sélecteur rejoint le lieu. */
+    public function addEntity(): void
+    {
+        $point = $this->point((int) $this->selectedId);
+        $entity = $this->pointEntityId === null ? null : $this->campaign->availableEntities()->find($this->pointEntityId);
+
+        if ($entity === null) {
+            $this->addError('pointEntityId', __('Choisissez une fiche dans la liste.'));
+
+            return;
+        }
+
+        DemoLock::guardCampaign($this->campaign);
+        $point->link('entities', $entity->id);
+        $this->pointEntityId = null;
+        unset($this->selected);
+    }
+
+    /** Retire une scène ou une fiche du lieu, sans rien supprimer d'autre. */
+    public function unlink(string $kind, int $id): void
+    {
+        $point = $this->point((int) $this->selectedId);
+        abort_unless(in_array($kind, ['scenes', 'entities'], true), 422);
+
+        DemoLock::guardCampaign($this->campaign);
+        $point->{$kind}()->detach($id);
+        unset($this->selected);
+    }
+
+    /**
+     * Ouvre une autre carte de la campagne depuis un point ou le fil d'Ariane. Si la carte actuelle
+     * est à la table, la nouvelle l'y remplace : les joueurs suivent le MJ dans la sous-carte.
+     */
+    public function openMap(int $id): void
+    {
+        $from = $this->currentMap();
+        $map = $this->campaign->maps()->findOrFail($id);
+
+        if (TableDisplay::isShowing($this->campaign->refresh(), 'map', $from->id)) {
+            TableDisplay::show($this->campaign, 'map', $map->id);
+        }
+
+        $this->redirectRoute('maps.atlas', [$this->campaign, $map], navigate: true);
     }
 
     /** Couleur suivante dans la palette. */
@@ -239,13 +278,15 @@ class Atlas extends Component
 
     public function render()
     {
-        $map = $this->map?->load(['document', 'points' => fn ($q) => $q->with(['target', 'scene', 'entity'])]);
+        $map = $this->map?->load(['document', 'points' => fn ($q) => $q->with(['target', 'scenes', 'entities'])]);
 
         return view('livewire.maps.atlas', [
             'points' => $map?->points ?? collect(),
             'parents' => $map?->parents() ?? [],
             // Les cartes dont un point mène ici, quand il y en a plusieurs : le fil d'Ariane n'en suit qu'une.
             'leadingHere' => $map === null ? collect() : $map->pointsLeadingHere()->with('map')->get()->pluck('map')->unique('id')->values(),
+            // Les lieux qui ouvrent cette carte : leurs scènes et fiches restent à portée de clic dans la sous-carte.
+            'places' => $map === null ? collect() : $map->pointsLeadingHere()->with(['map', 'scenes', 'entities'])->orderBy('id')->get(),
         ])->title($map === null
             ? __('Carte de campagne · :name', ['name' => $this->campaign->name])
             : __(':map · Carte de campagne · :name', ['map' => $map->name, 'name' => $this->campaign->name]));

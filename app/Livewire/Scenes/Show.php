@@ -95,7 +95,7 @@ class Show extends Component
             'next' => $siblings[$index + 1] ?? null,
             // Les points de la carte de campagne qui situent la scène.
             'mapPoints' => CampaignFeatures::enabled($this->campaign, 'maps')
-                ? MapPoint::query()->where('scene_id', $this->scene->id)->whereHas('map', fn ($q) => $q->where('campaign_id', $this->campaign->id))->with('map')->get()
+                ? MapPoint::query()->whereHas('scenes', fn ($q) => $q->whereKey($this->scene->id))->whereHas('map', fn ($q) => $q->where('campaign_id', $this->campaign->id))->with('map')->get()
                 : collect(),
         ])->title($this->scene->name);
     }

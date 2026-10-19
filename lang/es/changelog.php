@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Mapa de campaña: zoom, mesa y lugares más completos',
+        'items' => [
+            'El mapa de campaña se amplía (rueda, + y −, pellizcar en tableta) y se desplaza arrastrando. Consejo: una imagen 4K (3840 × 2160) se mantiene nítida.',
+            'Cuando el mapa está en la pantalla de mesa, el submapa abierto desde un punto lo sustituye allí, y el mapa superior vuelve al subir. En el submapa, «Este lugar» mantiene a un clic las escenas y fichas del punto.',
+            'Un punto puede enlazarse ahora con varias escenas y varias fichas: el lugar, sus PNJ, todas las escenas que se juegan allí.',
+        ],
+    ],
+
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Bloques, notas y casillas en Mis hojas',

@@ -19,6 +19,16 @@ test('the GM opens a sub-map from a point, goes back up, then places and drags a
     await page.getByRole('link', { name: '← Remonter' }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'Le continent' })).toBeVisible();
 
+    // Zoomer : la carte grossit, les points gardent leur taille à l'écran.
+    const pin = page.locator('[data-point]', { hasText: 'Port-Brume' });
+    const before = await pin.boundingBox();
+    await page.getByRole('button', { name: 'Zoomer', exact: true }).click();
+    await expect(page.locator('[x-ref=canvas]')).toHaveAttribute('style', /scale\(1\.4\)/);
+    const after = await pin.boundingBox();
+    expect(Math.abs(after.width - before.width)).toBeLessThan(2);
+    await page.getByRole('button', { name: 'Carte entière' }).click();
+    await expect(page.locator('[x-ref=canvas]')).toHaveAttribute('style', /scale\(1\)/);
+
     // Placer un point là où l'on clique, le nommer.
     await page.getByRole('button', { name: 'Placer des points' }).click();
     await expect(page.locator('[x-ref=stage]')).toHaveAttribute('data-editing', '1');

@@ -141,24 +141,75 @@ class CampaignMapTest extends TestCase
         $this->assertSame(['Le continent'], array_map(fn (TableMap $map) => $map->name, $this->city->fresh()->parents()));
     }
 
-    public function test_points_show_played_and_upcoming_scenes(): void
+    public function test_a_point_links_several_scenes_and_sheets(): void
     {
         $played = $this->scene('L’arrivée', SceneStatus::Played);
+        $later = $this->scene('Le retour', SceneStatus::Played);
         $upcoming = $this->scene('Le phare', SceneStatus::Planned);
         $place = Entity::factory()->for($this->gm, 'owner')->create(['campaign_id' => $this->campaign->id, 'world_id' => null, 'name' => 'Le quai']);
+        $npc = Entity::factory()->for($this->gm, 'owner')->create(['campaign_id' => $this->campaign->id, 'world_id' => null, 'name' => 'La capitaine']);
+        $elsewhere = Entity::factory()->for($this->gm, 'owner')->create(['campaign_id' => Campaign::factory()->for($this->gm, 'owner')->create()->id, 'world_id' => null]);
         $this->actingAs($this->gm);
 
-        $atlas = Livewire::test(Atlas::class, ['campaign' => $this->campaign, 'map' => $this->world]);
-        $atlas->call('addPoint', 100, 100)->set('pointLabel', 'Le quai')->set('pointScene', (string) $played->id)->set('pointEntityId', $place->id)->call('savePoint')->assertHasNoErrors();
-        $atlas->call('addPoint', 900, 100)->set('pointLabel', 'Le phare')->set('pointScene', (string) $upcoming->id)->call('savePoint')->assertHasNoErrors();
+        $atlas = Livewire::test(Atlas::class, ['campaign' => $this->campaign, 'map' => $this->world])
+            ->call('addPoint', 100, 100)->set('pointLabel', 'Le quai')->call('savePoint')
+            ->call('addScene', (string) $played->id)
+            ->call('addScene', (string) $later->id)
+            ->call('addScene', (string) $played->id)
+            ->set('pointEntityId', $place->id)->call('addEntity')
+            ->set('pointEntityId', $npc->id)->call('addEntity')
+            ->set('pointEntityId', $elsewhere->id)->call('addEntity')->assertHasErrors('pointEntityId');
 
-        [$quay, $lighthouse] = $this->world->points()->with('scene')->get()->all();
+        $quay = $this->world->points()->sole();
+        $this->assertSame(['L’arrivée', 'Le retour'], $quay->scenes->pluck('name')->all(), 'Dans l’ordre d’ajout, sans doublon.');
+        $this->assertSame(['Le quai', 'La capitaine'], $quay->entities->pluck('name')->all());
         $this->assertTrue($quay->played());
-        $this->assertSame($place->id, $quay->entity_id);
-        $this->assertTrue($lighthouse->upcoming());
+        $atlas->assertSee('La capitaine')->assertSee('Le retour');
 
-        $atlas->assertSee('Jouée')->assertSee('Prévue');
-        $this->get(route('scenes.show', [$this->campaign, $upcoming]))->assertOk()->assertSee('Le continent · Le phare');
+        // Une scène encore à jouer : le lieu redevient « à venir ».
+        $atlas->call('addScene', (string) $upcoming->id);
+        $this->assertTrue($quay->fresh()->upcoming());
+        $this->get(route('scenes.show', [$this->campaign, $upcoming]))->assertOk()->assertSee('Le continent · Le quai');
+
+        $atlas->call('unlink', 'scenes', $upcoming->id)->call('unlink', 'entities', $npc->id);
+        $this->assertSame(['Le quai'], $quay->fresh()->entities->pluck('name')->all());
+        $this->assertSame('played', $quay->fresh()->progress());
+
+        // Une scène d'une autre campagne ne se relie pas.
+        $other = Campaign::factory()->for($this->gm, 'owner')->create()->scenarios()->create(['name' => 'X', 'position' => 1])->scenes()->create(['name' => 'Ailleurs', 'position' => 1]);
+        $atlas->call('addScene', (string) $other->id)->assertStatus(422);
+    }
+
+    public function test_the_table_screen_follows_the_gm_into_a_sub_map_and_back(): void
+    {
+        $this->world->forceFill(['is_campaign_map' => true])->save();
+        $point = $this->world->points()->make(['label' => 'Port-Brume', 'x' => 1, 'y' => 1])->forceFill(['target_map_id' => $this->city->id]);
+        $point->save();
+        $tavern = $this->map('La taverne', 400, 300);
+        $this->actingAs($this->gm);
+
+        // Carte pas à la table : ouvrir la sous-carte ne change pas l'écran.
+        Livewire::test(Atlas::class, ['campaign' => $this->campaign, 'map' => $this->world])->call('openMap', $this->city->id)
+            ->assertRedirect(route('maps.atlas', [$this->campaign, $this->city]));
+        $this->assertFalse(TableDisplay::isShowing($this->campaign->fresh(), 'map', $this->city->id));
+
+        TableDisplay::show($this->campaign, 'map', $this->world->id);
+        Livewire::test(Atlas::class, ['campaign' => $this->campaign, 'map' => $this->world])->call('openMap', $this->city->id);
+        $this->assertTrue(TableDisplay::isShowing($this->campaign->fresh(), 'map', $this->city->id));
+
+        // Dans la sous-carte, le lieu d'où l'on vient garde ses scènes et fiches à portée de clic.
+        $point->scenes()->attach($this->scene('Le marché', SceneStatus::Planned));
+        Livewire::test(Atlas::class, ['campaign' => $this->campaign, 'map' => $this->city])
+            ->assertSee('Ce lieu : Port-Brume')->assertSee('Le marché')
+            ->call('openMap', $this->world->id);
+        $this->assertTrue(TableDisplay::isShowing($this->campaign->fresh(), 'map', $this->world->id), 'En remontant, la carte d’au-dessus revient à la table.');
+
+        // Une carte qui n'est pas à la table ne prend pas la place de celle qui y est.
+        Livewire::test(Atlas::class, ['campaign' => $this->campaign, 'map' => $tavern])->call('openMap', $this->city->id);
+        $this->assertTrue(TableDisplay::isShowing($this->campaign->fresh(), 'map', $this->world->id));
+
+        $other = $this->map('Ailleurs', 100, 100, Campaign::factory()->for($this->gm, 'owner')->create());
+        Livewire::test(Atlas::class, ['campaign' => $this->campaign, 'map' => $this->world])->call('openMap', $other->id)->assertNotFound();
     }
 
     public function test_only_the_names_of_shown_points_reach_the_table_screen(): void
@@ -192,7 +243,8 @@ class CampaignMapTest extends TestCase
     {
         $scene = $this->scene('L’arrivée', SceneStatus::Played);
         $this->world->forceFill(['is_campaign_map' => true])->save();
-        $this->world->points()->make(['label' => 'Port-Brume', 'x' => 1, 'y' => 1])->forceFill(['target_map_id' => $this->city->id, 'scene_id' => $scene->id])->save();
+        $this->world->points()->make(['label' => 'Port-Brume', 'x' => 1, 'y' => 1])->forceFill(['target_map_id' => $this->city->id])->save();
+        $this->world->points()->sole()->scenes()->attach($scene);
         $this->city->points()->make(['label' => 'Retour', 'x' => 1, 'y' => 1])->forceFill(['target_map_id' => $this->world->id])->save();
 
         $copy = app(DuplicateCampaign::class)->handle($this->campaign, $this->gm, true);
@@ -202,7 +254,7 @@ class CampaignMapTest extends TestCase
         $this->assertSame('Le continent', $map->name);
         $this->assertSame($copy->id, $point->target->campaign_id);
         $this->assertSame('Port-Brume', $point->target->name);
-        $this->assertSame($copy->id, $point->scene->scenario->campaign_id);
+        $this->assertSame($copy->id, $point->scenes->sole()->scenario->campaign_id);
 
         $this->campaign->delete();
         $this->assertSame(0, MapPoint::query()->whereIn('table_map_id', [$this->world->id, $this->city->id])->count());
@@ -214,7 +266,10 @@ class CampaignMapTest extends TestCase
         $scene = $this->scene('L’arrivée', SceneStatus::Played);
         $this->city->forceFill(['is_campaign_map' => true])->save();
         $this->city->points()->make(['label' => 'Vers le continent', 'note' => 'Route sûre', 'x' => 5, 'y' => 6, 'shown_at_table' => true])
-            ->forceFill(['target_map_id' => $this->world->id, 'scene_id' => $scene->id])->save();
+            ->forceFill(['target_map_id' => $this->world->id])->save();
+        $place = Entity::factory()->for($this->gm, 'owner')->create(['campaign_id' => $this->campaign->id, 'world_id' => null, 'name' => 'Le port']);
+        $this->city->points()->sole()->scenes()->attach($scene);
+        $this->city->points()->sole()->entities()->attach($place);
 
         $path = (new CampaignExport($this->campaign->fresh()))->write();
         $copy = (new CampaignImport(User::factory()->create()))->handle($path);
@@ -225,6 +280,7 @@ class CampaignMapTest extends TestCase
         $this->assertSame(['Vers le continent', 'Route sûre', true], [$point->label, $point->note, $point->shown_at_table]);
         $this->assertSame('Le continent', $point->target->name);
         $this->assertSame($copy->id, $point->target->campaign_id);
-        $this->assertSame($copy->id, $point->scene->scenario->campaign_id);
+        $this->assertSame($copy->id, $point->scenes->sole()->scenario->campaign_id);
+        $this->assertSame($copy->id, $point->entities->sole()->campaign_id);
     }
 }

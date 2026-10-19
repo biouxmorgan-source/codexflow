@@ -44,6 +44,7 @@
                 </div>
                 <button type="submit" class="btn-primary">{{ __('Créer la carte') }}</button>
             </div>
+            <p class="mt-2 text-xs text-stone-500">{{ __('Conseil : une image d’au moins 3840 × 2160 pixels (4K), en JPG, reste nette quand on zoome sur la carte de campagne ou à la table. Les documents acceptent jusqu’à 50 Mo.') }}</p>
             @error('documentId') <p class="error">{{ $message }}</p> @enderror
             @error('name') <p class="error">{{ $message }}</p> @enderror
         @endif
