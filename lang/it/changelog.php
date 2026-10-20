@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Nomi dei punti leggibili sulla mappa',
+        'items' => [
+            'Nel tema scuro, i nomi dei punti della mappa della campagna apparivano scuri su sfondo nero: tornano bianchi, come i riquadri di iniziativa e dadi sullo schermo del tavolo e i pulsanti di pagina dei PDF.',
+        ],
+    ],
+
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Tiri salvati per ogni scheda',

@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Leesbare puntnamen op de kaart',
+        'items' => [
+            'In het donkere thema stonden de namen van de punten op de campagnekaart donker op een zwarte achtergrond: ze zijn weer wit, net als de initiatief- en dobbelbanners op het tafelscherm en de paginaknoppen van pdf’s.',
+        ],
+    ],
+
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Opgeslagen worpen per blad',

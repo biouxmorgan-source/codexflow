@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Lesbare Punktnamen auf der Karte',
+        'items' => [
+            'Im dunklen Design erschienen die Namen der Punkte auf der Kampagnenkarte dunkel auf schwarzem Grund: Sie sind wieder weiß, ebenso die Initiative- und Würfelbanner auf dem Tischbildschirm und die Seitenknöpfe der PDFs.',
+        ],
+    ],
+
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Gespeicherte Würfe für jeden Bogen',

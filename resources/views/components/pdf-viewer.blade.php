@@ -35,9 +35,9 @@
     </div>
     @if ($mode === 'screen')
         <div x-show="pages > 1" x-cloak class="absolute inset-x-0 bottom-3 flex items-center justify-center gap-3 text-sm opacity-40 transition hover:opacity-100">
-            <button type="button" x-on:click="go(-1)" class="rounded-full bg-black/50 px-3 py-1 text-white" aria-label="{{ __('Page précédente') }}">‹</button>
-            <span class="rounded-full bg-black/50 px-3 py-1 text-white tabular-nums" x-text="page + ' / ' + pages"></span>
-            <button type="button" x-on:click="go(1)" class="rounded-full bg-black/50 px-3 py-1 text-white" aria-label="{{ __('Page suivante') }}">›</button>
+            <button type="button" x-on:click="go(-1)" class="rounded-full bg-black/50 px-3 py-1 text-snow" aria-label="{{ __('Page précédente') }}">‹</button>
+            <span class="rounded-full bg-black/50 px-3 py-1 text-snow tabular-nums" x-text="page + ' / ' + pages"></span>
+            <button type="button" x-on:click="go(1)" class="rounded-full bg-black/50 px-3 py-1 text-snow" aria-label="{{ __('Page suivante') }}">›</button>
         </div>
     @endif
 </div>
