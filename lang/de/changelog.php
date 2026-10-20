@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '„Datei ersetzen“ funktioniert',
+        'items' => [
+            'Die Schaltfläche „Ersetzen“ blieb nach der Auswahl der neuen Datei ausgegraut: Sie ist wieder anklickbar, sobald die Datei hochgeladen ist.',
+        ],
+    ],
+
     '0.86.1' => [
         'date' => '2026-10-20',
         'title' => 'Eine Karte durch ein Bild anderer Größe ersetzen',

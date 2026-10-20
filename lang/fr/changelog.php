@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '« Remplacer le fichier » fonctionne',
+        'items' => [
+            'Le bouton « Remplacer » restait grisé après le choix du nouveau fichier : il redevient cliquable une fois le fichier envoyé.',
+        ],
+    ],
+
     '0.86.1' => [
         'date' => '2026-10-20',
         'title' => 'Remplacer une carte par une image d’une autre taille',

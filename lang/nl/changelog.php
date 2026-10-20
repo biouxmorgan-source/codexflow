@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '„Bestand vervangen” werkt',
+        'items' => [
+            'De knop „Vervangen” bleef grijs na het kiezen van het nieuwe bestand: hij is weer klikbaar zodra het bestand is geüpload.',
+        ],
+    ],
+
     '0.86.1' => [
         'date' => '2026-10-20',
         'title' => 'Een kaart vervangen door een afbeelding van een ander formaat',
