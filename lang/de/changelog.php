@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Eine Karte durch ein Bild anderer Größe ersetzen',
+        'items' => [
+            'Wenn das Dokument als Karte dient, zeigt „Datei ersetzen“ die Größe des aktuellen Bildes und akzeptiert ein Bild anderer Größe. Spielfiguren, Schablonen und Punkte behalten ihre Position in Pixeln: Ein Hinweis warnt, dass sie sich auf dem Bild verschieben.',
+        ],
+    ],
+
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Ein Dokument ändern, ohne es zu löschen',

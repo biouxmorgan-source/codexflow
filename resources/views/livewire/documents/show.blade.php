@@ -60,10 +60,11 @@
             <form wire:submit="replaceFile" class="space-y-3 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 class="font-semibold">{{ __('Remplacer le fichier') }}</h2>
                 <p class="text-sm text-stone-600">{{ $document->campaign_id ? __('Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié.') : __('Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié, dans toutes les campagnes.') }}</p>
-                @if ($document->maps()->exists())
-                    <p class="text-sm text-stone-600">{{ __('Ce document sert de carte : choisissez une image aux mêmes proportions, les pions, la grille et les points restent à leur place.') }}</p>
+                @if ($mapSize)
+                    <p class="text-sm text-stone-600">{{ __('Ce document sert de carte. Image actuelle : :width × :height pixels.', $mapSize) }}</p>
+                    <p class="text-sm text-amber-800">{{ __('Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.') }}</p>
                 @endif
-                <input id="replacement" type="file" wire:model="replacement" accept=".{{ str_replace(',', ',.', $document->maps()->exists() ? 'jpg,jpeg,png,gif,webp' : \App\Models\Document::MIMES) }}" class="block w-full text-sm" aria-label="{{ __('Nouveau fichier') }}">
+                <input id="replacement" type="file" wire:model="replacement" accept=".{{ str_replace(',', ',.', $mapSize ? 'jpg,jpeg,png,gif,webp' : \App\Models\Document::MIMES) }}" class="block w-full text-sm" aria-label="{{ __('Nouveau fichier') }}">
                 <div wire:loading wire:target="replacement" class="text-sm text-stone-500">{{ __('Envoi en cours…') }}</div>
                 @error('replacement') <p class="error">{{ $message }}</p> @enderror
                 <div class="flex items-center gap-3">

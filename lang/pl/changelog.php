@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Zastąpienie mapy obrazem o innym rozmiarze',
+        'items' => [
+            'Gdy dokument służy jako mapa, „Zastąp plik” pokazuje rozmiar obecnego obrazu i przyjmuje obraz o innym rozmiarze. Pionki, szablony i punkty zachowują pozycję w pikselach: ostrzeżenie informuje, że przesuną się na rysunku.',
+        ],
+    ],
+
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Zmiana dokumentu bez usuwania',

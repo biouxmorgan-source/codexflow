@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Een kaart vervangen door een afbeelding van een ander formaat',
+        'items' => [
+            'Als het document als kaart dient, toont „Bestand vervangen” het formaat van de huidige afbeelding en accepteert het een afbeelding van een ander formaat. Pionnen, sjablonen en punten behouden hun positie in pixels: een waarschuwing meldt dat ze op de tekening verschuiven.',
+        ],
+    ],
+
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Een document wijzigen zonder het te verwijderen',

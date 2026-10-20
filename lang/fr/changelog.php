@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Remplacer une carte par une image d’une autre taille',
+        'items' => [
+            'Quand le document sert de carte, « Remplacer le fichier » affiche la taille de l’image actuelle et accepte une image d’une autre taille. Les pions, gabarits et points gardent leur position en pixels : un avertissement prévient qu’ils se décaleront sur le dessin.',
+        ],
+    ],
+
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Modifier un document sans le supprimer',
