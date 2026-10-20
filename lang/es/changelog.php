@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Tirar los dados desde la hoja',
+        'items' => [
+            'En la hoja de un personaje, un pequeño dado junto a cada número y cada contador tira los dados con ese valor: «Tirar por debajo de… (umbral)» o «Sumar… a la tirada (bonificador)». La bandeja de dados se abre lista para tirar y el resultado va a la mesa como siempre.',
+            'En la hoja de tu propio personaje, el valor sigue vinculado a la hoja: si cambia, la tirada guardada lo sigue. El DJ también puede tirar desde la hoja de un jugador.',
+            '«Mis hojas» tiene sus propios dados: el mismo pequeño dado junto a los valores numéricos y un botón «Dados» al pie de la hoja. El resultado se muestra en la hoja, visible solo para ti.',
+        ],
+    ],
+
     '0.84.2' => [
         'date' => '2026-10-20',
         'title' => 'Nuevos mapas para la demo',

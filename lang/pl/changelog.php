@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Rzuty kośćmi z karty',
+        'items' => [
+            'Na karcie postaci mała kość obok każdej liczby i każdego licznika rzuca kośćmi z tą wartością: „Rzuć poniżej… (próg)” albo „Dodaj… do rzutu (premia)”. Taca z kośćmi otwiera się gotowa do rzutu, a wynik trafia do stołu jak zwykle.',
+            'Na karcie własnej postaci wartość pozostaje powiązana z kartą: gdy się zmieni, zapisany rzut za nią podąża. MG również może rzucać z karty gracza.',
+            '„Moje karty” mają własne kości: ta sama mała kość obok wartości liczbowych i przycisk „Kości” na dole karty. Wynik pojawia się na karcie, widoczny tylko dla ciebie.',
+        ],
+    ],
+
     '0.84.2' => [
         'date' => '2026-10-20',
         'title' => 'Nowe mapy w demie',

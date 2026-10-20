@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Lancer les dés depuis la feuille',
+        'items' => [
+            'Sur la fiche d’un personnage, un petit dé à côté de chaque nombre et de chaque compteur lance les dés avec cette valeur : « Lancer sous… (seuil) » ou « Ajouter… au jet (bonus) ». Le plateau de dés s’ouvre prêt à lancer, et le résultat part à la table comme d’habitude.',
+            'Sur la fiche de votre personnage, la valeur reste liée à la fiche : si elle change, le lancer enregistré suit. Le MJ peut aussi lancer depuis la fiche d’un joueur.',
+            '« Mes feuilles » a ses propres dés : le même petit dé à côté des valeurs en chiffres, et un bouton « Dés » en bas de la feuille. Le résultat s’affiche sur la feuille, visible de vous seul.',
+        ],
+    ],
+
     '0.84.2' => [
         'date' => '2026-10-20',
         'title' => 'Nouvelles cartes pour la démonstration',

@@ -2914,5 +2914,10 @@
     "Retirer l’onglet": "Rimuovi la sezione",
     "nom de l’onglet": "nome della sezione",
     "Une feuille garde au plus :count onglets.": "Una scheda tiene al massimo :count sezioni.",
-    "Une feuille garde au plus :count blocs.": "Una scheda tiene al massimo :count blocchi."
+    "Une feuille garde au plus :count blocs.": "Una scheda tiene al massimo :count blocchi.",
+    "Ajouter :value au jet (bonus)": "Aggiungi :value al tiro (bonus)",
+    "Lancer les dés avec :name": "Tira i dadi con :name",
+    "Lancer sous :value (seuil)": "Tira sotto :value (soglia)",
+    "Le petit dé à côté d’un nombre ou d’un compteur lance les dés avec cette valeur, comme seuil ou comme bonus.": "Il piccolo dado accanto a un numero o a un contatore tira i dadi con quel valore, come soglia o come bonus.",
+    "Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.": "Il piccolo dado accanto a un valore numerico tira i dadi con esso, come soglia o come bonus; «Dadi», in fondo alla scheda, tira liberamente. Il risultato resta sulla scheda, visibile solo a te."
 }

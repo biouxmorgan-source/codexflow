@@ -2914,5 +2914,10 @@
     "Retirer l’onglet": "Remove tab",
     "nom de l’onglet": "tab name",
     "Une feuille garde au plus :count onglets.": "A sheet holds at most :count tabs.",
-    "Une feuille garde au plus :count blocs.": "A sheet holds at most :count blocks."
+    "Une feuille garde au plus :count blocs.": "A sheet holds at most :count blocks.",
+    "Ajouter :value au jet (bonus)": "Add :value to the roll (bonus)",
+    "Lancer les dés avec :name": "Roll the dice with :name",
+    "Lancer sous :value (seuil)": "Roll under :value (threshold)",
+    "Le petit dé à côté d’un nombre ou d’un compteur lance les dés avec cette valeur, comme seuil ou comme bonus.": "The small die next to a number or counter rolls the dice with that value, as a threshold or as a bonus.",
+    "Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.": "The small die next to a numeric value rolls the dice with it, as a threshold or as a bonus; “Dice”, at the bottom of the sheet, rolls freely. The result stays on the sheet, visible to you only."
 }

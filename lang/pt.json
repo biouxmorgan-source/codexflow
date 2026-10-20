@@ -2914,5 +2914,10 @@
     "Retirer l’onglet": "Retirar o separador",
     "nom de l’onglet": "nome do separador",
     "Une feuille garde au plus :count onglets.": "Uma ficha guarda no máximo :count separadores.",
-    "Une feuille garde au plus :count blocs.": "Uma ficha guarda no máximo :count blocos."
+    "Une feuille garde au plus :count blocs.": "Uma ficha guarda no máximo :count blocos.",
+    "Ajouter :value au jet (bonus)": "Somar :value à rolagem (bônus)",
+    "Lancer les dés avec :name": "Rolar os dados com :name",
+    "Lancer sous :value (seuil)": "Rolar abaixo de :value (limiar)",
+    "Le petit dé à côté d’un nombre ou d’un compteur lance les dés avec cette valeur, comme seuil ou comme bonus.": "O pequeno dado ao lado de um número ou contador rola os dados com esse valor, como limiar ou como bônus.",
+    "Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.": "O pequeno dado ao lado de um valor numérico rola os dados com ele, como limiar ou como bônus; «Dados», no fim da ficha, rola livremente. O resultado fica na ficha, visível só para você."
 }

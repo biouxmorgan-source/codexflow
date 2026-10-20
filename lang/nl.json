@@ -2914,5 +2914,10 @@
     "Retirer l’onglet": "Tabblad verwijderen",
     "nom de l’onglet": "naam van het tabblad",
     "Une feuille garde au plus :count onglets.": "Een blad houdt hoogstens :count tabbladen.",
-    "Une feuille garde au plus :count blocs.": "Een blad houdt hoogstens :count blokken."
+    "Une feuille garde au plus :count blocs.": "Een blad houdt hoogstens :count blokken.",
+    "Ajouter :value au jet (bonus)": ":value bij de worp optellen (bonus)",
+    "Lancer les dés avec :name": "Dobbelen met :name",
+    "Lancer sous :value (seuil)": "Onder :value gooien (drempel)",
+    "Le petit dé à côté d’un nombre ou d’un compteur lance les dés avec cette valeur, comme seuil ou comme bonus.": "De kleine dobbelsteen naast een getal of teller gooit met die waarde, als drempel of als bonus.",
+    "Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.": "De kleine dobbelsteen naast een getal gooit ermee, als drempel of als bonus; ‘Dobbelstenen’ onderaan het blad gooit vrij. Het resultaat blijft op het blad, alleen voor jou zichtbaar."
 }

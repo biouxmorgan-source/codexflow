@@ -1,7 +1,8 @@
 {{-- Sans Reverb, le plateau se resynchronise tout seul (demandes du MJ, lancers des autres). --}}
 <div wire:poll.15s>
     @if ($usable)
-        <div @class(['fixed bottom-2 left-2 sm:bottom-4 sm:left-4', 'z-50' => $open, 'z-30' => ! $open]) x-data="diceBuilder(@js('sagawyn-dice-'.$campaign->id), @js(['value' => ':name', 'tens' => __('dizaine de :name'), 'half' => __('moitié de :name'), 'fifth' => __('cinquième de :name')]))">
+        <div @class(['fixed bottom-2 left-2 sm:bottom-4 sm:left-4', 'z-50' => $open, 'z-30' => ! $open]) x-data="diceBuilder(@js('sagawyn-dice-'.$campaign->id), @js(['value' => ':name', 'tens' => __('dizaine de :name'), 'half' => __('moitié de :name'), 'fifth' => __('cinquième de :name')]))"
+            x-on:dice-use.window="useValue($event.detail)">
             @if (! $open)
                 <button type="button" wire:click="toggle" class="flex items-center gap-2 rounded-full bg-codex px-4 py-2.5 text-sm font-semibold text-on-accent shadow-lg hover:bg-ink">
                     <x-die sides="6" value="6" size="size-5" state="dropped" aria-hidden="true" />

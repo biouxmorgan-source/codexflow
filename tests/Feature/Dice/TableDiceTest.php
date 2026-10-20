@@ -5,6 +5,7 @@ namespace Tests\Feature\Dice;
 use App\Enums\CampaignRole;
 use App\Enums\FieldType;
 use App\Enums\Zone;
+use App\Livewire\Characters\Show as CharacterShow;
 use App\Livewire\Dice\Tray;
 use App\Livewire\Table\Screen;
 use App\Models\Campaign;
@@ -320,5 +321,27 @@ class TableDiceTest extends TestCase
         $this->assertSame(2, $gm->formula()->modifier);
         $this->assertSame('2d6, additionnés, +1 Arme +2 Blessure -1 + dizaine de Force', $gm->formula()->describe());
         $this->assertSame(array_sum(array_column($alex->result['dice'], 'value')) + 6, $alex->result['total']);
+    }
+
+    public function test_a_die_beside_each_number_on_the_sheet_opens_the_tray_for_that_character(): void
+    {
+        [$strength] = $this->sheet();
+        $sheet = fn (User $user, PlayerCharacter $character) => Livewire::actingAs($user)->test(CharacterShow::class, ['campaign' => $this->campaign, 'character' => $character]);
+
+        // Le joueur sur son personnage : la valeur reste liée au champ ; jamais un champ de la zone MJ.
+        $sheet($this->alex, $this->harvey)->assertSee('Lancer les dés avec Force')->assertSee('Lancer sous 35 (seuil)')
+            ->assertSee('\u0022own\u0022:true', false)->assertDontSee('Lancer les dés avec Destin');
+        // Le MJ sur la fiche d'un joueur : la valeur est reprise telle quelle.
+        $sheet($this->gm, $this->harvey)->assertSee('Lancer les dés avec Esquive')->assertSee('\u0022own\u0022:false', false);
+        // Un autre joueur ne lance pas depuis la fiche de Harvey.
+        $sheet($this->sam, $this->june)->assertSee('Lancer les dés avec Force');
+
+        $this->tray($this->alex)->call('openFor', $this->harvey->id)->assertSet('open', true)->assertSet('characterId', $this->harvey->id)
+            ->call('openFor', $this->june->id)->assertSet('characterId', $this->harvey->id)
+            ->call('roll', ['count' => 1, 'sides' => 100, 'reading' => 'below', 'threshold_from' => ['field' => $strength->id, 'take' => 'value']], 'table', 'Force');
+        $this->assertSame(47, DiceRoll::latest('id')->first()->formula()->threshold);
+
+        CampaignFeatures::toggle($this->campaign, 'dice');
+        $sheet($this->alex, $this->harvey)->assertDontSee('Lancer les dés avec Force');
     }
 }

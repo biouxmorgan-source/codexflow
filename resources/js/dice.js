@@ -112,6 +112,23 @@ document.addEventListener('alpine:init', () => {
             this.sourceTake = 'value';
         },
 
+        // Une valeur touchée sur une feuille de personnage : comme seuil (on lance sous la valeur) ou comme bonus.
+        // Sur la fiche de son propre personnage, la valeur reste liée au champ et se relit à chaque lancer.
+        useValue(detail) {
+            const linked = detail.own && detail.field;
+            const value = Math.trunc(Number(detail.value) || 0);
+            if (detail.as === 'threshold') {
+                if (!this.needsThreshold) this.setReading('below');
+                this.threshold_from = linked ? { field: Number(detail.field), take: 'value', name: detail.name } : null;
+                this.threshold = linked ? '' : String(value);
+            } else if (this.bonus_from.length < MAX_SOURCES && !this.bonus_from.some((item) => linked ? item.field === Number(detail.field) && item.take === 'value' : item.fixed === value && item.name === detail.name)) {
+                if (!this.hasModifier) this.setReading('sum');
+                this.bonus_from.push(linked ? { field: Number(detail.field), take: 'value', name: detail.name } : { fixed: value, name: detail.name });
+            }
+            this.loaded = null;
+            this.$wire.openFor(detail.character ?? null);
+        },
+
         addFixed() {
             const value = parseInt(this.fixedValue, 10);
             if (!value || this.bonus_from.length >= MAX_SOURCES) return;
