@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Substituir um mapa por uma imagem de outro tamanho',
+        'items' => [
+            'Quando o documento serve de mapa, «Substituir o ficheiro» mostra o tamanho da imagem atual e aceita uma imagem de outro tamanho. Peões, moldes e pontos mantêm a posição em píxeis: um aviso indica que vão deslocar-se no desenho.',
+        ],
+    ],
+
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Modificar um documento sem o apagar',

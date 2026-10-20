@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Carte de la table : une image de la campagne, montrée sur l'écran de table, avec une grille
@@ -124,6 +125,28 @@ class TableMap extends Model
         $this->view_zoom = round(max(1, min(self::MAX_ZOOM, $zoom)), 3);
         $this->view_x = round(max(0, min($this->width, $x)), 2);
         $this->view_y = round(max(0, min($this->height, $y)), 2);
+    }
+
+    /**
+     * L'image a été remplacée par une autre taille : la carte prend ses dimensions.
+     * Pions, gabarits et points gardent leur position en pixels, ramenée dans l'image.
+     */
+    public function resizeTo(int $width, int $height): void
+    {
+        if ($width === $this->width && $height === $this->height) {
+            return;
+        }
+
+        $this->width = $width;
+        $this->height = $height;
+        $this->setView($this->view_x ?? $width / 2, $this->view_y ?? $height / 2, $this->view_zoom ?: 1);
+        $this->ruler = null;
+        $this->save();
+
+        foreach ([$this->tokens(), $this->templates(), $this->points()] as $relation) {
+            $relation->getQuery()->where(fn ($q) => $q->where('x', '>', $width)->orWhere('y', '>', $height))
+                ->update(['x' => DB::raw('least(x, '.$width.')'), 'y' => DB::raw('least(y, '.$height.')')]);
+        }
     }
 
     /** Diamètre d'un jeton, en pixels de la carte. */

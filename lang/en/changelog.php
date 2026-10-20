@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Replace a map with an image of another size',
+        'items' => [
+            'When the document is used as a map, “Replace the file” shows the current image size and accepts an image of another size. Tokens, templates and points keep their position in pixels: a warning says they will shift on the picture.',
+        ],
+    ],
+
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Edit a document without deleting it',

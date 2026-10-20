@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Sostituire una mappa con un’immagine di altre dimensioni',
+        'items' => [
+            'Quando il documento è usato come mappa, «Sostituisci il file» mostra le dimensioni dell’immagine attuale e accetta un’immagine di altre dimensioni. Pedine, sagome e punti mantengono la posizione in pixel: un avviso segnala che si sposteranno sul disegno.',
+        ],
+    ],
+
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Modificare un documento senza eliminarlo',

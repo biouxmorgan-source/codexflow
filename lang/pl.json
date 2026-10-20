@@ -2927,5 +2927,6 @@
     "Remplacer": "Zastąp",
     "Fichier remplacé.": "Plik zastąpiony.",
     "Ce document sert de carte : choisissez une image.": "Ten dokument służy jako mapa: wybierz obraz.",
-    "Ce document sert de carte : choisissez une image aux mêmes proportions, les pions, la grille et les points restent à leur place.": "Ten dokument służy jako mapa: wybierz obraz o tych samych proporcjach; pionki, siatka i punkty zostają na miejscu."
+    "Ce document sert de carte. Image actuelle : :width × :height pixels.": "Ten dokument służy jako mapa. Obecny obraz: :width × :height pikseli.",
+    "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.": "Obraz o innym rozmiarze jest akceptowany, ale pionki, szablony i punkty zachowują pozycję w pikselach: przesuną się na rysunku i trzeba będzie je przestawić."
 }

@@ -25,5 +25,6 @@
     "Remplacer": "Remplacer",
     "Fichier remplacé.": "Fichier remplacé.",
     "Ce document sert de carte : choisissez une image.": "Ce document sert de carte : choisissez une image.",
-    "Ce document sert de carte : choisissez une image aux mêmes proportions, les pions, la grille et les points restent à leur place.": "Ce document sert de carte : choisissez une image aux mêmes proportions, les pions, la grille et les points restent à leur place."
+    "Ce document sert de carte. Image actuelle : :width × :height pixels.": "Ce document sert de carte. Image actuelle : :width × :height pixels.",
+    "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.": "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer."
 }

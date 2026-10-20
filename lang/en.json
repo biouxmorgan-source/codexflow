@@ -2927,5 +2927,6 @@
     "Remplacer": "Replace",
     "Fichier remplacé.": "File replaced.",
     "Ce document sert de carte : choisissez une image.": "This document is used as a map: choose an image.",
-    "Ce document sert de carte : choisissez une image aux mêmes proportions, les pions, la grille et les points restent à leur place.": "This document is used as a map: choose an image with the same proportions; tokens, grid and points stay in place."
+    "Ce document sert de carte. Image actuelle : :width × :height pixels.": "This document is used as a map. Current image: :width × :height pixels.",
+    "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.": "An image of another size is accepted, but tokens, templates and points keep their position in pixels: they will shift on the picture and need to be moved back."
 }

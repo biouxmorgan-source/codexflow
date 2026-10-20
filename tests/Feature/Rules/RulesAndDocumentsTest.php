@@ -228,23 +228,32 @@ class RulesAndDocumentsTest extends TestCase
             ->assertHeader('Content-Type', 'image/png');
     }
 
-    public function test_a_document_used_as_a_map_can_only_be_replaced_by_an_image(): void
+    public function test_a_document_used_as_a_map_is_replaced_by_an_image_of_any_size(): void
     {
         $document = $this->document('Plan');
         $map = new TableMap(['name' => 'Plan', 'grid_size' => 20]);
         $map->campaign()->associate($this->campaign);
         $map->document()->associate($document);
-        $map->forceFill(['width' => 40, 'height' => 40])->save();
+        $map->forceFill(['width' => 400, 'height' => 300])->save();
+        $map->tokens()->create(['label' => 'Aldric', 'x' => 350, 'y' => 250, 'size' => 1]);
+        $map->tokens()->create(['label' => 'Mira', 'x' => 50, 'y' => 60, 'size' => 1]);
 
         Livewire::actingAs($this->gm)->test(DocumentShow::class, ['campaign' => $this->campaign, 'document' => $document])
+            ->assertSee('Image actuelle : 400 × 300 pixels.')
+            ->assertSee('ils se décaleront sur le dessin')
             ->set('replacement', UploadedFile::fake()->create('plan.pdf', 10, 'application/pdf'))
             ->call('replaceFile')
             ->assertHasErrors('replacement')
-            ->set('replacement', UploadedFile::fake()->image('plan.jpg', 40, 40))
+            ->set('replacement', UploadedFile::fake()->image('plan.jpg', 200, 100))
             ->call('replaceFile')
-            ->assertHasNoErrors();
+            ->assertHasNoErrors()
+            ->assertSee('Image actuelle : 200 × 100 pixels.');
 
         $this->assertSame('image/jpeg', $document->fresh()->mime_type);
+        $map->refresh();
+        $this->assertSame([200, 100], [$map->width, $map->height]);
+        // Les pions gardent leur position, ramenée dans la nouvelle image.
+        $this->assertSame([[200.0, 100.0], [50.0, 60.0]], $map->tokens->map(fn ($t) => [$t->x, $t->y])->all());
     }
 
     public function test_players_cannot_replace_a_document_file(): void

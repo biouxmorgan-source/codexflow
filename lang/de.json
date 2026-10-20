@@ -2927,5 +2927,6 @@
     "Remplacer": "Ersetzen",
     "Fichier remplacé.": "Datei ersetzt.",
     "Ce document sert de carte : choisissez une image.": "Dieses Dokument dient als Karte: Wähle ein Bild.",
-    "Ce document sert de carte : choisissez une image aux mêmes proportions, les pions, la grille et les points restent à leur place.": "Dieses Dokument dient als Karte: Wähle ein Bild mit denselben Proportionen; Spielfiguren, Raster und Punkte bleiben an ihrem Platz."
+    "Ce document sert de carte. Image actuelle : :width × :height pixels.": "Dieses Dokument dient als Karte. Aktuelles Bild: :width × :height Pixel.",
+    "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.": "Ein Bild in anderer Größe wird akzeptiert, aber Spielfiguren, Schablonen und Punkte behalten ihre Position in Pixeln: Sie verschieben sich auf dem Bild und müssen neu platziert werden."
 }
