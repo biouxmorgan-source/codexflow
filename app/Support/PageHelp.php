@@ -275,6 +275,7 @@ class PageHelp
                     __('« Organiser les blocs » : glissez un bloc par sa poignée ⠿, ou utilisez les flèches, pour le placer où vous voulez sur trois colonnes.'),
                     __('Dans « Modifier », « + Nouvel onglet » partage la feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…). Chaque bloc choisit son onglet, et chaque onglet range ses blocs sur ses trois colonnes.'),
                     __('Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.'),
+                    __('« Enregistrer ce lancer », dans les dés de la feuille, le garde avec ce personnage : chaque feuille a ses propres lancers, qu’on recharge d’un geste et qu’on retire avec ×.'),
                     __('Le jeu et la table servent à retrouver vos personnages : touchez le nom d’un jeu pour ne voir que les siens.'),
                 ],
                 'gm' => [],

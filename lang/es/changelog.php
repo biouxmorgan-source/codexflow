@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Tiradas guardadas para cada hoja',
+        'items' => [
+            'En los dados de «Mis hojas», «Guardar esta tirada» guarda una tirada con la hoja: cada personaje tiene sus propias tiradas (Bola de fuego, Ataque…), que se recargan con un toque, se actualizan y se quitan con ×.',
+        ],
+    ],
+
     '0.86.2' => [
         'date' => '2026-10-20',
         'title' => '«Reemplazar el archivo» funciona',

@@ -39,6 +39,7 @@ class PersonalCharacter extends Model
         return [
             'blocks' => 'array',
             'tabs' => 'array',
+            'dice_presets' => 'array',
             'portrait_size' => 'integer',
             'sheet_size' => 'integer',
         ];

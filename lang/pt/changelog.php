@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Rolagens salvas para cada ficha',
+        'items' => [
+            'Nos dados de «Minhas fichas», «Salvar esta rolagem» guarda uma rolagem com a ficha: cada personagem tem as próprias rolagens (Bola de fogo, Ataque…), recarregadas com um toque, atualizadas e removidas com ×.',
+        ],
+    ],
+
     '0.86.2' => [
         'date' => '2026-10-20',
         'title' => '«Substituir o ficheiro» funciona',

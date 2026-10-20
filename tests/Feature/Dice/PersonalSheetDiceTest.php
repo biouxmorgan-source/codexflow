@@ -74,4 +74,23 @@ class PersonalSheetDiceTest extends TestCase
         Livewire::actingAs($this->me)->test(Pad::class, ['character' => $this->aldric])
             ->call('roll', ['count' => 1, 'sides' => 100, 'reading' => 'below'])->assertHasErrors('threshold')->assertSet('rolls', []);
     }
+
+    public function test_each_sheet_keeps_its_own_saved_rolls(): void
+    {
+        $other = $this->me->personalCharacters()->create(['name' => 'Brunhilde']);
+        $formula = ['count' => 1, 'sides' => 100, 'reading' => 'below', 'threshold' => 42];
+
+        $pad = Livewire::actingAs($this->me)->test(Pad::class, ['character' => $this->aldric])->call('toggle')
+            ->call('savePreset', $formula, '')->assertHasErrors('presetLabel')
+            ->call('savePreset', $formula, 'Boule de feu');
+        $id = $this->aldric->refresh()->dice_presets[0]['id'];
+        $pad->assertSee('Boule de feu')->call('savePreset', ['count' => 2, 'sides' => 6], 'Boule de feu', $id);
+
+        $this->assertCount(1, $this->aldric->refresh()->dice_presets);
+        $this->assertSame(2, $this->aldric->dice_presets[0]['formula']['count']);
+        Livewire::actingAs($this->me)->test(Pad::class, ['character' => $other])->call('toggle')->assertDontSee('Boule de feu');
+
+        $pad->call('removePreset', $id)->assertDontSee('Boule de feu');
+        $this->assertNull($this->aldric->refresh()->dice_presets);
+    }
 }

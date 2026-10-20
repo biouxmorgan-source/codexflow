@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Saved rolls for each sheet',
+        'items' => [
+            'In the “My sheets” dice, “Save this roll” keeps a roll with the sheet: each character has its own rolls (Fireball, Attack…), reloaded in one tap, updated, and removed with ×.',
+        ],
+    ],
+
     '0.86.2' => [
         'date' => '2026-10-20',
         'title' => '“Replace the file” works',
