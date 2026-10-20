@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Nombres de los puntos legibles en el mapa',
+        'items' => [
+            'En el tema oscuro, los nombres de los puntos del mapa de campaña aparecían oscuros sobre fondo negro: vuelven a ser blancos, igual que los paneles de iniciativa y de dados en la pantalla de mesa y los botones de página de los PDF.',
+        ],
+    ],
+
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Tiradas guardadas para cada hoja',

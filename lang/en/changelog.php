@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Readable point names on the map',
+        'items' => [
+            'In dark theme, campaign map point names showed dark on a black background: they are white again, as are the initiative and dice banners on the table screen and the PDF page buttons.',
+        ],
+    ],
+
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Saved rolls for each sheet',

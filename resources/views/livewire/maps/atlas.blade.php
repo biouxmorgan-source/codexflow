@@ -93,9 +93,9 @@
                             x-on:click.stop="open({{ $point->id }}, {{ $point->target_map_id ?? 'null' }})"
                             aria-label="{{ $point->label }}{{ $point->target ? ' · '.__('ouvre :map', ['map' => $point->target->name]) : '' }}{{ $point->scenes->isNotEmpty() ? ' · '.$point->scenes->map(fn ($scene) => $scene->status->label())->implode(', ') : '' }}">
                             <span @class([
-                                'flex size-8 items-center justify-center rounded-full border-2 text-xs font-bold text-white shadow-md transition group-hover:scale-110 group-focus-visible:ring-2 group-focus-visible:ring-white',
-                                'border-white' => $point->shown_at_table,
-                                'border-dashed border-white/80' => ! $point->shown_at_table,
+                                'flex size-8 items-center justify-center rounded-full border-2 text-xs font-bold text-snow shadow-md transition group-hover:scale-110 group-focus-visible:ring-2 group-focus-visible:ring-snow',
+                                'border-snow' => $point->shown_at_table,
+                                'border-dashed border-snow/80' => ! $point->shown_at_table,
                                 'ring-2 ring-yellow-300' => $selectedId === $point->id,
                                 'opacity-70' => $progress === 'played',
                             ]) style="background: {{ $point->color }}">
@@ -109,8 +109,8 @@
                                     <x-icon name="pin" class="size-4" />
                                 @endif
                             </span>
-                            <span class="-mt-0.5 h-2 w-0.5 bg-white shadow" aria-hidden="true"></span>
-                            <span class="mt-0.5 max-w-40 truncate rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-white">{{ $point->label }}</span>
+                            <span class="-mt-0.5 h-2 w-0.5 bg-snow shadow" aria-hidden="true"></span>
+                            <span class="mt-0.5 max-w-40 truncate rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-snow">{{ $point->label }}</span>
                         </button>
                     @endforeach
                     </div>

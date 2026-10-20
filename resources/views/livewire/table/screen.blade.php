@@ -92,29 +92,29 @@
 
     @if ($initiative)
         {{-- Ordre d'initiative montré par le MJ, par-dessus ce qui est affiché. --}}
-        <aside class="absolute top-4 left-4 max-h-[calc(100%-2rem)] w-64 max-w-[45vw] overflow-y-auto rounded-2xl bg-black/70 p-3 text-white shadow-2xl backdrop-blur-sm" aria-label="{{ __('Initiative') }}">
+        <aside class="absolute top-4 left-4 max-h-[calc(100%-2rem)] w-64 max-w-[45vw] overflow-y-auto rounded-2xl bg-black/70 p-3 text-snow shadow-2xl backdrop-blur-sm" aria-label="{{ __('Initiative') }}">
             @if ($initiative['ordered'] !== [])
-                <p class="mb-2 flex justify-between text-xs font-semibold tracking-wide text-white/70 uppercase">
+                <p class="mb-2 flex justify-between text-xs font-semibold tracking-wide text-snow/70 uppercase">
                     <span>{{ __('Initiative') }}</span><span>{{ __('Round :round', ['round' => $initiative['round']]) }}</span>
                 </p>
                 <ol class="space-y-1">
                     @foreach ($initiative['ordered'] as $entry)
                         @php($current = $initiative['turn'] === $entry['id'])
-                        <li wire:key="table-init-{{ $entry['id'] }}" @class(['flex items-center gap-2 rounded-lg px-2 py-1 text-base md:text-lg', 'bg-white/25 font-semibold ring-2 ring-amber-300' => $current]) @if ($current) aria-current="true" @endif>
-                            <span class="size-3 shrink-0 rounded-full ring-1 ring-white/70" style="background: {{ $entry['color'] }}"></span>
+                        <li wire:key="table-init-{{ $entry['id'] }}" @class(['flex items-center gap-2 rounded-lg px-2 py-1 text-base md:text-lg', 'bg-snow/25 font-semibold ring-2 ring-amber-300' => $current]) @if ($current) aria-current="true" @endif>
+                            <span class="size-3 shrink-0 rounded-full ring-1 ring-snow/70" style="background: {{ $entry['color'] }}"></span>
                             <span class="min-w-0 flex-1 truncate">{{ $entry['label'] }}</span>
                             @if ($entry['value'] !== null)
-                                <span class="shrink-0 text-sm text-white/70 tabular-nums">{{ rtrim(rtrim(number_format($entry['value'], 2, ',', ''), '0'), ',') }}</span>
+                                <span class="shrink-0 text-sm text-snow/70 tabular-nums">{{ rtrim(rtrim(number_format($entry['value'], 2, ',', ''), '0'), ',') }}</span>
                             @endif
                         </li>
                     @endforeach
                 </ol>
             @endif
             @if ($initiative['others'] !== [])
-                <p @class(['mb-1 text-xs font-semibold tracking-wide text-white/70 uppercase', 'mt-3' => $initiative['ordered'] !== []])>{{ __('Aussi présents') }}</p>
+                <p @class(['mb-1 text-xs font-semibold tracking-wide text-snow/70 uppercase', 'mt-3' => $initiative['ordered'] !== []])>{{ __('Aussi présents') }}</p>
                 <ul class="flex flex-wrap gap-1.5">
                     @foreach ($initiative['others'] as $entry)
-                        <li wire:key="table-other-{{ $entry['id'] }}" class="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2 py-0.5 text-sm">
+                        <li wire:key="table-other-{{ $entry['id'] }}" class="inline-flex items-center gap-1.5 rounded-full bg-snow/15 px-2 py-0.5 text-sm">
                             <span class="size-2.5 rounded-full" style="background: {{ $entry['color'] }}"></span>{{ $entry['label'] }}
                         </li>
                     @endforeach
@@ -127,10 +127,10 @@
         {{-- Dernier lancer à la table : il roule sur l'écran, puis s'efface au bout de quelques secondes. --}}
         @php($remaining = max(1, \App\Support\Dice\TableDice::SCREEN_SECONDS - (int) $dice['at']->diffInSeconds(now(), true)))
         <aside wire:key="table-dice-{{ $dice['id'] }}" x-data="{ show: true }" x-init="setTimeout(() => show = false, {{ $remaining * 1000 }})" x-show="show" x-transition.opacity.duration.500ms
-            class="absolute inset-x-4 bottom-16 mx-auto max-w-3xl rounded-3xl bg-black/75 px-6 py-5 text-white shadow-2xl ring-1 ring-white/20 backdrop-blur-sm" aria-live="polite" aria-label="{{ __('Lancer de dés') }}">
-            <p class="text-center text-lg text-white/80 md:text-2xl"><span class="font-semibold text-white">{{ $dice['who'] }}</span>@if ($dice['label']) · {{ $dice['label'] }}@endif</p>
+            class="absolute inset-x-4 bottom-16 mx-auto max-w-3xl rounded-3xl bg-black/75 px-6 py-5 text-snow shadow-2xl ring-1 ring-snow/20 backdrop-blur-sm" aria-live="polite" aria-label="{{ __('Lancer de dés') }}">
+            <p class="text-center text-lg text-snow/80 md:text-2xl"><span class="font-semibold text-snow">{{ $dice['who'] }}</span>@if ($dice['label']) · {{ $dice['label'] }}@endif</p>
             <x-dice-result :roll="$dice" rolling large class="mt-3" />
-            <p class="mt-2 text-center text-sm text-white/60">{{ $dice['describe'] }}</p>
+            <p class="mt-2 text-center text-sm text-snow/60">{{ $dice['describe'] }}</p>
         </aside>
     @endif
 

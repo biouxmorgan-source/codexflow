@@ -19,6 +19,12 @@ test('the GM opens a sub-map from a point, goes back up, then places and drags a
     await page.getByRole('link', { name: '← Remonter' }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'Le continent' })).toBeVisible();
 
+    // En thème sombre aussi, le nom du point reste blanc sur son voile noir.
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+    const label = page.locator('[data-point]', { hasText: 'Port-Brume' }).locator('span').last();
+    await expect(label).toHaveCSS('color', 'rgb(255, 255, 255)');
+    await page.evaluate(() => document.documentElement.removeAttribute('data-theme'));
+
     // Zoomer : la carte grossit, les points gardent leur taille à l'écran.
     const pin = page.locator('[data-point]', { hasText: 'Port-Brume' });
     const before = await pin.boundingBox();

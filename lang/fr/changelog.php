@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Noms des points lisibles sur la carte',
+        'items' => [
+            'En thème sombre, le nom des points de la carte de campagne s’affichait en sombre sur fond noir : il est de nouveau blanc, comme les bandeaux d’initiative et de dés sur l’écran de table et les boutons de page des PDF.',
+        ],
+    ],
+
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Des lancers enregistrés pour chaque feuille',

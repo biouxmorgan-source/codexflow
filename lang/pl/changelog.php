@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Czytelne nazwy punktów na mapie',
+        'items' => [
+            'W ciemnym motywie nazwy punktów na mapie kampanii były ciemne na czarnym tle: znów są białe, podobnie jak paski inicjatywy i kości na ekranie stołu oraz przyciski stron w plikach PDF.',
+        ],
+    ],
+
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Zapisane rzuty dla każdej karty',
