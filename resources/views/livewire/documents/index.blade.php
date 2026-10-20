@@ -32,7 +32,7 @@
                         <li wire:key="doc-{{ $document->id }}" class="relative">
                             <a href="{{ route('documents.show', [$campaign, $document]) }}" class="flex h-full gap-3 rounded-xl border border-stone-200 bg-white p-3 pb-7 shadow-sm hover:border-codex/40" wire:navigate>
                                 @if ($document->isImage())
-                                    <img src="{{ route('documents.file', $document) }}" alt="" loading="lazy" class="h-16 w-16 shrink-0 rounded-lg object-cover">
+                                    <img src="{{ $document->fileUrl() }}" alt="" loading="lazy" class="h-16 w-16 shrink-0 rounded-lg object-cover">
                                 @else
                                     <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-red-50 text-xs font-semibold text-red-700" aria-hidden="true">PDF</span>
                                 @endif

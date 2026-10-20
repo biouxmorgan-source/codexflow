@@ -61,7 +61,7 @@
             <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Carte : :name', ['name' => $map->name]) }}</h2>
             <div class="aspect-video overflow-hidden rounded-lg bg-black">
                 <x-table-map :map="$map" :tokens="$map->tokens" :templates="$map->templates" :points="$map->points" gm
-                    :image-url="route('documents.file', $map->document)"
+                    :image-url="$map->document->fileUrl()"
                     :token-url="fn ($token) => route('entities.image', [$token->entity, 'v' => $token->entity->updated_at?->timestamp])" />
             </div>
             <div class="mt-3 grid grid-cols-3 gap-2 text-lg" role="group" aria-label="{{ __('Déplacer la vue') }}">

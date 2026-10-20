@@ -2919,5 +2919,13 @@
     "Lancer les dés avec :name": "Roll the dice with :name",
     "Lancer sous :value (seuil)": "Roll under :value (threshold)",
     "Le petit dé à côté d’un nombre ou d’un compteur lance les dés avec cette valeur, comme seuil ou comme bonus.": "The small die next to a number or counter rolls the dice with that value, as a threshold or as a bonus.",
-    "Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.": "The small die next to a numeric value rolls the dice with it, as a threshold or as a bonus; “Dice”, at the bottom of the sheet, rolls freely. The result stays on the sheet, visible to you only."
+    "Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.": "The small die next to a numeric value rolls the dice with it, as a threshold or as a bonus; “Dice”, at the bottom of the sheet, rolls freely. The result stays on the sheet, visible to you only.",
+    "Remplacer le fichier": "Replace the file",
+    "Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié.": "The document keeps its title, settings and links: the new version appears everywhere it is linked.",
+    "Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié, dans toutes les campagnes.": "The document keeps its title, settings and links: the new version appears everywhere it is linked, in every campaign.",
+    "Nouveau fichier": "New file",
+    "Remplacer": "Replace",
+    "Fichier remplacé.": "File replaced.",
+    "Ce document sert de carte : choisissez une image.": "This document is used as a map: choose an image.",
+    "Ce document sert de carte : choisissez une image aux mêmes proportions, les pions, la grille et les points restent à leur place.": "This document is used as a map: choose an image with the same proportions; tokens, grid and points stay in place."
 }

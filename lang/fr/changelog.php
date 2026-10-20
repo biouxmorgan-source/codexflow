@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Modifier un document sans le supprimer',
+        'items' => [
+            'Sur la page d’un document, « Remplacer le fichier » met une nouvelle version à la place de l’ancienne : le document garde son titre, ses réglages et ses liens, et la nouvelle version apparaît aussitôt dans les scènes, fiches, règles, cartes, indices et chez les personnages qui l’ont reçu.',
+            'Une image qui sert de carte se remplace par une autre image ; pions, grille et points restent à leur place.',
+        ],
+    ],
+
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Lancer les dés depuis la feuille',

@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Edit a document without deleting it',
+        'items' => [
+            'On a document’s page, “Replace the file” puts a new version in place of the old one: the document keeps its title, settings and links, and the new version shows up at once in scenes, sheets, rules, maps, clues and with the characters who received it.',
+            'An image used as a map is replaced by another image; tokens, grid and points stay in place.',
+        ],
+    ],
+
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Roll dice from the sheet',

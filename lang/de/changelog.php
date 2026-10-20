@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Ein Dokument ändern, ohne es zu löschen',
+        'items' => [
+            'Auf der Seite eines Dokuments setzt „Datei ersetzen“ eine neue Version an die Stelle der alten: Das Dokument behält Titel, Einstellungen und Verknüpfungen, und die neue Version erscheint sofort in Szenen, Bögen, Regeln, Karten, Hinweisen und bei den Charakteren, die es erhalten haben.',
+            'Ein Bild, das als Karte dient, wird durch ein anderes Bild ersetzt; Spielfiguren, Raster und Punkte bleiben an ihrem Platz.',
+        ],
+    ],
+
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Würfeln vom Bogen aus',

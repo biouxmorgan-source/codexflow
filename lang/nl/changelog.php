@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Een document wijzigen zonder het te verwijderen',
+        'items' => [
+            'Op de pagina van een document zet „Bestand vervangen” een nieuwe versie in de plaats van de oude: het document behoudt titel, instellingen en koppelingen, en de nieuwe versie verschijnt meteen in scènes, fiches, regels, kaarten, aanwijzingen en bij de personages die het ontvingen.',
+            'Een afbeelding die als kaart dient, wordt door een andere afbeelding vervangen; pionnen, raster en punten blijven op hun plaats.',
+        ],
+    ],
+
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Dobbelen vanaf het blad',

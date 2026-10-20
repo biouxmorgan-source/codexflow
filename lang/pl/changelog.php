@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Zmiana dokumentu bez usuwania',
+        'items' => [
+            'Na stronie dokumentu „Zastąp plik” wstawia nową wersję w miejsce starej: dokument zachowuje tytuł, ustawienia i powiązania, a nowa wersja od razu pojawia się w scenach, kartach, zasadach, mapach, wskazówkach i u postaci, które go otrzymały.',
+            'Obraz służący jako mapa zastępuje się innym obrazem; pionki, siatka i punkty zostają na miejscu.',
+        ],
+    ],
+
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Rzuty kośćmi z karty',

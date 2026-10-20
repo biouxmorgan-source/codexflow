@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Modificar un documento sin borrarlo',
+        'items' => [
+            'En la página de un documento, «Reemplazar el archivo» pone una nueva versión en lugar de la antigua: el documento conserva su título, ajustes y enlaces, y la nueva versión aparece al instante en escenas, fichas, reglas, mapas, pistas y en los personajes que lo recibieron.',
+            'Una imagen que sirve de mapa se reemplaza por otra imagen; fichas, cuadrícula y puntos se quedan en su sitio.',
+        ],
+    ],
+
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Tirar los dados desde la hoja',
