@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Des lancers enregistrés pour chaque feuille',
+        'items' => [
+            'Dans les dés de « Mes feuilles », « Enregistrer ce lancer » garde un lancer avec la feuille : chaque personnage a ses propres lancers (Boule de feu, Attaque…), qu’on recharge d’un geste, qu’on met à jour et qu’on retire avec ×.',
+        ],
+    ],
+
     '0.86.2' => [
         'date' => '2026-10-20',
         'title' => '« Remplacer le fichier » fonctionne',

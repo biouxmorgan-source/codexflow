@@ -2928,5 +2928,7 @@
     "Fichier remplacé.": "Ficheiro substituído.",
     "Ce document sert de carte : choisissez une image.": "Este documento serve de mapa: escolha uma imagem.",
     "Ce document sert de carte. Image actuelle : :width × :height pixels.": "Este documento serve de mapa. Imagem atual: :width × :height píxeis.",
-    "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.": "É aceite uma imagem de outro tamanho, mas peões, moldes e pontos mantêm a posição em píxeis: vão deslocar-se no desenho e terão de ser recolocados."
+    "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.": "É aceite uma imagem de outro tamanho, mas peões, moldes e pontos mantêm a posição em píxeis: vão deslocar-se no desenho e terão de ser recolocados.",
+    "Lancers de cette feuille": "Rolagens desta ficha",
+    "« Enregistrer ce lancer », dans les dés de la feuille, le garde avec ce personnage : chaque feuille a ses propres lancers, qu’on recharge d’un geste et qu’on retire avec ×.": "«Salvar esta rolagem», nos dados da ficha, guarda-a com este personagem: cada ficha tem as próprias rolagens, recarregadas com um toque e removidas com ×."
 }

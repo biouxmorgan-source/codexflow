@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Tiri salvati per ogni scheda',
+        'items' => [
+            'Nei dadi de «Le mie schede», «Salva questo tiro» conserva un tiro con la scheda: ogni personaggio ha i suoi tiri (Palla di fuoco, Attacco…), che si ricaricano con un tocco, si aggiornano e si tolgono con ×.',
+        ],
+    ],
+
     '0.86.2' => [
         'date' => '2026-10-20',
         'title' => '«Sostituisci il file» funziona',

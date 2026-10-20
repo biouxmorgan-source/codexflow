@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Zapisane rzuty dla każdej karty',
+        'items' => [
+            'W kościach „Moich kart” opcja „Zapisz ten rzut” zachowuje rzut przy karcie: każda postać ma własne rzuty (Kula ognia, Atak…), wczytywane jednym dotknięciem, aktualizowane i usuwane przez ×.',
+        ],
+    ],
+
     '0.86.2' => [
         'date' => '2026-10-20',
         'title' => '„Zastąp plik” działa',

@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Opgeslagen worpen per blad',
+        'items' => [
+            'In de dobbelstenen van ‘Mijn bladen’ bewaart ‘Deze worp opslaan’ een worp bij het blad: elk personage heeft eigen worpen (Vuurbal, Aanval…), die je met één tik laadt, bijwerkt en met × verwijdert.',
+        ],
+    ],
+
     '0.86.2' => [
         'date' => '2026-10-20',
         'title' => '„Bestand vervangen” werkt',

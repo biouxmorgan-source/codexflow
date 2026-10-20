@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Gespeicherte Würfe für jeden Bogen',
+        'items' => [
+            'In den Würfeln von „Meine Bögen“ bewahrt „Diesen Wurf speichern“ einen Wurf beim Bogen auf: Jeder Charakter hat eigene Würfe (Feuerball, Angriff…), die man mit einem Tippen lädt, aktualisiert und mit × entfernt.',
+        ],
+    ],
+
     '0.86.2' => [
         'date' => '2026-10-20',
         'title' => '„Datei ersetzen“ funktioniert',

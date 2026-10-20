@@ -39,9 +39,40 @@
                         @endif
                     @endforeach
 
+                    @if ($presets !== [])
+                        <div>
+                            <p class="label">{{ __('Lancers de cette feuille') }}</p>
+                            <ul class="flex flex-wrap gap-1.5">
+                                @foreach ($presets as $preset)
+                                    <li wire:key="pad-preset-{{ $preset['id'] }}" class="inline-flex items-center rounded-full border text-xs"
+                                        :class="loaded?.id === @js($preset['id']) ? 'border-codex bg-codex text-on-accent' : 'border-codex/40 bg-codex-soft'">
+                                        <button type="button" x-on:click="loadPreset(@js($preset['formula']), @js($preset['label']), 'sheet', @js($preset['id']))" class="px-2.5 py-1 font-medium"
+                                            title="{{ \App\Support\Dice\DiceFormula::fromArray($preset['formula'])->describe() }}">{{ $preset['label'] }}</button>
+                                        <button type="button" wire:click="removePreset(@js($preset['id']))" x-on:click="if (loaded?.id === @js($preset['id'])) loaded = null" wire:confirm="{{ __('Supprimer ce lancer enregistré ?') }}" class="px-2 py-1 text-sm leading-none hover:text-red-700" aria-label="{{ __('Supprimer :name', ['name' => $preset['label']]) }}" title="{{ __('Supprimer :name', ['name' => $preset['label']]) }}">×</button>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     @include('livewire.dice.partials.builder', ['sheetFields' => []])
 
                     <input type="text" x-model="label" maxlength="100" class="field py-1.5 text-sm" placeholder="{{ __('Pour quoi ? (facultatif) : Attaque, Fouille…') }}" aria-label="{{ __('Pour quoi') }}">
+                    {{-- Un lancer qu'on refait souvent avec ce personnage : on l'enregistre avec la feuille. --}}
+                    <div class="space-y-1.5 rounded-lg bg-stone-50 p-2">
+                        <p class="label mb-0">{{ __('Enregistrer ce lancer') }}</p>
+                        <input type="text" x-model="presetName" maxlength="60" class="field py-1 text-xs" placeholder="{{ __('Nom : Attaque, Sauvegarde…') }}" aria-label="{{ __('Nom du lancer enregistré') }}">
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" x-show="loaded" x-cloak x-on:click="$wire.savePreset(formula, presetName || loaded.label, loaded.id).then((id) => { if (id) loaded.label = presetName || loaded.label })"
+                                class="btn-secondary py-1 text-xs"><span x-text="@js(__('Mettre à jour')) + ' « ' + (loaded?.label ?? '') + ' »'"></span></button>
+                            <button type="button" x-on:click="$wire.savePreset(formula, presetName, null).then((id) => { if (id) loaded = { id, scope: 'sheet', label: presetName } })"
+                                class="btn-secondary py-1 text-xs" x-text="loaded ? @js(__('Enregistrer comme nouveau')) : @js(__('Enregistrer'))"></button>
+                            <button type="button" x-show="loaded" x-cloak
+                                x-on:click="if (confirm(@js(__('Supprimer ce lancer enregistré ?')))) $wire.removePreset(loaded.id).then(() => { loaded = null; presetName = '' })"
+                                class="rounded-md border border-red-200 px-2.5 py-1 text-xs text-red-700 hover:bg-red-50"><span x-text="@js(__('Supprimer')) + ' « ' + (loaded?.label ?? '') + ' »'"></span></button>
+                        </div>
+                        @error('presetLabel') <p class="error">{{ $message }}</p> @enderror
+                    </div>
                 </div>
 
                 <footer class="space-y-2 border-t border-stone-200 bg-stone-50 p-3">
