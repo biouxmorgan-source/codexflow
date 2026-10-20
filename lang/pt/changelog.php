@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '«Substituir o ficheiro» funciona',
+        'items' => [
+            'O botão «Substituir» ficava desativado depois de escolher o novo ficheiro: volta a poder ser clicado assim que o ficheiro é enviado.',
+        ],
+    ],
+
     '0.86.1' => [
         'date' => '2026-10-20',
         'title' => 'Substituir um mapa por uma imagem de outro tamanho',

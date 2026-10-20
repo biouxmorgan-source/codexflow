@@ -68,7 +68,7 @@
                 <div wire:loading wire:target="replacement" class="text-sm text-stone-500">{{ __('Envoi en cours…') }}</div>
                 @error('replacement') <p class="error">{{ $message }}</p> @enderror
                 <div class="flex items-center gap-3">
-                    <button type="submit" class="btn-secondary" wire:loading.attr="disabled" wire:target="replacement,replaceFile" @disabled(! $replacement)>{{ __('Remplacer') }}</button>
+                    <button type="submit" class="btn-secondary" wire:loading.attr="disabled" wire:target="replacement,replaceFile">{{ __('Remplacer') }}</button>
                     @if ($replaced)
                         <span class="text-sm text-emerald-700" wire:transition>{{ __('Fichier remplacé.') }}</span>
                     @endif

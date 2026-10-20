@@ -4,6 +4,14 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '«Reemplazar el archivo» funciona',
+        'items' => [
+            'El botón «Reemplazar» seguía desactivado tras elegir el nuevo archivo: vuelve a poder pulsarse en cuanto el archivo se ha enviado.',
+        ],
+    ],
+
     '0.86.1' => [
         'date' => '2026-10-20',
         'title' => 'Reemplazar un mapa por una imagen de otro tamaño',

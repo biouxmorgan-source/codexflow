@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '“Replace the file” works',
+        'items' => [
+            'The “Replace” button stayed greyed out after choosing the new file: it becomes clickable again once the file is uploaded.',
+        ],
+    ],
+
     '0.86.1' => [
         'date' => '2026-10-20',
         'title' => 'Replace a map with an image of another size',

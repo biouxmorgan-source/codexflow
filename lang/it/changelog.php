@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '«Sostituisci il file» funziona',
+        'items' => [
+            'Il pulsante «Sostituisci» restava disattivato dopo la scelta del nuovo file: torna cliccabile appena il file è stato inviato.',
+        ],
+    ],
+
     '0.86.1' => [
         'date' => '2026-10-20',
         'title' => 'Sostituire una mappa con un’immagine di altre dimensioni',

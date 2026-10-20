@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '„Zastąp plik” działa',
+        'items' => [
+            'Przycisk „Zastąp” pozostawał wyszarzony po wybraniu nowego pliku: znów można go kliknąć, gdy plik zostanie wysłany.',
+        ],
+    ],
+
     '0.86.1' => [
         'date' => '2026-10-20',
         'title' => 'Zastąpienie mapy obrazem o innym rozmiarze',
