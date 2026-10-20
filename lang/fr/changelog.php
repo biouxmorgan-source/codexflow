@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Nouvelles cartes pour la démonstration',
+        'items' => [
+            'La démonstration « Le Serment de Pierrecendre » a de nouvelles cartes illustrées : le village côtier pour la carte de campagne, le quai souterrain du phare pour la sous-carte. Chargez-la de nouveau depuis « Mes campagnes » pour les voir.',
+        ],
+    ],
+
     '0.84.1' => [
         'date' => '2026-10-19',
         'title' => 'Plus de place dans Mes feuilles',

@@ -616,13 +616,13 @@ class LoadDemoCampaign
         // Positions en fractions de l'image : elles tiennent si une autre image remplace le plan dessiné.
         // Décalés en quinconce : à l'écran, les noms s'écrivent sous le jeton et ne doivent pas se chevaucher.
         $tokens = [
-            ['teska', 0.24, 0.71, 1, '#1d4ed8', false],
-            ['dorn', 0.33, 0.82, 1, '#b45309', false],
-            ['oriel', 0.41, 0.71, 1, '#7e22ce', false],
-            ['lisenn', 0.5, 0.82, 1, '#0f766e', false],
-            ['brannoc', 0.64, 0.69, 1, '#15803d', false],
-            ['guard', 0.19, 0.55, 1, '#57534e', false],
-            ['drowned', 0.79, 0.9, 2, '#b91c1c', true],
+            ['teska', 0.2, 0.33, 1, '#1d4ed8', false],
+            ['dorn', 0.26, 0.36, 1, '#b45309', false],
+            ['oriel', 0.32, 0.33, 1, '#7e22ce', false],
+            ['lisenn', 0.38, 0.36, 1, '#0f766e', false],
+            ['brannoc', 0.29, 0.62, 1, '#15803d', false],
+            ['guard', 0.1, 0.3, 1, '#57534e', false],
+            ['drowned', 0.6, 0.78, 2, '#b91c1c', true],
         ];
 
         foreach ($tokens as [$key, $x, $y, $tokenSize, $color, $hidden]) {
@@ -646,10 +646,10 @@ class LoadDemoCampaign
         // Chaque point relie le lieu, ceux qu'on y croise et les scènes qui s'y jouent.
         $points = [
             // fiches (le lieu d'abord), scènes, x, y, couleur, visible à la table, sous-carte
-            [['quay', 'brannoc', 'guard'], ['lantern'], 0.3, 0.62, '#1d4ed8', true, null],
-            [['hall', 'ysane', 'elzevir', 'seal'], ['register', 'recast'], 0.63, 0.2, '#7e22ce', true, null],
-            [['marshes', 'broken', 'drowned'], ['poles', 'notebook'], 0.14, 0.24, '#15803d', false, null],
-            [['lighthouse', 'stranger'], ['cellar', 'rising'], 0.9, 0.62, '#b91c1c', false, $cellar],
+            [['quay', 'brannoc', 'guard'], ['lantern'], 0.45, 0.37, '#1d4ed8', true, null],
+            [['hall', 'ysane', 'elzevir', 'seal'], ['register', 'recast'], 0.535, 0.28, '#7e22ce', true, null],
+            [['marshes', 'broken', 'drowned'], ['poles', 'notebook'], 0.73, 0.2, '#15803d', false, null],
+            [['lighthouse', 'stranger'], ['cellar', 'rising'], 0.91, 0.72, '#b91c1c', false, $cellar],
         ];
 
         foreach ($points as [$entities, $scenes, $x, $y, $color, $shown, $target]) {
@@ -667,7 +667,7 @@ class LoadDemoCampaign
             $this->linkPoint($point, $entities, $scenes);
         }
 
-        $map->ruler = ['x1' => round(0.24 * $width, 2), 'y1' => round(0.71 * $height, 2), 'x2' => round(0.64 * $width, 2), 'y2' => round(0.69 * $height, 2)];
+        $map->ruler = ['x1' => round(0.2 * $width, 2), 'y1' => round(0.33 * $height, 2), 'x2' => round(0.29 * $width, 2), 'y2' => round(0.62 * $height, 2)];
         $map->setView($width / 2, $height / 2, 1.1);
         $map->save();
     }
@@ -701,12 +701,12 @@ class LoadDemoCampaign
         $cell = (float) $map->grid_size;
 
         $tokens = [
-            ['teska', 0.16, 0.2, 1, '#1d4ed8', false],
-            ['dorn', 0.24, 0.3, 1, '#b45309', false],
-            ['oriel', 0.12, 0.38, 1, '#7e22ce', false],
-            ['lisenn', 0.28, 0.16, 1, '#0f766e', false],
-            ['stranger', 0.86, 0.18, 1, '#3f3f46', true],
-            ['drowned', 0.62, 0.72, 2, '#b91c1c', false],
+            ['teska', 0.3, 0.3, 1, '#1d4ed8', false],
+            ['dorn', 0.38, 0.36, 1, '#b45309', false],
+            ['oriel', 0.25, 0.42, 1, '#7e22ce', false],
+            ['lisenn', 0.42, 0.26, 1, '#0f766e', false],
+            ['stranger', 0.88, 0.22, 1, '#3f3f46', true],
+            ['drowned', 0.7, 0.75, 2, '#b91c1c', false],
         ];
 
         foreach ($tokens as [$key, $x, $y, $tokenSize, $color, $hidden]) {
@@ -725,14 +725,14 @@ class LoadDemoCampaign
 
         // Tailles en cases : l'eau monte sur trois cases autour du puits ; le cône des Noyeux en fait quatre.
         $map->templates()->createMany([
-            ['shape' => 'circle', 'size' => 3, 'x' => round(0.55 * $width, 2), 'y' => round(0.62 * $height, 2), 'angle' => 0, 'color' => '#1d4ed8', 'hidden' => false],
-            ['shape' => 'cone', 'size' => 4, 'x' => round(0.62 * $width, 2), 'y' => round(0.72 * $height, 2), 'angle' => 200, 'color' => '#b91c1c', 'hidden' => true],
+            ['shape' => 'circle', 'size' => 3, 'x' => round(0.55 * $width, 2), 'y' => round(0.6 * $height, 2), 'angle' => 0, 'color' => '#1d4ed8', 'hidden' => false],
+            ['shape' => 'cone', 'size' => 4, 'x' => round(0.7 * $width, 2), 'y' => round(0.75 * $height, 2), 'angle' => 215, 'color' => '#b91c1c', 'hidden' => true],
         ]);
 
         foreach ([
             // fiches, scènes, x, y, couleur, visible à la table
-            [['seal', 'ysane'], ['cellar'], 0.42, 0.82, '#b45309', false, 'crate'],
-            [['stranger'], ['cellar', 'rising'], 0.86, 0.12, '#57534e', false, 'stairs'],
+            [['seal', 'ysane'], ['cellar'], 0.1, 0.72, '#b45309', false, 'crate'],
+            [['stranger'], ['cellar', 'rising'], 0.9, 0.12, '#57534e', false, 'stairs'],
         ] as [$entities, $scenes, $x, $y, $color, $shown, $key]) {
             $point = $map->points()->make([
                 'label' => $text['points'][$key][0],

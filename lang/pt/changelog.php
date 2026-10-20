@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Novos mapas para a demo',
+        'items' => [
+            'A demonstração tem novos mapas ilustrados: a aldeia costeira para o mapa da campanha e o cais subterrâneo do farol para o submapa. Volte a carregá-la em «Minhas campanhas» para os ver.',
+        ],
+    ],
+
     '0.84.1' => [
         'date' => '2026-10-19',
         'title' => 'Mais espaço em As minhas fichas',

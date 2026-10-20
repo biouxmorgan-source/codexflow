@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Nieuwe kaarten voor de demo',
+        'items' => [
+            'De demo heeft nieuwe geïllustreerde kaarten: het kustdorp als campagnekaart, de ondergrondse kade van de vuurtoren als subkaart. Laad hem opnieuw via „Mijn campagnes” om ze te zien.',
+        ],
+    ],
+
     '0.84.1' => [
         'date' => '2026-10-19',
         'title' => 'Meer ruimte in Mijn bladen',

@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'New maps for the demo',
+        'items' => [
+            'The demo "The Oath of Pierrecendre" has new illustrated maps: the coastal village for the campaign map, the lighthouse’s underground quay for the sub-map. Load it again from "My campaigns" to see them.',
+        ],
+    ],
+
     '0.84.1' => [
         'date' => '2026-10-19',
         'title' => 'More room in My sheets',

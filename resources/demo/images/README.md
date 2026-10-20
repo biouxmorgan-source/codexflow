@@ -8,7 +8,8 @@ publier sous la licence du projet.
 
 | Fichier | Contenu |
 | --- | --- |
-| `map` | Plan du port de Pierrecendre (fond de la carte de table, idéalement 1600 × 1100 environ) |
+| `map` | Plan du port de Pierrecendre : la carte de campagne (fourni : vue aérienne du village côtier, 1536 × 1024) |
+| `map-cellar` | La cave du phare : la sous-carte de combat (fourni : quai souterrain, 1447 × 1087) |
 | `city`, `hall`, `quay`, `marshes`, `lighthouse` | Lieux : Pierrecendre, la Halle des Serments, le Quai des Lanternes, les Marches noyées, le Phare d’Orvent |
 | `ysane`, `brannoc`, `elzevir`, `vanne`, `mornevent`, `stranger` | Personnages : Ysane Korr, Brannoc, Elzevir, Sœur Vanne, Mornevent, l’Inconnu du Phare |
 | `teska`, `oriel`, `dorn`, `lisenn` | Prétirés |

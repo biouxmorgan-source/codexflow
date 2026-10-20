@@ -4,6 +4,14 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Nuove mappe per la demo',
+        'items' => [
+            'La demo ha nuove mappe illustrate: il villaggio costiero per la mappa della campagna, il molo sotterraneo del faro per la sottomappa. Ricaricala da «Le mie campagne» per vederle.',
+        ],
+    ],
+
     '0.84.1' => [
         'date' => '2026-10-19',
         'title' => 'Più spazio in Le mie schede',
