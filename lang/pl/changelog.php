@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Nowe mapy w demie',
+        'items' => [
+            'Demo ma nowe ilustrowane mapy: nadmorską wioskę jako mapę kampanii i podziemne nabrzeże latarni jako podmapę. Wczytaj je ponownie z „Moje kampanie”, aby je zobaczyć.',
+        ],
+    ],
+
     '0.84.1' => [
         'date' => '2026-10-19',
         'title' => 'Więcej miejsca w Moich kartach',

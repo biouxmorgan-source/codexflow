@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Neue Karten für die Demo',
+        'items' => [
+            'Die Demo hat neue illustrierte Karten: das Küstendorf als Kampagnenkarte, den unterirdischen Kai des Leuchtturms als Unterkarte. Lade sie unter „Meine Kampagnen“ erneut, um sie zu sehen.',
+        ],
+    ],
+
     '0.84.1' => [
         'date' => '2026-10-19',
         'title' => 'Mehr Platz in Meine Bögen',
