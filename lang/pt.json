@@ -2919,5 +2919,13 @@
     "Lancer les dés avec :name": "Rolar os dados com :name",
     "Lancer sous :value (seuil)": "Rolar abaixo de :value (limiar)",
     "Le petit dé à côté d’un nombre ou d’un compteur lance les dés avec cette valeur, comme seuil ou comme bonus.": "O pequeno dado ao lado de um número ou contador rola os dados com esse valor, como limiar ou como bônus.",
-    "Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.": "O pequeno dado ao lado de um valor numérico rola os dados com ele, como limiar ou como bônus; «Dados», no fim da ficha, rola livremente. O resultado fica na ficha, visível só para você."
+    "Le petit dé à côté d’une valeur en chiffres lance les dés avec elle, comme seuil ou comme bonus ; « Dés », en bas de la feuille, lance librement. Le résultat reste sur la feuille, visible de vous seul.": "O pequeno dado ao lado de um valor numérico rola os dados com ele, como limiar ou como bônus; «Dados», no fim da ficha, rola livremente. O resultado fica na ficha, visível só para você.",
+    "Remplacer le fichier": "Substituir o ficheiro",
+    "Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié.": "O documento mantém o título, as definições e as ligações: a nova versão aparece em todo o lado onde está ligado.",
+    "Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié, dans toutes les campagnes.": "O documento mantém o título, as definições e as ligações: a nova versão aparece em todo o lado onde está ligado, em todas as campanhas.",
+    "Nouveau fichier": "Novo ficheiro",
+    "Remplacer": "Substituir",
+    "Fichier remplacé.": "Ficheiro substituído.",
+    "Ce document sert de carte : choisissez une image.": "Este documento serve de mapa: escolha uma imagem.",
+    "Ce document sert de carte : choisissez une image aux mêmes proportions, les pions, la grille et les points restent à leur place.": "Este documento serve de mapa: escolha uma imagem com as mesmas proporções; peões, grelha e pontos ficam no lugar."
 }

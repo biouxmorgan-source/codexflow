@@ -17,5 +17,13 @@
     "This action is unauthorized.": "Action non autorisée.",
     "The provided two factor authentication code was invalid.": "Ce code de double authentification n’est pas valide.",
     "The provided two factor recovery code was invalid.": "Ce code de secours n’est pas valide (chaque code ne sert qu’une fois).",
-    "The provided password was incorrect.": "Mot de passe incorrect."
+    "The provided password was incorrect.": "Mot de passe incorrect.",
+    "Remplacer le fichier": "Remplacer le fichier",
+    "Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié.": "Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié.",
+    "Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié, dans toutes les campagnes.": "Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié, dans toutes les campagnes.",
+    "Nouveau fichier": "Nouveau fichier",
+    "Remplacer": "Remplacer",
+    "Fichier remplacé.": "Fichier remplacé.",
+    "Ce document sert de carte : choisissez une image.": "Ce document sert de carte : choisissez une image.",
+    "Ce document sert de carte : choisissez une image aux mêmes proportions, les pions, la grille et les points restent à leur place.": "Ce document sert de carte : choisissez une image aux mêmes proportions, les pions, la grille et les points restent à leur place."
 }

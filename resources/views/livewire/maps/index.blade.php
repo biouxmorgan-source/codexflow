@@ -57,7 +57,7 @@
             @foreach ($maps as $map)
                 <li wire:key="map-{{ $map->id }}" class="overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm">
                     <a href="{{ route('maps.show', [$campaign, $map]) }}" wire:navigate class="block aspect-video bg-stone-900">
-                        <img src="{{ route('documents.file', $map->document) }}" alt="" class="h-full w-full object-cover" loading="lazy">
+                        <img src="{{ $map->document->fileUrl() }}" alt="" class="h-full w-full object-cover" loading="lazy">
                     </a>
                     <div class="space-y-2 p-4">
                         <a href="{{ route('maps.show', [$campaign, $map]) }}" wire:navigate class="font-medium hover:text-codex">{{ $map->name }}</a>

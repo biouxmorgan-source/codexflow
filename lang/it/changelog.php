@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Modificare un documento senza eliminarlo',
+        'items' => [
+            'Nella pagina di un documento, «Sostituisci il file» mette una nuova versione al posto della vecchia: il documento mantiene titolo, impostazioni e collegamenti, e la nuova versione compare subito in scene, schede, regole, mappe, indizi e presso i personaggi che l’hanno ricevuto.',
+            'Un’immagine usata come mappa si sostituisce con un’altra immagine; pedine, griglia e punti restano al loro posto.',
+        ],
+    ],
+
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Tirare i dadi dalla scheda',

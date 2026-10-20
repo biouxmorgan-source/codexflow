@@ -42,7 +42,7 @@
                 x-on:pointerdown="down($event)" x-on:pointermove="move($event)" x-on:pointerup="up($event)" x-on:pointercancel="up($event)"
                 x-on:wheel.prevent="wheel($event)">
                 <x-table-map :map="$map" :tokens="$tokens" :templates="$templates" :points="$map->points" gm
-                    :image-url="route('documents.file', $map->document)"
+                    :image-url="$map->document->fileUrl()"
                     :token-url="fn ($token) => route('entities.image', [$token->entity, 'v' => $token->entity->updated_at?->timestamp])" />
                 {{-- Règle en cours de tracé, avant l'envoi. --}}
                 <svg wire:ignore x-ref="overlay" class="pointer-events-none absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet">

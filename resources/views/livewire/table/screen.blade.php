@@ -7,10 +7,10 @@
         @switch($display['kind'] ?? null)
             @case('document')
                 @if ($display['document']->isImage())
-                    <img src="{{ $this->fileUrl('file', ['v' => $display['key']]) }}" alt="{{ $display['document']->title }}" class="h-full w-full object-contain">
+                    <img src="{{ $this->fileUrl('file', ['v' => $display['key'].'-'.$display['document']->updated_at?->timestamp]) }}" alt="{{ $display['document']->title }}" class="h-full w-full object-contain">
                 @elseif ($display['document']->isPdf())
                     @php($leads = (bool) auth()->user()?->can('update', $campaign) && $guest === null)
-                    <x-pdf-viewer :url="$this->fileUrl('file', ['v' => $display['key']])" :title="$display['document']->title" mode="screen" :page="$display['page']" :sync="$leads" class="h-full w-full" wire:ignore
+                    <x-pdf-viewer :url="$this->fileUrl('file', ['v' => $display['key'].'-'.$display['document']->updated_at?->timestamp])" :title="$display['document']->title" mode="screen" :page="$display['page']" :sync="$leads" class="h-full w-full" wire:ignore
                         x-on:pdf-page-turned="$wire.turnTo($event.detail.page)" x-on:pdf-pages-known="$wire.knowPages($event.detail.pages)" />
                     {{-- Seul l'écran du MJ ($sync) envoie ces deux événements. Page choisie par le MJ (télécommande, page du document) : l'écran la suit. --}}
                     <span wire:key="pdf-page-{{ $display['page'] }}" x-init="$dispatch('table-pdf-page', { page: {{ $display['page'] }} })" hidden></span>
@@ -73,7 +73,7 @@
                 {{-- Chacun glisse les jetons qu'il a le droit de déplacer (vérifié côté serveur). --}}
                 <div x-data="mapTokens" class="h-full w-full touch-none" x-on:pointerdown="down($event)" x-on:pointermove="move($event)" x-on:pointerup="up($event)" x-on:pointercancel="up($event)">
                     <x-table-map :map="$display['map']" :tokens="$display['map']->tokens" :templates="$display['map']->templates" :points="$display['map']->points" :movable="$movable"
-                        :image-url="$this->fileUrl('file', ['v' => $display['key']])"
+                        :image-url="$this->fileUrl('file', ['v' => $display['key'].'-'.$display['map']->document?->updated_at?->timestamp])"
                         :token-url="fn ($token) => $this->fileUrl('token', ['v' => $token->entity?->updated_at?->timestamp], $token)" />
                 </div>
                 @break

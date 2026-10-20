@@ -17,6 +17,7 @@ use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\Rule;
+use App\Models\TableMap;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\World;
@@ -196,6 +197,66 @@ class RulesAndDocumentsTest extends TestCase
         Storage::disk(Document::DISK)->assertMissing($document->path);
     }
 
+    public function test_replacing_the_file_keeps_the_document_and_its_links(): void
+    {
+        $document = $this->document('Lettre');
+        $oldPath = $document->path;
+        $entity = Entity::factory()->for($this->gm, 'owner')->for($this->world)->create(['name' => 'Mira']);
+        $entity->documents()->attach($document);
+        $this->travel(1)->minutes();
+
+        Livewire::actingAs($this->gm)->test(DocumentShow::class, ['campaign' => $this->campaign, 'document' => $document])
+            ->set('replacement', UploadedFile::fake()->image('lettre-v2.png', 40, 40))
+            ->call('replaceFile')
+            ->assertHasNoErrors()
+            ->assertSee('Fichier remplacé.')
+            ->assertSee('lettre-v2.png');
+
+        $fresh = $document->fresh();
+        $this->assertSame($document->id, $fresh->id);
+        $this->assertSame('Lettre', $fresh->title);
+        $this->assertSame('image/png', $fresh->mime_type);
+        $this->assertSame('lettre-v2.png', $fresh->original_name);
+        $this->assertSame([$document->id], $entity->documents()->pluck('documents.id')->all());
+        Storage::disk(Document::DISK)->assertMissing($oldPath);
+        Storage::disk(Document::DISK)->assertExists($fresh->path);
+        // L'adresse change avec la version : le navigateur ne ressert pas l'ancien fichier.
+        $this->assertNotSame($document->fileUrl(), $fresh->fileUrl());
+
+        $this->actingAs($this->gm)->get($fresh->fileUrl())
+            ->assertOk()
+            ->assertHeader('Content-Type', 'image/png');
+    }
+
+    public function test_a_document_used_as_a_map_can_only_be_replaced_by_an_image(): void
+    {
+        $document = $this->document('Plan');
+        $map = new TableMap(['name' => 'Plan', 'grid_size' => 20]);
+        $map->campaign()->associate($this->campaign);
+        $map->document()->associate($document);
+        $map->forceFill(['width' => 40, 'height' => 40])->save();
+
+        Livewire::actingAs($this->gm)->test(DocumentShow::class, ['campaign' => $this->campaign, 'document' => $document])
+            ->set('replacement', UploadedFile::fake()->create('plan.pdf', 10, 'application/pdf'))
+            ->call('replaceFile')
+            ->assertHasErrors('replacement')
+            ->set('replacement', UploadedFile::fake()->image('plan.jpg', 40, 40))
+            ->call('replaceFile')
+            ->assertHasNoErrors();
+
+        $this->assertSame('image/jpeg', $document->fresh()->mime_type);
+    }
+
+    public function test_players_cannot_replace_a_document_file(): void
+    {
+        $document = $this->document('Lettre');
+        $player = User::factory()->create();
+        $this->campaign->members()->attach($player, ['role' => CampaignRole::Player->value]);
+
+        Livewire::actingAs($player)->test(DocumentShow::class, ['campaign' => $this->campaign, 'document' => $document])
+            ->assertForbidden();
+    }
+
     public function test_entity_links_a_document_of_the_campaign(): void
     {
         $document = $this->document('Lettre');
@@ -252,7 +313,7 @@ class RulesAndDocumentsTest extends TestCase
 
         Livewire::actingAs($this->gm)->test(Live::class, ['campaign' => $this->campaign])
             ->assertSeeInOrder(['Fiches utiles', 'Aldric', 'Mira', 'Règles', 'Bagarre de taverne', 'On perd de la condition', 'Secret du MJ', 'Documents', 'Plan de la cave', 'Table des coups'])
-            ->assertSeeHtml('href="'.route('documents.file', $map).'"');
+            ->assertSeeHtml('href="'.$map->fileUrl().'"');
     }
 
     public function test_rules_and_documents_are_reserved_to_the_game_master(): void

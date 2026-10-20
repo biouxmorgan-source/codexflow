@@ -82,7 +82,7 @@
                     x-on:pointerdown="panStart($event)" x-on:pointermove="panMove($event)" x-on:pointerup="panEnd($event)" x-on:pointercancel="panEnd($event)">
                     {{-- Zoom et déplacement côté navigateur : les points gardent leur taille à l'écran. --}}
                     <div x-ref="canvas" class="absolute inset-0 origin-top-left" :style="`transform: translate(${tx}px, ${ty}px) scale(${z}); --z: ${z}`">
-                    <img src="{{ route('documents.file', $map->document) }}" alt="{{ $map->name }}" class="pointer-events-none absolute inset-0 h-full w-full" draggable="false">
+                    <img src="{{ $map->document->fileUrl() }}" alt="{{ $map->name }}" class="pointer-events-none absolute inset-0 h-full w-full" draggable="false">
 
                     @foreach ($points as $point)
                         @php($progress = $point->progress())

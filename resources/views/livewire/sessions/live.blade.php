@@ -169,9 +169,9 @@
                                                 <ul class="space-y-2">
                                                     @foreach ($this->documents as $document)
                                                         <li wire:key="document-{{ $document->id }}" class="flex items-center gap-2 rounded-xl border border-stone-200 bg-white p-3 shadow-sm hover:border-codex/40">
-                                                            <a href="{{ route('documents.file', $document) }}" target="_blank" rel="noopener" class="flex min-w-0 flex-1 items-center gap-3">
+                                                            <a href="{{ $document->fileUrl() }}" target="_blank" rel="noopener" class="flex min-w-0 flex-1 items-center gap-3">
                                                                 @if ($document->isImage())
-                                                                    <img src="{{ route('documents.file', $document) }}" alt="" loading="lazy" class="h-10 w-10 shrink-0 rounded-lg object-cover">
+                                                                    <img src="{{ $document->fileUrl() }}" alt="" loading="lazy" class="h-10 w-10 shrink-0 rounded-lg object-cover">
                                                                 @else
                                                                     <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-xs font-semibold text-red-700" aria-hidden="true">PDF</span>
                                                                 @endif
