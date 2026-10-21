@@ -14,6 +14,14 @@ return [
         ],
     ],
 
+    '0.88.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Spot complimentary access',
+        'items' => [
+            'Administration console, Accounts page: a “Complimentary access” box on each account, with an optional note (friend, tester…). Complimentary accounts show under the address, have their own total at the top of the page and a “Show” filter.',
+        ],
+    ],
+
     '0.87.1' => [
         'date' => '2026-10-20',
         'title' => 'Readable point names on the map',

@@ -14,6 +14,14 @@ return [
         ],
     ],
 
+    '0.88.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Identificar os acessos oferecidos',
+        'items' => [
+            'Consola de administração, página Contas: uma caixa «Acesso oferecido» por conta, com uma nota opcional (amigo, testador…). Os acessos oferecidos aparecem sob o endereço, têm o seu total no topo da página e o filtro «Exibir».',
+        ],
+    ],
+
     '0.87.1' => [
         'date' => '2026-10-20',
         'title' => 'Nomes dos pontos legíveis no mapa',

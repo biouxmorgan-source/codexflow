@@ -58,6 +58,7 @@ class User extends Authenticatable implements HasLocalePreference
             'plan_started_at' => 'date',
             'plan_ends_at' => 'date',
             'founder_since' => 'date',
+            'complimentary' => 'boolean',
             'trial_started_at' => 'datetime',
             'two_factor_confirmed_at' => 'datetime',
         ];

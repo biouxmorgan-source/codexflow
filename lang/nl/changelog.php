@@ -14,6 +14,14 @@ return [
         ],
     ],
 
+    '0.88.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Gratis toegang herkennen',
+        'items' => [
+            'Beheerconsole, pagina Accounts: een vakje „Gratis toegang” per account, met een optionele notitie (vriend, tester…). Gratis toegangen staan onder het adres, hebben hun eigen totaal bovenaan de pagina en een filter „Tonen”.',
+        ],
+    ],
+
     '0.87.1' => [
         'date' => '2026-10-20',
         'title' => 'Leesbare puntnamen op de kaart',

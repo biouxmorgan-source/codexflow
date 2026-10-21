@@ -8,7 +8,7 @@
     @endif
 
     @php($totals = $this->totals)
-    <dl class="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+    <dl class="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-5 lg:grid-cols-10">
         @foreach ([
             __('Comptes') => $totals['accounts'],
             __('Premium') => $totals['premium'],
@@ -17,6 +17,7 @@
             __('Démo') => $totals['demo'],
             __('Administrateurs') => $totals['admins'],
             __('Fondateurs') => $totals['founders'],
+            __('Accès offerts') => $totals['complimentary'],
             __('Comptes actifs') => $totals['active'],
             __('Jours de connexion') => $totals['logins'],
         ] as $label => $value)
@@ -31,6 +32,14 @@
         <div class="min-w-56 flex-1">
             <label for="admin-search" class="label">{{ __('Rechercher une adresse') }}</label>
             <input id="admin-search" type="search" wire:model.live.debounce.300ms="search" class="field" autocomplete="off">
+        </div>
+        <div>
+            <label for="admin-show" class="label">{{ __('Afficher') }}</label>
+            <select id="admin-show" wire:model.live="show" class="field">
+                <option value="">{{ __('Tous les comptes') }}</option>
+                <option value="complimentary">{{ __('Accès offerts') }}</option>
+                <option value="founders">{{ __('Fondateurs') }}</option>
+            </select>
         </div>
         <div>
             <label for="admin-period" class="label">{{ __('Connexions et comptes actifs sur') }}</label>
@@ -66,7 +75,12 @@
                 @forelse ($this->rows as $row)
                     @php($user = $row['user'])
                     <tr wire:key="user-{{ $user->id }}" class="align-top">
-                        <td class="px-3 py-2 break-all">{{ $user->email }} <x-founder-badge :user="$user" /></td>
+                        <td class="px-3 py-2 break-all">
+                            {{ $user->email }} <x-founder-badge :user="$user" />
+                            @if ($user->complimentary)
+                                <span class="mt-0.5 block text-xs break-normal text-codex">🎁 {{ $user->complimentary_note ? __('Accès offert : :note', ['note' => $user->complimentary_note]) : __('Accès offert') }}</span>
+                            @endif
+                        </td>
                         <td class="px-3 py-2">
                             <span @class(['rounded-full px-2 py-0.5 text-xs font-medium', 'bg-codex-soft text-codex' => $row['plan'] === 'admin', 'bg-amber-100 text-amber-900' => $row['plan'] === 'premium', 'bg-green-100 text-green-900' => $row['plan'] === 'trial', 'bg-stone-100 text-stone-700' => $row['plan'] === 'free', 'bg-flow/15 text-flow' => $row['plan'] === 'demo'])>{{ $labels[$row['plan']] }}</span>
                             @if ($row['plan'] === 'demo')
@@ -135,6 +149,15 @@
                                         <input type="checkbox" wire:model="isFounder">
                                         {{ __('Fondateur (contributeur du Kickstarter)') }}
                                     </label>
+                                    <label class="flex items-center gap-2 self-end pb-2 text-sm">
+                                        <input type="checkbox" wire:model.live="isComplimentary">
+                                        {{ __('Accès offert (ami, testeur…)') }}
+                                    </label>
+                                    <div>
+                                        <label for="edit-complimentary-note" class="label">{{ __('Note sur l’accès offert') }}</label>
+                                        <input id="edit-complimentary-note" type="text" maxlength="120" wire:model="complimentaryNote" class="field" placeholder="{{ __('ami, testeur…') }}" @disabled(! $isComplimentary)>
+                                        @error('complimentaryNote') <p class="error">{{ $message }}</p> @enderror
+                                    </div>
                                     <div class="sm:col-span-2">
                                         <label for="edit-reward" class="label">{{ __('Récompense Kickstarter') }}</label>
                                         <input id="edit-reward" type="text" wire:model="backerReward" class="field" placeholder="The Whole Table">

@@ -14,6 +14,14 @@ return [
         ],
     ],
 
+    '0.88.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Rozpoznawanie darmowych dostępów',
+        'items' => [
+            'Konsola administracyjna, strona Konta: pole „Darmowy dostęp” przy każdym koncie, z opcjonalną notatką (znajomy, tester…). Darmowe dostępy widać pod adresem, mają własną sumę na górze strony i filtr „Wyświetl”.',
+        ],
+    ],
+
     '0.87.1' => [
         'date' => '2026-10-20',
         'title' => 'Czytelne nazwy punktów na mapie',

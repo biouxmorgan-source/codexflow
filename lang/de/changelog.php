@@ -14,6 +14,14 @@ return [
         ],
     ],
 
+    '0.88.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Kostenlose Zugänge erkennen',
+        'items' => [
+            'Administrationskonsole, Seite Konten: ein Kästchen „Kostenloser Zugang“ pro Konto, mit optionaler Notiz (Freund, Tester…). Kostenlose Zugänge erscheinen unter der Adresse, haben ihre eigene Summe oben auf der Seite und einen Filter „Anzeigen“.',
+        ],
+    ],
+
     '0.87.1' => [
         'date' => '2026-10-20',
         'title' => 'Lesbare Punktnamen auf der Karte',
