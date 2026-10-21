@@ -2930,5 +2930,11 @@
     "Ce document sert de carte. Image actuelle : :width × :height pixels.": "Dit document dient als kaart. Huidige afbeelding: :width × :height pixels.",
     "Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.": "Een afbeelding van een ander formaat wordt geaccepteerd, maar pionnen, sjablonen en punten behouden hun positie in pixels: ze verschuiven op de tekening en moeten opnieuw geplaatst worden.",
     "Lancers de cette feuille": "Worpen van dit blad",
-    "« Enregistrer ce lancer », dans les dés de la feuille, le garde avec ce personnage : chaque feuille a ses propres lancers, qu’on recharge d’un geste et qu’on retire avec ×.": "‘Deze worp opslaan’, in de dobbelstenen van het blad, bewaart hem bij dit personage: elk blad heeft eigen worpen, die je met één tik laadt en met × verwijdert."
+    "« Enregistrer ce lancer », dans les dés de la feuille, le garde avec ce personnage : chaque feuille a ses propres lancers, qu’on recharge d’un geste et qu’on retire avec ×.": "‘Deze worp opslaan’, in de dobbelstenen van het blad, bewaart hem bij dit personage: elk blad heeft eigen worpen, die je met één tik laadt en met × verwijdert.",
+    "Accès offerts": "Gratis toegang",
+    "Accès offert": "Gratis toegang",
+    "Accès offert : :note": "Gratis toegang: :note",
+    "Accès offert (ami, testeur…)": "Gratis toegang (vriend, tester…)",
+    "Note sur l’accès offert": "Notitie bij de gratis toegang",
+    "ami, testeur…": "vriend, tester…"
 }
