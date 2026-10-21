@@ -138,7 +138,7 @@ class ExchangeTest extends TestCase
         $this->sheet($alex, $harvey)->call('startExchange', $lamp->id)->set('exchangeTo', (string) $stranger->id)->call('exchange')->assertHasErrors('exchangeTo');
 
         $harvey->update(['locked' => true]);
-        $this->sheet($alex, $harvey->fresh())->assertDontSee('Donner')->call('startExchange', $lamp->id)->assertForbidden();
+        $this->sheet($alex, $harvey->fresh())->assertDontSeeHtml('wire:click="startExchange')->call('startExchange', $lamp->id)->assertForbidden();
 
         $this->assertSame($harvey->id, $lamp->fresh()->player_character_id);
     }

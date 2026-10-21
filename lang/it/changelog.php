@@ -4,13 +4,244 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
-    '0.69.0' => [
-        'date' => '2026-10-17',
+    '0.89.0' => [
+        'date' => '2026-10-21',
         'title' => 'Dichiarazione dei diritti a ogni importazione',
         'items' => [
             'Prima di ogni importazione (file CSV o JSON, archivio di campagna, modello di gioco), una casella non spuntata per impostazione predefinita chiede di certificare che disponi dei diritti necessari sui contenuti importati. Senza di essa il pulsante resta grigio e il server rifiuta l’importazione.',
             'Ogni dichiarazione è registrata con la data, la versione del testo accettato e l’esito dell’importazione, senza copia dei file. Compare in «Scarica i miei dati».',
             'Le condizioni d’uso si arricchiscono di una sezione «Contenuti degli utenti e proprietà intellettuale», raggiungibile da ogni schermata di importazione.',
+        ],
+    ],
+
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Nomi dei punti leggibili sulla mappa',
+        'items' => [
+            'Nel tema scuro, i nomi dei punti della mappa della campagna apparivano scuri su sfondo nero: tornano bianchi, come i riquadri di iniziativa e dadi sullo schermo del tavolo e i pulsanti di pagina dei PDF.',
+        ],
+    ],
+
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Tiri salvati per ogni scheda',
+        'items' => [
+            'Nei dadi de «Le mie schede», «Salva questo tiro» conserva un tiro con la scheda: ogni personaggio ha i suoi tiri (Palla di fuoco, Attacco…), che si ricaricano con un tocco, si aggiornano e si tolgono con ×.',
+        ],
+    ],
+
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '«Sostituisci il file» funziona',
+        'items' => [
+            'Il pulsante «Sostituisci» restava disattivato dopo la scelta del nuovo file: torna cliccabile appena il file è stato inviato.',
+        ],
+    ],
+
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Sostituire una mappa con un’immagine di altre dimensioni',
+        'items' => [
+            'Quando il documento è usato come mappa, «Sostituisci il file» mostra le dimensioni dell’immagine attuale e accetta un’immagine di altre dimensioni. Pedine, sagome e punti mantengono la posizione in pixel: un avviso segnala che si sposteranno sul disegno.',
+        ],
+    ],
+
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Modificare un documento senza eliminarlo',
+        'items' => [
+            'Nella pagina di un documento, «Sostituisci il file» mette una nuova versione al posto della vecchia: il documento mantiene titolo, impostazioni e collegamenti, e la nuova versione compare subito in scene, schede, regole, mappe, indizi e presso i personaggi che l’hanno ricevuto.',
+            'Un’immagine usata come mappa si sostituisce con un’altra immagine; pedine, griglia e punti restano al loro posto.',
+        ],
+    ],
+
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Tirare i dadi dalla scheda',
+        'items' => [
+            'Sulla scheda di un personaggio, un piccolo dado accanto a ogni numero e a ogni contatore tira i dadi con quel valore: «Tira sotto… (soglia)» o «Aggiungi… al tiro (bonus)». Il vassoio dei dadi si apre pronto al tiro e il risultato va al tavolo come sempre.',
+            'Sulla scheda del tuo personaggio, il valore resta legato alla scheda: se cambia, il tiro salvato lo segue. Anche il master può tirare dalla scheda di un giocatore.',
+            '«Le mie schede» ha i suoi dadi: lo stesso piccolo dado accanto ai valori numerici e un pulsante «Dadi» in fondo alla scheda. Il risultato appare sulla scheda, visibile solo a te.',
+        ],
+    ],
+
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Nuove mappe per la demo',
+        'items' => [
+            'La demo ha nuove mappe illustrate: il villaggio costiero per la mappa della campagna, il molo sotterraneo del faro per la sottomappa. Ricaricala da «Le mie campagne» per vederle.',
+        ],
+    ],
+
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Più spazio in Le mie schede',
+        'items' => [
+            'Una scheda tiene ora fino a 200 blocchi, 500 campi e 30 sezioni. «+ Nuova nota» non porta più a una pagina di errore: al limite, un messaggio lo spiega.',
+        ],
+    ],
+
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Sezioni in Le mie schede',
+        'items' => [
+            'In «Modifica», «+ Nuova sezione» divide una scheda in sezioni a cui dai un nome (Personaggio, Incantesimi, Inventario…), che riordini e rimuovi.',
+            'Ogni blocco sceglie la sua sezione, e ogni sezione dispone i suoi blocchi sulle proprie tre colonne. Una scheda esistente tiene tutti i blocchi in una prima sezione.',
+        ],
+    ],
+
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Più note e tre colonne in Le mie schede',
+        'items' => [
+            '«+ Nuova nota» aggiunge un blocco di note: quanti ne vuoi (debiti, voci, contatti…). Le tue note precedenti diventano un primo blocco «Note».',
+            'I blocchi si posizionano ora su tre colonne, note comprese, con «Organizza i blocchi».',
+        ],
+    ],
+
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Una demo aggiornata',
+        'items' => [
+            'La campagna dimostrativa mostra ora le ultime novità: sulla mappa della campagna il faro porta a una sottomappa, la sua cantina, pronta per lo scontro con pedine, due sagome d’area e un ordine di iniziativa. Ogni punto collega più schede e più scene.',
+            'Dadi al tavolo: tiri preparati che leggono la caratteristica dalla scheda, un bonus con nome e i tiri della sessione 1, tra cui una richiesta del master.',
+            'Inoltre: un suono da «I miei suoni», una scena «Giocata come previsto» e un’altra con «Cosa è successo», un indizio «Menzogna», una scheda e una regola della casa con la loro versione ufficiale, e giocatori che completano il proprio ritratto.',
+            'Ricarica la demo da «Le mie campagne» per scoprirla: una copia già caricata resta com’è.',
+        ],
+    ],
+
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Mappa della campagna: zoom, tavolo e luoghi più ricchi',
+        'items' => [
+            'La mappa della campagna si ingrandisce (rotella, + e −, pizzico su tablet) e si sposta trascinando. Consiglio: un’immagine 4K (3840 × 2160) resta nitida.',
+            'Quando la mappa è sullo schermo del tavolo, la sottomappa aperta da un punto la sostituisce lì, e la mappa superiore torna quando risali. Nella sottomappa, «Questo luogo» tiene a portata di clic le scene e le schede del punto.',
+            'Un punto ora può collegarsi a più scene e più schede: il luogo, i suoi PNG, tutte le scene che vi si giocano.',
+        ],
+    ],
+
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Blocchi, note e caselle in Le mie schede',
+        'items' => [
+            'In «Le mie schede», i campi si raccolgono in blocchi a cui dai un nome: Caratteristiche, Abilità, Equipaggiamento, Incantesimi…',
+            '«Organizza i blocchi»: trascina un blocco dalla sua maniglia, o usa le frecce, per metterlo dove vuoi, su una o due colonne.',
+            'Ogni campo può avere una nota e una casella da spuntare durante la partita: un’abilità riuscita, un incantesimo preparato.',
+        ],
+    ],
+
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Biblioteca delle demo',
+        'items' => [
+            'Nuova «Biblioteca delle demo», da «Le mie campagne»: campagne pronte da giocare (un\'ambientazione, uno scenario breve, personaggi pregenerati) di cui carichi la tua copia con un clic.',
+            'Ogni demo di un autore o di un editore mantiene un link «Acquista il gioco», nella biblioteca e in cima alla tua copia.',
+            'Il prezzo di Premium compare sul pulsante di abbonamento nelle Preferenze: 4,99 € al mese.',
+        ],
+    ],
+
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Cosa è successo, e il libro delle avventure',
+        'items' => [
+            'Ogni scena ha ora due parti: «Cosa è previsto» e «Cosa è successo». Se il tavolo ha seguito il piano, basta spuntare «Giocata come previsto».',
+            'Nuovo «Libro delle avventure» nella campagna: le scene giocate, scenario per scenario, poi i riassunti delle sessioni, da leggere, stampare o salvare in PDF.',
+            'Si può aggiungere una versione scritta, da te o dall’IA che preferisci (testo da copiare, o la tua chiave API, a tue spese). Il libro resta riservato al master.',
+        ],
+    ],
+
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Disponi le tue schermate a modo tuo',
+        'items' => [
+            'Nuovo pulsante «Organizza la schermata» nella pagina della campagna e in modalità Sessione: trascina ogni blocco dalla sua maniglia ⠿, con il mouse o con il dito, oppure usa le frecce.',
+            'In modalità Sessione un blocco può passare da una colonna all’altra: la musica in alto, le note a destra, come preferisci.',
+            '«Nascondi» toglie un blocco che non usi, «Mostra» lo fa tornare, «Disposizione predefinita» rimette tutto a posto. Questa disposizione è solo tua: giocatori e co-master mantengono la loro.',
+        ],
+    ],
+
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'La tua scheda, anche senza rete',
+        'items' => [
+            'Offline, la scheda del tuo personaggio resta utilizzabile: regola i contatori con − e +, modifica i campi che il master ti lascia cambiare e scrivi note.',
+            'Tutto viene conservato sul dispositivo e inviato al ritorno della connessione, campo per campo: un contatore riceve ciò che hai tolto o aggiunto, e ciò che il master ha cambiato nel frattempo (un segreto rivelato, un campo modificato) viene mantenuto.',
+            'Dopo l’invio, un riepilogo indica cosa è stato aggiornato e segnala i campi che il master ha modificato insieme a te.',
+        ],
+    ],
+
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'La grande mappa della campagna',
+        'items' => [
+            'Nuova «Mappa della campagna»: scegli una mappa come vista d’insieme e posiziona punti di interesse, una città, un dungeon, il luogo di una scena.',
+            'Un punto può aprire una sottomappa con un clic, che ha a sua volta i suoi punti; il percorso di navigazione permette di risalire alla vista d’insieme.',
+            'Collegati a una scena, i punti mostrano ciò che è giocato, in corso o ancora da giocare; collegati a una scheda, la aprono. Tutto resta al master, tranne il nome dei punti «Visibili al tavolo», mostrato sullo schermo del tavolo.',
+        ],
+    ],
+
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'I tuoi personaggi giocati altrove',
+        'items' => [
+            'Nuova pagina «Le mie schede»: conserva i personaggi che giochi fuori da SagaWyn, da un amico, in un club o altrove. Li vedi solo tu.',
+            'Ogni personaggio ha la sua scheda PDF, un ritratto, campi liberi (testi e contatori da regolare con − e + durante la partita) e le tue note, con il nome del gioco e del tavolo per ritrovarlo.',
+        ],
+    ],
+
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Una libreria di suoni per tutte le tue campagne',
+        'items' => [
+            'Nuova pagina «I miei suoni»: musiche e atmosfere salvate una sola volta nel tuo account, poi aggiunte alle campagne che conduci. Il file non viene copiato e conta una sola volta nel tuo spazio.',
+            'Nella pagina Suoni di una campagna: «Dalla mia libreria» per aggiungere i tuoi suoni, «Sposta nella mia libreria» per riutilizzare un suono altrove, e una casella per salvare un nuovo caricamento direttamente nella libreria.',
+            'Spostare nella libreria un suono già caricato in un’altra campagna unisce le due copie: le scene mantengono la loro musica e lo spazio viene liberato.',
+        ],
+    ],
+
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Le istruzioni ovunque',
+        'items' => [
+            'Il pulsante «?» arriva su suoni, grafo delle relazioni, cronologia, opinioni dei giocatori, assistente IA, registro e scheda del personaggio.',
+            'Su grafo, cronologia e scheda del personaggio, i giocatori leggono istruzioni scritte per loro.',
+        ],
+    ],
+
+    '0.71.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Togliere o aggiungere più punti in una volta',
+        'items' => [
+            'Sotto ogni contatore che il giocatore può modificare (PF, munizioni, denaro…), un campo «Quantità»: scrivi 8 e poi −, e il contatore perde 8 in un colpo. Il valore predefinito è 1.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Istruzioni su altre schermate',
+        'items' => [
+            'Il pulsante «?» compare anche sulla scheda (lato Master), nella modalità Sessione, negli scenari e nelle scene, nell’importazione di file e nei membri della campagna.',
+            'La pagina «Aiuto» ora spiega il tiro grezzo e i bonus letti dalla scheda del personaggio.',
+        ],
+    ],
+
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Istruzioni sulle schermate più delicate',
+        'items' => [
+            'Un pulsante «?» accanto al titolo delle schermate che non si spiegano da sole apre le istruzioni in poche righe: tipi di scheda, campi del gioco, tag, dadi, mappe, telecomando dello schermo da tavolo, indizi e cronologia delle rivelazioni.',
+            'Ogni istruzione rimanda alla domanda corrispondente della pagina «Aiuto», che si apre direttamente lì.',
+        ],
+    ],
+
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus e soglia letti sulla scheda',
+        'items' => [
+            'Nei dadi, il bonus può prendere uno o più valori dalla scheda del personaggio (caratteristica, abilità, qualsiasi campo numero o contatore della zona pubblica), interi o come decina, metà o quinto, oltre al bonus libero. Anche la soglia può essere letta sulla scheda. I valori si leggono al momento del tiro, sulla scheda di ogni personaggio che tira.',
+            'Più bonus con nome (Arma +2, Ferita −1…) si sommano nello stesso tiro, insieme ai valori della scheda.',
+            'Gli esempi già pronti spariscono dal vassoio: restano i tuoi tiri salvati.',
+            'Un tiro salvato si elimina con un tocco: la × sulla sua etichetta, o «Elimina» una volta caricato.',
         ],
     ],
 

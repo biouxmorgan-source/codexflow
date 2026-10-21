@@ -4,13 +4,244 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
-    '0.69.0' => [
-        'date' => '2026-10-17',
+    '0.89.0' => [
+        'date' => '2026-10-21',
         'title' => 'Verklaring over de rechten bij elke import',
         'items' => [
             'Vóór elke import (CSV- of JSON-bestand, campagnearchief, spelsjabloon) vraagt een standaard niet-aangevinkt vakje te verklaren dat u de nodige rechten op de geïmporteerde inhoud hebt. Zonder vinkje blijft de knop grijs en weigert de server de import.',
             'Elke verklaring wordt opgeslagen met de datum, de versie van de aanvaarde tekst en het resultaat van de import, zonder kopie van de bestanden. Ze staat in „Mijn gegevens downloaden”.',
             'De gebruiksvoorwaarden krijgen een rubriek „Inhoud van gebruikers en intellectueel eigendom”, bereikbaar vanaf elk importscherm.',
+        ],
+    ],
+
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Leesbare puntnamen op de kaart',
+        'items' => [
+            'In het donkere thema stonden de namen van de punten op de campagnekaart donker op een zwarte achtergrond: ze zijn weer wit, net als de initiatief- en dobbelbanners op het tafelscherm en de paginaknoppen van pdf’s.',
+        ],
+    ],
+
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Opgeslagen worpen per blad',
+        'items' => [
+            'In de dobbelstenen van ‘Mijn bladen’ bewaart ‘Deze worp opslaan’ een worp bij het blad: elk personage heeft eigen worpen (Vuurbal, Aanval…), die je met één tik laadt, bijwerkt en met × verwijdert.',
+        ],
+    ],
+
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '„Bestand vervangen” werkt',
+        'items' => [
+            'De knop „Vervangen” bleef grijs na het kiezen van het nieuwe bestand: hij is weer klikbaar zodra het bestand is geüpload.',
+        ],
+    ],
+
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Een kaart vervangen door een afbeelding van een ander formaat',
+        'items' => [
+            'Als het document als kaart dient, toont „Bestand vervangen” het formaat van de huidige afbeelding en accepteert het een afbeelding van een ander formaat. Pionnen, sjablonen en punten behouden hun positie in pixels: een waarschuwing meldt dat ze op de tekening verschuiven.',
+        ],
+    ],
+
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Een document wijzigen zonder het te verwijderen',
+        'items' => [
+            'Op de pagina van een document zet „Bestand vervangen” een nieuwe versie in de plaats van de oude: het document behoudt titel, instellingen en koppelingen, en de nieuwe versie verschijnt meteen in scènes, fiches, regels, kaarten, aanwijzingen en bij de personages die het ontvingen.',
+            'Een afbeelding die als kaart dient, wordt door een andere afbeelding vervangen; pionnen, raster en punten blijven op hun plaats.',
+        ],
+    ],
+
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Dobbelen vanaf het blad',
+        'items' => [
+            'Op een personageblad gooit een kleine dobbelsteen naast elk getal en elke teller met die waarde: ‘Onder … gooien (drempel)’ of ‘… bij de worp optellen (bonus)’. Het dobbelbakje opent klaar om te gooien en het resultaat gaat zoals altijd naar de tafel.',
+            'Op het blad van je eigen personage blijft de waarde aan het blad gekoppeld: verandert ze, dan volgt de opgeslagen worp. De SL kan ook vanaf het blad van een speler gooien.',
+            '‘Mijn bladen’ heeft eigen dobbelstenen: dezelfde kleine dobbelsteen naast getallen en een knop ‘Dobbelstenen’ onderaan het blad. Het resultaat staat op het blad, alleen voor jou zichtbaar.',
+        ],
+    ],
+
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Nieuwe kaarten voor de demo',
+        'items' => [
+            'De demo heeft nieuwe geïllustreerde kaarten: het kustdorp als campagnekaart, de ondergrondse kade van de vuurtoren als subkaart. Laad hem opnieuw via „Mijn campagnes” om ze te zien.',
+        ],
+    ],
+
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Meer ruimte in Mijn bladen',
+        'items' => [
+            'Een blad houdt nu tot 200 blokken, 500 velden en 30 tabbladen. ‘+ Nieuwe notitie’ leidt niet meer naar een foutpagina: bij de limiet legt een melding het uit.',
+        ],
+    ],
+
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Tabbladen in Mijn bladen',
+        'items' => [
+            'In ‘Bewerken’ verdeelt ‘+ Nieuw tabblad’ een blad in tabbladen die je een naam geeft, ordent en verwijdert (Personage, Spreuken, Inventaris…).',
+            'Elk blok kiest zijn tabblad, en elk tabblad zet zijn blokken op zijn eigen drie kolommen. Een bestaand blad houdt al zijn blokken in een eerste tabblad.',
+        ],
+    ],
+
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Meerdere notities en drie kolommen in Mijn bladen',
+        'items' => [
+            '‘+ Nieuwe notitie’ voegt een notitieblok toe: zoveel als je wilt (schulden, geruchten, contacten…). Je eerdere notities worden een eerste blok ‘Notities’.',
+            'Blokken plaats je nu over drie kolommen, notities inbegrepen, met ‘Blokken ordenen’.',
+        ],
+    ],
+
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Een bijgewerkte demo',
+        'items' => [
+            'De democampagne toont nu de nieuwste functies: op de campagnekaart leidt de vuurtoren naar een subkaart, de kelder, klaar voor een gevecht met fiches, twee gebiedssjablonen en een initiatievolgorde. Elk punt koppelt meerdere bladen en meerdere scènes.',
+            'Dobbelstenen aan tafel: voorbereide worpen die de eigenschap van het blad lezen, een benoemde bonus en de worpen van sessie 1, waaronder een verzoek van de SL.',
+            'Ook: een geluid uit „Mijn geluiden”, een scène „Gespeeld zoals gepland” en een met „Wat er gebeurde”, een aanwijzing „Leugen”, een huisblad en een huisregel met hun officiële versie, en spelers die hun eigen portret aanvullen.',
+            'Laad de demo opnieuw via „Mijn campagnes” om hem te ontdekken: een al geladen kopie blijft zoals hij is.',
+        ],
+    ],
+
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Campagnekaart: zoom, tafel en rijkere plekken',
+        'items' => [
+            'De campagnekaart zoomt (scrollwiel, + en −, knijpen op een tablet) en verschuift door te slepen. Tip: een 4K-afbeelding (3840 × 2160) blijft scherp.',
+            'Staat de kaart op het tafelscherm, dan vervangt de subkaart die je via een punt opent haar daar, en de bovenliggende kaart komt terug als je omhooggaat. In de subkaart houdt „Deze plek” de scènes en fiches van het punt binnen één klik.',
+            'Een punt kan nu aan meerdere scènes en meerdere fiches gekoppeld worden: de plek, haar NPC’s, alle scènes die er spelen.',
+        ],
+    ],
+
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Blokken, notities en selectievakjes in Mijn bladen',
+        'items' => [
+            'In ‘Mijn bladen’ staan de velden in blokken die je een naam geeft: Eigenschappen, Vaardigheden, Uitrusting, Spreuken…',
+            '‘Blokken ordenen’: sleep een blok aan zijn greep, of gebruik de pijlen, om het te plaatsen waar je wilt, in één of twee kolommen.',
+            'Elk veld kan een notitie en een selectievakje hebben om tijdens het spel aan te vinken: een geslaagde vaardigheid, een voorbereide spreuk.',
+        ],
+    ],
+
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Demobibliotheek',
+        'items' => [
+            'Nieuwe ‘Demobibliotheek’, vanuit ‘Mijn campagnes’: speelklare campagnes (een wereld, een kort scenario, voorgemaakte personages) waarvan je met één klik je eigen kopie laadt.',
+            'Elke demo van een auteur of uitgever houdt een link ‘Het spel kopen’, in de bibliotheek en bovenaan je kopie.',
+            'De Premium-prijs staat nu op de abonnementsknop in Voorkeuren: € 4,99 per maand.',
+        ],
+    ],
+
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Wat er gebeurde, en het avonturenboek',
+        'items' => [
+            'Elke scène heeft nu twee delen: "Wat gepland is" en "Wat er gebeurde". Volgde de tafel het plan, vink dan gewoon "Gespeeld zoals gepland" aan.',
+            'Nieuw "Avonturenboek" in de campagne: de gespeelde scènes, scenario per scenario, en daarna de samenvattingen van de sessies, om te lezen, af te drukken of als pdf op te slaan.',
+            'Er kan een uitgeschreven versie bij, door jou of door de AI van je keuze (tekst om te kopiëren, of je eigen API-sleutel, op eigen kosten). Het boek blijft alleen voor de spelleider.',
+        ],
+    ],
+
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Richt je schermen in zoals jij wilt',
+        'items' => [
+            'Nieuwe knop ‘Scherm indelen’ op de campagnepagina en in de sessiemodus: sleep elk blok aan zijn greep ⠿, met de muis of met je vinger, of gebruik de pijlen.',
+            'In de sessiemodus kan een blok van de ene kolom naar de andere: muziek bovenaan, notities rechts, zoals jij wilt.',
+            '‘Verbergen’ haalt een blok weg dat je niet gebruikt, ‘Tonen’ brengt het terug, ‘Standaardindeling’ zet alles terug. Deze indeling is alleen van jou: spelers en co-SL’s houden hun eigen indeling.',
+        ],
+    ],
+
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Je fiche, ook zonder netwerk',
+        'items' => [
+            'Offline blijft de fiche van je personage bruikbaar: stel je tellers bij met − en +, wijzig de velden die de SL je laat aanpassen en schrijf notities.',
+            'Alles wordt op het apparaat bewaard en veld voor veld verstuurd zodra de verbinding terug is: een teller krijgt wat je hebt afgetrokken of toegevoegd, en wat de SL intussen heeft veranderd (een onthuld geheim, een gewijzigd veld) blijft behouden.',
+            'Na het versturen vertelt een overzicht wat is bijgewerkt en wijst het op velden die de SL tegelijk met jou heeft gewijzigd.',
+        ],
+    ],
+
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'De grote campagnekaart',
+        'items' => [
+            'Nieuwe „Campagnekaart”: kies een kaart als overzicht en zet er interessante punten op, een stad, een kerker, de plek van een scène.',
+            'Een punt kan met één klik een subkaart openen, die zelf ook punten heeft; via het kruimelpad ga je terug naar het overzicht.',
+            'Gekoppeld aan een scène tonen de punten wat gespeeld, bezig of nog te komen is; gekoppeld aan een fiche openen ze die. Alles blijft bij de SL, behalve de namen van punten „Zichtbaar aan tafel”, die het tafelscherm toont.',
+        ],
+    ],
+
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Je personages van elders',
+        'items' => [
+            'Nieuwe pagina ‘Mijn bladen’: bewaar de personages die je buiten SagaWyn speelt, bij een vriend, in een club of elders. Alleen jij ziet ze.',
+            'Elk personage heeft zijn pdf-blad, een portret, vrije velden (teksten en tellers die je tijdens het spel met − en + aanpast) en je notities, met de naam van het spel en de tafel om het terug te vinden.',
+        ],
+    ],
+
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Een geluidsbibliotheek voor al je campagnes',
+        'items' => [
+            'Nieuwe pagina „Mijn geluiden”: je muziek en sferen, één keer in je account bewaard en daarna toegevoegd aan de campagnes die je leidt. Het bestand wordt niet gekopieerd en telt maar één keer mee voor je opslag.',
+            'Op de pagina Geluiden van een campagne: „Uit mijn bibliotheek” om je geluiden toe te voegen, „In mijn bibliotheek zetten” om een geluid elders te hergebruiken, en een vakje om een nieuwe upload meteen in de bibliotheek te zetten.',
+            'Een geluid dat al in een andere campagne is geüpload in de bibliotheek zetten voegt beide kopieën samen: scènes houden hun muziek en de ruimte komt vrij.',
+        ],
+    ],
+
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'De handleiding overal',
+        'items' => [
+            'De knop „?” staat nu ook bij geluiden, de relatiegrafiek, de tijdlijn, spelersfeedback, de AI-assistent, het logboek en het personageblad.',
+            'Bij de grafiek, de tijdlijn en het personageblad lezen spelers een handleiding die voor hen geschreven is.',
+        ],
+    ],
+
+    '0.71.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Meerdere punten tegelijk aftrekken of optellen',
+        'items' => [
+            'Onder elke teller die de speler mag wijzigen (HP, munitie, geld…), een vakje „Aantal”: typ 8 en dan −, en de teller verliest er 8 in één keer. Standaard is het 1.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Korte uitleg op meer schermen',
+        'items' => [
+            'De ‘?’-knop staat nu ook op de fiche (SL-kant), de sessie-modus, scenario’s en scènes, het importeren van bestanden en de leden van de campagne.',
+            'De hulppagina legt nu de ruwe worp en bonussen van de personagefiche uit.',
+        ],
+    ],
+
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Een korte uitleg op de lastigere schermen',
+        'items' => [
+            'Een ‘?’-knop naast de titel van schermen die niet voor zich spreken, opent een korte uitleg: fichetypes, velden van het spel, tags, dobbelstenen, kaarten, afstandsbediening van het tafelscherm, aanwijzingen en onthullingsgeschiedenis.',
+            'Elke uitleg verwijst naar de bijbehorende vraag op de hulppagina, die meteen daar opengaat.',
+        ],
+    ],
+
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus en drempel van het blad',
+        'items' => [
+            'Bij de dobbelstenen kan de bonus een of meer waarden van het personageblad overnemen (eigenschap, vaardigheid, elk getal- of tellerveld in de openbare zone), heel of als tiental, helft of vijfde, naast de vrije bonus. Ook de drempel kan van het blad komen. De waarden worden bij de worp gelezen van het blad van elk personage dat gooit.',
+            'Meerdere benoemde bonussen (Wapen +2, Wond −1…) tellen op in dezelfde worp, naast waarden van het blad.',
+            'De kant-en-klare voorbeelden verdwijnen van het dobbelbord: je opgeslagen worpen blijven.',
+            'Een opgeslagen worp verwijder je met één tik: het × op het label, of ‘Verwijderen’ als hij geladen is.',
         ],
     ],
 

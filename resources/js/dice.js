@@ -13,10 +13,23 @@ document.addEventListener('alpine:init', () => {
         explode: 'none',
         modifier: 0,
         hide_threshold: false,
+        // Valeurs de la fiche du personnage qui lance : ajoutées au bonus, ou prises comme seuil.
+        bonus_from: [],
+        threshold_from: null,
     });
+    const MAX_SOURCES = 6;
+    // Un bonus nommé (fixed) ou une valeur de la fiche (field) ; ce qui a été lu au lancer (got) reste au serveur.
+    const source = (item) => item.fixed !== undefined
+        ? { fixed: Number(item.fixed), name: item.name ?? '' }
+        : { field: Number(item.field), take: item.take ?? 'value', name: item.name ?? '' };
 
-    window.Alpine.data('diceBuilder', (storageKey) => ({
+    window.Alpine.data('diceBuilder', (storageKey, takes = {}) => ({
         ...blank(),
+        takes,
+        sourceField: '',
+        sourceTake: 'value',
+        fixedName: '',
+        fixedValue: '',
         custom: '',
         visibility: 'table',
         label: '',
@@ -73,14 +86,63 @@ document.addEventListener('alpine:init', () => {
             return {
                 pool: this.pool.map((kind) => ({ count: kind.count, sides: kind.sides })),
                 reading: this.reading,
-                threshold: this.threshold === '' ? null : Number(this.threshold),
+                threshold: this.threshold === '' || this.threshold_from ? null : Number(this.threshold),
                 count_high: this.count_high,
                 keep: Number(this.keep),
                 keep_high: this.keep_high,
                 explode: this.explode,
                 modifier: Number(this.modifier) || 0,
-                hide_threshold: this.hide_threshold,
+                hide_threshold: this.hide_threshold && !this.threshold_from,
+                bonus_from: this.bonus_from.map(source),
+                threshold_from: this.threshold_from ? source(this.threshold_from) : null,
             };
+        },
+
+        takeLabel(item) {
+            if (item.fixed !== undefined) return (item.name ? item.name + ' ' : '') + (item.fixed >= 0 ? '+' : '') + item.fixed;
+            const label = this.takes[item.take] ?? ':name';
+            return '+ ' + label.replace(':name', item.name || '?');
+        },
+
+        // Le nom vient de l'option choisie : la liste des champs n'est écrite que dans le plateau ouvert.
+        addSource(name) {
+            if (this.sourceField === '' || this.bonus_from.length >= MAX_SOURCES) return;
+            this.bonus_from.push({ field: Number(this.sourceField), take: this.sourceTake, name });
+            this.sourceField = '';
+            this.sourceTake = 'value';
+        },
+
+        // Une valeur touchée sur une feuille de personnage : comme seuil (on lance sous la valeur) ou comme bonus.
+        // Sur la fiche de son propre personnage, la valeur reste liée au champ et se relit à chaque lancer.
+        useValue(detail) {
+            const linked = detail.own && detail.field;
+            const value = Math.trunc(Number(detail.value) || 0);
+            if (detail.as === 'threshold') {
+                if (!this.needsThreshold) this.setReading('below');
+                this.threshold_from = linked ? { field: Number(detail.field), take: 'value', name: detail.name } : null;
+                this.threshold = linked ? '' : String(value);
+            } else if (this.bonus_from.length < MAX_SOURCES && !this.bonus_from.some((item) => linked ? item.field === Number(detail.field) && item.take === 'value' : item.fixed === value && item.name === detail.name)) {
+                if (!this.hasModifier) this.setReading('sum');
+                this.bonus_from.push(linked ? { field: Number(detail.field), take: 'value', name: detail.name } : { fixed: value, name: detail.name });
+            }
+            this.loaded = null;
+            this.$wire.openFor(detail.character ?? null);
+        },
+
+        addFixed() {
+            const value = parseInt(this.fixedValue, 10);
+            if (!value || this.bonus_from.length >= MAX_SOURCES) return;
+            this.bonus_from.push({ fixed: Math.max(-999, Math.min(999, value)), name: this.fixedName.trim() });
+            this.fixedName = '';
+            this.fixedValue = '';
+        },
+
+        removeSource(index) {
+            this.bonus_from.splice(index, 1);
+        },
+
+        setThresholdFrom(id, take, name) {
+            this.threshold_from = id === '' ? null : { field: Number(id), take, name };
         },
 
         // Toucher un type de dé en ajoute un ; plusieurs types se mélangent dans le même lancer.

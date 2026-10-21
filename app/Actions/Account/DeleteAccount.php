@@ -2,10 +2,12 @@
 
 namespace App\Actions\Account;
 
+use App\Models\AudioTrack;
 use App\Models\Campaign;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\GameSystem;
+use App\Models\PersonalCharacter;
 use App\Models\User;
 use App\Models\World;
 use App\Support\Billing\Billing;
@@ -40,6 +42,8 @@ class DeleteAccount
             });
 
             $user->gameSystems()->each(fn (GameSystem $gameSystem) => $gameSystem->delete());
+            $user->libraryTracks()->each(fn (AudioTrack $track) => $track->delete());
+            $user->personalCharacters()->each(fn (PersonalCharacter $character) => $character->delete());
             $user->pushSubscriptions()->delete();
             $user->notifications()->delete();
             DB::table('sessions')->where('user_id', $user->id)->delete();

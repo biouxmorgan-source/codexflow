@@ -9,7 +9,10 @@
 
     <section class="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm">
         <div class="flex items-center justify-between gap-3">
-            <h1 class="text-lg font-semibold">{{ __('Télécommande') }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-lg font-semibold">{{ __('Télécommande') }}</h1>
+                <x-page-help topic="table" />
+            </div>
             <a href="{{ route('table.screen', $campaign) }}" target="sagawyn-table" class="link text-sm">{{ __('Écran ↗') }}</a>
         </div>
         <p class="mt-2 text-sm"><span class="text-stone-500">{{ __('Affiché :') }}</span> <span class="font-medium">{{ $label }}</span></p>
@@ -57,8 +60,8 @@
         <section class="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm">
             <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Carte : :name', ['name' => $map->name]) }}</h2>
             <div class="aspect-video overflow-hidden rounded-lg bg-black">
-                <x-table-map :map="$map" :tokens="$map->tokens" :templates="$map->templates" gm
-                    :image-url="route('documents.file', $map->document)"
+                <x-table-map :map="$map" :tokens="$map->tokens" :templates="$map->templates" :points="$map->points" gm
+                    :image-url="$map->document->fileUrl()"
                     :token-url="fn ($token) => route('entities.image', [$token->entity, 'v' => $token->entity->updated_at?->timestamp])" />
             </div>
             <div class="mt-3 grid grid-cols-3 gap-2 text-lg" role="group" aria-label="{{ __('Déplacer la vue') }}">

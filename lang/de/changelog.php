@@ -4,13 +4,244 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
-    '0.69.0' => [
-        'date' => '2026-10-17',
+    '0.89.0' => [
+        'date' => '2026-10-21',
         'title' => 'Rechteerklärung bei jedem Import',
         'items' => [
             'Vor jedem Import (CSV- oder JSON-Datei, Kampagnenarchiv, Spielvorlage) muss ein standardmäßig leeres Kästchen bestätigen, dass Sie die nötigen Rechte an den importierten Inhalten besitzen. Ohne Haken bleibt die Schaltfläche grau und der Server lehnt den Import ab.',
             'Jede Erklärung wird mit Datum, der Version des akzeptierten Textes und dem Ergebnis des Imports gespeichert, ohne Kopie der Dateien. Sie erscheint unter „Meine Daten herunterladen“.',
             'Die Nutzungsbedingungen erhalten einen Abschnitt „Nutzerinhalte und geistiges Eigentum“, erreichbar von jedem Importbildschirm.',
+        ],
+    ],
+
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Lesbare Punktnamen auf der Karte',
+        'items' => [
+            'Im dunklen Design erschienen die Namen der Punkte auf der Kampagnenkarte dunkel auf schwarzem Grund: Sie sind wieder weiß, ebenso die Initiative- und Würfelbanner auf dem Tischbildschirm und die Seitenknöpfe der PDFs.',
+        ],
+    ],
+
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Gespeicherte Würfe für jeden Bogen',
+        'items' => [
+            'In den Würfeln von „Meine Bögen“ bewahrt „Diesen Wurf speichern“ einen Wurf beim Bogen auf: Jeder Charakter hat eigene Würfe (Feuerball, Angriff…), die man mit einem Tippen lädt, aktualisiert und mit × entfernt.',
+        ],
+    ],
+
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '„Datei ersetzen“ funktioniert',
+        'items' => [
+            'Die Schaltfläche „Ersetzen“ blieb nach der Auswahl der neuen Datei ausgegraut: Sie ist wieder anklickbar, sobald die Datei hochgeladen ist.',
+        ],
+    ],
+
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Eine Karte durch ein Bild anderer Größe ersetzen',
+        'items' => [
+            'Wenn das Dokument als Karte dient, zeigt „Datei ersetzen“ die Größe des aktuellen Bildes und akzeptiert ein Bild anderer Größe. Spielfiguren, Schablonen und Punkte behalten ihre Position in Pixeln: Ein Hinweis warnt, dass sie sich auf dem Bild verschieben.',
+        ],
+    ],
+
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Ein Dokument ändern, ohne es zu löschen',
+        'items' => [
+            'Auf der Seite eines Dokuments setzt „Datei ersetzen“ eine neue Version an die Stelle der alten: Das Dokument behält Titel, Einstellungen und Verknüpfungen, und die neue Version erscheint sofort in Szenen, Bögen, Regeln, Karten, Hinweisen und bei den Charakteren, die es erhalten haben.',
+            'Ein Bild, das als Karte dient, wird durch ein anderes Bild ersetzt; Spielfiguren, Raster und Punkte bleiben an ihrem Platz.',
+        ],
+    ],
+
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Würfeln vom Bogen aus',
+        'items' => [
+            'Auf einem Charakterbogen würfelt ein kleiner Würfel neben jeder Zahl und jedem Zähler mit diesem Wert: „Unter … würfeln (Schwelle)“ oder „… zum Wurf addieren (Bonus)“. Die Würfelablage öffnet sich wurfbereit, und das Ergebnis geht wie gewohnt an den Tisch.',
+            'Auf dem Bogen deines eigenen Charakters bleibt der Wert mit dem Bogen verknüpft: Ändert er sich, folgt der gespeicherte Wurf. Die SL kann auch vom Bogen eines Spielers aus würfeln.',
+            '„Meine Bögen“ hat eigene Würfel: derselbe kleine Würfel neben Zahlenwerten und eine Schaltfläche „Würfel“ unten am Bogen. Das Ergebnis erscheint auf dem Bogen, nur für dich sichtbar.',
+        ],
+    ],
+
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Neue Karten für die Demo',
+        'items' => [
+            'Die Demo hat neue illustrierte Karten: das Küstendorf als Kampagnenkarte, den unterirdischen Kai des Leuchtturms als Unterkarte. Lade sie unter „Meine Kampagnen“ erneut, um sie zu sehen.',
+        ],
+    ],
+
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Mehr Platz in Meine Bögen',
+        'items' => [
+            'Ein Bogen fasst jetzt bis zu 200 Blöcke, 500 Felder und 30 Reiter. „+ Neue Notiz“ führt nicht mehr zu einer Fehlerseite: an der Grenze erklärt es eine Meldung.',
+        ],
+    ],
+
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Reiter in Meine Bögen',
+        'items' => [
+            'Unter „Bearbeiten“ teilt „+ Neuer Reiter“ einen Bogen in Reiter, die Sie benennen (Charakter, Zauber, Inventar…), ordnen und entfernen.',
+            'Jeder Block wählt seinen Reiter, und jeder Reiter ordnet seine Blöcke auf eigenen drei Spalten an. Ein bestehender Bogen behält alle Blöcke in einem ersten Reiter.',
+        ],
+    ],
+
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Mehrere Notizen und drei Spalten in Meine Bögen',
+        'items' => [
+            '„+ Neue Notiz“ fügt einen Notizblock hinzu: so viele Sie möchten (Schulden, Gerüchte, Kontakte…). Ihre bisherigen Notizen werden zu einem ersten Block „Notizen“.',
+            'Blöcke lassen sich jetzt mit „Blöcke anordnen“ auf drei Spalten platzieren, Notizen eingeschlossen.',
+        ],
+    ],
+
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Eine aktuelle Demo',
+        'items' => [
+            'Die Demo-Kampagne zeigt jetzt die neuesten Funktionen: Auf der Kampagnenkarte führt der Leuchtturm zu einer Unterkarte, seinem Keller, bereit für einen Kampf mit Spielsteinen, zwei Flächenschablonen und einer Initiativreihenfolge. Jeder Punkt verknüpft mehrere Bögen und mehrere Szenen.',
+            'Würfel am Tisch: vorbereitete Würfe, die den Wert vom Bogen übernehmen, ein benannter Bonus und die Würfe aus Sitzung 1, darunter eine Anfrage der SL.',
+            'Außerdem: ein Klang aus „Meine Sounds“, eine Szene „Wie geplant gespielt“ und eine mit „Was geschah“, ein Hinweis „Lüge“, ein Hausbogen und eine Hausregel mit ihrer offiziellen Fassung sowie Spieler, die ihr Porträt selbst ergänzen.',
+            'Lade die Demo unter „Meine Kampagnen“ erneut, um sie zu entdecken: Eine bereits geladene Kopie bleibt, wie sie ist.',
+        ],
+    ],
+
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Kampagnenkarte: Zoom, Tisch und reichere Orte',
+        'items' => [
+            'Die Kampagnenkarte lässt sich zoomen (Mausrad, + und −, Zwei-Finger-Geste auf dem Tablet) und durch Ziehen verschieben. Tipp: Ein 4K-Bild (3840 × 2160) bleibt scharf.',
+            'Wenn die Karte auf dem Tischbildschirm ist, ersetzt die von einem Punkt geöffnete Unterkarte sie dort, und beim Zurückgehen kehrt die obere Karte zurück. In der Unterkarte hält „Dieser Ort“ die Szenen und Einträge des Punkts einen Klick entfernt.',
+            'Ein Punkt kann jetzt mit mehreren Szenen und mehreren Einträgen verknüpft werden: der Ort, seine NSC, alle Szenen, die dort spielen.',
+        ],
+    ],
+
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Blöcke, Notizen und Ankreuzfelder in Meine Bögen',
+        'items' => [
+            'In „Meine Bögen“ ordnen sich die Felder in Blöcken, die Sie benennen: Werte, Fertigkeiten, Ausrüstung, Zauber…',
+            '„Blöcke anordnen“: Ziehen Sie einen Block an seinem Griff oder nutzen Sie die Pfeile, um ihn zu platzieren, wo Sie möchten, in einer oder zwei Spalten.',
+            'Jedes Feld kann eine Notiz und ein Ankreuzfeld haben, das Sie während des Spiels ankreuzen: eine gelungene Fertigkeit, ein vorbereiteter Zauber.',
+        ],
+    ],
+
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Demo-Bibliothek',
+        'items' => [
+            'Neue „Demo-Bibliothek“ unter „Meine Kampagnen“: spielfertige Kampagnen (eine Welt, ein kurzes Szenario, vorgefertigte Charaktere), von denen du mit einem Klick deine eigene Kopie lädst.',
+            'Jede Demo eines Autors oder Verlags behält einen Link „Spiel kaufen“, in der Bibliothek und oben in deiner Kopie.',
+            'Der Premium-Preis steht jetzt auf dem Abo-Button in den Einstellungen: 4,99 € pro Monat.',
+        ],
+    ],
+
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Was geschah, und das Abenteuerbuch',
+        'items' => [
+            'Jede Szene hat jetzt zwei Teile: „Was geplant ist“ und „Was geschah“. Hat die Runde den Plan befolgt, kreuzen Sie einfach „Wie geplant gespielt“ an.',
+            'Neu in der Kampagne: das „Abenteuerbuch“ mit den gespielten Szenen, Szenario für Szenario, und danach den Zusammenfassungen der Sitzungen, zum Lesen, Drucken oder Speichern als PDF.',
+            'Dazu kann eine ausformulierte Fassung kommen, von Ihnen oder von der KI Ihrer Wahl (Text zum Kopieren oder Ihr eigener API-Schlüssel, auf Ihre Kosten). Das Buch bleibt der SL vorbehalten.',
+        ],
+    ],
+
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Ordnen Sie Ihre Bildschirme nach Ihrem Geschmack',
+        'items' => [
+            'Neue Schaltfläche „Bildschirm anordnen“ auf der Kampagnenseite und im Sitzungsmodus: Ziehen Sie jeden Block an seinem Griff ⠿, mit der Maus oder dem Finger, oder nutzen Sie die Pfeile.',
+            'Im Sitzungsmodus kann ein Block von einer Spalte in die andere wechseln: Musik oben, Notizen rechts, ganz wie Sie möchten.',
+            '„Ausblenden“ entfernt einen Block, den Sie nicht nutzen, „Anzeigen“ holt ihn zurück, „Standardanordnung“ stellt alles wieder her. Diese Anordnung gehört nur Ihnen: Spieler und Co-SL behalten ihre eigene.',
+        ],
+    ],
+
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Ihr Bogen, auch ohne Netz',
+        'items' => [
+            'Offline bleibt der Bogen Ihres Charakters nutzbar: Passen Sie Ihre Zähler mit − und + an, ändern Sie die Felder, die der SL Ihnen freigibt, und schreiben Sie Notizen.',
+            'Alles wird auf dem Gerät gespeichert und bei wiederhergestellter Verbindung Feld für Feld gesendet: Ein Zähler erhält, was Sie abgezogen oder hinzugefügt haben, und was der SL inzwischen geändert hat (ein enthülltes Geheimnis, ein geändertes Feld), bleibt erhalten.',
+            'Nach dem Senden zeigt eine Zusammenfassung, was aktualisiert wurde, und weist auf Felder hin, die der SL gleichzeitig mit Ihnen geändert hat.',
+        ],
+    ],
+
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Die große Kampagnenkarte',
+        'items' => [
+            'Neue „Kampagnenkarte“: Wähle eine Karte als Übersicht und setze darauf Orte von Interesse, eine Stadt, ein Verlies, den Ort einer Szene.',
+            'Ein Punkt kann mit einem Klick eine Unterkarte öffnen, die selbst Punkte hat; über die Brotkrumen geht es zurück bis zur Übersicht.',
+            'Mit einer Szene verknüpft zeigen die Punkte, was gespielt, laufend oder noch geplant ist; mit einem Bogen verknüpft öffnen sie ihn. Alles bleibt beim SL, außer den Namen der Punkte „Am Tisch sichtbar“, die der Tischbildschirm zeigt.',
+        ],
+    ],
+
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Ihre anderswo gespielten Charaktere',
+        'items' => [
+            'Neue Seite „Meine Bögen“: Bewahren Sie die Charaktere auf, die Sie außerhalb von SagaWyn spielen, bei Freunden, im Verein oder anderswo. Nur Sie sehen sie.',
+            'Jeder Charakter hat seinen PDF-Bogen, ein Porträt, freie Felder (Texte und Zähler, die Sie während des Spiels mit − und + einstellen) und Ihre Notizen, dazu Spiel und Runde, um ihn wiederzufinden.',
+        ],
+    ],
+
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Eine Klangbibliothek für alle Kampagnen',
+        'items' => [
+            'Neue Seite „Meine Sounds“: Musik und Ambiente, einmal im Konto gespeichert und dann zu den Kampagnen hinzugefügt, die du leitest. Die Datei wird nicht kopiert und zählt nur einmal für deinen Speicher.',
+            'Auf der Seite Sounds einer Kampagne: „Aus meiner Bibliothek“ fügt deine Sounds hinzu, „In meine Bibliothek verschieben“ macht einen Sound anderswo nutzbar, und ein Kästchen legt einen neuen Upload direkt in der Bibliothek ab.',
+            'Wird ein Sound, der schon in einer anderen Kampagne hochgeladen wurde, in die Bibliothek verschoben, werden beide Kopien zusammengeführt: Szenen behalten ihre Musik und der Speicher wird frei.',
+        ],
+    ],
+
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Die Anleitung überall',
+        'items' => [
+            'Die Schaltfläche „?“ gibt es jetzt auch bei Klängen, Beziehungsgraph, Zeitleiste, Spielerfeedback, KI-Assistent, Protokoll und Charakterbogen.',
+            'Bei Graph, Zeitleiste und Charakterbogen lesen Spieler eine Anleitung, die für sie geschrieben ist.',
+        ],
+    ],
+
+    '0.71.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Mehrere Punkte auf einmal abziehen oder hinzufügen',
+        'items' => [
+            'Unter jedem Zähler, den der Spieler ändern darf (LP, Munition, Geld…), ein Feld „Betrag“: 8 eingeben, dann −, und der Zähler verliert 8 auf einmal. Standardwert ist 1.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Kurzanleitung auf weiteren Seiten',
+        'items' => [
+            'Der „?“-Knopf erscheint jetzt auch auf dem Blatt (SL-Seite), im Sitzungsmodus, bei Szenarien und Szenen, beim Dateiimport und bei den Mitgliedern der Kampagne.',
+            'Die Hilfeseite erklärt jetzt den Rohwurf und Boni vom Charakterblatt.',
+        ],
+    ],
+
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Eine Kurzanleitung auf den kniffligen Seiten',
+        'items' => [
+            'Ein „?“-Knopf neben dem Titel der Seiten, die sich nicht von selbst erklären, öffnet eine kurze Anleitung: Blatttypen, Felder des Spiels, Tags, Würfel, Karten, Fernbedienung des Tischbildschirms, Hinweise und Enthüllungsverlauf.',
+            'Jede Anleitung verweist auf die passende Frage der Hilfeseite, die sich direkt dort öffnet.',
+        ],
+    ],
+
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus und Schwelle vom Bogen',
+        'items' => [
+            'Beim Würfeln kann der Bonus einen oder mehrere Werte vom Charakterbogen übernehmen (Eigenschaft, Fertigkeit, jedes Zahl- oder Zählerfeld der öffentlichen Zone), ganz oder als Zehner, Hälfte oder Fünftel, zusätzlich zum freien Bonus. Auch die Schwelle kann vom Bogen kommen. Die Werte werden beim Wurf vom Bogen jedes würfelnden Charakters gelesen.',
+            'Mehrere benannte Boni (Waffe +2, Wunde −1…) addieren sich im selben Wurf, zusammen mit Werten vom Bogen.',
+            'Die fertigen Beispiele verschwinden vom Würfelbrett: Es behält deine gespeicherten Würfe.',
+            'Ein gespeicherter Wurf wird mit einem Tipp gelöscht: das × auf seinem Chip oder „Löschen“, wenn er geladen ist.',
         ],
     ],
 

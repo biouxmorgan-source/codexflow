@@ -4,6 +4,7 @@ namespace App\Livewire\Characters;
 
 use App\Actions\Characters\ExchangeGrant;
 use App\Actions\Characters\GiveToCharacters;
+use App\Actions\Characters\OfflineSync;
 use App\Actions\Characters\PlayerAdditions;
 use App\Enums\FieldType;
 use App\Enums\Zone;
@@ -541,6 +542,45 @@ class Show extends Component
         });
 
         $this->refreshEntity();
+    }
+
+    /**
+     * Ce que la page garde pour le mode hors ligne (offline-sheet.js) : valeurs actuelles des
+     * compteurs et champs que le joueur peut modifier, personnages avec qui partager une note.
+     * Null pour le MJ : seul le joueur du personnage modifie sa fiche hors ligne.
+     *
+     * @return array<string, mixed>|null
+     */
+    #[Computed]
+    public function offlineData(): ?array
+    {
+        if (! $this->isOwner || (! $this->canPlay && ! $this->canWrite)) {
+            return null;
+        }
+
+        $editable = $this->canPlay ? $this->fields->where('player_editable', true) : collect();
+
+        return [
+            'key' => 'sagawyn-offline-sheet:'.auth()->id().':'.$this->character->id,
+            'syncUrl' => route('characters.offline-sync', [$this->campaign, $this->character]),
+            'counters' => $editable->where('type', FieldType::Counter)
+                ->mapWithKeys(fn (FieldDefinition $definition) => [$definition->id => [
+                    'name' => $definition->name,
+                    'value' => $this->entity->fieldValue($definition)['value'] ?? 0,
+                    'max' => $this->entity->fieldValue($definition)['max'] ?? null,
+                ]])->all(),
+            'fields' => $editable->filter(fn (FieldDefinition $definition) => in_array($definition->type, OfflineSync::FIELD_TYPES, true))
+                ->map(fn (FieldDefinition $definition) => [
+                    'id' => $definition->id,
+                    'name' => $definition->name,
+                    'type' => $definition->type->value,
+                    'input' => $definition->type->input($this->entity->fieldValue($definition)),
+                    'options' => $definition->options ?? [],
+                ])->values()->all(),
+            'canNote' => $this->canWrite,
+            'visibilities' => CharacterNote::visibilities(),
+            'companions' => $this->companions->map(fn (PlayerCharacter $companion) => ['id' => $companion->id, 'name' => $companion->entity->name])->values()->all(),
+        ];
     }
 
     /** Le MJ laisse le joueur modifier le portrait, le résumé et la description de son personnage. */

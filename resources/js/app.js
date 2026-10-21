@@ -130,8 +130,11 @@ document.addEventListener('alpine:init', () => {
 import './rich-editor';
 import './echo';
 import './map-editor';
+import './campaign-map';
 import './relation-graph';
 import './pdf-viewer';
 import './pwa';
+import './offline-sheet';
 import './audio-deck';
 import './dice';
+import './screen-arranger';

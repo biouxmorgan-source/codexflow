@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Carte de la table : une image de la campagne, montrée sur l'écran de table, avec une grille
@@ -29,6 +30,7 @@ class TableMap extends Model
             'view_y' => 'float',
             'view_zoom' => 'float',
             'ruler' => 'array',
+            'is_campaign_map' => 'boolean',
         ];
     }
 
@@ -54,6 +56,47 @@ class TableMap extends Model
     public function templates(): HasMany
     {
         return $this->hasMany(MapTemplate::class)->orderBy('id');
+    }
+
+    /** @return HasMany<MapPoint, $this> points d'intérêt posés sur la carte */
+    public function points(): HasMany
+    {
+        return $this->hasMany(MapPoint::class)->orderBy('id');
+    }
+
+    /** @return HasMany<MapPoint, $this> points d'autres cartes qui mènent à celle-ci */
+    public function pointsLeadingHere(): HasMany
+    {
+        return $this->hasMany(MapPoint::class, 'target_map_id');
+    }
+
+    /**
+     * Chemin depuis la carte de campagne jusqu'à cette carte, sans elle : on remonte par les
+     * points qui y mènent (le premier posé si plusieurs cartes y mènent). S'arrête sur une boucle.
+     *
+     * @return list<TableMap>
+     */
+    public function parents(): array
+    {
+        $chain = [];
+        $seen = [$this->id];
+        $current = $this;
+
+        while (! $current->is_campaign_map) {
+            $parent = TableMap::query()->where('campaign_id', $this->campaign_id)
+                ->whereIn('id', MapPoint::query()->where('target_map_id', $current->id)->select('table_map_id'))
+                ->orderByDesc('is_campaign_map')->orderBy('id')->first();
+
+            if ($parent === null || in_array($parent->id, $seen, true)) {
+                break;
+            }
+
+            array_unshift($chain, $parent);
+            $seen[] = $parent->id;
+            $current = $parent;
+        }
+
+        return $chain;
     }
 
     /** Taille de case proposée à la création : vingt cases dans la largeur. */
@@ -82,6 +125,28 @@ class TableMap extends Model
         $this->view_zoom = round(max(1, min(self::MAX_ZOOM, $zoom)), 3);
         $this->view_x = round(max(0, min($this->width, $x)), 2);
         $this->view_y = round(max(0, min($this->height, $y)), 2);
+    }
+
+    /**
+     * L'image a été remplacée par une autre taille : la carte prend ses dimensions.
+     * Pions, gabarits et points gardent leur position en pixels, ramenée dans l'image.
+     */
+    public function resizeTo(int $width, int $height): void
+    {
+        if ($width === $this->width && $height === $this->height) {
+            return;
+        }
+
+        $this->width = $width;
+        $this->height = $height;
+        $this->setView($this->view_x ?? $width / 2, $this->view_y ?? $height / 2, $this->view_zoom ?: 1);
+        $this->ruler = null;
+        $this->save();
+
+        foreach ([$this->tokens(), $this->templates(), $this->points()] as $relation) {
+            $relation->getQuery()->where(fn ($q) => $q->where('x', '>', $width)->orWhere('y', '>', $height))
+                ->update(['x' => DB::raw('least(x, '.$width.')'), 'y' => DB::raw('least(y, '.$height.')')]);
+        }
     }
 
     /** Diamètre d'un jeton, en pixels de la carte. */

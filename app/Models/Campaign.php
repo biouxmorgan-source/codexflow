@@ -7,6 +7,7 @@ use App\Enums\CampaignStatus;
 use App\Support\Plans\Plans;
 use Database\Factories\CampaignFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,8 +15,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['name', 'description', 'game_system_id', 'world_id', 'status', 'archived_at', 'exchanges_need_approval'])]
+// Le livre des aventures rédigé relève de la zone MJ.
+#[Hidden(['adventure_book'])]
 class Campaign extends Model
 {
     /** @use HasFactory<CampaignFactory> */
@@ -67,6 +71,16 @@ class Campaign extends Model
     public function gameSystem(): BelongsTo
     {
         return $this->belongsTo(GameSystem::class);
+    }
+
+    /**
+     * Démo de la bibliothèque dont cette campagne est la copie.
+     *
+     * @return BelongsTo<DemoLibraryItem, $this>
+     */
+    public function demoLibraryItem(): BelongsTo
+    {
+        return $this->belongsTo(DemoLibraryItem::class);
     }
 
     /** @return BelongsTo<World, $this> */
@@ -156,6 +170,12 @@ class Campaign extends Model
         return $this->hasMany(TableMap::class)->orderBy('name');
     }
 
+    /** @return HasOne<TableMap, $this> la carte de campagne, vue d'ensemble d'où l'on ouvre les sous-cartes */
+    public function campaignMap(): HasOne
+    {
+        return $this->hasOne(TableMap::class)->where('is_campaign_map', true);
+    }
+
     /** @return HasMany<PlaySession, $this> */
     public function playSessions(): HasMany
     {
@@ -195,6 +215,18 @@ class Campaign extends Model
     public function feedbackRequests(): HasMany
     {
         return $this->hasMany(FeedbackRequest::class);
+    }
+
+    /** @return Builder<AudioTrack> les sons de la campagne et ceux ajoutés depuis la bibliothèque d'un MJ */
+    public function availableTracks(): Builder
+    {
+        return AudioTrack::query()->availableIn($this);
+    }
+
+    /** @return BelongsToMany<AudioTrack, $this> sons de bibliothèque ajoutés à la campagne */
+    public function libraryTracks(): BelongsToMany
+    {
+        return $this->belongsToMany(AudioTrack::class, 'audio_track_campaign');
     }
 
     /** @return HasMany<AudioTrack, $this> */

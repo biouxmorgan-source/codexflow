@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -86,6 +87,21 @@ class Document extends Model
     public function rules(): BelongsToMany
     {
         return $this->belongsToMany(Rule::class)->withTimestamps();
+    }
+
+    /**
+     * Adresse du fichier, versionnée par la date de modification : un fichier remplacé
+     * n'est pas resservi depuis le cache du navigateur.
+     */
+    public function fileUrl(): string
+    {
+        return route('documents.file', array_filter([$this, 'v' => $this->updated_at?->timestamp]));
+    }
+
+    /** @return HasMany<TableMap, $this> */
+    public function maps(): HasMany
+    {
+        return $this->hasMany(TableMap::class);
     }
 
     public function isImage(): bool

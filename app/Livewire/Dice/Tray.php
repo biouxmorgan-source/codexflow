@@ -8,6 +8,7 @@ use App\Models\DiceRoll;
 use App\Models\PlayerCharacter;
 use App\Support\CampaignFeatures;
 use App\Support\Dice\DiceFormula;
+use App\Support\Dice\SheetValues;
 use App\Support\Dice\TableDice;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
@@ -89,6 +90,17 @@ class Tray extends Component
         $this->remember();
     }
 
+    /** Ouvert depuis une feuille de personnage : on lance, au nom de ce personnage s'il est à soi. */
+    public function openFor(?int $characterId = null): void
+    {
+        $this->open = true;
+        $this->tab = 'roll';
+        if ($characterId !== null && $this->characters->contains('id', $characterId)) {
+            $this->characterId = $characterId;
+        }
+        $this->remember();
+    }
+
     public function select(string $tab): void
     {
         abort_unless(in_array($tab, $this->tabs(), true), 404);
@@ -163,7 +175,8 @@ class Tray extends Component
         $threshold = trim($this->answerThreshold);
         $bonus = trim($this->answerBonus);
 
-        if ($request->formula()->needsThreshold() && $request->formula()->threshold === null && ! is_numeric($threshold)) {
+        $formula = SheetValues::apply($request->formula(), $this->campaign, $pending['character']);
+        if ($formula->needsThreshold() && $formula->threshold === null && ! is_numeric($threshold)) {
             $this->addError('answerThreshold', __('Indiquez le seuil.'));
 
             return;
@@ -248,7 +261,8 @@ class Tray extends Component
             'usable' => $usable,
             'presets' => TableDice::presets($this->campaign),
             'mine' => TableDice::presets($this->campaign, auth()->user()),
-            'examples' => TableDice::examples(),
+            // Les champs de la fiche ne s'écrivent que dans le plateau ouvert.
+            'sheetFields' => $this->open ? SheetValues::choices($this->campaign) : [],
             'last' => $this->presentRoll($this->lastRollId),
             'answered' => $this->presentRoll($this->answeredRollId),
             'prompt' => $first,

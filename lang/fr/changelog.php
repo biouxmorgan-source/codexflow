@@ -4,13 +4,244 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
-    '0.69.0' => [
-        'date' => '2026-10-17',
+    '0.89.0' => [
+        'date' => '2026-10-21',
         'title' => 'Déclaration de droits à chaque import',
         'items' => [
             'Avant chaque import (fichier CSV ou JSON, archive de campagne, modèle de jeu), une case non cochée par défaut demande de certifier disposer des droits nécessaires sur les contenus importés. Sans elle, le bouton reste grisé et le serveur refuse l’import.',
             'Chaque déclaration est enregistrée avec sa date, la version du texte accepté et l’issue de l’import, sans copie des fichiers. Elle figure dans « Télécharger mes données ».',
             'Les conditions d’utilisation gagnent une section « Contenus utilisateurs et propriété intellectuelle », accessible depuis chaque écran d’import.',
+        ],
+    ],
+
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Noms des points lisibles sur la carte',
+        'items' => [
+            'En thème sombre, le nom des points de la carte de campagne s’affichait en sombre sur fond noir : il est de nouveau blanc, comme les bandeaux d’initiative et de dés sur l’écran de table et les boutons de page des PDF.',
+        ],
+    ],
+
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Des lancers enregistrés pour chaque feuille',
+        'items' => [
+            'Dans les dés de « Mes feuilles », « Enregistrer ce lancer » garde un lancer avec la feuille : chaque personnage a ses propres lancers (Boule de feu, Attaque…), qu’on recharge d’un geste, qu’on met à jour et qu’on retire avec ×.',
+        ],
+    ],
+
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '« Remplacer le fichier » fonctionne',
+        'items' => [
+            'Le bouton « Remplacer » restait grisé après le choix du nouveau fichier : il redevient cliquable une fois le fichier envoyé.',
+        ],
+    ],
+
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Remplacer une carte par une image d’une autre taille',
+        'items' => [
+            'Quand le document sert de carte, « Remplacer le fichier » affiche la taille de l’image actuelle et accepte une image d’une autre taille. Les pions, gabarits et points gardent leur position en pixels : un avertissement prévient qu’ils se décaleront sur le dessin.',
+        ],
+    ],
+
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Modifier un document sans le supprimer',
+        'items' => [
+            'Sur la page d’un document, « Remplacer le fichier » met une nouvelle version à la place de l’ancienne : le document garde son titre, ses réglages et ses liens, et la nouvelle version apparaît aussitôt dans les scènes, fiches, règles, cartes, indices et chez les personnages qui l’ont reçu.',
+            'Une image qui sert de carte se remplace par une autre image ; pions, grille et points restent à leur place.',
+        ],
+    ],
+
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Lancer les dés depuis la feuille',
+        'items' => [
+            'Sur la fiche d’un personnage, un petit dé à côté de chaque nombre et de chaque compteur lance les dés avec cette valeur : « Lancer sous… (seuil) » ou « Ajouter… au jet (bonus) ». Le plateau de dés s’ouvre prêt à lancer, et le résultat part à la table comme d’habitude.',
+            'Sur la fiche de votre personnage, la valeur reste liée à la fiche : si elle change, le lancer enregistré suit. Le MJ peut aussi lancer depuis la fiche d’un joueur.',
+            '« Mes feuilles » a ses propres dés : le même petit dé à côté des valeurs en chiffres, et un bouton « Dés » en bas de la feuille. Le résultat s’affiche sur la feuille, visible de vous seul.',
+        ],
+    ],
+
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Nouvelles cartes pour la démonstration',
+        'items' => [
+            'La démonstration « Le Serment de Pierrecendre » a de nouvelles cartes illustrées : le village côtier pour la carte de campagne, le quai souterrain du phare pour la sous-carte. Chargez-la de nouveau depuis « Mes campagnes » pour les voir.',
+        ],
+    ],
+
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Plus de place dans Mes feuilles',
+        'items' => [
+            'Une feuille garde maintenant jusqu’à 200 blocs, 500 champs et 30 onglets. « + Nouvelle note » ne renvoie plus de page d’erreur : à la limite, un message l’explique.',
+        ],
+    ],
+
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Des onglets dans Mes feuilles',
+        'items' => [
+            'Dans « Modifier », « + Nouvel onglet » partage une feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…), que vous rangez et retirez.',
+            'Chaque bloc choisit son onglet, et chaque onglet place ses blocs sur ses trois colonnes. Une feuille existante garde tous ses blocs dans un premier onglet.',
+        ],
+    ],
+
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Plusieurs notes et trois colonnes dans Mes feuilles',
+        'items' => [
+            '« + Nouvelle note » ajoute un bloc de notes : faites-en autant que vous voulez (dettes, rumeurs, contacts…). Vos notes d’avant deviennent un premier bloc « Notes ».',
+            'Les blocs se placent maintenant sur trois colonnes, notes comprises, avec « Organiser les blocs ».',
+        ],
+    ],
+
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Une démonstration à jour',
+        'items' => [
+            'La campagne de démonstration « Le Serment de Pierrecendre » montre les dernières nouveautés : sur la carte de campagne, le phare mène à une sous-carte, la cave, prête pour le combat avec ses jetons, deux gabarits de zone et un ordre d’initiative. Chaque point relie plusieurs fiches et plusieurs scènes.',
+            'Dés à la table : des lancers préparés qui reprennent la caractéristique de la fiche, un bonus nommé, et les lancers de la séance 1, dont une demande du MJ.',
+            'Aussi : un son de « Mes sons », une scène « Jouée comme prévu » et une autre avec « Ce qui s’est passé », un indice « Mensonge », une fiche et une règle maison avec leur version officielle, et des joueurs qui complètent leur portrait.',
+            'Chargez de nouveau la démonstration depuis « Mes campagnes » pour la découvrir : une copie déjà chargée reste telle quelle.',
+        ],
+    ],
+
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Carte de campagne : zoom, table et lieux plus riches',
+        'items' => [
+            'La carte de campagne se zoome (molette, + et −, pincer sur tablette) et se déplace en glissant. Conseil : une image 4K (3840 × 2160) reste nette.',
+            'Quand la carte est à l’écran de table, la sous-carte ouverte depuis un point l’y remplace, et la carte d’au-dessus revient quand vous remontez. Dans la sous-carte, « Ce lieu » garde les scènes et fiches du point à portée de clic.',
+            'Un point se relie maintenant à plusieurs scènes et plusieurs fiches : le lieu, ses PNJ, toutes les scènes qui s’y jouent.',
+        ],
+    ],
+
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Des blocs, des notes et des cases à cocher dans Mes feuilles',
+        'items' => [
+            'Dans « Mes feuilles », les champs se rangent dans des blocs que vous nommez : Caractéristiques, Compétences, Équipement, Sorts…',
+            '« Organiser les blocs » : glissez un bloc par sa poignée, ou utilisez les flèches, pour le placer où vous voulez, sur une ou deux colonnes.',
+            'Chaque champ peut porter une note et une case à cocher, à cocher pendant la partie : une compétence réussie, un sort préparé.',
+        ],
+    ],
+
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Bibliothèque de démos',
+        'items' => [
+            'Nouvelle « Bibliothèque de démos », depuis « Mes campagnes » : des campagnes prêtes à jouer (un univers, un court scénario, des prétirés), dont vous chargez votre propre copie en un clic.',
+            'Chaque démo d’un auteur ou d’un éditeur garde un lien « Acheter le jeu », dans la bibliothèque et en haut de votre copie.',
+            'Le prix de Premium s’affiche sur le bouton d’abonnement des Préférences : 4,99 € par mois.',
+        ],
+    ],
+
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Ce qui s’est passé, et le livre des aventures',
+        'items' => [
+            'Chaque scène a maintenant deux parties : « Ce qui est prévu » et « Ce qui s’est passé ». Si la table a suivi le plan, cochez simplement « Jouée comme prévu ».',
+            'Nouveau « Livre des aventures » dans la campagne : les scènes jouées, scénario par scénario, puis les résumés des séances, à lire, imprimer ou enregistrer en PDF.',
+            'Une version rédigée peut s’y ajouter, écrite par vous ou par l’IA de votre choix (texte à copier, ou votre propre clé d’API, à vos frais). Le livre reste réservé au MJ.',
+        ],
+    ],
+
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Rangez vos écrans à votre façon',
+        'items' => [
+            'Nouveau bouton « Organiser l’écran » sur la page de la campagne et en mode Session : glissez chaque bloc par sa poignée ⠿, à la souris ou au doigt, ou utilisez les flèches.',
+            'En mode Session, un bloc peut passer d’une colonne à l’autre : la musique en haut, les notes à droite, comme vous préférez.',
+            '« Masquer » retire un bloc dont vous ne vous servez pas, « Afficher » le fait revenir, « Disposition par défaut » remet tout en place. Cette disposition n’appartient qu’à vous : joueurs et co-MJ gardent la leur.',
+        ],
+    ],
+
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Votre fiche, même sans réseau',
+        'items' => [
+            'Hors ligne, la fiche de votre personnage reste utilisable : réglez vos compteurs avec − et +, modifiez les champs que le MJ vous laisse et écrivez des notes.',
+            'Tout est gardé sur l’appareil puis envoyé au retour de la connexion, champ par champ : un compteur reçoit ce que vous avez retiré ou ajouté, et ce que le MJ a changé entre-temps (un secret révélé, un champ modifié) est gardé.',
+            'Après l’envoi, un résumé dit ce qui a été mis à jour, et signale un champ que le MJ a modifié en même temps que vous.',
+        ],
+    ],
+
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'La grande carte de campagne',
+        'items' => [
+            'Nouvelle « Carte de campagne » : choisissez une carte comme vue d’ensemble et posez-y des points d’intérêt, une ville, un donjon, le lieu d’une scène.',
+            'Un point peut ouvrir une sous-carte d’un clic, qui a elle-même ses points ; le fil d’Ariane permet de remonter jusqu’à la vue d’ensemble.',
+            'Reliés à une scène, les points montrent ce qui est joué, en cours ou à venir ; reliés à une fiche, ils l’ouvrent. Tout reste au MJ, sauf le nom des points « Visibles à la table », affiché sur l’écran de table.',
+        ],
+    ],
+
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Vos personnages joués ailleurs',
+        'items' => [
+            'Nouvelle page « Mes feuilles » : rangez les personnages que vous jouez hors de SagaWyn, chez un ami, en club ou ailleurs. Vous seul les voyez.',
+            'Chaque personnage a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et vos notes, avec le nom du jeu et de la table pour les retrouver.',
+        ],
+    ],
+
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Une bibliothèque de sons pour toutes vos campagnes',
+        'items' => [
+            'Nouvelle page « Mes sons » : vos musiques et ambiances, rangées une seule fois dans votre compte, puis ajoutées aux campagnes que vous menez. Le fichier n’est pas copié et ne compte qu’une fois dans votre espace.',
+            'Dans la page Sons d’une campagne : « Depuis ma bibliothèque » pour y ajouter vos sons, « Ranger dans ma bibliothèque » pour réutiliser un son ailleurs, et une case pour ranger un nouveau téléversement directement dans la bibliothèque.',
+            'Ranger dans la bibliothèque un son déjà téléversé dans une autre campagne fusionne les deux copies : les scènes gardent leur musique et l’espace est libéré.',
+        ],
+    ],
+
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Le mode d’emploi partout',
+        'items' => [
+            'Le bouton « ? » arrive sur les sons, le graphe des relations, la chronologie, les avis des joueurs, l’assistant IA, le journal et la fiche de personnage.',
+            'Sur le graphe, la chronologie et la fiche de personnage, les joueurs lisent un mode d’emploi écrit pour eux.',
+        ],
+    ],
+
+    '0.71.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Retirer ou ajouter plusieurs points d’un coup',
+        'items' => [
+            'Sous chaque compteur que le joueur peut modifier (PV, munitions, argent…), un champ « Montant » : on tape 8 puis −, et le compteur perd 8 d’un coup. Il revient à 1 par défaut.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Un mode d’emploi sur plus d’écrans',
+        'items' => [
+            'Le bouton « ? » arrive aussi sur la fiche (côté MJ), le mode Session, les scénarios et les scènes, l’import de fichiers et les membres de la campagne.',
+            'La page « Aide » explique désormais le lancer brut et les bonus lus sur la fiche du personnage.',
+        ],
+    ],
+
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Un mode d’emploi sur les écrans délicats',
+        'items' => [
+            'Un bouton « ? » à côté du titre des écrans qui ne s’expliquent pas tout seuls ouvre leur mode d’emploi en quelques lignes : types de fiche, champs du jeu, tags, dés, cartes, télécommande de l’écran de table, indices et historique des révélations.',
+            'Chaque mode d’emploi renvoie à la question correspondante de la page « Aide », qui s’ouvre directement dessus.',
+        ],
+    ],
+
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus et seuil lus sur la fiche',
+        'items' => [
+            'Dans les dés, le bonus peut reprendre une ou plusieurs valeurs de la fiche du personnage (caractéristique, compétence, tout champ nombre ou compteur de la zone publique), entières ou en dizaine, moitié ou cinquième, en plus du bonus libre. Le seuil peut aussi se lire sur la fiche. Les valeurs sont lues au moment du lancer, sur la fiche de chaque personnage qui lance.',
+            'Plusieurs bonus nommés (Arme +2, Blessure −1…) s’ajoutent au même lancer, avec les valeurs de la fiche.',
+            'Les exemples tout faits disparaissent du plateau : il garde vos lancers enregistrés.',
+            'Un lancer enregistré se supprime d’un geste : le × sur sa pastille, ou « Supprimer » une fois chargé.',
         ],
     ],
 

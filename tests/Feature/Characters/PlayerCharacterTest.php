@@ -151,13 +151,29 @@ class PlayerCharacterTest extends TestCase
         Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $this->campaign])->call('toggleLock', $character->id);
         Livewire::actingAs($this->player)->test(Show::class, ['campaign' => $this->campaign, 'character' => $character->fresh()])
             ->assertSee('fiche verrouillée')
-            ->assertDontSee('Retirer 1 à PV')
+            ->assertDontSee(['Retirer le montant à PV', 'Montant pour PV'])
             ->call('adjust', $hp->id, -1)
             ->assertForbidden();
         Livewire::actingAs($this->gm)->test(Show::class, ['campaign' => $this->campaign, 'character' => $character->fresh()])
             ->assertSee('Vous voyez la fiche comme Alex la voit')
             ->call('adjust', $hp->id, 1);
         $this->assertEquals(['value' => 8, 'max' => 13], $character->entity->fresh()->fieldValue($hp));
+    }
+
+    public function test_the_player_changes_a_counter_by_several_points_at_once(): void
+    {
+        $hp = $this->field('PV', FieldType::Counter, editable: true);
+        $character = $this->createCharacter();
+        $character->entity->setFieldValues([$hp->id => ['value' => 12, 'max' => 12]]);
+        $character->entity->save();
+
+        Livewire::actingAs($this->player)->test(Show::class, ['campaign' => $this->campaign, 'character' => $character])
+            ->assertSee(['Montant pour PV', 'Retirer le montant à PV'])
+            ->call('adjust', $hp->id, -8)
+            ->call('adjust', $hp->id, 3)
+            ->call('adjust', $hp->id, -1001)
+            ->assertStatus(422);
+        $this->assertEquals(['value' => 7, 'max' => 12], $character->entity->fresh()->fieldValue($hp));
     }
 
     public function test_a_player_has_one_active_character_per_campaign(): void

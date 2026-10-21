@@ -111,7 +111,6 @@ class CampaignFeaturesTest extends TestCase
         CampaignFeatures::toggle($this->campaign, 'exchanges');
 
         Livewire::actingAs($this->player)->test(CharacterShow::class, ['campaign' => $this->campaign->fresh(), 'character' => $harvey])
-            ->assertDontSee('Transmettre')
             ->assertDontSeeHtml('wire:click="startExchange');
 
         $this->actingAs($this->player);

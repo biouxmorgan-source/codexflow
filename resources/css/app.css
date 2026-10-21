@@ -16,6 +16,8 @@
     --color-parchment: #faf8f4;
     /* Texte posé sur une couleur d'accent (boutons, pastilles). */
     --color-on-accent: #ffffff;
+    /* Blanc fixe, quel que soit le thème : texte et contours posés sur une carte ou un voile sombre. */
+    --color-snow: #ffffff;
 }
 
 /*

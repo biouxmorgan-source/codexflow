@@ -15,16 +15,16 @@
             @if ($document->isImage() && \App\Support\CampaignFeatures::usable($campaign, 'maps'))
                 <a href="{{ route('maps.index', [$campaign, 'document' => $document->id]) }}" class="btn-secondary" wire:navigate>{{ __('En faire une carte') }}</a>
             @endif
-            <a href="{{ route('documents.file', $document) }}" target="_blank" rel="noopener" class="btn-secondary">{{ __('Ouvrir dans un onglet ↗') }}</a>
+            <a href="{{ $document->fileUrl() }}" target="_blank" rel="noopener" class="btn-secondary">{{ __('Ouvrir dans un onglet ↗') }}</a>
         </div>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-3">
-        <section class="overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm lg:col-span-2">
+        <section class="overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm lg:col-span-2" wire:key="file-{{ md5($document->path) }}">
             @if ($document->isImage())
-                <img src="{{ route('documents.file', $document) }}" alt="{{ $document->title }}" class="mx-auto max-h-[75vh] w-auto">
+                <img src="{{ $document->fileUrl() }}" alt="{{ $document->title }}" class="mx-auto max-h-[75vh] w-auto">
             @elseif ($document->isPdf())
-                <x-pdf-viewer :url="route('documents.file', $document)" :title="$document->title" :download="route('documents.file', $document)" class="h-[75vh]" wire:ignore />
+                <x-pdf-viewer :url="$document->fileUrl()" :title="$document->title" :download="$document->fileUrl()" class="h-[75vh]" wire:ignore />
             @endif
         </section>
 
@@ -53,6 +53,24 @@
                     <button type="submit" class="btn-primary">{{ __('Enregistrer') }}</button>
                     @if ($saved)
                         <span class="text-sm text-emerald-700" wire:transition>{{ __('Enregistré.') }}</span>
+                    @endif
+                </div>
+            </form>
+
+            <form wire:submit="replaceFile" class="space-y-3 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 class="font-semibold">{{ __('Remplacer le fichier') }}</h2>
+                <p class="text-sm text-stone-600">{{ $document->campaign_id ? __('Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié.') : __('Le document garde son titre, ses réglages et ses liens : la nouvelle version apparaît partout où il est lié, dans toutes les campagnes.') }}</p>
+                @if ($mapSize)
+                    <p class="text-sm text-stone-600">{{ __('Ce document sert de carte. Image actuelle : :width × :height pixels.', $mapSize) }}</p>
+                    <p class="text-sm text-amber-800">{{ __('Une image d’une autre taille est acceptée, mais les pions, gabarits et points gardent leur position en pixels : ils se décaleront sur le dessin et seront à replacer.') }}</p>
+                @endif
+                <input id="replacement" type="file" wire:model="replacement" accept=".{{ str_replace(',', ',.', $mapSize ? 'jpg,jpeg,png,gif,webp' : \App\Models\Document::MIMES) }}" class="block w-full text-sm" aria-label="{{ __('Nouveau fichier') }}">
+                <div wire:loading wire:target="replacement" class="text-sm text-stone-500">{{ __('Envoi en cours…') }}</div>
+                @error('replacement') <p class="error">{{ $message }}</p> @enderror
+                <div class="flex items-center gap-3">
+                    <button type="submit" class="btn-secondary" wire:loading.attr="disabled" wire:target="replacement,replaceFile">{{ __('Remplacer') }}</button>
+                    @if ($replaced)
+                        <span class="text-sm text-emerald-700" wire:transition>{{ __('Fichier remplacé.') }}</span>
                     @endif
                 </div>
             </form>

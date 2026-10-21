@@ -18,6 +18,7 @@ use App\Models\EntityType;
 use App\Models\FeedbackRequest;
 use App\Models\FieldDefinition;
 use App\Models\GameSystem;
+use App\Models\MapPoint;
 use App\Models\PlayerCharacter;
 use App\Models\PlaySession;
 use App\Models\Rule;
@@ -32,20 +33,29 @@ use App\Models\User;
 use App\Models\World;
 use App\Support\Demo\DemoFiles;
 use App\Support\Demo\DemoLock;
+use App\Support\Dice\DiceFormula;
+use App\Support\Dice\DiceRoller;
+use App\Support\Dice\SheetValues;
+use App\Support\Dice\TableDice;
 use App\Support\Locale;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Random\Engine\Mt19937;
+use Random\Randomizer;
 
 /**
  * Campagne de démonstration : « Le Serment de Pierrecendre », pour le jeu inventé « Brume & Serment ».
  *
  * Un contenu entièrement original, écrit pour SagaWyn, qui met en scène chaque fonction : champs
  * libres, zones publique et MJ, relations et graphe, chronologie, scénario et scènes, documents,
- * carte avec grille et jetons, secrets, règles, tags, prétirés, sons liés aux scènes, une séance
- * déjà jouée avec son résumé et une demande d'avis aux joueurs.
+ * carte de campagne avec ses points et une sous-carte de combat (jetons, gabarits, initiative),
+ * indices (vérité, indice, rumeur, mensonge), règles et contenu maison, tags, prétirés, sons liés aux
+ * scènes (dont un de la bibliothèque « Mes sons »), lancers de dés enregistrés qui lisent la fiche,
+ * une séance déjà jouée (scènes « jouée comme prévu » ou « ce qui s'est passé », livre des aventures)
+ * et une demande d'avis aux joueurs.
  *
  * Cette classe porte la structure (qui est relié à qui, les zones, les jetons, les valeurs chiffrées),
  * identique dans toutes les langues ; le texte vient de resources/demo/{langue}.php, avec les mêmes clés.
@@ -54,8 +64,6 @@ use Illuminate\Support\Str;
 class LoadDemoCampaign
 {
     public const TEXT_PATH = 'demo';
-
-    private const SCORES = ['1', '2', '3', '4', '5'];
 
     private User $gm;
 
@@ -152,7 +160,8 @@ class LoadDemoCampaign
 
             $this->campaign->gameSystem->forceFill(['description' => $this->text['game']['description']])->save();
             $this->campaign->world->forceFill(['description' => $this->text['world']['description']])->save();
-            $this->campaign->forceFill(['table_theme' => 'parchemin', 'is_demo' => true])->save();
+            // Les joueurs complètent eux-mêmes le portrait et la présentation de leur personnage.
+            $this->campaign->forceFill(['table_theme' => 'parchemin', 'is_demo' => true, 'players_edit_profile' => true])->save();
             $this->cover($this->campaign->gameSystem, 'game', '#5b3a29', '#2b3a42');
             $this->cover($this->campaign->world, 'world', '#41607a', '#1f4f5c');
 
@@ -169,6 +178,8 @@ class LoadDemoCampaign
             $this->sounds();
             $this->playedSession();
             $this->character();
+            $this->dice();
+            $this->initiative();
             $this->toPlay();
             $this->timeline();
             $this->colourTags();
@@ -196,7 +207,7 @@ class LoadDemoCampaign
     }
 
     /**
-     * Les champs du jeu : quatre caractéristiques, un compteur, un profil, deux champs réservés au MJ
+     * Les champs du jeu : quatre caractéristiques (des nombres, que les lancers de dés reprennent en bonus), un compteur, un profil, deux champs réservés au MJ
      * dont une référence à une fiche ; pour les lieux et créatures, un niveau de danger (un champ
      * commun à deux types) et, pour les lieux, un document de référence.
      */
@@ -204,10 +215,10 @@ class LoadDemoCampaign
     {
         $definitions = [
             // clé, groupe, type, options, zone, modifiable par le joueur, types de fiche
-            ['body', 'traits', FieldType::Select, self::SCORES, Zone::Public, false, ['character']],
-            ['skill', 'traits', FieldType::Select, self::SCORES, Zone::Public, false, ['character']],
-            ['mind', 'traits', FieldType::Select, self::SCORES, Zone::Public, false, ['character']],
-            ['heart', 'traits', FieldType::Select, self::SCORES, Zone::Public, false, ['character']],
+            ['body', 'traits', FieldType::Number, null, Zone::Public, false, ['character']],
+            ['skill', 'traits', FieldType::Number, null, Zone::Public, false, ['character']],
+            ['mind', 'traits', FieldType::Number, null, Zone::Public, false, ['character']],
+            ['heart', 'traits', FieldType::Number, null, Zone::Public, false, ['character']],
             ['breath', 'traits', FieldType::Counter, null, Zone::Public, true, ['character']],
             ['oaths', 'traits', FieldType::Number, null, Zone::Public, true, ['character']],
             ['trade', 'profile', FieldType::Text, null, Zone::Public, false, ['character']],
@@ -244,7 +255,7 @@ class LoadDemoCampaign
     private static function entityStructure(): array
     {
         $scores = fn (int $body, int $skill, int $mind, int $heart, int $breath, int $oaths, ?int $max = null) => [
-            'body' => (string) $body, 'skill' => (string) $skill, 'mind' => (string) $mind, 'heart' => (string) $heart,
+            'body' => $body, 'skill' => $skill, 'mind' => $mind, 'heart' => $heart,
             'breath' => ['value' => $breath, 'max' => $max ?? $breath], 'oaths' => $oaths,
         ];
 
@@ -315,6 +326,9 @@ class LoadDemoCampaign
             $entity->tags()->sync($this->tags($structure['tags']));
             $this->entities[$key] = $entity;
         }
+
+        // Contenu maison : les Noyeux de cette table sortent de l'eau ; la version du livret reste au MJ.
+        $this->entities['drowned']->forceFill(['is_house' => true, 'official_version' => $this->text['house']['drowned']])->save();
 
         // Une différence propre à la campagne, qui ne touche pas la fiche du monde.
         $this->entities['quay']->stateIn($this->campaign)->fill($this->text['quay_state'])->save();
@@ -482,6 +496,7 @@ class LoadDemoCampaign
                 'procedure' => $text['procedure'],
                 'gm_notes' => $text['gm_notes'] ?? null,
                 'source' => $text['source'] ?? null,
+                'official_version' => $text['official_version'] ?? null,
                 'origin' => $origin,
                 'status' => $status,
             ]);
@@ -511,6 +526,7 @@ class LoadDemoCampaign
 
         $scenes = [
             // clé => chapitre, statut, tags, fiches (dans l'ordre), documents, règles
+            // Des deux scènes jouées, l'une s'est passée comme prévu, l'autre raconte ce que la table en a fait.
             'lantern' => ['s1', SceneStatus::Played, ['act1'], ['quay', 'brannoc', 'guard'], ['notice'], ['roll']],
             'register' => ['s1', SceneStatus::Played, ['act1', 'hall'], ['hall', 'ysane', 'elzevir'], [], ['breaking']],
             'poles' => ['s2', SceneStatus::InProgress, ['act2', 'marshes'], ['marshes', 'brannoc', 'broken'], ['tides'], ['breath', 'mist']],
@@ -533,6 +549,8 @@ class LoadDemoCampaign
                 'position' => ++$position,
                 // Une scène n'est vue que du MJ : ses notes suivent la description, en paragraphe à part.
                 'description' => $this->link(trim($text['description']."\n\n".($text['gm_notes'] ?? ''))),
+                'what_happened' => isset($text['what_happened']) ? $this->link($text['what_happened']) : null,
+                'played_as_planned' => $status === SceneStatus::Played && ! isset($text['what_happened']),
             ]);
 
             $scene->entities()->attach(collect($entities)->mapWithKeys(fn (string $entity, int $i) => [
@@ -555,10 +573,11 @@ class LoadDemoCampaign
             'poles' => [['broken', 'marshes', 'mornevent'], ['tides'], ['poles', 'notebook']],
             'daughter' => [['broken', 'ysane'], [], ['rising']],
             'bought' => [['greythread', 'guard', 'mornevent'], [], ['notebook']],
+            'burnt' => [['elzevir', 'hall'], ['tile'], ['register']],
         ];
 
-        // Une rumeur, un indice, des vérités : les trois natures de secret.
-        $kinds = ['ysane_oath' => 'truth', 'stranger' => 'truth', 'poles' => 'clue', 'daughter' => 'truth', 'bought' => 'rumour'];
+        // Une rumeur, un indice, des vérités et un mensonge : les quatre natures d'indice.
+        $kinds = ['ysane_oath' => 'truth', 'stranger' => 'truth', 'poles' => 'clue', 'daughter' => 'truth', 'bought' => 'rumour', 'burnt' => 'lie'];
 
         foreach ($secrets as $key => [$entities, $documents, $scenes]) {
             $secret = new Secret($this->text['secrets'][$key] + ['kind' => $kinds[$key]]);
@@ -597,13 +616,13 @@ class LoadDemoCampaign
         // Positions en fractions de l'image : elles tiennent si une autre image remplace le plan dessiné.
         // Décalés en quinconce : à l'écran, les noms s'écrivent sous le jeton et ne doivent pas se chevaucher.
         $tokens = [
-            ['teska', 0.24, 0.71, 1, '#1d4ed8', false],
-            ['dorn', 0.33, 0.82, 1, '#b45309', false],
-            ['oriel', 0.41, 0.71, 1, '#7e22ce', false],
-            ['lisenn', 0.5, 0.82, 1, '#0f766e', false],
-            ['brannoc', 0.64, 0.69, 1, '#15803d', false],
-            ['guard', 0.19, 0.55, 1, '#57534e', false],
-            ['drowned', 0.79, 0.9, 2, '#b91c1c', true],
+            ['teska', 0.2, 0.33, 1, '#1d4ed8', false],
+            ['dorn', 0.26, 0.36, 1, '#b45309', false],
+            ['oriel', 0.32, 0.33, 1, '#7e22ce', false],
+            ['lisenn', 0.38, 0.36, 1, '#0f766e', false],
+            ['brannoc', 0.29, 0.62, 1, '#15803d', false],
+            ['guard', 0.1, 0.3, 1, '#57534e', false],
+            ['drowned', 0.6, 0.78, 2, '#b91c1c', true],
         ];
 
         foreach ($tokens as [$key, $x, $y, $tokenSize, $color, $hidden]) {
@@ -620,44 +639,183 @@ class LoadDemoCampaign
             $token->save();
         }
 
-        $map->ruler = ['x1' => round(0.24 * $width, 2), 'y1' => round(0.71 * $height, 2), 'x2' => round(0.64 * $width, 2), 'y2' => round(0.69 * $height, 2)];
+        // Carte de campagne : le plan du port, avec les lieux des scènes, déjà jouées ou à venir.
+        // Le phare mène à une sous-carte : sa cave, prête pour le combat de la séance 3.
+        $map->is_campaign_map = true;
+        $cellar = $this->cellarMap();
+        // Chaque point relie le lieu, ceux qu'on y croise et les scènes qui s'y jouent.
+        $points = [
+            // fiches (le lieu d'abord), scènes, x, y, couleur, visible à la table, sous-carte
+            [['quay', 'brannoc', 'guard'], ['lantern'], 0.45, 0.37, '#1d4ed8', true, null],
+            [['hall', 'ysane', 'elzevir', 'seal'], ['register', 'recast'], 0.535, 0.28, '#7e22ce', true, null],
+            [['marshes', 'broken', 'drowned'], ['poles', 'notebook'], 0.73, 0.2, '#15803d', false, null],
+            [['lighthouse', 'stranger'], ['cellar', 'rising'], 0.91, 0.72, '#b91c1c', false, $cellar],
+        ];
+
+        foreach ($points as [$entities, $scenes, $x, $y, $color, $shown, $target]) {
+            $place = $entities[0];
+            $point = $map->points()->make([
+                'label' => $this->entities[$place]->name,
+                'note' => $this->text['map']['notes'][$place] ?? null,
+                'color' => $color,
+                'x' => round($x * $width, 2),
+                'y' => round($y * $height, 2),
+                'shown_at_table' => $shown,
+            ]);
+            $point->target()->associate($target);
+            $point->save();
+            $this->linkPoint($point, $entities, $scenes);
+        }
+
+        $map->ruler = ['x1' => round(0.2 * $width, 2), 'y1' => round(0.33 * $height, 2), 'x2' => round(0.29 * $width, 2), 'y2' => round(0.62 * $height, 2)];
         $map->setView($width / 2, $height / 2, 1.1);
         $map->save();
     }
 
-    /** Ambiances sonores de la bibliothèque, liées aux scènes où elles se jouent. */
+    /**
+     * Sous-carte du phare : la cave inondée, avec grille, jetons (dont l'inconnu, caché), deux
+     * gabarits de zone (l'eau qui monte, montrée ; le souffle des Noyeux, encore caché) et ses propres points.
+     */
+    private function cellarMap(): TableMap
+    {
+        $text = $this->text['map']['cellar'];
+        $plan = $this->image('map-cellar', fn () => ['extension' => 'png', 'contents' => DemoFiles::cellar()]);
+        $document = $this->document($this->text['documents']['cellar'], Zone::GameMaster, $plan, ['marshes', 'act3'], ['lighthouse']);
+        $this->documents['cellar'] = $document;
+        $size = @getimagesizefromstring($plan['contents']);
+        [$width, $height] = $size === false ? [1200, 900] : [$size[0], $size[1]];
+
+        $map = new TableMap([
+            'name' => $text['name'],
+            'grid_enabled' => true,
+            'grid_size' => TableMap::defaultGridSize($width),
+            'grid_offset_x' => 0,
+            'grid_offset_y' => 0,
+            'grid_color' => '#e7e5e4',
+            'scale_value' => 1.5,
+            'scale_unit' => $this->text['map']['unit'],
+        ]);
+        $map->campaign()->associate($this->campaign);
+        $map->document()->associate($document);
+        $map->forceFill(['width' => $width, 'height' => $height])->save();
+        $cell = (float) $map->grid_size;
+
+        $tokens = [
+            ['teska', 0.3, 0.3, 1, '#1d4ed8', false],
+            ['dorn', 0.38, 0.36, 1, '#b45309', false],
+            ['oriel', 0.25, 0.42, 1, '#7e22ce', false],
+            ['lisenn', 0.42, 0.26, 1, '#0f766e', false],
+            ['stranger', 0.88, 0.22, 1, '#3f3f46', true],
+            ['drowned', 0.7, 0.75, 2, '#b91c1c', false],
+        ];
+
+        foreach ($tokens as [$key, $x, $y, $tokenSize, $color, $hidden]) {
+            $token = $map->tokens()->make([
+                'label' => $this->entities[$key]->name,
+                'color' => $color,
+                'x' => round($x * $width, 2),
+                'y' => round($y * $height, 2),
+                'size' => $tokenSize,
+                'hidden' => $hidden,
+                'show_label' => true,
+            ]);
+            $token->entity()->associate($this->entities[$key]);
+            $token->save();
+        }
+
+        // Tailles en cases : l'eau monte sur trois cases autour du puits ; le cône des Noyeux en fait quatre.
+        $map->templates()->createMany([
+            ['shape' => 'circle', 'size' => 3, 'x' => round(0.55 * $width, 2), 'y' => round(0.6 * $height, 2), 'angle' => 0, 'color' => '#1d4ed8', 'hidden' => false],
+            ['shape' => 'cone', 'size' => 4, 'x' => round(0.7 * $width, 2), 'y' => round(0.75 * $height, 2), 'angle' => 215, 'color' => '#b91c1c', 'hidden' => true],
+        ]);
+
+        foreach ([
+            // fiches, scènes, x, y, couleur, visible à la table
+            [['seal', 'ysane'], ['cellar'], 0.1, 0.72, '#b45309', false, 'crate'],
+            [['stranger'], ['cellar', 'rising'], 0.9, 0.12, '#57534e', false, 'stairs'],
+        ] as [$entities, $scenes, $x, $y, $color, $shown, $key]) {
+            $point = $map->points()->make([
+                'label' => $text['points'][$key][0],
+                'note' => $text['points'][$key][1],
+                'color' => $color,
+                'x' => round($x * $width, 2),
+                'y' => round($y * $height, 2),
+                'shown_at_table' => $shown,
+            ]);
+            $point->save();
+            $this->linkPoint($point, $entities, $scenes);
+        }
+
+        $map->setView($width / 2, $height / 2, 1);
+        $map->save();
+
+        return $map;
+    }
+
+    /**
+     * @param  list<string>  $entities
+     * @param  list<string>  $scenes
+     */
+    private function linkPoint(MapPoint $point, array $entities, array $scenes): void
+    {
+        $point->entities()->attach(collect($entities)->mapWithKeys(fn (string $key, int $i) => [$this->entities[$key]->id => ['position' => $i]])->all());
+        $point->scenes()->attach(collect($scenes)->mapWithKeys(fn (string $key, int $i) => [$this->scenes[$key]->id => ['position' => $i]])->all());
+    }
+
+    /**
+     * Ambiances sonores liées aux scènes où elles se jouent. L'orage vient de la bibliothèque
+     * personnelle du MJ (« Mes sons ») : un seul fichier, ajouté à la campagne sans copie.
+     */
     private function sounds(): void
     {
         $tracks = [
-            // clé => scènes
-            'tide' => ['lantern', 'poles', 'ward'],
-            'mist' => ['poles', 'notebook', 'rising'],
-            'storm' => ['cellar', 'recast'],
+            // clé => scènes, son de la bibliothèque
+            'tide' => [['lantern', 'poles', 'ward'], false],
+            'mist' => [['poles', 'notebook', 'rising'], false],
+            'storm' => [['cellar', 'recast'], true],
         ];
 
-        foreach ($tracks as $key => $scenes) {
-            $file = $this->sound($key);
-            $path = 'audio/'.Str::random(40).'.'.$file['extension'];
-            Storage::disk(AudioTrack::DISK)->put($path, $file['contents']);
+        foreach ($tracks as $key => [$scenes, $library]) {
+            // Une démonstration rechargée reprend le son déjà rangé dans la bibliothèque.
+            $track = $library
+                ? AudioTrack::where('user_id', $this->gm->id)->whereNull('campaign_id')->where('title', $this->text['sounds'][$key])->first()
+                : null;
 
-            $track = new AudioTrack([
-                'title' => $this->text['sounds'][$key],
-                'loop' => true,
-                'disk' => AudioTrack::DISK,
-                'path' => $path,
-                'original_name' => $this->text['sounds'][$key].'.'.$file['extension'],
-                'mime_type' => $file['mime'],
-                'size' => strlen($file['contents']),
-            ]);
-            $track->owner()->associate($this->gm);
-            $track->campaign()->associate($this->campaign);
-            $track->save();
-            $track->tags()->sync($this->tags(['ambience']));
+            if ($track === null) {
+                $track = $this->storeSound($key, $library ? null : $this->campaign);
+            }
+
+            if ($library) {
+                $this->campaign->libraryTracks()->syncWithoutDetaching([$track->id]);
+            }
 
             foreach ($scenes as $scene) {
                 $this->scenes[$scene]->audioTracks()->attach($track, ['position' => $this->scenes[$scene]->audioTracks()->count()]);
             }
         }
+    }
+
+    private function storeSound(string $key, ?Campaign $campaign): AudioTrack
+    {
+        $file = $this->sound($key);
+        $path = 'audio/'.Str::random(40).'.'.$file['extension'];
+        Storage::disk(AudioTrack::DISK)->put($path, $file['contents']);
+
+        $track = new AudioTrack([
+            'title' => $this->text['sounds'][$key],
+            'loop' => true,
+            'disk' => AudioTrack::DISK,
+            'path' => $path,
+            'original_name' => $this->text['sounds'][$key].'.'.$file['extension'],
+            'mime_type' => $file['mime'],
+            'size' => strlen($file['contents']),
+        ]);
+        $track->owner()->associate($this->gm);
+        $track->campaign()->associate($campaign);
+        $track->save();
+        $track->tags()->sync($this->tags(['ambience']));
+
+        return $track;
     }
 
     /**
@@ -748,6 +906,99 @@ class LoadDemoCampaign
                 'granted_by' => $this->gm->id,
             ]);
         }
+    }
+
+    /**
+     * Dés à la table : les lancers préparés par le MJ (1 d6 + la caractéristique lue sur la fiche,
+     * contre une difficulté), un lancer à lui, et trois lancers de la séance 1 dont une demande du MJ.
+     */
+    private function dice(): void
+    {
+        $text = $this->text['dice'];
+        $trait = fn (string $field, array $extra = []) => [
+            'pool' => [['count' => 1, 'sides' => 6]],
+            'reading' => 'above',
+            'bonus_from' => [['field' => $this->fields[$field]->id, 'take' => 'value', 'name' => $this->fields[$field]->name], ...$extra],
+        ];
+        $presets = [
+            'body' => $trait('body'),
+            'skill' => $trait('skill'),
+            'mind' => $trait('mind'),
+            'heart' => $trait('heart'),
+            // Agir pour tenir un serment : un bonus nommé s'ajoute à celui de la fiche.
+            'oath' => $trait('heart', [['fixed' => 1, 'name' => $text['oath_bonus']]]),
+            'reroll' => ['pool' => [['count' => 1, 'sides' => 6]], 'reading' => 'raw'],
+        ];
+
+        $this->campaign->forceFill(['dice_presets' => TableDice::cleanPresets(collect($presets)
+            ->map(fn (array $formula, string $key) => ['id' => $key, 'label' => $text['presets'][$key], 'formula' => $formula])
+            ->values()->all())])->save();
+
+        // « Mes lancers » du MJ, que lui seul retrouve sur son plateau.
+        DB::table('campaign_memberships')->where('campaign_id', $this->campaign->id)->where('user_id', $this->gm->id)->update(['dice_presets' => json_encode(TableDice::cleanPresets([
+            ['id' => 'drowned', 'label' => $text['presets']['drowned'], 'formula' => ['pool' => [['count' => 2, 'sides' => 6]], 'reading' => 'sum']],
+        ]))]);
+
+        // La même graine à chaque chargement : la séance 1 garde les mêmes dés.
+        $roller = new DiceRoller(new Randomizer(new Mt19937(1147)));
+        $sheet = fn (array $formula, int $threshold) => SheetValues::apply(DiceFormula::fromArray($formula), $this->campaign, $this->character)
+            ->completedWith($threshold, 0);
+        $at = $this->session->started_at->copy();
+
+        $request = $this->campaign->diceRequests()->create([
+            'user_id' => $this->gm->id,
+            'label' => $text['rolls']['elzevir'],
+            'formula' => DiceFormula::fromArray($presets['heart'] + ['threshold' => 7])->toArray(),
+            'visibility' => TableDice::TABLE,
+            'character_ids' => [$this->character->id],
+            'closed_at' => $at->copy()->addMinutes(95),
+        ]);
+
+        foreach ([
+            // libellé, formule, seuil, personnage, demande, visibilité, minutes après le début
+            ['follow', $presets['skill'], 7, true, null, TableDice::TABLE, 35],
+            ['elzevir', $presets['heart'], 7, true, $request, TableDice::TABLE, 94],
+            ['patrol', $presets['reroll'], null, false, null, TableDice::GM, 120],
+        ] as [$key, $formula, $threshold, $forCharacter, $answering, $visibility, $minutes]) {
+            $formula = $forCharacter ? $sheet($formula, $threshold) : DiceFormula::fromArray($formula);
+            $roll = $this->campaign->diceRolls()->make([
+                'label' => $text['rolls'][$key],
+                'formula' => $formula->toArray(),
+                'result' => $roller->roll($formula),
+                'visibility' => $visibility,
+            ]);
+            $roll->user()->associate($this->gm);
+            $roll->character()->associate($forCharacter ? $this->character : null);
+            $roll->request()->associate($answering);
+            $roll->forceFill(['created_at' => $at->copy()->addMinutes($minutes), 'updated_at' => $at->copy()->addMinutes($minutes)])->save();
+        }
+    }
+
+    /**
+     * Ordre d'initiative préparé pour la cave du phare : les quatre prétirés, montrés à la table, et les
+     * Noyeux, encore cachés ; la marée agit à part, sans valeur. Le MJ le fait apparaître sur l'écran de table.
+     */
+    private function initiative(): void
+    {
+        $entries = [
+            // fiche, valeur (null : sans ordre), couleur, montrée aux joueurs
+            ['teska', 5, '#1d4ed8', true],
+            ['lisenn', 4, '#0f766e', true],
+            ['drowned', 4, '#b91c1c', false],
+            ['dorn', 3, '#b45309', true],
+            ['oriel', 2, '#7e22ce', true],
+        ];
+
+        $state = ['shown' => false, 'round' => 1, 'turn' => null, 'next' => 1, 'entries' => []];
+
+        foreach ($entries as [$key, $value, $color, $visible]) {
+            $entity = $key === 'teska' ? $this->character->entity : $this->entities[$key];
+            $state['entries'][] = ['id' => $state['next']++, 'label' => $entity->name, 'entity_id' => $entity->id, 'color' => $color, 'value' => (float) $value, 'ordered' => true, 'visible' => $visible];
+        }
+
+        $state['entries'][] = ['id' => $state['next']++, 'label' => $this->text['dice']['tide'], 'entity_id' => null, 'color' => '#57534e', 'value' => null, 'ordered' => false, 'visible' => true];
+
+        $this->campaign->forceFill(['table_initiative' => $state])->save();
     }
 
     /** La liste « À jouer » : des idées à placer, liées à une scène, une règle ou un personnage ; une déjà faite. */

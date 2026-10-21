@@ -4,13 +4,244 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
-    '0.69.0' => [
-        'date' => '2026-10-17',
+    '0.89.0' => [
+        'date' => '2026-10-21',
         'title' => 'Rights declaration for every import',
         'items' => [
             'Before each import (CSV or JSON file, campaign archive, game template), a box that is unticked by default asks you to certify that you hold the necessary rights to the imported content. Without it, the button stays greyed out and the server refuses the import.',
             'Each declaration is recorded with its date, the version of the accepted text and the outcome of the import, without any copy of the files. It appears in “Download my data”.',
             'The terms of use gain a “User content and intellectual property” section, reachable from every import screen.',
+        ],
+    ],
+
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Readable point names on the map',
+        'items' => [
+            'In dark theme, campaign map point names showed dark on a black background: they are white again, as are the initiative and dice banners on the table screen and the PDF page buttons.',
+        ],
+    ],
+
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Saved rolls for each sheet',
+        'items' => [
+            'In the “My sheets” dice, “Save this roll” keeps a roll with the sheet: each character has its own rolls (Fireball, Attack…), reloaded in one tap, updated, and removed with ×.',
+        ],
+    ],
+
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '“Replace the file” works',
+        'items' => [
+            'The “Replace” button stayed greyed out after choosing the new file: it becomes clickable again once the file is uploaded.',
+        ],
+    ],
+
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Replace a map with an image of another size',
+        'items' => [
+            'When the document is used as a map, “Replace the file” shows the current image size and accepts an image of another size. Tokens, templates and points keep their position in pixels: a warning says they will shift on the picture.',
+        ],
+    ],
+
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Edit a document without deleting it',
+        'items' => [
+            'On a document’s page, “Replace the file” puts a new version in place of the old one: the document keeps its title, settings and links, and the new version shows up at once in scenes, sheets, rules, maps, clues and with the characters who received it.',
+            'An image used as a map is replaced by another image; tokens, grid and points stay in place.',
+        ],
+    ],
+
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Roll dice from the sheet',
+        'items' => [
+            'On a character sheet, a small die next to each number and counter rolls the dice with that value: “Roll under… (threshold)” or “Add… to the roll (bonus)”. The dice tray opens ready to roll, and the result goes to the table as usual.',
+            'On your own character’s sheet, the value stays linked to the sheet: if it changes, the saved roll follows. The GM can also roll from a player’s sheet.',
+            '“My sheets” has its own dice: the same small die next to numeric values, and a “Dice” button at the bottom of the sheet. The result shows on the sheet, visible to you only.',
+        ],
+    ],
+
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'New maps for the demo',
+        'items' => [
+            'The demo "The Oath of Pierrecendre" has new illustrated maps: the coastal village for the campaign map, the lighthouse’s underground quay for the sub-map. Load it again from "My campaigns" to see them.',
+        ],
+    ],
+
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'More room in My sheets',
+        'items' => [
+            'A sheet now holds up to 200 blocks, 500 fields and 30 tabs. “+ New note” no longer leads to an error page: at the limit, a message explains it.',
+        ],
+    ],
+
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Tabs in My sheets',
+        'items' => [
+            'In “Edit”, “+ New tab” splits a sheet into tabs you name (Character, Spells, Inventory…), reorder and remove.',
+            'Each block picks its tab, and each tab places its blocks on its own three columns. An existing sheet keeps all its blocks in a first tab.',
+        ],
+    ],
+
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Several notes and three columns in My sheets',
+        'items' => [
+            '“+ New note” adds a note block: make as many as you like (debts, rumours, contacts…). Your previous notes become a first “Notes” block.',
+            'Blocks can now be placed on three columns, notes included, with “Arrange blocks”.',
+        ],
+    ],
+
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'An up-to-date demo',
+        'items' => [
+            'The demo campaign "The Oath of Pierrecendre" now shows the latest features: on the campaign map, the lighthouse leads to a sub-map, its cellar, ready for a fight with tokens, two area templates and an initiative order. Each point links several sheets and several scenes.',
+            'Table dice: prepared rolls that read the characteristic from the sheet, a named bonus, and the rolls of session 1, including a GM request.',
+            'Also: a sound from "My sounds", a scene "Played as planned" and another with "What happened", a "Lie" clue, a house sheet and a house rule with their official version, and players who complete their own portrait.',
+            'Load the demo again from "My campaigns" to discover it: a copy you already loaded stays as it is.',
+        ],
+    ],
+
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Campaign map: zoom, table and richer places',
+        'items' => [
+            'The campaign map zooms (wheel, + and −, pinch on a tablet) and pans by dragging. Tip: a 4K image (3840 × 2160) stays sharp.',
+            'When the map is on the table screen, the sub-map opened from a point replaces it there, and the map above comes back when you go back up. In the sub-map, “This place” keeps the point’s scenes and sheets one click away.',
+            'A point can now link to several scenes and several sheets: the place, its NPCs, every scene played there.',
+        ],
+    ],
+
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Blocks, notes and checkboxes in My sheets',
+        'items' => [
+            'In “My sheets”, fields are arranged in blocks you name: Attributes, Skills, Equipment, Spells…',
+            '“Arrange blocks”: drag a block by its handle, or use the arrows, to place it where you like, on one or two columns.',
+            'Each field can carry a note and a checkbox, to tick during play: a successful skill, a prepared spell.',
+        ],
+    ],
+
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Demo library',
+        'items' => [
+            'New "Demo library", from "My campaigns": ready-to-play campaigns (a setting, a short scenario, pregenerated characters) that you load as your own copy in one click.',
+            'Each demo from an author or publisher keeps a "Buy the game" link, in the library and at the top of your copy.',
+            'The Premium price now shows on the subscription button in Preferences: €4.99 per month.',
+        ],
+    ],
+
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'What happened, and the adventure book',
+        'items' => [
+            'Each scene now has two parts: "What\'s planned" and "What happened". If the table followed the plan, just tick "Played as planned".',
+            'New "Adventure book" in the campaign: the played scenes, scenario by scenario, then the session summaries, to read, print or save as PDF.',
+            'A written version can be added, by you or by the AI of your choice (text to copy, or your own API key, at your expense). The book stays GM-only.',
+        ],
+    ],
+
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Arrange your screens your way',
+        'items' => [
+            'New “Arrange screen” button on the campaign page and in Session mode: drag each block by its ⠿ handle, with a mouse or a finger, or use the arrows.',
+            'In Session mode, a block can move from one column to the other: music at the top, notes on the right, as you prefer.',
+            '“Hide” removes a block you don’t use, “Show” brings it back, “Default layout” puts everything back. This layout is yours alone: players and co-GMs keep their own.',
+        ],
+    ],
+
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Your sheet, even without a connection',
+        'items' => [
+            'Offline, your character\'s sheet stays usable: adjust your counters with − and +, edit the fields the GM lets you change and write notes.',
+            'Everything is kept on the device and sent when the connection comes back, field by field: a counter receives what you removed or added, and whatever the GM changed in the meantime (a revealed secret, an edited field) is kept.',
+            'After sending, a summary says what was updated and points out any field the GM changed at the same time as you.',
+        ],
+    ],
+
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'The big campaign map',
+        'items' => [
+            'New “Campaign map”: choose one map as the overview and place points of interest on it, a city, a dungeon, the place of a scene.',
+            'A point can open a sub-map in one click, which has its own points; the breadcrumb takes you back up to the overview.',
+            'Linked to a scene, points show what has been played, is in progress or is still to come; linked to a sheet, they open it. Everything stays with the GM, except the names of points marked “Visible at the table”, shown on the table screen.',
+        ],
+    ],
+
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Your characters played elsewhere',
+        'items' => [
+            'New “My sheets” page: store the characters you play outside SagaWyn, at a friend’s, at a club or elsewhere. Only you can see them.',
+            'Each character has its PDF sheet, a portrait, free fields (texts and counters to adjust with − and + during play) and your notes, with the game and table names to find them again.',
+        ],
+    ],
+
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'A sound library for all your campaigns',
+        'items' => [
+            'New “My sounds” page: your music and ambiences, stored once in your account, then added to the campaigns you run. The file is not copied and only counts once against your storage.',
+            'On a campaign’s Sounds page: “From my library” to add your sounds, “Move to my library” to reuse a sound elsewhere, and a box to store a new upload straight in the library.',
+            'Moving a sound already uploaded in another campaign into the library merges both copies: scenes keep their music and the space is freed.',
+        ],
+    ],
+
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'The how-to everywhere',
+        'items' => [
+            'The “?” button now appears on sounds, the relationship graph, the timeline, player feedback, the AI assistant, the log and the character sheet.',
+            'On the graph, the timeline and the character sheet, players read a how-to written for them.',
+        ],
+    ],
+
+    '0.71.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Remove or add several points at once',
+        'items' => [
+            'Under each counter the player may change (HP, ammo, money…), an “Amount” box: type 8 then −, and the counter loses 8 at once. It defaults to 1.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'A how-to on more screens',
+        'items' => [
+            'The “?” button now also appears on the sheet (GM side), Session mode, scenarios and scenes, file import and campaign members.',
+            'The Help page now explains raw rolls and bonuses read from the character’s sheet.',
+        ],
+    ],
+
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'A how-to on the trickier screens',
+        'items' => [
+            'A “?” button next to the title of screens that don’t explain themselves opens a few-line how-to: sheet types, game fields, tags, dice, maps, table screen remote, clues and reveal history.',
+            'Each how-to links to the matching question on the Help page, which opens right on it.',
+        ],
+    ],
+
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonus and threshold read from the sheet',
+        'items' => [
+            'In the dice tray, the bonus can take one or more values from the character’s sheet (attribute, skill, any number or counter field in the public zone), whole or as tens, half or fifth, on top of the free bonus. The threshold can also be read from the sheet. Values are read at the moment of the roll, from the sheet of each character who rolls.',
+            'Several named bonuses (Weapon +2, Wound −1…) add up in the same roll, alongside sheet values.',
+            'The ready-made examples are gone from the tray: it keeps your saved rolls.',
+            'A saved roll is deleted in one tap: the × on its chip, or “Delete” once loaded.',
         ],
     ],
 

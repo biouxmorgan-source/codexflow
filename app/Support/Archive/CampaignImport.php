@@ -572,6 +572,8 @@ final class CampaignImport
                     'chapter' => $this->string($scene['chapter'] ?? null, 100),
                     'name' => $this->string($scene['name'] ?? null, 255) ?? __('Scène'),
                     'description' => $this->links($this->string($scene['description'] ?? null, 20000)),
+                    'what_happened' => $this->links($this->string($scene['what_happened'] ?? null, 20000)),
+                    'played_as_planned' => (bool) ($scene['played_as_planned'] ?? false),
                     'status' => SceneStatus::tryFrom((string) ($scene['status'] ?? ''))?->value ?? SceneStatus::Planned->value,
                     'position' => $scenePosition + 1,
                     'created_at' => $this->now,
@@ -651,6 +653,10 @@ final class CampaignImport
             }
         }
 
+        $maps = [];
+        $points = [];
+        $campaignMap = false;
+
         foreach ($this->list($data['maps'] ?? []) as $map) {
             $documentId = $this->map['documents'][$this->int($map['document_id'] ?? null) ?? -1] ?? null;
             $width = $this->int($map['width'] ?? null);
@@ -673,9 +679,20 @@ final class CampaignImport
                 'grid_color' => preg_match('/^#[0-9a-f]{6}$/i', (string) ($map['grid_color'] ?? '')) ? $map['grid_color'] : '#1c1917',
                 'scale_value' => $this->number($map['scale_value'] ?? null, 0, 100000),
                 'scale_unit' => $this->string($map['scale_unit'] ?? null, 20),
+                // Une seule carte de campagne : la première de l'archive qui l'est.
+                'is_campaign_map' => ! $campaignMap && (bool) ($map['is_campaign_map'] ?? false),
                 'created_at' => $this->now,
                 'updated_at' => $this->now,
             ]);
+            $campaignMap = $campaignMap || (bool) ($map['is_campaign_map'] ?? false);
+
+            if (($oldId = $this->int($map['id'] ?? null)) !== null) {
+                $maps[$oldId] = $mapId;
+            }
+
+            foreach ($this->list($map['points'] ?? []) as $point) {
+                $points[] = [$mapId, $width, $height, $point];
+            }
 
             foreach ($this->list($map['tokens'] ?? []) as $token) {
                 $label = $this->string($token['label'] ?? null, 100);
@@ -699,6 +716,34 @@ final class CampaignImport
                     'updated_at' => $this->now,
                 ]);
             }
+        }
+
+        // Points d'intérêt, une fois toutes les cartes créées : un point peut mener à une carte qui le suit.
+        foreach ($points as [$mapId, $width, $height, $point]) {
+            $label = $this->string($point['label'] ?? null, 100);
+
+            if ($label === null) {
+                continue;
+            }
+
+            $pointId = DB::table('map_points')->insertGetId([
+                'table_map_id' => $mapId,
+                'label' => $label,
+                'note' => $this->string($point['note'] ?? null, 5000),
+                'color' => preg_match('/^#[0-9a-f]{6}$/i', (string) ($point['color'] ?? '')) ? $point['color'] : '#b45309',
+                'x' => $this->number($point['x'] ?? null, 0, $width) ?? 0,
+                'y' => $this->number($point['y'] ?? null, 0, $height) ?? 0,
+                'target_map_id' => ($target = $maps[$this->int($point['target_map_id'] ?? null) ?? -1] ?? null) !== $mapId ? $target : null,
+                'shown_at_table' => (bool) ($point['shown_at_table'] ?? false),
+                'created_at' => $this->now,
+                'updated_at' => $this->now,
+            ]);
+
+            // Les archives de la v0.75 n'avaient qu'une scène et une fiche par point.
+            $sceneIds = $this->ids($point['scenes'] ?? [$point['scene_id'] ?? null], 'scenes');
+            $entityIds = $this->ids($point['entities'] ?? [$point['entity_id'] ?? null], 'entities');
+            DB::table('map_point_scene')->insert(array_map(fn ($id, $i) => ['map_point_id' => $pointId, 'scene_id' => $id, 'position' => $i], $sceneIds, array_keys($sceneIds)));
+            DB::table('map_point_entity')->insert(array_map(fn ($id, $i) => ['map_point_id' => $pointId, 'entity_id' => $id, 'position' => $i], $entityIds, array_keys($entityIds)));
         }
 
         foreach ($this->list($data['timeline'] ?? []) as $position => $event) {
@@ -773,6 +818,12 @@ final class CampaignImport
      */
     private function table(array $table, Campaign $campaign): void
     {
+        $book = $this->links($this->string($table['adventure_book'] ?? null, 200000));
+
+        if ($book !== null) {
+            DB::table('campaigns')->where('id', $campaign->id)->update(['adventure_book' => $book]);
+        }
+
         foreach ($this->list($table['characters'] ?? []) as $character) {
             $id = $this->int($character['id'] ?? null);
             $entityId = $this->entity($character['entity_id'] ?? null);

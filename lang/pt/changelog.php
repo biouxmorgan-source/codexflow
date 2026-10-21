@@ -4,13 +4,244 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
-    '0.69.0' => [
-        'date' => '2026-10-17',
+    '0.89.0' => [
+        'date' => '2026-10-21',
         'title' => 'Declaração de direitos em cada importação',
         'items' => [
             'Antes de cada importação (ficheiro CSV ou JSON, arquivo de campanha, modelo de jogo), uma caixa desmarcada por predefinição pede para certificar que dispõe dos direitos necessários sobre os conteúdos importados. Sem ela, o botão fica cinzento e o servidor recusa a importação.',
             'Cada declaração é registada com a data, a versão do texto aceite e o resultado da importação, sem cópia dos ficheiros. Aparece em «Transferir os meus dados».',
             'As condições de utilização ganham uma secção «Conteúdos dos utilizadores e propriedade intelectual», acessível a partir de cada ecrã de importação.',
+        ],
+    ],
+
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Nomes dos pontos legíveis no mapa',
+        'items' => [
+            'No tema escuro, os nomes dos pontos do mapa da campanha apareciam escuros sobre fundo preto: voltam a ser brancos, tal como os painéis de iniciativa e de dados no ecrã da mesa e os botões de página dos PDF.',
+        ],
+    ],
+
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Rolagens salvas para cada ficha',
+        'items' => [
+            'Nos dados de «Minhas fichas», «Salvar esta rolagem» guarda uma rolagem com a ficha: cada personagem tem as próprias rolagens (Bola de fogo, Ataque…), recarregadas com um toque, atualizadas e removidas com ×.',
+        ],
+    ],
+
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '«Substituir o ficheiro» funciona',
+        'items' => [
+            'O botão «Substituir» ficava desativado depois de escolher o novo ficheiro: volta a poder ser clicado assim que o ficheiro é enviado.',
+        ],
+    ],
+
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Substituir um mapa por uma imagem de outro tamanho',
+        'items' => [
+            'Quando o documento serve de mapa, «Substituir o ficheiro» mostra o tamanho da imagem atual e aceita uma imagem de outro tamanho. Peões, moldes e pontos mantêm a posição em píxeis: um aviso indica que vão deslocar-se no desenho.',
+        ],
+    ],
+
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Modificar um documento sem o apagar',
+        'items' => [
+            'Na página de um documento, «Substituir o ficheiro» coloca uma nova versão no lugar da antiga: o documento mantém o título, as definições e as ligações, e a nova versão aparece logo nas cenas, fichas, regras, mapas, pistas e nas personagens que o receberam.',
+            'Uma imagem que serve de mapa é substituída por outra imagem; peões, grelha e pontos ficam no lugar.',
+        ],
+    ],
+
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Rolar os dados a partir da ficha',
+        'items' => [
+            'Na ficha de um personagem, um pequeno dado ao lado de cada número e de cada contador rola os dados com esse valor: «Rolar abaixo de… (limiar)» ou «Somar… à rolagem (bônus)». A bandeja de dados abre pronta para rolar e o resultado vai para a mesa como sempre.',
+            'Na ficha do seu próprio personagem, o valor continua ligado à ficha: se mudar, a rolagem salva acompanha. O mestre também pode rolar a partir da ficha de um jogador.',
+            '«Minhas fichas» tem os próprios dados: o mesmo pequeno dado ao lado dos valores numéricos e um botão «Dados» no fim da ficha. O resultado aparece na ficha, visível só para você.',
+        ],
+    ],
+
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Novos mapas para a demo',
+        'items' => [
+            'A demonstração tem novos mapas ilustrados: a aldeia costeira para o mapa da campanha e o cais subterrâneo do farol para o submapa. Volte a carregá-la em «Minhas campanhas» para os ver.',
+        ],
+    ],
+
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Mais espaço em As minhas fichas',
+        'items' => [
+            'Uma ficha guarda agora até 200 blocos, 500 campos e 30 separadores. «+ Nova nota» já não leva a uma página de erro: no limite, uma mensagem explica-o.',
+        ],
+    ],
+
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Separadores em As minhas fichas',
+        'items' => [
+            'Em «Editar», «+ Novo separador» divide uma ficha em separadores a que dá um nome (Personagem, Feitiços, Inventário…), que ordena e remove.',
+            'Cada bloco escolhe o seu separador, e cada separador coloca os seus blocos nas suas próprias três colunas. Uma ficha existente mantém todos os blocos num primeiro separador.',
+        ],
+    ],
+
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Várias notas e três colunas em As minhas fichas',
+        'items' => [
+            '«+ Nova nota» adiciona um bloco de notas: quantos quiser (dívidas, rumores, contactos…). As suas notas anteriores passam a um primeiro bloco «Notas».',
+            'Os blocos colocam-se agora em três colunas, notas incluídas, com «Organizar os blocos».',
+        ],
+    ],
+
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Uma demo atualizada',
+        'items' => [
+            'A campanha de demonstração mostra agora as últimas novidades: no mapa da campanha, o farol leva a um submapa, a sua cave, pronta para o combate com marcadores, dois moldes de área e uma ordem de iniciativa. Cada ponto liga várias fichas e várias cenas.',
+            'Dados à mesa: lançamentos preparados que leem a característica da ficha, um bónus com nome e os lançamentos da sessão 1, incluindo um pedido do mestre.',
+            'Também: um som de «Os meus sons», uma cena «Jogada como previsto» e outra com «O que aconteceu», uma pista «Mentira», uma ficha e uma regra da casa com a sua versão oficial, e jogadores que completam o próprio retrato.',
+            'Volte a carregar a demonstração em «Minhas campanhas» para a descobrir: uma cópia já carregada fica como está.',
+        ],
+    ],
+
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Mapa da campanha: zoom, mesa e locais mais ricos',
+        'items' => [
+            'O mapa da campanha faz zoom (roda, + e −, pinça no tablet) e desloca-se arrastando. Conselho: uma imagem 4K (3840 × 2160) mantém-se nítida.',
+            'Quando o mapa está no ecrã da mesa, o submapa aberto a partir de um ponto substitui-o lá, e o mapa de cima volta quando sobe. No submapa, «Este local» mantém as cenas e fichas do ponto à distância de um clique.',
+            'Um ponto pode agora ligar-se a várias cenas e várias fichas: o local, os seus PNJ, todas as cenas que lá se jogam.',
+        ],
+    ],
+
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Blocos, notas e caixas de seleção em As minhas fichas',
+        'items' => [
+            'Em «As minhas fichas», os campos arrumam-se em blocos que nomeia: Características, Perícias, Equipamento, Feitiços…',
+            '«Organizar os blocos»: arraste um bloco pela pega, ou use as setas, para o colocar onde quiser, numa ou duas colunas.',
+            'Cada campo pode ter uma nota e uma caixa de seleção para marcar durante a partida: uma perícia bem-sucedida, um feitiço preparado.',
+        ],
+    ],
+
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Biblioteca de demos',
+        'items' => [
+            'Nova «Biblioteca de demos», a partir de «Minhas campanhas»: campanhas prontas a jogar (um cenário, uma aventura curta, personagens pré-gerados) de que carrega a sua própria cópia num clique.',
+            'Cada demo de um autor ou editora mantém uma ligação «Comprar o jogo», na biblioteca e no topo da sua cópia.',
+            'O preço do Premium aparece no botão de subscrição das Preferências: 4,99 € por mês.',
+        ],
+    ],
+
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'O que aconteceu, e o livro de aventuras',
+        'items' => [
+            'Cada cena tem agora duas partes: «O que está previsto» e «O que aconteceu». Se a mesa seguiu o plano, basta marcar «Jogada como previsto».',
+            'Novo «Livro de aventuras» na campanha: as cenas jogadas, cenário a cenário, e depois os resumos das sessões, para ler, imprimir ou guardar em PDF.',
+            'Pode juntar-se uma versão redigida, escrita por si ou pela IA da sua escolha (texto para copiar, ou a sua própria chave de API, a seu cargo). O livro continua reservado ao mestre.',
+        ],
+    ],
+
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Organize os seus ecrãs à sua maneira',
+        'items' => [
+            'Novo botão «Organizar o ecrã» na página da campanha e no modo Sessão: arraste cada bloco pela sua pega ⠿, com o rato ou com o dedo, ou use as setas.',
+            'No modo Sessão, um bloco pode passar de uma coluna para a outra: a música em cima, as notas à direita, como preferir.',
+            '«Ocultar» retira um bloco que não usa, «Mostrar» trá-lo de volta, «Disposição predefinida» repõe tudo. Esta disposição é só sua: jogadores e co-mestres mantêm a deles.',
+        ],
+    ],
+
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Sua ficha, mesmo sem rede',
+        'items' => [
+            'Offline, a ficha do seu personagem continua utilizável: ajuste seus contadores com − e +, edite os campos que o mestre permite e escreva notas.',
+            'Tudo fica guardado no dispositivo e é enviado quando a conexão volta, campo por campo: um contador recebe o que você tirou ou acrescentou, e o que o mestre mudou nesse meio-tempo (um segredo revelado, um campo editado) é mantido.',
+            'Depois do envio, um resumo diz o que foi atualizado e aponta qualquer campo que o mestre mudou ao mesmo tempo que você.',
+        ],
+    ],
+
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'O grande mapa da campanha',
+        'items' => [
+            'Novo «Mapa da campanha»: escolha um mapa como visão geral e coloque nele pontos de interesse, uma cidade, uma masmorra, o local de uma cena.',
+            'Um ponto pode abrir um submapa com um clique, que tem os seus próprios pontos; o caminho de navegação permite voltar à visão geral.',
+            'Ligados a uma cena, os pontos mostram o que foi jogado, está em curso ou ainda está por vir; ligados a uma ficha, abrem-na. Tudo fica com o mestre, exceto o nome dos pontos «Visíveis na mesa», mostrado no ecrã da mesa.',
+        ],
+    ],
+
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'As suas personagens jogadas noutro sítio',
+        'items' => [
+            'Nova página «As minhas fichas»: guarde as personagens que joga fora do SagaWyn, em casa de um amigo, num clube ou noutro sítio. Só você as vê.',
+            'Cada personagem tem a sua ficha PDF, um retrato, campos livres (textos e contadores a ajustar com − e + durante a partida) e as suas notas, com o nome do jogo e da mesa para a encontrar.',
+        ],
+    ],
+
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Uma biblioteca de sons para todas as suas campanhas',
+        'items' => [
+            'Nova página «Os meus sons»: as suas músicas e ambientes, guardados uma só vez na sua conta e depois adicionados às campanhas que conduz. O ficheiro não é copiado e só conta uma vez no seu espaço.',
+            'Na página Sons de uma campanha: «Da minha biblioteca» para adicionar os seus sons, «Guardar na minha biblioteca» para reutilizar um som noutro lado, e uma caixa para guardar um novo envio diretamente na biblioteca.',
+            'Guardar na biblioteca um som já enviado noutra campanha junta as duas cópias: as cenas mantêm a música e o espaço é libertado.',
+        ],
+    ],
+
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'O modo de usar em todo o lado',
+        'items' => [
+            'O botão «?» chega aos sons, ao grafo de relações, à cronologia, às opiniões dos jogadores, ao assistente IA, ao registo e à ficha de personagem.',
+            'No grafo, na cronologia e na ficha de personagem, os jogadores leem um modo de usar escrito para eles.',
+        ],
+    ],
+
+    '0.71.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Subtrair ou somar vários pontos de uma vez',
+        'items' => [
+            'Sob cada contador que o jogador pode alterar (PV, munição, dinheiro…), um campo «Quantidade»: escreve 8 e depois −, e o contador perde 8 de uma vez. O valor padrão é 1.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instruções em mais telas',
+        'items' => [
+            'O botão «?» aparece também na ficha (lado do Mestre), no modo Sessão, nos cenários e cenas, na importação de arquivos e nos membros da campanha.',
+            'A página «Ajuda» agora explica a rolagem bruta e os bônus lidos na ficha do personagem.',
+        ],
+    ],
+
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instruções nas telas mais delicadas',
+        'items' => [
+            'Um botão «?» ao lado do título das telas que não se explicam sozinhas abre as instruções em poucas linhas: tipos de ficha, campos do jogo, tags, dados, mapas, controle remoto da tela da mesa, pistas e histórico de revelações.',
+            'Cada instrução leva à pergunta correspondente da página «Ajuda», que abre direto nela.',
+        ],
+    ],
+
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bônus e limiar lidos na ficha',
+        'items' => [
+            'Nos dados, o bônus pode pegar um ou mais valores da ficha do personagem (característica, perícia, qualquer campo número ou contador da zona pública), inteiros ou em dezena, metade ou quinto, além do bônus livre. O limiar também pode ser lido na ficha. Os valores são lidos no momento da rolagem, na ficha de cada personagem que rola.',
+            'Vários bônus com nome (Arma +2, Ferimento −1…) se somam na mesma rolagem, junto com os valores da ficha.',
+            'Os exemplos prontos saem da bandeja: ela mantém suas rolagens salvas.',
+            'Uma rolagem salva é excluída com um toque: o × na etiqueta, ou «Excluir» depois de carregada.',
         ],
     ],
 

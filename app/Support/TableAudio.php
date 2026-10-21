@@ -26,7 +26,7 @@ final class TableAudio
 
     public static function play(Campaign $campaign, AudioTrack $track): void
     {
-        abort_unless($track->campaign_id === $campaign->id, 404);
+        abort_unless($campaign->availableTracks()->whereKey($track->id)->exists(), 404);
 
         self::save($campaign, [
             'track' => $track->id,
@@ -72,7 +72,7 @@ final class TableAudio
     public static function current(Campaign $campaign): ?array
     {
         $state = $campaign->table_audio;
-        $track = isset($state['track']) ? $campaign->audioTracks()->find($state['track']) : null;
+        $track = isset($state['track']) ? $campaign->availableTracks()->find($state['track']) : null;
 
         if ($track === null || ! CampaignFeatures::usable($campaign, 'table')) {
             return null;

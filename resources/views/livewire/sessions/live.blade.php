@@ -26,7 +26,10 @@
                 <a href="{{ route('campaigns.index') }}" class="crumb" wire:navigate>{{ __('Mes campagnes') }}</a>
                 › <a href="{{ route('campaigns.show', $campaign) }}" class="crumb" wire:navigate>{{ $campaign->name }}</a>
             </nav>
-            <h1 class="text-2xl font-semibold">{{ $session ? $session->label() : __('Mode Session') }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-semibold">{{ $session ? $session->label() : __('Mode Session') }}</h1>
+                <x-page-help topic="session" />
+            </div>
             @if ($session)
                 <p class="text-sm text-stone-500">{{ __('Commencée :time', ['time' => $session->started_at->diffForHumans()]) }}</p>
             @endif
@@ -34,6 +37,7 @@
         @if ($session)
             <button type="button" x-on:click="toggle()" class="btn-secondary" x-text="focus ? @js(__('Quitter le mode focus')) : @js(__('Mode focus'))">{{ __('Mode focus') }}</button>
             <button type="button" wire:click="end" wire:confirm="{{ __('Terminer la session ? Les notes restent consultables.') }}" class="btn-secondary">{{ __('Terminer la session') }}</button>
+            <x-screen.toolbar screen="session" :layout="$this->screenLayout" :arranging="$arranging" class="[.focus-mode_&]:hidden" />
         @endif
     </div>
 
@@ -58,349 +62,368 @@
         </div>
     @else
         @php($scene = $session->currentScene)
-        <div class="grid gap-4 *:min-w-0 lg:grid-cols-3">
-            {{-- Maintenant --}}
-            <div class="space-y-4 lg:col-span-2">
-                <section class="rounded-xl border border-flow/30 bg-white p-4 shadow-sm">
-                    <div class="mb-3 flex flex-wrap items-center gap-2">
-                        <h2 class="mr-auto text-sm font-semibold tracking-wide text-flow uppercase">{{ __('Maintenant') }}</h2>
-                        <label for="currentScene" class="sr-only">{{ __('Scène en cours') }}</label>
-                        <select id="currentScene" wire:change="setScene($event.target.value || null)" class="field w-auto py-1.5 text-sm">
-                            <option value="">{{ __('— Aucune scène —') }}</option>
-                            @foreach ($this->scenes->groupBy(fn ($s) => $s->scenario->name) as $scenarioName => $scenarioScenes)
-                                <optgroup label="{{ $scenarioName }}">
-                                    @foreach ($scenarioScenes as $option)
-                                        <option value="{{ $option->id }}" @selected($scene?->id === $option->id)>{{ $option->name }} · {{ $option->status->label() }}</option>
-                                    @endforeach
-                                </optgroup>
-                            @endforeach
-                        </select>
-                        @if ($scene)
-                            <button type="button" wire:click="nextScene" class="btn-primary min-h-0 py-1.5 text-sm">{{ __('Scène jouée, suivante →') }}</button>
-                        @endif
-                    </div>
+        @php($layout = $this->screenLayout)
+        @php($secretItems = ['scene' => $scene ? [$scene->id] : [], 'entity' => $this->cards->map(fn ($card) => $card['entity']->id)->values()->all(), 'document' => $this->documents->modelKeys()])
+        {{-- Chaque MJ range ses blocs comme il veut (« Organiser l'écran ») : colonne principale et colonne de droite. --}}
+        <div x-data="screenArranger" class="grid gap-4 *:min-w-0 lg:grid-cols-3">
+            @foreach ($layout['columns'] as $column => $columnBlocks)
+                <div wire:key="screen-column-{{ $column }}" data-screen-column="{{ $column }}" @class(['flex flex-col gap-4', 'lg:col-span-2' => $column === 'main', 'min-h-24' => $arranging])>
+                    @foreach ($columnBlocks as $block)
+                        @continue(in_array($block, $layout['hidden'], true))
+                        <x-screen.block screen="session" :name="$block" :arranging="$arranging">
+                        @switch($block)
+                            @case('now')
+                                <section class="rounded-xl border border-flow/30 bg-white p-4 shadow-sm">
+                                    <div class="mb-3 flex flex-wrap items-center gap-2">
+                                        <h2 class="mr-auto text-sm font-semibold tracking-wide text-flow uppercase">{{ __('Maintenant') }}</h2>
+                                        <label for="currentScene" class="sr-only">{{ __('Scène en cours') }}</label>
+                                        <select id="currentScene" wire:change="setScene($event.target.value || null)" class="field w-auto py-1.5 text-sm">
+                                            <option value="">{{ __('— Aucune scène —') }}</option>
+                                            @foreach ($this->scenes->groupBy(fn ($s) => $s->scenario->name) as $scenarioName => $scenarioScenes)
+                                                <optgroup label="{{ $scenarioName }}">
+                                                    @foreach ($scenarioScenes as $option)
+                                                        <option value="{{ $option->id }}" @selected($scene?->id === $option->id)>{{ $option->name }} · {{ $option->status->label() }}</option>
+                                                    @endforeach
+                                                </optgroup>
+                                            @endforeach
+                                        </select>
+                                        @if ($scene)
+                                            <button type="button" wire:click="nextScene" class="btn-primary min-h-0 py-1.5 text-sm">{{ __('Scène jouée, suivante →') }}</button>
+                                        @endif
+                                    </div>
 
-                    @if ($scene)
-                        <p class="text-xs text-stone-500">{{ $scene->scenario->name }}{{ $scene->chapter ? ' · '.$scene->chapter : '' }}</p>
-                        <h3 class="text-xl font-semibold">
-                            <a href="{{ route('scenes.show', [$campaign, $scene]) }}" target="_blank" rel="noopener" class="crumb">{{ $scene->name }}</a>
-                        </h3>
-                        @if ($scene->description)
-                            <div class="mt-2 text-stone-700">{{ \App\Support\EntityLinks::render($scene->description, $campaign) }}</div>
-                        @endif
-                        @if ($this->upcomingScene)
-                            <p class="mt-3 border-t border-stone-100 pt-2 text-sm text-stone-500">
-                                {{ __('Ensuite :') }}
-                                <a href="{{ route('scenes.show', [$campaign, $this->upcomingScene]) }}" target="_blank" rel="noopener" class="font-medium link">{{ $this->upcomingScene->name }}</a>
-                            </p>
-                        @endif
-                    @else
-                        <p class="text-sm text-stone-500">{{ __('Aucune scène en cours. Choisissez-en une, ou improvisez : vos notes restent rattachées à la session.') }}</p>
-                    @endif
-                </section>
-
-                @if ($this->cards->isNotEmpty())
-                    <section>
-                        <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Fiches utiles') }}</h2>
-                        <div class="grid gap-2 *:min-w-0 md:grid-cols-2">
-                            @foreach ($this->cards as $card)
-                                <x-context-card :entity="$card['entity']" :campaign="$campaign" :field-definitions="$fieldDefinitions" :note="$card['note']" :source="$card['source']" />
-                            @endforeach
-                        </div>
-                    </section>
-                @endif
-
-                {{-- Secrets de la scène, de ses fiches et de ses documents, à révéler d'un clic. --}}
-                @php($secretItems = ['scene' => $scene ? [$scene->id] : [], 'entity' => $this->cards->map(fn ($card) => $card['entity']->id)->values()->all(), 'document' => $this->documents->modelKeys()])
-                @if ($scene || $secretItems['entity'] !== [])
-                    <livewire:secrets.panel :campaign="$campaign" :items="$secretItems" :compact="true" :wire:key="'session-secrets-'.md5(json_encode($secretItems))" />
-                @endif
-
-                @if ($this->rules->isNotEmpty() || $this->documents->isNotEmpty())
-                    <div class="grid gap-4 *:min-w-0 md:grid-cols-2">
-                        @if ($this->rules->isNotEmpty())
-                            <section>
-                                <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Règles') }}</h2>
-                                <div class="space-y-2">
-                                    @foreach ($this->rules as $rule)
-                                        <details wire:key="rule-{{ $rule->id }}" class="group rounded-xl border border-stone-200 bg-white p-3 shadow-sm">
-                                            <summary class="flex cursor-pointer list-none items-start gap-2">
+                                    @if ($scene)
+                                        <p class="text-xs text-stone-500">{{ $scene->scenario->name }}{{ $scene->chapter ? ' · '.$scene->chapter : '' }}</p>
+                                        <h3 class="text-xl font-semibold">
+                                            <a href="{{ route('scenes.show', [$campaign, $scene]) }}" target="_blank" rel="noopener" class="crumb">{{ $scene->name }}</a>
+                                        </h3>
+                                        @if ($scene->description)
+                                            <div class="mt-2 text-stone-700">{{ \App\Support\EntityLinks::render($scene->description, $campaign) }}</div>
+                                        @endif
+                                        @if ($this->upcomingScene)
+                                            <p class="mt-3 border-t border-stone-100 pt-2 text-sm text-stone-500">
+                                                {{ __('Ensuite :') }}
+                                                <a href="{{ route('scenes.show', [$campaign, $this->upcomingScene]) }}" target="_blank" rel="noopener" class="font-medium link">{{ $this->upcomingScene->name }}</a>
+                                            </p>
+                                        @endif
+                                    @else
+                                        <p class="text-sm text-stone-500">{{ __('Aucune scène en cours. Choisissez-en une, ou improvisez : vos notes restent rattachées à la session.') }}</p>
+                                    @endif
+                                </section>
+                                @break
+                            @case('cards')
+                                @if ($this->cards->isNotEmpty())
+                                    <section>
+                                        <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Fiches utiles') }}</h2>
+                                        <div class="grid gap-2 *:min-w-0 md:grid-cols-2">
+                                            @foreach ($this->cards as $card)
+                                                <x-context-card :entity="$card['entity']" :campaign="$campaign" :field-definitions="$fieldDefinitions" :note="$card['note']" :source="$card['source']" />
+                                            @endforeach
+                                        </div>
+                                    </section>
+                                @endif
+                                @break
+                            @case('secrets')
+                                {{-- Secrets de la scène, de ses fiches et de ses documents, à révéler d'un clic. --}}
+                                @if ($scene || $secretItems['entity'] !== [])
+                                    <livewire:secrets.panel :campaign="$campaign" :items="$secretItems" :compact="true" :wire:key="'session-secrets-'.md5(json_encode($secretItems))" />
+                                @endif
+                                @break
+                            @case('rules-docs')
+                                @if ($this->rules->isNotEmpty() || $this->documents->isNotEmpty())
+                                    <div class="grid gap-4 *:min-w-0 md:grid-cols-2">
+                                        @if ($this->rules->isNotEmpty())
+                                            <section>
+                                                <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Règles') }}</h2>
+                                                <div class="space-y-2">
+                                                    @foreach ($this->rules as $rule)
+                                                        <details wire:key="rule-{{ $rule->id }}" class="group rounded-xl border border-stone-200 bg-white p-3 shadow-sm">
+                                                            <summary class="flex cursor-pointer list-none items-start gap-2">
+                                                                <span class="min-w-0 flex-1">
+                                                                    <span class="font-medium">{{ $rule->title }}</span>
+                                                                    <span class="ml-1 rounded-full px-2 py-0.5 text-xs font-medium {{ $rule->status->badge() }}">{{ $rule->status->label() }}</span>
+                                                                    @if ($rule->summary)
+                                                                        <span class="block text-sm text-stone-600">{{ $rule->summary }}</span>
+                                                                    @endif
+                                                                </span>
+                                                                <span class="text-stone-400 transition group-open:rotate-90" aria-hidden="true">›</span>
+                                                            </summary>
+                                                            @if ($rule->procedure)
+                                                                <div class="mt-2 border-t border-stone-100 pt-2 text-sm text-stone-700">{{ \App\Support\EntityLinks::render($rule->procedure, $campaign) }}</div>
+                                                            @endif
+                                                            @if ($rule->gm_notes)
+                                                                <div class="mt-2 rounded-lg bg-flow/5 p-2 text-sm text-stone-700"><span class="font-medium text-flow">{{ __('MJ :') }}</span> {{ \App\Support\EntityLinks::render($rule->gm_notes, $campaign) }}</div>
+                                                            @endif
+                                                            <span class="mt-2 flex flex-wrap gap-x-4 text-xs">
+                                                                <a href="{{ route('rules.show', [$campaign, $rule]) }}" target="_blank" rel="noopener" class="link">{{ __('Ouvrir la règle ↗') }}</a>
+                                                                <button type="button" wire:click="showOnTable('rule', {{ $rule->id }})" class="link">{{ __('Montrer à la table') }}</button>
+                                                            </span>
+                                                        </details>
+                                                    @endforeach
+                                                </div>
+                                            </section>
+                                        @endif
+                                        @if ($this->documents->isNotEmpty())
+                                            <section>
+                                                <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Documents') }}</h2>
+                                                <ul class="space-y-2">
+                                                    @foreach ($this->documents as $document)
+                                                        <li wire:key="document-{{ $document->id }}" class="flex items-center gap-2 rounded-xl border border-stone-200 bg-white p-3 shadow-sm hover:border-codex/40">
+                                                            <a href="{{ $document->fileUrl() }}" target="_blank" rel="noopener" class="flex min-w-0 flex-1 items-center gap-3">
+                                                                @if ($document->isImage())
+                                                                    <img src="{{ $document->fileUrl() }}" alt="" loading="lazy" class="h-10 w-10 shrink-0 rounded-lg object-cover">
+                                                                @else
+                                                                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-xs font-semibold text-red-700" aria-hidden="true">PDF</span>
+                                                                @endif
+                                                                <span class="min-w-0 flex-1 truncate font-medium text-codex">{{ $document->title }}</span>
+                                                                <span class="text-xs text-stone-500" aria-hidden="true">↗</span>
+                                                            </a>
+                                                            <button type="button" wire:click="showDocument({{ $document->id }})" class="shrink-0 rounded-md border border-stone-200 px-2 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex" aria-label="{{ __("Montrer « :title » sur l'écran de table", ['title' => $document->title]) }}">{{ __('Montrer') }}</button>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </section>
+                                        @endif
+                                    </div>
+                                @endif
+                                @break
+                            @case('notes')
+                                <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                                    <h2 class="mb-2 flex items-baseline gap-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Notes de session') }} <span class="text-xs font-normal tracking-normal normal-case">{{ __('(touche N)') }}</span></h2>
+                                    <form wire:submit="addNote" class="flex gap-2">
+                                        <label for="noteBody" class="sr-only">{{ __('Nouvelle note') }}</label>
+                                        {{-- « [[ » propose les fiches de la campagne, comme dans les textes longs. --}}
+                                        <div x-data="linkInput" class="relative min-w-0 flex-1" x-on:click.outside="close()">
+                                            <input id="noteBody" x-ref="input" type="text" wire:model="noteBody" class="field" placeholder="{{ __("Noter vite : les joueurs ont promis d'aider Mira…") }}" autocomplete="off"
+                                                role="combobox" aria-autocomplete="list" aria-controls="noteBody-suggestions" :aria-expanded="open ? 'true' : 'false'"
+                                                x-on:input="search()" x-on:keydown="onKeydown($event)">
+                                            <ul id="noteBody-suggestions" x-show="open" x-cloak role="listbox" class="absolute inset-x-0 top-full z-20 mt-1 max-h-64 overflow-auto rounded-md border border-stone-200 bg-white py-1 text-sm shadow-lg">
+                                                <template x-for="(item, index) in items" :key="item.id">
+                                                    <li role="option" :aria-selected="index === active ? 'true' : 'false'" x-on:mousedown.prevent="choose(item)"
+                                                        :class="index === active ? 'bg-codex-soft text-codex' : ''" class="flex cursor-pointer justify-between gap-3 px-3 py-1.5">
+                                                        <span x-text="item.name"></span><span class="text-stone-500" x-text="item.type"></span>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                        </div>
+                                        <button type="submit" class="btn-primary">{{ __('Noter') }}</button>
+                                        @if (\App\Support\CampaignFeatures::usable($campaign, 'timeline'))
+                                            <button type="button" wire:click="addPlayedEvent" class="btn-secondary" title="{{ __('Ajouter ce texte à la chronologie, comme événement joué de cette séance et de cette scène') }}">{{ __('Événement joué') }}</button>
+                                        @endif
+                                    </form>
+                                    @error('noteBody') <p class="error">{{ $message }}</p> @enderror
+                                    @if ($eventAdded !== '')
+                                        <p class="mt-2 text-sm text-codex" role="status">{{ __('Ajouté à la chronologie : :title', ['title' => $eventAdded]) }}</p>
+                                    @endif
+                                    <ul class="mt-3 space-y-2 text-sm">
+                                        @foreach ($this->notes as $note)
+                                            <li wire:key="note-{{ $note->id }}" class="flex gap-3">
+                                                <time class="shrink-0 font-mono text-xs text-stone-500" datetime="{{ $note->created_at->toIso8601String() }}">{{ $note->created_at->timezone(config('app.timezone'))->isoFormat('LT') }}</time>
+                                                <div class="min-w-0 flex-1">
+                                                    {{ \App\Support\EntityLinks::render($note->body, $campaign) }}
+                                                    @if ($note->scene)
+                                                        <span class="text-xs text-stone-500">· {{ $note->scene->name }}</span>
+                                                    @endif
+                                                </div>
+                                                <button type="button" wire:click="deleteNote({{ $note->id }})" wire:confirm="{{ __('Supprimer cette note ?') }}" class="shrink-0 text-xs text-stone-400 hover:text-red-700" aria-label="{{ __('Supprimer la note') }}">✕</button>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </section>
+                                @break
+                            @case('to-play')
+                                <section class="rounded-xl border border-codex/30 bg-white p-4 shadow-sm">
+                                    <h2 class="mb-2 text-sm font-semibold tracking-wide text-codex uppercase">{{ __('À jouer') }}</h2>
+                                    <ul class="space-y-1 text-sm">
+                                        @forelse ($this->toPlay as $item)
+                                            <li wire:key="toplay-{{ $item->id }}" class="flex items-start gap-2">
+                                                <button type="button" wire:click="markPlayed({{ $item->id }})" class="mt-0.5 h-5 w-5 shrink-0 rounded border border-stone-300 hover:border-codex hover:bg-codex-soft" aria-label="{{ __('Marquer « :label » comme joué', ['label' => $item->body]) }}"></button>
                                                 <span class="min-w-0 flex-1">
-                                                    <span class="font-medium">{{ $rule->title }}</span>
-                                                    <span class="ml-1 rounded-full px-2 py-0.5 text-xs font-medium {{ $rule->status->badge() }}">{{ $rule->status->label() }}</span>
-                                                    @if ($rule->summary)
-                                                        <span class="block text-sm text-stone-600">{{ $rule->summary }}</span>
+                                                    @if ($item->rule)
+                                                        <a href="{{ route('rules.show', [$campaign, $item->rule]) }}" target="_blank" rel="noopener" class="link"><span class="text-xs text-stone-500">{{ __('Règle ·') }}</span> {{ $item->body }}</a>
+                                                    @else
+                                                        {{ $item->body }}
+                                                    @endif
+                                                    @if ($item->character)
+                                                        <span class="block text-xs font-medium text-flow">{{ __('Demandé par :name', ['name' => $item->character->entity->name]) }}</span>
+                                                    @endif
+                                                    @if ($item->scene)
+                                                        <span class="block text-xs text-stone-500">{{ $item->scene->name }}</span>
                                                     @endif
                                                 </span>
-                                                <span class="text-stone-400 transition group-open:rotate-90" aria-hidden="true">›</span>
-                                            </summary>
-                                            @if ($rule->procedure)
-                                                <div class="mt-2 border-t border-stone-100 pt-2 text-sm text-stone-700">{{ \App\Support\EntityLinks::render($rule->procedure, $campaign) }}</div>
+                                            </li>
+                                        @empty
+                                            <li class="text-stone-500">{{ __('Rien en attente.') }}</li>
+                                        @endforelse
+                                    </ul>
+                                    <form wire:submit="addToPlay" class="mt-3 space-y-2">
+                                        <label for="toPlayBody" class="sr-only">{{ __('Nouvel élément à jouer') }}</label>
+                                        <input id="toPlayBody" type="text" wire:model="toPlayBody" class="field py-1.5 text-sm" placeholder="{{ __('Un orage éclate…') }}" autocomplete="off">
+                                        @error('toPlayBody') <p class="error">{{ $message }}</p> @enderror
+                                        <div class="flex items-center justify-between gap-2">
+                                            @if ($scene)
+                                                <label class="flex items-center gap-2 text-xs text-stone-600"><input type="checkbox" wire:model="toPlayForScene"> {{ __('Pour cette scène') }}</label>
                                             @endif
-                                            @if ($rule->gm_notes)
-                                                <div class="mt-2 rounded-lg bg-flow/5 p-2 text-sm text-stone-700"><span class="font-medium text-flow">{{ __('MJ :') }}</span> {{ \App\Support\EntityLinks::render($rule->gm_notes, $campaign) }}</div>
-                                            @endif
-                                            <span class="mt-2 flex flex-wrap gap-x-4 text-xs">
-                                                <a href="{{ route('rules.show', [$campaign, $rule]) }}" target="_blank" rel="noopener" class="link">{{ __('Ouvrir la règle ↗') }}</a>
-                                                <button type="button" wire:click="showOnTable('rule', {{ $rule->id }})" class="link">{{ __('Montrer à la table') }}</button>
-                                            </span>
-                                        </details>
-                                    @endforeach
-                                </div>
-                            </section>
-                        @endif
-                        @if ($this->documents->isNotEmpty())
-                            <section>
-                                <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Documents') }}</h2>
-                                <ul class="space-y-2">
-                                    @foreach ($this->documents as $document)
-                                        <li wire:key="document-{{ $document->id }}" class="flex items-center gap-2 rounded-xl border border-stone-200 bg-white p-3 shadow-sm hover:border-codex/40">
-                                            <a href="{{ route('documents.file', $document) }}" target="_blank" rel="noopener" class="flex min-w-0 flex-1 items-center gap-3">
-                                                @if ($document->isImage())
-                                                    <img src="{{ route('documents.file', $document) }}" alt="" loading="lazy" class="h-10 w-10 shrink-0 rounded-lg object-cover">
-                                                @else
-                                                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-xs font-semibold text-red-700" aria-hidden="true">PDF</span>
-                                                @endif
-                                                <span class="min-w-0 flex-1 truncate font-medium text-codex">{{ $document->title }}</span>
-                                                <span class="text-xs text-stone-500" aria-hidden="true">↗</span>
-                                            </a>
-                                            <button type="button" wire:click="showDocument({{ $document->id }})" class="shrink-0 rounded-md border border-stone-200 px-2 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex" aria-label="{{ __("Montrer « :title » sur l'écran de table", ['title' => $document->title]) }}">{{ __('Montrer') }}</button>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </section>
-                        @endif
-                    </div>
-                @endif
-
-                <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-                    <h2 class="mb-2 flex items-baseline gap-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Notes de session') }} <span class="text-xs font-normal tracking-normal normal-case">{{ __('(touche N)') }}</span></h2>
-                    <form wire:submit="addNote" class="flex gap-2">
-                        <label for="noteBody" class="sr-only">{{ __('Nouvelle note') }}</label>
-                        {{-- « [[ » propose les fiches de la campagne, comme dans les textes longs. --}}
-                        <div x-data="linkInput" class="relative min-w-0 flex-1" x-on:click.outside="close()">
-                            <input id="noteBody" x-ref="input" type="text" wire:model="noteBody" class="field" placeholder="{{ __("Noter vite : les joueurs ont promis d'aider Mira…") }}" autocomplete="off"
-                                role="combobox" aria-autocomplete="list" aria-controls="noteBody-suggestions" :aria-expanded="open ? 'true' : 'false'"
-                                x-on:input="search()" x-on:keydown="onKeydown($event)">
-                            <ul id="noteBody-suggestions" x-show="open" x-cloak role="listbox" class="absolute inset-x-0 top-full z-20 mt-1 max-h-64 overflow-auto rounded-md border border-stone-200 bg-white py-1 text-sm shadow-lg">
-                                <template x-for="(item, index) in items" :key="item.id">
-                                    <li role="option" :aria-selected="index === active ? 'true' : 'false'" x-on:mousedown.prevent="choose(item)"
-                                        :class="index === active ? 'bg-codex-soft text-codex' : ''" class="flex cursor-pointer justify-between gap-3 px-3 py-1.5">
-                                        <span x-text="item.name"></span><span class="text-stone-500" x-text="item.type"></span>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
-                        <button type="submit" class="btn-primary">{{ __('Noter') }}</button>
-                        @if (\App\Support\CampaignFeatures::usable($campaign, 'timeline'))
-                            <button type="button" wire:click="addPlayedEvent" class="btn-secondary" title="{{ __('Ajouter ce texte à la chronologie, comme événement joué de cette séance et de cette scène') }}">{{ __('Événement joué') }}</button>
-                        @endif
-                    </form>
-                    @error('noteBody') <p class="error">{{ $message }}</p> @enderror
-                    @if ($eventAdded !== '')
-                        <p class="mt-2 text-sm text-codex" role="status">{{ __('Ajouté à la chronologie : :title', ['title' => $eventAdded]) }}</p>
-                    @endif
-                    <ul class="mt-3 space-y-2 text-sm">
-                        @foreach ($this->notes as $note)
-                            <li wire:key="note-{{ $note->id }}" class="flex gap-3">
-                                <time class="shrink-0 font-mono text-xs text-stone-500" datetime="{{ $note->created_at->toIso8601String() }}">{{ $note->created_at->timezone(config('app.timezone'))->isoFormat('LT') }}</time>
-                                <div class="min-w-0 flex-1">
-                                    {{ \App\Support\EntityLinks::render($note->body, $campaign) }}
-                                    @if ($note->scene)
-                                        <span class="text-xs text-stone-500">· {{ $note->scene->name }}</span>
+                                            <button type="submit" class="btn-secondary ml-auto min-h-0 py-1 text-sm">{{ __('Ajouter') }}</button>
+                                        </div>
+                                    </form>
+                                </section>
+                                @break
+                            @case('music')
+                                {{-- Musique : sons de la scène d'abord ; « Ici » joue sur cet appareil, « Table » sur l'écran de table. --}}
+                                <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                                    <div class="mb-2 flex items-center gap-2">
+                                        <h2 class="mr-auto flex items-center gap-1.5 text-sm font-semibold tracking-wide text-stone-500 uppercase"><x-icon name="music" class="size-4" /> {{ __('Musique') }}</h2>
+                                        <a href="{{ route('audio.index', $campaign) }}" target="_blank" rel="noopener" class="link text-sm">{{ __('Bibliothèque ↗') }}</a>
+                                    </div>
+                                    @php($onTable = \App\Support\CampaignFeatures::enabled($campaign, 'table') && auth()->user()->can('use-feature', ['table', $campaign]))
+                                    @if ($onTable && $this->tableAudio)
+                                        @php($playing = $this->tableAudio)
+                                        <div class="mb-3 rounded-lg bg-stone-50 p-2 text-sm">
+                                            <p class="flex items-center gap-2">
+                                                <span class="min-w-0 flex-1 truncate"><span class="text-stone-500">{{ __('Sur la table :') }}</span> <span class="font-medium">{{ $playing['track']->title }}</span></span>
+                                                <button type="button" wire:click="pauseTableAudio" class="rounded-md px-1.5 text-stone-600 hover:text-codex" aria-label="{{ $playing['playing'] ? __('Mettre la table en pause') : __('Reprendre sur la table') }}">{{ $playing['playing'] ? '❚❚' : '▶' }}</button>
+                                                <button type="button" wire:click="loopTableAudio" @class(['rounded-md px-1.5', 'bg-codex-soft text-codex' => $playing['loop'], 'text-stone-400' => ! $playing['loop']]) aria-pressed="{{ $playing['loop'] ? 'true' : 'false' }}" title="{{ __('En boucle') }}"><span aria-hidden="true">⟳</span><span class="sr-only">{{ __('En boucle') }}</span></button>
+                                                <button type="button" wire:click="stopTableAudio" class="rounded-md px-1.5 text-stone-500 hover:text-red-700" title="{{ __('Arrêter') }}"><span aria-hidden="true">■</span><span class="sr-only">{{ __('Arrêter la musique de la table') }}</span></button>
+                                            </p>
+                                            <label class="mt-1 flex items-center gap-2 text-xs text-stone-500">
+                                                <span>{{ __('Volume') }}</span>
+                                                <input type="range" min="0" max="100" value="{{ $playing['volume'] }}" x-on:change="$wire.tableVolume(Number($event.target.value))" class="min-w-0 flex-1">
+                                            </label>
+                                        </div>
                                     @endif
-                                </div>
-                                <button type="button" wire:click="deleteNote({{ $note->id }})" wire:confirm="{{ __('Supprimer cette note ?') }}" class="shrink-0 text-xs text-stone-400 hover:text-red-700" aria-label="{{ __('Supprimer la note') }}">✕</button>
-                            </li>
-                        @endforeach
-                    </ul>
-                </section>
-            </div>
-
-            <aside class="space-y-4">
-                {{-- À jouer --}}
-                <section class="rounded-xl border border-codex/30 bg-white p-4 shadow-sm">
-                    <h2 class="mb-2 text-sm font-semibold tracking-wide text-codex uppercase">{{ __('À jouer') }}</h2>
-                    <ul class="space-y-1 text-sm">
-                        @forelse ($this->toPlay as $item)
-                            <li wire:key="toplay-{{ $item->id }}" class="flex items-start gap-2">
-                                <button type="button" wire:click="markPlayed({{ $item->id }})" class="mt-0.5 h-5 w-5 shrink-0 rounded border border-stone-300 hover:border-codex hover:bg-codex-soft" aria-label="{{ __('Marquer « :label » comme joué', ['label' => $item->body]) }}"></button>
-                                <span class="min-w-0 flex-1">
-                                    @if ($item->rule)
-                                        <a href="{{ route('rules.show', [$campaign, $item->rule]) }}" target="_blank" rel="noopener" class="link"><span class="text-xs text-stone-500">{{ __('Règle ·') }}</span> {{ $item->body }}</a>
+                                    @if ($this->tracks->isEmpty())
+                                        <p class="text-sm text-stone-500">{{ __('Aucun son pour l’instant : ajoutez vos musiques dans la bibliothèque.') }}</p>
                                     @else
-                                        {{ $item->body }}
+                                        <ul class="max-h-64 space-y-1 overflow-y-auto text-sm">
+                                            @foreach ($this->tracks as $track)
+                                                <li wire:key="session-track-{{ $track->id }}" class="flex items-center gap-1.5">
+                                                    <span class="min-w-0 flex-1 truncate" title="{{ $track->title }}">
+                                                        @if ($track->in_scene)<span class="text-flow" title="{{ __('Lié à la scène') }}" aria-label="{{ __('Lié à la scène') }}">★</span>@endif
+                                                        {{ $track->title }}
+                                                    </span>
+                                                    <button type="button" class="rounded-md border border-stone-200 px-1.5 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex"
+                                                        x-on:click="$dispatch('sagawyn-audio-play', @js(['url' => route('audio.file', $track), 'title' => $track->title, 'loop' => $track->loop]))"
+                                                        aria-label="{{ __('Écouter « :name » sur cet appareil', ['name' => $track->title]) }}">▶ {{ __('Ici') }}</button>
+                                                    @if ($onTable)
+                                                        <button type="button" wire:click="playOnTable({{ $track->id }})" class="rounded-md border border-stone-200 px-1.5 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex"
+                                                            aria-label="{{ __('Jouer « :name » sur l’écran de table', ['name' => $track->title]) }}">▶ {{ __('Table') }}</button>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     @endif
-                                    @if ($item->character)
-                                        <span class="block text-xs font-medium text-flow">{{ __('Demandé par :name', ['name' => $item->character->entity->name]) }}</span>
+                                </section>
+                                @break
+                            @case('table')
+                                {{-- Écran de table : ce que voient les joueurs sur le second écran. --}}
+                                @if (! \App\Support\CampaignFeatures::enabled($campaign, 'table'))
+                                @elseif (auth()->user()->cannot('use-feature', ['table', $campaign]))
+                                    <section class="rounded-xl border border-dashed border-stone-300 bg-stone-50 p-4 text-sm text-stone-500">
+                                        <h2 class="mb-1 flex items-center gap-1 text-sm font-semibold tracking-wide uppercase">{{ __('Écran de table') }} <x-premium /></h2>
+                                        <p>{{ __('Fonction Premium, non comprise dans la formule du propriétaire de la campagne. Rien n’est effacé : tout revient dès le passage à Premium.') }}</p>
+                                    </section>
+                                @else
+                                <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                                    <div class="mb-2 flex items-center gap-2">
+                                        <h2 class="mr-auto flex items-center gap-1 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Écran de table') }} <x-premium feature="table" /></h2>
+                                        <a href="{{ route('table.screen', $campaign) }}" target="sagawyn-table" class="link text-sm">{{ __('Ouvrir ↗') }}</a>
+                                    </div>
+                                    <p class="flex items-center gap-2 text-sm">
+                                        <span class="min-w-0 flex-1 truncate"><span class="text-stone-500">{{ __('Affiché :') }}</span> <span class="font-medium">{{ $this->tableLabel }}</span></span>
+                                        @if ($campaign->table_display)
+                                            <button type="button" wire:click="clearTable" class="shrink-0 text-xs text-stone-500 hover:text-red-700">{{ __('Vider') }}</button>
+                                        @endif
+                                    </p>
+                                    <p class="mt-1 text-xs text-stone-500">{{ __("Ouvrez l'écran, glissez la fenêtre sur la télé ou le projecteur, puis « Plein écran ».") }}</p>
+                                    <label class="mt-2 flex items-center gap-2 text-sm">
+                                        <input type="checkbox" wire:click="toggleTableShare" @checked($campaign->table_shared)>
+                                        {{ __('Partager avec les joueurs') }} <span class="text-xs text-stone-500">{{ __('(sur leur appareil)') }}</span>
+                                    </label>
+
+                                    <div class="mt-3 space-y-2">
+                                        @if ($this->tableDocuments->isNotEmpty())
+                                            <div class="flex gap-2">
+                                                <label for="tableDocument" class="sr-only">{{ __('Carte ou document à montrer') }}</label>
+                                                <select id="tableDocument" wire:model="tableDocumentId" class="field min-w-0 py-1.5 text-sm">
+                                                    <option value="">{{ __('Carte, image ou document…') }}</option>
+                                                    @foreach ($this->tableDocuments as $document)
+                                                        <option value="{{ $document->id }}">{{ $document->title }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <button type="button" wire:click="showDocument()" class="btn-secondary min-h-0 py-1 text-sm">{{ __('Montrer') }}</button>
+                                            </div>
+                                            @error('tableDocumentId') <p class="error">{{ $message }}</p> @enderror
+                                        @endif
+                                        <div class="flex gap-2">
+                                            <div class="min-w-0 flex-1">
+                                                <label for="tableEntity" class="sr-only">{{ __('Fiche à montrer (zone publique)') }}</label>
+                                                <x-entity-picker id="tableEntity" model="tableEntityId" />
+                                            </div>
+                                            <button type="button" wire:click="showEntity" class="btn-secondary min-h-0 py-1 text-sm">{{ __('Montrer') }}</button>
+                                        </div>
+                                        @error('tableEntityId') <p class="error">{{ $message }}</p> @enderror
+                                        <form wire:submit="showText" class="flex gap-2">
+                                            <label for="tableText" class="sr-only">{{ __('Annonce à afficher') }}</label>
+                                            <input id="tableText" type="text" wire:model="tableText" class="field min-w-0 py-1.5 text-sm" placeholder="{{ __('Annonce : « Trois jours plus tard… »') }}" autocomplete="off" maxlength="500">
+                                            <button type="submit" class="btn-secondary min-h-0 py-1 text-sm">{{ __('Montrer') }}</button>
+                                        </form>
+                                        @error('tableText') <p class="error">{{ $message }}</p> @enderror
+                                        <p class="text-xs text-stone-500">{{ __("Une fiche s'affiche sans sa zone MJ.") }}</p>
+                                    </div>
+
+                                    @if ($this->tableMaps->isNotEmpty())
+                                        <ul class="mt-3 flex flex-wrap gap-1.5">
+                                            @foreach ($this->tableMaps as $map)
+                                                <li wire:key="session-map-{{ $map->id }}">
+                                                    <button type="button" wire:click="showOnTable('map', {{ $map->id }})" class="rounded-md border border-stone-200 px-2 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex" aria-label="{{ __("Montrer la carte « :name » sur l'écran de table", ['name' => $map->name]) }}">{{ $map->name }}</button>
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     @endif
-                                    @if ($item->scene)
-                                        <span class="block text-xs text-stone-500">{{ $item->scene->name }}</span>
-                                    @endif
-                                </span>
-                            </li>
-                        @empty
-                            <li class="text-stone-500">{{ __('Rien en attente.') }}</li>
-                        @endforelse
-                    </ul>
-                    <form wire:submit="addToPlay" class="mt-3 space-y-2">
-                        <label for="toPlayBody" class="sr-only">{{ __('Nouvel élément à jouer') }}</label>
-                        <input id="toPlayBody" type="text" wire:model="toPlayBody" class="field py-1.5 text-sm" placeholder="{{ __('Un orage éclate…') }}" autocomplete="off">
-                        @error('toPlayBody') <p class="error">{{ $message }}</p> @enderror
-                        <div class="flex items-center justify-between gap-2">
-                            @if ($scene)
-                                <label class="flex items-center gap-2 text-xs text-stone-600"><input type="checkbox" wire:model="toPlayForScene"> {{ __('Pour cette scène') }}</label>
-                            @endif
-                            <button type="submit" class="btn-secondary ml-auto min-h-0 py-1 text-sm">{{ __('Ajouter') }}</button>
-                        </div>
-                    </form>
-                </section>
+                                    <p class="mt-3 flex gap-4 text-sm">
+                                        @if (\App\Support\CampaignFeatures::usable($campaign, 'maps'))
+                                            <a href="{{ route('maps.index', $campaign) }}" class="link" wire:navigate>{{ __('Cartes →') }}</a>
+                                        @endif
+                                        <a href="{{ route('table.remote', $campaign) }}" class="link" wire:navigate>{{ __('Télécommande →') }}</a>
+                                    </p>
+                                </section>
+                                @endif
+                                @break
+                            @case('give')
+                                {{-- Révéler une information ou donner un objet en pleine partie. --}}
+                                <livewire:characters.give :campaign="$campaign" key="give-session" />
+                                @break
+                            @case('pins')
 
-                {{-- Musique : sons de la scène d'abord ; « Ici » joue sur cet appareil, « Table » sur l'écran de table. --}}
-                <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-                    <div class="mb-2 flex items-center gap-2">
-                        <h2 class="mr-auto flex items-center gap-1.5 text-sm font-semibold tracking-wide text-stone-500 uppercase"><x-icon name="music" class="size-4" /> {{ __('Musique') }}</h2>
-                        <a href="{{ route('audio.index', $campaign) }}" target="_blank" rel="noopener" class="link text-sm">{{ __('Bibliothèque ↗') }}</a>
-                    </div>
-                    @php($onTable = \App\Support\CampaignFeatures::enabled($campaign, 'table') && auth()->user()->can('use-feature', ['table', $campaign]))
-                    @if ($onTable && $this->tableAudio)
-                        @php($playing = $this->tableAudio)
-                        <div class="mb-3 rounded-lg bg-stone-50 p-2 text-sm">
-                            <p class="flex items-center gap-2">
-                                <span class="min-w-0 flex-1 truncate"><span class="text-stone-500">{{ __('Sur la table :') }}</span> <span class="font-medium">{{ $playing['track']->title }}</span></span>
-                                <button type="button" wire:click="pauseTableAudio" class="rounded-md px-1.5 text-stone-600 hover:text-codex" aria-label="{{ $playing['playing'] ? __('Mettre la table en pause') : __('Reprendre sur la table') }}">{{ $playing['playing'] ? '❚❚' : '▶' }}</button>
-                                <button type="button" wire:click="loopTableAudio" @class(['rounded-md px-1.5', 'bg-codex-soft text-codex' => $playing['loop'], 'text-stone-400' => ! $playing['loop']]) aria-pressed="{{ $playing['loop'] ? 'true' : 'false' }}" title="{{ __('En boucle') }}"><span aria-hidden="true">⟳</span><span class="sr-only">{{ __('En boucle') }}</span></button>
-                                <button type="button" wire:click="stopTableAudio" class="rounded-md px-1.5 text-stone-500 hover:text-red-700" title="{{ __('Arrêter') }}"><span aria-hidden="true">■</span><span class="sr-only">{{ __('Arrêter la musique de la table') }}</span></button>
-                            </p>
-                            <label class="mt-1 flex items-center gap-2 text-xs text-stone-500">
-                                <span>{{ __('Volume') }}</span>
-                                <input type="range" min="0" max="100" value="{{ $playing['volume'] }}" x-on:change="$wire.tableVolume(Number($event.target.value))" class="min-w-0 flex-1">
-                            </label>
-                        </div>
-                    @endif
-                    @if ($this->tracks->isEmpty())
-                        <p class="text-sm text-stone-500">{{ __('Aucun son pour l’instant : ajoutez vos musiques dans la bibliothèque.') }}</p>
-                    @else
-                        <ul class="max-h-64 space-y-1 overflow-y-auto text-sm">
-                            @foreach ($this->tracks as $track)
-                                <li wire:key="session-track-{{ $track->id }}" class="flex items-center gap-1.5">
-                                    <span class="min-w-0 flex-1 truncate" title="{{ $track->title }}">
-                                        @if ($track->in_scene)<span class="text-flow" title="{{ __('Lié à la scène') }}" aria-label="{{ __('Lié à la scène') }}">★</span>@endif
-                                        {{ $track->title }}
-                                    </span>
-                                    <button type="button" class="rounded-md border border-stone-200 px-1.5 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex"
-                                        x-on:click="$dispatch('sagawyn-audio-play', @js(['url' => route('audio.file', $track), 'title' => $track->title, 'loop' => $track->loop]))"
-                                        aria-label="{{ __('Écouter « :name » sur cet appareil', ['name' => $track->title]) }}">▶ {{ __('Ici') }}</button>
-                                    @if ($onTable)
-                                        <button type="button" wire:click="playOnTable({{ $track->id }})" class="rounded-md border border-stone-200 px-1.5 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex"
-                                            aria-label="{{ __('Jouer « :name » sur l’écran de table', ['name' => $track->title]) }}">▶ {{ __('Table') }}</button>
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
-                </section>
-
-                {{-- Écran de table : ce que voient les joueurs sur le second écran. --}}
-                @if (! \App\Support\CampaignFeatures::enabled($campaign, 'table'))
-                @elseif (auth()->user()->cannot('use-feature', ['table', $campaign]))
-                    <section class="rounded-xl border border-dashed border-stone-300 bg-stone-50 p-4 text-sm text-stone-500">
-                        <h2 class="mb-1 flex items-center gap-1 text-sm font-semibold tracking-wide uppercase">{{ __('Écran de table') }} <x-premium /></h2>
-                        <p>{{ __('Fonction Premium, non comprise dans la formule du propriétaire de la campagne. Rien n’est effacé : tout revient dès le passage à Premium.') }}</p>
-                    </section>
-                @else
-                <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-                    <div class="mb-2 flex items-center gap-2">
-                        <h2 class="mr-auto flex items-center gap-1 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Écran de table') }} <x-premium feature="table" /></h2>
-                        <a href="{{ route('table.screen', $campaign) }}" target="sagawyn-table" class="link text-sm">{{ __('Ouvrir ↗') }}</a>
-                    </div>
-                    <p class="flex items-center gap-2 text-sm">
-                        <span class="min-w-0 flex-1 truncate"><span class="text-stone-500">{{ __('Affiché :') }}</span> <span class="font-medium">{{ $this->tableLabel }}</span></span>
-                        @if ($campaign->table_display)
-                            <button type="button" wire:click="clearTable" class="shrink-0 text-xs text-stone-500 hover:text-red-700">{{ __('Vider') }}</button>
-                        @endif
-                    </p>
-                    <p class="mt-1 text-xs text-stone-500">{{ __("Ouvrez l'écran, glissez la fenêtre sur la télé ou le projecteur, puis « Plein écran ».") }}</p>
-                    <label class="mt-2 flex items-center gap-2 text-sm">
-                        <input type="checkbox" wire:click="toggleTableShare" @checked($campaign->table_shared)>
-                        {{ __('Partager avec les joueurs') }} <span class="text-xs text-stone-500">{{ __('(sur leur appareil)') }}</span>
-                    </label>
-
-                    <div class="mt-3 space-y-2">
-                        @if ($this->tableDocuments->isNotEmpty())
-                            <div class="flex gap-2">
-                                <label for="tableDocument" class="sr-only">{{ __('Carte ou document à montrer') }}</label>
-                                <select id="tableDocument" wire:model="tableDocumentId" class="field min-w-0 py-1.5 text-sm">
-                                    <option value="">{{ __('Carte, image ou document…') }}</option>
-                                    @foreach ($this->tableDocuments as $document)
-                                        <option value="{{ $document->id }}">{{ $document->title }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" wire:click="showDocument()" class="btn-secondary min-h-0 py-1 text-sm">{{ __('Montrer') }}</button>
-                            </div>
-                            @error('tableDocumentId') <p class="error">{{ $message }}</p> @enderror
-                        @endif
-                        <div class="flex gap-2">
-                            <div class="min-w-0 flex-1">
-                                <label for="tableEntity" class="sr-only">{{ __('Fiche à montrer (zone publique)') }}</label>
-                                <x-entity-picker id="tableEntity" model="tableEntityId" />
-                            </div>
-                            <button type="button" wire:click="showEntity" class="btn-secondary min-h-0 py-1 text-sm">{{ __('Montrer') }}</button>
-                        </div>
-                        @error('tableEntityId') <p class="error">{{ $message }}</p> @enderror
-                        <form wire:submit="showText" class="flex gap-2">
-                            <label for="tableText" class="sr-only">{{ __('Annonce à afficher') }}</label>
-                            <input id="tableText" type="text" wire:model="tableText" class="field min-w-0 py-1.5 text-sm" placeholder="{{ __('Annonce : « Trois jours plus tard… »') }}" autocomplete="off" maxlength="500">
-                            <button type="submit" class="btn-secondary min-h-0 py-1 text-sm">{{ __('Montrer') }}</button>
-                        </form>
-                        @error('tableText') <p class="error">{{ $message }}</p> @enderror
-                        <p class="text-xs text-stone-500">{{ __("Une fiche s'affiche sans sa zone MJ.") }}</p>
-                    </div>
-
-                    @if ($this->tableMaps->isNotEmpty())
-                        <ul class="mt-3 flex flex-wrap gap-1.5">
-                            @foreach ($this->tableMaps as $map)
-                                <li wire:key="session-map-{{ $map->id }}">
-                                    <button type="button" wire:click="showOnTable('map', {{ $map->id }})" class="rounded-md border border-stone-200 px-2 py-0.5 text-xs text-stone-600 hover:border-codex hover:text-codex" aria-label="{{ __("Montrer la carte « :name » sur l'écran de table", ['name' => $map->name]) }}">{{ $map->name }}</button>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
-                    <p class="mt-3 flex gap-4 text-sm">
-                        @if (\App\Support\CampaignFeatures::usable($campaign, 'maps'))
-                            <a href="{{ route('maps.index', $campaign) }}" class="link" wire:navigate>{{ __('Cartes →') }}</a>
-                        @endif
-                        <a href="{{ route('table.remote', $campaign) }}" class="link" wire:navigate>{{ __('Télécommande →') }}</a>
-                    </p>
-                </section>
-                @endif
-
-                {{-- Révéler une information ou donner un objet en pleine partie. --}}
-                <livewire:characters.give :campaign="$campaign" key="give-session" />
-
-                {{-- Épinglé --}}
-                <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-                    <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Épinglé') }}</h2>
-                    <div class="space-y-2">
-                        @forelse ($this->pins as $pinned)
-                            <div class="relative">
-                                <x-context-card :entity="$pinned" :campaign="$campaign" :field-definitions="$fieldDefinitions" source="pin" />
-                                <button type="button" wire:click="unpin({{ $pinned->id }})" class="absolute top-1 right-7 rounded px-1 text-xs text-stone-400 hover:text-red-700" aria-label="{{ __('Désépingler :name', ['name' => $pinned->name]) }}">✕</button>
-                            </div>
-                        @empty
-                            <p class="text-sm text-stone-500">{{ __('Gardez ici les fiches dont vous avez souvent besoin : un PNJ récurrent, une règle maison…') }}</p>
-                        @endforelse
-                    </div>
-                    <div class="mt-3 flex gap-2">
-                        <div class="min-w-0 flex-1">
-                            <label for="pinPicker" class="sr-only">{{ __('Épingler une fiche') }}</label>
-                            <x-entity-picker id="pinPicker" model="pickedPinId" />
-                            @error('pickedPinId') <p class="error">{{ $message }}</p> @enderror
-                        </div>
-                        <button type="button" wire:click="pin" class="btn-secondary">{{ __('Épingler') }}</button>
-                    </div>
-                </section>
-            </aside>
+                                {{-- Épinglé --}}
+                                <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                                    <h2 class="mb-2 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Épinglé') }}</h2>
+                                    <div class="space-y-2">
+                                        @forelse ($this->pins as $pinned)
+                                            <div class="relative">
+                                                <x-context-card :entity="$pinned" :campaign="$campaign" :field-definitions="$fieldDefinitions" source="pin" />
+                                                <button type="button" wire:click="unpin({{ $pinned->id }})" class="absolute top-1 right-7 rounded px-1 text-xs text-stone-400 hover:text-red-700" aria-label="{{ __('Désépingler :name', ['name' => $pinned->name]) }}">✕</button>
+                                            </div>
+                                        @empty
+                                            <p class="text-sm text-stone-500">{{ __('Gardez ici les fiches dont vous avez souvent besoin : un PNJ récurrent, une règle maison…') }}</p>
+                                        @endforelse
+                                    </div>
+                                    <div class="mt-3 flex gap-2">
+                                        <div class="min-w-0 flex-1">
+                                            <label for="pinPicker" class="sr-only">{{ __('Épingler une fiche') }}</label>
+                                            <x-entity-picker id="pinPicker" model="pickedPinId" />
+                                            @error('pickedPinId') <p class="error">{{ $message }}</p> @enderror
+                                        </div>
+                                        <button type="button" wire:click="pin" class="btn-secondary">{{ __('Épingler') }}</button>
+                                    </div>
+                                </section>
+                                @break
+                        @endswitch
+                        </x-screen.block>
+                    @endforeach
+                </div>
+            @endforeach
         </div>
     @endif
     @if ($preview = $this->preview)

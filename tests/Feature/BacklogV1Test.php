@@ -139,7 +139,8 @@ class BacklogV1Test extends TestCase
 
     public function test_my_campaigns_show_the_last_session_offer_to_resume_and_keep_archives_apart(): void
     {
-        $this->campaign->playSessions()->create(['number' => 1, 'started_at' => now()->subWeeks(2), 'ended_at' => now()->subWeeks(2)->addHours(3)]);
+        // Dates fixes : la séance 1 reste avant la séance 2, quel que soit le jour où le test tourne.
+        $this->campaign->playSessions()->create(['number' => 1, 'started_at' => now()->setDate(2026, 9, 19), 'ended_at' => now()->setDate(2026, 9, 19)->addHours(3)]);
         $this->campaign->playSessions()->create(['number' => 2, 'started_at' => now()->setDate(2026, 10, 3)]);
 
         $page = Livewire::actingAs($this->gm)->test(CampaignIndex::class)
@@ -312,7 +313,7 @@ class BacklogV1Test extends TestCase
         $this->manoir->save();
 
         $page = $this->actingAs($this->gm)->get(route('entities.show', [$this->campaign, $this->morel]))->assertOk();
-        $cited = str($page->getContent())->after('Cité dans')->before('Supprimer la fiche');
+        $cited = str($page->getContent())->after('>Cité dans</h2>')->before('Supprimer la fiche');
 
         $this->assertStringContainsString('Manoir Morgause', $cited);
         $this->assertStringContainsString('Incendie du moulin', $cited);

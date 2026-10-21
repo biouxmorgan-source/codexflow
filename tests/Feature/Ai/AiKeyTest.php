@@ -122,7 +122,7 @@ class AiKeyTest extends TestCase
     public function test_without_a_key_nothing_is_sent(): void
     {
         Livewire::actingAs($this->gm)->test(Index::class, ['campaign' => $this->campaign])
-            ->assertDontSee('Analyser directement')
+            ->assertDontSee('Analyser directement avec')
             ->call('analyseDirectly')
             ->assertHasErrors('direct');
 

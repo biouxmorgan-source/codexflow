@@ -100,8 +100,9 @@ class BillingTest extends TestCase
     {
         $user = User::factory()->create();
 
+        // Le montant mensuel s'affiche (4,99 € par défaut) ; sans montant annuel renseigné, l'intervalle seul.
         $this->actingAs($user)->get(route('preferences'))
-            ->assertSee('Passer Premium : Mensuel')
+            ->assertSee("Passer Premium : 4,99\u{a0}€/mois")
             ->assertSee('Passer Premium : Annuel')
             ->assertDontSee('Gérer mon abonnement');
 

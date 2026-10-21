@@ -6,6 +6,7 @@ use App\Models\BugReport;
 use App\Models\CharacterNote;
 use App\Models\Message;
 use App\Models\PlayerCharacter;
+use App\Support\Dice\TableDice;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -43,6 +44,15 @@ class AccountDataController extends Controller
             'characters' => PlayerCharacter::with(['entity', 'campaign'])->where('user_id', $user->id)->get()->map(fn ($character) => [
                 'name' => $character->entity?->name,
                 'campaign' => $character->campaign?->name,
+            ])->all(),
+            'personal_characters' => $user->personalCharacters()->orderBy('name')->get()->map(fn ($character) => [
+                'name' => $character->name,
+                'game' => $character->game,
+                'table' => $character->table_name,
+                'tabs' => $character->tabList(),
+                'blocks' => $character->blockList(),
+                'dice_presets' => TableDice::cleanPresets($character->dice_presets),
+                'sheet' => $character->sheet_name,
             ])->all(),
             'notes' => CharacterNote::with('character.campaign')->where('user_id', $user->id)->orderBy('created_at')->get()->map(fn ($note) => [
                 'campaign' => $note->character?->campaign?->name,

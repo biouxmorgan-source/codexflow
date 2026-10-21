@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\CampaignRole;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,8 +12,11 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Morceau de la bibliothèque sonore d'une campagne : musique ou ambiance, lancée en session
- * sur l'appareil du MJ ou sur l'écran de table. Réservée au MJ et à ses co-MJ.
+ * Morceau de la bibliothèque sonore : musique ou ambiance, lancée en session sur l'appareil du MJ
+ * ou sur l'écran de table. Réservée au MJ et à ses co-MJ.
+ *
+ * Il appartient soit à une campagne, soit (campaign_id vide) à la bibliothèque personnelle de son
+ * MJ : le même fichier sert alors dans chaque campagne où il l'ajoute (audio_track_campaign).
  */
 #[Fillable(['title', 'loop', 'disk', 'path', 'original_name', 'mime_type', 'size'])]
 class AudioTrack extends Model
@@ -47,6 +52,33 @@ class AudioTrack extends Model
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
+    }
+
+    /** @return BelongsToMany<Campaign, $this> campagnes où ce son de bibliothèque est ajouté */
+    public function linkedCampaigns(): BelongsToMany
+    {
+        return $this->belongsToMany(Campaign::class, 'audio_track_campaign');
+    }
+
+    public function inLibrary(): bool
+    {
+        return $this->campaign_id === null;
+    }
+
+    /**
+     * Sons utilisables dans une campagne : les siens, et ceux qu'un de ses MJ y a ajoutés depuis sa
+     * bibliothèque. Un co-MJ qui quitte la campagne reprend les siens.
+     *
+     * @param  Builder<AudioTrack>  $query
+     */
+    public function scopeAvailableIn(Builder $query, Campaign $campaign): void
+    {
+        $query->where(function (Builder $q) use ($campaign) {
+            $q->where('audio_tracks.campaign_id', $campaign->getKey())
+                ->orWhere(fn (Builder $library) => $library->whereNull('audio_tracks.campaign_id')
+                    ->whereIn('audio_tracks.id', fn ($links) => $links->select('audio_track_id')->from('audio_track_campaign')->where('campaign_id', $campaign->getKey()))
+                    ->whereIn('audio_tracks.user_id', fn ($gms) => $gms->select('user_id')->from('campaign_memberships')->where('campaign_id', $campaign->getKey())->where('role', CampaignRole::GameMaster->value)));
+        });
     }
 
     /** @return BelongsToMany<Tag, $this> */

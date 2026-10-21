@@ -29,8 +29,8 @@ class RouteAccessTest extends TestCase
     private const OPEN = [
         'home', 'help', 'manifest', 'robots', 'sitemap', 'privacy', 'bugs.create', 'up',
         'invitations.show', 'gifts.show', 'table.guest', 'table.guest.file', 'table.guest.image', 'table.guest.token',
-        'billing.success', 'campaigns.index', 'preferences', 'rewards', 'changelog', 'recommended', 'account.data',
-        'notifications.index', 'notifications.open', 'entity-types.index', 'tags.index', 'search.all', 'bugs.index',
+        'billing.success', 'campaigns.index', 'demo-library', 'preferences', 'rewards', 'changelog', 'recommended', 'account.data',
+        'notifications.index', 'notifications.open', 'entity-types.index', 'tags.index', 'library.sounds', 'my-sheets.index', 'search.all', 'bugs.index',
         'imports.ai.archive', 'imports.ai.archive.prompt', 'imports.ai.archive.skill', 'account.email.confirm',
     ];
 
@@ -81,6 +81,8 @@ class RouteAccessTest extends TestCase
             'kind' => 'fiches',
             'interval' => 'monthly',
             'user' => $gm,
+            // Feuille personnelle du MJ : personne d'autre ne l'ouvre, même avec son numéro.
+            'personalCharacter' => $gm->personalCharacters()->create(['name' => 'Aldric', 'sheet_path' => 'personal-characters/x.pdf', 'portrait_path' => 'personal-characters/x.jpg']),
             'code' => 'CODE-INCONNU',
             'notification' => '00000000-0000-0000-0000-000000000000',
         ];

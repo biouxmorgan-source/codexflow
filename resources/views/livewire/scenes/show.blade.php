@@ -10,7 +10,10 @@
             @if ($scene->chapter)
                 <p class="text-xs font-semibold tracking-wide text-stone-500 uppercase">{{ $scene->chapter }}</p>
             @endif
-            <h1 class="text-2xl font-semibold">{{ $scene->name }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-semibold">{{ $scene->name }}</h1>
+                <x-page-help topic="scenarios" />
+            </div>
             <div class="mt-2">
                 <label for="status" class="sr-only">{{ __('Statut') }}</label>
                 <select id="status" wire:change="setStatus($event.target.value)" class="rounded-full border-0 py-1 pr-8 pl-3 text-sm font-medium {{ $scene->status->badge() }}">
@@ -26,6 +29,15 @@
                     @endforeach
                 </p>
             @endif
+            @if ($mapPoints->isNotEmpty())
+                <p class="mt-2 flex flex-wrap items-center gap-x-2 text-sm text-stone-600">
+                    <x-icon name="pin" class="size-4 text-stone-400" />
+                    {{ __('Sur la carte :') }}
+                    @foreach ($mapPoints as $mapPoint)
+                        <a href="{{ route('maps.atlas', [$campaign, $mapPoint->map]) }}" class="link" wire:navigate>{{ $mapPoint->map->name }} · {{ $mapPoint->label }}</a>
+                    @endforeach
+                </p>
+            @endif
         </div>
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('journal.index', [$campaign, 'sujet' => 'scene:'.$scene->id]) }}" class="btn-secondary" wire:navigate>{{ __('Historique') }}</a>
@@ -34,14 +46,35 @@
     </div>
 
     <div class="grid gap-6 lg:grid-cols-3">
-        <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm lg:col-span-2">
-            <h2 class="mb-3 font-semibold text-flow">{{ __('Préparation') }}</h2>
-            @if ($scene->description)
-                <div class="text-stone-700">{{ $description }}</div>
-            @else
-                <p class="text-sm text-stone-500">{{ __("Rien de préparé pour l'instant.") }}</p>
-            @endif
-        </section>
+        <div class="space-y-6 lg:col-span-2">
+            <section class="rounded-xl border border-flow/30 bg-white p-6 shadow-sm">
+                <h2 class="mb-3 font-semibold text-flow">{{ __('Ce qui est prévu') }}</h2>
+                @if ($scene->description)
+                    <div class="text-stone-700">{{ $description }}</div>
+                @else
+                    <p class="text-sm text-stone-500">{{ __("Rien de préparé pour l'instant.") }}</p>
+                @endif
+            </section>
+
+            <section class="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
+                <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+                    <h2 class="font-semibold text-emerald-700">{{ __('Ce qui s’est passé') }}</h2>
+                    <label class="flex items-center gap-2 text-sm">
+                        <input type="checkbox" wire:click="togglePlayedAsPlanned" @checked($scene->played_as_planned) class="rounded border-stone-300">
+                        {{ __('Jouée comme prévu') }}
+                    </label>
+                </div>
+                @if ($scene->what_happened)
+                    <div class="text-stone-700">{{ $whatHappened }}</div>
+                @elseif (\App\Support\AdventureBook::happened($scene) !== '')
+                    <p class="text-sm text-stone-600">{{ __('Le récit est écrit plus haut, dans une section « Ce qui s’est passé » : le livre des aventures le reprend.') }}</p>
+                @elseif ($scene->played_as_planned)
+                    <p class="text-sm text-stone-600">{{ __('La table a suivi ce qui était prévu : le livre des aventures le reprend tel quel.') }}</p>
+                @else
+                    <p class="text-sm text-stone-500">{{ __('Après la partie, cochez « Jouée comme prévu » ou racontez ce qui a changé avec « Modifier la scène ».') }}</p>
+                @endif
+            </section>
+        </div>
 
         <aside class="space-y-6">
             <livewire:secrets.panel :campaign="$campaign" :items="['scene' => [$scene->id]]" :link="'scene:'.$scene->id" wire:key="secrets-scene" />

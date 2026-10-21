@@ -4,13 +4,244 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
-    '0.69.0' => [
-        'date' => '2026-10-17',
+    '0.89.0' => [
+        'date' => '2026-10-21',
         'title' => 'Oświadczenie o prawach przy każdym imporcie',
         'items' => [
             'Przed każdym importem (plik CSV lub JSON, archiwum kampanii, szablon gry) domyślnie niezaznaczone pole wymaga potwierdzenia, że posiadasz niezbędne prawa do importowanych treści. Bez niego przycisk pozostaje wyszarzony, a serwer odrzuca import.',
             'Każde oświadczenie jest zapisywane z datą, wersją zaakceptowanego tekstu i wynikiem importu, bez kopii plików. Znajdziesz je w „Pobierz moje dane”.',
             'Warunki korzystania zyskują sekcję „Treści użytkowników i własność intelektualna”, dostępną z każdego ekranu importu.',
+        ],
+    ],
+
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Czytelne nazwy punktów na mapie',
+        'items' => [
+            'W ciemnym motywie nazwy punktów na mapie kampanii były ciemne na czarnym tle: znów są białe, podobnie jak paski inicjatywy i kości na ekranie stołu oraz przyciski stron w plikach PDF.',
+        ],
+    ],
+
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Zapisane rzuty dla każdej karty',
+        'items' => [
+            'W kościach „Moich kart” opcja „Zapisz ten rzut” zachowuje rzut przy karcie: każda postać ma własne rzuty (Kula ognia, Atak…), wczytywane jednym dotknięciem, aktualizowane i usuwane przez ×.',
+        ],
+    ],
+
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '„Zastąp plik” działa',
+        'items' => [
+            'Przycisk „Zastąp” pozostawał wyszarzony po wybraniu nowego pliku: znów można go kliknąć, gdy plik zostanie wysłany.',
+        ],
+    ],
+
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Zastąpienie mapy obrazem o innym rozmiarze',
+        'items' => [
+            'Gdy dokument służy jako mapa, „Zastąp plik” pokazuje rozmiar obecnego obrazu i przyjmuje obraz o innym rozmiarze. Pionki, szablony i punkty zachowują pozycję w pikselach: ostrzeżenie informuje, że przesuną się na rysunku.',
+        ],
+    ],
+
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Zmiana dokumentu bez usuwania',
+        'items' => [
+            'Na stronie dokumentu „Zastąp plik” wstawia nową wersję w miejsce starej: dokument zachowuje tytuł, ustawienia i powiązania, a nowa wersja od razu pojawia się w scenach, kartach, zasadach, mapach, wskazówkach i u postaci, które go otrzymały.',
+            'Obraz służący jako mapa zastępuje się innym obrazem; pionki, siatka i punkty zostają na miejscu.',
+        ],
+    ],
+
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Rzuty kośćmi z karty',
+        'items' => [
+            'Na karcie postaci mała kość obok każdej liczby i każdego licznika rzuca kośćmi z tą wartością: „Rzuć poniżej… (próg)” albo „Dodaj… do rzutu (premia)”. Taca z kośćmi otwiera się gotowa do rzutu, a wynik trafia do stołu jak zwykle.',
+            'Na karcie własnej postaci wartość pozostaje powiązana z kartą: gdy się zmieni, zapisany rzut za nią podąża. MG również może rzucać z karty gracza.',
+            '„Moje karty” mają własne kości: ta sama mała kość obok wartości liczbowych i przycisk „Kości” na dole karty. Wynik pojawia się na karcie, widoczny tylko dla ciebie.',
+        ],
+    ],
+
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Nowe mapy w demie',
+        'items' => [
+            'Demo ma nowe ilustrowane mapy: nadmorską wioskę jako mapę kampanii i podziemne nabrzeże latarni jako podmapę. Wczytaj je ponownie z „Moje kampanie”, aby je zobaczyć.',
+        ],
+    ],
+
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Więcej miejsca w Moich kartach',
+        'items' => [
+            'Karta mieści teraz do 200 bloków, 500 pól i 30 zakładek. „+ Nowa notatka” nie prowadzi już do strony błędu: przy limicie wyjaśnia to komunikat.',
+        ],
+    ],
+
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Zakładki w Moich kartach',
+        'items' => [
+            'W „Edytuj” przycisk „+ Nowa zakładka” dzieli kartę na zakładki, które nazywasz (Postać, Czary, Ekwipunek…), układasz i usuwasz.',
+            'Każdy blok wybiera swoją zakładkę, a każda zakładka układa swoje bloki na własnych trzech kolumnach. Istniejąca karta zachowuje wszystkie bloki w pierwszej zakładce.',
+        ],
+    ],
+
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Wiele notatek i trzy kolumny w Moich kartach',
+        'items' => [
+            '„+ Nowa notatka” dodaje blok notatek: tyle, ile chcesz (długi, plotki, kontakty…). Twoje dotychczasowe notatki stają się pierwszym blokiem „Notatki”.',
+            'Bloki układasz teraz w trzech kolumnach, razem z notatkami, przez „Uporządkuj bloki”.',
+        ],
+    ],
+
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Aktualne demo',
+        'items' => [
+            'Kampania demonstracyjna pokazuje teraz najnowsze funkcje: na mapie kampanii latarnia prowadzi do podmapy, swojej piwnicy, gotowej do walki z żetonami, dwoma szablonami obszaru i kolejnością inicjatywy. Każdy punkt łączy kilka kart i kilka scen.',
+            'Kości przy stole: przygotowane rzuty, które odczytują cechę z karty, nazwana premia i rzuty z sesji 1, w tym prośba MG.',
+            'Także: dźwięk z „Moich dźwięków”, scena „Rozegrana zgodnie z planem” i druga z „Co się wydarzyło”, poszlaka „Kłamstwo”, karta i zasada domowa z ich oficjalną wersją oraz gracze, którzy sami uzupełniają swój portret.',
+            'Wczytaj demo ponownie z „Moje kampanie”, aby je poznać: już wczytana kopia pozostaje bez zmian.',
+        ],
+    ],
+
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Mapa kampanii: zoom, stół i bogatsze miejsca',
+        'items' => [
+            'Mapę kampanii można przybliżać (kółko, + i −, gest szczypania na tablecie) i przesuwać przeciąganiem. Rada: obraz 4K (3840 × 2160) pozostaje ostry.',
+            'Gdy mapa jest na ekranie stołu, otwarta z punktu mapa szczegółowa zastępuje ją tam, a mapa nadrzędna wraca, gdy cofasz się w górę. Na mapie szczegółowej „To miejsce” trzyma sceny i karty punktu o jedno kliknięcie.',
+            'Punkt można teraz powiązać z wieloma scenami i wieloma kartami: miejsce, jego BN, wszystkie sceny, które się tam rozgrywają.',
+        ],
+    ],
+
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Bloki, notatki i pola wyboru w Moich kartach',
+        'items' => [
+            'W „Moich kartach” pola układają się w bloki, którym nadajesz nazwy: Cechy, Umiejętności, Ekwipunek, Czary…',
+            '„Uporządkuj bloki”: przeciągnij blok za uchwyt lub użyj strzałek, aby umieścić go, gdzie chcesz, w jednej lub dwóch kolumnach.',
+            'Każde pole może mieć notatkę i pole wyboru do zaznaczania podczas gry: udany test umiejętności, przygotowany czar.',
+        ],
+    ],
+
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Biblioteka dem',
+        'items' => [
+            'Nowa „Biblioteka dem” w „Moich kampaniach”: kampanie gotowe do gry (świat, krótki scenariusz, gotowe postacie), których własną kopię wczytujesz jednym kliknięciem.',
+            'Każde demo autora lub wydawcy ma link „Kup grę”, w bibliotece i na górze twojej kopii.',
+            'Cena Premium widnieje teraz na przycisku subskrypcji w Preferencjach: 4,99 € miesięcznie.',
+        ],
+    ],
+
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Co się wydarzyło, i księga przygód',
+        'items' => [
+            'Każda scena ma teraz dwie części: „Co jest zaplanowane” i „Co się wydarzyło”. Jeśli drużyna trzymała się planu, wystarczy zaznaczyć „Rozegrana zgodnie z planem”.',
+            'Nowa „Księga przygód” w kampanii: rozegrane sceny, scenariusz po scenariuszu, a potem podsumowania sesji, do czytania, drukowania lub zapisania jako PDF.',
+            'Można dodać wersję spisaną przez ciebie lub przez wybraną SI (tekst do skopiowania albo własny klucz API, na twój koszt). Księga pozostaje tylko dla MG.',
+        ],
+    ],
+
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Ułóż swoje ekrany po swojemu',
+        'items' => [
+            'Nowy przycisk „Uporządkuj ekran” na stronie kampanii i w trybie Sesji: przeciągnij każdy blok za uchwyt ⠿, myszą lub palcem, albo użyj strzałek.',
+            'W trybie Sesji blok może przejść z jednej kolumny do drugiej: muzyka na górze, notatki po prawej, jak wolisz.',
+            '„Ukryj” usuwa blok, którego nie używasz, „Pokaż” go przywraca, „Układ domyślny” przywraca wszystko. Ten układ należy tylko do ciebie: gracze i współprowadzący zachowują własny.',
+        ],
+    ],
+
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Twoja karta, nawet bez sieci',
+        'items' => [
+            'Offline karta Twojej postaci pozostaje użyteczna: ustawiaj liczniki przyciskami − i +, zmieniaj pola, na które pozwala MG, i pisz notatki.',
+            'Wszystko zostaje na urządzeniu i jest wysyłane po powrocie połączenia, pole po polu: licznik otrzymuje to, co odjąłeś lub dodałeś, a to, co MG zmienił w międzyczasie (ujawniony sekret, zmienione pole), zostaje zachowane.',
+            'Po wysłaniu podsumowanie pokazuje, co zostało zaktualizowane, i wskazuje pola, które MG zmienił w tym samym czasie co Ty.',
+        ],
+    ],
+
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Wielka mapa kampanii',
+        'items' => [
+            'Nowa „Mapa kampanii”: wybierz mapę jako widok ogólny i umieść na niej ciekawe miejsca, miasto, loch, miejsce sceny.',
+            'Punkt może jednym kliknięciem otworzyć mapę szczegółową, która ma własne punkty; ścieżka nawigacji pozwala wrócić do widoku ogólnego.',
+            'Powiązane ze sceną punkty pokazują, co rozegrano, co trwa, a co dopiero nadejdzie; powiązane z kartą otwierają ją. Wszystko zostaje u MG, poza nazwami punktów „Widoczne przy stole”, pokazywanymi na ekranie stołu.',
+        ],
+    ],
+
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Twoje postacie z innych stołów',
+        'items' => [
+            'Nowa strona „Moje karty”: przechowuj postacie, którymi grasz poza SagaWyn, u znajomych, w klubie lub gdzie indziej. Widzisz je tylko Ty.',
+            'Każda postać ma swoją kartę PDF, portret, dowolne pola (teksty i liczniki ustawiane przyciskami − i + podczas gry) oraz Twoje notatki, z nazwą gry i drużyny, by łatwo ją odnaleźć.',
+        ],
+    ],
+
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Biblioteka dźwięków dla wszystkich kampanii',
+        'items' => [
+            'Nowa strona „Moje dźwięki”: muzyka i ambienty zapisane raz na koncie, a potem dodawane do prowadzonych kampanii. Plik nie jest kopiowany i liczy się tylko raz do miejsca na dane.',
+            'Na stronie Dźwięki kampanii: „Z mojej biblioteki”, aby dodać swoje dźwięki, „Przenieś do mojej biblioteki”, aby użyć dźwięku gdzie indziej, oraz pole, by nowy plik trafił od razu do biblioteki.',
+            'Przeniesienie do biblioteki dźwięku wgranego już w innej kampanii scala obie kopie: sceny zachowują muzykę, a miejsce zostaje zwolnione.',
+        ],
+    ],
+
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instrukcja wszędzie',
+        'items' => [
+            'Przycisk „?” pojawia się też przy dźwiękach, grafie relacji, osi czasu, opiniach graczy, asystencie AI, dzienniku i karcie postaci.',
+            'Na grafie, osi czasu i karcie postaci gracze czytają instrukcję napisaną dla nich.',
+        ],
+    ],
+
+    '0.71.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Odejmij lub dodaj kilka punktów naraz',
+        'items' => [
+            'Pod każdym licznikiem, który gracz może zmieniać (PŻ, amunicja, pieniądze…), pole „Wartość”: wpisz 8, potem −, a licznik straci 8 naraz. Domyślnie to 1.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instrukcja na kolejnych ekranach',
+        'items' => [
+            'Przycisk „?” pojawia się też na karcie (po stronie MG), w trybie Sesji, w scenariuszach i scenach, przy imporcie plików i wśród członków kampanii.',
+            'Strona Pomocy wyjaśnia teraz surowy rzut i premie odczytywane z karty postaci.',
+        ],
+    ],
+
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Instrukcja na trudniejszych ekranach',
+        'items' => [
+            'Przycisk „?” obok tytułu ekranów, które nie tłumaczą się same, otwiera krótką instrukcję: typy kart, pola gry, tagi, kości, mapy, pilot ekranu stołu, tropy i historia ujawnień.',
+            'Każda instrukcja prowadzi do odpowiedniego pytania na stronie Pomocy, które otwiera się od razu.',
+        ],
+    ],
+
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Premia i próg z karty',
+        'items' => [
+            'W kościach premia może brać jedną lub kilka wartości z karty postaci (cecha, umiejętność, dowolne pole liczbowe lub licznik w strefie publicznej), w całości albo jako dziesiątki, połowę lub piątą część, obok wolnej premii. Próg też może pochodzić z karty. Wartości są odczytywane w chwili rzutu z karty każdej postaci, która rzuca.',
+            'Kilka nazwanych premii (Broń +2, Rana −1…) sumuje się w jednym rzucie, razem z wartościami z karty.',
+            'Gotowe przykłady znikają z tacki: zostają twoje zapisane rzuty.',
+            'Zapisany rzut usuwa się jednym dotknięciem: × na jego etykiecie lub „Usuń” po wczytaniu.',
         ],
     ],
 
@@ -600,7 +831,7 @@ return [
         'date' => '2026-10-08',
         'title' => 'Kampania demonstracyjna',
         'items' => [
-            'Kampania demonstracyjna wczytywana jednym kliknięciem z „Moich kampanii”: wymyślona gra „Brume & Serment” i pełna intryga na trzy sesje, z kartami, portretami, relacjami, mapą, sekretami, zasadami, osią czasu i gotowymi postaciami.',
+            'Kampania demonstracyjna wczytywana jednym kliknięciem z „Moje kampanie”: wymyślona gra „Brume & Serment” i pełna intryga na trzy sesje, z kartami, portretami, relacjami, mapą, sekretami, zasadami, osią czasu i gotowymi postaciami.',
             'Małe przyciski z ikonami na stronie kampanii nie przesuwają się już po najechaniu myszą: nazwa pojawia się w dymku, nad resztą.',
             'Tagi wpisuje się wszędzie tak samo, a karta proponuje „Dodaj tag” tuż pod tytułem.',
         ],
@@ -620,7 +851,7 @@ return [
         'title' => 'Zabrać kampanię ze sobą',
         'items' => [
             'Eksport całej kampanii do archiwum .zip: gra, świat, karty, scenariusze, dokumenty, mapy, sekrety, oś czasu i pliki.',
-            'Import archiwum z „Moich kampanii”: odtwarza kampanię, u ciebie lub u innego MG.',
+            'Import archiwum z „Moje kampanie”: odtwarza kampanię, u ciebie lub u innego MG.',
             'Szablony gry do udostępnienia: typy kart, pola, etykiety i zasady, bez treści kampanii.',
         ],
     ],

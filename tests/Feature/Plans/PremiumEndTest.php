@@ -42,7 +42,7 @@ class PremiumEndTest extends TestCase
 
     public function test_an_expired_subscription_switches_features_off_and_keeps_every_campaign_and_its_data(): void
     {
-        $map = TableMap::where('campaign_id', $this->campaign->id)->sole();
+        $map = TableMap::where('campaign_id', $this->campaign->id)->where('is_campaign_map', true)->sole();
         TableDisplay::show($this->campaign, 'map', $map->id);
         $message = new Message(['body' => 'À jeudi !']);
         $message->campaign()->associate($this->campaign);

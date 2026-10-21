@@ -1,9 +1,10 @@
-@props(['map', 'tokens', 'imageUrl', 'tokenUrl', 'gm' => false, 'movable' => [], 'templates' => []])
+@props(['map', 'tokens', 'imageUrl', 'tokenUrl', 'gm' => false, 'movable' => [], 'templates' => [], 'points' => []])
 {{--
     Carte dessinée en SVG, dans les pixels de l'image : la vue (zoom, déplacement) est le viewBox.
     Écran de table : seulement les jetons visibles (filtrés côté serveur). Côté MJ ($gm), les jetons
     masqués restent à leur place, en transparence. Sur l'écran, les jetons de $movable se déplacent.
     Gabarits de zone ($templates) sous les jetons ; côté MJ, on les glisse aussi, et un gabarit masqué est en pointillés.
+    Points d'intérêt de la carte de campagne ($points) : à la table, seulement le nom des points visibles (filtrés côté serveur).
 --}}
 @php
     [$vx, $vy, $vw, $vh] = $map->viewBox();
@@ -40,6 +41,17 @@
                 @endif
             </g>
             <circle r="{{ max(3, $gs / 10) }}" fill="{{ $template->color }}" stroke="#fff" stroke-width="{{ max(1, $gs / 30) }}" />
+        </g>
+    @endforeach
+
+    @php($pin = max(8, max($map->width, $map->height) / 110))
+    @foreach ($points as $point)
+        <g wire:key="point-{{ $point->id }}" transform="translate({{ $point->x }} {{ $point->y }})" pointer-events="none" @if (! $point->shown_at_table) opacity="0.5" @endif>
+            <path d="M 0 0 L {{ -$pin * 0.6 }} {{ -$pin * 1.4 }} A {{ $pin }} {{ $pin }} 0 1 1 {{ $pin * 0.6 }} {{ -$pin * 1.4 }} Z" fill="{{ $point->color }}" stroke="#fff" stroke-width="{{ $pin / 5 }}" stroke-linejoin="round"
+                @if (! $point->shown_at_table) stroke-dasharray="{{ $pin / 2 }} {{ $pin / 3 }}" @endif />
+            <circle cy="{{ -$pin * 2.2 }}" r="{{ $pin / 2.6 }}" fill="#fff" />
+            <text y="{{ $pin * 1.3 }}" text-anchor="middle" fill="#fff" stroke="#000" stroke-width="{{ $pin / 3 }}" paint-order="stroke" stroke-linejoin="round"
+                font-size="{{ $pin * 1.2 }}" font-weight="700" font-family="system-ui, sans-serif">{{ $point->label }}</text>
         </g>
     @endforeach
 

@@ -102,6 +102,18 @@ class User extends Authenticatable implements HasLocalePreference
         return $this->hasMany(ContentDeclaration::class);
     }
 
+    /** @return HasMany<AudioTrack, $this> sons de la bibliothèque personnelle, hors campagne */
+    public function libraryTracks(): HasMany
+    {
+        return $this->hasMany(AudioTrack::class)->whereNull('campaign_id');
+    }
+
+    /** @return HasMany<PersonalCharacter, $this> feuilles de personnage joués hors de SagaWyn, visibles de lui seul */
+    public function personalCharacters(): HasMany
+    {
+        return $this->hasMany(PersonalCharacter::class);
+    }
+
     /** @return HasMany<UserLogin, $this> */
     public function logins(): HasMany
     {

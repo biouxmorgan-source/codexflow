@@ -3,6 +3,7 @@
 namespace App\Livewire\Sessions;
 
 use App\Enums\SceneStatus;
+use App\Livewire\Concerns\ArrangesScreen;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\AudioTrack;
 use App\Models\Campaign;
@@ -31,6 +32,7 @@ use Livewire\Component;
  */
 class Live extends Component
 {
+    use ArrangesScreen;
     use SuggestsEntities;
 
     public Campaign $campaign;
@@ -55,6 +57,11 @@ class Live extends Component
     public function mount(Campaign $campaign): void
     {
         $this->authorize('update', $campaign);
+    }
+
+    protected function screenLayoutName(): string
+    {
+        return 'session';
     }
 
     #[Computed]
@@ -108,7 +115,7 @@ class Live extends Component
         $scene = $this->session?->currentScene;
         $sceneIds = $scene ? $scene->audioTracks()->pluck('audio_tracks.id')->all() : [];
 
-        return $this->campaign->audioTracks()->orderByRaw('lower(title)')->get()
+        return $this->campaign->availableTracks()->orderByRaw('lower(title)')->get()
             ->sortBy(fn (AudioTrack $track) => ($pos = array_search($track->id, $sceneIds, true)) === false ? PHP_INT_MAX : $pos)
             ->each(fn (AudioTrack $track) => $track->setAttribute('in_scene', in_array($track->id, $sceneIds, true)))
             ->values();
@@ -125,7 +132,7 @@ class Live extends Component
     {
         $this->authorize('update', $this->campaign);
 
-        TableAudio::play($this->campaign, $this->campaign->audioTracks()->findOrFail($trackId));
+        TableAudio::play($this->campaign, $this->campaign->availableTracks()->findOrFail($trackId));
         unset($this->tableAudio);
     }
 

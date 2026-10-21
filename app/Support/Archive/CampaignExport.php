@@ -99,7 +99,7 @@ final class CampaignExport
             'documents' => $this->pivot('document_tag', 'document_id', $documentIds, 'tag_id'),
             'rules' => $this->pivot('rule_tag', 'rule_id', $ruleIds, 'tag_id'),
             'scenes' => $this->pivot('scene_tag', 'scene_id', $sceneIds, 'tag_id'),
-            'audio_tracks' => $this->pivot('audio_track_tag', 'audio_track_id', DB::table('audio_tracks')->where('campaign_id', $campaign->id)->pluck('id')->all(), 'tag_id'),
+            'audio_tracks' => $this->pivot('audio_track_tag', 'audio_track_id', $campaign->availableTracks()->pluck('audio_tracks.id')->all(), 'tag_id'),
         ];
         $tagIds = collect($tagLinks)->flatMap(fn (Collection $links) => $links->flatten())->unique()->all();
 
@@ -125,10 +125,15 @@ final class CampaignExport
 
         $maps = DB::table('table_maps')->where('campaign_id', $campaign->id)->whereIn('document_id', $documentIds)->orderBy('id')->get();
         $tokens = DB::table('map_tokens')->whereIn('table_map_id', $maps->pluck('id'))->orderBy('id')->get()->groupBy('table_map_id');
+        $points = DB::table('map_points')->whereIn('table_map_id', $maps->pluck('id'))->orderBy('id')->get()->groupBy('table_map_id');
+        $pointIds = $points->flatten()->pluck('id');
+        $pointScenes = DB::table('map_point_scene')->whereIn('map_point_id', $pointIds)->whereIn('scene_id', $sceneIds)->orderBy('position')->get()->groupBy('map_point_id');
+        $pointEntities = DB::table('map_point_entity')->whereIn('map_point_id', $pointIds)->whereIn('entity_id', $entityIds)->orderBy('position')->get()->groupBy('map_point_id');
 
         $sceneEntities = DB::table('scene_entity')->whereIn('scene_id', $sceneIds)->whereIn('entity_id', $entityIds)->orderBy('position')->get()->groupBy('scene_id');
         $sceneDocuments = DB::table('document_scene')->whereIn('scene_id', $sceneIds)->whereIn('document_id', $documentIds)->orderBy('position')->get()->groupBy('scene_id');
-        $tracks = DB::table('audio_tracks')->where('campaign_id', $campaign->id)->orderBy('id')->get();
+        // Les sons ajoutés depuis la bibliothèque d'un MJ partent aussi : l'archive se suffit à elle-même.
+        $tracks = $campaign->availableTracks()->toBase()->orderBy('id')->get();
         $sceneTracks = DB::table('audio_track_scene')->whereIn('scene_id', $sceneIds)->whereIn('audio_track_id', $tracks->pluck('id'))->orderBy('position')->get()->groupBy('scene_id');
         $sceneRules = DB::table('rule_scene')->whereIn('scene_id', $sceneIds)->whereIn('rule_id', $ruleIds)->orderBy('position')->get()->groupBy('scene_id');
 
@@ -239,6 +244,8 @@ final class CampaignExport
                     'name' => $scene->name,
                     'description' => $scene->description,
                     'status' => $scene->status,
+                    // Ce qui s'est passé à la table ne part pas dans un modèle confié à d'autres MJ.
+                    ...($this->complete ? ['what_happened' => $scene->what_happened, 'played_as_planned' => (bool) $scene->played_as_planned] : []),
                     'tags' => $tagLinks['scenes']->get($scene->id, collect())->all(),
                     'entities' => $sceneEntities->get($scene->id, collect())->map(fn ($row) => ['id' => $row->entity_id, 'note' => $row->note])->values()->all(),
                     'documents' => $sceneDocuments->get($scene->id, collect())->pluck('document_id')->all(),
@@ -260,8 +267,15 @@ final class CampaignExport
                 'scenes' => $secretLinks['scenes']->get($secret->id, collect())->all(),
             ])->all(),
             'maps' => $maps->map(fn ($map) => [
-                ...collect((array) $map)->only(['document_id', 'name', 'width', 'height', 'grid_enabled', 'grid_size', 'grid_offset_x', 'grid_offset_y', 'grid_color', 'scale_value', 'scale_unit'])->all(),
+                ...collect((array) $map)->only(['id', 'document_id', 'name', 'width', 'height', 'grid_enabled', 'grid_size', 'grid_offset_x', 'grid_offset_y', 'grid_color', 'scale_value', 'scale_unit', 'is_campaign_map'])->all(),
                 'tokens' => $tokens->get($map->id, collect())->map(fn ($token) => collect((array) $token)->only(['entity_id', 'label', 'color', 'x', 'y', 'size', 'hidden', 'show_label'])->all())->values()->all(),
+                // Liens vers une sous-carte, une scène ou une fiche : seulement s'ils partent aussi dans l'archive.
+                'points' => $points->get($map->id, collect())->map(fn ($point) => [
+                    ...collect((array) $point)->only(['label', 'note', 'color', 'x', 'y', 'shown_at_table'])->all(),
+                    'target_map_id' => $maps->contains('id', $point->target_map_id) ? $point->target_map_id : null,
+                    'scenes' => $pointScenes->get($point->id, collect())->pluck('scene_id')->all(),
+                    'entities' => $pointEntities->get($point->id, collect())->pluck('entity_id')->all(),
+                ])->values()->all(),
             ])->all(),
             'timeline' => DB::table('timeline_events')->where('campaign_id', $campaign->id)->orderBy('position')->orderBy('id')->get()
                 ->map(fn ($event) => collect((array) $event)->only(['kind', 'date_label', 'title', 'description', 'zone', 'scene_id', ...($this->complete ? ['play_session_id'] : [])])->all())->all(),
@@ -291,6 +305,7 @@ final class CampaignExport
 
         return [
             'player_sheets' => $playerSheets,
+            'adventure_book' => $campaign->adventure_book,
             'characters' => $characters->map(fn ($character) => [
                 'id' => $character->id,
                 'entity_id' => $character->entity_id,

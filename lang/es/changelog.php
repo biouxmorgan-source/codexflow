@@ -4,13 +4,244 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
-    '0.69.0' => [
-        'date' => '2026-10-17',
+    '0.89.0' => [
+        'date' => '2026-10-21',
         'title' => 'Declaración de derechos en cada importación',
         'items' => [
             'Antes de cada importación (archivo CSV o JSON, archivo de campaña, plantilla de juego), una casilla desmarcada por defecto pide certificar que dispones de los derechos necesarios sobre los contenidos importados. Sin ella, el botón sigue gris y el servidor rechaza la importación.',
             'Cada declaración se registra con su fecha, la versión del texto aceptado y el resultado de la importación, sin copia de los archivos. Aparece en «Descargar mis datos».',
             'Las condiciones de uso incluyen una sección «Contenidos de los usuarios y propiedad intelectual», accesible desde cada pantalla de importación.',
+        ],
+    ],
+
+    '0.87.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Nombres de los puntos legibles en el mapa',
+        'items' => [
+            'En el tema oscuro, los nombres de los puntos del mapa de campaña aparecían oscuros sobre fondo negro: vuelven a ser blancos, igual que los paneles de iniciativa y de dados en la pantalla de mesa y los botones de página de los PDF.',
+        ],
+    ],
+
+    '0.87.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Tiradas guardadas para cada hoja',
+        'items' => [
+            'En los dados de «Mis hojas», «Guardar esta tirada» guarda una tirada con la hoja: cada personaje tiene sus propias tiradas (Bola de fuego, Ataque…), que se recargan con un toque, se actualizan y se quitan con ×.',
+        ],
+    ],
+
+    '0.86.2' => [
+        'date' => '2026-10-20',
+        'title' => '«Reemplazar el archivo» funciona',
+        'items' => [
+            'El botón «Reemplazar» seguía desactivado tras elegir el nuevo archivo: vuelve a poder pulsarse en cuanto el archivo se ha enviado.',
+        ],
+    ],
+
+    '0.86.1' => [
+        'date' => '2026-10-20',
+        'title' => 'Reemplazar un mapa por una imagen de otro tamaño',
+        'items' => [
+            'Cuando el documento sirve de mapa, «Reemplazar el archivo» muestra el tamaño de la imagen actual y acepta una imagen de otro tamaño. Fichas, plantillas y puntos conservan su posición en píxeles: un aviso indica que se desplazarán sobre el dibujo.',
+        ],
+    ],
+
+    '0.86.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Modificar un documento sin borrarlo',
+        'items' => [
+            'En la página de un documento, «Reemplazar el archivo» pone una nueva versión en lugar de la antigua: el documento conserva su título, ajustes y enlaces, y la nueva versión aparece al instante en escenas, fichas, reglas, mapas, pistas y en los personajes que lo recibieron.',
+            'Una imagen que sirve de mapa se reemplaza por otra imagen; fichas, cuadrícula y puntos se quedan en su sitio.',
+        ],
+    ],
+
+    '0.85.0' => [
+        'date' => '2026-10-20',
+        'title' => 'Tirar los dados desde la hoja',
+        'items' => [
+            'En la hoja de un personaje, un pequeño dado junto a cada número y cada contador tira los dados con ese valor: «Tirar por debajo de… (umbral)» o «Sumar… a la tirada (bonificador)». La bandeja de dados se abre lista para tirar y el resultado va a la mesa como siempre.',
+            'En la hoja de tu propio personaje, el valor sigue vinculado a la hoja: si cambia, la tirada guardada lo sigue. El DJ también puede tirar desde la hoja de un jugador.',
+            '«Mis hojas» tiene sus propios dados: el mismo pequeño dado junto a los valores numéricos y un botón «Dados» al pie de la hoja. El resultado se muestra en la hoja, visible solo para ti.',
+        ],
+    ],
+
+    '0.84.2' => [
+        'date' => '2026-10-20',
+        'title' => 'Nuevos mapas para la demo',
+        'items' => [
+            'La demostración tiene nuevos mapas ilustrados: el pueblo costero para el mapa de campaña y el muelle subterráneo del faro para el submapa. Vuelve a cargarla desde «Mis campañas» para verlos.',
+        ],
+    ],
+
+    '0.84.1' => [
+        'date' => '2026-10-19',
+        'title' => 'Más espacio en Mis hojas',
+        'items' => [
+            'Una hoja guarda ahora hasta 200 bloques, 500 campos y 30 pestañas. «+ Nueva nota» ya no lleva a una página de error: en el límite, un mensaje lo explica.',
+        ],
+    ],
+
+    '0.84.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Pestañas en Mis hojas',
+        'items' => [
+            'En «Editar», «+ Nueva pestaña» divide una hoja en pestañas que nombras (Personaje, Hechizos, Inventario…), ordenas y quitas.',
+            'Cada bloque elige su pestaña, y cada pestaña coloca sus bloques en sus propias tres columnas. Una hoja existente conserva todos sus bloques en una primera pestaña.',
+        ],
+    ],
+
+    '0.83.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Varias notas y tres columnas en Mis hojas',
+        'items' => [
+            '«+ Nueva nota» añade un bloque de notas: tantos como quieras (deudas, rumores, contactos…). Tus notas anteriores pasan a un primer bloque «Notas».',
+            'Los bloques se colocan ahora en tres columnas, notas incluidas, con «Organizar los bloques».',
+        ],
+    ],
+
+    '0.82.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Una demo al día',
+        'items' => [
+            'La campaña de demostración muestra ahora las últimas novedades: en el mapa de campaña, el faro lleva a un submapa, su sótano, listo para el combate con fichas, dos plantillas de área y un orden de iniciativa. Cada punto enlaza varias fichas y varias escenas.',
+            'Dados en la mesa: tiradas preparadas que leen la característica de la ficha, un bono con nombre y las tiradas de la sesión 1, incluida una petición del DJ.',
+            'Además: un sonido de «Mis sonidos», una escena «Jugada según lo previsto» y otra con «Lo que pasó», una pista «Mentira», una ficha y una regla de la casa con su versión oficial, y jugadores que completan su propio retrato.',
+            'Vuelve a cargar la demostración desde «Mis campañas» para descubrirla: una copia ya cargada se queda como está.',
+        ],
+    ],
+
+    '0.81.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Mapa de campaña: zoom, mesa y lugares más completos',
+        'items' => [
+            'El mapa de campaña se amplía (rueda, + y −, pellizcar en tableta) y se desplaza arrastrando. Consejo: una imagen 4K (3840 × 2160) se mantiene nítida.',
+            'Cuando el mapa está en la pantalla de mesa, el submapa abierto desde un punto lo sustituye allí, y el mapa superior vuelve al subir. En el submapa, «Este lugar» mantiene a un clic las escenas y fichas del punto.',
+            'Un punto puede enlazarse ahora con varias escenas y varias fichas: el lugar, sus PNJ, todas las escenas que se juegan allí.',
+        ],
+    ],
+
+    '0.80.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Bloques, notas y casillas en Mis hojas',
+        'items' => [
+            'En «Mis hojas», los campos se agrupan en bloques que nombras: Características, Habilidades, Equipo, Hechizos…',
+            '«Organizar los bloques»: arrastra un bloque por su asa, o usa las flechas, para colocarlo donde quieras, en una o dos columnas.',
+            'Cada campo puede llevar una nota y una casilla para marcar durante la partida: una habilidad superada, un hechizo preparado.',
+        ],
+    ],
+
+    '0.79.0' => [
+        'date' => '2026-10-19',
+        'title' => 'Biblioteca de demos',
+        'items' => [
+            'Nueva «Biblioteca de demos», desde «Mis campañas»: campañas listas para jugar (un mundo, un escenario corto, personajes pregenerados) de las que cargas tu propia copia en un clic.',
+            'Cada demo de un autor o una editorial conserva un enlace «Comprar el juego», en la biblioteca y en la parte superior de tu copia.',
+            'El precio de Premium aparece en el botón de suscripción de Preferencias: 4,99 € al mes.',
+        ],
+    ],
+
+    '0.78.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Lo que pasó, y el libro de aventuras',
+        'items' => [
+            'Cada escena tiene ahora dos partes: «Lo previsto» y «Lo que pasó». Si la mesa siguió el plan, basta con marcar «Jugada según lo previsto».',
+            'Nuevo «Libro de aventuras» en la campaña: las escenas jugadas, escenario por escenario, y luego los resúmenes de las sesiones, para leer, imprimir o guardar en PDF.',
+            'Puede añadirse una versión redactada, escrita por ti o por la IA que elijas (texto para copiar, o tu propia clave de API, a tu cargo). El libro sigue reservado al DJ.',
+        ],
+    ],
+
+    '0.77.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Organiza tus pantallas a tu manera',
+        'items' => [
+            'Nuevo botón «Organizar la pantalla» en la página de la campaña y en el modo Sesión: arrastra cada bloque por su asa ⠿, con el ratón o con el dedo, o usa las flechas.',
+            'En el modo Sesión, un bloque puede pasar de una columna a otra: la música arriba, las notas a la derecha, como prefieras.',
+            '«Ocultar» quita un bloque que no usas, «Mostrar» lo recupera, «Disposición por defecto» lo devuelve todo a su sitio. Esta disposición es solo tuya: jugadores y co-DJ conservan la suya.',
+        ],
+    ],
+
+    '0.76.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Tu ficha, incluso sin conexión',
+        'items' => [
+            'Sin conexión, la ficha de tu personaje sigue siendo utilizable: ajusta tus contadores con − y +, modifica los campos que el DJ te permite y escribe notas.',
+            'Todo se guarda en el dispositivo y se envía al volver la conexión, campo por campo: un contador recibe lo que quitaste o añadiste, y lo que el DJ cambió mientras tanto (un secreto revelado, un campo modificado) se conserva.',
+            'Tras el envío, un resumen indica lo que se actualizó y señala cualquier campo que el DJ modificó al mismo tiempo que tú.',
+        ],
+    ],
+
+    '0.75.0' => [
+        'date' => '2026-10-18',
+        'title' => 'El gran mapa de campaña',
+        'items' => [
+            'Nuevo «Mapa de campaña»: elige un mapa como vista general y coloca en él puntos de interés, una ciudad, una mazmorra, el lugar de una escena.',
+            'Un punto puede abrir un submapa con un clic, que a su vez tiene sus puntos; la ruta de navegación permite volver a la vista general.',
+            'Enlazados a una escena, los puntos muestran lo jugado, en curso o por venir; enlazados a una ficha, la abren. Todo queda para el DJ, salvo el nombre de los puntos «Visibles en la mesa», mostrado en la pantalla de mesa.',
+        ],
+    ],
+
+    '0.74.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Tus personajes jugados en otro sitio',
+        'items' => [
+            'Nueva página «Mis hojas»: guarda los personajes que juegas fuera de SagaWyn, en casa de un amigo, en un club o en otro sitio. Solo tú los ves.',
+            'Cada personaje tiene su hoja PDF, un retrato, campos libres (textos y contadores que se ajustan con − y + durante la partida) y tus notas, con el nombre del juego y de la mesa para encontrarlo.',
+        ],
+    ],
+
+    '0.73.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Una biblioteca de sonidos para todas tus campañas',
+        'items' => [
+            'Nueva página «Mis sonidos»: tus músicas y ambientes, guardados una sola vez en tu cuenta y añadidos después a las campañas que diriges. El archivo no se copia y solo cuenta una vez en tu espacio.',
+            'En la página Sonidos de una campaña: «Desde mi biblioteca» para añadir tus sonidos, «Guardar en mi biblioteca» para reutilizar un sonido en otra parte, y una casilla para guardar una nueva subida directamente en la biblioteca.',
+            'Guardar en la biblioteca un sonido ya subido en otra campaña fusiona las dos copias: las escenas conservan su música y se libera espacio.',
+        ],
+    ],
+
+    '0.72.0' => [
+        'date' => '2026-10-18',
+        'title' => 'El modo de empleo en todas partes',
+        'items' => [
+            'El botón «?» llega a los sonidos, el grafo de relaciones, la cronología, las opiniones de los jugadores, el asistente IA, el registro y la hoja de personaje.',
+            'En el grafo, la cronología y la hoja de personaje, los jugadores leen un modo de empleo escrito para ellos.',
+        ],
+    ],
+
+    '0.71.1' => [
+        'date' => '2026-10-18',
+        'title' => 'Restar o sumar varios puntos de una vez',
+        'items' => [
+            'Bajo cada contador que el jugador puede modificar (PV, munición, dinero…), un campo «Cantidad»: escribe 8 y pulsa −, y el contador pierde 8 de golpe. Por defecto vale 1.',
+        ],
+    ],
+
+    '0.71.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Modo de uso en más pantallas',
+        'items' => [
+            'El botón «?» aparece también en la ficha (lado del DJ), el modo Sesión, los escenarios y escenas, la importación de archivos y los miembros de la campaña.',
+            'La página «Ayuda» explica ahora la tirada en bruto y los bonificadores leídos en la ficha del personaje.',
+        ],
+    ],
+
+    '0.70.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Un modo de uso en las pantallas delicadas',
+        'items' => [
+            'Un botón «?» junto al título de las pantallas que no se explican solas abre su modo de uso en pocas líneas: tipos de ficha, campos del juego, etiquetas, dados, mapas, mando de la pantalla de mesa, pistas e historial de revelaciones.',
+            'Cada modo de uso enlaza con la pregunta correspondiente de la página «Ayuda», que se abre directamente en ella.',
+        ],
+    ],
+
+    '0.69.0' => [
+        'date' => '2026-10-18',
+        'title' => 'Bonificador y umbral leídos en la ficha',
+        'items' => [
+            'En los dados, el bonificador puede tomar uno o varios valores de la ficha del personaje (característica, habilidad, cualquier campo número o contador de la zona pública), enteros o en decena, mitad o quinto, además del bonificador libre. El umbral también puede leerse en la ficha. Los valores se leen en el momento de la tirada, en la ficha de cada personaje que tira.',
+            'Varios bonificadores con nombre (Arma +2, Herida −1…) se suman en la misma tirada, junto a los valores de la ficha.',
+            'Los ejemplos predefinidos desaparecen de la bandeja: conserva tus tiradas guardadas.',
+            'Una tirada guardada se elimina con un toque: la × de su etiqueta, o «Eliminar» una vez cargada.',
         ],
     ],
 

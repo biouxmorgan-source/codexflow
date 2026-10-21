@@ -17,7 +17,10 @@
 
     <div class="mb-4 flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-semibold">{{ __('Graphe des relations') }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-semibold">{{ __('Graphe des relations') }}</h1>
+                <x-page-help topic="graph" :gm="$this->isGameMaster" />
+            </div>
             <p class="mt-1 max-w-2xl text-sm text-stone-600">
                 @if ($character)
                     {{ __('Les fiches que :name connaît et les relations visibles entre elles.', ['name' => $character->entity->name]) }}

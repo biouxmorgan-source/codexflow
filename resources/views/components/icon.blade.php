@@ -4,11 +4,13 @@
     $paths = [
         'secret' => ['M12 3l7 4v5c0 4-3 7-7 8-4-1-7-4-7-8V7z', 'M12 10v4'],
         'map' => ['M9 4l6 3 5-3v13l-5 3-6-3-5 3V7z', 'M9 4v13', 'M15 7v13'],
+        'pin' => ['M12 21s-6.5-5.8-6.5-11a6.5 6.5 0 0113 0c0 5.2-6.5 11-6.5 11z'],
         'graph' => ['M7.6 7.6l2.9 7.4', 'M16.4 7.6L13.5 15', 'M8 6h8'],
         'timeline' => ['M5 4v16', 'M5 8h7', 'M5 14h11', 'M5 19h5'],
         'members' => ['M3 20c0-3 3-5 6-5s6 2 6 5', 'M16 6a3 3 0 010 6', 'M18 20c0-2-1-3.5-2.5-4.5'],
         'messages' => ['M4 5h16v10H9l-5 4z'],
         'journal' => ['M6 4h10l3 3v13H6z', 'M9 10h7', 'M9 14h7'],
+        'book' => ['M12 6c-2-1.5-5-2-8-1.5V19c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V4.5c-3-.5-6 0-8 1.5z', 'M12 6v14.5'],
         'fields' => ['M4 6h16', 'M4 12h10', 'M4 18h13', 'M18 10v4'],
         'import' => ['M12 4v10', 'M8 10l4 4 4-4', 'M5 18h14'],
         'remote' => ['M9 3h6v18H9z'],
@@ -25,6 +27,7 @@
         'members' => [[9, 8, 3]],
         'remote' => [[12, 7, 0.6], [12, 11, 0.6], [12, 15, 0.6]],
         'music' => [[6, 18, 3], [17, 16, 3]],
+        'pin' => [[12, 10, 2.2]],
     ][$name] ?? [];
 @endphp
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" {{ $attributes->merge(['class' => 'size-5']) }}>

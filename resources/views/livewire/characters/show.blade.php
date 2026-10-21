@@ -1,7 +1,8 @@
 @php($entity = $this->entity)
 @php($counters = $this->fields->where('type', \App\Enums\FieldType::Counter))
 @php($others = $this->fields->reject(fn ($definition) => $definition->type === \App\Enums\FieldType::Counter))
-<div>
+@php($offline = $this->offlineData)
+<div @if ($offline) x-data="offlineSheet" @endif>
     @if ($viewAs)
         <x-view-as-banner :name="$entity->name" :exit="route('characters.show', [$campaign, $character])" />
     @endif
@@ -40,7 +41,10 @@
         @endif
         {{-- min-w-48 : sur téléphone, les boutons passent à la ligne au lieu d'écraser le nom. --}}
         <div class="min-w-48 flex-1">
-            <h1 class="text-2xl font-semibold break-words">{{ $entity->name }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="min-w-0 text-2xl font-semibold break-words">{{ $entity->name }}</h1>
+                <x-page-help topic="character" :gm="$this->isGameMaster" />
+            </div>
             @if ($entity->summary)
                 <p class="mt-1 text-stone-700">{{ $entity->summary }}</p>
             @endif
@@ -72,6 +76,15 @@
         @endif
     </header>
 
+    @if ($offline)
+        @include('livewire.characters.partials.offline-panel')
+    @endif
+
+    {{-- Lancer les dés depuis la feuille : le joueur sur son personnage, le MJ sur tous. --}}
+    @php($rollFromSheet = ($this->canPlay || $this->isGameMaster) && \App\Support\CampaignFeatures::usable($campaign, 'dice'))
+    {{-- Le joueur lance pour son personnage : la valeur reste liée à la fiche. Le MJ lance sans personnage : la valeur est reprise telle quelle. --}}
+    @php($rollLinked = $this->isOwner && ! $this->canViewAs)
+
     @if ($counters->isNotEmpty())
         <section aria-labelledby="counters-title" class="mb-8">
             <h2 id="counters-title" class="mb-2 font-semibold">{{ __('Compteurs') }}</h2>
@@ -79,19 +92,36 @@
                 @foreach ($counters as $definition)
                     @php($counter = $entity->fieldValue($definition))
                     @php($canChange = $this->canPlay && $definition->player_editable)
-                    <li wire:key="counter-{{ $definition->id }}" class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-                        <p class="text-sm text-stone-600">{{ $definition->name }}</p>
-                        <div class="mt-1 flex items-center gap-2">
-                            @if ($canChange)
-                                <button type="button" wire:click="adjust({{ $definition->id }}, -1)" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Retirer 1 à :name', ['name' => $definition->name]) }}">−</button>
-                            @endif
-                            <p class="flex-1 text-center text-2xl font-semibold tabular-nums" aria-live="polite">
-                                {{ $counter === null ? '—' : $definition->type->format($counter) }}
-                            </p>
-                            @if ($canChange)
-                                <button type="button" wire:click="adjust({{ $definition->id }}, 1)" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Ajouter 1 à :name', ['name' => $definition->name]) }}">+</button>
+                    <li wire:key="counter-{{ $definition->id }}" class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm" @if ($canChange) x-data="{ amount: 1, step() { return Math.min(1000, Math.abs(parseInt(this.amount, 10)) || 1) } }" @endif>
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="text-sm text-stone-600">{{ $definition->name }}</p>
+                            @if ($rollFromSheet && is_numeric($counter['value'] ?? null))
+                                <x-dice-use :name="$definition->name" :value="(int) $counter['value']" :field="$definition->id" :character="$character->id" :own="$rollLinked" />
                             @endif
                         </div>
+                        <div class="mt-1 flex items-center gap-2">
+                            @if ($canChange)
+                                <button type="button" x-on:click="{{ $offline ? 'offline ? queueCounter('.$definition->id.', -step()) : ' : '' }}$wire.adjust({{ $definition->id }}, -step())" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Retirer le montant à :name', ['name' => $definition->name]) }}">−</button>
+                            @endif
+                            <p class="flex-1 text-center text-2xl font-semibold tabular-nums" aria-live="polite">
+                                @if ($offline && $canChange)
+                                    <span x-show="! hasCounter({{ $definition->id }})">{{ $counter === null ? '—' : $definition->type->format($counter) }}</span>
+                                    <span x-show="hasCounter({{ $definition->id }})" x-cloak x-text="counterText({{ $definition->id }})"></span>
+                                    <span x-show="hasCounter({{ $definition->id }})" x-cloak class="block text-xs font-normal text-flow">{{ __('en attente d’envoi') }}</span>
+                                @else
+                                    {{ $counter === null ? '—' : $definition->type->format($counter) }}
+                                @endif
+                            </p>
+                            @if ($canChange)
+                                <button type="button" x-on:click="{{ $offline ? 'offline ? queueCounter('.$definition->id.', step()) : ' : '' }}$wire.adjust({{ $definition->id }}, step())" class="btn-secondary h-11 w-11 shrink-0 px-0 text-lg" aria-label="{{ __('Ajouter le montant à :name', ['name' => $definition->name]) }}">+</button>
+                            @endif
+                        </div>
+                        @if ($canChange)
+                            <label class="mt-2 flex items-center justify-center gap-2 text-sm text-stone-600">
+                                {{ __('Montant') }}
+                                <input type="number" min="1" max="1000" inputmode="numeric" x-model="amount" x-on:focus="$el.select()" class="field w-20 py-1 text-center tabular-nums" aria-label="{{ __('Montant pour :name', ['name' => $definition->name]) }}">
+                            </label>
+                        @endif
                         @if (isset($counter['max']) && $counter['max'] > 0)
                             <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-stone-100" aria-hidden="true">
                                 <div class="h-full rounded-full bg-codex" style="width: {{ min(100, max(0, $counter['value'] / $counter['max'] * 100)) }}%"></div>
@@ -153,8 +183,11 @@
                             @foreach ($filled as $definition)
                                 <div @class(['flex justify-between gap-3 border-b border-stone-100 pb-1', 'flex-col' => $definition->type === \App\Enums\FieldType::LongText])>
                                     <dt class="text-sm text-stone-600">{{ $definition->name }}</dt>
-                                    <dd class="min-w-0 font-medium">
+                                    <dd class="flex min-w-0 items-center gap-1 font-medium">
                                         <x-field-value :definition="$definition" :value="$entity->fieldValue($definition)" :campaign="$campaign" :character="$character" :link="$this->knownLink(...)" />
+                                        @if ($rollFromSheet && $definition->type === \App\Enums\FieldType::Number && is_numeric($entity->fieldValue($definition)))
+                                            <x-dice-use :name="$definition->name" :value="(int) $entity->fieldValue($definition)" :field="$definition->id" :character="$character->id" :own="$rollLinked" />
+                                        @endif
                                     </dd>
                                 </div>
                             @endforeach

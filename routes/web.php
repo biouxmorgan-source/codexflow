@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AccountDataController;
+use App\Http\Controllers\AdventureBookController;
 use App\Http\Controllers\AiImportPromptController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CharacterKnowledgeController;
+use App\Http\Controllers\CharacterOfflineSyncController;
 use App\Http\Controllers\ConfirmEmailChangeController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FileController;
@@ -19,6 +21,7 @@ use App\Http\Controllers\TableScreenController;
 use App\Livewire\Account\Preferences;
 use App\Livewire\Account\Rewards;
 use App\Livewire\Admin\Backlog as AdminBacklog;
+use App\Livewire\Admin\DemoLibrary as AdminDemoLibrary;
 use App\Livewire\Admin\Evolutions as AdminEvolutions;
 use App\Livewire\Admin\Health as AdminHealth;
 use App\Livewire\Admin\PlanSettings as AdminPlans;
@@ -26,6 +29,8 @@ use App\Livewire\Admin\Recettes as AdminRecettes;
 use App\Livewire\Admin\Users as AdminUsers;
 use App\Livewire\Ai\Index as AiIndex;
 use App\Livewire\Audio\Index as AudioIndex;
+use App\Livewire\Book\Show as BookShow;
+use App\Livewire\Campaigns\DemoLibrary;
 use App\Livewire\Campaigns\Index as CampaignIndex;
 use App\Livewire\Campaigns\Show as CampaignShow;
 use App\Livewire\Characters\Index as CharacterIndex;
@@ -42,11 +47,15 @@ use App\Livewire\Graph\Index as GraphIndex;
 use App\Livewire\Imports\Create as ImportCreate;
 use App\Livewire\Journal\Index as JournalIndex;
 use App\Livewire\Library\GameShow;
+use App\Livewire\Library\Sounds as LibrarySounds;
 use App\Livewire\Library\WorldShow;
+use App\Livewire\Maps\Atlas as MapAtlas;
 use App\Livewire\Maps\Index as MapIndex;
 use App\Livewire\Maps\Show as MapShow;
 use App\Livewire\Members\Index as MemberIndex;
 use App\Livewire\Messages\Index as MessageIndex;
+use App\Livewire\MySheets\Index as MySheetsIndex;
+use App\Livewire\MySheets\Show as MySheetsShow;
 use App\Livewire\Notifications\Index as NotificationIndex;
 use App\Livewire\Reveals\Index as RevealIndex;
 use App\Livewire\Rules\Form as RuleForm;
@@ -100,6 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/abonnement/{interval}', [BillingController::class, 'checkout'])->whereIn('interval', ['monthly', 'yearly'])->name('billing.checkout');
     Route::post('/invitation/{token}', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::livewire('/campagnes', CampaignIndex::class)->name('campaigns.index');
+    Route::livewire('/bibliotheque-de-demos', DemoLibrary::class)->name('demo-library');
     Route::livewire('/preferences', Preferences::class)->name('preferences');
     Route::livewire('/mes-recompenses', Rewards::class)->name('rewards');
     Route::post('/cadeau/{code}', [GiftCodeController::class, 'redeem'])->middleware('throttle:10,1')->name('gifts.redeem');
@@ -111,6 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['can:admin', 'password.confirm'])->group(function () {
         Route::livewire('/admin', AdminUsers::class)->name('admin.users');
         Route::livewire('/admin/formules', AdminPlans::class)->name('admin.plans');
+        Route::livewire('/admin/bibliotheque-de-demos', AdminDemoLibrary::class)->name('admin.demo-library');
         Route::livewire('/admin/backlog', AdminBacklog::class)->name('admin.backlog');
         Route::livewire('/admin/evolutions', AdminEvolutions::class)->name('admin.evolutions');
         Route::livewire('/admin/recettes', AdminRecettes::class)->name('admin.recettes');
@@ -123,6 +134,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications/{notification}', [NotificationController::class, 'open'])->name('notifications.open')->whereUuid('notification');
     Route::livewire('/types-de-fiche', EntityTypesManage::class)->name('entity-types.index');
     Route::livewire('/tags', TagsManage::class)->name('tags.index');
+    Route::livewire('/ma-bibliotheque/sons', LibrarySounds::class)->name('library.sounds');
+    Route::livewire('/mes-feuilles', MySheetsIndex::class)->name('my-sheets.index')->middleware('offline');
+    Route::livewire('/mes-feuilles/{personalCharacter}', MySheetsShow::class)->name('my-sheets.show')->middleware('offline')->whereNumber('personalCharacter');
+    Route::get('/mes-feuilles/{personalCharacter}/feuille.pdf', [FileController::class, 'personalSheet'])->name('my-sheets.sheet')->middleware('offline')->whereNumber('personalCharacter');
+    Route::get('/mes-feuilles/{personalCharacter}/portrait', [FileController::class, 'personalPortrait'])->name('my-sheets.portrait')->middleware('offline')->whereNumber('personalCharacter');
     Route::livewire('/jeux/{gameSystem}', GameShow::class)->name('games.show')->whereNumber('gameSystem');
     Route::livewire('/mondes/{world}', WorldShow::class)->name('worlds.show')->whereNumber('world');
     Route::livewire('/campagnes/{campaign}', CampaignShow::class)->name('campaigns.show')->whereNumber('campaign');
@@ -142,10 +158,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/campagnes/{campaign}/ecran-de-table/jetons/{token}', [TableScreenController::class, 'token'])->name('table.token')->middleware('feature:table')->whereNumber(['campaign', 'token']);
     Route::livewire('/campagnes/{campaign}/telecommande', TableRemote::class)->name('table.remote')->middleware('feature:table')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/cartes', MapIndex::class)->name('maps.index')->middleware('feature:maps')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/carte-de-campagne/{map?}', MapAtlas::class)->name('maps.atlas')->middleware('feature:maps')->whereNumber(['campaign', 'map']);
     Route::livewire('/campagnes/{campaign}/cartes/{map}', MapShow::class)->name('maps.show')->middleware('feature:maps')->whereNumber(['campaign', 'map']);
     Route::livewire('/campagnes/{campaign}/chronologie', TimelineIndex::class)->name('timeline.index')->middleware('feature:timeline')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/graphe', GraphIndex::class)->name('graph.index')->middleware('feature:graph')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/assistant-ia', AiIndex::class)->name('ai.index')->middleware('feature:ai')->whereNumber('campaign');
+    Route::livewire('/campagnes/{campaign}/livre-des-aventures', BookShow::class)->name('book.show')->whereNumber('campaign');
+    Route::get('/campagnes/{campaign}/livre-des-aventures/imprimer', [AdventureBookController::class, 'print'])->name('book.print')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/sessions/{playSession}', SessionShow::class)->name('sessions.show')->whereNumber(['campaign', 'playSession']);
 
     Route::livewire('/campagnes/{campaign}/regles', RuleIndex::class)->name('rules.index')->whereNumber('campaign');
@@ -162,6 +181,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/campagnes/{campaign}/recherche', SearchIndex::class)->name('search.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/personnages', CharacterIndex::class)->name('characters.index')->whereNumber('campaign');
     Route::livewire('/campagnes/{campaign}/personnages/{character}', CharacterShow::class)->name('characters.show')->middleware('offline')->whereNumber(['campaign', 'character']);
+    Route::post('/campagnes/{campaign}/personnages/{character}/synchroniser', CharacterOfflineSyncController::class)->name('characters.offline-sync')->middleware('throttle:30,1')->whereNumber(['campaign', 'character']);
     Route::get('/campagnes/{campaign}/personnages/{character}/feuille.pdf', [FileController::class, 'characterSheet'])->name('characters.sheet')->middleware('offline')->whereNumber(['campaign', 'character']);
     Route::get('/campagnes/{campaign}/personnages/{character}/portrait', [FileController::class, 'characterPortrait'])->name('characters.portrait')->middleware('offline')->whereNumber(['campaign', 'character']);
     Route::get('/campagnes/{campaign}/personnages/{character}/fiches/{entity}', [CharacterKnowledgeController::class, 'entity'])->name('characters.entity')->middleware('offline')->whereNumber(['campaign', 'character', 'entity']);

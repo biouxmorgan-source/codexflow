@@ -6,7 +6,10 @@
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-semibold">{{ __('Chronologie') }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-semibold">{{ __('Chronologie') }}</h1>
+                <x-page-help topic="timeline" :gm="$this->isGameMaster" />
+            </div>
             <p class="mt-1 max-w-2xl text-sm text-stone-600">
                 @if ($this->isGameMaster)
                     {{ __('L’histoire du monde, ce que vous avez prévu et ce qui s’est passé en jeu. Les dates sont libres : « 12 mars 1924 », « Jour 3 », « Nuit 2 ». Les joueurs ne voient que les événements visibles.') }}

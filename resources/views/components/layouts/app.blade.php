@@ -30,7 +30,9 @@
                 <a href="{{ route('campaigns.index') }}" @class(['rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft', 'bg-codex-soft' => request()->routeIs('campaigns.index')]) wire:navigate>{{ __('Mes campagnes') }}</a>
                 @if (auth()->user()->gameSystems()->exists())
                     <a href="{{ route('entity-types.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('entity-types.*')]) wire:navigate>{{ __('Types de fiche') }}</a>
+                    <a href="{{ route('library.sounds') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('library.sounds')]) wire:navigate>{{ __('Mes sons') }}</a>
                 @endif
+                <a href="{{ route('my-sheets.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('my-sheets.*')]) wire:navigate>{{ __('Mes feuilles') }}</a>
                 @if (auth()->user()->tags()->exists())
                     <a href="{{ route('tags.index') }}" @class(['hidden rounded-md px-2 py-1 font-medium text-codex hover:bg-codex-soft sm:inline', 'bg-codex-soft' => request()->routeIs('tags.*')]) wire:navigate>{{ __('Tags') }}</a>
                 @endif
@@ -45,7 +47,9 @@
                     <div class="absolute right-0 z-40 mt-1 flex w-52 flex-col rounded-lg border border-stone-200 bg-white p-1 shadow-lg">
                         @if (auth()->user()->gameSystems()->exists())
                             <a href="{{ route('entity-types.index') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Types de fiche') }}</a>
+                            <a href="{{ route('library.sounds') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Mes sons') }}</a>
                         @endif
+                        <a href="{{ route('my-sheets.index') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Mes feuilles') }}</a>
                         @if (auth()->user()->tags()->exists())
                             <a href="{{ route('tags.index') }}" class="rounded-md px-3 py-2 hover:bg-stone-100" wire:navigate>{{ __('Tags') }}</a>
                         @endif
