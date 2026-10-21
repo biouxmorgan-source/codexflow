@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.89.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Verklaring over de rechten bij elke import',
+        'items' => [
+            'Vóór elke import (CSV- of JSON-bestand, campagnearchief, spelsjabloon) vraagt een standaard niet-aangevinkt vakje te verklaren dat u de nodige rechten op de geïmporteerde inhoud hebt. Zonder vinkje blijft de knop grijs en weigert de server de import.',
+            'Elke verklaring wordt opgeslagen met de datum, de versie van de aanvaarde tekst en het resultaat van de import, zonder kopie van de bestanden. Ze staat in „Mijn gegevens downloaden”.',
+            'De gebruiksvoorwaarden krijgen een rubriek „Inhoud van gebruikers en intellectueel eigendom”, bereikbaar vanaf elk importscherm.',
+        ],
+    ],
+
     '0.88.0' => [
         'date' => '2026-10-21',
         'title' => 'Gratis toegang herkennen',

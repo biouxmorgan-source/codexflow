@@ -6,6 +6,7 @@ use App\Actions\Campaigns\CreateCampaign;
 use App\Actions\Demo\LoadDemoCampaign;
 use App\Actions\Duplication\DuplicateCampaign;
 use App\Enums\CampaignStatus;
+use App\Livewire\Concerns\DeclaresContentRights;
 use App\Models\Campaign;
 use App\Support\Archive\ArchiveException;
 use App\Support\Archive\CampaignImport;
@@ -19,7 +20,7 @@ use Livewire\WithFileUploads;
 
 class Index extends Component
 {
-    use WithFileUploads;
+    use DeclaresContentRights, WithFileUploads;
 
     public bool $creating = false;
 
@@ -210,12 +211,18 @@ class Index extends Component
         Plans::ensureCanCreateCampaign(auth()->user(), 'archive');
         Plans::ensureRoom(auth()->user(), (int) $this->archive->getSize(), 'archive');
 
-        try {
-            $import = new CampaignImport(auth()->user());
-            $campaign = $import->handle($this->archive->getRealPath());
-        } catch (ArchiveException $e) {
-            $this->addError('archive', $e->getMessage());
+        $import = new CampaignImport(auth()->user());
+        $campaign = $this->withDeclaredRights('archive', null, function () use ($import) {
+            try {
+                return $import->handle($this->archive->getRealPath());
+            } catch (ArchiveException $e) {
+                $this->addError('archive', $e->getMessage());
 
+                return false;
+            }
+        });
+
+        if ($campaign === false) {
             return;
         }
 

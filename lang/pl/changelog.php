@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.89.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Oświadczenie o prawach przy każdym imporcie',
+        'items' => [
+            'Przed każdym importem (plik CSV lub JSON, archiwum kampanii, szablon gry) domyślnie niezaznaczone pole wymaga potwierdzenia, że posiadasz niezbędne prawa do importowanych treści. Bez niego przycisk pozostaje wyszarzony, a serwer odrzuca import.',
+            'Każde oświadczenie jest zapisywane z datą, wersją zaakceptowanego tekstu i wynikiem importu, bez kopii plików. Znajdziesz je w „Pobierz moje dane”.',
+            'Warunki korzystania zyskują sekcję „Treści użytkowników i własność intelektualna”, dostępną z każdego ekranu importu.',
+        ],
+    ],
+
     '0.88.0' => [
         'date' => '2026-10-21',
         'title' => 'Rozpoznawanie darmowych dostępów',

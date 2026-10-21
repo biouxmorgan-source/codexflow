@@ -74,7 +74,7 @@ class ExportTest extends TestCase
             ->set('file', UploadedFile::fake()->createWithContent('export.csv', $csv))
             ->assertDontSee('valeur ignorée');
         $this->assertNotContains('new', $import->get('mapping'), 'Chaque colonne retrouve son champ.');
-        $import->call('import')->assertHasNoErrors();
+        $import->set('rightsDeclared', true)->call('import')->assertHasNoErrors();
 
         $copy = Entity::where('campaign_id', $other->id)->where('name', 'Aldric')->sole();
         $this->assertSame(2.5, $copy->fieldValue($characterStrength));
@@ -125,6 +125,7 @@ class ExportTest extends TestCase
         Livewire::test(Create::class, ['campaign' => $this->campaign, 'mode' => 'scenes'])
             ->set('file', UploadedFile::fake()->createWithContent('scenes.csv', $scenes))
             ->assertDontSee('introuvable')
+            ->set('rightsDeclared', true)
             ->call('import')
             ->assertHasNoErrors();
         $this->assertSame(2, Scene::count());

@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.89.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Rights declaration for every import',
+        'items' => [
+            'Before each import (CSV or JSON file, campaign archive, game template), a box that is unticked by default asks you to certify that you hold the necessary rights to the imported content. Without it, the button stays greyed out and the server refuses the import.',
+            'Each declaration is recorded with its date, the version of the accepted text and the outcome of the import, without any copy of the files. It appears in “Download my data”.',
+            'The terms of use gain a “User content and intellectual property” section, reachable from every import screen.',
+        ],
+    ],
+
     '0.88.0' => [
         'date' => '2026-10-21',
         'title' => 'Spot complimentary access',

@@ -70,7 +70,7 @@ class ImportTest extends TestCase
 
         $this->assertSame(0, FieldDefinition::count(), 'Rien n\'est créé avant validation.');
 
-        $component->call('import')->assertHasNoErrors();
+        $component->set('rightsDeclared', true)->call('import')->assertHasNoErrors();
         $component->assertSee('1 créé, 1 mis à jour, 3 nouveaux champs');
 
         $strength = FieldDefinition::where('name', 'Force')->sole();
@@ -108,6 +108,7 @@ class ImportTest extends TestCase
             ->set('file', UploadedFile::fake()->createWithContent('pnj.json', $json))
             ->assertSet('mapping', [0 => 'name', 1 => 'field:'.$die->id, 2 => 'gm_notes'])
             ->assertSee('ne fait pas partie des choix')
+            ->set('rightsDeclared', true)
             ->call('import');
 
         $aldric = Entity::where('name', 'Aldric')->sole();
@@ -128,6 +129,7 @@ class ImportTest extends TestCase
             ->test(Create::class, ['campaign' => $this->campaign])
             ->set('file', UploadedFile::fake()->createWithContent('b.csv', "Nom;Type;Force\nLoup;Créature;5\nAldric;Personnage;3"))
             ->assertSee('Force ne concerne que les fiches Personnage : valeur ignorée')
+            ->set('rightsDeclared', true)
             ->call('import');
 
         $this->assertNull(Entity::where('name', 'Loup')->sole()->fieldValue($strength));
@@ -151,6 +153,7 @@ class ImportTest extends TestCase
             ->set('file', UploadedFile::fake()->createWithContent('b.csv', "Nom;Type;Force\nLoup;Créature;5 (2D6)\nAldric;Personnage;3"))
             ->assertDontSee('valeur ignorée')
             ->assertDontSee('pas un nombre')
+            ->set('rightsDeclared', true)
             ->call('import');
 
         $wolf = Entity::where('name', 'Loup')->sole();
@@ -175,6 +178,7 @@ class ImportTest extends TestCase
             ->set('mode', 'fields')
             ->set('file', UploadedFile::fake()->createWithContent('champs.csv', $csv))
             ->assertSee(['type « pourcentage » inconnu', 'une liste a besoin de choix', 'Importer 3 lignes'])
+            ->set('rightsDeclared', true)
             ->call('import')
             ->assertSee('3 créés');
 
@@ -208,7 +212,7 @@ class ImportTest extends TestCase
 
         $this->assertSame(1, Rule::count(), 'Rien n\'est créé avant validation.');
 
-        $component->call('import')->assertHasNoErrors()->assertSee('2 créés, 1 mis à jour');
+        $component->set('rightsDeclared', true)->call('import')->assertHasNoErrors()->assertSee('2 créés, 1 mis à jour');
 
         $kangling = $existing->fresh();
         $this->assertSame('Cor en fémur humain', $kangling->summary);
@@ -266,7 +270,7 @@ class ImportTest extends TestCase
 
         $this->assertSame(1, Scene::count(), 'Rien n\'est créé avant validation.');
 
-        $component->call('import')->assertHasNoErrors()->assertSee('2 créés, 1 mis à jour, 1 nouveau scénario');
+        $component->set('rightsDeclared', true)->call('import')->assertHasNoErrors()->assertSee('2 créés, 1 mis à jour, 1 nouveau scénario');
 
         $this->assertSame('Pékin, 1923', $scenario->fresh()->summary);
         $existing->refresh();
@@ -299,6 +303,7 @@ class ImportTest extends TestCase
             ->set('mode', 'rules')
             ->set('ruleScope', 'campaign')
             ->set('file', UploadedFile::fake()->createWithContent('regles.json', json_encode([['titre' => 'Voyage', 'procédure' => 'Un test par jour']])))
+            ->set('rightsDeclared', true)
             ->call('import')
             ->assertSee('1 créé');
 

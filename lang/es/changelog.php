@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.89.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Declaración de derechos en cada importación',
+        'items' => [
+            'Antes de cada importación (archivo CSV o JSON, archivo de campaña, plantilla de juego), una casilla desmarcada por defecto pide certificar que dispones de los derechos necesarios sobre los contenidos importados. Sin ella, el botón sigue gris y el servidor rechaza la importación.',
+            'Cada declaración se registra con su fecha, la versión del texto aceptado y el resultado de la importación, sin copia de los archivos. Aparece en «Descargar mis datos».',
+            'Las condiciones de uso incluyen una sección «Contenidos de los usuarios y propiedad intelectual», accesible desde cada pantalla de importación.',
+        ],
+    ],
+
     '0.88.0' => [
         'date' => '2026-10-21',
         'title' => 'Identificar los accesos gratuitos',

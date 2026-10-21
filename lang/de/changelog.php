@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.89.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Rechteerklärung bei jedem Import',
+        'items' => [
+            'Vor jedem Import (CSV- oder JSON-Datei, Kampagnenarchiv, Spielvorlage) muss ein standardmäßig leeres Kästchen bestätigen, dass Sie die nötigen Rechte an den importierten Inhalten besitzen. Ohne Haken bleibt die Schaltfläche grau und der Server lehnt den Import ab.',
+            'Jede Erklärung wird mit Datum, der Version des akzeptierten Textes und dem Ergebnis des Imports gespeichert, ohne Kopie der Dateien. Sie erscheint unter „Meine Daten herunterladen“.',
+            'Die Nutzungsbedingungen erhalten einen Abschnitt „Nutzerinhalte und geistiges Eigentum“, erreichbar von jedem Importbildschirm.',
+        ],
+    ],
+
     '0.88.0' => [
         'date' => '2026-10-21',
         'title' => 'Kostenlose Zugänge erkennen',

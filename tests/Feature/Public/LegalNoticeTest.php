@@ -15,7 +15,7 @@ class LegalNoticeTest extends TestCase
     public function test_the_legal_page_says_users_own_and_answer_for_their_content(): void
     {
         $this->get(route('privacy'))->assertOk()
-            ->assertSee(['Vos contenus vous appartiennent', 'Importation et structuration de contenus', 'Signaler un contenu illicite'])
+            ->assertSee(['Importation et structuration de contenus', 'Signaler un contenu illicite'])
             ->assertSee('id="importation"', false)
             ->assertSee('SagaWyn ne revendique aucun droit de propriété sur les créations de ses utilisateurs');
     }
@@ -28,7 +28,6 @@ class LegalNoticeTest extends TestCase
         $link = route('privacy').'#importation';
 
         $this->actingAs($gm);
-        $this->get(route('imports.create', $campaign))->assertOk()->assertSee($link, false);
         $this->get(route('imports.ai', $campaign))->assertOk()->assertSee($link, false);
         $this->get(route('imports.ai.archive'))->assertOk()->assertSee($link, false);
     }

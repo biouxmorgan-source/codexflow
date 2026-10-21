@@ -4,6 +4,16 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.89.0' => [
+        'date' => '2026-10-21',
+        'title' => 'Déclaration de droits à chaque import',
+        'items' => [
+            'Avant chaque import (fichier CSV ou JSON, archive de campagne, modèle de jeu), une case non cochée par défaut demande de certifier disposer des droits nécessaires sur les contenus importés. Sans elle, le bouton reste grisé et le serveur refuse l’import.',
+            'Chaque déclaration est enregistrée avec sa date, la version du texte accepté et l’issue de l’import, sans copie des fichiers. Elle figure dans « Télécharger mes données ».',
+            'Les conditions d’utilisation gagnent une section « Contenus utilisateurs et propriété intellectuelle », accessible depuis chaque écran d’import.',
+        ],
+    ],
+
     '0.88.0' => [
         'date' => '2026-10-21',
         'title' => 'Repérer les accès offerts',
