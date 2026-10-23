@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.95.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Legal notice: named publisher and user content',
+        'items' => [
+            'The “Privacy and legal notice” page names Morgan Bioux alongside Autistic Intelligence, even when the LEGAL_OWNER line is empty on the server.',
+            'The user content section states clearly that uploaded content belongs to users, that it can be downloaded at any time (my data, CSV, campaign export) and that responsibility for uploaded data lies with the user.',
+        ],
+    ],
+
     '0.95.0' => [
         'date' => '2026-10-23',
         'title' => '“What’s new” gets to the point',
