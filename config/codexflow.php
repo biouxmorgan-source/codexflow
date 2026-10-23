@@ -4,11 +4,15 @@ return [
 
     // Version affichée dans l'appli. À chaque mise à jour notable : l'augmenter et décrire
     // les nouveautés dans lang/fr/changelog.php (la fenêtre « Quoi de neuf » s'affiche alors une fois).
-    'version' => '0.92.0',
+    'version' => '0.93.0',
 
     // Lien d'invitation permanent vers le serveur Discord de la communauté (pied de page et
-    // page d'accueil). Vide : le lien n'est pas affiché.
-    'discord_url' => env('DISCORD_URL'),
+    // page d'accueil). DISCORD_URL dans le .env le remplace ; « none » le masque.
+    'discord_url' => match ($discord = env('DISCORD_URL')) {
+        null, '' => 'https://discord.gg/jzFKK69bn',
+        'none' => null,
+        default => $discord,
+    },
 
     // Mentions légales (page « Confidentialité et mentions légales »), renseignées dans le .env.
     'legal' => [

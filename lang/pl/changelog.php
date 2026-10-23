@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.93.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Nowa strona główna',
+        'items' => [
+            'Publiczna strona główna pokazuje teraz wszystko, co SagaWyn potrafi, w trzech etapach: przygotowanie, gra przy stole i podtrzymywanie kampanii między sesjami. Mapa bitewna, kości, mapa kampanii, dźwięki, księga przygód i „Moje karty” mają swoje miejsce.',
+            'Link do Discorda społeczności jest teraz widoczny domyślnie, na górze i na dole strony głównej, w pomocy i w stopce.',
+        ],
+    ],
+
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Import z AI: prompt po angielsku, język do wyboru',

@@ -14,7 +14,7 @@ class HomePageTest extends TestCase
     public function test_the_home_page_presents_sagawyn_to_search_engines(): void
     {
         $response = $this->get('/')->assertOk()
-            ->assertSee('L’assistant du maître de jeu, pour toutes vos campagnes')
+            ->assertSee('Préparez vos mondes, menez vos séances, faites vivre la campagne')
             ->assertSee('<meta name="description"', false)
             ->assertSee('<link rel="canonical" href="'.url('/').'?lang=fr">', false)
             ->assertSee('"@type":"WebApplication"', false)
@@ -28,8 +28,20 @@ class HomePageTest extends TestCase
     public function test_the_home_page_is_translated(): void
     {
         $this->get('/?lang=en')->assertOk()
-            ->assertSee('The game master’s assistant, for all your campaigns')
+            ->assertSee('Prepare your worlds, run your sessions, bring the campaign to life')
             ->assertSee('<html lang="en"', false);
+    }
+
+    public function test_the_home_page_presents_today_s_features(): void
+    {
+        $this->get('/')->assertOk()
+            ->assertSeeInOrder(['Préparer', 'À la table', 'Entre les séances'])
+            ->assertSee('Une carte de bataille partagée')
+            ->assertSee('Des dés pour toute la table')
+            ->assertSee('Une grande carte de campagne')
+            ->assertSee('Le livre des aventures')
+            ->assertSee('Mes feuilles')
+            ->assertSee('Découvrez sans rien préparer');
     }
 
     public function test_screenshots_follow_the_page_language(): void
@@ -70,7 +82,16 @@ class HomePageTest extends TestCase
             ->assertDontSee('/campagnes');
     }
 
-    public function test_the_discord_link_shows_only_once_configured(): void
+    public function test_the_community_discord_is_linked_by_default(): void
+    {
+        $this->assertSame('https://discord.gg/jzFKK69bn', config('codexflow.discord_url'));
+
+        $this->get('/')->assertOk()
+            ->assertSee('Rejoindre la communauté sur Discord')
+            ->assertSee('href="https://discord.gg/jzFKK69bn"', false);
+    }
+
+    public function test_the_discord_link_can_be_hidden_or_replaced(): void
     {
         config(['codexflow.discord_url' => null]);
         $this->get('/')->assertOk()->assertDontSee('Rejoindre la communauté sur Discord');

@@ -4,6 +4,15 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.93.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Une nouvelle page d’accueil',
+        'items' => [
+            'La page d’accueil publique présente tout ce que SagaWyn sait faire aujourd’hui, rangé en trois moments : préparer, jouer à la table, faire vivre la campagne entre les séances. Carte de bataille, dés, carte de campagne, sons, livre des aventures et « Mes feuilles » y ont leur place.',
+            'Le lien vers le Discord de la communauté s’affiche désormais d’office, en haut et en bas de la page d’accueil, dans l’aide et dans le pied de page.',
+        ],
+    ],
+
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Import avec une IA : prompt en anglais, langue au choix',

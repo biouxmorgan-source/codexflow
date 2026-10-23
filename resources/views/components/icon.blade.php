@@ -18,6 +18,8 @@
         'ai' => ['M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z', 'M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z'],
         'archive' => ['M4 7h16v13H4z', 'M3 4h18v3H3z', 'M10 11h4'],
         'music' => ['M9 18V5l11-2v13'],
+        'dice' => ['M5 5h14v14H5z'],
+        'grid' => ['M4 4h16v16H4z', 'M4 9.3h16', 'M4 14.7h16', 'M9.3 4v16', 'M14.7 4v16'],
         'star' => ['M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z'],
     ][$name] ?? [];
 
@@ -28,6 +30,7 @@
         'remote' => [[12, 7, 0.6], [12, 11, 0.6], [12, 15, 0.6]],
         'music' => [[6, 18, 3], [17, 16, 3]],
         'pin' => [[12, 10, 2.2]],
+        'dice' => [[8.5, 8.5, 0.8], [12, 12, 0.8], [15.5, 15.5, 0.8]],
     ][$name] ?? [];
 @endphp
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" {{ $attributes->merge(['class' => 'size-5']) }}>
