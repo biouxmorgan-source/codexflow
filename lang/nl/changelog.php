@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.93.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Een nieuwe startpagina',
+        'items' => [
+            'De openbare startpagina toont nu alles wat SagaWyn vandaag kan, in drie momenten: voorbereiden, aan tafel spelen en de campagne levend houden tussen de sessies. Gevechtskaart, dobbelstenen, campagnekaart, geluiden, avonturenboek en „Mijn bladen” krijgen allemaal een plek.',
+            'De link naar de Discord van de community staat nu standaard bovenaan en onderaan de startpagina, in de hulp en in de voettekst.',
+        ],
+    ],
+
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Import met AI: prompt in het Engels, taal naar keuze',

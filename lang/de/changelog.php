@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.93.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Eine neue Startseite',
+        'items' => [
+            'Die öffentliche Startseite zeigt jetzt alles, was SagaWyn heute kann, in drei Abschnitten: vorbereiten, am Tisch spielen und die Kampagne zwischen den Sitzungen lebendig halten. Kampfkarte, Würfel, Kampagnenkarte, Sounds, Abenteuerbuch und „Meine Bögen“ haben ihren Platz.',
+            'Der Link zum Discord der Community erscheint jetzt standardmäßig, oben und unten auf der Startseite, in der Hilfe und in der Fußzeile.',
+        ],
+    ],
+
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'KI-Import: Prompt auf Englisch, Sprache nach Wahl',

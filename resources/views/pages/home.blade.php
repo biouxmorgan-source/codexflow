@@ -2,15 +2,30 @@
 @php
     // Captures dans la langue de la page (une paire par langue de l'interface).
     $shot = \App\Support\Locale::isAvailable(app()->getLocale()) ? app()->getLocale() : \App\Support\Locale::DEFAULT;
-    $description = __('SagaWyn aide le maître de jeu à préparer ses mondes, mener ses séances et partager avec ses joueurs ce qu’ils doivent savoir, quel que soit le jeu de rôle.');
+    $description = __('SagaWyn accompagne le maître de jeu de la préparation à la dernière séance : fiches et scénarios, carte de bataille, dés, écran de table et un espace pour chaque joueur, quel que soit le jeu de rôle.');
     $locales = \App\Support\Locale::available();
-    $features = [
-        ['fields', __('Vos mondes, vos règles'), __('Fiches de personnages, de lieux et d’objets avec vos propres champs, liens [[ ]] entre les fiches, scénarios en scènes. Aucun système de règles imposé : SagaWyn s’adapte à votre jeu.')],
-        ['remote', __('Le mode Session'), __('La scène en cours avec ses personnages, ses informations et ses règles, une recherche immédiate et des notes rapides : tout ce qu’il faut pendant la partie, sans fouiller.')],
-        ['secret', __('Des secrets bien gardés'), __('Chaque fiche a une zone publique et une zone MJ. Vous révélez une information à un seul personnage ou à toute la table, quand vous le décidez : le reste ne quitte jamais votre écran.')],
-        ['members', __('Vos joueurs à bord'), __('Invitation par lien, fiche de personnage avec sa feuille PDF, compteurs, connaissances et possessions, journal, objets à « Donner » et échanges entre joueurs.')],
-        ['messages', __('Le lien entre les séances'), __('Messagerie de groupe et privée, notifications en direct, application installable sur téléphone, fiche lisible hors ligne.')],
-        ['screen', __('Un écran pour la table'), __('Montrez un portrait, un document ou une carte avec sa grille et ses jetons sur la télé, pilotez-le depuis votre téléphone. Jamais un secret à l’écran.')],
+    // Les fonctions, rangées par moment de la campagne : préparer, jouer, faire vivre entre les séances.
+    $moments = [
+        ['book', __('Préparer'), __('Un monde cohérent, des scénarios prêts à jouer, sans tout ressaisir.'), [
+            ['fields', __('Vos mondes, vos règles'), __('Fiches de personnages, de lieux et d’objets avec vos propres champs, liens [[ ]], relations et tags. Aucun système de règles imposé : SagaWyn s’adapte à votre jeu.')],
+            ['timeline', __('Des scénarios en scènes'), __('Chaque scène réunit ses personnages, ses indices et ses documents. Après la partie, notez si elle s’est jouée comme prévu ou ce qui s’est vraiment passé.')],
+            ['map', __('Une grande carte de campagne'), __('Placez vos lieux sur une carte illustrée, reliez chaque point à ses scènes et à ses fiches, descendez dans une sous-carte d’un clic.')],
+            ['ai', __('Importer plutôt que ressaisir'), __('Fichiers CSV, archives de campagne et modèles de jeu. Un livre de scénario se prépare à l’import avec l’IA de votre choix, sur votre propre clé.')],
+        ]],
+        ['remote', __('À la table'), __('Autour d’une vraie table ou à distance, tout ce qu’il faut pendant la partie, sans fouiller.'), [
+            ['remote', __('Le mode Session'), __('La scène en cours, ses personnages, ses règles et vos notes rapides sur un écran que vous organisez à votre goût, avec une recherche immédiate.')],
+            ['grid', __('Une carte de bataille partagée'), __('Grille, jetons, gabarits de zone à la bonne taille et ordre d’initiative. Les joueurs déplacent leur jeton, même à distance, par un lien ou un QR code.')],
+            ['dice', __('Des dés pour toute la table'), __('Pools mixtes, seuils, résultat brut et bonus lus sur la feuille du personnage. Le MJ demande un jet, chaque joueur lance depuis son téléphone.')],
+            ['screen', __('Un écran pour la table'), __('Montrez un portrait, un document, la carte de campagne ou le combat sur la télé, et pilotez tout depuis votre téléphone. Jamais un secret à l’écran.')],
+            ['music', __('L’ambiance sonore'), __('Votre bibliothèque de sons, réutilisable dans toutes vos campagnes, se lance d’un geste pendant la scène.')],
+            ['secret', __('Des secrets bien gardés'), __('Chaque fiche a une zone publique et une zone MJ. Vous révélez une information à un seul personnage ou à toute la table, quand vous le décidez.')],
+        ]],
+        ['messages', __('Entre les séances'), __('La campagne continue quand la table se lève.'), [
+            ['members', __('Vos joueurs à bord'), __('Invitation par lien, fiche de personnage avec sa feuille PDF, compteurs, connaissances et possessions, objets à « Donner » et échanges entre joueurs.')],
+            ['messages', __('Le lien vivant'), __('Messagerie de groupe et privée, notifications en direct, application installable sur téléphone. La fiche reste modifiable hors ligne et se synchronise au retour du réseau.')],
+            ['journal', __('Le livre des aventures'), __('Le journal de campagne et le livre des aventures racontent l’histoire de votre table, scène après scène, telle qu’elle s’est vraiment jouée.')],
+            ['archive', __('Mes feuilles'), __('Un espace privé pour vos feuilles de personnage, en onglets et en blocs à disposer, avec leurs lancers de dés enregistrés. Utile aussi quand c’est vous le joueur.')],
+        ]],
     ];
 @endphp
 <x-layouts.public :title="__('L’assistant du maître de jeu de rôle')">
@@ -47,13 +62,18 @@
         <section class="mx-auto grid max-w-6xl items-center gap-10 px-4 pt-8 pb-16 lg:grid-cols-[1fr_1.1fr] lg:pt-16">
             <div>
                 <p class="text-sm font-medium tracking-wide text-wyn uppercase">Every world has a story.</p>
-                <h1 class="mt-3 text-4xl font-semibold tracking-tight text-balance sm:text-5xl">{{ __('L’assistant du maître de jeu, pour toutes vos campagnes') }}</h1>
+                <h1 class="mt-3 text-4xl font-semibold tracking-tight text-balance sm:text-5xl">{{ __('Préparez vos mondes, menez vos séances, faites vivre la campagne') }}</h1>
                 <p class="mt-5 text-lg text-stone-700">{{ $description }}</p>
                 <div class="mt-8 flex flex-wrap gap-3">
                     <a href="{{ route('register') }}" class="btn-primary px-5 py-2.5 text-base">{{ __('Commencer gratuitement') }}</a>
                     <a href="#fonctionnalites" class="btn-secondary px-5 py-2.5 text-base">{{ __('Voir les fonctionnalités') }}</a>
                 </div>
                 <p class="mt-4 text-sm text-stone-500">{{ __('Une campagne de démonstration se charge en un clic. Aucune carte bancaire demandée.') }}</p>
+                @if ($discord = config('codexflow.discord_url'))
+                    <a href="{{ $discord }}" class="mt-3 inline-flex items-center gap-2 text-sm font-medium text-codex hover:underline" target="_blank" rel="noopener">
+                        <x-icon name="messages" class="size-4" />{{ __('Rejoindre la communauté sur Discord') }}
+                    </a>
+                @endif
             </div>
             <figure class="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-xl">
                 <img src="{{ asset('images/home-session-'.$shot.'.webp') }}" width="1280" height="800" alt="{{ __('Le mode Session de SagaWyn : la scène en cours, ses personnages et ses informations.') }}" class="block h-auto w-full" fetchpriority="high">
@@ -62,17 +82,26 @@
 
         <section id="fonctionnalites" class="border-y border-stone-200 bg-white py-16">
             <div class="mx-auto max-w-6xl px-4">
-                <h2 class="text-3xl font-semibold tracking-tight">{{ __('Tout ce qu’il faut pour mener vos parties') }}</h2>
-                <p class="mt-3 max-w-3xl text-stone-700">{{ __('SagaWyn n’est pas une table virtuelle : c’est un outil pour préparer, retrouver et partager, autour d’une vraie table ou en ligne.') }}</p>
-                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    @foreach ($features as [$icon, $title, $text])
-                        <article class="rounded-xl border border-stone-200 bg-parchment p-5">
-                            <x-icon :name="$icon" class="size-7 text-wyn" />
-                            <h3 class="mt-3 text-lg font-semibold">{{ $title }}</h3>
-                            <p class="mt-2 text-sm leading-relaxed text-stone-700">{{ $text }}</p>
-                        </article>
-                    @endforeach
-                </div>
+                <h2 class="text-3xl font-semibold tracking-tight text-balance">{{ __('Tout ce qu’il faut, de la préparation à la dernière séance') }}</h2>
+                <p class="mt-3 max-w-3xl text-stone-700">{{ __('SagaWyn n’impose aucun système de règles. Il vous aide à préparer, à mener la partie autour d’une vraie table ou à distance, et à garder le fil entre les séances.') }}</p>
+                @foreach ($moments as [$momentIcon, $moment, $intro, $features])
+                    <div class="mt-12">
+                        <div class="flex items-center gap-3">
+                            <span class="flex size-10 items-center justify-center rounded-full bg-wyn/10 text-wyn"><x-icon :name="$momentIcon" class="size-5" /></span>
+                            <h3 class="text-2xl font-semibold tracking-tight">{{ $moment }}</h3>
+                        </div>
+                        <p class="mt-2 text-stone-600">{{ $intro }}</p>
+                        <div @class(['mt-6 grid gap-5 sm:grid-cols-2', count($features) % 3 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'])>
+                            @foreach ($features as [$icon, $title, $text])
+                                <article class="rounded-xl border border-stone-200 bg-parchment p-5">
+                                    <x-icon :name="$icon" class="size-7 text-wyn" />
+                                    <h4 class="mt-3 text-lg font-semibold">{{ $title }}</h4>
+                                    <p class="mt-2 text-sm leading-relaxed text-stone-700">{{ $text }}</p>
+                                </article>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </section>
 
@@ -84,6 +113,14 @@
                 <h2 class="text-3xl font-semibold tracking-tight">{{ __('Chaque joueur voit ce que son personnage sait') }}</h2>
                 <p class="mt-4 text-stone-700">{{ __('Les connaissances et les possessions appartiennent au personnage. Le joueur retrouve sur sa fiche ce que vous lui avez révélé, prend ses notes, propose ses intentions pour la prochaine séance.') }}</p>
                 <p class="mt-4 text-stone-700">{{ __('Les droits sont vérifiés par le serveur à chaque action, pas seulement masqués à l’écran : ce qui est réservé au MJ le reste.') }}</p>
+            </div>
+        </section>
+
+        <section class="border-t border-stone-200 bg-white py-16">
+            <div class="mx-auto max-w-4xl px-4 text-center">
+                <h2 class="text-3xl font-semibold tracking-tight">{{ __('Découvrez sans rien préparer') }}</h2>
+                <p class="mt-4 text-stone-700">{{ __('Dès votre compte créé, chargez une campagne de démonstration qui montre chaque fonction : fiches reliées, carte de campagne, combat sur la carte de bataille, dés, sons, séance déjà jouée et livre des aventures. La bibliothèque de démos accueille d’autres campagnes prêtes à explorer.') }}</p>
+                <a href="{{ route('register') }}" class="btn-secondary mt-6 inline-block px-5 py-2.5 text-base">{{ __('Essayer la démonstration') }}</a>
             </div>
         </section>
 

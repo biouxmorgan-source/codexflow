@@ -4,6 +4,15 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.93.0' => [
+        'date' => '2026-10-23',
+        'title' => 'A new home page',
+        'items' => [
+            'The public home page now presents everything SagaWyn can do today, in three moments: preparing, playing at the table, and keeping the campaign alive between sessions. Battle map, dice, campaign map, sounds, adventure book and “My sheets” all have their place.',
+            'The link to the community Discord now shows by default, at the top and bottom of the home page, in the help and in the footer.',
+        ],
+    ],
+
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'AI import: prompt in English, language of your choice',

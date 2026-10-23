@@ -4,6 +4,15 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.93.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Una nuova pagina iniziale',
+        'items' => [
+            'La pagina iniziale pubblica presenta ora tutto ciò che SagaWyn sa fare, in tre momenti: preparare, giocare al tavolo e far vivere la campagna tra una sessione e l’altra. Mappa di battaglia, dadi, mappa della campagna, suoni, libro delle avventure e «Le mie schede» hanno il loro posto.',
+            'Il link al Discord della community appare ora di default, in alto e in basso nella pagina iniziale, nell’aiuto e nel piè di pagina.',
+        ],
+    ],
+
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Importazione con un’IA: prompt in inglese, lingua a scelta',
