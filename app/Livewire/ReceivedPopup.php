@@ -83,7 +83,7 @@ class ReceivedPopup extends Component
     public function render()
     {
         // La fenêtre « Quoi de neuf » passe d'abord.
-        [$notification, $grant, $count] = Changelog::unseenSince(auth()->user()->last_seen_version) === [] ? $this->next() : [null, null, 0];
+        [$notification, $grant, $count] = Changelog::unseenSince(auth()->user()->last_seen_version, Changelog::detailedFor(auth()->user())) === [] ? $this->next() : [null, null, 0];
 
         return view('livewire.received-popup', compact('notification', 'grant', 'count'));
     }

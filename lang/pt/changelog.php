@@ -4,6 +4,16 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.95.0' => [
+        'date' => '2026-10-23',
+        'title' => '« Novidades » vai ao essencial',
+        'short' => 'Uma frase por novidade, e só quando algo muda mesmo para si.',
+        'items' => [
+            '« Novidades » mostra agora uma versão curta: uma frase por versão, e só para as versões importantes. As pequenas correções já não fazem aparecer a janela.',
+            'A conta de administrador mantém o detalhe completo de cada versão, com por baixo de cada uma a frase vista pelas outras contas, ou a indicação de que não lhes é mostrada.',
+        ],
+    ],
+
     '0.94.0' => [
         'date' => '2026-10-23',
         'title' => 'Blocos em 1, 2 ou 3 colunas, e página de mapa organizável',
@@ -18,6 +28,7 @@ return [
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Uma nova página inicial',
+        'short' => 'Uma nova página inicial, e a ligação para o Discord da comunidade em todo o lado.',
         'items' => [
             'A página inicial pública apresenta agora tudo o que o SagaWyn sabe fazer, em três momentos: preparar, jogar à mesa e manter a campanha viva entre sessões. Mapa de batalha, dados, mapa da campanha, sons, livro de aventuras e «As minhas fichas» têm o seu lugar.',
             'A ligação para o Discord da comunidade aparece agora por omissão, no topo e no fundo da página inicial, na ajuda e no rodapé.',
@@ -27,6 +38,7 @@ return [
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Importação com IA: prompt em inglês, língua à escolha',
+        'short' => 'A importação com uma IA permite-lhe escolher a língua do conteúdo importado.',
         'items' => [
             'O prompt e o skill do Claude de «Preparar a importação com uma IA» estão agora em inglês, a língua que as IA seguem melhor.',
             'Um menu «Língua do conteúdo importado» escolhe a língua em que a IA escreve as fichas, as cenas, os títulos dos documentos e o guia (a da interface por omissão). Com o skill, também se pode pedir outra língua no momento da importação.',
@@ -45,6 +57,7 @@ return [
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Declaração de direitos em cada importação',
+        'short' => 'Antes de cada importação, uma caixa pede-lhe que confirme que tem os direitos sobre os conteúdos importados.',
         'items' => [
             'Antes de cada importação (ficheiro CSV ou JSON, arquivo de campanha, modelo de jogo), uma caixa desmarcada por predefinição pede para certificar que dispõe dos direitos necessários sobre os conteúdos importados. Sem ela, o botão fica cinzento e o servidor recusa a importação.',
             'Cada declaração é registada com a data, a versão do texto aceite e o resultado da importação, sem cópia dos ficheiros. Aparece em «Transferir os meus dados».',
@@ -71,6 +84,7 @@ return [
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Rolagens salvas para cada ficha',
+        'short' => 'Em « As minhas fichas », cada personagem guarda os seus próprios lançamentos de dados gravados.',
         'items' => [
             'Nos dados de «Minhas fichas», «Salvar esta rolagem» guarda uma rolagem com a ficha: cada personagem tem as próprias rolagens (Bola de fogo, Ataque…), recarregadas com um toque, atualizadas e removidas com ×.',
         ],
@@ -95,6 +109,7 @@ return [
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Modificar um documento sem o apagar',
+        'short' => '« Substituir o ficheiro » atualiza um documento sem perder o título nem as ligações.',
         'items' => [
             'Na página de um documento, «Substituir o ficheiro» coloca uma nova versão no lugar da antiga: o documento mantém o título, as definições e as ligações, e a nova versão aparece logo nas cenas, fichas, regras, mapas, pistas e nas personagens que o receberam.',
             'Uma imagem que serve de mapa é substituída por outra imagem; peões, grelha e pontos ficam no lugar.',
@@ -104,6 +119,7 @@ return [
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Rolar os dados a partir da ficha',
+        'short' => 'Um pequeno dado ao lado dos valores da ficha lança os dados com esse valor.',
         'items' => [
             'Na ficha de um personagem, um pequeno dado ao lado de cada número e de cada contador rola os dados com esse valor: «Rolar abaixo de… (limiar)» ou «Somar… à rolagem (bônus)». A bandeja de dados abre pronta para rolar e o resultado vai para a mesa como sempre.',
             'Na ficha do seu próprio personagem, o valor continua ligado à ficha: se mudar, a rolagem salva acompanha. O mestre também pode rolar a partir da ficha de um jogador.',
@@ -130,6 +146,7 @@ return [
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Separadores em As minhas fichas',
+        'short' => '« As minhas fichas » organiza-se em separadores com o nome que escolher.',
         'items' => [
             'Em «Editar», «+ Novo separador» divide uma ficha em separadores a que dá um nome (Personagem, Feitiços, Inventário…), que ordena e remove.',
             'Cada bloco escolhe o seu separador, e cada separador coloca os seus blocos nas suas próprias três colunas. Uma ficha existente mantém todos os blocos num primeiro separador.',
@@ -139,6 +156,7 @@ return [
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Várias notas e três colunas em As minhas fichas',
+        'short' => '« As minhas fichas » aceita vários blocos de notas, em três colunas.',
         'items' => [
             '«+ Nova nota» adiciona um bloco de notas: quantos quiser (dívidas, rumores, contactos…). As suas notas anteriores passam a um primeiro bloco «Notas».',
             'Os blocos colocam-se agora em três colunas, notas incluídas, com «Organizar os blocos».',
@@ -148,6 +166,7 @@ return [
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Uma demo atualizada',
+        'short' => 'A campanha de demonstração mostra as últimas novidades.',
         'items' => [
             'A campanha de demonstração mostra agora as últimas novidades: no mapa da campanha, o farol leva a um submapa, a sua cave, pronta para o combate com marcadores, dois moldes de área e uma ordem de iniciativa. Cada ponto liga várias fichas e várias cenas.',
             'Dados à mesa: lançamentos preparados que leem a característica da ficha, um bónus com nome e os lançamentos da sessão 1, incluindo um pedido do mestre.',
@@ -159,6 +178,7 @@ return [
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Mapa da campanha: zoom, mesa e locais mais ricos',
+        'short' => 'O mapa da campanha permite zoom, e cada local leva às suas cenas, fichas ou a um submapa.',
         'items' => [
             'O mapa da campanha faz zoom (roda, + e −, pinça no tablet) e desloca-se arrastando. Conselho: uma imagem 4K (3840 × 2160) mantém-se nítida.',
             'Quando o mapa está no ecrã da mesa, o submapa aberto a partir de um ponto substitui-o lá, e o mapa de cima volta quando sobe. No submapa, «Este local» mantém as cenas e fichas do ponto à distância de um clique.',
@@ -169,6 +189,7 @@ return [
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Blocos, notas e caixas de seleção em As minhas fichas',
+        'short' => '« As minhas fichas » organiza-se em blocos móveis, com uma nota e uma caixa por campo.',
         'items' => [
             'Em «As minhas fichas», os campos arrumam-se em blocos que nomeia: Características, Perícias, Equipamento, Feitiços…',
             '«Organizar os blocos»: arraste um bloco pela pega, ou use as setas, para o colocar onde quiser, numa ou duas colunas.',
@@ -179,6 +200,7 @@ return [
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Biblioteca de demos',
+        'short' => 'Uma biblioteca de demonstrações para descobrir e carregar.',
         'items' => [
             'Nova «Biblioteca de demos», a partir de «Minhas campanhas»: campanhas prontas a jogar (um cenário, uma aventura curta, personagens pré-gerados) de que carrega a sua própria cópia num clique.',
             'Cada demo de um autor ou editora mantém uma ligação «Comprar o jogo», na biblioteca e no topo da sua cópia.',
@@ -189,6 +211,7 @@ return [
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'O que aconteceu, e o livro de aventuras',
+        'short' => 'O livro de aventuras conta a campanha, cena após cena.',
         'items' => [
             'Cada cena tem agora duas partes: «O que está previsto» e «O que aconteceu». Se a mesa seguiu o plano, basta marcar «Jogada como previsto».',
             'Novo «Livro de aventuras» na campanha: as cenas jogadas, cenário a cenário, e depois os resumos das sessões, para ler, imprimir ou guardar em PDF.',
@@ -199,6 +222,7 @@ return [
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Organize os seus ecrãs à sua maneira',
+        'short' => 'O Mestre organiza os seus ecrãs à sua maneira.',
         'items' => [
             'Novo botão «Organizar o ecrã» na página da campanha e no modo Sessão: arraste cada bloco pela sua pega ⠿, com o rato ou com o dedo, ou use as setas.',
             'No modo Sessão, um bloco pode passar de uma coluna para a outra: a música em cima, as notas à direita, como preferir.',
@@ -209,6 +233,7 @@ return [
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Sua ficha, mesmo sem rede',
+        'short' => 'A sua ficha edita-se mesmo sem rede e sincroniza quando a ligação volta.',
         'items' => [
             'Offline, a ficha do seu personagem continua utilizável: ajuste seus contadores com − e +, edite os campos que o mestre permite e escreva notas.',
             'Tudo fica guardado no dispositivo e é enviado quando a conexão volta, campo por campo: um contador recebe o que você tirou ou acrescentou, e o que o mestre mudou nesse meio-tempo (um segredo revelado, um campo editado) é mantido.',
@@ -219,6 +244,7 @@ return [
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'O grande mapa da campanha',
+        'short' => 'Um grande mapa da campanha, com os seus locais.',
         'items' => [
             'Novo «Mapa da campanha»: escolha um mapa como visão geral e coloque nele pontos de interesse, uma cidade, uma masmorra, o local de uma cena.',
             'Um ponto pode abrir um submapa com um clique, que tem os seus próprios pontos; o caminho de navegação permite voltar à visão geral.',
@@ -229,6 +255,7 @@ return [
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'As suas personagens jogadas noutro sítio',
+        'short' => '« As minhas fichas » guarda as personagens que joga noutros sítios, só para si.',
         'items' => [
             'Nova página «As minhas fichas»: guarde as personagens que joga fora do SagaWyn, em casa de um amigo, num clube ou noutro sítio. Só você as vê.',
             'Cada personagem tem a sua ficha PDF, um retrato, campos livres (textos e contadores a ajustar com − e + durante a partida) e as suas notas, com o nome do jogo e da mesa para a encontrar.',
@@ -238,6 +265,7 @@ return [
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Uma biblioteca de sons para todas as suas campanhas',
+        'short' => 'Uma biblioteca de sons pessoal, para todas as suas campanhas.',
         'items' => [
             'Nova página «Os meus sons»: as suas músicas e ambientes, guardados uma só vez na sua conta e depois adicionados às campanhas que conduz. O ficheiro não é copiado e só conta uma vez no seu espaço.',
             'Na página Sons de uma campanha: «Da minha biblioteca» para adicionar os seus sons, «Guardar na minha biblioteca» para reutilizar um som noutro lado, e uma caixa para guardar um novo envio diretamente na biblioteca.',
@@ -248,6 +276,7 @@ return [
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'O modo de usar em todo o lado',
+        'short' => 'Um botão « ? » explica os ecrãs do SagaWyn.',
         'items' => [
             'O botão «?» chega aos sons, ao grafo de relações, à cronologia, às opiniões dos jogadores, ao assistente IA, ao registo e à ficha de personagem.',
             'No grafo, na cronologia e na ficha de personagem, os jogadores leem um modo de usar escrito para eles.',
@@ -257,6 +286,7 @@ return [
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Subtrair ou somar vários pontos de uma vez',
+        'short' => 'Os contadores da sua personagem mudam vários pontos de uma vez.',
         'items' => [
             'Sob cada contador que o jogador pode alterar (PV, munição, dinheiro…), um campo «Quantidade»: escreve 8 e depois −, e o contador perde 8 de uma vez. O valor padrão é 1.',
         ],
@@ -283,6 +313,7 @@ return [
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bônus e limiar lidos na ficha',
+        'short' => 'Os dados leem os bónus e os limiares na ficha da personagem.',
         'items' => [
             'Nos dados, o bônus pode pegar um ou mais valores da ficha do personagem (característica, perícia, qualquer campo número ou contador da zona pública), inteiros ou em dezena, metade ou quinto, além do bônus livre. O limiar também pode ser lido na ficha. Os valores são lidos no momento da rolagem, na ficha de cada personagem que rola.',
             'Vários bônus com nome (Arma +2, Ferimento −1…) se somam na mesma rolagem, junto com os valores da ficha.',
@@ -311,6 +342,7 @@ return [
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Dados misturados e rolagens próprias',
+        'short' => 'Vários tipos de dados no mesmo lançamento, e lançamentos só para si.',
         'items' => [
             'Uma mesma rolagem pode misturar vários tipos de dados: toque em um d20 e depois em dois d6, e são rolados 1d20 + 2d6. Cada tipo tem sua quantidade, que pode ser ajustada ou removida.',
             'O limiar vale para o total («Limiar sobre o total», atingido ou não ultrapassado) ou para cada dado («Limiar por dado»: por exemplo, todo dado com 4 ou mais é um sucesso).',
@@ -329,6 +361,7 @@ return [
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Os dados na mesa',
+        'short' => 'Um tabuleiro de dados partilhado à mesa, e o Mestre pode pedir-lhe um lançamento.',
         'items' => [
             'Novo botão «Dados» no rodapé de cada página da campanha: o número e o tipo de dados (de 4 a 100 faces, ou outro), e como lê-los: somar, atingir um limiar, ficar abaixo de um limiar, contar sucessos, manter os melhores ou os mais baixos, ler em algarismos. Com um bônus e dados que rolam de novo no máximo (+) ou no 1 (−).',
             'O Mestre pede uma rolagem a toda a mesa ou a alguns personagens, à vista de todos ou em discreto. Uma janela abre para os jogadores envolvidos; sem limiar, cada um informa o seu e soma seu bônus, e um limiar oculto fica com o Mestre, que vê quem rolou o quê.',
@@ -349,6 +382,7 @@ return [
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Modelos de área no mapa',
+        'short' => 'Modelos de área no mapa de combate.',
         'items' => [
             'Novos modelos na página do mapa: círculo, quadrado, retângulo, cone e linha, medidos em casas (ou na unidade da escala). Arrastam-se no mapa, orientam-se, ocultam-se, e a lista de tokens atingidos aparece logo.',
             'Os modelos visíveis aparecem no ecrã da mesa, por baixo dos tokens.',
@@ -358,6 +392,7 @@ return [
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Mapa de combate partilhado',
+        'short' => 'Um mapa de combate partilhado: move o seu marcador, mesmo à distância.',
         'items' => [
             'No ecrã de mesa partilhado, cada jogador move a ficha da sua personagem. No mapa, «Movido por» confia outra ficha a um jogador: seguidor, familiar, inimigo controlado…',
             'Nova ordem de iniciativa, a partir do comando ou do mapa: PJ e inimigos com o seu valor, turno atual, rondas. O MJ mostra-a sobre o ecrã quando quiser; as linhas ocultas ficam com ele, e uma fila «Também presentes» mostra PNJ ou objetos sem iniciativa.',
@@ -368,6 +403,7 @@ return [
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'A comunidade no Discord',
+        'short' => 'A comunidade SagaWyn reúne-se no Discord.',
         'items' => [
             'O SagaWyn tem o seu servidor Discord: uma ligação no fundo de cada página e na página inicial para fazer perguntas, sugerir ideias e conhecer outros mestres de jogo.',
         ],
@@ -386,6 +422,7 @@ return [
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Conteúdo caseiro',
+        'short' => 'O Mestre distingue o conteúdo caseiro do conteúdo oficial.',
         'items' => [
             'Nova caixa «Conteúdo caseiro» nas fichas (PNJ, feitiços, objetos, lugares…): sem marcar, a ficha é oficial. Um distintivo «Caseiro» assinala-a na lista e na ficha, e um filtro Oficial / Caseiro ordena o universo.',
             'Para uma ficha caseira ou uma regra de origem «Caseira», a versão oficial substituída anota-se ao lado (por exemplo a iniciativa com 1d10 em vez de 1d20): fica na zona do MJ, recolhida sob a ficha ou a regra.',
@@ -420,6 +457,7 @@ return [
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Preparar uma campanha inteira com uma IA',
+        'short' => 'Uma IA pode preparar uma campanha inteira para importar a partir de um livro de jogo.',
         'items' => [
             'Minhas campanhas → Importar uma campanha: nova ligação «Prepare o arquivo com uma IA». O prompt (ou o skill do Claude) faz a sua IA ler o livro de RPG e criar um arquivo .zip: o jogo, o mundo, a campanha, as fichas, as cenas e os documentos são criados de uma vez.',
         ],
@@ -436,6 +474,7 @@ return [
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Os segredos passam a ser pistas',
+        'short' => 'Os segredos passam a chamar-se pistas.',
         'items' => [
             'Os «segredos» da campanha agora se chamam «pistas»: página Pistas, painel das fichas, cenas e documentos, modo Sessão, busca, revelações e ajuda. Nada muda nos seus dados.',
         ],
@@ -444,6 +483,7 @@ return [
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Os jogadores editam a sua personagem',
+        'short' => 'O Mestre pode deixá-lo editar a sua personagem.',
         'items' => [
             'Página Campos: «Editável pelo jogador» marca-se para um grupo inteiro (características, perícias…) ou para todos os campos públicos num clique.',
             'Nova opção na página Jogadores: o mestre pode deixar cada jogador editar o retrato, o resumo e a descrição da sua personagem. A zona do mestre continua escondida.',
@@ -453,6 +493,7 @@ return [
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Distintivo de Fundador e códigos de oferta',
+        'short' => 'Um distintivo de Fundador e códigos de oferta Premium para oferecer.',
         'items' => [
             'Os apoiadores do Kickstarter podem ser marcados como Fundador na consola de administração: um distintivo ★ Fundador visível nas preferências, na lista de membros e na ficha da personagem.',
             'Os Fundadores têm armazenamento extra além do seu plano, gratuito ou premium (500 MB por omissão, ajustável em «Planos»).',
@@ -489,6 +530,7 @@ return [
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'A demonstração mostra todo o SagaWyn',
+        'short' => 'A campanha de demonstração usa todas as funções do SagaWyn.',
         'items' => [
             'A campanha de demonstração usa agora cada função: uma personagem jogadora tirada de uma pré-gerada, com o que recebeu (ficha, documento, regra, segredo, objetos) e que o MJ pode «Ver como»; notas de sessão; uma lista «Para jogar»; fichas fixadas; campos de referência, documento e comuns a dois tipos; um anexo do MJ; segredos de cada natureza; etiquetas coloridas; capas para o jogo e o mundo.',
             'Recarregar a demonstração reutiliza o tipo de ficha «Fação» já criado em vez de acrescentar outro.',
@@ -507,6 +549,7 @@ return [
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi passa a ser SagaWyn',
+        'short' => 'O LoreMundi passa a chamar-se SagaWyn.',
         'items' => [
             'O LoreMundi chama-se agora SagaWyn, sempre publicado pela Autistic Intelligence. Every world has a story.',
             'As suas campanhas, contas e arquivos não mudam: as cópias feitas com o LoreMundi ou o CodexFlow continuam a ser importadas. Os ficheiros transferidos começam agora por «sagawyn-».',
@@ -516,6 +559,7 @@ return [
     '0.46.0' => [
         'date' => '2026-10-10',
         'title' => 'Opiniões dos jogadores',
+        'short' => 'O Mestre pode pedir a sua opinião sobre uma sessão ou uma campanha.',
         'items' => [
             'No fim de uma sessão ou campanha, peça aos seus jogadores uma nota de 1 a 5 estrelas, o que gostaram e o que poderia ser melhor («Opiniões dos jogadores» na campanha, ou a partir da página de uma sessão).',
             'Respostas anónimas ou assinadas, à escolha do Mestre: os jogadores sabem-no antes de responder. Vê a média, a distribuição das notas e todos os comentários.',
@@ -525,6 +569,7 @@ return [
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Biblioteca de som',
+        'short' => 'Uma biblioteca de músicas e ambientes para as sessões.',
         'items' => [
             'Nova página «Sons»: envie as suas músicas e ambientes (mp3, ogg, m4a, wav, flac), organize-os com etiquetas e ligue-os às cenas.',
             'No modo Sessão, o bloco «Música» propõe primeiro os sons da cena: «Aqui» toca-os no seu dispositivo, sem parar quando muda de página; «Mesa» toca-os no ecrã da mesa, com pausa, repetição e volume controlados a partir da sessão.',
@@ -587,6 +632,7 @@ return [
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Pesquisa',
+        'short' => 'A pesquisa também encontra as outras formas de uma palavra.',
         'items' => [
             'A pesquisa também encontra outras formas francesas de uma palavra: «lanternes» encontra «lanterne», «éteinte» encontra «éteintes».',
             'A pesquisa na página inicial também procura nos seus mundos e jogos que não estão ligados a nenhuma campanha.',
@@ -596,6 +642,7 @@ return [
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Jogadores e papéis',
+        'short' => 'Uma ficha revelada mostra as suas ilustrações, e a sua ficha tem o fio da campanha.',
         'items' => [
             'Uma ficha revelada mostra ao jogador suas ilustrações e arquivos públicos, e suas relações públicas com fichas que ele conhece.',
             'Os jogadores têm um «Feed da campanha» na ficha: sessões, eventos jogados conhecidos pela mesa e mensagens ao grupo.',
@@ -628,6 +675,7 @@ return [
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Funções por campanha',
+        'short' => 'O Mestre escolhe as funções de que a sua mesa precisa.',
         'items' => [
             'Na página da campanha, o Mestre marca as funções de que a sua mesa precisa: ecrã de mesa, mapas, trocas entre jogadores, grafo, cronologia, assistente de IA. Uma função desmarcada desaparece para todos sem apagar nada; volta assim que for marcada de novo.',
         ],
@@ -648,6 +696,7 @@ return [
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDF e documentos',
+        'short' => 'Os PDF abrem num leitor integrado, em todos os dispositivos.',
         'items' => [
             'Os PDF abrem num visualizador integrado, igual no computador, tablet e telemóvel, com zoom e transferência.',
             'No ecrã de mesa, um PDF é apresentado página a página, ajustado ao ecrã; as setas viram as páginas.',
@@ -660,6 +709,7 @@ return [
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Funções Premium ✦',
+        'short' => 'Uma estrela ✦ assinala as funções Premium, e nada é apagado no fim de uma subscrição.',
         'items' => [
             'Uma pequena estrela ✦ indica as funções Premium. Quando o plano do dono de uma campanha não as inclui, elas continuam visíveis, em cinza, com uma explicação.',
             'No fim de um teste ou de uma assinatura nada é apagado: campanhas, mapas, mensagens e arquivos continuam; só as funções ✦ são desligadas.',
@@ -724,6 +774,7 @@ return [
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Importar um livro de jogo com uma IA',
+        'short' => 'Uma IA pode preparar os ficheiros de importação a partir de um livro de jogo.',
         'items' => [
             'Em «Importar», «Prepare os ficheiros com uma IA» dá-lhe um prompt para colar na IA que escolher com o PDF de um jogo ou cenário: ela prepara os ficheiros de importação (campos, fichas, regras, cenas) e um guia passo a passo. O prompt também existe como skill do Claude.',
         ],
@@ -732,6 +783,7 @@ return [
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Segurança e dados pessoais',
+        'short' => 'Nas Preferências: a sua conta, uma autenticação de dois fatores opcional e os seus dados para descarregar.',
         'items' => [
             '«A minha conta», em Preferências: mude o nome, o e-mail (o endereço anterior é avisado) e a palavra-passe.',
             'Autenticação de dois fatores opcional, em Preferências: um código de uma aplicação do seu telemóvel, com códigos de recuperação.',
@@ -745,6 +797,7 @@ return [
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow passa a ser LoreMundi',
+        'short' => 'O CodexFlow passa a chamar-se LoreMundi.',
         'items' => [
             'O CodexFlow chama-se agora LoreMundi, publicado pela Autistic Intelligence. Every world has a story.',
             'As suas campanhas, contas e arquivos não mudam: as cópias feitas com o CodexFlow continuam a ser importadas. Os ficheiros transferidos começam agora por «loremundi-».',
@@ -754,6 +807,7 @@ return [
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Backup completo',
+        'short' => 'O Mestre pode descarregar uma cópia de segurança completa da sua campanha.',
         'items' => [
             'O proprietário pode baixar um backup completo: o arquivo da campanha com a mesa (personagens, o que receberam, sessões, notas, mensagens e registro), sem notas “Só eu” nem endereços de e-mail. Na importação, os personagens voltam sem jogador, prontos para serem atribuídos.',
         ],
@@ -762,6 +816,7 @@ return [
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Pesquisa a partir do início',
+        'short' => 'A partir do início, a pesquisa percorre todas as suas campanhas.',
         'items' => [
             'Fora de uma campanha, a barra de pesquisa procura em todas as suas campanhas, seus mundos e jogos, cada uma com suas permissões: tudo como Mestre, o que seu personagem conhece como jogador.',
         ],
@@ -789,6 +844,7 @@ return [
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Novo personagem, Minhas campanhas, páginas de jogo e de mundo',
+        'short' => 'Cada jogo e cada mundo tem a sua página, e « Minhas campanhas » leva-o de volta à última sessão.',
         'items' => [
             'Quando um jogador recebe um novo personagem, o Mestre marca o que passa do anterior: conhecimentos, informações, documentos e regras são copiados, os itens mudam de mãos.',
             'Minhas campanhas: botão “Retomar”, data da última sessão e campanhas arquivadas à parte.',
@@ -799,6 +855,7 @@ return [
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Editor de texto e notas dos jogadores',
+        'short' => 'Um editor de texto formatado, e notas de jogador ligadas às fichas conhecidas.',
         'items' => [
             'Os textos longos (descrições, notas do Mestre, cenas, regras, linha do tempo, notas dos jogadores) têm um editor com negrito, itálico, subtítulos, listas e citações; “[[” continua sugerindo fichas para vincular.',
             'Os jogadores vinculam suas notas às fichas que o personagem conhece, e só a elas.',
@@ -809,6 +866,7 @@ return [
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Assinatura Premium e teste gratuito',
+        'short' => 'Uma subscrição Premium, e seis semanas de experiência gratuita.',
         'items' => [
             'Assine o Premium em “Preferências”: pagamento mensal ou anual protegido pelo Stripe, com faturas e cancelamento no portal do Stripe. O Premium dura até o fim do período pago.',
             'Teste gratuito: seis semanas com todas as funções, a partir da sua primeira campanha como Mestre. Um jogador que nunca é Mestre não o inicia. A duração é ajustada no console de administração.',
@@ -829,6 +887,7 @@ return [
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Após a homologação: trocas validadas pelo mestre',
+        'short' => 'O Mestre valida as trocas entre jogadores.',
         'items' => [
             'Por padrão, o mestre valida as trocas entre jogadores: o item ou o conhecimento só muda de mãos depois que a troca é aceita. Uma caixa em “Personagens dos jogadores” permite autorizá-las direto.',
             'Controle remoto: no último elemento da cena, “Próximo” vira “Terminar” e limpa a tela.',
@@ -850,6 +909,7 @@ return [
     '0.13.0' => [
         'date' => '2026-10-08',
         'title' => 'A sua própria IA, sem copiar e colar',
+        'short' => 'A sua própria chave de IA, para um assistente sem copiar e colar.',
         'items' => [
             'Em «Preferências» pode guardar uma chave de API em seu nome da Claude (Anthropic), ChatGPT (OpenAI) ou Le Chat (Mistral). O assistente IA propõe então «Analisar diretamente»: as propostas chegam sem copiar e colar.',
             'As chamadas são faturadas pelo fornecedor na sua conta. A chave é cifrada, nunca volta a ser mostrada nem exportada, e o modo «texto a colar» continua gratuito.',
@@ -859,6 +919,7 @@ return [
     '0.12.0' => [
         'date' => '2026-10-08',
         'title' => 'Um assistente IA, sem subscrição',
+        'short' => 'Um assistente de IA ajuda o Mestre a tirar partido das notas da sessão.',
         'items' => [
             'Nova ferramenta «Assistente IA» na campanha: o LoreMundi prepara um texto com as notas da sessão e o contexto da campanha, para colar na IA da sua escolha. A resposta, colada de volta, torna-se propostas: resumo, eventos jogados, relações, estados, notas de campanha, revelações.',
             'Cada proposta aceita-se, altera-se ou rejeita-se. Nada muda na campanha sem si, e as relações ou estados propostos ficam próprios da campanha, sem tocar no mundo partilhado.',
@@ -876,6 +937,7 @@ return [
     '0.11.0' => [
         'date' => '2026-10-08',
         'title' => 'Uma campanha de demonstração',
+        'short' => 'Uma campanha de demonstração para carregar com um clique.',
         'items' => [
             'Campanha de demonstração para carregar num clique a partir de «Minhas campanhas»: um jogo inventado, «Brume & Serment», e um enredo completo de três sessões, com fichas, retratos, relações, mapa, segredos, regras, cronologia e personagens pré-criadas.',
             'Os pequenos botões com ícone da página da campanha já não se deslocam ao passar o rato: o nome surge numa dica, por cima do resto.',
@@ -886,6 +948,7 @@ return [
     '0.10.0' => [
         'date' => '2026-10-07',
         'title' => 'Uma página de campanha mais clara',
+        'short' => 'Uma página de campanha mais clara.',
         'items' => [
             'A página da campanha arrumada: o modo Sessão em destaque, quatro zonas de preparação e as restantes ferramentas como pequenos botões com ícone.',
             'Ambiente do ecrã de mesa, à escolha no comando: Noite, Pergaminho, Ardósia ou Grimório.',
@@ -895,6 +958,7 @@ return [
     '0.9.0' => [
         'date' => '2026-10-07',
         'title' => 'Levar a campanha consigo',
+        'short' => 'Exportar e importar uma campanha inteira.',
         'items' => [
             'Exportar uma campanha inteira num arquivo .zip: jogo, mundo, fichas, cenários, documentos, mapas, segredos, cronologia e ficheiros.',
             'Importar um arquivo a partir de «Minhas campanhas»: recria a campanha, para si ou para outro mestre.',
@@ -905,6 +969,7 @@ return [
     '0.8.0' => [
         'date' => '2026-10-07',
         'title' => 'O grafo e a cronologia',
+        'short' => 'O grafo das relações e a cronologia.',
         'items' => [
             'Grafo de relações: todas as fichas ligadas, ou a rede à volta de uma ficha, com profundidade e filtro por tipo.',
             '«Ver como» no grafo: a rede tal como um personagem a conhece. Os jogadores acedem a partir do seu personagem.',
@@ -916,6 +981,7 @@ return [
     '0.7.0' => [
         'date' => '2026-10-07',
         'title' => 'Em volta da mesa',
+        'short' => 'Mapas, marcadores e comando para o ecrã da mesa.',
         'items' => [
             'Mapas: uma imagem na tela da mesa, que você amplia e move, com uma grade quadriculada opcional e uma escala.',
             'Tokens opcionais, vinculados às fichas (nome e retrato): mover, redimensionar, mostrar ou ocultar dos jogadores.',
@@ -928,6 +994,7 @@ return [
     '0.6.0' => [
         'date' => '2026-10-07',
         'title' => 'A memória da campanha',
+        'short' => 'Segredos revelados com um clique, e o histórico de quem soube o quê.',
         'items' => [
             'Segredos: uma informação à parte, vinculada a fichas, cenas ou documentos, revelada com um clique a um personagem ou à mesa toda.',
             'Histórico de revelações: quem soube o quê, quando, em qual sessão e em qual cena; cada revelação pode ser desfeita.',
@@ -940,6 +1007,7 @@ return [
     '0.5.0' => [
         'date' => '2026-10-07',
         'title' => 'Organizar melhor, em grupo',
+        'short' => 'Etiquetas, duplicação, co-Mestre e espectadores.',
         'items' => [
             'Uma página «Tags» para renomear, colorir, mesclar e excluir suas tags; as cenas também têm tags.',
             '«Duplicar» uma ficha, um cenário ou uma campanha inteira, para jogar de novo com outra mesa.',
@@ -952,6 +1020,7 @@ return [
     '0.4.1' => [
         'date' => '2026-10-07',
         'title' => 'Ajuda e relatos de problemas',
+        'short' => 'Uma página de ajuda, e « Relatar um problema » em cada página.',
         'items' => [
             'Uma página «Ajuda» responde às perguntas mais frequentes, para o Mestre e para os jogadores.',
             '«Relatar um problema», no rodapé de cada página, envia sua mensagem à equipe junto com a página em questão.',
@@ -961,6 +1030,7 @@ return [
     '0.4.0' => [
         'date' => '2026-10-07',
         'title' => 'Todos os idiomas',
+        'short' => 'A interface fala oito línguas.',
         'items' => [
             'A interface fala francês, inglês, alemão, espanhol, italiano, português, neerlandês e polonês.',
             'O idioma segue o do navegador; cada um pode escolhê-lo em «Preferências».',
@@ -973,6 +1043,7 @@ return [
     '0.3.0' => [
         'date' => '2026-10-07',
         'title' => 'O vínculo vivo',
+        'short' => 'Mensagens, notificações em direto, aplicação instalável e ecrã da mesa.',
         'items' => [
             'Mensagens entre o Mestre e os jogadores, e painel «Conversa» sempre à mão (grupo e privado).',
             'Notificações: revelações, objetos recebidos, mensagens, com um contador no cabeçalho.',
@@ -988,6 +1059,7 @@ return [
     '0.2.0' => [
         'date' => '2026-10-07',
         'title' => 'Os jogadores',
+        'short' => 'Convites, personagens dos jogadores, revelações e registo.',
         'items' => [
             'Convites para os jogadores por link.',
             'Personagens dos jogadores: ficha, ficha em PDF, contadores (PV, magia, munição…) e campos editáveis pelo jogador.',
@@ -1000,6 +1072,7 @@ return [
     '0.1.0' => [
         'date' => '2026-10-06',
         'title' => 'O Mestre sozinho',
+        'short' => 'Mundos, fichas, cenas, modo Sessão e pesquisa para o Mestre.',
         'items' => [
             'Mundos, campanhas e fichas com zona pública e zona do Mestre, links [[ ]] entre fichas.',
             'Campos livres por jogo, tipos de ficha, importação CSV/JSON.',

@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.95.0' => [
+        'date' => '2026-10-23',
+        'title' => '‘Wat is er nieuw’ komt ter zake',
+        'short' => 'Één zin per nieuwigheid, en alleen als er echt iets voor u verandert.',
+        'items' => [
+            '‘Wat is er nieuw’ toont nu een korte versie: één zin per versie, en alleen voor belangrijke versies. Kleine correcties openen het venster niet meer.',
+            'Het beheerdersaccount houdt het volledige detail van elke versie, met onder elke versie de zin die andere accounts zien, of de vermelding dat ze hun niet wordt getoond.',
+        ],
+    ],
+
     '0.94.0' => [
         'date' => '2026-10-23',
         'title' => 'Blokken op 1, 2 of 3 kolommen, en een te ordenen kaartpagina',
@@ -18,6 +28,7 @@ return [
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Een nieuwe startpagina',
+        'short' => 'Een nieuwe startpagina, en overal de link naar de Discord van de gemeenschap.',
         'items' => [
             'De openbare startpagina toont nu alles wat SagaWyn vandaag kan, in drie momenten: voorbereiden, aan tafel spelen en de campagne levend houden tussen de sessies. Gevechtskaart, dobbelstenen, campagnekaart, geluiden, avonturenboek en „Mijn bladen” krijgen allemaal een plek.',
             'De link naar de Discord van de community staat nu standaard bovenaan en onderaan de startpagina, in de hulp en in de voettekst.',
@@ -27,6 +38,7 @@ return [
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Import met AI: prompt in het Engels, taal naar keuze',
+        'short' => 'Bij import met een AI kiest u de taal van de geïmporteerde inhoud.',
         'items' => [
             'De prompt en de Claude-skill van ‘Import voorbereiden met een AI’ zijn nu in het Engels, de taal die AI’s het best volgen.',
             'Een menu ‘Taal van de geïmporteerde inhoud’ kiest de taal waarin de AI fiches, scènes, documenttitels en handleiding schrijft (standaard de taal van de interface). Met de skill kun je bij het importeren ook om een andere taal vragen.',
@@ -45,6 +57,7 @@ return [
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Verklaring over de rechten bij elke import',
+        'short' => 'Voor elke import vraagt een vakje u te bevestigen dat u de rechten op de geïmporteerde inhoud hebt.',
         'items' => [
             'Vóór elke import (CSV- of JSON-bestand, campagnearchief, spelsjabloon) vraagt een standaard niet-aangevinkt vakje te verklaren dat u de nodige rechten op de geïmporteerde inhoud hebt. Zonder vinkje blijft de knop grijs en weigert de server de import.',
             'Elke verklaring wordt opgeslagen met de datum, de versie van de aanvaarde tekst en het resultaat van de import, zonder kopie van de bestanden. Ze staat in „Mijn gegevens downloaden”.',
@@ -71,6 +84,7 @@ return [
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Opgeslagen worpen per blad',
+        'short' => 'In ‘Mijn bladen’ houdt elk personage zijn eigen opgeslagen worpen.',
         'items' => [
             'In de dobbelstenen van ‘Mijn bladen’ bewaart ‘Deze worp opslaan’ een worp bij het blad: elk personage heeft eigen worpen (Vuurbal, Aanval…), die je met één tik laadt, bijwerkt en met × verwijdert.',
         ],
@@ -95,6 +109,7 @@ return [
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Een document wijzigen zonder het te verwijderen',
+        'short' => '‘Bestand vervangen’ werkt een document bij zonder titel of koppelingen te verliezen.',
         'items' => [
             'Op de pagina van een document zet „Bestand vervangen” een nieuwe versie in de plaats van de oude: het document behoudt titel, instellingen en koppelingen, en de nieuwe versie verschijnt meteen in scènes, fiches, regels, kaarten, aanwijzingen en bij de personages die het ontvingen.',
             'Een afbeelding die als kaart dient, wordt door een andere afbeelding vervangen; pionnen, raster en punten blijven op hun plaats.',
@@ -104,6 +119,7 @@ return [
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Dobbelen vanaf het blad',
+        'short' => 'Een klein dobbelsteentje naast de waarden op het blad gooit met die waarde.',
         'items' => [
             'Op een personageblad gooit een kleine dobbelsteen naast elk getal en elke teller met die waarde: ‘Onder … gooien (drempel)’ of ‘… bij de worp optellen (bonus)’. Het dobbelbakje opent klaar om te gooien en het resultaat gaat zoals altijd naar de tafel.',
             'Op het blad van je eigen personage blijft de waarde aan het blad gekoppeld: verandert ze, dan volgt de opgeslagen worp. De SL kan ook vanaf het blad van een speler gooien.',
@@ -130,6 +146,7 @@ return [
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Tabbladen in Mijn bladen',
+        'short' => '‘Mijn bladen’ kunt u verdelen in tabbladen die u zelf een naam geeft.',
         'items' => [
             'In ‘Bewerken’ verdeelt ‘+ Nieuw tabblad’ een blad in tabbladen die je een naam geeft, ordent en verwijdert (Personage, Spreuken, Inventaris…).',
             'Elk blok kiest zijn tabblad, en elk tabblad zet zijn blokken op zijn eigen drie kolommen. Een bestaand blad houdt al zijn blokken in een eerste tabblad.',
@@ -139,6 +156,7 @@ return [
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Meerdere notities en drie kolommen in Mijn bladen',
+        'short' => '‘Mijn bladen’ heeft nu meerdere notitieblokken, over drie kolommen.',
         'items' => [
             '‘+ Nieuwe notitie’ voegt een notitieblok toe: zoveel als je wilt (schulden, geruchten, contacten…). Je eerdere notities worden een eerste blok ‘Notities’.',
             'Blokken plaats je nu over drie kolommen, notities inbegrepen, met ‘Blokken ordenen’.',
@@ -148,6 +166,7 @@ return [
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Een bijgewerkte demo',
+        'short' => 'De democampagne toont de nieuwste functies.',
         'items' => [
             'De democampagne toont nu de nieuwste functies: op de campagnekaart leidt de vuurtoren naar een subkaart, de kelder, klaar voor een gevecht met fiches, twee gebiedssjablonen en een initiatievolgorde. Elk punt koppelt meerdere bladen en meerdere scènes.',
             'Dobbelstenen aan tafel: voorbereide worpen die de eigenschap van het blad lezen, een benoemde bonus en de worpen van sessie 1, waaronder een verzoek van de SL.',
@@ -159,6 +178,7 @@ return [
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Campagnekaart: zoom, tafel en rijkere plekken',
+        'short' => 'De campagnekaart kan zoomen, en elke plek leidt naar haar scènes, fiches of een subkaart.',
         'items' => [
             'De campagnekaart zoomt (scrollwiel, + en −, knijpen op een tablet) en verschuift door te slepen. Tip: een 4K-afbeelding (3840 × 2160) blijft scherp.',
             'Staat de kaart op het tafelscherm, dan vervangt de subkaart die je via een punt opent haar daar, en de bovenliggende kaart komt terug als je omhooggaat. In de subkaart houdt „Deze plek” de scènes en fiches van het punt binnen één klik.',
@@ -169,6 +189,7 @@ return [
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Blokken, notities en selectievakjes in Mijn bladen',
+        'short' => '‘Mijn bladen’ bestaat uit verplaatsbare blokken, met een notitie en een vinkje per veld.',
         'items' => [
             'In ‘Mijn bladen’ staan de velden in blokken die je een naam geeft: Eigenschappen, Vaardigheden, Uitrusting, Spreuken…',
             '‘Blokken ordenen’: sleep een blok aan zijn greep, of gebruik de pijlen, om het te plaatsen waar je wilt, in één of twee kolommen.',
@@ -179,6 +200,7 @@ return [
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Demobibliotheek',
+        'short' => 'Een demobibliotheek om te ontdekken en te laden.',
         'items' => [
             'Nieuwe ‘Demobibliotheek’, vanuit ‘Mijn campagnes’: speelklare campagnes (een wereld, een kort scenario, voorgemaakte personages) waarvan je met één klik je eigen kopie laadt.',
             'Elke demo van een auteur of uitgever houdt een link ‘Het spel kopen’, in de bibliotheek en bovenaan je kopie.',
@@ -189,6 +211,7 @@ return [
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Wat er gebeurde, en het avonturenboek',
+        'short' => 'Het avonturenboek vertelt de campagne, scène na scène.',
         'items' => [
             'Elke scène heeft nu twee delen: "Wat gepland is" en "Wat er gebeurde". Volgde de tafel het plan, vink dan gewoon "Gespeeld zoals gepland" aan.',
             'Nieuw "Avonturenboek" in de campagne: de gespeelde scènes, scenario per scenario, en daarna de samenvattingen van de sessies, om te lezen, af te drukken of als pdf op te slaan.',
@@ -199,6 +222,7 @@ return [
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Richt je schermen in zoals jij wilt',
+        'short' => 'De SL richt de eigen schermen naar wens in.',
         'items' => [
             'Nieuwe knop ‘Scherm indelen’ op de campagnepagina en in de sessiemodus: sleep elk blok aan zijn greep ⠿, met de muis of met je vinger, of gebruik de pijlen.',
             'In de sessiemodus kan een blok van de ene kolom naar de andere: muziek bovenaan, notities rechts, zoals jij wilt.',
@@ -209,6 +233,7 @@ return [
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Je fiche, ook zonder netwerk',
+        'short' => 'Uw blad is ook zonder netwerk te bewerken en synchroniseert zodra de verbinding terug is.',
         'items' => [
             'Offline blijft de fiche van je personage bruikbaar: stel je tellers bij met − en +, wijzig de velden die de SL je laat aanpassen en schrijf notities.',
             'Alles wordt op het apparaat bewaard en veld voor veld verstuurd zodra de verbinding terug is: een teller krijgt wat je hebt afgetrokken of toegevoegd, en wat de SL intussen heeft veranderd (een onthuld geheim, een gewijzigd veld) blijft behouden.',
@@ -219,6 +244,7 @@ return [
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'De grote campagnekaart',
+        'short' => 'Een grote campagnekaart, met haar plekken.',
         'items' => [
             'Nieuwe „Campagnekaart”: kies een kaart als overzicht en zet er interessante punten op, een stad, een kerker, de plek van een scène.',
             'Een punt kan met één klik een subkaart openen, die zelf ook punten heeft; via het kruimelpad ga je terug naar het overzicht.',
@@ -229,6 +255,7 @@ return [
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Je personages van elders',
+        'short' => '‘Mijn bladen’ bewaart personages die u elders speelt, alleen voor u.',
         'items' => [
             'Nieuwe pagina ‘Mijn bladen’: bewaar de personages die je buiten SagaWyn speelt, bij een vriend, in een club of elders. Alleen jij ziet ze.',
             'Elk personage heeft zijn pdf-blad, een portret, vrije velden (teksten en tellers die je tijdens het spel met − en + aanpast) en je notities, met de naam van het spel en de tafel om het terug te vinden.',
@@ -238,6 +265,7 @@ return [
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Een geluidsbibliotheek voor al je campagnes',
+        'short' => 'Een persoonlijke geluidsbibliotheek, te gebruiken in al uw campagnes.',
         'items' => [
             'Nieuwe pagina „Mijn geluiden”: je muziek en sferen, één keer in je account bewaard en daarna toegevoegd aan de campagnes die je leidt. Het bestand wordt niet gekopieerd en telt maar één keer mee voor je opslag.',
             'Op de pagina Geluiden van een campagne: „Uit mijn bibliotheek” om je geluiden toe te voegen, „In mijn bibliotheek zetten” om een geluid elders te hergebruiken, en een vakje om een nieuwe upload meteen in de bibliotheek te zetten.',
@@ -248,6 +276,7 @@ return [
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'De handleiding overal',
+        'short' => 'Een knop ‘?’ legt de schermen van SagaWyn uit.',
         'items' => [
             'De knop „?” staat nu ook bij geluiden, de relatiegrafiek, de tijdlijn, spelersfeedback, de AI-assistent, het logboek en het personageblad.',
             'Bij de grafiek, de tijdlijn en het personageblad lezen spelers een handleiding die voor hen geschreven is.',
@@ -257,6 +286,7 @@ return [
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Meerdere punten tegelijk aftrekken of optellen',
+        'short' => 'De tellers van uw personage veranderen met meerdere punten tegelijk.',
         'items' => [
             'Onder elke teller die de speler mag wijzigen (HP, munitie, geld…), een vakje „Aantal”: typ 8 en dan −, en de teller verliest er 8 in één keer. Standaard is het 1.',
         ],
@@ -283,6 +313,7 @@ return [
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonus en drempel van het blad',
+        'short' => 'De dobbelstenen lezen bonussen en drempels van het personageblad.',
         'items' => [
             'Bij de dobbelstenen kan de bonus een of meer waarden van het personageblad overnemen (eigenschap, vaardigheid, elk getal- of tellerveld in de openbare zone), heel of als tiental, helft of vijfde, naast de vrije bonus. Ook de drempel kan van het blad komen. De waarden worden bij de worp gelezen van het blad van elk personage dat gooit.',
             'Meerdere benoemde bonussen (Wapen +2, Wond −1…) tellen op in dezelfde worp, naast waarden van het blad.',
@@ -311,6 +342,7 @@ return [
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Gemengde dobbelstenen en eigen opgeslagen worpen',
+        'short' => 'Meerdere soorten dobbelstenen in één worp, en worpen alleen voor u.',
         'items' => [
             'Eén worp kan meerdere soorten dobbelstenen mengen: tik een d20 en daarna twee d6 aan, en er wordt 1d20 + 2d6 gegooid. Elke soort heeft een eigen aantal, dat je kunt aanpassen of verwijderen.',
             'De drempel geldt voor het totaal (‘Drempel op het totaal’, gehaald of niet overschreden) of voor elke dobbelsteen (‘Drempel per dobbelsteen’: bijvoorbeeld elke dobbelsteen van 4 of meer is een succes).',
@@ -329,6 +361,7 @@ return [
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Dobbelstenen aan tafel',
+        'short' => 'Een gedeelde dobbelbak aan tafel, en de SL kan u om een worp vragen.',
         'items' => [
             'Nieuwe knop ‘Dobbelstenen’ onderaan elke pagina van de campagne: het aantal en soort dobbelstenen (4 tot 100 zijden, of ander), en hoe je ze leest: optellen, een drempel halen, onder een drempel blijven, successen tellen, de beste of laagste houden, als cijfers lezen. Met een bonus en dobbelstenen die opnieuw gooien bij het maximum (+) of bij een 1 (−).',
             'De SL vraagt een worp aan de hele tafel of aan bepaalde personages, zichtbaar voor iedereen of discreet. Bij de betrokken spelers opent een venster; zonder drempel vult ieder zijn eigen drempel in en telt zijn bonus erbij, en een verborgen drempel blijft bij de SL, die ziet wie wat gooide.',
@@ -349,6 +382,7 @@ return [
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Gebiedssjablonen op de kaart',
+        'short' => 'Gebiedsmallen op de gevechtskaart.',
         'items' => [
             'Nieuwe sjablonen op de kaartpagina: cirkel, vierkant, rechthoek, kegel en lijn, gemeten in vakjes (of in de eenheid van de schaal). Je sleept ze over de kaart, draait ze, verbergt ze, en de lijst van geraakte pionnen verschijnt meteen.',
             'Zichtbare sjablonen verschijnen op het tafelscherm, onder de pionnen.',
@@ -358,6 +392,7 @@ return [
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Gedeelde gevechtskaart',
+        'short' => 'Een gedeelde gevechtskaart: u verplaatst uw pion, ook op afstand.',
         'items' => [
             'Op het gedeelde tafelscherm verplaatst elke speler de pion van zijn personage. In de kaart vertrouwt „Verplaatst door” een andere pion toe aan een speler: volgeling, familiar, bestuurde vijand…',
             'Nieuwe initiatiefvolgorde, vanaf de afstandsbediening of de kaart: SP\'s en vijanden met hun waarde, huidige beurt, rondes. De SL toont ze over het scherm wanneer hij wil; verborgen regels blijven bij hem, en een rij „Ook aanwezig” toont NPC\'s of voorwerpen zonder initiatief.',
@@ -368,6 +403,7 @@ return [
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'De community op Discord',
+        'short' => 'De SagaWyn-gemeenschap komt samen op Discord.',
         'items' => [
             'SagaWyn heeft een eigen Discord-server: een link onderaan elke pagina en op de startpagina om vragen te stellen, ideeën voor te stellen en andere spelleiders te ontmoeten.',
         ],
@@ -386,6 +422,7 @@ return [
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Huisinhoud',
+        'short' => 'De SL onderscheidt huisregels van officiële inhoud.',
         'items' => [
             'Nieuw vakje „Huisinhoud” op fiches (NPC’s, spreuken, voorwerpen, plaatsen…): zonder vinkje is de fiche officieel. Een badge „Huis” toont het in de lijst en op de fiche, en een filter Officieel / Huis sorteert het universum.',
             'Bij een huisfiche of een regel met herkomst „Huis” noteer je de vervangen officiële versie ernaast (bijvoorbeeld initiatief met een d10 in plaats van een d20): die blijft in de SL-zone, ingeklapt onder de fiche of regel.',
@@ -420,6 +457,7 @@ return [
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Een hele campagne voorbereiden met een AI',
+        'short' => 'Een AI kan uit een spelboek een hele campagne voorbereiden om te importeren.',
         'items' => [
             'Mijn campagnes → Campagne importeren: nieuwe link ‘Bereid het archief voor met een AI’. Met de prompt (of de Claude-skill) leest uw AI het rollenspelboek en maakt ze een .zip-archief: spel, wereld, campagne, fiches, scènes en documenten worden in één keer aangemaakt.',
         ],
@@ -436,6 +474,7 @@ return [
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Geheimen worden aanwijzingen',
+        'short' => 'Geheimen heten voortaan aanwijzingen.',
         'items' => [
             'De ‘geheimen’ van de campagne heten nu ‘aanwijzingen’: pagina Aanwijzingen, paneel bij fiches, scènes en documenten, Sessie-modus, zoeken, onthullingen en hulp. Aan je gegevens verandert niets.',
         ],
@@ -444,6 +483,7 @@ return [
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Spelers bewerken hun personage',
+        'short' => 'De SL kan u uw personage laten bewerken.',
         'items' => [
             'Pagina Velden: „Bewerkbaar door de speler” vink je aan voor een hele groep (eigenschappen, vaardigheden…) of voor alle openbare velden in één klik.',
             'Nieuwe optie op de pagina Spelers: de SL kan elke speler het portret, de samenvatting en de beschrijving van zijn personage laten bewerken. De SL-zone blijft verborgen.',
@@ -453,6 +493,7 @@ return [
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Oprichtersbadge en cadeaucodes',
+        'short' => 'Een Oprichter-badge en Premium-cadeaucodes om weg te geven.',
         'items' => [
             'Kickstarter-backers kunnen in de beheerconsole als Oprichter worden gemarkeerd: een badge ★ Oprichter in de voorkeuren, de ledenlijst en het personageblad.',
             'Oprichters krijgen extra opslag bovenop hun abonnement, gratis of premium (standaard 500 MB, in te stellen bij ‘Abonnementen’).',
@@ -489,6 +530,7 @@ return [
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'De demo toont heel SagaWyn',
+        'short' => 'De democampagne gebruikt alle functies van SagaWyn.',
         'items' => [
             'De democampagne gebruikt nu elke functie: een spelerspersonage gemaakt van een voorgemaakt personage, met wat het heeft ontvangen (fiche, document, regel, geheim, voorwerpen) en dat de SL kan „Bekijken als”; sessienotities; een lijst „Te spelen”; vastgezette fiches; velden voor verwijzingen, documenten en twee fichetypes; een SL-bijlage; geheimen van elke soort; gekleurde tags; omslagen voor het spel en de wereld.',
             'De demo opnieuw laden hergebruikt het al aangemaakte fichetype „Factie” in plaats van een tweede toe te voegen.',
@@ -507,6 +549,7 @@ return [
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi wordt SagaWyn',
+        'short' => 'LoreMundi wordt SagaWyn.',
         'items' => [
             'LoreMundi heet nu SagaWyn, nog steeds uitgegeven door Autistic Intelligence. Every world has a story.',
             'Je campagnes, accounts en archieven blijven hetzelfde: back-ups gemaakt met LoreMundi of CodexFlow kun je nog steeds importeren. Gedownloade bestanden beginnen nu met “sagawyn-”.',
@@ -516,6 +559,7 @@ return [
     '0.46.0' => [
         'date' => '2026-10-10',
         'title' => 'Spelersfeedback',
+        'short' => 'De SL kan u om uw mening vragen over een sessie of campagne.',
         'items' => [
             'Vraag je spelers aan het eind van een sessie of campagne om een score van 1 tot 5 sterren, wat ze leuk vonden en wat beter kan (‘Spelersfeedback’ in de campagne, of vanaf de pagina van een sessie).',
             'Anonieme of ondertekende antwoorden, naar keuze van de SL: de spelers weten het voordat ze antwoorden. Je ziet het gemiddelde, de verdeling van de scores en alle opmerkingen.',
@@ -525,6 +569,7 @@ return [
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Geluidsbibliotheek',
+        'short' => 'Een bibliotheek met muziek en sferen voor de sessies.',
         'items' => [
             'Nieuwe pagina ‘Geluiden’: upload je muziek en sferen (mp3, ogg, m4a, wav, flac), orden ze met tags en koppel ze aan scènes.',
             'In Sessiemodus toont het blok ‘Muziek’ eerst de geluiden van de scène: ‘Hier’ speelt ze af op je apparaat, zonder te stoppen als je van pagina wisselt; ‘Tafel’ speelt ze af op het tafelscherm, met pauze, herhalen en volume vanuit de sessie.',
@@ -587,6 +632,7 @@ return [
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Zoeken',
+        'short' => 'Zoeken vindt ook de andere vormen van een woord.',
         'items' => [
             'Zoeken vindt ook andere Franse vormen van een woord: ‘lanternes’ vindt ‘lanterne’, ‘éteinte’ vindt ‘éteintes’.',
             'Zoeken vanaf de startpagina zoekt ook in je werelden en spellen die aan geen enkele campagne gekoppeld zijn.',
@@ -596,6 +642,7 @@ return [
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Spelers en rollen',
+        'short' => 'Een onthulde fiche toont haar illustraties, en uw blad heeft zijn campagneverloop.',
         'items' => [
             'Een onthulde kaart toont de speler de openbare illustraties en bestanden, en de openbare relaties met kaarten die hij kent.',
             'Spelers hebben een ‘Campagneverloop’ op hun kaart: sessies, gespeelde gebeurtenissen die de tafel kent en berichten aan de groep.',
@@ -628,6 +675,7 @@ return [
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Functies per campagne',
+        'short' => 'De SL kiest de functies die de tafel nodig heeft.',
         'items' => [
             'Op de campagnepagina vinkt de SL de functies aan die de tafel nodig heeft: tafelscherm, kaarten, uitwisselingen tussen spelers, graaf, tijdlijn, AI-assistent. Een uitgevinkte functie verdwijnt voor iedereen zonder iets te wissen; ze komt terug zodra ze weer wordt aangevinkt.',
         ],
@@ -648,6 +696,7 @@ return [
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'Pdf’s en documenten',
+        'short' => 'Pdf’s openen in een ingebouwde viewer, op elk apparaat.',
         'items' => [
             'Pdf’s openen in een ingebouwde viewer, gelijk op computer, tablet en telefoon, met zoom en download.',
             'Op het tafelscherm wordt een pdf pagina per pagina getoond, passend op het scherm; met de pijltjestoetsen blader je.',
@@ -660,6 +709,7 @@ return [
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium-functies ✦',
+        'short' => 'Een ster ✦ markeert Premium-functies, en aan het einde van een abonnement wordt niets gewist.',
         'items' => [
             'Een klein sterretje ✦ markeert Premium-functies. Als het abonnement van de eigenaar van een campagne ze niet bevat, blijven ze zichtbaar, grijs, met uitleg.',
             'Aan het einde van een proefperiode of abonnement wordt niets gewist: campagnes, kaarten, berichten en bestanden blijven; alleen de ✦-functies gaan uit.',
@@ -724,6 +774,7 @@ return [
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Een spelboek importeren met een AI',
+        'short' => 'Een AI kan de importbestanden uit een spelboek voorbereiden.',
         'items' => [
             'Bij ‘Importeren’ geeft ‘Bereid de bestanden voor met een AI’ een prompt om met de pdf van een spel of scenario in de AI van je keuze te plakken: die maakt de importbestanden (velden, kaarten, regels, scènes) en een stapsgewijze handleiding. De prompt bestaat ook als Claude-skill.',
         ],
@@ -732,6 +783,7 @@ return [
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Beveiliging en persoonsgegevens',
+        'short' => 'In Voorkeuren: uw account, optionele tweestapsverificatie en uw gegevens om te downloaden.',
         'items' => [
             '‘Mijn account’, bij Voorkeuren: wijzig je naam, je e-mailadres (het vorige adres krijgt bericht) en je wachtwoord.',
             'Optionele tweestapsverificatie, bij Voorkeuren: een code uit een app op je telefoon, met herstelcodes.',
@@ -745,6 +797,7 @@ return [
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow wordt LoreMundi',
+        'short' => 'CodexFlow wordt LoreMundi.',
         'items' => [
             'CodexFlow heet nu LoreMundi, uitgegeven door Autistic Intelligence. Every world has a story.',
             'Je campagnes, accounts en archieven blijven hetzelfde: back-ups gemaakt met CodexFlow kun je nog steeds importeren. Gedownloade bestanden beginnen nu met “loremundi-”.',
@@ -754,6 +807,7 @@ return [
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Volledige back-up',
+        'short' => 'De SL kan een volledige back-up van de campagne downloaden.',
         'items' => [
             'De eigenaar kan een volledige back-up downloaden: het campagne-archief met de tafel (personages, wat ze kregen, sessies, notities, berichten en logboek), zonder notities ‘Alleen ik’ of e-mailadressen. Bij het importeren komen de personages terug zonder speler, klaar om toe te wijzen.',
         ],
@@ -762,6 +816,7 @@ return [
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Zoeken vanaf de startpagina',
+        'short' => 'Vanaf de startpagina doorzoekt het zoeken al uw campagnes.',
         'items' => [
             'Buiten een campagne zoekt de zoekbalk in al je campagnes, hun werelden en spellen, elk met jouw rechten: alles als SL, als speler wat je personage kent.',
         ],
@@ -789,6 +844,7 @@ return [
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Nieuw personage, Mijn campagnes, pagina’s voor spel en wereld',
+        'short' => 'Elk spel en elke wereld heeft een eigen pagina, en ‘Mijn campagnes’ brengt u terug naar de laatste sessie.',
         'items' => [
             'Krijgt een speler een nieuw personage, dan vinkt de SL aan wat van het vorige overgaat: kennis, informatie, documenten en regels worden gekopieerd, voorwerpen wisselen van eigenaar.',
             'Mijn campagnes: knop ‘Hervatten’, datum van de laatste sessie, en gearchiveerde campagnes apart.',
@@ -799,6 +855,7 @@ return [
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Opgemaakte tekst en notities van spelers',
+        'short' => 'Een editor voor opgemaakte tekst, en spelersnotities gekoppeld aan bekende fiches.',
         'items' => [
             'Lange teksten (beschrijvingen, SL-notities, scènes, regels, tijdlijn, spelersnotities) krijgen een editor met vet, cursief, tussenkoppen, lijsten en citaten; ‘[[’ stelt nog steeds fiches voor om te koppelen.',
             'Spelers koppelen hun notities aan de fiches die hun personage kent, en alleen aan die.',
@@ -809,6 +866,7 @@ return [
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium-abonnement en gratis proefperiode',
+        'short' => 'Een Premium-abonnement, en zes weken gratis proberen.',
         'items' => [
             'Premium nemen via ‘Voorkeuren’: maandelijkse of jaarlijkse betaling, beveiligd door Stripe, met facturen en opzeggen in het Stripe-portaal. Premium loopt tot het einde van de betaalde periode.',
             'Gratis proefperiode: zes weken met alle functies, vanaf je eerste campagne als SL. Een speler die nooit SL is, begint er niet aan. De duur stel je in bij het beheer.',
@@ -829,6 +887,7 @@ return [
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Na de acceptatietest: ruilen goedgekeurd door de SL',
+        'short' => 'De SL keurt ruilingen tussen spelers goed.',
         'items' => [
             'Standaard keurt de SL ruilen tussen spelers goed: een voorwerp of kennis wisselt pas van eigenaar als de ruil is geaccepteerd. Met een vakje bij ‘Personages van de spelers’ kun je ruilen meteen toestaan.',
             'Afstandsbediening: bij het laatste item van de scène wordt ‘Volgende’ ‘Afronden’ en wordt het scherm leeggemaakt.',
@@ -850,6 +909,7 @@ return [
     '0.13.0' => [
         'date' => '2026-10-08',
         'title' => 'Je eigen AI, zonder kopiëren en plakken',
+        'short' => 'Uw eigen AI-sleutel, voor een assistent zonder kopiëren en plakken.',
         'items' => [
             'In ‘Voorkeuren’ kun je een API-sleutel op jouw naam opslaan bij Claude (Anthropic), ChatGPT (OpenAI) of Le Chat (Mistral). De AI-assistent biedt dan ‘Direct analyseren’ aan: de voorstellen komen zonder kopiëren en plakken.',
             'De aanbieder rekent de aanroepen af op jouw account. De sleutel wordt versleuteld, nooit opnieuw getoond of geëxporteerd, en de modus ‘tekst om te plakken’ blijft gratis.',
@@ -859,6 +919,7 @@ return [
     '0.12.0' => [
         'date' => '2026-10-08',
         'title' => 'Een AI-assistent, zonder abonnement',
+        'short' => 'Een AI-assistent helpt de SL de sessienotities te benutten.',
         'items' => [
             'Nieuw hulpmiddel ‘AI-assistent’ in de campagne: LoreMundi maakt een tekst met de sessienotities en de context van de campagne, om te plakken in de AI van je keuze. Het antwoord, hier teruggeplakt, wordt een reeks voorstellen: samenvatting, gespeelde gebeurtenissen, relaties, statussen, campagnenotities, onthullingen.',
             'Elk voorstel kun je accepteren, aanpassen of weigeren. Zonder jou verandert er niets in de campagne, en voorgestelde relaties of statussen gelden alleen voor de campagne, zonder de gedeelde wereld aan te raken.',
@@ -876,6 +937,7 @@ return [
     '0.11.0' => [
         'date' => '2026-10-08',
         'title' => 'Een demo-campagne',
+        'short' => 'Een democampagne die u met één klik laadt.',
         'items' => [
             'Een demo-campagne die je met één klik laadt vanuit ‘Mijn campagnes’: een verzonnen spel, ‘Brume & Serment’, en een volledige intrige over drie sessies, met fiches, portretten, relaties, een kaart, geheimen, regels, een tijdlijn en voorgemaakte personages.',
             'De kleine pictogramknoppen op de campagnepagina verspringen niet meer bij het aanwijzen: de naam verschijnt als tooltip, boven de rest.',
@@ -886,6 +948,7 @@ return [
     '0.10.0' => [
         'date' => '2026-10-07',
         'title' => 'Een overzichtelijkere campagnepagina',
+        'short' => 'Een overzichtelijkere campagnepagina.',
         'items' => [
             'De campagnepagina opgeruimd: de Sessiemodus als banner, vier voorbereidingszones en de overige hulpmiddelen als kleine pictogramknoppen.',
             'Sfeer van het tafelscherm, te kiezen via de afstandsbediening: Nacht, Perkament, Leisteen of Grimoire.',
@@ -895,6 +958,7 @@ return [
     '0.9.0' => [
         'date' => '2026-10-07',
         'title' => 'Je campagne meenemen',
+        'short' => 'Een hele campagne exporteren en importeren.',
         'items' => [
             'Een hele campagne exporteren als .zip-archief: spel, wereld, fiches, scenario’s, documenten, kaarten, geheimen, tijdlijn en bestanden.',
             'Een archief importeren via ‘Mijn campagnes’: het maakt de campagne opnieuw aan, bij jou of bij een andere SL.',
@@ -905,6 +969,7 @@ return [
     '0.8.0' => [
         'date' => '2026-10-07',
         'title' => 'De graaf en de tijdlijn',
+        'short' => 'De relatiegrafiek en de tijdlijn.',
         'items' => [
             'Relatiegraaf: alle verbonden fiches, of het netwerk rond één fiche, met een diepte en een filter op type.',
             '‘Bekijken als’ in de graaf: het netwerk zoals een personage het kent. Spelers openen het vanaf hun personage.',
@@ -916,6 +981,7 @@ return [
     '0.7.0' => [
         'date' => '2026-10-07',
         'title' => 'Rond de tafel',
+        'short' => 'Kaarten, pionnen en afstandsbediening voor het tafelscherm.',
         'items' => [
             'Kaarten: een afbeelding op het tafelscherm die je zoomt en verschuift, met een optioneel vierkant raster en een schaal.',
             'Optionele pionnen, gekoppeld aan fiches (naam en portret): verplaatsen, van grootte veranderen, tonen aan of verbergen voor de spelers.',
@@ -928,6 +994,7 @@ return [
     '0.6.0' => [
         'date' => '2026-10-07',
         'title' => 'Het geheugen van de campagne',
+        'short' => 'Geheimen onthuld met één klik, en een overzicht van wie wat te weten kwam.',
         'items' => [
             'Geheimen: een losse informatie, gekoppeld aan fiches, scènes of documenten, met één klik onthuld aan een personage of aan de hele tafel.',
             'Onthullingsgeschiedenis: wie wat te weten kwam, wanneer, in welke sessie en welke scène; elke onthulling kan ongedaan worden gemaakt.',
@@ -940,6 +1007,7 @@ return [
     '0.5.0' => [
         'date' => '2026-10-07',
         'title' => 'Beter ordenen, samen',
+        'short' => 'Tags, dupliceren, co-SL’s en toeschouwers.',
         'items' => [
             'Een pagina ‘Tags’ om je tags te hernoemen, een kleur te geven, samen te voegen en te verwijderen; ook scènes hebben tags.',
             '‘Dupliceren’ van een fiche, een scenario of een hele campagne, om opnieuw te spelen met een andere tafel.',
@@ -952,6 +1020,7 @@ return [
     '0.4.1' => [
         'date' => '2026-10-07',
         'title' => 'Hulp en probleemmeldingen',
+        'short' => 'Een hulppagina, en ‘Probleem melden’ op elke pagina.',
         'items' => [
             'Een pagina ‘Hulp’ beantwoordt de meest gestelde vragen, voor de SL en voor de spelers.',
             '‘Een probleem melden’, onderaan elke pagina, stuurt je bericht naar het team, samen met de betreffende pagina.',
@@ -961,6 +1030,7 @@ return [
     '0.4.0' => [
         'date' => '2026-10-07',
         'title' => 'Alle talen',
+        'short' => 'De interface spreekt acht talen.',
         'items' => [
             'De interface spreekt Frans, Engels, Duits, Spaans, Italiaans, Portugees, Nederlands en Pools.',
             'De taal volgt die van je browser; iedereen kan hem kiezen bij ‘Voorkeuren’.',
@@ -973,6 +1043,7 @@ return [
     '0.3.0' => [
         'date' => '2026-10-07',
         'title' => 'De levende band',
+        'short' => 'Berichten, live meldingen, een installeerbare app en het tafelscherm.',
         'items' => [
             'Berichten tussen de SL en de spelers, en een ‘Chat’-paneel altijd binnen handbereik (groep en privé).',
             'Meldingen: onthullingen, ontvangen voorwerpen, berichten, met een teller in de kopbalk.',
@@ -988,6 +1059,7 @@ return [
     '0.2.0' => [
         'date' => '2026-10-07',
         'title' => 'De spelers',
+        'short' => 'Uitnodigingen, spelerspersonages, onthullingen en logboek.',
         'items' => [
             'Spelers uitnodigen via een link.',
             'Personages van de spelers: fiche, pdf-blad, tellers (LP, magie, munitie…) en velden die de speler kan wijzigen.',
@@ -1000,6 +1072,7 @@ return [
     '0.1.0' => [
         'date' => '2026-10-06',
         'title' => 'De SL alleen',
+        'short' => 'Werelden, fiches, scènes, sessiemodus en zoeken voor de SL.',
         'items' => [
             'Werelden, campagnes en fiches met een openbare zone en een SL-zone, [[ ]]-links tussen fiches.',
             'Vrije velden per spel, fichetypes, import via CSV/JSON.',

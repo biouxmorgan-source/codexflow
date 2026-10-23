@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.95.0' => [
+        'date' => '2026-10-23',
+        'title' => '„Neuigkeiten“ kommt auf den Punkt',
+        'short' => 'Ein Satz pro Neuerung, und nur wenn sich für Sie wirklich etwas ändert.',
+        'items' => [
+            '„Neuigkeiten“ zeigt jetzt eine Kurzfassung: ein Satz pro Version, und nur für wichtige Versionen. Kleine Korrekturen öffnen das Fenster nicht mehr.',
+            'Das Administratorkonto behält das vollständige Detail jeder Version, darunter jeweils den Satz, den andere Konten sehen, oder den Hinweis, dass sie ihnen nicht angezeigt wird.',
+        ],
+    ],
+
     '0.94.0' => [
         'date' => '2026-10-23',
         'title' => 'Blöcke auf 1, 2 oder 3 Spalten und eine anordenbare Kartenseite',
@@ -18,6 +28,7 @@ return [
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Eine neue Startseite',
+        'short' => 'Eine neue Startseite und der Link zum Community-Discord überall.',
         'items' => [
             'Die öffentliche Startseite zeigt jetzt alles, was SagaWyn heute kann, in drei Abschnitten: vorbereiten, am Tisch spielen und die Kampagne zwischen den Sitzungen lebendig halten. Kampfkarte, Würfel, Kampagnenkarte, Sounds, Abenteuerbuch und „Meine Bögen“ haben ihren Platz.',
             'Der Link zum Discord der Community erscheint jetzt standardmäßig, oben und unten auf der Startseite, in der Hilfe und in der Fußzeile.',
@@ -27,6 +38,7 @@ return [
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'KI-Import: Prompt auf Englisch, Sprache nach Wahl',
+        'short' => 'Beim Import mit einer KI wählen Sie die Sprache der importierten Inhalte.',
         'items' => [
             'Der Prompt und der Claude-Skill von „Import mit einer KI vorbereiten“ sind jetzt auf Englisch, der Sprache, der KIs am besten folgen.',
             'Ein Menü „Sprache der importierten Inhalte“ wählt die Sprache, in der die KI Einträge, Szenen, Dokumenttitel und Anleitung schreibt (standardmäßig die Sprache der Oberfläche). Mit dem Skill kann man beim Import auch eine andere Sprache verlangen.',
@@ -45,6 +57,7 @@ return [
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Rechteerklärung bei jedem Import',
+        'short' => 'Vor jedem Import bestätigen Sie in einem Kästchen, dass Sie die Rechte an den importierten Inhalten besitzen.',
         'items' => [
             'Vor jedem Import (CSV- oder JSON-Datei, Kampagnenarchiv, Spielvorlage) muss ein standardmäßig leeres Kästchen bestätigen, dass Sie die nötigen Rechte an den importierten Inhalten besitzen. Ohne Haken bleibt die Schaltfläche grau und der Server lehnt den Import ab.',
             'Jede Erklärung wird mit Datum, der Version des akzeptierten Textes und dem Ergebnis des Imports gespeichert, ohne Kopie der Dateien. Sie erscheint unter „Meine Daten herunterladen“.',
@@ -71,6 +84,7 @@ return [
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Gespeicherte Würfe für jeden Bogen',
+        'short' => 'In „Meine Bögen“ behält jede Figur ihre eigenen gespeicherten Würfe.',
         'items' => [
             'In den Würfeln von „Meine Bögen“ bewahrt „Diesen Wurf speichern“ einen Wurf beim Bogen auf: Jeder Charakter hat eigene Würfe (Feuerball, Angriff…), die man mit einem Tippen lädt, aktualisiert und mit × entfernt.',
         ],
@@ -95,6 +109,7 @@ return [
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Ein Dokument ändern, ohne es zu löschen',
+        'short' => '„Datei ersetzen“ aktualisiert ein Dokument, ohne Titel oder Verknüpfungen zu verlieren.',
         'items' => [
             'Auf der Seite eines Dokuments setzt „Datei ersetzen“ eine neue Version an die Stelle der alten: Das Dokument behält Titel, Einstellungen und Verknüpfungen, und die neue Version erscheint sofort in Szenen, Bögen, Regeln, Karten, Hinweisen und bei den Charakteren, die es erhalten haben.',
             'Ein Bild, das als Karte dient, wird durch ein anderes Bild ersetzt; Spielfiguren, Raster und Punkte bleiben an ihrem Platz.',
@@ -104,6 +119,7 @@ return [
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Würfeln vom Bogen aus',
+        'short' => 'Ein kleiner Würfel neben den Werten des Bogens würfelt mit diesem Wert.',
         'items' => [
             'Auf einem Charakterbogen würfelt ein kleiner Würfel neben jeder Zahl und jedem Zähler mit diesem Wert: „Unter … würfeln (Schwelle)“ oder „… zum Wurf addieren (Bonus)“. Die Würfelablage öffnet sich wurfbereit, und das Ergebnis geht wie gewohnt an den Tisch.',
             'Auf dem Bogen deines eigenen Charakters bleibt der Wert mit dem Bogen verknüpft: Ändert er sich, folgt der gespeicherte Wurf. Die SL kann auch vom Bogen eines Spielers aus würfeln.',
@@ -130,6 +146,7 @@ return [
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Reiter in Meine Bögen',
+        'short' => '„Meine Bögen“ lassen sich in selbst benannte Reiter aufteilen.',
         'items' => [
             'Unter „Bearbeiten“ teilt „+ Neuer Reiter“ einen Bogen in Reiter, die Sie benennen (Charakter, Zauber, Inventar…), ordnen und entfernen.',
             'Jeder Block wählt seinen Reiter, und jeder Reiter ordnet seine Blöcke auf eigenen drei Spalten an. Ein bestehender Bogen behält alle Blöcke in einem ersten Reiter.',
@@ -139,6 +156,7 @@ return [
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Mehrere Notizen und drei Spalten in Meine Bögen',
+        'short' => '„Meine Bögen“ haben jetzt mehrere Notizblöcke, auf drei Spalten.',
         'items' => [
             '„+ Neue Notiz“ fügt einen Notizblock hinzu: so viele Sie möchten (Schulden, Gerüchte, Kontakte…). Ihre bisherigen Notizen werden zu einem ersten Block „Notizen“.',
             'Blöcke lassen sich jetzt mit „Blöcke anordnen“ auf drei Spalten platzieren, Notizen eingeschlossen.',
@@ -148,6 +166,7 @@ return [
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Eine aktuelle Demo',
+        'short' => 'Die Demokampagne zeigt die neuesten Funktionen.',
         'items' => [
             'Die Demo-Kampagne zeigt jetzt die neuesten Funktionen: Auf der Kampagnenkarte führt der Leuchtturm zu einer Unterkarte, seinem Keller, bereit für einen Kampf mit Spielsteinen, zwei Flächenschablonen und einer Initiativreihenfolge. Jeder Punkt verknüpft mehrere Bögen und mehrere Szenen.',
             'Würfel am Tisch: vorbereitete Würfe, die den Wert vom Bogen übernehmen, ein benannter Bonus und die Würfe aus Sitzung 1, darunter eine Anfrage der SL.',
@@ -159,6 +178,7 @@ return [
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Kampagnenkarte: Zoom, Tisch und reichere Orte',
+        'short' => 'Die Kampagnenkarte lässt sich zoomen, und jeder Ort führt zu seinen Szenen, Einträgen oder einer Unterkarte.',
         'items' => [
             'Die Kampagnenkarte lässt sich zoomen (Mausrad, + und −, Zwei-Finger-Geste auf dem Tablet) und durch Ziehen verschieben. Tipp: Ein 4K-Bild (3840 × 2160) bleibt scharf.',
             'Wenn die Karte auf dem Tischbildschirm ist, ersetzt die von einem Punkt geöffnete Unterkarte sie dort, und beim Zurückgehen kehrt die obere Karte zurück. In der Unterkarte hält „Dieser Ort“ die Szenen und Einträge des Punkts einen Klick entfernt.',
@@ -169,6 +189,7 @@ return [
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Blöcke, Notizen und Ankreuzfelder in Meine Bögen',
+        'short' => '„Meine Bögen“ bestehen aus verschiebbaren Blöcken, mit Notiz und Kästchen für jedes Feld.',
         'items' => [
             'In „Meine Bögen“ ordnen sich die Felder in Blöcken, die Sie benennen: Werte, Fertigkeiten, Ausrüstung, Zauber…',
             '„Blöcke anordnen“: Ziehen Sie einen Block an seinem Griff oder nutzen Sie die Pfeile, um ihn zu platzieren, wo Sie möchten, in einer oder zwei Spalten.',
@@ -179,6 +200,7 @@ return [
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Demo-Bibliothek',
+        'short' => 'Eine Demo-Bibliothek zum Entdecken und Laden.',
         'items' => [
             'Neue „Demo-Bibliothek“ unter „Meine Kampagnen“: spielfertige Kampagnen (eine Welt, ein kurzes Szenario, vorgefertigte Charaktere), von denen du mit einem Klick deine eigene Kopie lädst.',
             'Jede Demo eines Autors oder Verlags behält einen Link „Spiel kaufen“, in der Bibliothek und oben in deiner Kopie.',
@@ -189,6 +211,7 @@ return [
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Was geschah, und das Abenteuerbuch',
+        'short' => 'Das Abenteuerbuch erzählt die Kampagne, Szene für Szene.',
         'items' => [
             'Jede Szene hat jetzt zwei Teile: „Was geplant ist“ und „Was geschah“. Hat die Runde den Plan befolgt, kreuzen Sie einfach „Wie geplant gespielt“ an.',
             'Neu in der Kampagne: das „Abenteuerbuch“ mit den gespielten Szenen, Szenario für Szenario, und danach den Zusammenfassungen der Sitzungen, zum Lesen, Drucken oder Speichern als PDF.',
@@ -199,6 +222,7 @@ return [
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Ordnen Sie Ihre Bildschirme nach Ihrem Geschmack',
+        'short' => 'Die SL ordnet ihre Bildschirme nach eigenem Geschmack.',
         'items' => [
             'Neue Schaltfläche „Bildschirm anordnen“ auf der Kampagnenseite und im Sitzungsmodus: Ziehen Sie jeden Block an seinem Griff ⠿, mit der Maus oder dem Finger, oder nutzen Sie die Pfeile.',
             'Im Sitzungsmodus kann ein Block von einer Spalte in die andere wechseln: Musik oben, Notizen rechts, ganz wie Sie möchten.',
@@ -209,6 +233,7 @@ return [
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Ihr Bogen, auch ohne Netz',
+        'short' => 'Ihr Bogen lässt sich auch ohne Netz bearbeiten und wird synchronisiert, sobald die Verbindung zurück ist.',
         'items' => [
             'Offline bleibt der Bogen Ihres Charakters nutzbar: Passen Sie Ihre Zähler mit − und + an, ändern Sie die Felder, die der SL Ihnen freigibt, und schreiben Sie Notizen.',
             'Alles wird auf dem Gerät gespeichert und bei wiederhergestellter Verbindung Feld für Feld gesendet: Ein Zähler erhält, was Sie abgezogen oder hinzugefügt haben, und was der SL inzwischen geändert hat (ein enthülltes Geheimnis, ein geändertes Feld), bleibt erhalten.',
@@ -219,6 +244,7 @@ return [
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'Die große Kampagnenkarte',
+        'short' => 'Eine große Kampagnenkarte mit ihren Orten.',
         'items' => [
             'Neue „Kampagnenkarte“: Wähle eine Karte als Übersicht und setze darauf Orte von Interesse, eine Stadt, ein Verlies, den Ort einer Szene.',
             'Ein Punkt kann mit einem Klick eine Unterkarte öffnen, die selbst Punkte hat; über die Brotkrumen geht es zurück bis zur Übersicht.',
@@ -229,6 +255,7 @@ return [
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Ihre anderswo gespielten Charaktere',
+        'short' => '„Meine Bögen“ bewahren Figuren auf, die Sie anderswo spielen, nur für Sie.',
         'items' => [
             'Neue Seite „Meine Bögen“: Bewahren Sie die Charaktere auf, die Sie außerhalb von SagaWyn spielen, bei Freunden, im Verein oder anderswo. Nur Sie sehen sie.',
             'Jeder Charakter hat seinen PDF-Bogen, ein Porträt, freie Felder (Texte und Zähler, die Sie während des Spiels mit − und + einstellen) und Ihre Notizen, dazu Spiel und Runde, um ihn wiederzufinden.',
@@ -238,6 +265,7 @@ return [
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Eine Klangbibliothek für alle Kampagnen',
+        'short' => 'Eine persönliche Klangbibliothek für alle Ihre Kampagnen.',
         'items' => [
             'Neue Seite „Meine Sounds“: Musik und Ambiente, einmal im Konto gespeichert und dann zu den Kampagnen hinzugefügt, die du leitest. Die Datei wird nicht kopiert und zählt nur einmal für deinen Speicher.',
             'Auf der Seite Sounds einer Kampagne: „Aus meiner Bibliothek“ fügt deine Sounds hinzu, „In meine Bibliothek verschieben“ macht einen Sound anderswo nutzbar, und ein Kästchen legt einen neuen Upload direkt in der Bibliothek ab.',
@@ -248,6 +276,7 @@ return [
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'Die Anleitung überall',
+        'short' => 'Eine „?“-Schaltfläche erklärt die Bildschirme von SagaWyn.',
         'items' => [
             'Die Schaltfläche „?“ gibt es jetzt auch bei Klängen, Beziehungsgraph, Zeitleiste, Spielerfeedback, KI-Assistent, Protokoll und Charakterbogen.',
             'Bei Graph, Zeitleiste und Charakterbogen lesen Spieler eine Anleitung, die für sie geschrieben ist.',
@@ -257,6 +286,7 @@ return [
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Mehrere Punkte auf einmal abziehen oder hinzufügen',
+        'short' => 'Die Zähler Ihrer Figur ändern sich um mehrere Punkte auf einmal.',
         'items' => [
             'Unter jedem Zähler, den der Spieler ändern darf (LP, Munition, Geld…), ein Feld „Betrag“: 8 eingeben, dann −, und der Zähler verliert 8 auf einmal. Standardwert ist 1.',
         ],
@@ -283,6 +313,7 @@ return [
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonus und Schwelle vom Bogen',
+        'short' => 'Die Würfel lesen Boni und Schwellen vom Bogen der Figur.',
         'items' => [
             'Beim Würfeln kann der Bonus einen oder mehrere Werte vom Charakterbogen übernehmen (Eigenschaft, Fertigkeit, jedes Zahl- oder Zählerfeld der öffentlichen Zone), ganz oder als Zehner, Hälfte oder Fünftel, zusätzlich zum freien Bonus. Auch die Schwelle kann vom Bogen kommen. Die Werte werden beim Wurf vom Bogen jedes würfelnden Charakters gelesen.',
             'Mehrere benannte Boni (Waffe +2, Wunde −1…) addieren sich im selben Wurf, zusammen mit Werten vom Bogen.',
@@ -311,6 +342,7 @@ return [
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Gemischte Würfel und eigene gespeicherte Würfe',
+        'short' => 'Mehrere Würfelarten in einem Wurf und Würfe nur für Sie.',
         'items' => [
             'Ein Wurf kann mehrere Würfelarten mischen: Tippe einen W20 und dann zwei W6 an, und es wird 1d20 + 2d6 geworfen. Jede Art hat ihre eigene Anzahl, die du ändern oder entfernen kannst.',
             'Die Schwelle gilt entweder für die Summe („Schwelle auf die Summe“, erreicht oder nicht überschritten) oder für jeden Würfel („Schwelle pro Würfel“: zum Beispiel ist jeder Würfel ab 4 ein Erfolg).',
@@ -329,6 +361,7 @@ return [
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Würfel am Tisch',
+        'short' => 'Ein Würfelbrett für den ganzen Tisch, und die SL kann Sie um einen Wurf bitten.',
         'items' => [
             'Neue Schaltfläche „Würfel“ unten auf jeder Seite der Kampagne: Anzahl und Art der Würfel (4 bis 100 Seiten oder andere), dann wie sie gelesen werden: addieren, Schwelle erreichen, unter der Schwelle bleiben, Erfolge zählen, die besten oder niedrigsten behalten, als Ziffern lesen. Mit Bonus und Würfeln, die beim Höchstwert (+) oder bei einer 1 (−) nachgewürfelt werden.',
             'Die SL verlangt einen Wurf vom ganzen Tisch oder von einzelnen Charakteren, offen oder diskret. Bei den betroffenen Spielenden öffnet sich ein Fenster; ohne Schwelle gibt jede Person ihre eigene ein und fügt ihren Bonus hinzu, und eine verdeckte Schwelle bleibt bei der SL, die sieht, wer was gewürfelt hat.',
@@ -349,6 +382,7 @@ return [
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Flächenschablonen auf der Karte',
+        'short' => 'Flächenschablonen auf der Kampfkarte.',
         'items' => [
             'Neue Schablonen auf der Kartenseite: Kreis, Quadrat, Rechteck, Kegel und Linie, in Feldern bemessen (oder in der Einheit des Maßstabs). Man zieht sie über die Karte, dreht sie, verbirgt sie, und die Liste der getroffenen Token erscheint sofort.',
             'Sichtbare Schablonen erscheinen auf dem Tischbildschirm, unter den Token.',
@@ -358,6 +392,7 @@ return [
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Gemeinsame Kampfkarte',
+        'short' => 'Eine gemeinsame Kampfkarte: Sie bewegen Ihre Spielfigur, auch aus der Ferne.',
         'items' => [
             'Auf dem geteilten Tischbildschirm bewegt jeder Spieler die Spielmarke seines Charakters. In der Karte vertraut „Bewegt von“ einem Spieler eine weitere Spielmarke an: Gefolgsmann, Vertrauter, kontrollierter Gegner…',
             'Neue Initiativereihenfolge, über die Fernbedienung oder die Karte: SC und Gegner mit ihrem Wert, aktueller Zug, Runden. Die SL zeigt sie über dem Bildschirm, wann sie möchte; verborgene Zeilen bleiben bei ihr, und eine Reihe „Ebenfalls anwesend“ zeigt NSC oder Gegenstände ohne Initiative.',
@@ -368,6 +403,7 @@ return [
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'Die Community auf Discord',
+        'short' => 'Die SagaWyn-Community trifft sich auf Discord.',
         'items' => [
             'SagaWyn hat einen eigenen Discord-Server: ein Link unten auf jeder Seite und auf der Startseite, um Fragen zu stellen, Ideen vorzuschlagen und andere Spielleitungen zu treffen.',
         ],
@@ -386,6 +422,7 @@ return [
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Hausinhalte',
+        'short' => 'Die SL unterscheidet Hausregel-Inhalte von offiziellen Inhalten.',
         'items' => [
             'Neues Kästchen „Hausinhalt“ auf Blättern (NSCs, Zauber, Gegenstände, Orte…): ohne Haken ist das Blatt offiziell. Ein Abzeichen „Haus“ markiert es in der Liste und auf dem Blatt, ein Filter Offiziell / Haus sortiert das Universum.',
             'Für ein Hausblatt oder eine Regel mit Herkunft „Haus“ lässt sich die ersetzte offizielle Version daneben notieren (z. B. Initiative mit W10 statt W20): Sie bleibt im SL-Bereich, eingeklappt unter Blatt oder Regel.',
@@ -420,6 +457,7 @@ return [
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Eine ganze Kampagne mit einer KI vorbereiten',
+        'short' => 'Eine KI kann aus einem Spielbuch eine ganze Kampagne zum Import vorbereiten.',
         'items' => [
             'Meine Kampagnen → Kampagne importieren: neuer Link „Archiv mit einer KI vorbereiten“. Mit dem Prompt (oder dem Claude-Skill) liest Ihre KI das Rollenspielbuch und erstellt ein .zip-Archiv: Spiel, Welt, Kampagne, Einträge, Szenen und Dokumente werden in einem Schritt erstellt.',
         ],
@@ -436,6 +474,7 @@ return [
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Aus Geheimnissen werden Hinweise',
+        'short' => 'Geheimnisse heißen jetzt Hinweise.',
         'items' => [
             'Die „Geheimnisse“ der Kampagne heißen jetzt „Hinweise“: Seite Hinweise, Bereich auf Einträgen, Szenen und Dokumenten, Sitzungsmodus, Suche, Enthüllungen und Hilfe. An Ihren Daten ändert sich nichts.',
         ],
@@ -444,6 +483,7 @@ return [
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Spieler bearbeiten ihren Charakter',
+        'short' => 'Die SL kann Sie Ihre Figur bearbeiten lassen.',
         'items' => [
             'Seite Felder: „Vom Spieler bearbeitbar“ lässt sich für eine ganze Gruppe (Eigenschaften, Fertigkeiten…) oder für alle öffentlichen Felder mit einem Klick setzen.',
             'Neue Option auf der Seite Spieler: Die SL kann jeden Spieler Porträt, Zusammenfassung und Beschreibung seines Charakters bearbeiten lassen. Der SL-Bereich bleibt verborgen.',
@@ -453,6 +493,7 @@ return [
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Gründer-Abzeichen und Geschenkcodes',
+        'short' => 'Ein Gründer-Abzeichen und Premium-Geschenkcodes zum Verschenken.',
         'items' => [
             'Kickstarter-Unterstützer können in der Verwaltungskonsole als Gründer markiert werden: ein Abzeichen ★ Gründer in den Einstellungen, der Mitgliederliste und auf dem Charakterbogen.',
             'Gründer erhalten zusätzlichen Speicherplatz zu ihrem Tarif, kostenlos oder Premium (standardmäßig 500 MB, einstellbar unter „Tarife“).',
@@ -489,6 +530,7 @@ return [
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'Die Demo zeigt ganz SagaWyn',
+        'short' => 'Die Demokampagne nutzt alle Funktionen von SagaWyn.',
         'items' => [
             'Die Demo-Kampagne nutzt jetzt jede Funktion: eine Spielerfigur aus einer vorgefertigten Figur, mit allem, was sie erhalten hat (Bogen, Dokument, Regel, Geheimnis, Gegenstände), die die SL mit „Ansehen als“ betrachten kann; Sitzungsnotizen; eine „Zu spielen“-Liste; angeheftete Bögen; Felder für Verweise, Dokumente und zwei Bogentypen; ein SL-Anhang; Geheimnisse jeder Art; farbige Tags; Titelbilder für Spiel und Welt.',
             'Beim erneuten Laden der Demo wird der bereits angelegte Bogentyp „Fraktion“ wiederverwendet, statt einen zweiten anzulegen.',
@@ -507,6 +549,7 @@ return [
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi wird zu SagaWyn',
+        'short' => 'LoreMundi wird zu SagaWyn.',
         'items' => [
             'LoreMundi heißt jetzt SagaWyn, weiterhin herausgegeben von Autistic Intelligence. Every world has a story.',
             'Ihre Kampagnen, Konten und Archive bleiben unverändert: Mit LoreMundi oder CodexFlow erstellte Sicherungen lassen sich weiterhin importieren. Heruntergeladene Dateien beginnen jetzt mit „sagawyn-“.',
@@ -516,6 +559,7 @@ return [
     '0.46.0' => [
         'date' => '2026-10-10',
         'title' => 'Spieler-Feedback',
+        'short' => 'Die SL kann Sie nach Ihrer Meinung zu einer Sitzung oder Kampagne fragen.',
         'items' => [
             'Bitten Sie Ihre Spieler am Ende einer Sitzung oder Kampagne um eine Bewertung von 1 bis 5 Sternen, darum, was ihnen gefallen hat und was besser sein könnte („Spieler-Feedback“ in der Kampagne oder auf der Seite einer Sitzung).',
             'Anonyme oder namentliche Antworten nach Wahl der SL: Die Spieler wissen es vor dem Antworten. Sie sehen den Durchschnitt, die Verteilung der Bewertungen und alle Kommentare.',
@@ -525,6 +569,7 @@ return [
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Soundbibliothek',
+        'short' => 'Eine Bibliothek mit Musik und Atmosphären für die Sitzungen.',
         'items' => [
             'Neue Seite „Sounds“: Laden Sie Ihre Musik und Atmosphären hoch (mp3, ogg, m4a, wav, flac), ordnen Sie sie mit Tags und verknüpfen Sie sie mit Szenen.',
             'Im Sitzungsmodus zeigt der Block „Musik“ zuerst die Sounds der Szene: „Hier“ spielt sie auf Ihrem Gerät, ohne beim Seitenwechsel abzubrechen; „Tisch“ spielt sie auf dem Tischbildschirm, mit Pause, Schleife und Lautstärke aus der Sitzung gesteuert.',
@@ -587,6 +632,7 @@ return [
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Suche',
+        'short' => 'Die Suche findet auch andere Formen eines Wortes.',
         'items' => [
             'Die Suche findet auch andere französische Formen eines Wortes: „lanternes“ findet „lanterne“, „éteinte“ findet „éteintes“.',
             'Die Suche auf der Startseite durchsucht auch Ihre Welten und Spiele, die keiner Kampagne zugeordnet sind.',
@@ -596,6 +642,7 @@ return [
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Spieler und Rollen',
+        'short' => 'Ein enthüllter Eintrag zeigt seine Illustrationen, und Ihr Bogen hat seinen Kampagnenverlauf.',
         'items' => [
             'Ein enthüllter Eintrag zeigt dem Spieler seine öffentlichen Illustrationen und Dateien sowie seine öffentlichen Beziehungen zu Einträgen, die er kennt.',
             'Spieler haben auf ihrem Bogen einen „Kampagnenverlauf“: Sitzungen, der Runde bekannte gespielte Ereignisse und Nachrichten an die Gruppe.',
@@ -628,6 +675,7 @@ return [
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Funktionen pro Kampagne',
+        'short' => 'Die SL wählt die Funktionen, die ihr Tisch braucht.',
         'items' => [
             'Auf der Kampagnenseite hakt die Spielleitung die Funktionen an, die ihr Tisch braucht: Tischbildschirm, Karten, Tausch zwischen Spielern, Graph, Zeitleiste, KI-Assistent. Eine nicht angehakte Funktion verschwindet für alle, ohne dass etwas gelöscht wird; sie kommt zurück, sobald sie wieder angehakt wird.',
         ],
@@ -648,6 +696,7 @@ return [
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDFs und Dokumente',
+        'short' => 'PDFs öffnen sich in einem integrierten Betrachter, auf allen Geräten.',
         'items' => [
             'PDFs öffnen sich in einem integrierten Viewer – gleich auf Computer, Tablet und Smartphone, mit Zoom und Download.',
             'Auf dem Tischbildschirm wird ein PDF Seite für Seite angezeigt, an den Bildschirm angepasst; mit den Pfeiltasten blättern Sie um.',
@@ -660,6 +709,7 @@ return [
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium-Funktionen ✦',
+        'short' => 'Ein Stern ✦ kennzeichnet Premium-Funktionen, und am Ende eines Abos wird nichts gelöscht.',
         'items' => [
             'Ein kleiner Stern ✦ kennzeichnet Premium-Funktionen. Gehören sie nicht zum Angebot des Kampagneninhabers, bleiben sie sichtbar, ausgegraut, mit einer Erklärung.',
             'Am Ende einer Testphase oder eines Abos wird nichts gelöscht: Kampagnen, Karten, Nachrichten und Dateien bleiben, nur die ✦-Funktionen werden abgeschaltet.',
@@ -724,6 +774,7 @@ return [
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Ein Spielbuch mit einer KI importieren',
+        'short' => 'Eine KI kann die Importdateien aus einem Spielbuch vorbereiten.',
         'items' => [
             'Unter „Importieren“ liefert „Dateien mit einer KI vorbereiten“ einen Prompt, den Sie mit dem PDF eines Spiels oder Szenarios in die KI Ihrer Wahl einfügen: Sie bereitet die Importdateien (Felder, Karteikarten, Regeln, Szenen) und eine Schritt-für-Schritt-Anleitung vor. Den Prompt gibt es auch als Claude-Skill.',
         ],
@@ -732,6 +783,7 @@ return [
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Sicherheit und persönliche Daten',
+        'short' => 'In den Einstellungen: Ihr Konto, optionale Zwei-Faktor-Authentifizierung und Ihre Daten zum Herunterladen.',
         'items' => [
             '„Mein Konto“ unter Einstellungen: Ändern Sie Ihren Namen, Ihre E-Mail-Adresse (die bisherige Adresse wird benachrichtigt) und Ihr Passwort.',
             'Optionale Zwei-Faktor-Authentifizierung unter Einstellungen: ein Code aus einer App auf Ihrem Telefon, mit Wiederherstellungscodes.',
@@ -745,6 +797,7 @@ return [
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow wird zu LoreMundi',
+        'short' => 'CodexFlow wird zu LoreMundi.',
         'items' => [
             'CodexFlow heißt jetzt LoreMundi, herausgegeben von Autistic Intelligence. Every world has a story.',
             'Ihre Kampagnen, Konten und Archive bleiben unverändert: Mit CodexFlow erstellte Sicherungen lassen sich weiterhin importieren. Heruntergeladene Dateien beginnen jetzt mit „loremundi-“.',
@@ -754,6 +807,7 @@ return [
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Vollständige Sicherung',
+        'short' => 'Die SL kann eine vollständige Sicherung ihrer Kampagne herunterladen.',
         'items' => [
             'Der Eigentümer kann eine vollständige Sicherung herunterladen: das Kampagnenarchiv mit der Runde (Charaktere, was sie erhalten haben, Sitzungen, Notizen, Nachrichten und Protokoll), ohne Notizen „Nur ich“ und ohne E-Mail-Adressen. Beim Import kommen die Charaktere ohne Spieler zurück, bereit zur Vergabe.',
         ],
@@ -762,6 +816,7 @@ return [
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Suche von der Startseite',
+        'short' => 'Von der Startseite aus durchsucht die Suche alle Ihre Kampagnen.',
         'items' => [
             'Außerhalb einer Kampagne durchsucht die Suchleiste alle Ihre Kampagnen, ihre Welten und Spiele, jeweils mit Ihren Rechten: alles als SL, als Spieler das, was Ihr Charakter kennt.',
         ],
@@ -789,6 +844,7 @@ return [
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Neuer Charakter, Meine Kampagnen, Seiten für Spiel und Welt',
+        'short' => 'Jedes Spiel und jede Welt hat eine eigene Seite, und „Meine Kampagnen“ führt Sie zur letzten Sitzung zurück.',
         'items' => [
             'Bekommt ein Spieler einen neuen Charakter, wählt die SL aus, was vom früheren übergeht: Wissen, Informationen, Dokumente und Regeln werden kopiert, Gegenstände wechseln den Besitzer.',
             'Meine Kampagnen: Schaltfläche „Fortsetzen“, Datum der letzten Sitzung, archivierte Kampagnen separat.',
@@ -799,6 +855,7 @@ return [
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Formatierter Text und Spielernotizen',
+        'short' => 'Ein Editor für formatierten Text und Spielernotizen, die mit bekannten Einträgen verknüpft sind.',
         'items' => [
             'Lange Texte (Beschreibungen, SL-Notizen, Szenen, Regeln, Zeitleiste, Spielernotizen) haben einen Editor mit Fett, Kursiv, Zwischenüberschriften, Listen und Zitaten; „[[“ schlägt weiterhin Bögen zum Verknüpfen vor.',
             'Spieler verknüpfen ihre Notizen mit den Bögen, die ihr Charakter kennt, und nur mit diesen.',
@@ -809,6 +866,7 @@ return [
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium-Abonnement und kostenlose Testphase',
+        'short' => 'Ein Premium-Abo und sechs Wochen kostenloser Test.',
         'items' => [
             'Premium über „Einstellungen“: monatliche oder jährliche Zahlung, gesichert durch Stripe, mit Rechnungen und Kündigung im Stripe-Portal. Premium gilt bis zum Ende des bezahlten Zeitraums.',
             'Kostenlose Testphase: sechs Wochen mit allen Funktionen, ab Ihrer ersten Kampagne als SL. Wer nie SL ist, beginnt sie nicht. Die Dauer wird in der Administration eingestellt.',
@@ -829,6 +887,7 @@ return [
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Nach der Abnahme: Tausch mit Bestätigung der SL',
+        'short' => 'Die SL bestätigt den Austausch zwischen Spielern.',
         'items' => [
             'Standardmäßig bestätigt die SL den Tausch zwischen Spielern: Gegenstand oder Wissen wechselt erst nach der Annahme den Besitzer. Ein Kästchen unter „Charaktere der Spieler“ erlaubt den Tausch auch ohne Bestätigung.',
             'Fernbedienung: Beim letzten Element der Szene wird „Weiter“ zu „Beenden“ und leert den Bildschirm.',
@@ -850,6 +909,7 @@ return [
     '0.13.0' => [
         'date' => '2026-10-08',
         'title' => 'Ihre eigene KI, ohne Kopieren und Einfügen',
+        'short' => 'Ihr eigener KI-Schlüssel, für einen Assistenten ohne Kopieren und Einfügen.',
         'items' => [
             'In „Einstellungen“ können Sie einen API-Schlüssel auf Ihren Namen bei Claude (Anthropic), ChatGPT (OpenAI) oder Le Chat (Mistral) speichern. Der KI-Assistent bietet dann „Direkt analysieren“ an: Die Vorschläge kommen ohne Kopieren und Einfügen.',
             'Die Aufrufe stellt der Anbieter Ihrem Konto in Rechnung. Der Schlüssel wird verschlüsselt, nie wieder angezeigt oder exportiert, und der Modus „Text zum Einfügen“ bleibt kostenlos.',
@@ -859,6 +919,7 @@ return [
     '0.12.0' => [
         'date' => '2026-10-08',
         'title' => 'Ein KI-Assistent, ohne Abo',
+        'short' => 'Ein KI-Assistent hilft der SL, die Sitzungsnotizen auszuwerten.',
         'items' => [
             'Neues Werkzeug „KI-Assistent“ in der Kampagne: LoreMundi bereitet einen Text mit den Sitzungsnotizen und dem Kontext der Kampagne vor, zum Einfügen in die KI Ihrer Wahl. Deren Antwort, hier wieder eingefügt, wird zu Vorschlägen: Zusammenfassung, gespielte Ereignisse, Beziehungen, Status, Kampagnennotizen, Enthüllungen.',
             'Jeder Vorschlag lässt sich annehmen, ändern oder ablehnen. Ohne Sie ändert sich nichts an der Kampagne, und vorgeschlagene Beziehungen oder Status gelten nur für die Kampagne, ohne die geteilte Welt zu berühren.',
@@ -876,6 +937,7 @@ return [
     '0.11.0' => [
         'date' => '2026-10-08',
         'title' => 'Eine Demo-Kampagne',
+        'short' => 'Eine Demokampagne, mit einem Klick geladen.',
         'items' => [
             'Eine Demo-Kampagne, mit einem Klick aus „Meine Kampagnen“ zu laden: ein erfundenes Spiel, „Brume & Serment“, und eine vollständige Handlung über drei Sitzungen, mit Einträgen, Porträts, Beziehungen, Karte, Geheimnissen, Regeln, Zeitleiste und vorgefertigten Figuren.',
             'Die kleinen Symbolschaltflächen der Kampagnenseite verrutschen beim Überfahren nicht mehr: der Name erscheint als Kurzhinweis über allem anderen.',
@@ -886,6 +948,7 @@ return [
     '0.10.0' => [
         'date' => '2026-10-07',
         'title' => 'Eine übersichtlichere Kampagnenseite',
+        'short' => 'Eine übersichtlichere Kampagnenseite.',
         'items' => [
             'Die Kampagnenseite aufgeräumt: der Sitzungsmodus als Banner, vier Vorbereitungsbereiche und die übrigen Werkzeuge als kleine Symbolschaltflächen.',
             'Stimmung des Tischbildschirms, von der Fernbedienung aus wählbar: Nacht, Pergament, Schiefer oder Grimoire.',
@@ -895,6 +958,7 @@ return [
     '0.9.0' => [
         'date' => '2026-10-07',
         'title' => 'Die Kampagne mitnehmen',
+        'short' => 'Eine ganze Kampagne exportieren und importieren.',
         'items' => [
             'Eine ganze Kampagne als .zip-Archiv exportieren: Spiel, Welt, Einträge, Szenarien, Dokumente, Karten, Geheimnisse, Zeitleiste und Dateien.',
             'Ein Archiv über „Meine Kampagnen“ importieren: Es stellt die Kampagne wieder her, bei Ihnen oder bei einer anderen SL.',
@@ -905,6 +969,7 @@ return [
     '0.8.0' => [
         'date' => '2026-10-07',
         'title' => 'Graph und Zeitleiste',
+        'short' => 'Der Beziehungsgraph und die Zeitleiste.',
         'items' => [
             'Beziehungsgraph: alle verbundenen Einträge oder das Netz um einen Eintrag, mit Tiefe und Filter nach Typ.',
             '„Ansehen als“ im Graph: das Netz so, wie ein Charakter es kennt. Spieler öffnen ihn über ihren Charakter.',
@@ -916,6 +981,7 @@ return [
     '0.7.0' => [
         'date' => '2026-10-07',
         'title' => 'Rund um den Tisch',
+        'short' => 'Karten, Spielfiguren und Fernbedienung für den Tischbildschirm.',
         'items' => [
             'Karten: ein Bild auf dem Tischbildschirm, das Sie zoomen und verschieben, mit optionalem quadratischem Raster und Maßstab.',
             'Optionale Token, mit Einträgen verknüpft (Name und Porträt): verschieben, Größe ändern, den Spielern zeigen oder verbergen.',
@@ -928,6 +994,7 @@ return [
     '0.6.0' => [
         'date' => '2026-10-07',
         'title' => 'Das Gedächtnis der Kampagne',
+        'short' => 'Geheimnisse mit einem Klick enthüllen, mit Verlauf, wer was erfahren hat.',
         'items' => [
             'Geheimnisse: eine eigenständige Information, verknüpft mit Einträgen, Szenen oder Dokumenten, mit einem Klick einem Charakter oder dem ganzen Tisch enthüllt.',
             'Enthüllungsverlauf: wer was wann erfahren hat, in welcher Sitzung und welcher Szene; jede Enthüllung lässt sich rückgängig machen.',
@@ -940,6 +1007,7 @@ return [
     '0.5.0' => [
         'date' => '2026-10-07',
         'title' => 'Besser ordnen, gemeinsam',
+        'short' => 'Tags, Duplizieren, Co-SL und Zuschauer.',
         'items' => [
             'Eine Seite „Tags“ zum Umbenennen, Einfärben, Zusammenführen und Löschen Ihrer Tags; auch Szenen haben jetzt Tags.',
             '„Duplizieren“ Sie einen Eintrag, ein Szenario oder eine ganze Kampagne, um mit einer anderen Runde erneut zu spielen.',
@@ -952,6 +1020,7 @@ return [
     '0.4.1' => [
         'date' => '2026-10-07',
         'title' => 'Hilfe und Problemmeldungen',
+        'short' => 'Eine Hilfeseite und „Problem melden“ auf jeder Seite.',
         'items' => [
             'Eine „Hilfe“-Seite beantwortet die häufigsten Fragen, für die SL wie für die Spieler.',
             '„Problem melden“ unten auf jeder Seite schickt Ihre Nachricht mit der betroffenen Seite an das Team.',
@@ -961,6 +1030,7 @@ return [
     '0.4.0' => [
         'date' => '2026-10-07',
         'title' => 'Alle Sprachen',
+        'short' => 'Die Oberfläche spricht acht Sprachen.',
         'items' => [
             'Die Oberfläche spricht Französisch, Englisch, Deutsch, Spanisch, Italienisch, Portugiesisch, Niederländisch und Polnisch.',
             'Die Sprache folgt dem Browser; jeder kann sie unter „Einstellungen“ wählen.',
@@ -973,6 +1043,7 @@ return [
     '0.3.0' => [
         'date' => '2026-10-07',
         'title' => 'Die lebendige Verbindung',
+        'short' => 'Nachrichten, Live-Benachrichtigungen, installierbare App und Tischbildschirm.',
         'items' => [
             'Nachrichten zwischen der SL und den Spielern, und ein „Chat“-Bereich, der immer griffbereit ist (Gruppe und privat).',
             'Benachrichtigungen: Enthüllungen, erhaltene Gegenstände, Nachrichten, mit einem Zähler in der Kopfzeile.',
@@ -988,6 +1059,7 @@ return [
     '0.2.0' => [
         'date' => '2026-10-07',
         'title' => 'Die Spieler',
+        'short' => 'Einladungen, Spielerfiguren, Enthüllungen und Protokoll.',
         'items' => [
             'Einladung der Spieler per Link.',
             'Charaktere der Spieler: Eintrag, PDF-Bogen, Zähler (TP, Magie, Munition …) und vom Spieler änderbare Felder.',
@@ -1000,6 +1072,7 @@ return [
     '0.1.0' => [
         'date' => '2026-10-06',
         'title' => 'Die SL allein',
+        'short' => 'Welten, Einträge, Szenen, Sitzungsmodus und Suche für die SL.',
         'items' => [
             'Welten, Kampagnen und Einträge mit öffentlichem Bereich und SL-Bereich, [[ ]]-Verknüpfungen zwischen Einträgen.',
             'Freie Felder pro Spiel, Eintragstypen, CSV/JSON-Import.',

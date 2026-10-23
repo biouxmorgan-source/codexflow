@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.95.0' => [
+        'date' => '2026-10-23',
+        'title' => '« Novità » va all’essenziale',
+        'short' => 'Una frase per novità, e solo quando qualcosa cambia davvero per lei.',
+        'items' => [
+            '« Novità » mostra ora una versione breve: una frase per versione, e solo per le versioni importanti. Le piccole correzioni non fanno più comparire la finestra.',
+            'L’account amministratore conserva il dettaglio completo di ogni versione, con sotto ciascuna la frase vista dagli altri account, o l’indicazione che non viene loro mostrata.',
+        ],
+    ],
+
     '0.94.0' => [
         'date' => '2026-10-23',
         'title' => 'Blocchi su 1, 2 o 3 colonne, e pagina della mappa organizzabile',
@@ -18,6 +28,7 @@ return [
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Una nuova pagina iniziale',
+        'short' => 'Una nuova pagina iniziale, e il link al Discord della comunità ovunque.',
         'items' => [
             'La pagina iniziale pubblica presenta ora tutto ciò che SagaWyn sa fare, in tre momenti: preparare, giocare al tavolo e far vivere la campagna tra una sessione e l’altra. Mappa di battaglia, dadi, mappa della campagna, suoni, libro delle avventure e «Le mie schede» hanno il loro posto.',
             'Il link al Discord della community appare ora di default, in alto e in basso nella pagina iniziale, nell’aiuto e nel piè di pagina.',
@@ -27,6 +38,7 @@ return [
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Importazione con un’IA: prompt in inglese, lingua a scelta',
+        'short' => 'L’importazione con un’IA le permette di scegliere la lingua dei contenuti importati.',
         'items' => [
             'Il prompt e la skill di Claude di «Preparare l’importazione con un’IA» sono ora in inglese, la lingua che le IA seguono meglio.',
             'Un menu «Lingua dei contenuti importati» sceglie la lingua in cui l’IA scrive schede, scene, titoli dei documenti e guida (quella dell’interfaccia per impostazione predefinita). Con la skill si può anche chiedere un’altra lingua al momento dell’importazione.',
@@ -45,6 +57,7 @@ return [
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Dichiarazione dei diritti a ogni importazione',
+        'short' => 'Prima di ogni importazione, una casella le chiede di confermare di avere i diritti sui contenuti importati.',
         'items' => [
             'Prima di ogni importazione (file CSV o JSON, archivio di campagna, modello di gioco), una casella non spuntata per impostazione predefinita chiede di certificare che disponi dei diritti necessari sui contenuti importati. Senza di essa il pulsante resta grigio e il server rifiuta l’importazione.',
             'Ogni dichiarazione è registrata con la data, la versione del testo accettato e l’esito dell’importazione, senza copia dei file. Compare in «Scarica i miei dati».',
@@ -71,6 +84,7 @@ return [
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Tiri salvati per ogni scheda',
+        'short' => 'In « Le mie schede », ogni personaggio conserva i propri tiri di dadi salvati.',
         'items' => [
             'Nei dadi de «Le mie schede», «Salva questo tiro» conserva un tiro con la scheda: ogni personaggio ha i suoi tiri (Palla di fuoco, Attacco…), che si ricaricano con un tocco, si aggiornano e si tolgono con ×.',
         ],
@@ -95,6 +109,7 @@ return [
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Modificare un documento senza eliminarlo',
+        'short' => '« Sostituisci il file » aggiorna un documento senza perderne il titolo né i collegamenti.',
         'items' => [
             'Nella pagina di un documento, «Sostituisci il file» mette una nuova versione al posto della vecchia: il documento mantiene titolo, impostazioni e collegamenti, e la nuova versione compare subito in scene, schede, regole, mappe, indizi e presso i personaggi che l’hanno ricevuto.',
             'Un’immagine usata come mappa si sostituisce con un’altra immagine; pedine, griglia e punti restano al loro posto.',
@@ -104,6 +119,7 @@ return [
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Tirare i dadi dalla scheda',
+        'short' => 'Un piccolo dado accanto ai valori della scheda tira i dadi con quel valore.',
         'items' => [
             'Sulla scheda di un personaggio, un piccolo dado accanto a ogni numero e a ogni contatore tira i dadi con quel valore: «Tira sotto… (soglia)» o «Aggiungi… al tiro (bonus)». Il vassoio dei dadi si apre pronto al tiro e il risultato va al tavolo come sempre.',
             'Sulla scheda del tuo personaggio, il valore resta legato alla scheda: se cambia, il tiro salvato lo segue. Anche il master può tirare dalla scheda di un giocatore.',
@@ -130,6 +146,7 @@ return [
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Sezioni in Le mie schede',
+        'short' => '« Le mie schede » si organizza in schede a cui dà un nome.',
         'items' => [
             'In «Modifica», «+ Nuova sezione» divide una scheda in sezioni a cui dai un nome (Personaggio, Incantesimi, Inventario…), che riordini e rimuovi.',
             'Ogni blocco sceglie la sua sezione, e ogni sezione dispone i suoi blocchi sulle proprie tre colonne. Una scheda esistente tiene tutti i blocchi in una prima sezione.',
@@ -139,6 +156,7 @@ return [
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Più note e tre colonne in Le mie schede',
+        'short' => '« Le mie schede » accoglie più blocchi di note, su tre colonne.',
         'items' => [
             '«+ Nuova nota» aggiunge un blocco di note: quanti ne vuoi (debiti, voci, contatti…). Le tue note precedenti diventano un primo blocco «Note».',
             'I blocchi si posizionano ora su tre colonne, note comprese, con «Organizza i blocchi».',
@@ -148,6 +166,7 @@ return [
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Una demo aggiornata',
+        'short' => 'La campagna dimostrativa mostra le ultime novità.',
         'items' => [
             'La campagna dimostrativa mostra ora le ultime novità: sulla mappa della campagna il faro porta a una sottomappa, la sua cantina, pronta per lo scontro con pedine, due sagome d’area e un ordine di iniziativa. Ogni punto collega più schede e più scene.',
             'Dadi al tavolo: tiri preparati che leggono la caratteristica dalla scheda, un bonus con nome e i tiri della sessione 1, tra cui una richiesta del master.',
@@ -159,6 +178,7 @@ return [
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Mappa della campagna: zoom, tavolo e luoghi più ricchi',
+        'short' => 'La mappa della campagna si ingrandisce, e ogni luogo porta alle sue scene, alle sue schede o a una sottomappa.',
         'items' => [
             'La mappa della campagna si ingrandisce (rotella, + e −, pizzico su tablet) e si sposta trascinando. Consiglio: un’immagine 4K (3840 × 2160) resta nitida.',
             'Quando la mappa è sullo schermo del tavolo, la sottomappa aperta da un punto la sostituisce lì, e la mappa superiore torna quando risali. Nella sottomappa, «Questo luogo» tiene a portata di clic le scene e le schede del punto.',
@@ -169,6 +189,7 @@ return [
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Blocchi, note e caselle in Le mie schede',
+        'short' => '« Le mie schede » si organizza in blocchi spostabili, con una nota e una casella per ogni campo.',
         'items' => [
             'In «Le mie schede», i campi si raccolgono in blocchi a cui dai un nome: Caratteristiche, Abilità, Equipaggiamento, Incantesimi…',
             '«Organizza i blocchi»: trascina un blocco dalla sua maniglia, o usa le frecce, per metterlo dove vuoi, su una o due colonne.',
@@ -179,6 +200,7 @@ return [
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Biblioteca delle demo',
+        'short' => 'Una biblioteca di demo da scoprire e caricare.',
         'items' => [
             'Nuova «Biblioteca delle demo», da «Le mie campagne»: campagne pronte da giocare (un\'ambientazione, uno scenario breve, personaggi pregenerati) di cui carichi la tua copia con un clic.',
             'Ogni demo di un autore o di un editore mantiene un link «Acquista il gioco», nella biblioteca e in cima alla tua copia.',
@@ -189,6 +211,7 @@ return [
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Cosa è successo, e il libro delle avventure',
+        'short' => 'Il libro delle avventure racconta la campagna, scena dopo scena.',
         'items' => [
             'Ogni scena ha ora due parti: «Cosa è previsto» e «Cosa è successo». Se il tavolo ha seguito il piano, basta spuntare «Giocata come previsto».',
             'Nuovo «Libro delle avventure» nella campagna: le scene giocate, scenario per scenario, poi i riassunti delle sessioni, da leggere, stampare o salvare in PDF.',
@@ -199,6 +222,7 @@ return [
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Disponi le tue schermate a modo tuo',
+        'short' => 'Il master organizza i suoi schermi a modo suo.',
         'items' => [
             'Nuovo pulsante «Organizza la schermata» nella pagina della campagna e in modalità Sessione: trascina ogni blocco dalla sua maniglia ⠿, con il mouse o con il dito, oppure usa le frecce.',
             'In modalità Sessione un blocco può passare da una colonna all’altra: la musica in alto, le note a destra, come preferisci.',
@@ -209,6 +233,7 @@ return [
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'La tua scheda, anche senza rete',
+        'short' => 'La sua scheda si modifica anche senza rete e si sincronizza al ritorno della connessione.',
         'items' => [
             'Offline, la scheda del tuo personaggio resta utilizzabile: regola i contatori con − e +, modifica i campi che il master ti lascia cambiare e scrivi note.',
             'Tutto viene conservato sul dispositivo e inviato al ritorno della connessione, campo per campo: un contatore riceve ciò che hai tolto o aggiunto, e ciò che il master ha cambiato nel frattempo (un segreto rivelato, un campo modificato) viene mantenuto.',
@@ -219,6 +244,7 @@ return [
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'La grande mappa della campagna',
+        'short' => 'Una grande mappa della campagna, con i suoi luoghi.',
         'items' => [
             'Nuova «Mappa della campagna»: scegli una mappa come vista d’insieme e posiziona punti di interesse, una città, un dungeon, il luogo di una scena.',
             'Un punto può aprire una sottomappa con un clic, che ha a sua volta i suoi punti; il percorso di navigazione permette di risalire alla vista d’insieme.',
@@ -229,6 +255,7 @@ return [
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'I tuoi personaggi giocati altrove',
+        'short' => '« Le mie schede » conserva i personaggi che gioca altrove, solo per lei.',
         'items' => [
             'Nuova pagina «Le mie schede»: conserva i personaggi che giochi fuori da SagaWyn, da un amico, in un club o altrove. Li vedi solo tu.',
             'Ogni personaggio ha la sua scheda PDF, un ritratto, campi liberi (testi e contatori da regolare con − e + durante la partita) e le tue note, con il nome del gioco e del tavolo per ritrovarlo.',
@@ -238,6 +265,7 @@ return [
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Una libreria di suoni per tutte le tue campagne',
+        'short' => 'Una biblioteca di suoni personale, utilizzabile in tutte le sue campagne.',
         'items' => [
             'Nuova pagina «I miei suoni»: musiche e atmosfere salvate una sola volta nel tuo account, poi aggiunte alle campagne che conduci. Il file non viene copiato e conta una sola volta nel tuo spazio.',
             'Nella pagina Suoni di una campagna: «Dalla mia libreria» per aggiungere i tuoi suoni, «Sposta nella mia libreria» per riutilizzare un suono altrove, e una casella per salvare un nuovo caricamento direttamente nella libreria.',
@@ -248,6 +276,7 @@ return [
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'Le istruzioni ovunque',
+        'short' => 'Un pulsante « ? » spiega le schermate di SagaWyn.',
         'items' => [
             'Il pulsante «?» arriva su suoni, grafo delle relazioni, cronologia, opinioni dei giocatori, assistente IA, registro e scheda del personaggio.',
             'Su grafo, cronologia e scheda del personaggio, i giocatori leggono istruzioni scritte per loro.',
@@ -257,6 +286,7 @@ return [
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Togliere o aggiungere più punti in una volta',
+        'short' => 'I contatori del suo personaggio si modificano di più punti in una volta.',
         'items' => [
             'Sotto ogni contatore che il giocatore può modificare (PF, munizioni, denaro…), un campo «Quantità»: scrivi 8 e poi −, e il contatore perde 8 in un colpo. Il valore predefinito è 1.',
         ],
@@ -283,6 +313,7 @@ return [
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonus e soglia letti sulla scheda',
+        'short' => 'I dadi leggono bonus e soglie dalla scheda del personaggio.',
         'items' => [
             'Nei dadi, il bonus può prendere uno o più valori dalla scheda del personaggio (caratteristica, abilità, qualsiasi campo numero o contatore della zona pubblica), interi o come decina, metà o quinto, oltre al bonus libero. Anche la soglia può essere letta sulla scheda. I valori si leggono al momento del tiro, sulla scheda di ogni personaggio che tira.',
             'Più bonus con nome (Arma +2, Ferita −1…) si sommano nello stesso tiro, insieme ai valori della scheda.',
@@ -311,6 +342,7 @@ return [
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Dadi misti e tiri personali',
+        'short' => 'Più tipi di dadi nello stesso tiro, e tiri solo per lei.',
         'items' => [
             'Uno stesso tiro può mescolare più tipi di dadi: tocca un d20 e poi due d6, e si tira 1d20 + 2d6. Ogni tipo ha il suo numero, modificabile o rimovibile.',
             'La soglia vale per il totale («Soglia sul totale», raggiunta o non superata) o per ogni dado («Soglia per dado»: per esempio ogni dado da 4 in su è un successo).',
@@ -329,6 +361,7 @@ return [
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'I dadi al tavolo',
+        'short' => 'Un vassoio di dadi condiviso al tavolo, e il master può chiederle un tiro.',
         'items' => [
             'Nuovo pulsante «Dadi» in fondo a ogni pagina della campagna: il numero e il tipo di dadi (da 4 a 100 facce, o altro), poi come leggerli: sommare, raggiungere una soglia, restare sotto una soglia, contare i successi, tenere i migliori o i più bassi, leggere in cifre. Con un bonus e dadi che si ritirano sul massimo (+) o sull\'1 (−).',
             'Il Master chiede un tiro a tutto il tavolo o ad alcuni personaggi, alla vista di tutti o in modo discreto. Ai giocatori interessati si apre una finestra; senza soglia, ognuno inserisce la sua e aggiunge il suo bonus, e una soglia nascosta resta al Master, che vede chi ha tirato cosa.',
@@ -349,6 +382,7 @@ return [
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Sagome d\'area sulla mappa',
+        'short' => 'Sagome d’area sulla mappa di battaglia.',
         'items' => [
             'Nuove sagome nella pagina della mappa: cerchio, quadrato, rettangolo, cono e linea, misurate in caselle (o nell\'unità della scala). Si trascinano sulla mappa, si orientano, si nascondono, e l\'elenco dei segnalini colpiti appare subito.',
             'Le sagome visibili compaiono sullo schermo del tavolo, sotto i segnalini.',
@@ -358,6 +392,7 @@ return [
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Mappa di combattimento condivisa',
+        'short' => 'Una mappa di battaglia condivisa: sposta la sua pedina, anche a distanza.',
         'items' => [
             'Sullo schermo del tavolo condiviso, ogni giocatore muove la pedina del proprio personaggio. Nella mappa, «Mosso da» affida un\'altra pedina a un giocatore: seguace, famiglio, nemico controllato…',
             'Nuovo ordine di iniziativa, dal telecomando o dalla mappa: PG e nemici con il loro valore, turno in corso, round. Il GM lo mostra sopra lo schermo quando vuole; le righe nascoste restano a lui, e una fila «Presenti anche» mostra PNG o oggetti senza iniziativa.',
@@ -368,6 +403,7 @@ return [
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'La community su Discord',
+        'short' => 'La comunità SagaWyn si ritrova su Discord.',
         'items' => [
             'SagaWyn ha il suo server Discord: un link in fondo a ogni pagina e nella pagina iniziale per fare domande, proporre idee e incontrare altri master.',
         ],
@@ -386,6 +422,7 @@ return [
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Contenuti della casa',
+        'short' => 'Il master distingue i contenuti fatti in casa da quelli ufficiali.',
         'items' => [
             'Nuova casella «Contenuto della casa» sulle schede (PNG, incantesimi, oggetti, luoghi…): senza spunta la scheda è ufficiale. Un distintivo «Casa» la segnala nell’elenco e sulla scheda, e un filtro Ufficiale / Casa ordina l’universo.',
             'Per una scheda della casa o una regola di origine «Casa», la versione ufficiale sostituita si annota accanto (per esempio l’iniziativa con 1d10 invece di 1d20): resta nella zona del master, ripiegata sotto la scheda o la regola.',
@@ -420,6 +457,7 @@ return [
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Preparare un\'intera campagna con un\'IA',
+        'short' => 'Un’IA può preparare un’intera campagna da importare a partire da un manuale di gioco.',
         'items' => [
             'Le mie campagne → Importa una campagna: nuovo link «Prepara l’archivio con un’IA». Il prompt (o lo skill di Claude) fa leggere il manuale di gioco di ruolo alla vostra IA, che crea un archivio .zip: gioco, mondo, campagna, schede, scene e documenti vengono creati in un colpo solo.',
         ],
@@ -436,6 +474,7 @@ return [
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'I segreti diventano indizi',
+        'short' => 'I segreti ora si chiamano indizi.',
         'items' => [
             'I «segreti» della campagna ora si chiamano «indizi»: pagina Indizi, pannello di schede, scene e documenti, modalità Sessione, ricerca, rivelazioni e aiuto. I tuoi dati non cambiano.',
         ],
@@ -444,6 +483,7 @@ return [
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'I giocatori modificano il loro personaggio',
+        'short' => 'Il master può lasciarle modificare il suo personaggio.',
         'items' => [
             'Pagina Campi: «Modificabile dal giocatore» si spunta per un intero gruppo (caratteristiche, abilità…) o per tutti i campi pubblici con un clic.',
             'Nuova opzione nella pagina Giocatori: il master può lasciare che ogni giocatore modifichi ritratto, riassunto e descrizione del proprio personaggio. La zona del master resta nascosta.',
@@ -453,6 +493,7 @@ return [
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Badge Fondatore e codici regalo',
+        'short' => 'Un badge Fondatore e codici regalo Premium da offrire.',
         'items' => [
             'I sostenitori del Kickstarter possono essere segnati come Fondatore nella console di amministrazione: un badge ★ Fondatore visibile nelle preferenze, nell’elenco dei membri e nella scheda del personaggio.',
             'I Fondatori hanno spazio in più rispetto al loro piano, gratuito o premium (500 MB di default, regolabile in «Piani»).',
@@ -489,6 +530,7 @@ return [
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'La demo mostra tutto SagaWyn',
+        'short' => 'La campagna dimostrativa usa tutte le funzioni di SagaWyn.',
         'items' => [
             'La campagna dimostrativa usa ora ogni funzione: un personaggio giocante tratto da un pregenerato, con ciò che ha ricevuto (scheda, documento, regola, segreto, oggetti) e che il master può «Vedere come»; note di sessione; una lista «Da giocare»; schede fissate; campi riferimento, documento e comuni a due tipi; un allegato del master; segreti di ogni natura; tag colorati; copertine per il gioco e il mondo.',
             'Ricaricare la demo riutilizza il tipo di scheda «Fazione» già creato invece di aggiungerne un secondo.',
@@ -507,6 +549,7 @@ return [
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi diventa SagaWyn',
+        'short' => 'LoreMundi diventa SagaWyn.',
         'items' => [
             'LoreMundi ora si chiama SagaWyn, sempre pubblicato da Autistic Intelligence. Every world has a story.',
             'Campagne, account e archivi non cambiano: i backup creati con LoreMundi o CodexFlow si importano ancora. I file scaricati ora iniziano con «sagawyn-».',
@@ -516,6 +559,7 @@ return [
     '0.46.0' => [
         'date' => '2026-10-10',
         'title' => 'Pareri dei giocatori',
+        'short' => 'Il master può chiederle un parere su una sessione o una campagna.',
         'items' => [
             'Alla fine di una sessione o di una campagna, chiedi ai tuoi giocatori un voto da 1 a 5 stelle, cosa è piaciuto e cosa potrebbe andare meglio («Pareri dei giocatori» nella campagna, o dalla pagina di una sessione).',
             'Risposte anonime o firmate, a scelta del Master: i giocatori lo sanno prima di rispondere. Vedi la media, la distribuzione dei voti e tutti i commenti.',
@@ -525,6 +569,7 @@ return [
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Libreria audio',
+        'short' => 'Una biblioteca di musiche e atmosfere per le sessioni.',
         'items' => [
             'Nuova pagina «Suoni»: carica le tue musiche e atmosfere (mp3, ogg, m4a, wav, flac), ordinale con i tag e collegale alle scene.',
             'In modalità Sessione, il blocco «Musica» propone prima i suoni della scena: «Qui» li riproduce sul tuo dispositivo, senza interrompersi quando cambi pagina; «Tavolo» li riproduce sullo schermo del tavolo, con pausa, loop e volume gestiti dalla sessione.',
@@ -587,6 +632,7 @@ return [
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Ricerca',
+        'short' => 'La ricerca trova anche le altre forme di una parola.',
         'items' => [
             'La ricerca trova anche altre forme francesi di una parola: «lanternes» trova «lanterne», «éteinte» trova «éteintes».',
             'La ricerca dalla home cerca anche nei tuoi mondi e giochi non collegati ad alcuna campagna.',
@@ -596,6 +642,7 @@ return [
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Giocatori e ruoli',
+        'short' => 'Una scheda rivelata mostra le sue illustrazioni, e la sua scheda ha il filo della campagna.',
         'items' => [
             'Una scheda rivelata mostra al giocatore le illustrazioni e i file pubblici, e le relazioni pubbliche verso schede che conosce.',
             'I giocatori hanno una «Cronaca della campagna» sulla scheda: sessioni, eventi giocati noti al tavolo e messaggi al gruppo.',
@@ -628,6 +675,7 @@ return [
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Funzioni per campagna',
+        'short' => 'Il master sceglie le funzioni di cui il suo tavolo ha bisogno.',
         'items' => [
             'Nella pagina della campagna, il Master spunta le funzioni che servono al suo tavolo: schermo del tavolo, mappe, scambi tra giocatori, grafo, cronologia, assistente IA. Una funzione senza spunta scompare per tutti senza cancellare nulla; torna appena la si spunta di nuovo.',
         ],
@@ -648,6 +696,7 @@ return [
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDF e documenti',
+        'short' => 'I PDF si aprono in un lettore integrato, su tutti i dispositivi.',
         'items' => [
             'I PDF si aprono in un visualizzatore integrato, uguale su computer, tablet e telefono, con zoom e download.',
             'Sullo schermo del tavolo, un PDF si mostra una pagina alla volta, adattato allo schermo; le frecce girano le pagine.',
@@ -660,6 +709,7 @@ return [
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Funzioni Premium ✦',
+        'short' => 'Una stella ✦ segnala le funzioni Premium, e nulla viene cancellato alla fine di un abbonamento.',
         'items' => [
             'Una piccola stella ✦ segnala le funzioni Premium. Quando il piano del proprietario di una campagna non le include, restano visibili, in grigio, con una spiegazione.',
             'Alla fine di una prova o di un abbonamento non si cancella nulla: campagne, mappe, messaggi e file restano, si spengono solo le funzioni ✦.',
@@ -724,6 +774,7 @@ return [
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Importare un manuale di gioco con un’IA',
+        'short' => 'Un’IA può preparare i file di importazione a partire da un manuale di gioco.',
         'items' => [
             'In «Importa», «Prepara i file con un’IA» fornisce un prompt da incollare nell’IA che preferisci insieme al PDF di un gioco o di uno scenario: prepara i file di importazione (campi, schede, regole, scene) e una guida passo passo. Il prompt è disponibile anche come skill di Claude.',
         ],
@@ -732,6 +783,7 @@ return [
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Sicurezza e dati personali',
+        'short' => 'Nelle Preferenze: il suo account, l’autenticazione a due fattori facoltativa e i suoi dati da scaricare.',
         'items' => [
             '«Il mio account», in Preferenze: cambia il nome, l’indirizzo e-mail (il precedente viene avvisato) e la password.',
             'Autenticazione a due fattori facoltativa, in Preferenze: un codice da un’app sul telefono, con codici di recupero.',
@@ -745,6 +797,7 @@ return [
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow diventa LoreMundi',
+        'short' => 'CodexFlow diventa LoreMundi.',
         'items' => [
             'CodexFlow ora si chiama LoreMundi, pubblicato da Autistic Intelligence. Every world has a story.',
             'Campagne, account e archivi non cambiano: i backup creati con CodexFlow si importano ancora. I file scaricati ora iniziano con «loremundi-».',
@@ -754,6 +807,7 @@ return [
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Backup completo',
+        'short' => 'Il master può scaricare un backup completo della sua campagna.',
         'items' => [
             'Il proprietario può scaricare un backup completo: l’archivio della campagna con il tavolo (personaggi, ciò che hanno ricevuto, sessioni, note, messaggi e registro), senza note «Solo io» né indirizzi email. All’importazione i personaggi tornano senza giocatore, pronti da assegnare.',
         ],
@@ -762,6 +816,7 @@ return [
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Ricerca dalla home',
+        'short' => 'Dalla pagina iniziale, la ricerca esplora tutte le sue campagne.',
         'items' => [
             'Fuori da una campagna, la barra di ricerca cerca in tutte le tue campagne, nei loro mondi e giochi, ciascuna con i tuoi permessi: tutto da Master, ciò che conosce il tuo personaggio da giocatore.',
         ],
@@ -789,6 +844,7 @@ return [
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Nuovo personaggio, Le mie campagne, pagine di gioco e mondo',
+        'short' => 'Ogni gioco e ogni mondo ha la sua pagina, e « Le mie campagne » la riporta all’ultima sessione.',
         'items' => [
             'Quando un giocatore riceve un nuovo personaggio, il Master spunta ciò che passa dal precedente: conoscenze, informazioni, documenti e regole vengono copiati, gli oggetti cambiano di mano.',
             'Le mie campagne: pulsante «Riprendi», data dell’ultima sessione e campagne archiviate a parte.',
@@ -799,6 +855,7 @@ return [
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Editor avanzato e note dei giocatori',
+        'short' => 'Un editor di testo formattato, e note dei giocatori collegate alle schede conosciute.',
         'items' => [
             'I testi lunghi (descrizioni, note del Master, scene, regole, cronologia, note dei giocatori) hanno un editor con grassetto, corsivo, sottotitoli, elenchi e citazioni; «[[» propone sempre le schede da collegare.',
             'I giocatori collegano le loro note alle schede che il loro personaggio conosce, e solo a quelle.',
@@ -809,6 +866,7 @@ return [
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Abbonamento Premium e prova gratuita',
+        'short' => 'Un abbonamento Premium, e sei settimane di prova gratuite.',
         'items' => [
             'Passa a Premium da «Preferenze»: pagamento mensile o annuale protetto da Stripe, con fatture e disdetta nel portale Stripe. Il Premium dura fino alla fine del periodo pagato.',
             'Prova gratuita: sei settimane con tutte le funzioni, dalla tua prima campagna come Master. Un giocatore che non è mai Master non la inizia. La durata si imposta nella console di amministrazione.',
@@ -829,6 +887,7 @@ return [
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Dopo il collaudo: scambi convalidati dal master',
+        'short' => 'Il master convalida gli scambi tra giocatori.',
         'items' => [
             'Per impostazione predefinita il master convalida gli scambi tra giocatori: l’oggetto o la conoscenza cambia mano solo dopo l’accettazione. Una casella in «Personaggi dei giocatori» permette di autorizzarli sempre.',
             'Telecomando: all’ultimo elemento della scena, «Avanti» diventa «Termina» e svuota lo schermo.',
@@ -850,6 +909,7 @@ return [
     '0.13.0' => [
         'date' => '2026-10-08',
         'title' => 'La tua IA, senza copia e incolla',
+        'short' => 'La sua chiave IA, per un assistente senza copia e incolla.',
         'items' => [
             'In «Preferenze» puoi salvare una chiave API a tuo nome di Claude (Anthropic), ChatGPT (OpenAI) o Le Chat (Mistral). L’assistente IA propone allora «Analizza direttamente»: le proposte arrivano senza copia e incolla.',
             'Le chiamate sono fatturate dal fornitore sul tuo account. La chiave è cifrata, mai più mostrata né esportata, e la modalità «testo da incollare» resta gratuita.',
@@ -859,6 +919,7 @@ return [
     '0.12.0' => [
         'date' => '2026-10-08',
         'title' => 'Un assistente IA, senza abbonamento',
+        'short' => 'Un assistente IA aiuta il master a sfruttare le note di sessione.',
         'items' => [
             'Nuovo strumento «Assistente IA» nella campagna: LoreMundi prepara un testo con le note della sessione e il contesto della campagna, da incollare nell’IA che preferisci. La sua risposta, incollata qui, diventa un insieme di proposte: riassunto, eventi giocati, relazioni, stati, note di campagna, rivelazioni.',
             'Ogni proposta si accetta, si modifica o si rifiuta. Nulla cambia nella campagna senza di te, e le relazioni o gli stati proposti restano propri della campagna, senza toccare il mondo condiviso.',
@@ -876,6 +937,7 @@ return [
     '0.11.0' => [
         'date' => '2026-10-08',
         'title' => 'Una campagna dimostrativa',
+        'short' => 'Una campagna dimostrativa da caricare con un clic.',
         'items' => [
             'Campagna dimostrativa da caricare con un clic da «Le mie campagne»: un gioco inventato, «Brume & Serment», e una trama completa in tre sessioni, con schede, ritratti, relazioni, mappa, segreti, regole, cronologia e personaggi pregenerati.',
             'I piccoli pulsanti a icona della pagina di campagna non si spostano più al passaggio del mouse: il nome compare in un suggerimento, sopra al resto.',
@@ -886,6 +948,7 @@ return [
     '0.10.0' => [
         'date' => '2026-10-07',
         'title' => 'Una pagina di campagna più chiara',
+        'short' => 'Una pagina della campagna più chiara.',
         'items' => [
             'La pagina della campagna riordinata: la modalità Sessione in evidenza, quattro aree di preparazione e gli altri strumenti come piccoli pulsanti con icona.',
             'Atmosfera dello schermo del tavolo, da scegliere dal telecomando: Notte, Pergamena, Ardesia o Grimorio.',
@@ -895,6 +958,7 @@ return [
     '0.9.0' => [
         'date' => '2026-10-07',
         'title' => 'Portarsi via la campagna',
+        'short' => 'Esportare e importare un’intera campagna.',
         'items' => [
             'Esportare un’intera campagna in un archivio .zip: gioco, mondo, schede, scenari, documenti, mappe, segreti, cronologia e file.',
             'Importare un archivio da «Le mie campagne»: ricrea la campagna, da te o da un altro master.',
@@ -905,6 +969,7 @@ return [
     '0.8.0' => [
         'date' => '2026-10-07',
         'title' => 'Il grafo e la cronologia',
+        'short' => 'Il grafo delle relazioni e la cronologia.',
         'items' => [
             'Grafo delle relazioni: tutte le schede collegate, o la rete attorno a una scheda, con profondità e filtro per tipo.',
             '«Vedi come» nel grafo: la rete come la conosce un personaggio. I giocatori vi accedono dal loro personaggio.',
@@ -916,6 +981,7 @@ return [
     '0.7.0' => [
         'date' => '2026-10-07',
         'title' => 'Intorno al tavolo',
+        'short' => 'Mappe, pedine e telecomando per lo schermo del tavolo.',
         'items' => [
             'Mappe: un’immagine sullo schermo da tavolo, che ingrandisci e sposti, con una griglia quadrata facoltativa e una scala.',
             'Segnalini facoltativi, collegati alle schede (nome e ritratto): spostarli, ridimensionarli, mostrarli o nasconderli ai giocatori.',
@@ -928,6 +994,7 @@ return [
     '0.6.0' => [
         'date' => '2026-10-07',
         'title' => 'La memoria della campagna',
+        'short' => 'Segreti rivelati con un clic, e la cronologia di chi ha saputo cosa.',
         'items' => [
             'Segreti: un’informazione a sé, collegata a schede, scene o documenti, rivelata con un clic a un personaggio o a tutto il tavolo.',
             'Cronologia delle rivelazioni: chi ha saputo cosa, quando, in quale sessione e in quale scena; ogni rivelazione può essere annullata.',
@@ -940,6 +1007,7 @@ return [
     '0.5.0' => [
         'date' => '2026-10-07',
         'title' => 'Mettere in ordine, insieme',
+        'short' => 'Tag, duplicazione, co-master e spettatori.',
         'items' => [
             'Una pagina «Tag» per rinominare, colorare, unire ed eliminare i tuoi tag; anche le scene hanno i tag.',
             '«Duplica» una scheda, uno scenario o un\'intera campagna, per rigiocare con un altro tavolo.',
@@ -952,6 +1020,7 @@ return [
     '0.4.1' => [
         'date' => '2026-10-07',
         'title' => 'Aiuto e segnalazioni',
+        'short' => 'Una pagina di aiuto, e « Segnala un problema » su ogni pagina.',
         'items' => [
             'Una pagina «Aiuto» risponde alle domande più frequenti, per il Master come per i giocatori.',
             '«Segnala un problema», in fondo a ogni pagina, invia il tuo messaggio al team insieme alla pagina interessata.',
@@ -961,6 +1030,7 @@ return [
     '0.4.0' => [
         'date' => '2026-10-07',
         'title' => 'Tutte le lingue',
+        'short' => 'L’interfaccia parla otto lingue.',
         'items' => [
             'L\'interfaccia parla francese, inglese, tedesco, spagnolo, italiano, portoghese, olandese e polacco.',
             'La lingua segue quella del browser; ognuno può sceglierla in «Preferenze».',
@@ -973,6 +1043,7 @@ return [
     '0.3.0' => [
         'date' => '2026-10-07',
         'title' => 'Il legame vivo',
+        'short' => 'Messaggi, notifiche in tempo reale, app installabile e schermo del tavolo.',
         'items' => [
             'Messaggistica tra il Master e i suoi giocatori, e pannello «Discussione» sempre a portata di mano (gruppo e privato).',
             'Notifiche: rivelazioni, oggetti ricevuti, messaggi, con un contatore nell\'intestazione.',
@@ -988,6 +1059,7 @@ return [
     '0.2.0' => [
         'date' => '2026-10-07',
         'title' => 'I giocatori',
+        'short' => 'Inviti, personaggi dei giocatori, rivelazioni e registro.',
         'items' => [
             'Inviti dei giocatori tramite link.',
             'Personaggi dei giocatori: scheda, foglio PDF, contatori (PF, magia, munizioni…) e campi modificabili dal giocatore.',
@@ -1000,6 +1072,7 @@ return [
     '0.1.0' => [
         'date' => '2026-10-06',
         'title' => 'Il Master da solo',
+        'short' => 'Mondi, schede, scene, modalità Sessione e ricerca per il master.',
         'items' => [
             'Mondi, campagne e schede con zona pubblica e zona Master, collegamenti [[ ]] tra schede.',
             'Campi liberi per gioco, tipi di scheda, importazione CSV/JSON.',
