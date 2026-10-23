@@ -51,6 +51,60 @@ class FinishingTouchesTest extends TestCase
         $this->assertSame([Changelog::version()], array_keys(Changelog::unseenSince(null)));
     }
 
+    public function test_players_get_the_short_version_of_notable_releases_and_the_admin_the_detail(): void
+    {
+        // Données figées sur la 0.95.0 : une version suivante n'a pas forcément de phrase courte.
+        $latestVersion = '0.95.0';
+        config(['codexflow.version' => $latestVersion]);
+        $latest = Changelog::all()[$latestVersion];
+
+        // Version notable (0.89.0) et petite correction (0.87.1, sans phrase courte).
+        $player = User::factory()->create();
+        $player->forceFill(['is_admin' => false, 'last_seen_version' => '0.87.0'])->save();
+
+        Livewire::actingAs($player)->test(WhatsNew::class)
+            ->assertSee('Quoi de neuf ?')
+            ->assertSee($latest['short'])
+            ->assertDontSee($latest['items'][0])
+            ->assertSee('Déclaration de droits à chaque import')
+            ->assertDontSee('Noms des points lisibles sur la carte')
+            ->assertDontSee('Repérer les accès offerts');
+
+        $this->actingAs($player)->get(route('changelog'))
+            ->assertOk()
+            ->assertSee($latest['short'])
+            ->assertDontSee($latest['items'][0])
+            ->assertDontSee('Version 0.87.1')
+            ->assertDontSee('Version courte');
+
+        $unseen = array_keys(Changelog::unseenSince('0.86.2', false));
+        $this->assertContains('0.89.0', $unseen);
+        $this->assertContains('0.87.0', $unseen);
+        $this->assertNotContains('0.88.0', $unseen);
+        $this->assertNotContains('0.87.1', $unseen);
+
+        // Seule une petite correction depuis la dernière vue : pas de fenêtre pour le joueur.
+        config(['codexflow.version' => '0.87.1']);
+        $this->assertSame([], Changelog::unseenSince('0.87.0', false));
+        $this->assertSame(['0.87.1'], array_keys(Changelog::unseenSince('0.87.0')));
+        config(['codexflow.version' => $latestVersion]);
+
+        $admin = User::factory()->create();
+        $admin->forceFill(['is_admin' => true, 'last_seen_version' => '0.87.0'])->save();
+
+        Livewire::actingAs($admin)->test(WhatsNew::class)
+            ->assertSee($latest['items'][0])
+            ->assertSee('Noms des points lisibles sur la carte')
+            ->assertSee('Repérer les accès offerts');
+
+        $this->actingAs($admin)->get(route('changelog'))
+            ->assertOk()
+            ->assertSee($latest['items'][0])
+            ->assertSee('Version courte : '.$latest['short'])
+            ->assertSee('Version 0.87.1')
+            ->assertSee('Version non montrée aux autres comptes.');
+    }
+
     public function test_display_preferences_are_saved_and_applied(): void
     {
         $user = User::factory()->create();

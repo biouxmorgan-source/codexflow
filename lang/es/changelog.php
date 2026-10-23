@@ -4,6 +4,16 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.95.0' => [
+        'date' => '2026-10-23',
+        'title' => '« Novedades » va a lo esencial',
+        'short' => 'Una frase por novedad, y solo cuando algo cambia de verdad para usted.',
+        'items' => [
+            '« Novedades » muestra ahora una versión corta: una frase por versión, y solo para las versiones destacadas. Las pequeñas correcciones ya no abren la ventana.',
+            'La cuenta de administrador conserva el detalle completo de cada versión, con debajo de cada una la frase que ven las demás cuentas, o la mención de que no se les muestra.',
+        ],
+    ],
+
     '0.94.0' => [
         'date' => '2026-10-23',
         'title' => 'Bloques en 1, 2 o 3 columnas, y página de mapa organizable',
@@ -18,6 +28,7 @@ return [
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Una nueva página de inicio',
+        'short' => 'Una nueva página de inicio, y el enlace al Discord de la comunidad en todas partes.',
         'items' => [
             'La página de inicio pública presenta ahora todo lo que SagaWyn sabe hacer, en tres momentos: preparar, jugar en la mesa y mantener viva la campaña entre sesiones. Mapa de batalla, dados, mapa de campaña, sonidos, libro de aventuras y «Mis hojas» tienen su lugar.',
             'El enlace al Discord de la comunidad aparece ahora de forma predeterminada, arriba y abajo de la página de inicio, en la ayuda y en el pie de página.',
@@ -27,6 +38,7 @@ return [
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Importación con IA: prompt en inglés, idioma a elegir',
+        'short' => 'La importación con una IA le permite elegir el idioma del contenido importado.',
         'items' => [
             'El prompt y el skill de Claude de «Preparar la importación con una IA» están ahora en inglés, el idioma que mejor siguen las IA.',
             'Un menú «Idioma del contenido importado» elige el idioma en el que la IA escribe las fichas, las escenas, los títulos de los documentos y la guía (el de la interfaz por defecto). Con el skill también se puede pedir otro idioma al importar.',
@@ -45,6 +57,7 @@ return [
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Declaración de derechos en cada importación',
+        'short' => 'Antes de cada importación, una casilla le pide confirmar que tiene los derechos sobre los contenidos importados.',
         'items' => [
             'Antes de cada importación (archivo CSV o JSON, archivo de campaña, plantilla de juego), una casilla desmarcada por defecto pide certificar que dispones de los derechos necesarios sobre los contenidos importados. Sin ella, el botón sigue gris y el servidor rechaza la importación.',
             'Cada declaración se registra con su fecha, la versión del texto aceptado y el resultado de la importación, sin copia de los archivos. Aparece en «Descargar mis datos».',
@@ -71,6 +84,7 @@ return [
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Tiradas guardadas para cada hoja',
+        'short' => 'En « Mis hojas », cada personaje guarda sus propias tiradas de dados guardadas.',
         'items' => [
             'En los dados de «Mis hojas», «Guardar esta tirada» guarda una tirada con la hoja: cada personaje tiene sus propias tiradas (Bola de fuego, Ataque…), que se recargan con un toque, se actualizan y se quitan con ×.',
         ],
@@ -95,6 +109,7 @@ return [
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Modificar un documento sin borrarlo',
+        'short' => '« Reemplazar el archivo » actualiza un documento sin perder su título ni sus enlaces.',
         'items' => [
             'En la página de un documento, «Reemplazar el archivo» pone una nueva versión en lugar de la antigua: el documento conserva su título, ajustes y enlaces, y la nueva versión aparece al instante en escenas, fichas, reglas, mapas, pistas y en los personajes que lo recibieron.',
             'Una imagen que sirve de mapa se reemplaza por otra imagen; fichas, cuadrícula y puntos se quedan en su sitio.',
@@ -104,6 +119,7 @@ return [
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Tirar los dados desde la hoja',
+        'short' => 'Un pequeño dado junto a los valores de la ficha tira los dados con ese valor.',
         'items' => [
             'En la hoja de un personaje, un pequeño dado junto a cada número y cada contador tira los dados con ese valor: «Tirar por debajo de… (umbral)» o «Sumar… a la tirada (bonificador)». La bandeja de dados se abre lista para tirar y el resultado va a la mesa como siempre.',
             'En la hoja de tu propio personaje, el valor sigue vinculado a la hoja: si cambia, la tirada guardada lo sigue. El DJ también puede tirar desde la hoja de un jugador.',
@@ -130,6 +146,7 @@ return [
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Pestañas en Mis hojas',
+        'short' => '« Mis hojas » se organiza en pestañas a las que usted pone nombre.',
         'items' => [
             'En «Editar», «+ Nueva pestaña» divide una hoja en pestañas que nombras (Personaje, Hechizos, Inventario…), ordenas y quitas.',
             'Cada bloque elige su pestaña, y cada pestaña coloca sus bloques en sus propias tres columnas. Una hoja existente conserva todos sus bloques en una primera pestaña.',
@@ -139,6 +156,7 @@ return [
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Varias notas y tres columnas en Mis hojas',
+        'short' => '« Mis hojas » admite varios bloques de notas, en tres columnas.',
         'items' => [
             '«+ Nueva nota» añade un bloque de notas: tantos como quieras (deudas, rumores, contactos…). Tus notas anteriores pasan a un primer bloque «Notas».',
             'Los bloques se colocan ahora en tres columnas, notas incluidas, con «Organizar los bloques».',
@@ -148,6 +166,7 @@ return [
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Una demo al día',
+        'short' => 'La campaña de demostración muestra las últimas novedades.',
         'items' => [
             'La campaña de demostración muestra ahora las últimas novedades: en el mapa de campaña, el faro lleva a un submapa, su sótano, listo para el combate con fichas, dos plantillas de área y un orden de iniciativa. Cada punto enlaza varias fichas y varias escenas.',
             'Dados en la mesa: tiradas preparadas que leen la característica de la ficha, un bono con nombre y las tiradas de la sesión 1, incluida una petición del DJ.',
@@ -159,6 +178,7 @@ return [
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Mapa de campaña: zoom, mesa y lugares más completos',
+        'short' => 'El mapa de campaña admite zoom, y cada lugar lleva a sus escenas, sus fichas o un submapa.',
         'items' => [
             'El mapa de campaña se amplía (rueda, + y −, pellizcar en tableta) y se desplaza arrastrando. Consejo: una imagen 4K (3840 × 2160) se mantiene nítida.',
             'Cuando el mapa está en la pantalla de mesa, el submapa abierto desde un punto lo sustituye allí, y el mapa superior vuelve al subir. En el submapa, «Este lugar» mantiene a un clic las escenas y fichas del punto.',
@@ -169,6 +189,7 @@ return [
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Bloques, notas y casillas en Mis hojas',
+        'short' => '« Mis hojas » se organiza en bloques movibles, con una nota y una casilla por campo.',
         'items' => [
             'En «Mis hojas», los campos se agrupan en bloques que nombras: Características, Habilidades, Equipo, Hechizos…',
             '«Organizar los bloques»: arrastra un bloque por su asa, o usa las flechas, para colocarlo donde quieras, en una o dos columnas.',
@@ -179,6 +200,7 @@ return [
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Biblioteca de demos',
+        'short' => 'Una biblioteca de demostraciones para descubrir y cargar.',
         'items' => [
             'Nueva «Biblioteca de demos», desde «Mis campañas»: campañas listas para jugar (un mundo, un escenario corto, personajes pregenerados) de las que cargas tu propia copia en un clic.',
             'Cada demo de un autor o una editorial conserva un enlace «Comprar el juego», en la biblioteca y en la parte superior de tu copia.',
@@ -189,6 +211,7 @@ return [
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Lo que pasó, y el libro de aventuras',
+        'short' => 'El libro de aventuras cuenta la campaña, escena tras escena.',
         'items' => [
             'Cada escena tiene ahora dos partes: «Lo previsto» y «Lo que pasó». Si la mesa siguió el plan, basta con marcar «Jugada según lo previsto».',
             'Nuevo «Libro de aventuras» en la campaña: las escenas jugadas, escenario por escenario, y luego los resúmenes de las sesiones, para leer, imprimir o guardar en PDF.',
@@ -199,6 +222,7 @@ return [
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Organiza tus pantallas a tu manera',
+        'short' => 'El DJ organiza sus pantallas a su manera.',
         'items' => [
             'Nuevo botón «Organizar la pantalla» en la página de la campaña y en el modo Sesión: arrastra cada bloque por su asa ⠿, con el ratón o con el dedo, o usa las flechas.',
             'En el modo Sesión, un bloque puede pasar de una columna a otra: la música arriba, las notas a la derecha, como prefieras.',
@@ -209,6 +233,7 @@ return [
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Tu ficha, incluso sin conexión',
+        'short' => 'Su ficha se edita incluso sin conexión y se sincroniza al volver la red.',
         'items' => [
             'Sin conexión, la ficha de tu personaje sigue siendo utilizable: ajusta tus contadores con − y +, modifica los campos que el DJ te permite y escribe notas.',
             'Todo se guarda en el dispositivo y se envía al volver la conexión, campo por campo: un contador recibe lo que quitaste o añadiste, y lo que el DJ cambió mientras tanto (un secreto revelado, un campo modificado) se conserva.',
@@ -219,6 +244,7 @@ return [
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'El gran mapa de campaña',
+        'short' => 'Un gran mapa de campaña, con sus lugares.',
         'items' => [
             'Nuevo «Mapa de campaña»: elige un mapa como vista general y coloca en él puntos de interés, una ciudad, una mazmorra, el lugar de una escena.',
             'Un punto puede abrir un submapa con un clic, que a su vez tiene sus puntos; la ruta de navegación permite volver a la vista general.',
@@ -229,6 +255,7 @@ return [
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Tus personajes jugados en otro sitio',
+        'short' => '« Mis hojas » guarda los personajes que juega en otros sitios, solo para usted.',
         'items' => [
             'Nueva página «Mis hojas»: guarda los personajes que juegas fuera de SagaWyn, en casa de un amigo, en un club o en otro sitio. Solo tú los ves.',
             'Cada personaje tiene su hoja PDF, un retrato, campos libres (textos y contadores que se ajustan con − y + durante la partida) y tus notas, con el nombre del juego y de la mesa para encontrarlo.',
@@ -238,6 +265,7 @@ return [
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Una biblioteca de sonidos para todas tus campañas',
+        'short' => 'Una biblioteca de sonidos personal, para todas sus campañas.',
         'items' => [
             'Nueva página «Mis sonidos»: tus músicas y ambientes, guardados una sola vez en tu cuenta y añadidos después a las campañas que diriges. El archivo no se copia y solo cuenta una vez en tu espacio.',
             'En la página Sonidos de una campaña: «Desde mi biblioteca» para añadir tus sonidos, «Guardar en mi biblioteca» para reutilizar un sonido en otra parte, y una casilla para guardar una nueva subida directamente en la biblioteca.',
@@ -248,6 +276,7 @@ return [
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'El modo de empleo en todas partes',
+        'short' => 'Un botón « ? » explica las pantallas de SagaWyn.',
         'items' => [
             'El botón «?» llega a los sonidos, el grafo de relaciones, la cronología, las opiniones de los jugadores, el asistente IA, el registro y la hoja de personaje.',
             'En el grafo, la cronología y la hoja de personaje, los jugadores leen un modo de empleo escrito para ellos.',
@@ -257,6 +286,7 @@ return [
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Restar o sumar varios puntos de una vez',
+        'short' => 'Los contadores de su personaje cambian varios puntos de una vez.',
         'items' => [
             'Bajo cada contador que el jugador puede modificar (PV, munición, dinero…), un campo «Cantidad»: escribe 8 y pulsa −, y el contador pierde 8 de golpe. Por defecto vale 1.',
         ],
@@ -283,6 +313,7 @@ return [
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonificador y umbral leídos en la ficha',
+        'short' => 'Los dados leen los bonificadores y los umbrales en la ficha del personaje.',
         'items' => [
             'En los dados, el bonificador puede tomar uno o varios valores de la ficha del personaje (característica, habilidad, cualquier campo número o contador de la zona pública), enteros o en decena, mitad o quinto, además del bonificador libre. El umbral también puede leerse en la ficha. Los valores se leen en el momento de la tirada, en la ficha de cada personaje que tira.',
             'Varios bonificadores con nombre (Arma +2, Herida −1…) se suman en la misma tirada, junto a los valores de la ficha.',
@@ -311,6 +342,7 @@ return [
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Dados mezclados y tiradas propias',
+        'short' => 'Varios tipos de dados en una misma tirada, y tiradas solo para usted.',
         'items' => [
             'Una misma tirada puede mezclar varios tipos de dados: toca un d20 y luego dos d6, y se lanza 1d20 + 2d6. Cada tipo tiene su número, que puedes ajustar o quitar.',
             'El umbral se aplica al total («Umbral sobre el total», alcanzado o sin superar) o a cada dado («Umbral por dado»: por ejemplo, todos los dados de 4 o más son éxitos).',
@@ -329,6 +361,7 @@ return [
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Los dados en la mesa',
+        'short' => 'Una bandeja de dados compartida en la mesa, y el DJ puede pedirle una tirada.',
         'items' => [
             'Nuevo botón «Dados» al pie de cada página de la campaña: el número y el tipo de dados (de 4 a 100 caras, u otro), y cómo leerlos: sumar, alcanzar un umbral, quedar bajo un umbral, contar éxitos, quedarse con los mejores o los más bajos, leer en cifras. Con un bonificador y dados que se vuelven a tirar con el máximo (+) o con el 1 (−).',
             'El DJ pide una tirada a toda la mesa o a algunos personajes, a la vista de todos o en discreto. Se abre una ventana a los jugadores afectados; sin umbral, cada uno indica el suyo y añade su bonificador, y un umbral oculto se queda con el DJ, que ve quién ha tirado qué.',
@@ -349,6 +382,7 @@ return [
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Plantillas de área en el mapa',
+        'short' => 'Plantillas de área en el mapa de combate.',
         'items' => [
             'Nuevas plantillas en la página del mapa: círculo, cuadrado, rectángulo, cono y línea, medidas en casillas (o en la unidad de la escala). Se arrastran por el mapa, se orientan, se ocultan, y la lista de tokens alcanzados aparece al instante.',
             'Las plantillas visibles aparecen en la pantalla de mesa, bajo los tokens.',
@@ -358,6 +392,7 @@ return [
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Mapa de combate compartido',
+        'short' => 'Un mapa de combate compartido: usted mueve su ficha, incluso a distancia.',
         'items' => [
             'En la pantalla de mesa compartida, cada jugador mueve la ficha de su personaje. En el mapa, «Movido por» confía otra ficha a un jugador: seguidor, familiar, enemigo controlado…',
             'Nuevo orden de iniciativa, desde el mando o el mapa: PJ y enemigos con su valor, turno actual, rondas. El DJ lo muestra sobre la pantalla cuando quiere; las líneas ocultas se quedan con él, y una fila «También presentes» muestra PNJ u objetos sin iniciativa.',
@@ -368,6 +403,7 @@ return [
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'La comunidad en Discord',
+        'short' => 'La comunidad de SagaWyn se reúne en Discord.',
         'items' => [
             'SagaWyn tiene su servidor de Discord: un enlace al pie de cada página y en la página de inicio para hacer preguntas, proponer ideas y conocer a otros directores de juego.',
         ],
@@ -386,6 +422,7 @@ return [
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Contenido casero',
+        'short' => 'El DJ distingue el contenido casero del contenido oficial.',
         'items' => [
             'Nueva casilla «Contenido casero» en las fichas (PNJ, hechizos, objetos, lugares…): sin marcar, la ficha es oficial. Una insignia «Casero» la señala en la lista y en la ficha, y un filtro Oficial / Casero ordena el universo.',
             'Para una ficha casera o una regla de origen «Casero», la versión oficial sustituida se anota al lado (por ejemplo la iniciativa con 1d10 en vez de 1d20): queda en la zona del DJ, plegada bajo la ficha o la regla.',
@@ -420,6 +457,7 @@ return [
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Preparar una campaña entera con una IA',
+        'short' => 'Una IA puede preparar una campaña entera para importar a partir de un libro de juego.',
         'items' => [
             'Mis campañas → Importar una campaña: nuevo enlace «Prepara el archivo con una IA». El prompt (o el skill de Claude) hace que su IA lea el libro de rol y cree un archivo .zip: el juego, el mundo, la campaña, las fichas, las escenas y los documentos se crean de una vez.',
         ],
@@ -436,6 +474,7 @@ return [
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Los secretos pasan a ser pistas',
+        'short' => 'Los secretos ahora se llaman pistas.',
         'items' => [
             'Los «secretos» de la campaña ahora se llaman «pistas»: página Pistas, panel de fichas, escenas y documentos, modo Sesión, búsqueda, revelaciones y ayuda. Tus datos no cambian.',
         ],
@@ -444,6 +483,7 @@ return [
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Los jugadores editan su personaje',
+        'short' => 'El DJ puede dejarle modificar su personaje.',
         'items' => [
             'Página Campos: «Editable por el jugador» se marca para todo un grupo (características, habilidades…) o para todos los campos públicos con un clic.',
             'Nueva opción en la página Jugadores: el DJ puede dejar que cada jugador edite el retrato, el resumen y la descripción de su personaje. La zona del DJ sigue oculta.',
@@ -453,6 +493,7 @@ return [
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Insignia de Fundador y códigos regalo',
+        'short' => 'Una insignia de Fundador y códigos regalo Premium para ofrecer.',
         'items' => [
             'Los mecenas de Kickstarter pueden marcarse como Fundador en la consola de administración: una insignia ★ Fundador visible en las preferencias, la lista de miembros y la hoja del personaje.',
             'Los Fundadores tienen almacenamiento adicional sobre su plan, gratuito o premium (500 MB por defecto, ajustable en «Planes»).',
@@ -489,6 +530,7 @@ return [
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'La demo muestra todo SagaWyn',
+        'short' => 'La campaña de demostración usa todas las funciones de SagaWyn.',
         'items' => [
             'La campaña de demostración usa ahora cada función: un personaje jugador sacado de un pregenerado, con lo que ha recibido (ficha, documento, regla, secreto, objetos) y que el DJ puede «Ver como»; notas de sesión; una lista «Por jugar»; fichas fijadas; campos de referencia, documento y comunes a dos tipos; un adjunto del DJ; secretos de cada tipo; etiquetas de colores; portadas para el juego y el mundo.',
             'Volver a cargar la demo reutiliza el tipo de ficha «Facción» ya creado en lugar de añadir otro.',
@@ -507,6 +549,7 @@ return [
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi pasa a llamarse SagaWyn',
+        'short' => 'LoreMundi pasa a ser SagaWyn.',
         'items' => [
             'LoreMundi ahora se llama SagaWyn, publicado como siempre por Autistic Intelligence. Every world has a story.',
             'Tus campañas, cuentas y archivos no cambian: las copias hechas con LoreMundi o CodexFlow se siguen importando. Los archivos descargados empiezan ahora por «sagawyn-».',
@@ -516,6 +559,7 @@ return [
     '0.46.0' => [
         'date' => '2026-10-10',
         'title' => 'Opiniones de los jugadores',
+        'short' => 'El DJ puede pedirle su opinión sobre una sesión o una campaña.',
         'items' => [
             'Al final de una sesión o campaña, pide a tus jugadores una nota de 1 a 5 estrellas, lo que les gustó y lo que podría mejorar («Opiniones de los jugadores» en la campaña, o desde la página de una sesión).',
             'Respuestas anónimas o firmadas, a elección del DJ: los jugadores lo saben antes de responder. Ves la media, el reparto de notas y todos los comentarios.',
@@ -525,6 +569,7 @@ return [
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Biblioteca de sonido',
+        'short' => 'Una biblioteca de músicas y ambientes para las sesiones.',
         'items' => [
             'Nueva página «Sonidos»: sube tu música y ambientes (mp3, ogg, m4a, wav, flac), ordénalos con etiquetas y vincúlalos a las escenas.',
             'En el modo Sesión, el bloque «Música» propone primero los sonidos de la escena: «Aquí» los reproduce en tu dispositivo, sin cortarse al cambiar de página; «Mesa» los reproduce en la pantalla de mesa, con pausa, bucle y volumen controlados desde la sesión.',
@@ -587,6 +632,7 @@ return [
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Búsqueda',
+        'short' => 'La búsqueda también encuentra las otras formas de una palabra.',
         'items' => [
             'La búsqueda también encuentra otras formas francesas de una palabra: «lanternes» encuentra «lanterne», «éteinte» encuentra «éteintes».',
             'La búsqueda desde el inicio también busca en tus mundos y juegos que no están vinculados a ninguna campaña.',
@@ -596,6 +642,7 @@ return [
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Jugadores y roles',
+        'short' => 'Una ficha revelada muestra sus ilustraciones, y su ficha tiene su hilo de la campaña.',
         'items' => [
             'Una ficha revelada muestra al jugador sus ilustraciones y archivos públicos, y sus relaciones públicas con fichas que conoce.',
             'Los jugadores tienen un «Hilo de la campaña» en su ficha: sesiones, eventos jugados conocidos por la mesa y mensajes al grupo.',
@@ -628,6 +675,7 @@ return [
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Funciones por campaña',
+        'short' => 'El DJ elige las funciones que necesita su mesa.',
         'items' => [
             'En la página de la campaña, el DJ marca las funciones que necesita su mesa: pantalla de mesa, mapas, intercambios entre jugadores, grafo, cronología, asistente de IA. Una función desmarcada desaparece para todos sin borrar nada; vuelve en cuanto se marca de nuevo.',
         ],
@@ -648,6 +696,7 @@ return [
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDF y documentos',
+        'short' => 'Los PDF se muestran en un lector integrado, en todos los dispositivos.',
         'items' => [
             'Los PDF se abren en un visor integrado, igual en ordenador, tableta y móvil, con zoom y descarga.',
             'En la pantalla de mesa, un PDF se muestra página a página, ajustado a la pantalla; las flechas pasan las páginas.',
@@ -660,6 +709,7 @@ return [
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Funciones Premium ✦',
+        'short' => 'Una estrella ✦ señala las funciones Premium, y nada se borra al terminar una suscripción.',
         'items' => [
             'Una pequeña estrella ✦ señala las funciones Premium. Cuando el plan del propietario de una campaña no las incluye, siguen visibles, en gris, con una explicación.',
             'Al terminar una prueba o una suscripción no se borra nada: campañas, mapas, mensajes y archivos se quedan; solo se apagan las funciones ✦.',
@@ -724,6 +774,7 @@ return [
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Importar un libro de juego con una IA',
+        'short' => 'Una IA puede preparar los archivos de importación a partir de un libro de juego.',
         'items' => [
             'En «Importar», «Prepara los archivos con una IA» te da un prompt para pegar en la IA que elijas junto con el PDF de un juego o escenario: prepara los archivos de importación (campos, fichas, reglas, escenas) y una guía paso a paso. El prompt también existe como skill de Claude.',
         ],
@@ -732,6 +783,7 @@ return [
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Seguridad y datos personales',
+        'short' => 'En Preferencias: su cuenta, una autenticación en dos pasos opcional y sus datos para descargar.',
         'items' => [
             '«Mi cuenta», en Preferencias: cambia tu nombre, tu correo (se avisa a la dirección anterior) y tu contraseña.',
             'Verificación en dos pasos opcional, en Preferencias: un código de una aplicación de tu teléfono, con códigos de recuperación.',
@@ -745,6 +797,7 @@ return [
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow pasa a llamarse LoreMundi',
+        'short' => 'CodexFlow pasa a ser LoreMundi.',
         'items' => [
             'CodexFlow ahora se llama LoreMundi, publicado por Autistic Intelligence. Every world has a story.',
             'Tus campañas, cuentas y archivos no cambian: las copias hechas con CodexFlow se siguen importando. Los archivos descargados empiezan ahora por «loremundi-».',
@@ -754,6 +807,7 @@ return [
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Copia de seguridad completa',
+        'short' => 'El DJ puede descargar una copia de seguridad completa de su campaña.',
         'items' => [
             'El propietario puede descargar una copia de seguridad completa: el archivo de la campaña con la mesa (personajes, lo que recibieron, sesiones, notas, mensajes y registro), sin notas «Solo yo» ni direcciones de correo. Al importar, los personajes vuelven sin jugador, listos para asignarse.',
         ],
@@ -762,6 +816,7 @@ return [
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Búsqueda desde el inicio',
+        'short' => 'Desde el inicio, la búsqueda recorre todas sus campañas.',
         'items' => [
             'Fuera de una campaña, la barra de búsqueda busca en todas tus campañas, sus mundos y sus juegos, cada una con tus permisos: todo como DJ, lo que conoce tu personaje como jugador.',
         ],
@@ -789,6 +844,7 @@ return [
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Nuevo personaje, Mis campañas, páginas de juego y de mundo',
+        'short' => 'Cada juego y cada mundo tiene su página, y « Mis campañas » le devuelve a la última sesión.',
         'items' => [
             'Cuando un jugador recibe un nuevo personaje, el DJ marca lo que pasa del anterior: conocimientos, informaciones, documentos y reglas se copian, los objetos cambian de manos.',
             'Mis campañas: botón «Retomar», fecha de la última sesión y las campañas archivadas aparte.',
@@ -799,6 +855,7 @@ return [
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Editor enriquecido y notas de los jugadores',
+        'short' => 'Un editor de texto con formato, y notas de jugador enlazadas a las fichas conocidas.',
         'items' => [
             'Los textos largos (descripciones, notas del DJ, escenas, reglas, cronología, notas de los jugadores) tienen un editor con negrita, cursiva, subtítulos, listas y citas; «[[» sigue proponiendo fichas para enlazar.',
             'Los jugadores enlazan sus notas a las fichas que conoce su personaje, y solo a esas.',
@@ -809,6 +866,7 @@ return [
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Suscripción Premium y prueba gratuita',
+        'short' => 'Una suscripción Premium, y seis semanas de prueba gratis.',
         'items' => [
             'Pasa a Premium desde «Preferencias»: pago mensual o anual protegido por Stripe, con facturas y cancelación en el portal de Stripe. El Premium dura hasta el final del periodo pagado.',
             'Prueba gratuita: seis semanas con todas las funciones, a partir de tu primera campaña como DJ. Un jugador que nunca es DJ no la empieza. La duración se ajusta en la consola de administración.',
@@ -829,6 +887,7 @@ return [
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Tras la prueba de aceptación: intercambios validados por el DJ',
+        'short' => 'El DJ valida los intercambios entre jugadores.',
         'items' => [
             'Por defecto, el DJ valida los intercambios entre jugadores: el objeto o el conocimiento solo cambia de manos cuando se acepta. Una casilla en «Personajes de los jugadores» permite autorizarlos directamente.',
             'Mando a distancia: en el último elemento de la escena, «Siguiente» pasa a «Terminar» y vacía la pantalla.',
@@ -850,6 +909,7 @@ return [
     '0.13.0' => [
         'date' => '2026-10-08',
         'title' => 'Tu propia IA, sin copiar y pegar',
+        'short' => 'Su propia clave de IA, para un asistente sin copiar y pegar.',
         'items' => [
             'En «Preferencias» puedes guardar una clave de API a tu nombre de Claude (Anthropic), ChatGPT (OpenAI) o Le Chat (Mistral). El asistente IA ofrece entonces «Analizar directamente»: las propuestas llegan sin copiar y pegar.',
             'El proveedor factura las llamadas a tu cuenta. La clave se cifra, nunca se vuelve a mostrar ni se exporta, y el modo «texto para pegar» sigue siendo gratuito.',
@@ -859,6 +919,7 @@ return [
     '0.12.0' => [
         'date' => '2026-10-08',
         'title' => 'Un asistente IA, sin suscripción',
+        'short' => 'Un asistente de IA ayuda al DJ a aprovechar las notas de sesión.',
         'items' => [
             'Nueva herramienta «Asistente IA» en la campaña: LoreMundi prepara un texto con las notas de la sesión y el contexto de la campaña, para pegarlo en la IA que prefieras. Su respuesta, pegada de vuelta, se convierte en propuestas: resumen, eventos jugados, relaciones, estados, notas de campaña, revelaciones.',
             'Cada propuesta se acepta, se modifica o se rechaza. Nada cambia en la campaña sin ti, y las relaciones o estados propuestos son propios de la campaña, sin tocar el mundo compartido.',
@@ -876,6 +937,7 @@ return [
     '0.11.0' => [
         'date' => '2026-10-08',
         'title' => 'Una campaña de demostración',
+        'short' => 'Una campaña de demostración que se carga con un clic.',
         'items' => [
             'Campaña de demostración que se carga con un clic desde «Mis campañas»: un juego inventado, «Brume & Serment», y una trama completa de tres sesiones, con fichas, retratos, relaciones, mapa, secretos, reglas, cronología y pregenerados.',
             'Los botoncitos con icono de la página de campaña ya no se mueven al pasar el ratón: el nombre aparece en una etiqueta flotante, por encima del resto.',
@@ -886,6 +948,7 @@ return [
     '0.10.0' => [
         'date' => '2026-10-07',
         'title' => 'Una página de campaña más clara',
+        'short' => 'Una página de campaña más clara.',
         'items' => [
             'La página de campaña ordenada: el modo Sesión como banda, cuatro zonas de preparación y el resto de herramientas como botones pequeños con icono.',
             'Ambiente de la pantalla de mesa, a elegir desde el mando: Noche, Pergamino, Pizarra o Grimorio.',
@@ -895,6 +958,7 @@ return [
     '0.9.0' => [
         'date' => '2026-10-07',
         'title' => 'Llevarse la campaña',
+        'short' => 'Exportar e importar una campaña entera.',
         'items' => [
             'Exportar una campaña entera en un archivo .zip: juego, mundo, fichas, escenarios, documentos, mapas, secretos, cronología y archivos.',
             'Importar un archivo desde «Mis campañas»: recrea la campaña, para ti o para otro DJ.',
@@ -905,6 +969,7 @@ return [
     '0.8.0' => [
         'date' => '2026-10-07',
         'title' => 'El grafo y la cronología',
+        'short' => 'El grafo de relaciones y la cronología.',
         'items' => [
             'Grafo de relaciones: todas las fichas relacionadas, o la red alrededor de una ficha, con profundidad y filtro por tipo.',
             '«Ver como» en el grafo: la red tal como la conoce un personaje. Los jugadores acceden desde su personaje.',
@@ -916,6 +981,7 @@ return [
     '0.7.0' => [
         'date' => '2026-10-07',
         'title' => 'Alrededor de la mesa',
+        'short' => 'Mapas, fichas y mando a distancia para la pantalla de mesa.',
         'items' => [
             'Mapas: una imagen en la pantalla de mesa que amplías y mueves, con una cuadrícula opcional y una escala.',
             'Tokens opcionales, vinculados a fichas (nombre y retrato): moverlos, cambiar su tamaño, mostrarlos u ocultarlos a los jugadores.',
@@ -928,6 +994,7 @@ return [
     '0.6.0' => [
         'date' => '2026-10-07',
         'title' => 'La memoria de la campaña',
+        'short' => 'Secretos revelados con un clic, y el historial de quién supo qué.',
         'items' => [
             'Secretos: una información aparte, vinculada a fichas, escenas o documentos, que se revela con un clic a un personaje o a toda la mesa.',
             'Historial de revelaciones: quién supo qué, cuándo, en qué sesión y en qué escena; cada revelación se puede deshacer.',
@@ -940,6 +1007,7 @@ return [
     '0.5.0' => [
         'date' => '2026-10-07',
         'title' => 'Ordenar mejor, entre varios',
+        'short' => 'Etiquetas, duplicación, co-DJ y espectadores.',
         'items' => [
             'Una página «Etiquetas» para renombrar, colorear, fusionar y eliminar tus etiquetas; las escenas también tienen etiquetas.',
             '«Duplicar» una ficha, un escenario o toda una campaña, para volver a jugar con otra mesa.',
@@ -952,6 +1020,7 @@ return [
     '0.4.1' => [
         'date' => '2026-10-07',
         'title' => 'Ayuda e informes de problemas',
+        'short' => 'Una página de ayuda, y « Reportar un problema » en cada página.',
         'items' => [
             'Una página «Ayuda» responde a las preguntas más frecuentes, tanto para el DJ como para los jugadores.',
             '«Informar de un problema», al pie de cada página, envía tu mensaje al equipo junto con la página afectada.',
@@ -961,6 +1030,7 @@ return [
     '0.4.0' => [
         'date' => '2026-10-07',
         'title' => 'Todos los idiomas',
+        'short' => 'La interfaz habla ocho idiomas.',
         'items' => [
             'La interfaz habla francés, inglés, alemán, español, italiano, portugués, neerlandés y polaco.',
             'El idioma sigue al del navegador; cada uno puede elegirlo en «Preferencias».',
@@ -973,6 +1043,7 @@ return [
     '0.3.0' => [
         'date' => '2026-10-07',
         'title' => 'El vínculo vivo',
+        'short' => 'Mensajería, notificaciones en directo, aplicación instalable y pantalla de mesa.',
         'items' => [
             'Mensajería entre el DJ y sus jugadores, y panel «Conversación» siempre a mano (grupo y privado).',
             'Notificaciones: revelaciones, objetos recibidos, mensajes, con un contador en la cabecera.',
@@ -988,6 +1059,7 @@ return [
     '0.2.0' => [
         'date' => '2026-10-07',
         'title' => 'Los jugadores',
+        'short' => 'Invitaciones, personajes de los jugadores, revelaciones y registro.',
         'items' => [
             'Invitaciones de los jugadores mediante enlace.',
             'Personajes de los jugadores: ficha, hoja PDF, contadores (PV, magia, munición…) y campos modificables por el jugador.',
@@ -1000,6 +1072,7 @@ return [
     '0.1.0' => [
         'date' => '2026-10-06',
         'title' => 'El DJ en solitario',
+        'short' => 'Mundos, fichas, escenas, modo Sesión y búsqueda para el DJ.',
         'items' => [
             'Mundos, campañas y fichas con zona pública y zona del DJ, enlaces [[ ]] entre fichas.',
             'Campos libres por juego, tipos de ficha, importación CSV/JSON.',

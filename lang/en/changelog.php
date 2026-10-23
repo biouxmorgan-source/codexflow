@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.95.0' => [
+        'date' => '2026-10-23',
+        'title' => '“What’s new” gets to the point',
+        'short' => 'One sentence per new feature, and only when something really changes for you.',
+        'items' => [
+            '“What’s new” now shows a short version: one sentence per version, and only for notable versions. Small fixes no longer bring up the window.',
+            'The administrator account keeps the full detail of every version, with, under each one, the sentence other accounts see, or a note that it is not shown to them.',
+        ],
+    ],
+
     '0.94.0' => [
         'date' => '2026-10-23',
         'title' => 'Blocks on 1, 2 or 3 columns, and an arrangeable map page',
@@ -18,6 +28,7 @@ return [
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'A new home page',
+        'short' => 'A new home page, and the link to the community Discord everywhere.',
         'items' => [
             'The public home page now presents everything SagaWyn can do today, in three moments: preparing, playing at the table, and keeping the campaign alive between sessions. Battle map, dice, campaign map, sounds, adventure book and “My sheets” all have their place.',
             'The link to the community Discord now shows by default, at the top and bottom of the home page, in the help and in the footer.',
@@ -27,6 +38,7 @@ return [
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'AI import: prompt in English, language of your choice',
+        'short' => 'AI import lets you choose the language of the imported content.',
         'items' => [
             'The prompt and the Claude skill of “Prepare the import with an AI” are now in English, the language AIs follow best.',
             'A “Language of the imported content” menu picks the language in which the AI writes the entries, scenes, document titles and guide (the interface language by default). With the skill, you can also ask for another language when you import.',
@@ -45,6 +57,7 @@ return [
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Rights declaration for every import',
+        'short' => 'Before each import, a box asks you to confirm that you hold the rights to the imported content.',
         'items' => [
             'Before each import (CSV or JSON file, campaign archive, game template), a box that is unticked by default asks you to certify that you hold the necessary rights to the imported content. Without it, the button stays greyed out and the server refuses the import.',
             'Each declaration is recorded with its date, the version of the accepted text and the outcome of the import, without any copy of the files. It appears in “Download my data”.',
@@ -71,6 +84,7 @@ return [
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Saved rolls for each sheet',
+        'short' => 'In “My sheets”, each character keeps its own saved dice rolls.',
         'items' => [
             'In the “My sheets” dice, “Save this roll” keeps a roll with the sheet: each character has its own rolls (Fireball, Attack…), reloaded in one tap, updated, and removed with ×.',
         ],
@@ -95,6 +109,7 @@ return [
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Edit a document without deleting it',
+        'short' => '“Replace the file” updates a document without losing its title or links.',
         'items' => [
             'On a document’s page, “Replace the file” puts a new version in place of the old one: the document keeps its title, settings and links, and the new version shows up at once in scenes, sheets, rules, maps, clues and with the characters who received it.',
             'An image used as a map is replaced by another image; tokens, grid and points stay in place.',
@@ -104,6 +119,7 @@ return [
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Roll dice from the sheet',
+        'short' => 'A small die next to the values on a sheet rolls the dice with that value.',
         'items' => [
             'On a character sheet, a small die next to each number and counter rolls the dice with that value: “Roll under… (threshold)” or “Add… to the roll (bonus)”. The dice tray opens ready to roll, and the result goes to the table as usual.',
             'On your own character’s sheet, the value stays linked to the sheet: if it changes, the saved roll follows. The GM can also roll from a player’s sheet.',
@@ -130,6 +146,7 @@ return [
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Tabs in My sheets',
+        'short' => '“My sheets” can be split into tabs that you name.',
         'items' => [
             'In “Edit”, “+ New tab” splits a sheet into tabs you name (Character, Spells, Inventory…), reorder and remove.',
             'Each block picks its tab, and each tab places its blocks on its own three columns. An existing sheet keeps all its blocks in a first tab.',
@@ -139,6 +156,7 @@ return [
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Several notes and three columns in My sheets',
+        'short' => '“My sheets” now holds several note blocks, over three columns.',
         'items' => [
             '“+ New note” adds a note block: make as many as you like (debts, rumours, contacts…). Your previous notes become a first “Notes” block.',
             'Blocks can now be placed on three columns, notes included, with “Arrange blocks”.',
@@ -148,6 +166,7 @@ return [
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'An up-to-date demo',
+        'short' => 'The demo campaign shows the latest features.',
         'items' => [
             'The demo campaign "The Oath of Pierrecendre" now shows the latest features: on the campaign map, the lighthouse leads to a sub-map, its cellar, ready for a fight with tokens, two area templates and an initiative order. Each point links several sheets and several scenes.',
             'Table dice: prepared rolls that read the characteristic from the sheet, a named bonus, and the rolls of session 1, including a GM request.',
@@ -159,6 +178,7 @@ return [
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Campaign map: zoom, table and richer places',
+        'short' => 'The campaign map zooms, and each place leads to its scenes, entries or a sub-map.',
         'items' => [
             'The campaign map zooms (wheel, + and −, pinch on a tablet) and pans by dragging. Tip: a 4K image (3840 × 2160) stays sharp.',
             'When the map is on the table screen, the sub-map opened from a point replaces it there, and the map above comes back when you go back up. In the sub-map, “This place” keeps the point’s scenes and sheets one click away.',
@@ -169,6 +189,7 @@ return [
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Blocks, notes and checkboxes in My sheets',
+        'short' => '“My sheets” is organised in movable blocks, with a note and a checkbox for each field.',
         'items' => [
             'In “My sheets”, fields are arranged in blocks you name: Attributes, Skills, Equipment, Spells…',
             '“Arrange blocks”: drag a block by its handle, or use the arrows, to place it where you like, on one or two columns.',
@@ -179,6 +200,7 @@ return [
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Demo library',
+        'short' => 'A demo library to explore and load.',
         'items' => [
             'New "Demo library", from "My campaigns": ready-to-play campaigns (a setting, a short scenario, pregenerated characters) that you load as your own copy in one click.',
             'Each demo from an author or publisher keeps a "Buy the game" link, in the library and at the top of your copy.',
@@ -189,6 +211,7 @@ return [
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'What happened, and the adventure book',
+        'short' => 'The adventure book tells the campaign, scene by scene.',
         'items' => [
             'Each scene now has two parts: "What\'s planned" and "What happened". If the table followed the plan, just tick "Played as planned".',
             'New "Adventure book" in the campaign: the played scenes, scenario by scenario, then the session summaries, to read, print or save as PDF.',
@@ -199,6 +222,7 @@ return [
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Arrange your screens your way',
+        'short' => 'The GM arranges their screens their own way.',
         'items' => [
             'New “Arrange screen” button on the campaign page and in Session mode: drag each block by its ⠿ handle, with a mouse or a finger, or use the arrows.',
             'In Session mode, a block can move from one column to the other: music at the top, notes on the right, as you prefer.',
@@ -209,6 +233,7 @@ return [
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Your sheet, even without a connection',
+        'short' => 'Your sheet can be edited even offline and syncs when the connection returns.',
         'items' => [
             'Offline, your character\'s sheet stays usable: adjust your counters with − and +, edit the fields the GM lets you change and write notes.',
             'Everything is kept on the device and sent when the connection comes back, field by field: a counter receives what you removed or added, and whatever the GM changed in the meantime (a revealed secret, an edited field) is kept.',
@@ -219,6 +244,7 @@ return [
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'The big campaign map',
+        'short' => 'A large campaign map, with its places.',
         'items' => [
             'New “Campaign map”: choose one map as the overview and place points of interest on it, a city, a dungeon, the place of a scene.',
             'A point can open a sub-map in one click, which has its own points; the breadcrumb takes you back up to the overview.',
@@ -229,6 +255,7 @@ return [
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Your characters played elsewhere',
+        'short' => '“My sheets” keeps the characters you play elsewhere, just for you.',
         'items' => [
             'New “My sheets” page: store the characters you play outside SagaWyn, at a friend’s, at a club or elsewhere. Only you can see them.',
             'Each character has its PDF sheet, a portrait, free fields (texts and counters to adjust with − and + during play) and your notes, with the game and table names to find them again.',
@@ -238,6 +265,7 @@ return [
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'A sound library for all your campaigns',
+        'short' => 'A personal sound library, usable in all your campaigns.',
         'items' => [
             'New “My sounds” page: your music and ambiences, stored once in your account, then added to the campaigns you run. The file is not copied and only counts once against your storage.',
             'On a campaign’s Sounds page: “From my library” to add your sounds, “Move to my library” to reuse a sound elsewhere, and a box to store a new upload straight in the library.',
@@ -248,6 +276,7 @@ return [
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'The how-to everywhere',
+        'short' => 'A “?” button explains the SagaWyn screens.',
         'items' => [
             'The “?” button now appears on sounds, the relationship graph, the timeline, player feedback, the AI assistant, the log and the character sheet.',
             'On the graph, the timeline and the character sheet, players read a how-to written for them.',
@@ -257,6 +286,7 @@ return [
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Remove or add several points at once',
+        'short' => 'Your character’s counters can change by several points at once.',
         'items' => [
             'Under each counter the player may change (HP, ammo, money…), an “Amount” box: type 8 then −, and the counter loses 8 at once. It defaults to 1.',
         ],
@@ -283,6 +313,7 @@ return [
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonus and threshold read from the sheet',
+        'short' => 'The dice read bonuses and thresholds from the character sheet.',
         'items' => [
             'In the dice tray, the bonus can take one or more values from the character’s sheet (attribute, skill, any number or counter field in the public zone), whole or as tens, half or fifth, on top of the free bonus. The threshold can also be read from the sheet. Values are read at the moment of the roll, from the sheet of each character who rolls.',
             'Several named bonuses (Weapon +2, Wound −1…) add up in the same roll, alongside sheet values.',
@@ -311,6 +342,7 @@ return [
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Mixed dice and your own saved rolls',
+        'short' => 'Several kinds of dice in one roll, and rolls just for you.',
         'items' => [
             'One roll can mix several dice types: tap a d20 then two d6, and the tray rolls 1d20 + 2d6. Each type has its own count, which you can change or remove.',
             'The threshold applies either to the total (“Threshold on the total”, reached or not exceeded) or to each die (“Threshold per die”: every die at 4 or more is a success, for example).',
@@ -329,6 +361,7 @@ return [
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Dice at the table',
+        'short' => 'A dice tray shared at the table, and the GM can ask you for a roll.',
         'items' => [
             'New “Dice” button at the bottom of every campaign page: the number and type of dice (4 to 100 sides, or other), then how to read them: add up, reach a threshold, stay under a threshold, count successes, keep the best or the lowest, read as digits. With a bonus, and dice that roll again on the max (+) or on a 1 (−).',
             'The GM asks for a roll from the whole table or from some characters, in plain view or discreetly. A window opens for the players concerned; without a threshold, each enters their own and adds their bonus, and a hidden threshold stays with the GM, who sees who rolled what.',
@@ -349,6 +382,7 @@ return [
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Area templates on the map',
+        'short' => 'Area templates on the battle map.',
         'items' => [
             'New templates on the map page: circle, square, rectangle, cone and line, sized in squares (or in the scale\'s unit). Drag them on the map, turn them, hide them, and the list of tokens caught in the area shows up straight away.',
             'Visible templates appear on the table screen, under the tokens.',
@@ -358,6 +392,7 @@ return [
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Shared battle map',
+        'short' => 'A shared battle map: you move your token, even remotely.',
         'items' => [
             'On the shared table screen, each player moves their character\'s token. In the map, “Moved by” hands another token to a player: follower, familiar, controlled enemy…',
             'New initiative order, from the remote or the map: PCs and enemies with their value, current turn, rounds. The GM shows it over the screen whenever they like; hidden lines stay with them, and an “Also present” row shows NPCs or objects without initiative.',
@@ -368,6 +403,7 @@ return [
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'The community on Discord',
+        'short' => 'The SagaWyn community meets on Discord.',
         'items' => [
             'SagaWyn has its own Discord server: a link at the bottom of every page and on the home page to ask questions, suggest ideas and meet other game masters.',
         ],
@@ -386,6 +422,7 @@ return [
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'House content',
+        'short' => 'The GM can tell homebrew content from official content.',
         'items' => [
             'New “House content” checkbox on sheets (NPCs, spells, items, places…): unticked, the sheet is official. A “House” badge marks it in the list and on the sheet, and an Official / House filter sorts the universe.',
             'For a house sheet or a rule whose origin is “House”, the official version it replaces can be noted alongside (for example initiative on a d10 instead of a d20): it stays in the GM zone, folded under the sheet or rule.',
@@ -420,6 +457,7 @@ return [
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Prepare a whole campaign with an AI',
+        'short' => 'An AI can prepare a whole campaign to import from a game book.',
         'items' => [
             'My campaigns → Import a campaign: new “Prepare the archive with an AI” link. The prompt (or the Claude skill) has your AI read the roleplaying game book and build a .zip archive: the game, the world, the campaign, the entries, the scenes and the documents are created in one go.',
         ],
@@ -436,6 +474,7 @@ return [
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Secrets become clues',
+        'short' => 'Secrets are now called clues.',
         'items' => [
             'The campaign’s “secrets” are now called “clues”: Clues page, panel on entries, scenes and documents, Session mode, search, reveals and help. Nothing changes in your data.',
         ],
@@ -444,6 +483,7 @@ return [
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Players edit their character',
+        'short' => 'The GM can let you edit your character.',
         'items' => [
             'Fields page: “Editable by the player” can be ticked for a whole group (characteristics, skills…) or for every public field in one click.',
             'New option on the Players page: the GM can let each player edit their character’s portrait, summary and description. The GM zone stays hidden.',
@@ -453,6 +493,7 @@ return [
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Founder badge and gift codes',
+        'short' => 'A Founder badge, and Premium gift codes to give away.',
         'items' => [
             'Kickstarter backers can be marked Founder in the admin console: a ★ Founder badge shown in preferences, the member list and the character sheet.',
             'Founders get extra storage on top of their plan, free or premium (500 MB by default, set in “Plans”).',
@@ -489,6 +530,7 @@ return [
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'The demo shows all of SagaWyn',
+        'short' => 'The demo campaign uses every SagaWyn feature.',
         'items' => [
             'The demo campaign now uses every feature: a player character made from a pregen, with what it has received (sheet, document, rule, secret, items) that the GM can “View as”; session notes; a “To play” list; pinned sheets; reference, document and two-type fields; a GM attachment; secrets of every kind; coloured tags; covers for the game and the world.',
             'Reloading the demo reuses the “Faction” sheet type already created instead of adding a second one.',
@@ -507,6 +549,7 @@ return [
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi becomes SagaWyn',
+        'short' => 'LoreMundi becomes SagaWyn.',
         'items' => [
             'LoreMundi is now called SagaWyn, still published by Autistic Intelligence. Every world has a story.',
             'Your campaigns, accounts and archives stay the same: backups made with LoreMundi or CodexFlow still import. Downloaded files now start with “sagawyn-”.',
@@ -516,6 +559,7 @@ return [
     '0.46.0' => [
         'date' => '2026-10-10',
         'title' => 'Player feedback',
+        'short' => 'The GM can ask for your opinion on a session or a campaign.',
         'items' => [
             'At the end of a session or campaign, ask your players for a rating from 1 to 5 stars, what they enjoyed and what could be better (“Player feedback” in the campaign, or from a session page).',
             'Anonymous or signed answers, as the GM chooses: players know it before answering. You see the average, the rating breakdown and every comment.',
@@ -525,6 +569,7 @@ return [
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Sound library',
+        'short' => 'A library of music and ambiences for sessions.',
         'items' => [
             'New “Sounds” page: upload your music and ambiences (mp3, ogg, m4a, wav, flac), sort them with tags and link them to scenes.',
             'In Session mode, the “Music” block offers the scene’s sounds first: “Here” plays them on your device, without stopping when you change pages; “Table” plays them on the table screen, with pause, loop and volume controlled from the session.',
@@ -587,6 +632,7 @@ return [
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Search',
+        'short' => 'Search also finds the other forms of a word.',
         'items' => [
             'Search also finds other French forms of a word: “lanternes” finds “lanterne”, “éteinte” finds “éteintes”.',
             'Search from the home page also looks in your worlds and games that aren\'t linked to any campaign.',
@@ -596,6 +642,7 @@ return [
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Players and roles',
+        'short' => 'A revealed entry shows its illustrations, and your sheet has its campaign feed.',
         'items' => [
             'A revealed entry shows the player its public illustrations and files, and its public relations to entries they know.',
             'Players have a “Campaign feed” on their sheet: sessions, played events known to the table and group messages.',
@@ -628,6 +675,7 @@ return [
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Features per campaign',
+        'short' => 'The GM chooses the features their table needs.',
         'items' => [
             'On the campaign page, the GM ticks the features their table needs: table screen, maps, exchanges between players, graph, timeline, AI assistant. An unticked feature disappears for everyone without deleting anything; it comes back as soon as it is ticked again.',
         ],
@@ -648,6 +696,7 @@ return [
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDFs and documents',
+        'short' => 'PDFs open in a built-in viewer, on every device.',
         'items' => [
             'PDFs open in a built-in viewer, the same on computer, tablet and phone, with zoom and download.',
             'On the table screen, a PDF is shown one page at a time, fitted to the screen; the arrow keys turn the pages.',
@@ -660,6 +709,7 @@ return [
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium features ✦',
+        'short' => 'A ✦ star marks Premium features, and nothing is deleted when a subscription ends.',
         'items' => [
             'A small star ✦ marks Premium features. When a campaign owner’s plan does not include them, they stay visible, greyed out, with an explanation.',
             'When a trial or subscription ends, nothing is erased: campaigns, maps, messages and files remain; only ✦ features switch off.',
@@ -724,6 +774,7 @@ return [
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Import a game book with an AI',
+        'short' => 'An AI can prepare the import files from a game book.',
         'items' => [
             'In “Import”, “Prepare the files with an AI” gives you a prompt to paste into the AI of your choice with the PDF of a game or scenario: it prepares the import files (fields, sheets, rules, scenes) and a step-by-step guide. The prompt is also available as a Claude skill.',
         ],
@@ -732,6 +783,7 @@ return [
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Security and personal data',
+        'short' => 'In Preferences: your account, optional two-factor authentication and your data to download.',
         'items' => [
             '“My account”, in Preferences: change your name, your email address (the previous address is notified) and your password.',
             'Optional two-factor authentication, in Preferences: a code from an app on your phone, with recovery codes.',
@@ -745,6 +797,7 @@ return [
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow becomes LoreMundi',
+        'short' => 'CodexFlow becomes LoreMundi.',
         'items' => [
             'CodexFlow is now called LoreMundi, published by Autistic Intelligence. Every world has a story.',
             'Your campaigns, accounts and archives stay the same: backups made with CodexFlow still import. Downloaded files now start with “loremundi-”.',
@@ -754,6 +807,7 @@ return [
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Complete backup',
+        'short' => 'The GM can download a full backup of their campaign.',
         'items' => [
             'The owner can download a complete backup: the campaign archive with the table (characters, what they received, sessions, notes, messages and log), without “Only me” notes or email addresses. On import, characters come back without a player, ready to be assigned.',
         ],
@@ -762,6 +816,7 @@ return [
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Search from the home page',
+        'short' => 'From the home page, search looks through all your campaigns.',
         'items' => [
             'Outside a campaign, the search bar looks through all your campaigns, their worlds and their games, each with your own rights: everything as GM, what your character knows as a player.',
         ],
@@ -789,6 +844,7 @@ return [
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'New character, My campaigns, game and world pages',
+        'short' => 'Each game and each world has its page, and “My campaigns” takes you back to the last session.',
         'items' => [
             'When a player gets a new character, the GM ticks what passes from the previous one: knowledge, information, documents and rules are copied, items change hands.',
             'My campaigns: a “Resume” button, the date of the last session, and archived campaigns kept apart.',
@@ -799,6 +855,7 @@ return [
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Rich editor and player notes',
+        'short' => 'A formatted text editor, and player notes linked to known entries.',
         'items' => [
             'Long texts (descriptions, GM notes, scenes, rules, timeline, player notes) get an editor with bold, italic, subheadings, lists and quotes; “[[” still suggests sheets to link.',
             'Players link their notes to the sheets their character knows, and only those.',
@@ -809,6 +866,7 @@ return [
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Premium subscription and free trial',
+        'short' => 'A Premium subscription, and a free six-week trial.',
         'items' => [
             'Go Premium from “Preferences”: monthly or yearly payment secured by Stripe, with invoices and cancellation in the Stripe portal. Premium lasts until the end of the paid period.',
             'Free trial: six weeks with every feature, starting from your first campaign as GM. A player who is never a GM does not start it. The length is set in the admin console.',
@@ -829,6 +887,7 @@ return [
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Acceptance follow-ups: exchanges approved by the GM',
+        'short' => 'The GM approves exchanges between players.',
         'items' => [
             'By default, the GM approves exchanges between players: the item or knowledge changes hands only once the exchange is accepted. A box in “Player characters” lets the GM allow them outright.',
             'Remote control: on the last item of the scene, “Next” becomes “Finish” and clears the screen.',
@@ -850,6 +909,7 @@ return [
     '0.13.0' => [
         'date' => '2026-10-08',
         'title' => 'Your own AI, no copy-paste',
+        'short' => 'Your own AI key, for an assistant without copy and paste.',
         'items' => [
             'In “Preferences”, you can save an API key in your name with Claude (Anthropic), ChatGPT (OpenAI) or Le Chat (Mistral). The AI assistant then offers “Analyse directly”: suggestions arrive with no copy-paste.',
             'Calls are billed by the provider to your account. The key is encrypted, never shown again nor exported, and the copy-paste mode stays free.',
@@ -859,6 +919,7 @@ return [
     '0.12.0' => [
         'date' => '2026-10-08',
         'title' => 'An AI assistant, no subscription',
+        'short' => 'An AI assistant helps the GM make the most of session notes.',
         'items' => [
             'New “AI assistant” tool in the campaign: LoreMundi prepares a text with the session notes and the campaign context, to paste into the AI of your choice. Its answer, pasted back, becomes suggestions: summary, played events, relations, statuses, campaign notes, reveals.',
             'Each suggestion can be accepted, edited or rejected. Nothing changes in the campaign without you, and suggested relations or statuses stay specific to the campaign, without touching the shared world.',
@@ -876,6 +937,7 @@ return [
     '0.11.0' => [
         'date' => '2026-10-08',
         'title' => 'A demonstration campaign',
+        'short' => 'A demo campaign to load in one click.',
         'items' => [
             'A demonstration campaign to load in one click from “My campaigns”: an invented game, “Brume & Serment”, and a complete three-session plot, with entries, portraits, relations, a map, secrets, rules, a timeline and pre-generated characters.',
             'The small icon buttons on the campaign page no longer move when hovered: the name appears in a tooltip, above everything else.',
@@ -886,6 +948,7 @@ return [
     '0.10.0' => [
         'date' => '2026-10-07',
         'title' => 'A clearer campaign page',
+        'short' => 'A clearer campaign page.',
         'items' => [
             'The campaign page tidied up: Session mode as a banner, four preparation areas, and the other tools as small icon buttons.',
             'Table screen ambience, chosen from the remote control: Night, Parchment, Slate or Grimoire.',
@@ -895,6 +958,7 @@ return [
     '0.9.0' => [
         'date' => '2026-10-07',
         'title' => 'Taking your campaign with you',
+        'short' => 'Export and import a whole campaign.',
         'items' => [
             'Export a whole campaign as a .zip archive: game, world, entries, scenarios, documents, maps, secrets, timeline and files.',
             'Import an archive from “My campaigns”: it recreates the campaign, for you or for another GM.',
@@ -905,6 +969,7 @@ return [
     '0.8.0' => [
         'date' => '2026-10-07',
         'title' => 'The graph and the timeline',
+        'short' => 'The relationship graph and the timeline.',
         'items' => [
             'Relation graph: all linked entries, or the network around one entry, with a depth and a filter by type.',
             '“View as” in the graph: the network as a character knows it. Players reach it from their character.',
@@ -916,6 +981,7 @@ return [
     '0.7.0' => [
         'date' => '2026-10-07',
         'title' => 'Around the table',
+        'short' => 'Maps, tokens and remote control for the table screen.',
         'items' => [
             'Maps: an image on the table screen that you zoom and move, with an optional square grid and a scale.',
             'Optional tokens, linked to entries (name and portrait): move, resize, show or hide them from players.',
@@ -928,6 +994,7 @@ return [
     '0.6.0' => [
         'date' => '2026-10-07',
         'title' => 'The campaign’s memory',
+        'short' => 'Secrets revealed in one click, and a history of who learned what.',
         'items' => [
             'Secrets: a standalone piece of information, linked to entries, scenes or documents, revealed in one click to a character or to the whole table.',
             'Reveal history: who learned what, when, during which session and which scene; every reveal can be undone.',
@@ -940,6 +1007,7 @@ return [
     '0.5.0' => [
         'date' => '2026-10-07',
         'title' => 'Tidier, together',
+        'short' => 'Tags, duplication, co-GMs and spectators.',
         'items' => [
             'A “Tags” page to rename, colour, merge and delete your tags; scenes have tags too.',
             '“Duplicate” an entry, a scenario or a whole campaign, to replay with another table.',
@@ -952,6 +1020,7 @@ return [
     '0.4.1' => [
         'date' => '2026-10-07',
         'title' => 'Help and problem reports',
+        'short' => 'A help page, and “Report a problem” on every page.',
         'items' => [
             'A “Help” page answers the most common questions, for GMs and players alike.',
             '“Report a problem”, at the bottom of every page, sends your message to the team along with the page concerned.',
@@ -961,6 +1030,7 @@ return [
     '0.4.0' => [
         'date' => '2026-10-07',
         'title' => 'Every language',
+        'short' => 'The interface speaks eight languages.',
         'items' => [
             'The interface speaks French, English, German, Spanish, Italian, Portuguese, Dutch and Polish.',
             'The language follows your browser; anyone can choose it in “Preferences”.',
@@ -973,6 +1043,7 @@ return [
     '0.3.0' => [
         'date' => '2026-10-07',
         'title' => 'The living link',
+        'short' => 'Messaging, live notifications, an installable app and the table screen.',
         'items' => [
             'Messaging between the GM and their players, and a “Chat” panel always within reach (group and private).',
             'Notifications: reveals, items received, messages, with a counter in the header.',
@@ -988,6 +1059,7 @@ return [
     '0.2.0' => [
         'date' => '2026-10-07',
         'title' => 'The players',
+        'short' => 'Invitations, player characters, reveals and the log.',
         'items' => [
             'Player invitations by link.',
             'Player characters: entry, PDF sheet, counters (HP, magic, ammo…) and fields editable by the player.',
@@ -1000,6 +1072,7 @@ return [
     '0.1.0' => [
         'date' => '2026-10-06',
         'title' => 'The GM alone',
+        'short' => 'Worlds, entries, scenes, Session mode and search for the GM.',
         'items' => [
             'Worlds, campaigns and entries with a public zone and a GM zone, [[ ]] links between entries.',
             'Custom fields per game, entry types, CSV/JSON import.',

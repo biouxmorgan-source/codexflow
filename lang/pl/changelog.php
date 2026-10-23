@@ -4,6 +4,16 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.95.0' => [
+        'date' => '2026-10-23',
+        'title' => '„Co nowego” przechodzi do sedna',
+        'short' => 'Jedno zdanie na nowość i tylko wtedy, gdy coś naprawdę się dla ciebie zmienia.',
+        'items' => [
+            '„Co nowego” pokazuje teraz wersję skróconą: jedno zdanie na wersję i tylko dla ważnych wersji. Drobne poprawki nie otwierają już okna.',
+            'Konto administratora zachowuje pełne szczegóły każdej wersji, a pod każdą z nich zdanie widoczne dla innych kont lub informację, że nie jest im pokazywana.',
+        ],
+    ],
+
     '0.94.0' => [
         'date' => '2026-10-23',
         'title' => 'Bloki na 1, 2 lub 3 kolumny i strona mapy do uporządkowania',
@@ -18,6 +28,7 @@ return [
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Nowa strona główna',
+        'short' => 'Nowa strona główna i link do Discorda społeczności wszędzie.',
         'items' => [
             'Publiczna strona główna pokazuje teraz wszystko, co SagaWyn potrafi, w trzech etapach: przygotowanie, gra przy stole i podtrzymywanie kampanii między sesjami. Mapa bitewna, kości, mapa kampanii, dźwięki, księga przygód i „Moje karty” mają swoje miejsce.',
             'Link do Discorda społeczności jest teraz widoczny domyślnie, na górze i na dole strony głównej, w pomocy i w stopce.',
@@ -27,6 +38,7 @@ return [
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Import z AI: prompt po angielsku, język do wyboru',
+        'short' => 'Import z pomocą AI pozwala wybrać język importowanych treści.',
         'items' => [
             'Prompt i skill Claude z „Przygotuj import z AI” są teraz po angielsku, w języku, który AI wykonują najlepiej.',
             'Menu „Język importowanej treści” wybiera język, w którym AI pisze karty, sceny, tytuły dokumentów i instrukcję (domyślnie język interfejsu). Ze skillem można też poprosić o inny język podczas importu.',
@@ -45,6 +57,7 @@ return [
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Oświadczenie o prawach przy każdym imporcie',
+        'short' => 'Przed każdym importem pole wyboru prosi o potwierdzenie, że masz prawa do importowanych treści.',
         'items' => [
             'Przed każdym importem (plik CSV lub JSON, archiwum kampanii, szablon gry) domyślnie niezaznaczone pole wymaga potwierdzenia, że posiadasz niezbędne prawa do importowanych treści. Bez niego przycisk pozostaje wyszarzony, a serwer odrzuca import.',
             'Każde oświadczenie jest zapisywane z datą, wersją zaakceptowanego tekstu i wynikiem importu, bez kopii plików. Znajdziesz je w „Pobierz moje dane”.',
@@ -71,6 +84,7 @@ return [
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Zapisane rzuty dla każdej karty',
+        'short' => 'W „Moich kartach” każda postać ma własne zapisane rzuty kośćmi.',
         'items' => [
             'W kościach „Moich kart” opcja „Zapisz ten rzut” zachowuje rzut przy karcie: każda postać ma własne rzuty (Kula ognia, Atak…), wczytywane jednym dotknięciem, aktualizowane i usuwane przez ×.',
         ],
@@ -95,6 +109,7 @@ return [
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Zmiana dokumentu bez usuwania',
+        'short' => '„Zastąp plik” aktualizuje dokument bez utraty tytułu i powiązań.',
         'items' => [
             'Na stronie dokumentu „Zastąp plik” wstawia nową wersję w miejsce starej: dokument zachowuje tytuł, ustawienia i powiązania, a nowa wersja od razu pojawia się w scenach, kartach, zasadach, mapach, wskazówkach i u postaci, które go otrzymały.',
             'Obraz służący jako mapa zastępuje się innym obrazem; pionki, siatka i punkty zostają na miejscu.',
@@ -104,6 +119,7 @@ return [
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Rzuty kośćmi z karty',
+        'short' => 'Mała kostka obok wartości na karcie rzuca kośćmi z tą wartością.',
         'items' => [
             'Na karcie postaci mała kość obok każdej liczby i każdego licznika rzuca kośćmi z tą wartością: „Rzuć poniżej… (próg)” albo „Dodaj… do rzutu (premia)”. Taca z kośćmi otwiera się gotowa do rzutu, a wynik trafia do stołu jak zwykle.',
             'Na karcie własnej postaci wartość pozostaje powiązana z kartą: gdy się zmieni, zapisany rzut za nią podąża. MG również może rzucać z karty gracza.',
@@ -130,6 +146,7 @@ return [
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Zakładki w Moich kartach',
+        'short' => '„Moje karty” można podzielić na nazwane przez ciebie zakładki.',
         'items' => [
             'W „Edytuj” przycisk „+ Nowa zakładka” dzieli kartę na zakładki, które nazywasz (Postać, Czary, Ekwipunek…), układasz i usuwasz.',
             'Każdy blok wybiera swoją zakładkę, a każda zakładka układa swoje bloki na własnych trzech kolumnach. Istniejąca karta zachowuje wszystkie bloki w pierwszej zakładce.',
@@ -139,6 +156,7 @@ return [
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Wiele notatek i trzy kolumny w Moich kartach',
+        'short' => '„Moje karty” mieszczą kilka bloków notatek w trzech kolumnach.',
         'items' => [
             '„+ Nowa notatka” dodaje blok notatek: tyle, ile chcesz (długi, plotki, kontakty…). Twoje dotychczasowe notatki stają się pierwszym blokiem „Notatki”.',
             'Bloki układasz teraz w trzech kolumnach, razem z notatkami, przez „Uporządkuj bloki”.',
@@ -148,6 +166,7 @@ return [
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Aktualne demo',
+        'short' => 'Kampania demonstracyjna pokazuje najnowsze funkcje.',
         'items' => [
             'Kampania demonstracyjna pokazuje teraz najnowsze funkcje: na mapie kampanii latarnia prowadzi do podmapy, swojej piwnicy, gotowej do walki z żetonami, dwoma szablonami obszaru i kolejnością inicjatywy. Każdy punkt łączy kilka kart i kilka scen.',
             'Kości przy stole: przygotowane rzuty, które odczytują cechę z karty, nazwana premia i rzuty z sesji 1, w tym prośba MG.',
@@ -159,6 +178,7 @@ return [
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Mapa kampanii: zoom, stół i bogatsze miejsca',
+        'short' => 'Mapę kampanii można przybliżać, a każde miejsce prowadzi do swoich scen, kart lub podmapy.',
         'items' => [
             'Mapę kampanii można przybliżać (kółko, + i −, gest szczypania na tablecie) i przesuwać przeciąganiem. Rada: obraz 4K (3840 × 2160) pozostaje ostry.',
             'Gdy mapa jest na ekranie stołu, otwarta z punktu mapa szczegółowa zastępuje ją tam, a mapa nadrzędna wraca, gdy cofasz się w górę. Na mapie szczegółowej „To miejsce” trzyma sceny i karty punktu o jedno kliknięcie.',
@@ -169,6 +189,7 @@ return [
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Bloki, notatki i pola wyboru w Moich kartach',
+        'short' => '„Moje karty” składają się z przesuwanych bloków, z notatką i polem wyboru przy każdym polu.',
         'items' => [
             'W „Moich kartach” pola układają się w bloki, którym nadajesz nazwy: Cechy, Umiejętności, Ekwipunek, Czary…',
             '„Uporządkuj bloki”: przeciągnij blok za uchwyt lub użyj strzałek, aby umieścić go, gdzie chcesz, w jednej lub dwóch kolumnach.',
@@ -179,6 +200,7 @@ return [
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Biblioteka dem',
+        'short' => 'Biblioteka wersji demonstracyjnych do odkrycia i wczytania.',
         'items' => [
             'Nowa „Biblioteka dem” w „Moich kampaniach”: kampanie gotowe do gry (świat, krótki scenariusz, gotowe postacie), których własną kopię wczytujesz jednym kliknięciem.',
             'Każde demo autora lub wydawcy ma link „Kup grę”, w bibliotece i na górze twojej kopii.',
@@ -189,6 +211,7 @@ return [
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Co się wydarzyło, i księga przygód',
+        'short' => 'Księga przygód opowiada kampanię scena po scenie.',
         'items' => [
             'Każda scena ma teraz dwie części: „Co jest zaplanowane” i „Co się wydarzyło”. Jeśli drużyna trzymała się planu, wystarczy zaznaczyć „Rozegrana zgodnie z planem”.',
             'Nowa „Księga przygód” w kampanii: rozegrane sceny, scenariusz po scenariuszu, a potem podsumowania sesji, do czytania, drukowania lub zapisania jako PDF.',
@@ -199,6 +222,7 @@ return [
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Ułóż swoje ekrany po swojemu',
+        'short' => 'MG układa swoje ekrany po swojemu.',
         'items' => [
             'Nowy przycisk „Uporządkuj ekran” na stronie kampanii i w trybie Sesji: przeciągnij każdy blok za uchwyt ⠿, myszą lub palcem, albo użyj strzałek.',
             'W trybie Sesji blok może przejść z jednej kolumny do drugiej: muzyka na górze, notatki po prawej, jak wolisz.',
@@ -209,6 +233,7 @@ return [
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Twoja karta, nawet bez sieci',
+        'short' => 'Kartę można edytować nawet bez sieci, a po powrocie połączenia się synchronizuje.',
         'items' => [
             'Offline karta Twojej postaci pozostaje użyteczna: ustawiaj liczniki przyciskami − i +, zmieniaj pola, na które pozwala MG, i pisz notatki.',
             'Wszystko zostaje na urządzeniu i jest wysyłane po powrocie połączenia, pole po polu: licznik otrzymuje to, co odjąłeś lub dodałeś, a to, co MG zmienił w międzyczasie (ujawniony sekret, zmienione pole), zostaje zachowane.',
@@ -219,6 +244,7 @@ return [
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'Wielka mapa kampanii',
+        'short' => 'Duża mapa kampanii z jej miejscami.',
         'items' => [
             'Nowa „Mapa kampanii”: wybierz mapę jako widok ogólny i umieść na niej ciekawe miejsca, miasto, loch, miejsce sceny.',
             'Punkt może jednym kliknięciem otworzyć mapę szczegółową, która ma własne punkty; ścieżka nawigacji pozwala wrócić do widoku ogólnego.',
@@ -229,6 +255,7 @@ return [
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Twoje postacie z innych stołów',
+        'short' => '„Moje karty” przechowują postaci, którymi grasz gdzie indziej, tylko dla ciebie.',
         'items' => [
             'Nowa strona „Moje karty”: przechowuj postacie, którymi grasz poza SagaWyn, u znajomych, w klubie lub gdzie indziej. Widzisz je tylko Ty.',
             'Każda postać ma swoją kartę PDF, portret, dowolne pola (teksty i liczniki ustawiane przyciskami − i + podczas gry) oraz Twoje notatki, z nazwą gry i drużyny, by łatwo ją odnaleźć.',
@@ -238,6 +265,7 @@ return [
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Biblioteka dźwięków dla wszystkich kampanii',
+        'short' => 'Osobista biblioteka dźwięków do wszystkich twoich kampanii.',
         'items' => [
             'Nowa strona „Moje dźwięki”: muzyka i ambienty zapisane raz na koncie, a potem dodawane do prowadzonych kampanii. Plik nie jest kopiowany i liczy się tylko raz do miejsca na dane.',
             'Na stronie Dźwięki kampanii: „Z mojej biblioteki”, aby dodać swoje dźwięki, „Przenieś do mojej biblioteki”, aby użyć dźwięku gdzie indziej, oraz pole, by nowy plik trafił od razu do biblioteki.',
@@ -248,6 +276,7 @@ return [
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'Instrukcja wszędzie',
+        'short' => 'Przycisk „?” objaśnia ekrany SagaWyn.',
         'items' => [
             'Przycisk „?” pojawia się też przy dźwiękach, grafie relacji, osi czasu, opiniach graczy, asystencie AI, dzienniku i karcie postaci.',
             'Na grafie, osi czasu i karcie postaci gracze czytają instrukcję napisaną dla nich.',
@@ -257,6 +286,7 @@ return [
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Odejmij lub dodaj kilka punktów naraz',
+        'short' => 'Liczniki twojej postaci zmieniają się o kilka punktów naraz.',
         'items' => [
             'Pod każdym licznikiem, który gracz może zmieniać (PŻ, amunicja, pieniądze…), pole „Wartość”: wpisz 8, potem −, a licznik straci 8 naraz. Domyślnie to 1.',
         ],
@@ -283,6 +313,7 @@ return [
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Premia i próg z karty',
+        'short' => 'Kości odczytują premie i progi z karty postaci.',
         'items' => [
             'W kościach premia może brać jedną lub kilka wartości z karty postaci (cecha, umiejętność, dowolne pole liczbowe lub licznik w strefie publicznej), w całości albo jako dziesiątki, połowę lub piątą część, obok wolnej premii. Próg też może pochodzić z karty. Wartości są odczytywane w chwili rzutu z karty każdej postaci, która rzuca.',
             'Kilka nazwanych premii (Broń +2, Rana −1…) sumuje się w jednym rzucie, razem z wartościami z karty.',
@@ -311,6 +342,7 @@ return [
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Mieszane kości i własne zapisane rzuty',
+        'short' => 'Kilka rodzajów kości w jednym rzucie i rzuty tylko dla ciebie.',
         'items' => [
             'Jeden rzut może łączyć kilka rodzajów kości: dotknij k20, a potem dwóch k6, i rzucane jest 1d20 + 2d6. Każdy rodzaj ma własną liczbę kości, którą można zmienić lub usunąć.',
             'Próg dotyczy sumy („Próg dla sumy”, osiągnięty lub nieprzekroczony) albo każdej kości („Próg na kość”: na przykład każda kość z wynikiem 4 lub więcej to sukces).',
@@ -329,6 +361,7 @@ return [
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Kości przy stole',
+        'short' => 'Wspólna tacka na kości przy stole, a MG może poprosić cię o rzut.',
         'items' => [
             'Nowy przycisk „Kości” na dole każdej strony kampanii: liczba i rodzaj kości (od 4 do 100 ścianek lub inne), a potem sposób odczytu: dodać, osiągnąć próg, zostać poniżej progu, liczyć sukcesy, zachować najlepsze lub najsłabsze, odczytać jako cyfry. Z premią i kośćmi rzucanymi ponownie przy maksimum (+) lub przy 1 (−).',
             'MG prosi o rzut cały stół lub wybrane postacie, jawnie lub dyskretnie. U odpowiednich graczy otwiera się okno; bez progu każdy wpisuje własny i dodaje swoją premię, a ukryty próg zostaje u MG, który widzi, kto co wyrzucił.',
@@ -349,6 +382,7 @@ return [
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Szablony obszaru na mapie',
+        'short' => 'Szablony obszaru na mapie bitwy.',
         'items' => [
             'Nowe szablony na stronie mapy: koło, kwadrat, prostokąt, stożek i linia, mierzone w polach (lub w jednostce skali). Przeciąga się je po mapie, obraca, ukrywa, a lista trafionych żetonów pojawia się od razu.',
             'Widoczne szablony pojawiają się na ekranie stołu, pod żetonami.',
@@ -358,6 +392,7 @@ return [
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Wspólna mapa bitewna',
+        'short' => 'Wspólna mapa bitwy: przesuwasz swój żeton, nawet zdalnie.',
         'items' => [
             'Na wspólnym ekranie stołu każdy gracz przesuwa żeton swojej postaci. Na mapie opcja „Przesuwa” powierza graczowi inny żeton: towarzysza, chowańca, kontrolowanego wroga…',
             'Nowa kolejność inicjatywy, z pilota lub z mapy: BG i wrogowie z wartością, bieżąca tura, rundy. MG pokazuje ją na ekranie, kiedy chce; ukryte wiersze zostają u niego, a rząd „Obecni także” pokazuje BN lub przedmioty bez inicjatywy.',
@@ -368,6 +403,7 @@ return [
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'Społeczność na Discordzie',
+        'short' => 'Społeczność SagaWyn spotyka się na Discordzie.',
         'items' => [
             'SagaWyn ma własny serwer Discord: link na dole każdej strony i na stronie głównej, by zadawać pytania, zgłaszać pomysły i poznawać innych mistrzów gry.',
         ],
@@ -386,6 +422,7 @@ return [
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Treści domowe',
+        'short' => 'MG odróżnia treści domowe od oficjalnych.',
         'items' => [
             'Nowe pole „Treść domowa” na kartach (BN, zaklęcia, przedmioty, miejsca…): bez zaznaczenia karta jest oficjalna. Odznaka „Domowe” wyróżnia ją na liście i na karcie, a filtr Oficjalne / Domowe porządkuje uniwersum.',
             'Przy karcie domowej lub zasadzie o pochodzeniu „Domowa” można obok zapisać zastąpioną wersję oficjalną (np. inicjatywa na k10 zamiast k20): zostaje w strefie MG, zwinięta pod kartą lub zasadą.',
@@ -420,6 +457,7 @@ return [
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Przygotuj całą kampanię z pomocą AI',
+        'short' => 'AI może przygotować całą kampanię do importu na podstawie podręcznika gry.',
         'items' => [
             'Moje kampanie → Importuj kampanię: nowy link „Przygotuj archiwum z AI”. Prompt (lub skill Claude) sprawia, że Twoja AI czyta podręcznik gry fabularnej i tworzy archiwum .zip: gra, świat, kampania, karty, sceny i dokumenty powstają za jednym razem.',
         ],
@@ -436,6 +474,7 @@ return [
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Sekrety stają się tropami',
+        'short' => 'Sekrety nazywają się teraz tropami.',
         'items' => [
             '„Sekrety” kampanii nazywają się teraz „tropami”: strona Tropy, panel kart, scen i dokumentów, tryb Sesji, wyszukiwanie, ujawnienia i pomoc. Twoje dane się nie zmieniają.',
         ],
@@ -444,6 +483,7 @@ return [
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Gracze edytują swoją postać',
+        'short' => 'MG może pozwolić ci edytować twoją postać.',
         'items' => [
             'Strona Pola: „Edytowalne przez gracza” można zaznaczyć dla całej grupy (cechy, umiejętności…) lub dla wszystkich pól publicznych jednym kliknięciem.',
             'Nowa opcja na stronie Gracze: MG może pozwolić każdemu graczowi edytować portret, streszczenie i opis swojej postaci. Strefa MG pozostaje ukryta.',
@@ -453,6 +493,7 @@ return [
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Odznaka Założyciela i kody podarunkowe',
+        'short' => 'Odznaka Założyciela i kody podarunkowe Premium do przekazania.',
         'items' => [
             'Wspierający na Kickstarterze mogą zostać oznaczeni jako Założyciel w konsoli administracyjnej: odznaka ★ Założyciel widoczna w preferencjach, na liście członków i na karcie postaci.',
             'Założyciele mają dodatkowe miejsce ponad swój plan, darmowy lub premium (domyślnie 500 MB, do ustawienia w „Planach”).',
@@ -489,6 +530,7 @@ return [
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'Demo pokazuje całe SagaWyn',
+        'short' => 'Kampania demonstracyjna korzysta ze wszystkich funkcji SagaWyn.',
         'items' => [
             'Kampania demonstracyjna korzysta teraz z każdej funkcji: postać gracza utworzona z gotowej postaci, z tym, co otrzymała (karta, dokument, zasada, sekret, przedmioty), którą MG może „Zobaczyć jako”; notatki z sesji; lista „Do rozegrania”; przypięte karty; pola odwołania, dokumentu i wspólne dla dwóch typów; załącznik MG; sekrety każdego rodzaju; kolorowe tagi; okładki gry i świata.',
             'Ponowne wczytanie demo używa już utworzonego typu karty „Frakcja” zamiast dodawać drugi.',
@@ -507,6 +549,7 @@ return [
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi zmienia nazwę na SagaWyn',
+        'short' => 'LoreMundi staje się SagaWyn.',
         'items' => [
             'LoreMundi nazywa się teraz SagaWyn, wydawca wciąż: Autistic Intelligence. Every world has a story.',
             'Twoje kampanie, konta i archiwa się nie zmieniają: kopie zapasowe utworzone w LoreMundi lub CodexFlow nadal można zaimportować. Pobierane pliki zaczynają się teraz od „sagawyn-”.',
@@ -516,6 +559,7 @@ return [
     '0.46.0' => [
         'date' => '2026-10-10',
         'title' => 'Opinie graczy',
+        'short' => 'MG może zapytać cię o opinię na temat sesji lub kampanii.',
         'items' => [
             'Na koniec sesji lub kampanii poproś graczy o ocenę od 1 do 5 gwiazdek, o to, co im się podobało i co mogłoby być lepsze („Opinie graczy” w kampanii albo ze strony sesji).',
             'Odpowiedzi anonimowe lub podpisane, do wyboru MG: gracze wiedzą o tym przed odpowiedzią. Widzisz średnią, rozkład ocen i wszystkie komentarze.',
@@ -525,6 +569,7 @@ return [
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Biblioteka dźwięków',
+        'short' => 'Biblioteka muzyki i nastrojów na sesje.',
         'items' => [
             'Nowa strona „Dźwięki”: prześlij swoją muzykę i nastroje (mp3, ogg, m4a, wav, flac), uporządkuj je tagami i połącz ze scenami.',
             'W trybie Sesji blok „Muzyka” najpierw proponuje dźwięki sceny: „Tutaj” odtwarza je na twoim urządzeniu, bez przerywania przy zmianie strony; „Stół” odtwarza je na ekranie stołu, z pauzą, pętlą i głośnością sterowanymi z sesji.',
@@ -587,6 +632,7 @@ return [
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Wyszukiwanie',
+        'short' => 'Wyszukiwarka znajduje też inne formy słowa.',
         'items' => [
             'Wyszukiwanie znajduje też inne francuskie formy słowa: „lanternes” znajduje „lanterne”, „éteinte” znajduje „éteintes”.',
             'Wyszukiwanie ze strony głównej przeszukuje też twoje światy i gry niepowiązane z żadną kampanią.',
@@ -596,6 +642,7 @@ return [
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Gracze i role',
+        'short' => 'Ujawniona karta pokazuje swoje ilustracje, a twoja karta ma przebieg kampanii.',
         'items' => [
             'Odkryta karta pokazuje graczowi jej publiczne ilustracje i pliki oraz publiczne relacje z kartami, które zna.',
             'Gracze mają na swojej karcie „Wątek kampanii”: sesje, rozegrane wydarzenia znane przy stole i wiadomości do grupy.',
@@ -628,6 +675,7 @@ return [
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Funkcje w każdej kampanii',
+        'short' => 'MG wybiera funkcje, których potrzebuje jego stół.',
         'items' => [
             'Na stronie kampanii MG zaznacza funkcje potrzebne jego stołowi: ekran stołu, mapy, wymiana między graczami, graf, oś czasu, asystent AI. Odznaczona funkcja znika dla wszystkich, nic nie jest usuwane; wraca, gdy tylko zostanie ponownie zaznaczona.',
         ],
@@ -648,6 +696,7 @@ return [
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDF i dokumenty',
+        'short' => 'Pliki PDF otwierają się we wbudowanej przeglądarce na każdym urządzeniu.',
         'items' => [
             'Pliki PDF otwierają się we wbudowanej przeglądarce, takiej samej na komputerze, tablecie i telefonie, z powiększaniem i pobieraniem.',
             'Na ekranie stołu PDF wyświetla się strona po stronie, dopasowany do ekranu; strzałki przewracają strony.',
@@ -660,6 +709,7 @@ return [
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Funkcje Premium ✦',
+        'short' => 'Gwiazdka ✦ oznacza funkcje Premium, a po zakończeniu subskrypcji nic nie jest usuwane.',
         'items' => [
             'Mała gwiazdka ✦ oznacza funkcje Premium. Gdy plan właściciela kampanii ich nie obejmuje, pozostają widoczne, wyszarzone, z wyjaśnieniem.',
             'Po zakończeniu okresu próbnego lub subskrypcji nic nie jest usuwane: kampanie, mapy, wiadomości i pliki zostają, wyłączają się tylko funkcje ✦.',
@@ -724,6 +774,7 @@ return [
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Import podręcznika gry z pomocą AI',
+        'short' => 'AI może przygotować pliki importu na podstawie podręcznika gry.',
         'items' => [
             'W „Importuj” opcja „Przygotuj pliki z AI” daje prompt do wklejenia w wybranej AI razem z PDF gry lub scenariusza: przygotuje pliki importu (pola, karty, zasady, sceny) i instrukcję krok po kroku. Prompt jest też dostępny jako skill Claude.',
         ],
@@ -732,6 +783,7 @@ return [
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Bezpieczeństwo i dane osobowe',
+        'short' => 'W Preferencjach: twoje konto, opcjonalne uwierzytelnianie dwuskładnikowe i dane do pobrania.',
         'items' => [
             '„Moje konto” w Preferencjach: zmień imię, adres e-mail (poprzedni adres zostanie powiadomiony) i hasło.',
             'Opcjonalne uwierzytelnianie dwuskładnikowe w Preferencjach: kod z aplikacji w telefonie, z kodami odzyskiwania.',
@@ -745,6 +797,7 @@ return [
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow zmienia nazwę na LoreMundi',
+        'short' => 'CodexFlow staje się LoreMundi.',
         'items' => [
             'CodexFlow nazywa się teraz LoreMundi, wydawca: Autistic Intelligence. Every world has a story.',
             'Twoje kampanie, konta i archiwa się nie zmieniają: kopie zapasowe utworzone w CodexFlow nadal można zaimportować. Pobierane pliki zaczynają się teraz od „loremundi-”.',
@@ -754,6 +807,7 @@ return [
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Pełna kopia zapasowa',
+        'short' => 'MG może pobrać pełną kopię zapasową swojej kampanii.',
         'items' => [
             'Właściciel może pobrać pełną kopię zapasową: archiwum kampanii wraz ze stołem (postacie, to, co otrzymały, sesje, notatki, wiadomości i dziennik), bez notatek „Tylko ja” i adresów e-mail. Przy imporcie postacie wracają bez gracza, gotowe do przydzielenia.',
         ],
@@ -762,6 +816,7 @@ return [
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Wyszukiwanie ze strony głównej',
+        'short' => 'Ze strony głównej wyszukiwarka przeszukuje wszystkie twoje kampanie.',
         'items' => [
             'Poza kampanią pasek wyszukiwania przeszukuje wszystkie twoje kampanie, ich światy i gry, każdą z twoimi uprawnieniami: wszystko jako MG, a jako gracz to, co zna twoja postać.',
         ],
@@ -789,6 +844,7 @@ return [
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Nowa postać, Moje kampanie, strony gry i świata',
+        'short' => 'Każda gra i każdy świat mają swoją stronę, a „Moje kampanie” prowadzą z powrotem do ostatniej sesji.',
         'items' => [
             'Gdy gracz dostaje nową postać, MG zaznacza, co przechodzi z poprzedniej: wiedza, informacje, dokumenty i zasady są kopiowane, przedmioty zmieniają właściciela.',
             'Moje kampanie: przycisk „Wznów”, data ostatniej sesji i zarchiwizowane kampanie osobno.',
@@ -799,6 +855,7 @@ return [
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Edytor tekstu i notatki graczy',
+        'short' => 'Edytor tekstu z formatowaniem i notatki graczy powiązane ze znanymi kartami.',
         'items' => [
             'Długie teksty (opisy, notatki MG, sceny, zasady, oś czasu, notatki graczy) mają edytor z pogrubieniem, kursywą, śródtytułami, listami i cytatami; „[[” nadal podpowiada karty do połączenia.',
             'Gracze łączą swoje notatki z kartami, które zna ich postać, i tylko z nimi.',
@@ -809,6 +866,7 @@ return [
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Subskrypcja Premium i darmowy okres próbny',
+        'short' => 'Subskrypcja Premium i sześć tygodni bezpłatnego okresu próbnego.',
         'items' => [
             'Przejdź na Premium w „Preferencjach”: płatność miesięczna lub roczna zabezpieczona przez Stripe, z fakturami i rezygnacją w portalu Stripe. Premium trwa do końca opłaconego okresu.',
             'Darmowy okres próbny: sześć tygodni ze wszystkimi funkcjami, od twojej pierwszej kampanii jako MG. Gracz, który nigdy nie jest MG, go nie zaczyna. Długość ustawia się w panelu administracyjnym.',
@@ -829,6 +887,7 @@ return [
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Po testach odbiorczych: wymiany zatwierdzane przez MG',
+        'short' => 'MG zatwierdza wymiany między graczami.',
         'items' => [
             'Domyślnie MG zatwierdza wymiany między graczami: przedmiot lub wiedza zmienia właściciela dopiero po akceptacji. Pole na stronie „Postacie graczy” pozwala zezwalać na nie od razu.',
             'Pilot: przy ostatnim elemencie sceny „Dalej” zmienia się w „Zakończ” i czyści ekran.',
@@ -850,6 +909,7 @@ return [
     '0.13.0' => [
         'date' => '2026-10-08',
         'title' => 'Własna AI bez kopiowania i wklejania',
+        'short' => 'Własny klucz AI, by korzystać z asystenta bez kopiowania i wklejania.',
         'items' => [
             'W „Ustawieniach” możesz zapisać klucz API na swoje nazwisko u Claude (Anthropic), ChatGPT (OpenAI) lub Le Chat (Mistral). Asystent AI zaproponuje wtedy „Analizuj bezpośrednio”: propozycje pojawią się bez kopiowania i wklejania.',
             'Wywołania rozlicza dostawca na twoim koncie. Klucz jest szyfrowany, nigdy ponownie wyświetlany ani eksportowany, a tryb „tekst do wklejenia” pozostaje bezpłatny.',
@@ -859,6 +919,7 @@ return [
     '0.12.0' => [
         'date' => '2026-10-08',
         'title' => 'Asystent AI bez abonamentu',
+        'short' => 'Asystent AI pomaga MG wykorzystać notatki z sesji.',
         'items' => [
             'Nowe narzędzie „Asystent AI” w kampanii: LoreMundi przygotowuje tekst z notatkami z sesji i kontekstem kampanii do wklejenia w wybranej AI. Jej odpowiedź, wklejona z powrotem, zamienia się w propozycje: streszczenie, rozegrane wydarzenia, relacje, statusy, notatki kampanii, ujawnienia.',
             'Każdą propozycję można przyjąć, zmienić lub odrzucić. Bez Ciebie nic się w kampanii nie zmienia, a proponowane relacje czy statusy dotyczą tylko kampanii i nie zmieniają wspólnego świata.',
@@ -876,6 +937,7 @@ return [
     '0.11.0' => [
         'date' => '2026-10-08',
         'title' => 'Kampania demonstracyjna',
+        'short' => 'Kampania demonstracyjna do wczytania jednym kliknięciem.',
         'items' => [
             'Kampania demonstracyjna wczytywana jednym kliknięciem z „Moje kampanie”: wymyślona gra „Brume & Serment” i pełna intryga na trzy sesje, z kartami, portretami, relacjami, mapą, sekretami, zasadami, osią czasu i gotowymi postaciami.',
             'Małe przyciski z ikonami na stronie kampanii nie przesuwają się już po najechaniu myszą: nazwa pojawia się w dymku, nad resztą.',
@@ -886,6 +948,7 @@ return [
     '0.10.0' => [
         'date' => '2026-10-07',
         'title' => 'Czytelniejsza strona kampanii',
+        'short' => 'Bardziej przejrzysta strona kampanii.',
         'items' => [
             'Uporządkowana strona kampanii: tryb Sesji na banerze, cztery obszary przygotowań, a pozostałe narzędzia jako małe przyciski z ikoną.',
             'Nastrój ekranu stołu, wybierany z pilota: Noc, Pergamin, Łupek lub Grimuar.',
@@ -895,6 +958,7 @@ return [
     '0.9.0' => [
         'date' => '2026-10-07',
         'title' => 'Zabrać kampanię ze sobą',
+        'short' => 'Eksport i import całej kampanii.',
         'items' => [
             'Eksport całej kampanii do archiwum .zip: gra, świat, karty, scenariusze, dokumenty, mapy, sekrety, oś czasu i pliki.',
             'Import archiwum z „Moje kampanie”: odtwarza kampanię, u ciebie lub u innego MG.',
@@ -905,6 +969,7 @@ return [
     '0.8.0' => [
         'date' => '2026-10-07',
         'title' => 'Graf i oś czasu',
+        'short' => 'Graf relacji i oś czasu.',
         'items' => [
             'Graf relacji: wszystkie powiązane karty lub sieć wokół jednej karty, z głębokością i filtrem według typu.',
             '„Zobacz jako” w grafie: sieć tak, jak zna ją postać. Gracze otwierają go ze strony swojej postaci.',
@@ -916,6 +981,7 @@ return [
     '0.7.0' => [
         'date' => '2026-10-07',
         'title' => 'Wokół stołu',
+        'short' => 'Mapy, żetony i pilot do ekranu stołu.',
         'items' => [
             'Mapy: obraz na ekranie stołu, który przybliżasz i przesuwasz, z opcjonalną siatką kwadratową i skalą.',
             'Opcjonalne żetony, powiązane z kartami (nazwa i portret): przesuwanie, zmiana rozmiaru, pokazywanie graczom lub ukrywanie przed nimi.',
@@ -928,6 +994,7 @@ return [
     '0.6.0' => [
         'date' => '2026-10-07',
         'title' => 'Pamięć kampanii',
+        'short' => 'Sekrety ujawniane jednym kliknięciem i historia tego, kto czego się dowiedział.',
         'items' => [
             'Sekrety: osobna informacja, powiązana z kartami, scenami lub dokumentami, ujawniana jednym kliknięciem postaci lub całemu stołowi.',
             'Historia ujawnień: kto dowiedział się czego, kiedy, podczas której sesji i której sceny; każde ujawnienie można cofnąć.',
@@ -940,6 +1007,7 @@ return [
     '0.5.0' => [
         'date' => '2026-10-07',
         'title' => 'Lepszy porządek, razem',
+        'short' => 'Tagi, duplikowanie, współprowadzący MG i widzowie.',
         'items' => [
             'Strona „Tagi” do zmiany nazw, kolorów, scalania i usuwania tagów; sceny też mają tagi.',
             '„Duplikuj” kartę, scenariusz lub całą kampanię, aby rozegrać ją z inną drużyną.',
@@ -952,6 +1020,7 @@ return [
     '0.4.1' => [
         'date' => '2026-10-07',
         'title' => 'Pomoc i zgłoszenia problemów',
+        'short' => 'Strona pomocy i „Zgłoś problem” na każdej stronie.',
         'items' => [
             'Strona „Pomoc” odpowiada na najczęstsze pytania, zarówno MG, jak i graczy.',
             '„Zgłoś problem” na dole każdej strony wysyła wiadomość do zespołu wraz z adresem danej strony.',
@@ -961,6 +1030,7 @@ return [
     '0.4.0' => [
         'date' => '2026-10-07',
         'title' => 'Wszystkie języki',
+        'short' => 'Interfejs mówi w ośmiu językach.',
         'items' => [
             'Interfejs mówi po francusku, angielsku, niemiecku, hiszpańsku, włosku, portugalsku, niderlandzku i polsku.',
             'Język jest zgodny z przeglądarką; każdy może go wybrać w „Preferencjach”.',
@@ -973,6 +1043,7 @@ return [
     '0.3.0' => [
         'date' => '2026-10-07',
         'title' => 'Żywa więź',
+        'short' => 'Wiadomości, powiadomienia na żywo, aplikacja do zainstalowania i ekran stołu.',
         'items' => [
             'Wiadomości między MG a graczami oraz panel „Czat” zawsze pod ręką (drużyna i rozmowy prywatne).',
             'Powiadomienia: odkrycia, otrzymane przedmioty, wiadomości, z licznikiem w nagłówku.',
@@ -988,6 +1059,7 @@ return [
     '0.2.0' => [
         'date' => '2026-10-07',
         'title' => 'Gracze',
+        'short' => 'Zaproszenia, postaci graczy, ujawnienia i dziennik.',
         'items' => [
             'Zapraszanie graczy przez link.',
             'Postacie graczy: karta, arkusz PDF, liczniki (PŻ, magia, amunicja…) i pola edytowalne przez gracza.',
@@ -1000,6 +1072,7 @@ return [
     '0.1.0' => [
         'date' => '2026-10-06',
         'title' => 'Sam MG',
+        'short' => 'Światy, karty, sceny, tryb sesji i wyszukiwanie dla MG.',
         'items' => [
             'Światy, kampanie i karty ze strefą publiczną i strefą MG, powiązania [[ ]] między kartami.',
             'Własne pola dla każdej gry, typy kart, import CSV/JSON.',

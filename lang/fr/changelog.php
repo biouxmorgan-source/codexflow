@@ -2,7 +2,20 @@
 
 // Nouveautés par version, de la plus récente à la plus ancienne. Affichées dans
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
+// L'administrateur voit le détail (« items ») ; les autres comptes ne voient que les
+// versions qui ont une phrase « short ». Pas de « short » pour une petite correction
+// ou une nouveauté réservée à l'administration.
 return [
+
+    '0.95.0' => [
+        'date' => '2026-10-23',
+        'title' => '« Quoi de neuf » va à l’essentiel',
+        'short' => 'Une phrase par nouveauté, et seulement quand quelque chose change vraiment pour vous.',
+        'items' => [
+            '« Quoi de neuf » montre maintenant une version courte : une phrase par version, et seulement pour les versions notables. Les petites corrections ne font plus apparaître la fenêtre.',
+            'Le compte administrateur garde le détail complet de chaque version, avec sous chacune la phrase vue par les autres comptes, ou la mention qu’elle ne leur est pas montrée.',
+        ],
+    ],
 
     '0.94.0' => [
         'date' => '2026-10-23',
@@ -18,6 +31,7 @@ return [
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Une nouvelle page d’accueil',
+        'short' => 'Une nouvelle page d’accueil, et le lien vers le Discord de la communauté partout.',
         'items' => [
             'La page d’accueil publique présente tout ce que SagaWyn sait faire aujourd’hui, rangé en trois moments : préparer, jouer à la table, faire vivre la campagne entre les séances. Carte de bataille, dés, carte de campagne, sons, livre des aventures et « Mes feuilles » y ont leur place.',
             'Le lien vers le Discord de la communauté s’affiche désormais d’office, en haut et en bas de la page d’accueil, dans l’aide et dans le pied de page.',
@@ -27,6 +41,7 @@ return [
     '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Import avec une IA : prompt en anglais, langue au choix',
+        'short' => 'L’import avec une IA vous laisse choisir la langue du contenu importé.',
         'items' => [
             'Le prompt et le skill Claude de « Préparer l’import avec une IA » sont désormais en anglais, la langue que les IA suivent le mieux.',
             'Un menu « Langue du contenu importé » choisit la langue dans laquelle l’IA écrit les fiches, les scènes, les titres des documents et le guide (celle de l’interface par défaut). Avec le skill, on peut aussi demander une autre langue au moment de l’import.',
@@ -45,6 +60,7 @@ return [
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Déclaration de droits à chaque import',
+        'short' => 'Avant chaque import, une case vous demande de confirmer que vous avez les droits sur les contenus importés.',
         'items' => [
             'Avant chaque import (fichier CSV ou JSON, archive de campagne, modèle de jeu), une case non cochée par défaut demande de certifier disposer des droits nécessaires sur les contenus importés. Sans elle, le bouton reste grisé et le serveur refuse l’import.',
             'Chaque déclaration est enregistrée avec sa date, la version du texte accepté et l’issue de l’import, sans copie des fichiers. Elle figure dans « Télécharger mes données ».',
@@ -71,6 +87,7 @@ return [
     '0.87.0' => [
         'date' => '2026-10-20',
         'title' => 'Des lancers enregistrés pour chaque feuille',
+        'short' => 'Dans « Mes feuilles », chaque personnage garde ses propres lancers de dés enregistrés.',
         'items' => [
             'Dans les dés de « Mes feuilles », « Enregistrer ce lancer » garde un lancer avec la feuille : chaque personnage a ses propres lancers (Boule de feu, Attaque…), qu’on recharge d’un geste, qu’on met à jour et qu’on retire avec ×.',
         ],
@@ -95,6 +112,7 @@ return [
     '0.86.0' => [
         'date' => '2026-10-20',
         'title' => 'Modifier un document sans le supprimer',
+        'short' => '« Remplacer le fichier » met à jour un document sans perdre son titre ni ses liens.',
         'items' => [
             'Sur la page d’un document, « Remplacer le fichier » met une nouvelle version à la place de l’ancienne : le document garde son titre, ses réglages et ses liens, et la nouvelle version apparaît aussitôt dans les scènes, fiches, règles, cartes, indices et chez les personnages qui l’ont reçu.',
             'Une image qui sert de carte se remplace par une autre image ; pions, grille et points restent à leur place.',
@@ -104,6 +122,7 @@ return [
     '0.85.0' => [
         'date' => '2026-10-20',
         'title' => 'Lancer les dés depuis la feuille',
+        'short' => 'Un petit dé à côté des valeurs de la fiche lance les dés avec cette valeur.',
         'items' => [
             'Sur la fiche d’un personnage, un petit dé à côté de chaque nombre et de chaque compteur lance les dés avec cette valeur : « Lancer sous… (seuil) » ou « Ajouter… au jet (bonus) ». Le plateau de dés s’ouvre prêt à lancer, et le résultat part à la table comme d’habitude.',
             'Sur la fiche de votre personnage, la valeur reste liée à la fiche : si elle change, le lancer enregistré suit. Le MJ peut aussi lancer depuis la fiche d’un joueur.',
@@ -130,6 +149,7 @@ return [
     '0.84.0' => [
         'date' => '2026-10-19',
         'title' => 'Des onglets dans Mes feuilles',
+        'short' => '« Mes feuilles » se range en onglets que vous nommez.',
         'items' => [
             'Dans « Modifier », « + Nouvel onglet » partage une feuille en onglets que vous nommez (Personnage, Sorts, Inventaire…), que vous rangez et retirez.',
             'Chaque bloc choisit son onglet, et chaque onglet place ses blocs sur ses trois colonnes. Une feuille existante garde tous ses blocs dans un premier onglet.',
@@ -139,6 +159,7 @@ return [
     '0.83.0' => [
         'date' => '2026-10-19',
         'title' => 'Plusieurs notes et trois colonnes dans Mes feuilles',
+        'short' => '« Mes feuilles » accueille plusieurs blocs de notes, sur trois colonnes.',
         'items' => [
             '« + Nouvelle note » ajoute un bloc de notes : faites-en autant que vous voulez (dettes, rumeurs, contacts…). Vos notes d’avant deviennent un premier bloc « Notes ».',
             'Les blocs se placent maintenant sur trois colonnes, notes comprises, avec « Organiser les blocs ».',
@@ -148,6 +169,7 @@ return [
     '0.82.0' => [
         'date' => '2026-10-19',
         'title' => 'Une démonstration à jour',
+        'short' => 'La campagne de démonstration montre les dernières nouveautés.',
         'items' => [
             'La campagne de démonstration « Le Serment de Pierrecendre » montre les dernières nouveautés : sur la carte de campagne, le phare mène à une sous-carte, la cave, prête pour le combat avec ses jetons, deux gabarits de zone et un ordre d’initiative. Chaque point relie plusieurs fiches et plusieurs scènes.',
             'Dés à la table : des lancers préparés qui reprennent la caractéristique de la fiche, un bonus nommé, et les lancers de la séance 1, dont une demande du MJ.',
@@ -159,6 +181,7 @@ return [
     '0.81.0' => [
         'date' => '2026-10-19',
         'title' => 'Carte de campagne : zoom, table et lieux plus riches',
+        'short' => 'La carte de campagne se zoome, et chaque lieu mène à ses scènes, ses fiches ou une sous-carte.',
         'items' => [
             'La carte de campagne se zoome (molette, + et −, pincer sur tablette) et se déplace en glissant. Conseil : une image 4K (3840 × 2160) reste nette.',
             'Quand la carte est à l’écran de table, la sous-carte ouverte depuis un point l’y remplace, et la carte d’au-dessus revient quand vous remontez. Dans la sous-carte, « Ce lieu » garde les scènes et fiches du point à portée de clic.',
@@ -169,6 +192,7 @@ return [
     '0.80.0' => [
         'date' => '2026-10-19',
         'title' => 'Des blocs, des notes et des cases à cocher dans Mes feuilles',
+        'short' => '« Mes feuilles » s’organise en blocs déplaçables, avec une note et une case à cocher par champ.',
         'items' => [
             'Dans « Mes feuilles », les champs se rangent dans des blocs que vous nommez : Caractéristiques, Compétences, Équipement, Sorts…',
             '« Organiser les blocs » : glissez un bloc par sa poignée, ou utilisez les flèches, pour le placer où vous voulez, sur une ou deux colonnes.',
@@ -179,6 +203,7 @@ return [
     '0.79.0' => [
         'date' => '2026-10-19',
         'title' => 'Bibliothèque de démos',
+        'short' => 'Une bibliothèque de démos à découvrir et à charger.',
         'items' => [
             'Nouvelle « Bibliothèque de démos », depuis « Mes campagnes » : des campagnes prêtes à jouer (un univers, un court scénario, des prétirés), dont vous chargez votre propre copie en un clic.',
             'Chaque démo d’un auteur ou d’un éditeur garde un lien « Acheter le jeu », dans la bibliothèque et en haut de votre copie.',
@@ -189,6 +214,7 @@ return [
     '0.78.0' => [
         'date' => '2026-10-18',
         'title' => 'Ce qui s’est passé, et le livre des aventures',
+        'short' => 'Le livre des aventures raconte la campagne, scène après scène.',
         'items' => [
             'Chaque scène a maintenant deux parties : « Ce qui est prévu » et « Ce qui s’est passé ». Si la table a suivi le plan, cochez simplement « Jouée comme prévu ».',
             'Nouveau « Livre des aventures » dans la campagne : les scènes jouées, scénario par scénario, puis les résumés des séances, à lire, imprimer ou enregistrer en PDF.',
@@ -199,6 +225,7 @@ return [
     '0.77.0' => [
         'date' => '2026-10-18',
         'title' => 'Rangez vos écrans à votre façon',
+        'short' => 'Le MJ range ses écrans à sa façon.',
         'items' => [
             'Nouveau bouton « Organiser l’écran » sur la page de la campagne et en mode Session : glissez chaque bloc par sa poignée ⠿, à la souris ou au doigt, ou utilisez les flèches.',
             'En mode Session, un bloc peut passer d’une colonne à l’autre : la musique en haut, les notes à droite, comme vous préférez.',
@@ -209,6 +236,7 @@ return [
     '0.76.0' => [
         'date' => '2026-10-18',
         'title' => 'Votre fiche, même sans réseau',
+        'short' => 'Votre fiche se modifie même sans réseau et se synchronise au retour de la connexion.',
         'items' => [
             'Hors ligne, la fiche de votre personnage reste utilisable : réglez vos compteurs avec − et +, modifiez les champs que le MJ vous laisse et écrivez des notes.',
             'Tout est gardé sur l’appareil puis envoyé au retour de la connexion, champ par champ : un compteur reçoit ce que vous avez retiré ou ajouté, et ce que le MJ a changé entre-temps (un secret révélé, un champ modifié) est gardé.',
@@ -219,6 +247,7 @@ return [
     '0.75.0' => [
         'date' => '2026-10-18',
         'title' => 'La grande carte de campagne',
+        'short' => 'Une grande carte de campagne, avec ses lieux.',
         'items' => [
             'Nouvelle « Carte de campagne » : choisissez une carte comme vue d’ensemble et posez-y des points d’intérêt, une ville, un donjon, le lieu d’une scène.',
             'Un point peut ouvrir une sous-carte d’un clic, qui a elle-même ses points ; le fil d’Ariane permet de remonter jusqu’à la vue d’ensemble.',
@@ -229,6 +258,7 @@ return [
     '0.74.0' => [
         'date' => '2026-10-18',
         'title' => 'Vos personnages joués ailleurs',
+        'short' => '« Mes feuilles » garde vos personnages joués ailleurs, rien que pour vous.',
         'items' => [
             'Nouvelle page « Mes feuilles » : rangez les personnages que vous jouez hors de SagaWyn, chez un ami, en club ou ailleurs. Vous seul les voyez.',
             'Chaque personnage a sa feuille PDF, un portrait, des champs libres (textes et compteurs à régler avec − et + pendant la partie) et vos notes, avec le nom du jeu et de la table pour les retrouver.',
@@ -238,6 +268,7 @@ return [
     '0.73.0' => [
         'date' => '2026-10-18',
         'title' => 'Une bibliothèque de sons pour toutes vos campagnes',
+        'short' => 'Une bibliothèque de sons personnelle, utilisable dans toutes vos campagnes.',
         'items' => [
             'Nouvelle page « Mes sons » : vos musiques et ambiances, rangées une seule fois dans votre compte, puis ajoutées aux campagnes que vous menez. Le fichier n’est pas copié et ne compte qu’une fois dans votre espace.',
             'Dans la page Sons d’une campagne : « Depuis ma bibliothèque » pour y ajouter vos sons, « Ranger dans ma bibliothèque » pour réutiliser un son ailleurs, et une case pour ranger un nouveau téléversement directement dans la bibliothèque.',
@@ -248,6 +279,7 @@ return [
     '0.72.0' => [
         'date' => '2026-10-18',
         'title' => 'Le mode d’emploi partout',
+        'short' => 'Un bouton « ? » explique les écrans de SagaWyn.',
         'items' => [
             'Le bouton « ? » arrive sur les sons, le graphe des relations, la chronologie, les avis des joueurs, l’assistant IA, le journal et la fiche de personnage.',
             'Sur le graphe, la chronologie et la fiche de personnage, les joueurs lisent un mode d’emploi écrit pour eux.',
@@ -257,6 +289,7 @@ return [
     '0.71.1' => [
         'date' => '2026-10-18',
         'title' => 'Retirer ou ajouter plusieurs points d’un coup',
+        'short' => 'Les compteurs de votre personnage se modifient de plusieurs points d’un coup.',
         'items' => [
             'Sous chaque compteur que le joueur peut modifier (PV, munitions, argent…), un champ « Montant » : on tape 8 puis −, et le compteur perd 8 d’un coup. Il revient à 1 par défaut.',
         ],
@@ -283,6 +316,7 @@ return [
     '0.69.0' => [
         'date' => '2026-10-18',
         'title' => 'Bonus et seuil lus sur la fiche',
+        'short' => 'Les dés lisent les bonus et les seuils sur la fiche du personnage.',
         'items' => [
             'Dans les dés, le bonus peut reprendre une ou plusieurs valeurs de la fiche du personnage (caractéristique, compétence, tout champ nombre ou compteur de la zone publique), entières ou en dizaine, moitié ou cinquième, en plus du bonus libre. Le seuil peut aussi se lire sur la fiche. Les valeurs sont lues au moment du lancer, sur la fiche de chaque personnage qui lance.',
             'Plusieurs bonus nommés (Arme +2, Blessure −1…) s’ajoutent au même lancer, avec les valeurs de la fiche.',
@@ -311,6 +345,7 @@ return [
     '0.66.0' => [
         'date' => '2026-10-17',
         'title' => 'Dés mélangés et lancers à soi',
+        'short' => 'Plusieurs sortes de dés dans un même lancer, et des lancers rien que pour vous.',
         'items' => [
             'Un même lancer peut mêler plusieurs types de dés : touchez un d20 puis deux d6, et le plateau lance 1d20 + 2d6. Chaque type a son nombre, réglable ou retirable.',
             'Le seuil se pose au choix sur le total (« Seuil sur le total », atteint ou à ne pas dépasser) ou sur chaque dé (« Seuil par dé » : tous les dés à 4 ou plus sont des réussites, par exemple).',
@@ -329,6 +364,7 @@ return [
     '0.65.0' => [
         'date' => '2026-10-17',
         'title' => 'Les dés à la table',
+        'short' => 'Un plateau de dés partagé à la table, et le MJ peut vous demander un lancer.',
         'items' => [
             'Nouveau bouton « Dés » en bas de chaque page de la campagne : le nombre et le type de dés (4 à 100 faces, ou autre), puis la façon de les lire : additionner, atteindre un seuil, rester sous un seuil, compter les réussites, garder les meilleurs ou les plus faibles, lire en chiffres. Avec un bonus, et des dés qui relancent sur le max (+) ou sur le 1 (−).',
             'Le MJ demande un lancer à toute la table ou à certains personnages, à la vue de tous ou en discret. Une fenêtre s’ouvre chez les joueurs concernés ; sans seuil, chacun saisit le sien et ajoute son bonus, et un seuil caché reste chez le MJ, qui voit qui a lancé quoi.',
@@ -349,6 +385,7 @@ return [
     '0.64.0' => [
         'date' => '2026-10-17',
         'title' => 'Gabarits de zone sur la carte',
+        'short' => 'Des gabarits de zone sur la carte de combat.',
         'items' => [
             'Nouveaux gabarits dans la page de la carte : cercle, carré, rectangle, cône et ligne, dimensionnés en cases (ou dans l’unité de l’échelle). On les glisse sur la carte, on les oriente, on les masque, et la liste des jetons pris dans la zone s’affiche aussitôt.',
             'Les gabarits visibles apparaissent sur l’écran de table, sous les jetons.',
@@ -358,6 +395,7 @@ return [
     '0.63.0' => [
         'date' => '2026-10-17',
         'title' => 'Carte de combat partagée',
+        'short' => 'Une carte de combat partagée : vous déplacez votre pion, même à distance.',
         'items' => [
             'Sur l’écran de table partagé, chaque joueur déplace le jeton de son personnage. Dans la carte, « Déplacé par » confie un autre jeton à un joueur : suivant, familier, ennemi contrôlé…',
             'Nouvel ordre d’initiative, depuis la télécommande ou la carte : PJ et ennemis avec leur valeur, tour en cours, rounds. Le MJ le montre par-dessus l’écran quand il le souhaite ; les lignes masquées restent chez lui, et une rangée « Aussi présents » montre des PNJ ou objets sans initiative.',
@@ -368,6 +406,7 @@ return [
     '0.62.0' => [
         'date' => '2026-10-13',
         'title' => 'La communauté sur Discord',
+        'short' => 'La communauté SagaWyn se retrouve sur Discord.',
         'items' => [
             'SagaWyn a son serveur Discord : un lien en bas de chaque page et sur la page d’accueil pour poser vos questions, proposer vos idées et rencontrer d’autres maîtres de jeu.',
         ],
@@ -386,6 +425,7 @@ return [
     '0.60.0' => [
         'date' => '2026-10-13',
         'title' => 'Contenu maison',
+        'short' => 'Le MJ distingue le contenu maison du contenu officiel.',
         'items' => [
             'Nouvelle coche « Contenu maison » sur les fiches (PNJ, sorts, objets, lieux…) : sans coche, la fiche est officielle. Un badge « Maison » la signale dans la liste et sur la fiche, et un filtre Officiel / Maison trie l’univers.',
             'Pour une fiche maison ou une règle d’origine « Maison », la version officielle remplacée se note à côté (par exemple l’initiative au D10 au lieu du D20) : elle reste en zone MJ, repliée sous la fiche ou la règle.',
@@ -420,6 +460,7 @@ return [
     '0.57.0' => [
         'date' => '2026-10-12',
         'title' => 'Préparer une campagne entière avec une IA',
+        'short' => 'Une IA peut préparer une campagne entière à importer à partir d’un livre de jeu.',
         'items' => [
             'Mes campagnes → Importer une campagne : nouveau lien « Préparez l’archive avec une IA ». Le prompt (ou le skill Claude) fait lire le livre de jeu de rôle à votre IA, qui fabrique une archive .zip : le jeu, le monde, la campagne, les fiches, les scènes et les documents sont créés d’un coup.',
         ],
@@ -436,6 +477,7 @@ return [
     '0.56.0' => [
         'date' => '2026-10-11',
         'title' => 'Les secrets deviennent des indices',
+        'short' => 'Les secrets s’appellent désormais des indices.',
         'items' => [
             'Les « secrets » de la campagne s’appellent maintenant des « indices » : page Indices, panneau des fiches, scènes et documents, mode Session, recherche, révélations et aide. Rien ne change dans vos données.',
         ],
@@ -444,6 +486,7 @@ return [
     '0.54.0' => [
         'date' => '2026-10-11',
         'title' => 'Les joueurs modifient leur personnage',
+        'short' => 'Le MJ peut vous laisser modifier votre personnage.',
         'items' => [
             'Page Champs : « Modifiable par le joueur » se coche pour tout un groupe (caractéristiques, compétences…) ou pour tous les champs publics en un clic.',
             'Nouvelle option dans la page Joueurs : le MJ peut laisser chaque joueur modifier le portrait, le résumé et la description de son personnage. La zone MJ reste cachée.',
@@ -453,6 +496,7 @@ return [
     '0.51.0' => [
         'date' => '2026-10-11',
         'title' => 'Badge Fondateur et codes cadeaux',
+        'short' => 'Un badge Fondateur, et des codes cadeaux Premium à offrir.',
         'items' => [
             'Les contributeurs du Kickstarter pourront être marqués Fondateur dans la console d’administration : un badge ★ Fondateur visible dans les préférences, la liste des membres et la fiche du personnage.',
             'Les Fondateurs ont de l’espace de stockage en plus de leur formule, gratuite ou premium (500 Mo par défaut, réglable dans « Formules »).',
@@ -489,6 +533,7 @@ return [
     '0.49.0' => [
         'date' => '2026-10-10',
         'title' => 'La démonstration montre tout SagaWyn',
+        'short' => 'La campagne de démonstration utilise toutes les fonctions de SagaWyn.',
         'items' => [
             'La campagne de démonstration utilise maintenant chaque fonction : un personnage joueur tiré d’un prétiré, avec ce qu’il a reçu (fiche, document, règle, secret, objets) et que le MJ peut « Voir comme » ; des notes de séance ; une liste « À jouer » ; des fiches épinglées ; des champs référence, document et commun à deux types ; une pièce jointe MJ ; des secrets de chaque nature ; des tags colorés ; des couvertures pour le jeu et le monde.',
             'Recharger la démonstration reprend le type de fiche « Faction » déjà créé au lieu d’en ajouter un second.',
@@ -507,6 +552,7 @@ return [
     '0.47.0' => [
         'date' => '2026-10-10',
         'title' => 'LoreMundi devient SagaWyn',
+        'short' => 'LoreMundi devient SagaWyn.',
         'items' => [
             'LoreMundi s’appelle désormais SagaWyn, toujours édité par Autistic Intelligence. Every world has a story.',
             'Vos campagnes, comptes et archives ne changent pas : les sauvegardes faites avec LoreMundi ou CodexFlow s’importent toujours. Les fichiers téléchargés commencent désormais par « sagawyn- ».',
@@ -516,6 +562,7 @@ return [
     '0.46.0' => [
         'date' => '2026-10-10',
         'title' => 'Avis des joueurs',
+        'short' => 'Le MJ peut vous demander votre avis sur une séance ou une campagne.',
         'items' => [
             'En fin de séance ou de campagne, demandez à vos joueurs une note de 1 à 5 étoiles, ce qui leur a plu et ce qui pourrait être mieux (« Avis des joueurs » dans la campagne, ou depuis la page d’une séance).',
             'Réponses anonymes ou signées, au choix du MJ : les joueurs le savent avant de répondre. Vous voyez la moyenne, la répartition des notes et tous les commentaires.',
@@ -525,6 +572,7 @@ return [
     '0.45.0' => [
         'date' => '2026-10-10',
         'title' => 'Bibliothèque sonore',
+        'short' => 'Une bibliothèque de musiques et d’ambiances pour les séances.',
         'items' => [
             'Nouvelle page « Sons » : téléversez vos musiques et ambiances (mp3, ogg, m4a, wav, flac), rangez-les par tags et liez-les aux scènes.',
             'En mode Session, le bloc « Musique » propose d’abord les sons de la scène : « Ici » les joue sur votre appareil, sans couper quand vous changez de page ; « Table » les joue sur l’écran de table, avec pause, boucle et volume pilotés depuis la session.',
@@ -587,6 +635,7 @@ return [
     '0.38.0' => [
         'date' => '2026-10-09',
         'title' => 'Recherche',
+        'short' => 'La recherche trouve aussi les autres formes d’un mot.',
         'items' => [
             'La recherche trouve aussi les autres formes d’un mot en français : « lanternes » trouve « lanterne », « éteinte » trouve « éteintes ».',
             'La recherche depuis l’accueil cherche aussi dans vos mondes et jeux qui ne sont rattachés à aucune campagne.',
@@ -596,6 +645,7 @@ return [
     '0.37.0' => [
         'date' => '2026-10-09',
         'title' => 'Joueurs et rôles',
+        'short' => 'Une fiche révélée montre ses illustrations, et votre fiche a son fil de la campagne.',
         'items' => [
             'Une fiche révélée montre au joueur ses illustrations et fichiers de la zone publique, et ses relations publiques vers les fiches qu’il connaît.',
             'Le joueur a un « Fil de la campagne » sur sa fiche : séances, événements joués connus de la table et messages au groupe.',
@@ -628,6 +678,7 @@ return [
     '0.34.0' => [
         'date' => '2026-10-08',
         'title' => 'Fonctions par campagne',
+        'short' => 'Le MJ choisit les fonctions dont sa table a besoin.',
         'items' => [
             'Sur la page de la campagne, le MJ coche les fonctions dont sa table a besoin : écran de table, cartes, échanges entre joueurs, graphe, chronologie, assistant IA. Une fonction décochée disparaît pour tous, sans rien effacer ; elle revient dès qu’on la recoche.',
         ],
@@ -648,6 +699,7 @@ return [
     '0.32.0' => [
         'date' => '2026-10-08',
         'title' => 'PDF et documents',
+        'short' => 'Les PDF s’affichent dans un lecteur intégré, sur tous les appareils.',
         'items' => [
             'Les PDF s’affichent dans un lecteur intégré, le même sur ordinateur, tablette et téléphone, avec zoom et téléchargement.',
             'À l’écran de table, un PDF s’affiche page par page, ajusté à l’écran ; les flèches tournent les pages.',
@@ -660,6 +712,7 @@ return [
     '0.31.0' => [
         'date' => '2026-10-08',
         'title' => 'Fonctions Premium ✦',
+        'short' => 'Une étoile ✦ signale les fonctions Premium, et rien n’est effacé à la fin d’un abonnement.',
         'items' => [
             'Une petite étoile ✦ signale les fonctions Premium. Quand la formule du propriétaire d’une campagne ne les comprend pas, elles restent visibles, grisées, avec une explication.',
             'À la fin d’un essai ou d’un abonnement, rien n’est effacé : campagnes, cartes, messages et fichiers restent, seules les fonctions ✦ se coupent.',
@@ -724,6 +777,7 @@ return [
     '0.25.0' => [
         'date' => '2026-10-08',
         'title' => 'Importer un livre de jeu avec une IA',
+        'short' => 'Une IA peut préparer les fichiers d’import à partir d’un livre de jeu.',
         'items' => [
             'Dans « Importer », « Préparez les fichiers avec une IA » donne un prompt à coller dans l’IA de votre choix avec le PDF d’un jeu ou d’un scénario : elle prépare les fichiers d’import (champs, fiches, règles, scènes) et un guide pas à pas. Le prompt existe aussi en skill Claude.',
         ],
@@ -732,6 +786,7 @@ return [
     '0.24.0' => [
         'date' => '2026-10-08',
         'title' => 'Sécurité et données personnelles',
+        'short' => 'Dans les Préférences : votre compte, une double authentification facultative et vos données à télécharger.',
         'items' => [
             '« Mon compte », dans Préférences : changez votre nom, votre adresse e-mail (l’ancienne adresse est prévenue) et votre mot de passe.',
             'Double authentification facultative, dans Préférences : un code donné par une application de votre téléphone, avec des codes de secours.',
@@ -745,6 +800,7 @@ return [
     '0.23.0' => [
         'date' => '2026-10-08',
         'title' => 'CodexFlow devient LoreMundi',
+        'short' => 'CodexFlow devient LoreMundi.',
         'items' => [
             'CodexFlow s’appelle désormais LoreMundi, édité par Autistic Intelligence. Every world has a story.',
             'Vos campagnes, comptes et archives ne changent pas : les sauvegardes faites avec CodexFlow s’importent toujours. Les fichiers téléchargés commencent désormais par « loremundi- ».',
@@ -754,6 +810,7 @@ return [
     '0.22.0' => [
         'date' => '2026-10-08',
         'title' => 'Sauvegarde complète',
+        'short' => 'Le MJ peut télécharger une sauvegarde complète de sa campagne.',
         'items' => [
             'Le propriétaire peut télécharger une sauvegarde complète : l’archive de la campagne avec la table (personnages, ce qu’ils ont reçu, séances, notes, messages et journal), sans note « Moi seul » ni adresse e-mail. À l’import, les personnages reviennent sans joueur, prêts à être confiés.',
         ],
@@ -762,6 +819,7 @@ return [
     '0.21.0' => [
         'date' => '2026-10-08',
         'title' => 'Recherche depuis l’accueil',
+        'short' => 'Depuis l’accueil, la recherche fouille toutes vos campagnes.',
         'items' => [
             'Hors d’une campagne, la barre de recherche cherche dans toutes vos campagnes, leurs mondes et leurs jeux, chacune avec vos droits : tout en MJ, ce que connaît votre personnage en joueur.',
         ],
@@ -789,6 +847,7 @@ return [
     '0.18.0' => [
         'date' => '2026-10-08',
         'title' => 'Nouveau personnage, Mes campagnes, pages jeu et monde',
+        'short' => 'Chaque jeu et chaque monde a sa page, et « Mes campagnes » vous ramène à la dernière séance.',
         'items' => [
             'Quand un joueur reçoit un nouveau personnage, le MJ coche ce qui passe de l’ancien : connaissances, informations, documents et règles sont recopiés, les objets changent de main.',
             'Mes campagnes : bouton « Reprendre », date de la dernière séance, et les campagnes archivées rangées à part.',
@@ -799,6 +858,7 @@ return [
     '0.17.0' => [
         'date' => '2026-10-08',
         'title' => 'Éditeur riche et notes des joueurs',
+        'short' => 'Un éditeur de texte mis en forme, et des notes de joueur liées aux fiches connues.',
         'items' => [
             'Les textes longs (descriptions, notes MJ, scènes, règles, chronologie, notes des joueurs) ont un éditeur avec gras, italique, intertitres, listes et citations ; « [[ » propose toujours les fiches à lier.',
             'Les joueurs lient leurs notes aux fiches que leur personnage connaît, et seulement à celles-là.',
@@ -809,6 +869,7 @@ return [
     '0.16.0' => [
         'date' => '2026-10-08',
         'title' => 'Abonnement premium et essai gratuit',
+        'short' => 'Un abonnement Premium, et six semaines d’essai offertes.',
         'items' => [
             'Passer Premium depuis « Préférences » : paiement mensuel ou annuel sécurisé par Stripe, factures et résiliation dans le portail Stripe. Le premium dure jusqu’à la fin de la période payée.',
             'Essai offert : six semaines avec toutes les fonctions, à partir de votre première campagne en tant que MJ. Un joueur qui n’est jamais MJ ne l’entame pas. La durée se règle dans la console d’administration.',
@@ -829,6 +890,7 @@ return [
     '0.14.0' => [
         'date' => '2026-10-08',
         'title' => 'Suites de la recette : échanges validés par le MJ',
+        'short' => 'Le MJ valide les échanges entre joueurs.',
         'items' => [
             'Par défaut, le MJ valide les échanges entre joueurs : l’objet ou la connaissance ne change de main qu’une fois l’échange accepté. Une case dans « Personnages des joueurs » permet de les autoriser d’office.',
             'Télécommande : au dernier élément de la scène, « Suivant » devient « Terminer » et vide l’écran.',
@@ -850,6 +912,7 @@ return [
     '0.13.0' => [
         'date' => '2026-10-08',
         'title' => 'Votre propre IA, sans copier-coller',
+        'short' => 'Votre propre clé d’IA, pour un assistant sans copier-coller.',
         'items' => [
             'Dans « Préférences », vous pouvez enregistrer une clé d’API à votre nom chez Claude (Anthropic), ChatGPT (OpenAI) ou Le Chat (Mistral). L’assistant IA propose alors « Analyser directement » : les propositions arrivent sans copier-coller.',
             'Les appels sont facturés par le fournisseur sur votre compte. La clé est chiffrée, jamais réaffichée ni exportée, et le mode « texte à coller » reste gratuit.',
@@ -859,6 +922,7 @@ return [
     '0.12.0' => [
         'date' => '2026-10-08',
         'title' => 'Un assistant IA, sans abonnement',
+        'short' => 'Un assistant IA aide le MJ à tirer parti des notes de séance.',
         'items' => [
             'Nouvel outil « Assistant IA » dans la campagne : LoreMundi prépare un texte avec les notes de la séance et le contexte de la campagne, à coller dans l’IA de votre choix. Sa réponse, collée en retour, devient des propositions : résumé, événements joués, relations, statuts, notes de campagne, révélations.',
             'Chaque proposition s’accepte, se modifie ou se rejette. Rien ne change dans la campagne sans vous, et les relations ou statuts proposés restent propres à la campagne, sans toucher au monde partagé.',
@@ -876,6 +940,7 @@ return [
     '0.11.0' => [
         'date' => '2026-10-08',
         'title' => 'Une campagne de démonstration',
+        'short' => 'Une campagne de démonstration à charger en un clic.',
         'items' => [
             'Campagne de démonstration à charger en un clic depuis « Mes campagnes » : un jeu inventé, « Brume & Serment », et une intrigue complète de trois séances, avec fiches, portraits, relations, carte, secrets, règles, chronologie et prétirés.',
             'Les petits boutons à icône de la page de campagne ne bougent plus au survol : le nom s’affiche en infobulle, au-dessus du reste.',
@@ -886,6 +951,7 @@ return [
     '0.10.0' => [
         'date' => '2026-10-07',
         'title' => 'Une page de campagne plus claire',
+        'short' => 'Une page de campagne plus claire.',
         'items' => [
             'Page de campagne remise en ordre : le mode Session en bandeau, quatre zones de préparation, et les autres outils en petits boutons à icône.',
             'Ambiance de l’écran de table, au choix depuis la télécommande : Nuit, Parchemin, Ardoise ou Grimoire.',
@@ -895,6 +961,7 @@ return [
     '0.9.0' => [
         'date' => '2026-10-07',
         'title' => 'Emporter sa campagne',
+        'short' => 'Exporter et importer une campagne entière.',
         'items' => [
             'Exporter une campagne entière dans une archive .zip : jeu, monde, fiches, scénarios, documents, cartes, secrets, chronologie et fichiers.',
             'Importer une archive depuis « Mes campagnes » : elle recrée la campagne, chez vous ou chez un autre MJ.',
@@ -905,6 +972,7 @@ return [
     '0.8.0' => [
         'date' => '2026-10-07',
         'title' => 'Le graphe et la chronologie',
+        'short' => 'Le graphe des relations et la chronologie.',
         'items' => [
             'Graphe des relations : toutes les fiches reliées, ou le réseau autour d\'une fiche, avec une profondeur et un filtre par type.',
             '« Voir comme » dans le graphe : le réseau tel qu\'un personnage le connaît. Les joueurs y accèdent depuis leur personnage.',
@@ -916,6 +984,7 @@ return [
     '0.7.0' => [
         'date' => '2026-10-07',
         'title' => 'Autour de la table',
+        'short' => 'Cartes, jetons et télécommande pour l’écran de table.',
         'items' => [
             'Cartes : une image sur l\'écran de table, que vous zoomez et déplacez, avec une grille carrée facultative et une échelle.',
             'Jetons facultatifs, liés aux fiches (nom et portrait) : déplacer, redimensionner, montrer ou masquer aux joueurs.',
@@ -928,6 +997,7 @@ return [
     '0.6.0' => [
         'date' => '2026-10-07',
         'title' => 'La mémoire de la campagne',
+        'short' => 'Des secrets révélés d’un clic, et l’historique de qui a appris quoi.',
         'items' => [
             'Secrets : une information à part, reliée à des fiches, scènes ou documents, révélée d\'un clic à un personnage ou à toute la table.',
             'Historique des révélations : qui a appris quoi, quand, pendant quelle séance et quelle scène ; chaque révélation peut être annulée.',
@@ -940,6 +1010,7 @@ return [
     '0.5.0' => [
         'date' => '2026-10-07',
         'title' => 'Mieux ranger, à plusieurs',
+        'short' => 'Tags, duplication, co-MJ et spectateurs.',
         'items' => [
             'Une page « Tags » pour renommer, colorer, fusionner et supprimer vos tags ; les scènes ont aussi des tags.',
             '« Dupliquer » une fiche, un scénario ou toute une campagne, pour rejouer avec une autre table.',
@@ -952,6 +1023,7 @@ return [
     '0.4.1' => [
         'date' => '2026-10-07',
         'title' => 'Aide et signalements',
+        'short' => 'Une page d’aide, et « Signaler un problème » sur chaque page.',
         'items' => [
             'Une page « Aide » répond aux questions les plus fréquentes, pour le MJ comme pour les joueurs.',
             '« Signaler un problème », en bas de chaque page, envoie votre message à l\'équipe avec la page concernée.',
@@ -961,6 +1033,7 @@ return [
     '0.4.0' => [
         'date' => '2026-10-07',
         'title' => 'Toutes les langues',
+        'short' => 'L’interface parle huit langues.',
         'items' => [
             'L\'interface parle français, anglais, allemand, espagnol, italien, portugais, néerlandais et polonais.',
             'La langue suit celle du navigateur ; chacun peut la choisir dans « Préférences ».',
@@ -973,6 +1046,7 @@ return [
     '0.3.0' => [
         'date' => '2026-10-07',
         'title' => 'Le lien vivant',
+        'short' => 'Messagerie, notifications en direct, application installable et écran de table.',
         'items' => [
             'Messagerie entre le MJ et ses joueurs, et panneau « Discussion » toujours à portée de main (groupe et privé).',
             'Notifications : révélations, objets reçus, messages, avec un compteur dans l\'en-tête.',
@@ -988,6 +1062,7 @@ return [
     '0.2.0' => [
         'date' => '2026-10-07',
         'title' => 'Les joueurs',
+        'short' => 'Invitations, personnages des joueurs, révélations et journal.',
         'items' => [
             'Invitations des joueurs par lien.',
             'Personnages des joueurs : fiche, feuille PDF, compteurs (PV, magie, munitions…) et champs modifiables par le joueur.',
@@ -1000,6 +1075,7 @@ return [
     '0.1.0' => [
         'date' => '2026-10-06',
         'title' => 'Le MJ seul',
+        'short' => 'Mondes, fiches, scènes, mode Session et recherche pour le MJ.',
         'items' => [
             'Mondes, campagnes et fiches avec zone publique et zone MJ, liens [[ ]] entre fiches.',
             'Champs libres par jeu, types de fiche, import CSV/JSON.',

@@ -6,7 +6,8 @@ use App\Support\Changelog;
 use Livewire\Component;
 
 /**
- * Fenêtre « Quoi de neuf », montrée une fois après chaque mise à jour.
+ * Fenêtre « Quoi de neuf », montrée une fois après chaque mise à jour : en détail à
+ * l'administrateur, en version courte et pour les versions notables aux autres comptes.
  */
 class WhatsNew extends Component
 {
@@ -18,7 +19,7 @@ class WhatsNew extends Component
     public function render()
     {
         return view('livewire.whats-new', [
-            'versions' => Changelog::unseenSince(auth()->user()->last_seen_version),
+            'versions' => Changelog::unseenSince(auth()->user()->last_seen_version, Changelog::detailedFor(auth()->user())),
         ]);
     }
 }
