@@ -4,6 +4,14 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.89.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Escolhas mais claras ao criar uma campanha',
+        'items' => [
+            'Em «Nova campanha», as listas «Jogo» e «Mundo» só propõem os de uma campanha em curso ou arquivada. Os de uma campanha eliminada já não aparecem; o seu conteúdo continua acessível pela pesquisa.',
+        ],
+    ],
+
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Declaração de direitos em cada importação',

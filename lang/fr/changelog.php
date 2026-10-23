@@ -4,6 +4,14 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.89.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Choix plus nets à la création de campagne',
+        'items' => [
+            'Dans « Nouvelle campagne », les listes « Jeu » et « Monde » ne proposent plus que ceux d’une campagne en cours ou archivée. Ceux d’une campagne supprimée n’y figurent plus ; leur contenu reste trouvable par la recherche.',
+        ],
+    ],
+
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Déclaration de droits à chaque import',

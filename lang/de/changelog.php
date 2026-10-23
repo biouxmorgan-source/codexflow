@@ -4,6 +4,14 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.89.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Klarere Auswahl beim Anlegen einer Kampagne',
+        'items' => [
+            'Unter „Neue Kampagne“ bieten die Listen „Spiel“ und „Welt“ nur noch die einer laufenden oder archivierten Kampagne an. Die einer gelöschten Kampagne erscheinen nicht mehr; ihr Inhalt bleibt über die Suche auffindbar.',
+        ],
+    ],
+
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Rechteerklärung bei jedem Import',

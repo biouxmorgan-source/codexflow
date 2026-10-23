@@ -4,6 +4,14 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.89.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Czytelniejszy wybór przy tworzeniu kampanii',
+        'items' => [
+            'W „Nowa kampania“ listy „Gra“ i „Świat“ pokazują już tylko te z trwającej lub zarchiwizowanej kampanii. Te z usuniętej kampanii już się nie pojawiają; ich zawartość nadal można znaleźć wyszukiwarką.',
+        ],
+    ],
+
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Oświadczenie o prawach przy każdym imporcie',

@@ -4,6 +4,14 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.89.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Cleaner choices when creating a campaign',
+        'items' => [
+            'In "New campaign", the "Game" and "World" lists now only offer those of an active or archived campaign. Those of a deleted campaign no longer appear; their content can still be found through search.',
+        ],
+    ],
+
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Rights declaration for every import',
