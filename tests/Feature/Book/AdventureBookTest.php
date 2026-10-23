@@ -109,6 +109,17 @@ class AdventureBookTest extends TestCase
         $this->assertStringNotContainsString('Ce qui est prévu', $markdown);
     }
 
+    /** Une scène préparée par une IA dans une autre langue que celle du MJ garde ses deux sections. */
+    public function test_the_sections_are_recognised_in_every_language(): void
+    {
+        $english = $this->scene('The cove', ['description' => "### What's planned\n\nAn ambush.\n\n### What happened (session 2)\n\nThe heroes bargained."]);
+        $german = $this->scene('Die Bucht', ['description' => "## Was geplant ist\n\nEin Hinterhalt.", 'status' => 'played']);
+
+        $this->assertSame('**What happened (session 2)**'."\n\nThe heroes bargained.", AdventureBook::happened($english));
+        $this->assertSame('An ambush.', AdventureBook::planned($english));
+        $this->assertSame('Ein Hinterhalt.', AdventureBook::planned($german));
+    }
+
     public function test_the_book_is_reserved_to_the_game_master(): void
     {
         $player = User::factory()->create();

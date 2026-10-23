@@ -1,11 +1,12 @@
-# Vérifie un dossier de fichiers d'import SagaWyn avant de les rendre au MJ.
-# Usage : python3 -I verifier.py <dossier> [<dossier de documents>] [--mise-a-jour]
-# --mise-a-jour : fichiers qui mettent à jour une campagne existante ; un lien vers une fiche
-# absente des fichiers est alors signalé en note (elle existe peut-être déjà dans la campagne).
-# Lit tous les .csv du dossier (et sous-dossiers), reconnaît leur nature par les en-têtes,
-# puis contrôle : séparateur, en-têtes, noms vides ou en double, longueurs maximales de SagaWyn,
-# liens [[Nom]] et colonnes Fiches/Documents/Règles des scènes qui ne mènent nulle part,
-# colonnes de champs non définies, valeurs « nombre » non numériques.
+# Checks a folder of SagaWyn import files before handing them to the GM.
+# Usage: python3 -I check.py <folder> [<documents folder>] [--update]
+# --update: files that update an existing campaign; a link to an entry missing from the files
+# is then only a note (it may already exist in the campaign).
+# Reads every .csv in the folder (and subfolders), recognises each file by its headers, then
+# checks: separator, headers, empty or duplicate names, SagaWyn's maximum lengths, [[Name]]
+# links and scene Fiches/Documents/Règles columns that lead nowhere, undefined field columns,
+# non-numeric values in "nombre" fields.
+# The CSV headers and closed values are SagaWyn's (in French), whatever the content language.
 import csv, io, os, re, sys, unicodedata
 
 LIMITS = {
@@ -40,17 +41,17 @@ def kind(headers):
 def read(path):
     raw = open(path, 'rb').read()
     if not raw.startswith(b'\xef\xbb\xbf'):
-        notes.append(f'{path} : pas de BOM UTF-8 (Excel risque de mal afficher les accents ; SagaWyn le lit quand même)')
+        notes.append(f'{path}: no UTF-8 BOM (Excel may show accented letters wrongly; SagaWyn still reads it)')
     text = raw.decode('utf-8-sig')
     first = text.split('\n', 1)[0]
     if first.count(';') < max(first.count(','), first.count('\t')):
-        problems.append(f'{path} : le séparateur doit être le point-virgule')
+        problems.append(f'{path}: the separator must be the semicolon')
     rows = list(csv.reader(io.StringIO(text), delimiter=';'))
     rows = [r for r in rows if any(c.strip() for c in r)]
     if len(rows) - 1 > 2000:
-        problems.append(f'{path} : plus de 2000 lignes, à découper')
+        problems.append(f'{path}: more than 2000 lines, split it')
     if os.path.getsize(path) > 5 * 1024 * 1024:
-        problems.append(f'{path} : plus de 5 Mo, à découper')
+        problems.append(f'{path}: more than 5 MB, split it')
     return rows[0], [dict(zip(rows[0], r + [''] * (len(rows[0]) - len(r)))) | {'_line': i + 2} for i, r in enumerate(rows[1:])]
 
 
@@ -61,10 +62,10 @@ def main(folder, docs_folder=None):
         headers, rows = read(path)
         k = kind(headers)
         if k is None:
-            problems.append(f'{path} : nature inconnue (en-têtes {headers})')
+            problems.append(f'{path}: unknown kind of file (headers {headers})')
             continue
         if len(set(headers)) != len(headers):
-            problems.append(f'{path} : en-têtes en double')
+            problems.append(f'{path}: duplicate headers')
         data[k].append((path, headers, rows))
 
     entities, docs, rules, fields = {}, set(), set(), set()
@@ -72,11 +73,11 @@ def main(folder, docs_folder=None):
         for r in rows:
             fields.add(key(r.get('Nom', '')))
             if r.get('Type', '').strip().lower() not in ('texte', 'texte long', 'nombre', 'oui/non', 'date', 'liste', 'compteur', 'lien', 'fichier', 'référence', 'reference'):
-                problems.append(f"{path} l.{r['_line']} : type de champ « {r.get('Type')} » inconnu")
+                problems.append(f"{path} l.{r['_line']}: unknown field type '{r.get('Type')}'")
             if r.get('Zone', '').strip().lower() not in ('publique', 'mj'):
-                problems.append(f"{path} l.{r['_line']} : zone « {r.get('Zone')} » (publique ou MJ)")
-    # Type de chaque champ, par (nom, type de fiche) : FOR peut être un nombre pour un Personnage
-    # et un texte (« 3D6×5 ») pour une Créature.
+                problems.append(f"{path} l.{r['_line']}: zone '{r.get('Zone')}' (publique or MJ)")
+    # Type of each field, by (name, entry type): STR may be a number for a Personnage
+    # and a text ("3D6×5") for a Créature.
     ftype = {(key(r['Nom']), key(r.get('Type de fiche', ''))): r.get('Type', '').strip().lower()
              for _, _, rows in data['champs'] for r in rows}
 
@@ -89,23 +90,23 @@ def main(folder, docs_folder=None):
         extra = [h for h in headers if key(h) not in base]
         missing = [h for h in extra if key(h) not in fields]
         if missing:
-            notes.append(f"{path} : colonnes sans fichier de champs ({', '.join(missing)}) : à définir avant, sinon SagaWyn les crée en « nouveau champ »")
+            notes.append(f"{path}: columns with no fields file ({', '.join(missing)}): define them first, otherwise SagaWyn creates them as 'new field'")
         for r in rows:
             name = r.get('Nom', '').strip()
             if not name:
-                problems.append(f"{path} l.{r['_line']} : nom manquant")
+                problems.append(f"{path} l.{r['_line']}: missing name")
                 continue
             k = (r.get('Type', '').strip().lower(), name.lower())
             if k in entities and entities[k] == path:
-                problems.append(f'{path} l.{r["_line"]} : « {name} » en double')
+                problems.append(f'{path} l.{r["_line"]}: duplicate "{name}"')
             entities[k] = path
             for col, mx in LIMITS['fiches'].items():
                 if len(r.get(col, '')) > mx:
-                    problems.append(f"{path} l.{r['_line']} : {col} de « {name} » dépasse {mx} caractères ({len(r[col])})")
+                    problems.append(f"{path} l.{r['_line']}: {col} of '{name}' exceeds {mx} characters ({len(r[col])})")
             for h in extra:
                 v = r.get(h, '').strip()
                 if v and is_number(h, r.get('Type', '')) and not re.fullmatch(r'-?\d+([.,]\d+)?', v):
-                    problems.append(f"{path} l.{r['_line']} : {h} de « {name} » doit être un nombre (« {v} »)")
+                    problems.append(f"{path} l.{r['_line']}: {h} of '{name}' must be a number ('{v}')")
     names = {n for _, n in entities}
 
     for path, headers, rows in data['regles']:
@@ -113,14 +114,14 @@ def main(folder, docs_folder=None):
         for r in rows:
             t = r.get('Titre', '').strip()
             if not t:
-                problems.append(f"{path} l.{r['_line']} : titre manquant")
+                problems.append(f"{path} l.{r['_line']}: missing title")
             elif t.lower() in seen:
-                problems.append(f'{path} l.{r["_line"]} : « {t} » en double')
+                problems.append(f'{path} l.{r["_line"]}: duplicate "{t}"')
             seen.add(t.lower())
             rules.add(t.lower())
             for col, mx in LIMITS['regles'].items():
                 if len(r.get(col, '')) > mx:
-                    problems.append(f"{path} l.{r['_line']} : {col} de « {t} » dépasse {mx} caractères")
+                    problems.append(f"{path} l.{r['_line']}: {col} of '{t}' exceeds {mx} characters")
 
     if docs_folder:
         for d, _, fs in os.walk(docs_folder):
@@ -129,16 +130,16 @@ def main(folder, docs_folder=None):
                 if ext.lower() in DOC_EXT:
                     docs.add(stem.lower())
                     if os.path.getsize(os.path.join(d, f)) > 50 * 1024 * 1024:
-                        problems.append(f'{os.path.join(d, f)} : plus de 50 Mo, refusé par SagaWyn')
+                        problems.append(f'{os.path.join(d, f)}: more than 50 MB, refused by SagaWyn')
                 elif not f.lower().endswith(('.csv', '.md', '.zip', '.txt')):
-                    notes.append(f'{os.path.join(d, f)} : format non accepté par les documents (pdf, jpg, png, gif, webp)')
+                    notes.append(f'{os.path.join(d, f)}: format not accepted for documents (pdf, jpg, png, gif, webp)')
 
     def check_links(path, line, label, text):
         for m in LINK.finditer(text or ''):
             if m.group(2) is not None and not m.group(2).isdigit():
-                problems.append(f'{path} l.{line} : lien [[{m.group(1)}|{m.group(2)}]] : dans un CSV, écrire [[Nom exact]] seulement')
+                problems.append(f'{path} l.{line}: link [[{m.group(1)}|{m.group(2)}]]: in a CSV, write [[Exact name]] only')
             elif m.group(1).strip().lower() not in names:
-                (notes if UPDATE else problems).append(f'{path} l.{line} : {label} lien vers une fiche inconnue [[{m.group(1)}]]')
+                (notes if UPDATE else problems).append(f'{path} l.{line}: {label}: link to an unknown entry [[{m.group(1)}]]')
 
     for path, headers, rows in data['fiches']:
         for r in rows:
@@ -152,34 +153,34 @@ def main(folder, docs_folder=None):
             count += 1
             sc, name = r.get('Scénario', '').strip(), r.get('Scène', '').strip()
             if not sc or not name:
-                problems.append(f"{path} l.{r['_line']} : scénario ou scène manquant")
+                problems.append(f"{path} l.{r['_line']}: missing scenario or scene")
             if (sc.lower(), name.lower()) in seen:
-                problems.append(f'{path} l.{r["_line"]} : scène « {name} » en double dans « {sc} »')
+                problems.append(f'{path} l.{r["_line"]}: duplicate scene "{name}" in "{sc}"')
             seen.add((sc.lower(), name.lower()))
             for col, mx in LIMITS['scenes'].items():
                 if len(r.get(col, '')) > mx:
-                    problems.append(f"{path} l.{r['_line']} : {col} de « {name} » dépasse {mx} caractères ({len(r[col])})")
+                    problems.append(f"{path} l.{r['_line']}: {col} of '{name}' exceeds {mx} characters ({len(r[col])})")
             st = key(r.get('Statut', ''))
             if st and st not in ('prevue', 'disponible', 'encours', 'jouee', 'ignoree', 'planned', 'available', 'inprogress', 'played', 'skipped'):
-                problems.append(f"{path} l.{r['_line']} : statut « {r['Statut']} » inconnu")
+                problems.append(f"{path} l.{r['_line']}: unknown status '{r['Statut']}'")
             check_links(path, r['_line'], name, r.get('Description'))
-            for col, pool, label in (('Fiches', names, 'fiche'), ('Documents', docs if docs_folder else None, 'document'), ('Règles', rules, 'règle')):
+            for col, pool, label in (('Fiches', names, 'entry'), ('Documents', docs if docs_folder else None, 'document'), ('Règles', rules, 'rule')):
                 for v in [x.strip() for x in re.split(r'[|\n]', r.get(col, '')) if x.strip()]:
                     if pool is not None and v.lower() not in pool:
-                        (notes if UPDATE else problems).append(f"{path} l.{r['_line']} : {label} « {v} » introuvable (scène « {name} »)")
+                        (notes if UPDATE else problems).append(f"{path} l.{r['_line']}: {label} '{v}' not found (scene '{name}')")
 
-    print(f"{sum(len(r) for _, _, r in data['champs'])} champs, {len(entities)} fiches, {len(rules)} règles, "
-          f"{len(docs) if docs_folder else '?'} documents, {count} scènes")
+    print(f"{sum(len(r) for _, _, r in data['champs'])} fields, {len(entities)} entries, {len(rules)} rules, "
+          f"{len(docs) if docs_folder else '?'} documents, {count} scenes")
     for n in dict.fromkeys(notes):
-        print('  note :', n)
+        print('  note:', n)
     for p in dict.fromkeys(problems):
-        print('  PROBLÈME :', p)
+        print('  PROBLEM:', p)
     return 1 if problems else 0
 
 
 if __name__ == '__main__':
-    args = [a for a in sys.argv[1:] if a != '--mise-a-jour']
+    args = [a for a in sys.argv[1:] if a not in ('--update', '--mise-a-jour')]
     UPDATE = len(args) != len(sys.argv) - 1
     if not args:
-        sys.exit('usage : verifier.py <dossier> [<dossier de documents>] [--mise-a-jour]')
+        sys.exit('usage: check.py <folder> [<documents folder>] [--update]')
     sys.exit(main(args[0], args[1] if len(args) > 1 else None))

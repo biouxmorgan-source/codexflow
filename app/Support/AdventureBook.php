@@ -19,10 +19,30 @@ use Illuminate\Support\Collection;
 class AdventureBook
 {
     /** Titre de section « Ce qui s'est passé » (avec « (séance 2) » éventuel) dans une description. */
-    private const HAPPENED = "/^#{1,6}\s*Ce qui s['’]est passé\b.*$/miu";
+    private static function happenedPattern(): string
+    {
+        return '/^#{1,6}\s*(?:'.self::heading('Ce qui s’est passé').')\b.*$/miu';
+    }
 
     /** Titre de section « Ce qui est prévu » en tête de description. */
-    private const PLANNED = "/^#{1,6}\s*Ce qui est prévu\s*$/miu";
+    private static function plannedPattern(): string
+    {
+        return '/^#{1,6}\s*(?:'.self::heading('Ce qui est prévu').')\s*$/miu';
+    }
+
+    /**
+     * Le titre dans toutes les langues de l'interface : une scène importée peut avoir été
+     * préparée par une IA dans une autre langue que celle du MJ.
+     */
+    private static function heading(string $key): string
+    {
+        return collect(array_keys(config('codexflow.locales')))
+            ->map(fn (string $locale) => __($key, [], $locale))
+            ->unique()
+            ->map(fn (string $label) => str_replace(['’', "'"], "['’]", preg_quote(str_replace('’', "'", $label), '/')))
+            ->unique()
+            ->implode('|');
+    }
 
     public function __construct(private readonly Campaign $campaign) {}
 
@@ -96,14 +116,14 @@ class AdventureBook
 
         $description = (string) $scene->description;
 
-        if (! preg_match(self::HAPPENED, $description, $match, PREG_OFFSET_CAPTURE)) {
+        if (! preg_match(self::happenedPattern(), $description, $match, PREG_OFFSET_CAPTURE)) {
             return '';
         }
 
         // Tout ce qui suit le premier titre ; les titres suivants (autre séance) deviennent du gras.
         $rest = substr($description, $match[0][1]);
 
-        return trim(preg_replace_callback(self::HAPPENED, fn (array $m) => '**'.trim(ltrim($m[0], '# ')).'**', $rest));
+        return trim(preg_replace_callback(self::happenedPattern(), fn (array $m) => '**'.trim(ltrim($m[0], '# ')).'**', $rest));
     }
 
     /** Ce qui était prévu : la description, sans son titre « Ce qui est prévu » ni la section « Ce qui s'est passé ». */
@@ -111,11 +131,11 @@ class AdventureBook
     {
         $description = (string) $scene->description;
 
-        if (preg_match(self::HAPPENED, $description, $match, PREG_OFFSET_CAPTURE)) {
+        if (preg_match(self::happenedPattern(), $description, $match, PREG_OFFSET_CAPTURE)) {
             $description = substr($description, 0, $match[0][1]);
         }
 
-        return trim(preg_replace(self::PLANNED, '', $description, 1));
+        return trim(preg_replace(self::plannedPattern(), '', $description, 1));
     }
 
     /** Le livre en texte simple (Markdown), pour le copier ou le confier à une IA. */

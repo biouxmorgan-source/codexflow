@@ -1793,7 +1793,7 @@
     "À quoi elles servent": "Para que servem",
     "Copier le prompt": "Copiar o prompt",
     "Copiez le texte ci-dessous et collez-le dans la conversation. Il décrit les formats d’import et ce que contient déjà cette campagne.": "Copie o texto abaixo e cole-o na conversa. Descreve os formatos de importação e o que esta campanha já contém.",
-    "Le skill Claude s’ajoute dans Claude, rubrique Compétences (Skills) : ensuite, il suffit de joindre le PDF et de demander « Prépare l’import SagaWyn ».": "O skill do Claude adiciona-se no Claude, na secção Skills: depois basta anexar o PDF e pedir «Prepara a importação SagaWyn».",
+    "Le skill Claude s’ajoute dans Claude, rubrique Compétences (Skills) : ensuite, il suffit de joindre le PDF et de demander « Prépare l’import SagaWyn », en précisant au besoin une autre langue pour le contenu.": "O skill do Claude adiciona-se no Claude, na secção Skills: depois basta anexar o PDF e pedir «Prepara a importação SagaWyn». Se necessário, indique outra língua para o conteúdo.",
     "Oui, avec l'IA de votre choix : dans « Importer », ouvrez « Préparez les fichiers avec une IA », copiez le prompt et collez-le dans votre IA avec le PDF. Elle prépare les fichiers à importer (champs, fiches, règles, scènes) et un guide pas à pas. Utilisez uniquement des documents que vous possédez.": "Sim, com a IA que escolher: em «Importar», abra «Prepare os ficheiros com uma IA», copie o prompt e cole-o na sua IA com o PDF. Ela prepara os ficheiros a importar (campos, fichas, regras, cenas) e um guia passo a passo. Use apenas documentos que possui.",
     "Ouvrez votre IA (Claude, ChatGPT, Gemini, Le Chat…) et joignez le ou les fichiers du jeu.": "Abra a sua IA (Claude, ChatGPT, Gemini, Le Chat…) e anexe o ficheiro ou ficheiros do jogo.",
     "Prompt": "Prompt",
@@ -1804,7 +1804,7 @@
     "Télécharger (.md)": "Transferir (.md)",
     "Télécharger comme skill Claude (.zip)": "Transferir como skill do Claude (.zip)",
     "Utilisez uniquement des documents que vous possédez, pour votre usage personnel. Le prompt demande tout le contenu utile pour jouer, avec la page du livre : gardez les fichiers produits pour vous.": "Use apenas documentos que possui, para uso pessoal. O prompt pede todo o conteúdo útil para jogar, com a página do livro: guarde para si os ficheiros produzidos.",
-    "Validez le plan que l’IA propose, puis récupérez les fichiers CSV et le guide GUIDE-IMPORT.md.": "Valide o plano que a IA propõe e depois recupere os ficheiros CSV e o guia GUIDE-IMPORT.md.",
+    "Validez le plan que l’IA propose, puis récupérez les fichiers CSV et le guide IMPORT-GUIDE.md.": "Valide o plano que a IA propõe e depois recupere os ficheiros CSV e o guia IMPORT-GUIDE.md.",
     "Votre IA lit le PDF d’un jeu de rôle (livre de règles, scénario, supplément) et prépare les fichiers à importer dans SagaWyn, avec un guide pas à pas. SagaWyn n’envoie rien : vous utilisez l’IA de votre choix, avec votre compte.": "A sua IA lê o PDF de um jogo de RPG (livro de regras, cenário, suplemento) e prepara os ficheiros a importar no SagaWyn, com um guia passo a passo. O SagaWyn não envia nada: usa a IA que escolher, com a sua conta.",
     "Vous avez le PDF d’un jeu ou d’un scénario ?": "Tem o PDF de um jogo ou de um cenário?",
     "(pour changer d’adresse ou de mot de passe)": "(para mudar de e-mail ou de palavra-passe)",
@@ -2249,7 +2249,7 @@
     "Copiez le texte ci-dessous et collez-le dans la conversation. Votre IA doit pouvoir exécuter du code (Claude, ChatGPT…) : elle fabrique une archive de campagne .zip.": "Copie o texto abaixo e cole-o na conversa. A sua IA deve poder executar código (Claude, ChatGPT…): ela cria um arquivo de campanha .zip.",
     "Dans Mes campagnes, cliquez sur « Importer une campagne » et choisissez l’archive : le jeu, le monde et la campagne sont créés d’un coup.": "Em Minhas campanhas, clique em «Importar uma campanha» e escolha o arquivo: o jogo, o mundo e a campanha são criados de uma vez.",
     "Préparez l’archive avec une IA": "Prepare o arquivo com uma IA",
-    "Validez le plan que l’IA propose, puis récupérez l’archive .zip et le guide GUIDE-IMPORT.md.": "Valide o plano que a IA propõe e depois descarregue o arquivo .zip e o guia GUIDE-IMPORT.md.",
+    "Validez le plan que l’IA propose, puis récupérez l’archive .zip et le guide IMPORT-GUIDE.md.": "Valide o plano que a IA propõe e depois descarregue o arquivo .zip e o guia IMPORT-GUIDE.md.",
     "Vous partez d’un livre de jeu de rôle (PDF) ?": "Parte de um livro de RPG (PDF)?",
     "Une question, une idée ? Retrouvez d’autres maîtres de jeu et l’équipe SagaWyn sur Discord.": "Uma pergunta, uma ideia? Encontre outros mestres de jogo e a equipa SagaWyn no Discord.",
     "Rejoindre la communauté sur Discord": "Junte-se à comunidade no Discord",
@@ -2946,5 +2946,7 @@
     "Je certifie disposer des droits, licences ou autorisations nécessaires à l’importation, au stockage et à l’utilisation des contenus que je souhaite intégrer dans SagaWyn, ou bénéficier d’une exception légale applicable.": "Certifico que disponho dos direitos, licenças ou autorizações necessários à importação, ao armazenamento e à utilização dos conteúdos que pretendo integrar no SagaWyn, ou que beneficio de uma exceção legal aplicável.",
     "Je reconnais être responsable des contenus importés et de leur utilisation, notamment de leur éventuel partage avec d’autres utilisateurs, dans le respect des droits des tiers.": "Reconheço ser responsável pelos conteúdos importados e pela sua utilização, nomeadamente pela sua eventual partilha com outros utilizadores, no respeito dos direitos de terceiros.",
     "Je reconnais que SagaWyn fournit un service technique d’hébergement et d’organisation des données, sans validation préalable des droits attachés aux contenus importés.": "Reconheço que o SagaWyn presta um serviço técnico de alojamento e organização de dados, sem validação prévia dos direitos associados aos conteúdos importados.",
-    "Je certifie disposer des droits et autorisations nécessaires à la diffusion publique des contenus que je souhaite publier, et m’engage à respecter les droits de propriété intellectuelle des tiers.": "Certifico que disponho dos direitos e autorizações necessários à difusão pública dos conteúdos que pretendo publicar e comprometo-me a respeitar os direitos de propriedade intelectual de terceiros."
+    "Je certifie disposer des droits et autorisations nécessaires à la diffusion publique des contenus que je souhaite publier, et m’engage à respecter les droits de propriété intellectuelle des tiers.": "Certifico que disponho dos direitos e autorizações necessários à difusão pública dos conteúdos que pretendo publicar e comprometo-me a respeitar os direitos de propriedade intelectual de terceiros.",
+    "Langue du contenu importé": "Língua do conteúdo importado",
+    "Le prompt est en anglais, que les IA suivent le mieux ; l’IA écrit les fiches, les scènes et le guide dans la langue choisie.": "O prompt está em inglês, que as IA seguem melhor; a IA escreve as fichas, as cenas e o guia na língua escolhida."
 }

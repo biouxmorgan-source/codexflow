@@ -4,6 +4,16 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.90.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Importazione con un’IA: prompt in inglese, lingua a scelta',
+        'items' => [
+            'Il prompt e la skill di Claude di «Preparare l’importazione con un’IA» sono ora in inglese, la lingua che le IA seguono meglio.',
+            'Un menu «Lingua dei contenuti importati» sceglie la lingua in cui l’IA scrive schede, scene, titoli dei documenti e guida (quella dell’interfaccia per impostazione predefinita). Con la skill si può anche chiedere un’altra lingua al momento dell’importazione.',
+            'Il Libro delle avventure riconosce le sezioni «Cosa è previsto» e «Cosa è successo» scritte in ognuna delle lingue di SagaWyn.',
+        ],
+    ],
+
     '0.89.1' => [
         'date' => '2026-10-23',
         'title' => 'Scelte più chiare alla creazione di una campagna',

@@ -1,407 +1,413 @@
-# Préparer un import SagaWyn à partir d'un livre de jeu de rôle
+# Prepare a SagaWyn import from a tabletop RPG book
 
-Tu aides un meneur de jeu à remplir **SagaWyn**, son assistant de MJ. Je te joins un ou plusieurs documents (livre de règles, scénario, campagne, supplément, en PDF ou en images), et peut-être mes notes de partie. @if ($archive)
-Ta mission : produire une **archive de campagne SagaWyn** (`.zip`) qui crée en un seul import un nouveau jeu, un nouveau monde et une nouvelle campagne avec tout le contenu du livre, et un **guide d'import pas à pas**.
+You are helping a game master (GM) fill **SagaWyn**, their GM assistant. I am attaching one or more documents (rulebook, scenario, campaign, supplement, as PDF or images), and perhaps my session notes. @if ($archive)
+Your mission: produce a **SagaWyn campaign archive** (`.zip`) that creates, in a single import, a new game, a new world and a new campaign with the whole content of the book, plus a **step-by-step import guide**.
 
-L'archive se construit avec un script (Python) : il faut pouvoir **exécuter du code** et produire des fichiers téléchargeables. Si tu ne le peux pas, dis-le dans ton premier message et arrête-toi : le MJ créera une campagne vide et utilisera, depuis son écran **Importer**, le lien « Préparez les fichiers avec une IA », qui produit des fichiers CSV sans code.
+The archive is built with a script (Python): you must be able to **run code** and produce downloadable files. If you cannot, say so in your first message and stop: the GM will create an empty campaign and use the {!! $ui('Préparez les fichiers avec une IA') !!} link on its {!! $ui('Importer') !!} screen, which produces CSV files without code.
 @else
-Ta mission : produire des **fichiers prêts à importer** dans SagaWyn et un **guide d'import pas à pas**.
+Your mission: produce **files ready to import** into SagaWyn and a **step-by-step import guide**.
 @endif
 
-Ce prompt est une **procédure à suivre à la lettre**, pour que le résultat soit le même quelle que soit l'IA qui l'exécute : mêmes fichiers, mêmes noms de fichiers, mêmes colonnes, mêmes rubriques dans le même ordre, mêmes règles de décision. Quand une consigne te paraît ambiguë, applique la règle de décision indiquée plutôt que ton propre choix. Ne saute aucune étape et ne change pas l'ordre des livraisons (voir « Déroulé de la conversation »).
+This prompt is a **procedure to follow to the letter**, so that the result is the same whichever AI runs it: same files, same file names, same columns, same sections in the same order, same decision rules. When an instruction seems ambiguous, apply the decision rule given here rather than your own choice. Do not skip any step and do not change the order of the deliveries (see "Conversation flow").
 
-Écris le contenu des fiches, les noms de champs et le guide en **{!! $language !!}**. Les **en-têtes de colonnes** et les valeurs fermées (types, zones, statuts) restent exactement ceux donnés ci-dessous (en français) : SagaWyn les reconnaît ainsi.
+## Language
+
+Write all the content (entries, field names and groups, rules, scenes, document titles, `IMPORT-GUIDE.md` and `TO-CHECK.md`) in **{!! $language !!}**, unless the GM asks for another language in the conversation: then use that one everywhere. Keep the names from the book as they are printed (people, places, skills, spells), translating only what the book itself translates.
+
+What does **not** change with the language: the **column headers** and the **closed values** (field types, zones, statuses, origins, `oui`/`non`) are SagaWyn identifiers, written below in French; copy them exactly. SagaWyn's screen names are quoted as the GM sees them ("{!! __('Importer') !!}", "{!! __('Documents') !!}"…).
 
 @if ($archive)
-## La campagne à créer
+## The campaign to create
 
-L'archive crée dans SagaWyn un **nouveau jeu**, un **nouveau monde** et une **nouvelle campagne**, dont le MJ devient le meneur :
-- jeu : le nom du système de règles du livre (« Jeu importé » s'il n'est pas nommé) ;
-- monde : le nom du monde ou du décor du livre (« Monde importé » s'il n'est pas nommé) ;
-- campagne : le titre du livre ou de la campagne qu'il contient ;
-- types de fiche de base, déjà présents dans SagaWyn : Personnage, Lieu, Organisation, Objet, Créature ; tout autre type (Sort, Savoir, Véhicule…) est créé par l'archive ;
-- aucun champ n'existe encore : tous sont créés par l'archive.
+The archive creates in SagaWyn a **new game**, a **new world** and a **new campaign**, with the GM as their game master:
+- game: the name of the book's rules system ("Imported game" if it has no name, in {!! $language !!});
+- world: the name of the book's world or setting ("Imported world" if it has no name, in {!! $language !!});
+- campaign: the title of the book or of the campaign it contains;
+- base entry types, already in SagaWyn: Personnage (character), Lieu (place), Organisation (organization), Objet (item), Créature (creature); any other type (spell, lore, vehicle…) is created by the archive;
+- no field exists yet: the archive creates them all.
 @else
-## La campagne qui recevra l'import
+## The campaign that will receive the import
 
-- Jeu : {!! $game !!}
-- Monde : {!! $world !!}
-- Types de fiche existants : {!! $types !!}
+- Game: {!! $game !!}
+- World: {!! $world !!}
+- Existing entry types: {!! $types !!}
 @if ($fields !== [])
-- Champs déjà définis pour ce jeu (réutilise exactement ces noms plutôt que d'en créer de nouveaux) :
+- Fields already defined for this game (reuse exactly these names rather than creating new ones):
 @foreach ($fields as $field)
   - {!! $field !!}
 @endforeach
 @else
-- Aucun champ n'est encore défini pour ce jeu.
+- No field is defined for this game yet.
 @endif
 @endif
 
-## Le but
+## The goal
 
-Ce travail produit, à partir d'un livre (PDF) et éventuellement des notes de partie du MJ, des fichiers qui recréent la campagne dans SagaWyn : **fiches** (PNJ, lieux, créatures, organisations, objets, sorts), **champs** de jeu, **règles**, **documents** (cartes, indices, portraits) et **scénarios/scènes**.
+From a book (PDF) and possibly the GM's session notes, this work produces files that recreate the campaign in SagaWyn: **entries** (NPCs, places, creatures, organizations, items, spells), game **fields**, **rules**, **documents** (maps, clues, portraits) and **scenarios/scenes**.
 
-Le but : que le MJ puisse **mener la partie depuis SagaWyn sans rouvrir le livre**. C'est le critère de qualité de chaque fiche et de chaque scène.
+The goal: the GM can **run the game from SagaWyn without opening the book again**. That is the quality criterion for every entry and every scene.
 
-## Garde-fous
+## Safeguards
 
-1. **Usage personnel.** Un livre du commerce est sous droits. Les fichiers produits servent au MJ qui a acheté le livre, pour sa table. Ils ne vont jamais dans un dépôt public, une campagne de démonstration, un modèle partagé ou un message public. Rappeler cette règle en tête du guide.
-2. **Tout le contenu disponible, avec la page.** Mettre tout ce qu'on peut du livre, en particulier tout ce qui sert à jouer (déroulé, indices, tests, réactions, profils, issues) dans ses propres mots et en structure aide-mémoire. Pas de simple renvoi « voir livre p. 42 » à la place du contenu : la page se met **en fin** de texte, comme source. Les textes à lire aux joueurs (encadrés « à lire à voix haute ») sont résumés en indiquant ce qu'ils doivent transmettre.
-3. **Rien d'inventé.** Ce que le livre ne dit pas reste vide. Une lecture incertaine (tableau de caractéristiques mélangé, chiffre illisible) est notée dans `A-VERIFIER.md` avec la page, et marquée « (à vérifier) » dans le texte.
-4. **Zone publique / zone MJ.** Ce qu'un joueur peut apprendre en rencontrant l'élément va en **Description** ou en champ `publique`. Tout le reste (identité réelle, motivations cachées, solution, profil des adversaires, ce qui va arriver) va en **Notes MJ** ou en champ `MJ`. Dans une scène, tout est pour le MJ ; marquer **Secret MJ** ce qu'il ne faut surtout pas lire aux joueurs.
-5. **Pas de colonne propre à un jeu inventée par SagaWyn** : le vocabulaire du jeu (Force, Points de vie, Points de destin…) passe par les **champs** que l'on définit soi-même.
+1. **Personal use.** A commercial book is copyrighted. The files produced are for the GM who bought the book, for their own table. They never go into a public repository, a demo campaign, a shared template or a public message. Repeat this rule at the top of the guide.
+2. **All available content, with the page.** Put in everything you can from the book, especially everything needed to play (flow, clues, tests, reactions, stat blocks, outcomes), in your own words and structured as a reference sheet. No bare "see book p. 42" instead of the content: the page goes **at the end** of the text, as its source. Read-aloud boxes are summarised, stating what they must convey.
+3. **Nothing invented.** What the book does not say stays empty. An uncertain reading (jumbled stat table, illegible number) goes into `TO-CHECK.md` with its page, and is marked "(to check)" in the text, in {!! $language !!}.
+4. **Public zone / GM zone.** What a player can learn by meeting the element goes in **Description** or in a `publique` field. Everything else (true identity, hidden motives, solution, opponents' stats, what will happen) goes in **Notes MJ** or in an `MJ` field. In a scene everything is for the GM; mark as **GM secret** (in {!! $language !!}) what must never be read to the players.
+5. **No game-specific column invented by SagaWyn**: the game's vocabulary (Strength, Hit points, Fate points…) goes through the **fields** you define yourself.
 
-## Méthode
+## Method
 
-### 1. Lire tout le livre
+### 1. Read the whole book
 
-- Lire le document **en entier**, chapitre par chapitre, y compris les encadrés, tableaux et annexes. Ne jamais travailler à partir de la table des matières ou d'un résumé.
-- Les pages qui sont des images (cartes, plans, lettres, encadrés scannés) se lisent visuellement ; ce qu'elles contiennent d'utile pour jouer est reporté dans les fiches et les scènes.
-- Si tu peux exécuter du code : extraire le texte (par exemple `pdftotext -layout`), découper les images utiles (portraits, cartes, aides de jeu) et les nommer comme à l'étape 5. Sinon : lister ces images dans `A-VERIFIER.md` avec leur page et le nom de fichier à leur donner, pour que le MJ les découpe lui-même.
-- Si le MJ fournit des comptes rendus de séance ou des fiches de personnages, les lire aussi : ils servent à « Ce qui s'est passé » et aux fiches des personnages joueurs.
+- Read the document **in full**, chapter by chapter, including sidebars, tables and appendices. Never work from the table of contents or a summary.
+- Pages that are images (maps, plans, letters, scanned sidebars) are read visually; whatever they contain that is useful for play goes into the entries and scenes.
+- If you can run code: extract the text (for example `pdftotext -layout`), crop the useful images (portraits, maps, handouts) and name them as in step 5. Otherwise: list those images in `TO-CHECK.md` with their page and the file name to give them, so that the GM crops them.
+- If the GM provides session reports or character sheets, read them too: they feed "{!! $happened !!}" and the player characters' entries.
 
-### 2. Inventaire et table des noms
+### 2. Inventory and table of names
 
-Avant d'écrire, dresser l'inventaire et le montrer au MJ s'il est disponible (sinon le mettre en tête du guide) :
-- **types de fiche** nécessaires (les types de base sont Personnage, Lieu, Organisation, Objet, Créature ; à créer : Sort, Savoir, Véhicule…) ;
-- **champs** par type (caractéristiques, compétences, profil de créature…) avec leur type et leur zone ;
-- **fiches** : chaque PNJ nommé, lieu, organisation, objet important, créature, sort ;
-- **règles** : règles spéciales du livre, glossaire ;
-- **documents** : chaque carte, plan, indice, lettre, portrait, avec sa visibilité ;
-- **scénarios** (un par chapitre ou par aventure, numérotés « 1. Titre ») et leurs **scènes** dans l'ordre du livre.
+Before writing, draw up the inventory and show it to the GM if they are available (otherwise put it at the top of the guide):
+- the **entry types** needed (base types are Personnage, Lieu, Organisation, Objet, Créature; to create: spell, lore, vehicle…);
+- the **fields** per type (characteristics, skills, creature stats…) with their type and zone;
+- the **entries**: every named NPC, place, organization, important item, creature, spell;
+- the **rules**: the book's special rules, glossary;
+- the **documents**: every map, plan, clue, letter, portrait, with its visibility;
+- the **scenarios** (one per chapter or adventure, numbered "1. Title") and their **scenes** in the book's order.
 
-Fixer une **table des noms canoniques** : chaque élément a un nom unique, écrit à l'identique partout (fiches, liens `[[ ]]`, colonnes Fiches/Documents/Règles). Choisir le nom le plus courant dans le livre, sans titre de civilité variable.
+Set a **table of canonical names**: each element has one unique name, written identically everywhere (entries, `[[ ]]` links, scene Fiches/Documents/Règles columns). Pick the name most used in the book, without a variable title of address.
 
-**Règles de décision** (à appliquer telles quelles) :
-- un **scénario** = un chapitre du livre (ou une aventure s'il en contient plusieurs), nommé « N. Titre du chapitre » ;
-- une **scène** = chaque section numérotée ou titrée du chapitre qui décrit un lieu, une rencontre ou un événement jouable, dans l'ordre du livre ;
-- un **PNJ a une fiche** s'il est nommé et qu'il a un profil chiffré **ou** qu'il apparaît dans au moins deux scènes ; sinon il est décrit dans la scène où il apparaît ;
-- un **lieu a une fiche** s'il a sa propre section de description (ou un plan) ; une **créature** dès qu'elle a un profil ; un **objet** s'il a des effets ou s'il est un enjeu de l'intrigue ;
-- un **champ** est créé pour chaque valeur qui figure dans le profil de la plupart des fiches d'un même type ; le reste va dans les Notes MJ.
+**Decision rules** (apply them as they are):
+- a **scenario** = a chapter of the book (or an adventure if it contains several), named "N. Chapter title";
+- a **scene** = each numbered or titled section of the chapter that describes a playable place, encounter or event, in the book's order;
+- an **NPC gets an entry** if they are named and have a stat block **or** appear in at least two scenes; otherwise they are described in the scene where they appear;
+- a **place gets an entry** if it has its own description section (or a map); a **creature** as soon as it has a stat block; an **item** if it has effects or is a stake of the plot;
+- a **field** is created for each value that appears in the stat block of most entries of the same type; the rest goes in the Notes MJ.
 
-### 3. Les fiches (complètes)
+### 3. Entries (complete)
 
-- **Résumé** (≤ 500 caractères) : qui c'est et pourquoi il compte, en une ou deux phrases.
-- **Description** (publique) : apparence, comportement visible, rôle connu, réputation ; pour un lieu, ce qu'on voit en arrivant et ses parties.
-- **Notes MJ**, structurées en Markdown avec des rubriques en gras, **toujours dans cet ordre** ; une rubrique sur laquelle le livre ne dit rien est omise :
-  - PNJ : **Identité réelle / Ce qu'il cache**, **Ce qu'il veut**, **Ce qu'il sait** (les indices qu'il peut donner, à quelles conditions), **Comment il réagit** (alliance, menace, fuite, trahison), **Profil** si non couvert par les champs (armes, sorts, capacités spéciales, peur ou folie selon le jeu), **Apparaît dans** (scènes).
-  - Lieu : zones ou salles une par une, **PNJ présents**, **Dangers**, **Indices** (où, quel test), **Secret**.
-  - Créature : **Comportement**, **Tactique**, **Attaques** et dégâts, **Protection**, **Capacités**, **Effet de peur ou de folie** (selon le jeu), **Comment la vaincre**.
-  - Objet / sort : effets, coût, durée, conditions, où il se trouve.
-- **Champs** : valeurs exactes du livre ; un profil avec dés ou fourchettes va dans des champs de type `texte` (voir l'annexe A).
-- **Liens** : chaque nom d'une autre fiche cité dans un texte s'écrit `[[Nom exact]]` (au moins à sa première occurrence).
-- Un fichier de fiches par type de fiche (voir « Livrables »).
+- **Résumé** (≤ 500 characters): who or what it is and why it matters, in one or two sentences.
+- **Description** (public): appearance, visible behaviour, known role, reputation; for a place, what one sees on arrival and its parts.
+- **Notes MJ**, structured in Markdown with bold headings, **always in this order**, written in {!! $language !!}; a heading the book says nothing about is left out:
+  - NPC: **True identity / What they hide**, **What they want**, **What they know** (the clues they can give, and on what terms), **How they react** (alliance, threat, flight, betrayal), **Stats** if not covered by the fields (weapons, spells, special abilities, fear or sanity according to the game), **Appears in** (scenes).
+  - Place: areas or rooms one by one, **NPCs present**, **Dangers**, **Clues** (where, which test), **Secret**.
+  - Creature: **Behaviour**, **Tactics**, **Attacks** and damage, **Armour**, **Abilities**, **Fear or sanity effect** (according to the game), **How to defeat it**.
+  - Item / spell: effects, cost, duration, conditions, where it is.
+- **Fields**: the book's exact values; a stat with dice or ranges goes in `texte` fields (see appendix A).
+- **Links**: each name of another entry quoted in a text is written `[[Exact name]]` (at least at its first occurrence).
+- One entries file per entry type (see "Deliverables").
 
-### 4. Les scènes : « Ce qui est prévu » (et « Ce qui s'est passé »)
+### 4. Scenes: "{!! $planned !!}" (and "{!! $happened !!}")
 
-Une ligne par scène, dans l'ordre du livre ; les scènes optionnelles portent « (optionnel) » dans leur nom. La **Description** commence par `### Ce qui est prévu` et donne les rubriques suivantes, en gras, **toujours dans cet ordre** ; une rubrique sur laquelle le livre ne dit rien est omise :
-- **Enjeu** : ce que la scène doit produire dans l'histoire ;
-- **Quand / Lieu / Situation** : déclencheur, décor, ambiance, ce que les personnages voient ;
-- **PNJ** : qui est là, leur attitude, ce qu'ils disent ou veulent (liens `[[ ]]`) ;
-- **Indices** : chaque indice, comment l'obtenir (compétence ou test, difficulté), ce qu'il apprend ;
-- **Tests et dangers** : jets demandés, conséquences d'un échec, adversaires (renvoi à leur fiche, plus l'essentiel du profil s'il n'a pas de fiche) ;
-- **Issues** : les branches possibles et leurs conséquences sur la suite ;
-- **À remettre** : aides de jeu (titres exacts des documents) et moment où les donner ;
-- **Récompenses** : expérience, objets, autres gains prévus par le jeu ;
-- **Conseils** du livre au MJ (rythme, improvisation, comment ramener les joueurs) ;
-- **Transitions** : vers quelles scènes ;
-- en dernière ligne, la source : `Livre p. 97-101.`
+One row per scene, in the book's order; optional scenes carry "(optional)", in {!! $language !!}, in their name. The **Description** starts with the heading `### {!! $planned !!}` (exactly this text: SagaWyn recognises it) and gives the following bold headings, **always in this order**, written in {!! $language !!}; a heading the book says nothing about is left out:
+- **Stake**: what the scene must produce in the story;
+- **When / Where / Situation**: trigger, setting, mood, what the characters see;
+- **NPCs**: who is there, their attitude, what they say or want (`[[ ]]` links);
+- **Clues**: each clue, how to get it (skill or test, difficulty), what it reveals;
+- **Tests and dangers**: rolls asked for, consequences of failure, opponents (pointer to their entry, plus the essentials of their stats if they have no entry);
+- **Outcomes**: the possible branches and their consequences for what follows;
+- **To hand out**: handouts (exact document titles) and when to give them;
+- **Rewards**: experience, items, other gains the game provides;
+- **Advice** from the book to the GM (pace, improvisation, how to bring the players back);
+- **Transitions**: towards which scenes;
+- as the last line, the source: `Book p. 97-101.` (in {!! $language !!}).
 
-Une scène dépasse 20 000 caractères ? La découper (« Le temple (1/2) », « Le temple (2/2) »).
+A scene longer than 20,000 characters? Split it ("The temple (1/2)", "The temple (2/2)").
 
-**Ce qui s'est passé** (seulement si le MJ a fourni le récit de ses séances) : pour une scène jouée **qui s'est écartée du livre**, ajouter après « Ce qui est prévu » une section `### Ce qui s'est passé (séance N)` qui raconte ce qui a réellement eu lieu à la table : choix des joueurs, PNJ morts ou épargnés, indices manqués, objets obtenus. Une scène jouée comme prévu ne reçoit pas cette section : son **Statut** passe à `Jouée`, c'est tout. Une scène créée par le MJ hors du livre s'ajoute à sa place, avec son seul « Ce qui s'est passé ».
+**{!! $happened !!}** (only if the GM provided an account of their sessions): for a played scene **that departed from the book**, add after the planned part a section `### {!! $happened !!} (session N)` (the heading text exactly, "session N" in {!! $language !!}) telling what really happened at the table: players' choices, NPCs killed or spared, missed clues, items obtained. A scene played as planned does not get this section: its **Statut** becomes `Jouée`, that is all. A scene the GM created outside the book is added at its place, with only its "{!! $happened !!}".
 
-Colonnes **Fiches**, **Documents**, **Règles** : tout ce qui sert dans la scène, par nom exact, séparé par ` | `. Statut : `Prévue` (ou `Jouée`, `Ignorée` d'après les notes du MJ).
+**Fiches**, **Documents**, **Règles** columns: everything used in the scene, by exact name, separated by ` | `. Statut: `Prévue` (or `Jouée`, `Ignorée` according to the GM's notes).
 
-### 5. Documents nommés
+### 5. Named documents
 
-Le titre d'un document dans SagaWyn est le **nom du fichier sans extension**. Nommer chaque image ou PDF par son titre définitif, avec un préfixe qui dit sa nature :
-- `Carte MJ - Plan de l'auberge.jpg` (zone MJ), `Carte joueurs - Plan de l'auberge.jpg` (publique) ;
-- `Indice - Lettre de la veuve Orsel.jpg`, `Aide de jeu - Télégramme.jpg` (zone MJ, remis en cours de partie) ;
-- `Portrait - Aldric Fenouil.jpg` (à poser sur la fiche à la main, ou automatiquement par l'archive).
+In SagaWyn a document's title is its **file name without the extension**. Name each image or PDF with its final title, with a prefix that tells its nature, written in {!! $language !!}; in English, for example:
+- `GM map - Inn floor plan.jpg` (GM zone), `Player map - Inn floor plan.jpg` (public);
+- `Clue - Letter from widow Orsel.jpg`, `Handout - Telegram.jpg` (GM zone, handed out during play);
+- `Portrait - Aldric Fenwick.jpg` (to set on the entry by hand, or automatically by the archive).
 
-Ranger les fichiers par dossier de même visibilité et mêmes tags (envoi de 10 fichiers au plus à la fois, 50 Mo chacun ; formats pdf, jpg, png, gif, webp). Une carte sans version joueurs n'est pas montrée aux joueurs : la garder en zone MJ.
+Sort the files into folders that share the same visibility and tags (upload of 10 files at most at a time, 50 MB each; formats pdf, jpg, png, gif, webp). A map with no player version is not shown to the players: keep it in the GM zone.
 
-### 6. Règles
+### 6. Rules
 
-Une ligne par règle spéciale du livre (procédure chiffrée en étapes) et par terme de glossaire (catégorie `Glossaire`, définition dans Résumé). Origine `référence`, statut `Disponible`, source = livre et page.
+One row per special rule of the book (numbered procedure in steps) and per glossary term (a "Glossary" category, in {!! $language !!}, definition in Résumé). Origine `référence`, Statut `Disponible`, source = book and page.
 
-### 7. Vérifier, puis livrer
+### 7. Check, then deliver
 
-1. Contrôler (par un petit script si tu peux exécuter du code, sinon à la main) : aucun nom en double ; chaque lien `[[ ]]` et chaque nom des colonnes Fiches/Documents/Règles des scènes existe dans un autre fichier ou dans la liste des documents ; aucune limite de longueur dépassée ; seulement des nombres dans les champs `nombre` ; statuts connus ; chaque CSV se relit avec le séparateur `;`. Corriger tout ce qui ne passe pas.
-2. Relire trois scènes et trois fiches au hasard face au livre : rien d'important ne doit manquer pour jouer sans le livre.
-3. Livrer un dossier (et son `.zip`) numéroté dans l'ordre d'import, avec `GUIDE-IMPORT.md` et `A-VERIFIER.md`.
+1. Check (with a small script if you can run code, by hand otherwise): no duplicate name; every `[[ ]]` link and every name in the scenes' Fiches/Documents/Règles columns exists in another file or in the list of documents; no length limit exceeded; only numbers in `nombre` fields; known statuses; every CSV reads back with the `;` separator. Fix everything that fails.
+2. Re-read three scenes and three entries at random against the book: nothing important for playing without the book may be missing.
+3. Deliver a folder (and its `.zip`) numbered in import order, with `IMPORT-GUIDE.md` and `TO-CHECK.md`.
 
-### 8. Style d'écriture
+### 8. Writing style
 
-Phrases courtes, au présent, à la troisième personne, en {!! $language !!}. Listes à puces pour les indices, les tests et les issues. Les noms de compétences, de tests et de valeurs chiffrées sont ceux du livre, sans les convertir. Aucune opinion, aucun ajout d'ambiance qui ne soit pas dans le livre.
+Short sentences, present tense, third person, in {!! $language !!}. Bullet lists for clues, tests and outcomes. Skill names, test names and numeric values are the book's, not converted. No opinion, no added atmosphere that is not in the book.
 @if ($archive)
 
-### 9. Assembler l'archive de campagne
+### 9. Assemble the campaign archive
 
-Les fichiers CSV des livrables sont les **fichiers de travail** : les écrire et les contrôler d'abord (étape 7), puis les convertir par un script en archive, au format de l'annexe C, **sans rien réécrire à la main** :
-- `game_system`, `world`, `campaign` : les noms de « La campagne à créer », avec une description de quelques lignes tirée du livre ; `table_theme` `parchemin`, `exchanges_need_approval` `true`, `players_edit_profile` `false`, `disabled_features` vide.
-- `entity_types` : les cinq types de base avec leur `key` (`character`, `place`, `organization`, `item`, `creature`), puis un type par type créé, avec `key` `null`.
-- `field_definitions` : une entrée par ligne des fichiers `1-champs-…`, `position` dans l'ordre des lignes ; types `texte`→`text`, `texte long`→`long_text`, `nombre`→`number`, `oui/non`→`boolean`, `date`→`date`, `liste`→`select` (`options` = les choix), `compteur`→`counter`, `lien`→`link`, `fichier`→`file`, `référence`→`entity` ; zone `publique`→`public`, `MJ`→`gm`.
-- `entities` : une entrée par ligne des fichiers `2-fiches-…`, `in_world` `false` sauf pour les lieux, organisations et PNJ partagés par tout le décor (`true`) ; `field_values` : nombres en nombres, compteurs en `{"value": 11, "max": 11}`, `oui`/`non` en booléens, le reste en texte. Une image `Portrait - <Nom>` devient l'`image` de la fiche de ce nom (et n'est pas un document).
-- `rules` : une entrée par ligne de `3-regles.csv`, `in_campaign` `false` ; origine `référence`→`reference`, `maison`→`house`, `test`→`test` ; statut `Disponible`→`available`, `À tester`→`to_test`, `En test`→`testing`, `Adoptée`→`adopted`, `À modifier`→`to_change`, `Rejetée`→`rejected` ; `tags` repris dans la liste `tags`.
-- `documents` : un par fichier de `4-documents-mj/` (zone `gm`) et `4-documents-joueurs/` (zone `public`), `scope` `campaign`, `title` = nom du fichier sans extension, fichier copié dans `fichiers/` sous un nom numéroté ; `entities` = les fiches nommées dans le titre.
-- `scenarios` : un par valeur de la colonne Scénario, dans l'ordre des lignes ; ses scènes avec `chapter`, `name`, `description`, `status` (`Prévue`→`planned`, `Disponible`→`available`, `En cours`→`in_progress`, `Jouée`→`played`, `Ignorée`→`skipped`), `entities` / `documents` / `rules` = les identifiants des noms des colonnes Fiches / Documents / Règles.
-- `relations`, `entity_states`, `tags`, `pins`, `maps`, `timeline`, `audio_tracks`, `secrets` et `table` : vides (`[]`, et `table` comme dans l'exemple de l'annexe C) sauf relation explicite du livre (employeur, parent, chef…), en zone `gm` si elle est secrète.
-- Liens : convertir chaque `[[Nom]]` en `[[Nom|id]]` avec l'identifiant local de la fiche ; signaler dans `A-VERIFIER.md` tout nom qui ne correspond à aucune fiche.
+The CSV files of the deliverables are the **working files**: write and check them first (step 7), then convert them with a script into the archive, in the format of appendix C, **without rewriting anything by hand**:
+- `game_system`, `world`, `campaign`: the names from "The campaign to create", with a description of a few lines taken from the book; `table_theme` `parchemin`, `exchanges_need_approval` `true`, `players_edit_profile` `false`, `disabled_features` empty.
+- `entity_types`: the five base types with their `key` (`character`, `place`, `organization`, `item`, `creature`), then one type per created type, with `key` `null`.
+- `field_definitions`: one entry per row of the `1-fields-…` files, `position` in row order; types `texte`→`text`, `texte long`→`long_text`, `nombre`→`number`, `oui/non`→`boolean`, `date`→`date`, `liste`→`select` (`options` = the choices), `compteur`→`counter`, `lien`→`link`, `fichier`→`file`, `référence`→`entity`; zone `publique`→`public`, `MJ`→`gm`.
+- `entities`: one entry per row of the `2-entries-…` files, `in_world` `false` except for places, organizations and NPCs shared by the whole setting (`true`); `field_values`: numbers as numbers, counters as `{"value": 11, "max": 11}`, `oui`/`non` as booleans, the rest as text. An image `Portrait - <Name>` becomes the `image` of the entry with that name (and is not a document).
+- `rules`: one entry per row of `3-rules.csv`, `in_campaign` `false`; origin `référence`→`reference`, `maison`→`house`, `test`→`test`; status `Disponible`→`available`, `À tester`→`to_test`, `En test`→`testing`, `Adoptée`→`adopted`, `À modifier`→`to_change`, `Rejetée`→`rejected`; `tags` taken into the `tags` list.
+- `documents`: one per file of `4-documents-gm/` (zone `gm`) and `4-documents-players/` (zone `public`), `scope` `campaign`, `title` = file name without extension, file copied into `fichiers/` under a numbered name; `entities` = the entries named in the title.
+- `scenarios`: one per value of the Scénario column, in row order; their scenes with `chapter`, `name`, `description`, `status` (`Prévue`→`planned`, `Disponible`→`available`, `En cours`→`in_progress`, `Jouée`→`played`, `Ignorée`→`skipped`), `entities` / `documents` / `rules` = the ids of the names in the Fiches / Documents / Règles columns.
+- `relations`, `entity_states`, `tags`, `pins`, `maps`, `timeline`, `audio_tracks`, `secrets` and `table`: empty (`[]`, and `table` as in the example of appendix C) except for an explicit relation in the book (employer, parent, leader…), in zone `gm` if it is secret.
+- Links: convert each `[[Name]]` into `[[Name|id]]` with the entry's local id; report in `TO-CHECK.md` any name that matches no entry.
 
-Puis relire l'archive produite (ouvrir le zip, relire le JSON, compter fiches, scènes, documents, vérifier que chaque `fichiers/…` cité existe) et donner ces chiffres dans le dernier message.
+Then read back the archive produced (open the zip, read the JSON, count entries, scenes, documents, check that every `fichiers/…` it cites exists) and give these numbers in the last message.
 @endif
 
-## Livrables (noms de fichiers fixes)
+## Deliverables (fixed file names)
 
-Livre exactement ces fichiers, numérotés dans l'ordre d'import (un fichier par type de fiche, nommé avec ce type au pluriel, en minuscules et sans accents) :
+Deliver exactly these files, numbered in import order (one file per entry type, named after that type in English, plural, lowercase):
 
 ```
-1-champs-<type>.csv        un par type de fiche qui a des champs (ex. 1-champs-personnages.csv)
-2-fiches-<type>.csv        un par type de fiche (ex. 2-fiches-personnages.csv, 2-fiches-lieux.csv)
-3-regles.csv               règles spéciales et glossaire
-4-documents-mj/            images et PDF en zone MJ
-4-documents-joueurs/       images et PDF visibles des joueurs
-5-scenes.csv               tous les scénarios et leurs scènes
-GUIDE-IMPORT.md            le guide pas à pas
-A-VERIFIER.md              lectures incertaines et images à découper (avec les pages)
+1-fields-<type>.csv        one per entry type that has fields (e.g. 1-fields-characters.csv)
+2-entries-<type>.csv       one per entry type (e.g. 2-entries-characters.csv, 2-entries-places.csv)
+3-rules.csv                special rules and glossary
+4-documents-gm/            images and PDFs in the GM zone
+4-documents-players/       images and PDFs visible to the players
+5-scenes.csv               all the scenarios and their scenes
+IMPORT-GUIDE.md            the step-by-step guide
+TO-CHECK.md                uncertain readings and images to crop (with the pages)
 @if ($archive)
-SagaWyn - <Titre>.zip      l'archive à importer, assemblée à l'étape 9 à partir des fichiers ci-dessus
+SagaWyn - <Title>.zip      the archive to import, assembled in step 9 from the files above
 @endif
 ```
 
-## Déroulé de la conversation
+## Conversation flow
 
-1. **Premier message** : l'inventaire de l'étape 2, sous forme de tableaux (types de fiche à créer ; champs avec type et zone ; fiches par type ; règles ; documents avec visibilité ; scénarios et scènes), suivi de la table des noms. Termine par « Réponds « continue » pour lancer la production. » et attends.
-2. **Messages suivants** : les fichiers 1 à 3, puis `5-scenes.csv` chapitre par chapitre (un message par chapitre si le livre est long). Chaque message se termine par la liste de ce qui reste à produire. Si la place manque, arrête-toi à la fin d'une ligne et reprends au même endroit quand on te répond « continue ».
+1. **First message**: the step 2 inventory, as tables (entry types to create; fields with type and zone; entries per type; rules; documents with visibility; scenarios and scenes), followed by the table of names. End with "Reply "continue" to start the production." (in {!! $language !!}) and wait.
+2. **Following messages**: files 1 to 3, then `5-scenes.csv` chapter by chapter (one message per chapter if the book is long). Each message ends with the list of what remains to produce. If you run out of room, stop at the end of a row and resume at the same place when the GM replies "continue".
 @if ($archive)
-3. **Dernier message** : l'archive `SagaWyn - <Titre>.zip` (étape 9), `GUIDE-IMPORT.md`, `A-VERIFIER.md`, puis le résultat des contrôles de l'étape 7 et de la relecture de l'archive (chaque contrôle avec OK ou la correction faite).
+3. **Last message**: the `SagaWyn - <Title>.zip` archive (step 9), `IMPORT-GUIDE.md`, `TO-CHECK.md`, then the result of the step 7 checks and of the archive read-back (each check with OK or the fix made).
 @else
-3. **Dernier message** : `GUIDE-IMPORT.md`, `A-VERIFIER.md`, puis le résultat des contrôles de l'étape 7 (chaque contrôle avec OK ou la correction faite).
+3. **Last message**: `IMPORT-GUIDE.md`, `TO-CHECK.md`, then the result of the step 7 checks (each check with OK or the fix made).
 @endif
 
-Chaque fichier est rendu en fichier téléchargeable si tu le peux, sinon dans un bloc de code précédé de son nom ; à la fin, une archive .zip de l'ensemble si tu le peux.
+Each file is delivered as a downloadable file if you can, otherwise in a code block preceded by its name; at the end, a .zip archive of the whole set if you can.
 
-## Le guide d'import (GUIDE-IMPORT.md)
+## The import guide (IMPORT-GUIDE.md)
 
-Court, en {!! $language !!}, pour le MJ :
-1. Rappel : contenu sous droits, usage personnel.
+Short, in {!! $language !!}, for the GM:
+1. Reminder: copyrighted content, personal use.
 @if ($archive)
-2. Tableau du contenu de l'archive : nombre de types de fiche, champs, fiches par type, règles, documents, scénarios et scènes.
-3. Dans SagaWyn : **Mes campagnes → Importer une campagne**, choisir `SagaWyn - <Titre>.zip` (sans le dézipper), **Importer**. Si l'archive dépasse la taille maximale affichée, retirer les images les moins utiles et relancer l'étape 9, ou les envoyer ensuite par la page **Documents**.
-4. Vérifier dans la nouvelle campagne : quelques fiches (portrait, champs, notes MJ), un scénario et ses scènes (fiches, documents et règles rattachés), la page Documents.
-5. Les fichiers CSV restent utiles pour une mise à jour (voir plus bas) : les garder avec l'archive.
-6. Les points à vérifier dans le livre papier (renvoi à `A-VERIFIER.md`).
+2. Table of the archive's content: number of entry types, fields, entries per type, rules, documents, scenarios and scenes.
+3. In SagaWyn: **{!! $ui('Mes campagnes') !!} → {!! $ui('Importer une campagne') !!}**, choose `SagaWyn - <Title>.zip` (without unzipping it), **{!! $ui('Importer') !!}**. If the archive exceeds the maximum size shown, remove the least useful images and run step 9 again, or upload them afterwards from the **{!! $ui('Documents') !!}** page.
+4. Check in the new campaign: a few entries (portrait, fields, GM notes), a scenario and its scenes (attached entries, documents and rules), the documents page.
+5. The CSV files remain useful for an update (see below): keep them with the archive.
+6. The points to check in the paper book (pointer to `TO-CHECK.md`).
 @else
-2. Tableau du contenu : chaque fichier, son nombre de lignes, où il va dans SagaWyn.
-3. Ouvrir la campagne « {!! $campaign !!} » (ou en créer une) ; créer les **types de fiche** manquants (« Types de fiche »).
-4. Campagne → **Importer** : chaque fichier de champs (« Une liste de champs pour le jeu »), puis chaque fichier de fiches (« Des fiches »), en disant s'il faut les ranger dans le monde ou la campagne. L'aperçu doit annoncer le bon nombre de créations et **aucune colonne en « Nouveau champ »**.
-5. Les règles (« Des règles ou aides de jeu »), rattachées au jeu entier.
-6. **Documents** : chaque dossier en un envoi, avec la visibilité et les tags indiqués.
-7. En dernier, les scènes (« Des scénarios et leurs scènes ») : l'aperçu ne doit signaler **aucun élément introuvable**.
-8. Si ça coince : « type de fiche inconnu » = le créer d'abord ; « Nouveau champ » = importer d'abord le fichier de champs ; « introuvable » = importer d'abord la fiche ou le document de ce nom ; un import refait avec « Mettre à jour… » coché remplace au lieu de dupliquer.
-9. Les points à vérifier dans le livre papier (renvoi à `A-VERIFIER.md`).
+2. Table of the content: each file, its number of rows, where it goes in SagaWyn.
+3. Open the campaign "{!! $campaign !!}" (or create one); create the missing **entry types** ({!! $ui('Types de fiche') !!}).
+4. Campaign → **{!! $ui('Importer') !!}**: each fields file ({!! $ui('Une liste de champs pour le jeu :name', ['name' => '…']) !!}), then each entries file ({!! $ui('Des fiches (une ligne par fiche)') !!}), saying whether to store them in the world or the campaign. The preview must announce the right number of creations and **no column as {!! $ui('Nouveau champ') !!}**.
+5. The rules ({!! $ui('Des règles ou aides de jeu') !!}), attached to the whole game.
+6. **{!! $ui('Documents') !!}**: each folder in one upload, with the visibility and tags given.
+7. Last, the scenes ({!! $ui('Des scénarios et leurs scènes') !!}): the preview must report **no element not found**.
+8. If something goes wrong: unknown entry type = create it first; {!! $ui('Nouveau champ') !!} = import the fields file first; not found = import the entry or document with that name first; an import redone with the update option ticked replaces instead of duplicating.
+9. The points to check in the paper book (pointer to `TO-CHECK.md`).
 @endif
 
-## Mettre à jour une campagne déjà importée
+## Updating a campaign already imported
 
-Pour enrichir une campagne existante (contenu plus détaillé, séances jouées) sans toucher aux statuts, liens, personnages et notes : produire `1-fiches.csv` (`Nom;Type;Description;Notes MJ`) et `2-scenes.csv` (`Scénario;Scène;Description`) avec **exactement** les noms existants, et dire d'importer avec « Mettre à jour… » coché. L'aperçu doit annoncer 0 création. Prévenir que les descriptions modifiées à la main depuis l'import seront remplacées.
+To enrich an existing campaign (more detailed content, sessions played) without touching statuses, links, characters and notes: produce `1-entries.csv` (`Nom;Type;Description;Notes MJ`) and `2-scenes.csv` (`Scénario;Scène;Description`) with **exactly** the existing names, and tell the GM to import them with the update option ticked ({!! $ui('Mettre à jour les fiches qui existent déjà sous le même nom et le même type (les cases vides ne changent rien)') !!}, {!! $ui('Mettre à jour les scènes qui existent déjà sous le même nom dans le même scénario (les cases vides ne changent rien)') !!}). The preview must announce 0 creations. Warn that descriptions edited by hand since the import will be replaced.
 
 @if ($skill)
-## Fichiers du skill
+## Skill files
 
-- `scripts/verifier.py` : `python3 -I scripts/verifier.py <dossier des CSV> <dossier des documents>` (ajouter `--mise-a-jour` pour des fichiers qui complètent une campagne existante) fait les contrôles de l'étape 7 ; corriger chaque ligne « PROBLÈME ».
+- `scripts/check.py`: `python3 -I scripts/check.py <CSV folder> <documents folder>` (add `--update` for files that complete an existing campaign) runs the step 7 checks; fix every "PROBLEM" line.
 @unless ($archive)
-- `references/format-archive.md` : l'archive de campagne `.zip` (un seul import, avec portraits, tags et relations), quand on peut exécuter du code et que le MJ veut créer une nouvelle campagne d'un coup.
+- `references/archive-format.md`: the `.zip` campaign archive (a single import, with portraits, tags and relations), when you can run code and the GM wants to create a new campaign in one go.
 @endunless
 @endif
 
-## Annexe A : formats d'import CSV de SagaWyn
+## Appendix A: SagaWyn CSV import formats
 
-Ce que l'écran **Importer** d'une campagne accepte réellement.
+What a campaign's **{!! $ui('Importer') !!}** screen really accepts. Headers and closed values are written exactly as SagaWyn expects them (in French), whatever the content language.
 
-### Règles communes
+### Common rules
 
-- Fichier `.csv` (ou `.txt`, `.json`), **5 Mo au plus**, **2 000 lignes au plus** : au-delà, découper en plusieurs fichiers.
-- Encodage UTF-8 **avec BOM** (Excel français l'ouvre alors correctement), séparateur **point-virgule** `;`.
-- Une ligne d'en-têtes, puis une ligne par élément. Valeur contenant `;`, un retour à la ligne ou `"` : entre guillemets doubles, les `"` intérieurs doublés (`""`). En Python : `csv.writer(f, delimiter=';')` sur un fichier ouvert avec `encoding='utf-8-sig', newline=''`.
-- Les en-têtes sont reconnus sans tenir compte des accents, majuscules et ponctuation, mais garder exactement ceux ci-dessous.
-- Textes longs (description, notes MJ, procédure, scène) : **Markdown** affiché (titres `###`, `**gras**`, `*italique*`, listes `-`, citations `>`). Un simple retour à la ligne reste un retour à la ligne.
-- **Liens internes** : `[[Nom exact de la fiche]]`. Dans un CSV, jamais `[[Nom|autre chose]]` : la partie après `|` est réservée à un identifiant numérique. Un lien vers une fiche absente s'affiche en simple texte. Les liens `[[ ]]` ne visent que des **fiches** : une règle ou un document se cite en italique (*Souvenirs vendus*) et se rattache par les colonnes `Règles`/`Documents` des scènes.
-- Une case vide lors d'une **mise à jour** ne change rien.
+- `.csv` file (or `.txt`, `.json`), **5 MB at most**, **2,000 rows at most**: beyond that, split into several files.
+- UTF-8 encoding **with BOM** (Excel then opens it correctly), **semicolon** separator `;`.
+- One header row, then one row per element. A value containing `;`, a line break or `"`: between double quotes, inner `"` doubled (`""`). In Python: `csv.writer(f, delimiter=';')` on a file opened with `encoding='utf-8-sig', newline=''`.
+- Headers are recognised regardless of accents, case and punctuation, but keep exactly those below.
+- Long texts (description, GM notes, procedure, scene): rendered **Markdown** (`###` headings, `**bold**`, `*italic*`, `-` lists, `>` quotes). A single line break stays a line break.
+- **Internal links**: `[[Exact name of the entry]]`. In a CSV, never `[[Name|something else]]`: the part after `|` is reserved for a numeric id. A link to a missing entry shows as plain text. `[[ ]]` links only target **entries**: a rule or a document is quoted in italics (*Sold memories*) and attached through the scenes' `Règles`/`Documents` columns.
+- An empty cell during an **update** changes nothing.
 
-### 1. Champs du jeu — « Une liste de champs pour le jeu … »
+### 1. Game fields — {!! $ui('Une liste de champs pour le jeu :name', ['name' => '…']) !!}
 
-En-têtes : `Nom;Groupe;Type;Zone;Choix;Type de fiche;Modifiable par le joueur`
+Headers: `Nom;Groupe;Type;Zone;Choix;Type de fiche;Modifiable par le joueur`
 
-| Colonne | Valeurs |
+| Column | Values |
 |---|---|
-| Nom | nom du champ, tel qu'il servira d'en-tête dans les fichiers de fiches (`FOR`, `Points de vie`…) |
-| Groupe | rubrique d'affichage (`Caractéristiques`, `Compétences`, `Profil de créature`…) |
-| Type | `texte` (1 000 car.), `texte long`, `nombre`, `oui/non`, `date`, `liste`, `compteur`, `lien` (adresse web), `fichier` (document de la campagne), `référence` (autre fiche) |
-| Zone | `publique` (visible des joueurs qui connaissent la fiche) ou `MJ` |
-| Choix | seulement pour `liste` : `d4|d6|d8` |
-| Type de fiche | `Personnage`, `Créature`… ; vide = tous les types |
-| Modifiable par le joueur | `oui` / `non` (ex. `oui` pour les PV de son personnage) |
+| Nom | field name, as it will be used as a header in the entries files (`STR`, `Hit points`…) |
+| Groupe | display section (`Characteristics`, `Skills`, `Creature stats`…) |
+| Type | `texte` (1,000 chars), `texte long`, `nombre`, `oui/non`, `date`, `liste`, `compteur`, `lien` (web address), `fichier` (campaign document), `référence` (another entry) |
+| Zone | `publique` (visible to players who know the entry) or `MJ` |
+| Choix | only for `liste`: `d4|d6|d8` |
+| Type de fiche | `Personnage`, `Créature`… (an existing entry type); empty = all types |
+| Modifiable par le joueur | `oui` / `non` (e.g. `oui` for their character's hit points) |
 
-Un même nom de champ peut exister pour deux types de fiche (FOR `nombre` pour Personnage, FOR `texte` pour Créature) : l'import des fiches choisit le bon selon la colonne `Type`.
+The same field name may exist for two entry types (STR `nombre` for Personnage, STR `texte` for Créature): the entries import picks the right one from the `Type` column.
 
-**Choisir le type** : `nombre` seulement si **toutes** les valeurs sont des nombres simples (`12`, `1,5`). Pour des profils avec dés ou fourchettes (`3D6×5`, `40 à 60`, `55 %`), prendre `texte`. Les blocs d'armes, compétences, sorts et capacités : `texte long`.
+**Choosing the type**: `nombre` only if **all** values are plain numbers (`12`, `1,5`). For stats with dice or ranges (`3D6×5`, `40 to 60`, `55 %`), use `texte`. Blocks of weapons, skills, spells and abilities: `texte long`.
 
-### 2. Fiches — « Des fiches (une ligne par fiche) »
+### 2. Entries — {!! $ui('Des fiches (une ligne par fiche)') !!}
 
-En-têtes : `Nom;Type;Résumé;Description;Notes MJ` puis une colonne par champ (en-tête = nom exact du champ).
+Headers: `Nom;Type;Résumé;Description;Notes MJ` then one column per field (header = exact field name).
 
-| Colonne | Limite | Contenu |
+| Column | Limit | Content |
 |---|---|---|
-| Nom | 255 | unique par type ; c'est la clé des liens et des mises à jour |
-| Type | — | type de fiche existant : `Personnage`, `Lieu`, `Organisation`, `Objet`, `Créature`, ou un type créé avant l'import (`Sort`, `Savoir`…) |
-| Résumé | **500** | l'accroche, visible en liste et au survol |
-| Description | 20 000 | zone **publique** : ce que les joueurs peuvent savoir en le rencontrant |
-| Notes MJ | 20 000 | zone **MJ** : secrets, rôle réel, profil complet, apparitions |
+| Nom | 255 | unique per type; it is the key of links and updates |
+| Type | — | an existing entry type: `Personnage`, `Lieu`, `Organisation`, `Objet`, `Créature` (or their key `character`, `place`, `organization`, `item`, `creature`), or a type created before the import |
+| Résumé | **500** | the hook, visible in lists and on hover |
+| Description | 20,000 | **public** zone: what players can know by meeting it |
+| Notes MJ | 20,000 | **GM** zone: secrets, real role, full stats, appearances |
 
-Valeurs de champs : `nombre` en chiffres (`12`, `1,5`) ; `oui/non` en `oui`/`non` ; `liste` = un choix exact ; `compteur` en `11 / 11` ; `date` en `JJ/MM/AAAA` ; `référence` = nom exact d'une fiche ; `lien` = `https://…`.
+Field values: `nombre` in digits (`12`, `1,5`); `oui/non` as `oui`/`non`; `liste` = an exact choice; `compteur` as `11 / 11`; `date` as `DD/MM/YYYY`; `référence` = exact name of an entry; `lien` = `https://…`.
 
-Options à l'écran : rangement **dans le monde** (lieux, organisations, PNJ partagés par plusieurs campagnes) ou **dans la campagne** ; **Mettre à jour les fiches qui existent déjà sous le même nom et le même type**.
+Options on screen: store **in the world** (places, organizations, NPCs shared by several campaigns) or **in the campaign**; update the entries that already exist under the same name and type.
 
-Le portrait d'une fiche ne passe pas par le CSV : il s'ajoute à la main sur la fiche.
+An entry's portrait does not go through the CSV: it is added by hand on the entry.
 
-### 3. Règles et glossaire — « Des règles ou aides de jeu »
+### 3. Rules and glossary — {!! $ui('Des règles ou aides de jeu') !!}
 
-En-têtes : `Titre;Catégorie;Résumé;Procédure;Notes MJ;Source;Origine;Statut;Zone;Tags`
+Headers: `Titre;Catégorie;Résumé;Procédure;Notes MJ;Source;Origine;Statut;Zone;Tags`
 
-| Colonne | Limite | Valeurs |
+| Column | Limit | Values |
 |---|---|---|
 | Titre | 255 | unique |
-| Catégorie | 100 | `Combat`, `Magie`, `Glossaire`… |
-| Résumé | 2 000 | la règle en une ou deux phrases (la définition pour un terme de glossaire) |
-| Procédure | 20 000 | les étapes, une par ligne, avec les chiffres |
-| Notes MJ | 20 000 | conseils d'arbitrage |
-| Source | 255 | `Livre de base p. 42` |
-| Origine | — | `référence`, `maison` ou `test` |
+| Catégorie | 100 | `Combat`, `Magic`, `Glossary`… (in {!! $language !!}) |
+| Résumé | 2,000 | the rule in one or two sentences (the definition for a glossary term) |
+| Procédure | 20,000 | the steps, one per line, with the numbers |
+| Notes MJ | 20,000 | refereeing advice |
+| Source | 255 | `Core book p. 42` |
+| Origine | — | `référence`, `maison` or `test` |
 | Statut | — | `Disponible`, `À tester`, `En test`, `Adoptée`, `À modifier`, `Rejetée` |
-| Zone | — | `publique` ou `MJ` |
-| Tags | 1 000 | séparés par des virgules |
+| Zone | — | `publique` or `MJ` |
+| Tags | 1,000 | comma-separated |
 
-Rattachement à l'écran : **tout le jeu** (servira aux autres campagnes du même jeu) ou **cette campagne**.
+Attachment on screen: **the whole game** (used by the other campaigns of the same game) or **this campaign**.
 
-### 4. Scénarios et scènes — « Des scénarios et leurs scènes » (à importer en dernier)
+### 4. Scenarios and scenes — {!! $ui('Des scénarios et leurs scènes') !!} (import last)
 
-En-têtes : `Scénario;Résumé du scénario;Chapitre;Scène;Description;Statut;Fiches;Documents;Règles`
+Headers: `Scénario;Résumé du scénario;Chapitre;Scène;Description;Statut;Fiches;Documents;Règles`
 
-| Colonne | Limite | Contenu |
+| Column | Limit | Content |
 |---|---|---|
-| Scénario | 255 | regroupe les scènes ; ordre de création = ordre des lignes |
-| Résumé du scénario | 5 000 | sur la **première** ligne de chaque scénario seulement |
-| Chapitre | 100 | `Acte 1`, `Partie 2 : Le désert`… |
-| Scène | 255 | unique dans son scénario |
-| Description | **20 000** | voir le modèle « Ce qui est prévu » plus haut ; au-delà, découper la scène |
+| Scénario | 255 | groups the scenes; creation order = row order |
+| Résumé du scénario | 5,000 | on the **first** row of each scenario only |
+| Chapitre | 100 | `Act 1`, `Part 2: The desert`… |
+| Scène | 255 | unique within its scenario |
+| Description | **20,000** | see the "{!! $planned !!}" model above; beyond that, split the scene |
 | Statut | — | `Prévue`, `Disponible`, `En cours`, `Jouée`, `Ignorée` |
-| Fiches | — | noms exacts séparés par ` | ` (100 au plus) |
-| Documents | — | titres exacts des documents (= nom du fichier sans extension) |
-| Règles | — | titres exacts des règles |
+| Fiches | — | exact names separated by ` | ` (100 at most) |
+| Documents | — | exact document titles (= file name without extension) |
+| Règles | — | exact rule titles |
 
-Les fiches, documents et règles doivent **déjà exister** dans la campagne : l'aperçu signale chaque nom « introuvable ». Option **Mettre à jour les scènes qui existent déjà sous le même nom dans le même scénario**.
+The entries, documents and rules must **already exist** in the campaign: the preview reports each name not found. Option to update the scenes that already exist under the same name in the same scenario.
 
-### 5. Documents (aides de jeu, cartes, plans, portraits)
+### 5. Documents (handouts, maps, plans, portraits)
 
-Pas de CSV : page **Documents** de la campagne, envoi de fichiers.
-- Formats `pdf`, `jpg`, `jpeg`, `png`, `gif`, `webp` ; **50 Mo** par fichier ; **10 fichiers** par envoi.
-- Le **titre** du document = **nom du fichier sans extension**. Nommer donc chaque fichier exactement comme il sera cité dans la colonne `Documents` des scènes.
-- Visibilité (`publique` ou `MJ`), rangement (campagne, monde ou jeu) et tags sont choisis **pour tout l'envoi** : ranger les fichiers dans des dossiers qui partagent ces trois réglages (`2-cartes-mj/`, `3-cartes-joueurs/`, `4-indices/`…).
-- Un indice à remettre en cours de partie est en zone **MJ** ; le MJ le donne ensuite aux personnages (« Donner »/« Révéler »).
+No CSV: the campaign's **{!! $ui('Documents') !!}** page, file upload.
+- Formats `pdf`, `jpg`, `jpeg`, `png`, `gif`, `webp`; **50 MB** per file; **10 files** per upload.
+- The document's **title** = **file name without extension**. So name each file exactly as it will be quoted in the scenes' `Documents` column.
+- Visibility (public or GM), storage (campaign, world or game) and tags are chosen **for the whole upload**: sort the files into folders that share these three settings (`4-documents-gm/`, `4-documents-players/`, `4-clues/`…).
+- A clue to hand out during play is in the **GM** zone; the GM then gives it to the characters ({!! $ui('Donner') !!} / {!! $ui('Révéler') !!}).
 
-### 6. Mise à jour d'une campagne déjà importée
+### 6. Updating a campaign already imported
 
-Fichiers réduits, avec l'option « Mettre à jour… » cochée :
-- fiches : `Nom;Type;Description;Notes MJ` (seules ces colonnes sont remplacées) ;
-- scènes : `Scénario;Scène;Description`.
+Reduced files, with the update option ticked:
+- entries: `Nom;Type;Description;Notes MJ` (only these columns are replaced);
+- scenes: `Scénario;Scène;Description`.
 
-L'aperçu doit annoncer **0 création** et autant de mises à jour que de lignes ; sinon un nom ne correspond pas.
+The preview must announce **0 creations** and as many updates as rows; otherwise a name does not match.
 
-## Annexe B : exemple au bon niveau de détail (contenu inventé)
+## Appendix B: example at the right level of detail (invented content)
 
-Fiches de PNJ :
+The example is written in English; write yours in {!! $language !!}. The headers, the closed values (`oui`, `Jouée`…) and the `### {!! $planned !!}` / `### {!! $happened !!}` headings stay exactly as shown.
+
+NPC entries:
 
 ```csv
-Nom;Type;Résumé;Description;Notes MJ;Vigueur;Esprit;Points de vie;Compétences;Armes
-Maître Aldric Fenouil;Personnage;"Gardien du phare de Brumeval, bourru et protecteur, qui n'a pas quitté sa tour depuis la tempête de l'an passé.";"Un homme d'une soixantaine d'années, barbe grise taillée court, mains couvertes de brûlures anciennes. Il parle peu, fixe la mer en répondant et refuse toute visite après le coucher du soleil.
+Nom;Type;Résumé;Description;Notes MJ;Vigour;Mind;Hit points;Skills;Weapons
+Master Aldric Fenwick;Personnage;"Keeper of the Mistvale lighthouse, gruff and protective, who has not left his tower since last year's storm.";"A man of about sixty, short grey beard, hands covered in old burns. He speaks little, stares at the sea while answering and refuses any visit after sunset.
 
-Au village, on dit qu'il a perdu son fils dans la tempête et qu'il « parle à la lanterne ». Il paie ses provisions en pièces anciennes que personne ne reconnaît.";"**Ce qu'il cache** : la lanterne du phare abrite l'esprit de son fils, Tobin, noyé lors de la tempête. Aldric l'entretient avec l'huile de baleine que lui vend [[Veuve Orsel]], au prix de souvenirs qu'il lui cède un à un (il ne se rappelle plus le visage de sa femme).
+In the village, people say he lost his son in the storm and that he ""talks to the lantern"". He pays for his supplies with old coins nobody recognises.";"**What he hides**: the lighthouse lantern holds the spirit of his son, Tobin, drowned in the storm. Aldric feeds it with the whale oil sold to him by [[Widow Orsel]], at the price of memories he gives up one by one (he no longer remembers his wife's face).
 
-**Ce qu'il veut** : garder Tobin « vivant » coûte que coûte. Il ment sur tout ce qui touche la lanterne, mais ne ment jamais sur la mer.
+**What he wants**: to keep Tobin ""alive"" at all costs. He lies about everything to do with the lantern, but never lies about the sea.
 
-**Ce qu'il sait** : les passes sûres entre les récifs (indice nécessaire à la scène « La passe des Dents »), le nom des trois marins disparus.
+**What he knows**: the safe passes between the reefs (clue needed for the scene ""The Teeth pass""), the names of the three missing sailors.
 
-**Comment il réagit** : menacé, il se barricade et éteint le phare, ce qui déclenche « Le naufrage ». Si on lui parle de son fils avec douceur (test d'Esprit difficile), il avoue tout et demande de l'aide.
+**How he reacts**: threatened, he barricades himself in and puts out the light, which triggers ""The shipwreck"". If someone speaks gently to him about his son (hard Mind test), he confesses everything and asks for help.
 
-**Profil** : Vigueur 3, Esprit 4, 12 PV. Bâton ferré (1D6).
+**Stats**: Vigour 3, Mind 4, 12 HP. Iron-shod staff (1D6).
 
-**Apparaît dans** : Le phare éteint, La passe des Dents.";3;4;12 / 12;"Navigation 70 %, Météo 60 %, Intimidation 40 %";"Bâton ferré 50 %, dégâts 1D6"
-Veuve Orsel;Personnage;Marchande d'huile et de sel au port, aimable, qui semble ne jamais vieillir.;"Une femme menue au châle bleu, toujours souriante, qui tient l'échoppe à l'entrée du port. Elle connaît le prénom de chaque enfant du village.";"**Identité réelle** : une sorcière des marées qui achète des souvenirs. Elle ne peut agir contre quelqu'un qui ne lui a rien vendu.
+**Appears in**: The dark lighthouse, The Teeth pass.";3;4;12 / 12;"Navigation 70 %, Weather 60 %, Intimidate 40 %";"Iron-shod staff 50 %, damage 1D6"
+Widow Orsel;Personnage;Oil and salt merchant at the harbour, friendly, who never seems to age.;"A slight woman in a blue shawl, always smiling, who keeps the stall at the harbour entrance. She knows the first name of every child in the village.";"**True identity**: a tide witch who buys memories. She cannot act against someone who has sold her nothing.
 
-**Ce qu'elle veut** : le dernier souvenir d'Aldric, celui de son fils, qui ferait d'elle la maîtresse de la lanterne.
+**What she wants**: Aldric's last memory, the one of his son, which would make her mistress of the lantern.
 
-**Profil** : Vigueur 2, Esprit 6, 10 PV. Sort *Brume d'oubli* (voir [[Lanterne de Brumeval]]).
+**Stats**: Vigour 2, Mind 6, 10 HP. Spell *Mist of oblivion* (see [[Mistvale Lantern]]).
 
-**Apparaît dans** : Arrivée au port, Le naufrage.";2;6;10 / 10;"Marchandage 80 %, Psychologie 65 %, Occultisme 75 %";
+**Appears in**: Arrival at the harbour, The shipwreck.";2;6;10 / 10;"Bargain 80 %, Psychology 65 %, Occult 75 %";
 ```
 
-Scènes (une jouée comme prévu, une jouée qui a dévié) :
+Scenes (one played as planned, one played that departed from the book):
 
 ```csv
 Scénario;Résumé du scénario;Chapitre;Scène;Description;Statut;Fiches;Documents;Règles
-1. La Lanterne de Brumeval;"Le phare de Brumeval s'éteint une nuit sur deux, et des pêcheurs disparaissent. Les personnages découvrent que le gardien garde l'esprit de son fils noyé dans la lanterne, et qu'une sorcière des marées veut s'en emparer.";Acte 1 : Le port;Arrivée au port;"### Ce qui est prévu
+1. The Mistvale Lantern;"The Mistvale lighthouse goes dark every other night, and fishermen disappear. The characters discover that the keeper holds his drowned son's spirit in the lantern, and that a tide witch wants to seize it.";Act 1: The harbour;Arrival at the harbour;"### {!! $planned !!}
 
-**Enjeu** : faire comprendre que le village a peur du phare et attirer l'attention sur la Veuve Orsel, sans la désigner.
+**Stake**: show that the village fears the lighthouse and draw attention to Widow Orsel, without pointing at her.
 
-**Situation** : les personnages arrivent par la diligence du soir. Le port est désert, les barques tirées sur la grève. Seule l'échoppe de la [[Veuve Orsel]] est éclairée.
+**Situation**: the characters arrive by the evening coach. The harbour is deserted, the boats pulled up on the shore. Only [[Widow Orsel]]'s stall is lit.
 
-**Ce que disent les gens** :
-- l'aubergiste : trois marins disparus en un mois, toujours les nuits où le phare était éteint ;
-- les enfants : « le vieux Fenouil parle à sa lampe » ;
-- la Veuve Orsel, très aimable, propose de l'huile « pour la route » et demande à chacun son plus beau souvenir, « par curiosité ».
+**What people say**:
+- the innkeeper: three sailors missing in a month, always on nights when the lighthouse was dark;
+- the children: ""old Fenwick talks to his lamp"";
+- Widow Orsel, very friendly, offers oil ""for the road"" and asks each of them for their finest memory, ""out of curiosity"".
 
-**Indices** :
-- *Écouter* (facile) : à la nuit tombée, une voix d'enfant semble venir du phare ;
-- *Psychologie* (difficile) sur la Veuve : son sourire ne monte jamais aux yeux ;
-- *Trouver objet caché* : des fûts marqués de son sceau partent vers le phare.
+**Clues**:
+- *Listen* (easy): at nightfall, a child's voice seems to come from the lighthouse;
+- *Psychology* (hard) on the Widow: her smile never reaches her eyes;
+- *Spot hidden*: barrels marked with her seal leave for the lighthouse.
 
-**À remettre** : *Carte joueurs - Brumeval*.
+**To hand out**: *Player map - Mistvale*.
 
-**Si les joueurs vendent un souvenir** : appliquer la règle *Souvenirs vendus* ; la Veuve peut désormais agir contre eux (« Le naufrage »).
+**If the players sell a memory**: apply the *Sold memories* rule; the Widow can now act against them (""The shipwreck"").
 
-**Transitions** : vers « Le phare éteint » (de nuit) ou une visite de jour à [[Maître Aldric Fenouil]], qui les éconduit.
+**Transitions**: to ""The dark lighthouse"" (by night) or a daytime visit to [[Master Aldric Fenwick]], who sends them away.
 
-La Lanterne de Brumeval p. 3-4.";Jouée;Veuve Orsel | Maître Aldric Fenouil;Carte joueurs - Brumeval;Souvenirs vendus
-1. La Lanterne de Brumeval;;Acte 1 : Le port;Le phare éteint;"### Ce qui est prévu
+The Mistvale Lantern p. 3-4.";Jouée;Widow Orsel | Master Aldric Fenwick;Player map - Mistvale;Sold memories
+1. The Mistvale Lantern;;Act 1: The harbour;The dark lighthouse;"### {!! $planned !!}
 
-**Enjeu** : entrer dans la Lanterne et découvrir que la flamme est l'esprit de Tobin.
+**Stake**: get into the Lantern and discover that the flame is Tobin's spirit.
 
-**Situation** : une nuit sur deux, la lumière s'éteint à minuit. Aldric se tient alors au sommet, immobile, et chuchote.
+**Situation**: every other night, the light goes out at midnight. Aldric then stands at the top, motionless, whispering.
 
-**Entrer** : porte barrée (Vigueur difficile pour l'enfoncer, bruit qui alerte Aldric) ou fenêtre du premier étage par l'escalier extérieur (Escalade).
+**Getting in**: barred door (hard Vigour test to break it, noise that alerts Aldric) or first-floor window by the outside stairs (Climb).
 
-**Dans la tour** : voir [[Lanterne de Brumeval]] pour les étages et les indices. Le carnet de Tobin est la pièce maîtresse : le remettre (*Indice - Lettre de la veuve Orsel* est glissée dedans).
+**In the tower**: see [[Mistvale Lantern]] for the floors and clues. Tobin's notebook is the key piece: hand it out (*Clue - Letter from widow Orsel* is slipped inside).
 
-**Aldric** : surpris, il menace mais ne frappe qu'acculé. Calmé, il avoue (voir sa fiche).
+**Aldric**: surprised, he threatens but only strikes when cornered. Calmed down, he confesses (see his entry).
 
-**Issues** :
-- Aldric avoue : il demande d'empêcher la Veuve de prendre son dernier souvenir ; passer à l'acte 2 ;
-- Aldric est blessé ou humilié : il éteint le phare pour de bon, une barque se brise sur les récifs la nuit suivante.
+**Outcomes**:
+- Aldric confesses: he asks them to stop the Widow from taking his last memory; go to act 2;
+- Aldric is hurt or humiliated: he puts out the light for good, a boat breaks on the reefs the following night.
 
-**Récompense** : sauver un pêcheur cette nuit-là, +1 point d'inspiration.
+**Reward**: saving a fisherman that night, +1 inspiration point.
 
-La Lanterne de Brumeval p. 5-6.
+The Mistvale Lantern p. 5-6.
 
-### Ce qui s'est passé (séance 2)
+### {!! $happened !!} (session 2)
 
-Les joueurs n'ont pas forcé la porte : Lise a vendu à la Veuve le souvenir de sa première chasse pour obtenir la clé. Aldric les a trouvés au sommet et a fait tomber la lanterne ; Tobin s'est manifesté sous forme de brume verte et a sauvé Bran de la chute. Le carnet n'a pas été trouvé (il est toujours dans la chambre).";Jouée;Maître Aldric Fenouil | Lanterne de Brumeval;Indice - Lettre de la veuve Orsel;Souvenirs vendus
+The players did not force the door: Lise sold the Widow the memory of her first hunt to get the key. Aldric found them at the top and knocked the lantern over; Tobin appeared as a green mist and saved Bran from the fall. The notebook was not found (it is still in the bedroom).";Jouée;Master Aldric Fenwick | Mistvale Lantern;Clue - Letter from widow Orsel;Sold memories
 ```
 @if ($archive)
 
-## Annexe C : format de l'archive de campagne
+## Appendix C: campaign archive format
 
 {!! $archiveFormat !!}
 @endif

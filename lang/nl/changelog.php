@@ -4,6 +4,16 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.90.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Import met AI: prompt in het Engels, taal naar keuze',
+        'items' => [
+            'De prompt en de Claude-skill van ‘Import voorbereiden met een AI’ zijn nu in het Engels, de taal die AI’s het best volgen.',
+            'Een menu ‘Taal van de geïmporteerde inhoud’ kiest de taal waarin de AI fiches, scènes, documenttitels en handleiding schrijft (standaard de taal van de interface). Met de skill kun je bij het importeren ook om een andere taal vragen.',
+            'Het Avonturenboek herkent de secties ‘Wat gepland is’ en ‘Wat er gebeurde’ in elk van de talen van SagaWyn.',
+        ],
+    ],
+
     '0.89.1' => [
         'date' => '2026-10-23',
         'title' => 'Duidelijkere keuzes bij het aanmaken van een campagne',
