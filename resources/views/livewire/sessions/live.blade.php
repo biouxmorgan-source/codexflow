@@ -64,13 +64,12 @@
         @php($scene = $session->currentScene)
         @php($layout = $this->screenLayout)
         @php($secretItems = ['scene' => $scene ? [$scene->id] : [], 'entity' => $this->cards->map(fn ($card) => $card['entity']->id)->values()->all(), 'document' => $this->documents->modelKeys()])
-        {{-- Chaque MJ range ses blocs comme il veut (« Organiser l'écran ») : colonne principale et colonne de droite. --}}
-        <div x-data="screenArranger" class="grid gap-4 *:min-w-0 lg:grid-cols-3">
-            @foreach ($layout['columns'] as $column => $columnBlocks)
-                <div wire:key="screen-column-{{ $column }}" data-screen-column="{{ $column }}" @class(['flex flex-col gap-4', 'lg:col-span-2' => $column === 'main', 'min-h-24' => $arranging])>
-                    @foreach ($columnBlocks as $block)
+        {{-- Chaque MJ range ses blocs comme il veut (« Organiser l'écran ») : colonne et largeur (1 à 3 colonnes) de chacun. --}}
+        <div x-data="screenArranger" data-screen-grid @if ($arranging) data-arranging @endif style="--screen-columns: 3">
+                    @foreach ($layout['blocks'] as $place)
+                        @php($block = $place['id'])
                         @continue(in_array($block, $layout['hidden'], true))
-                        <x-screen.block screen="session" :name="$block" :arranging="$arranging">
+                        <x-screen.block screen="session" :place="$place" :arranging="$arranging">
                         @switch($block)
                             @case('now')
                                 <section class="rounded-xl border border-flow/30 bg-white p-4 shadow-sm">
@@ -422,8 +421,6 @@
                         @endswitch
                         </x-screen.block>
                     @endforeach
-                </div>
-            @endforeach
         </div>
     @endif
     @if ($preview = $this->preview)

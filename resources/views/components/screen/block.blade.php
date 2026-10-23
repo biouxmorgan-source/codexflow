@@ -1,24 +1,20 @@
-@props(['screen', 'name', 'arranging' => false])
+@props(['screen', 'place', 'arranging' => false])
 {{--
-    Un bloc déplaçable d'un écran. Hors mode « Organiser », l'enveloppe s'efface (display: contents) :
-    l'écran reste exactement le même. En mode « Organiser », une barre donne la poignée, les flèches et « Masquer ».
+    Un bloc déplaçable d'un écran, à sa colonne de départ et sur sa largeur (App\Support\ScreenLayout).
+    Hors mode « Organiser », un bloc vide n'est pas rendu. En mode « Organiser », une barre donne la poignée,
+    les flèches, la largeur et « Masquer ».
 --}}
-@php($label = \App\Support\ScreenLayout::labels($screen)[$name] ?? $name)
-<div wire:key="screen-block-{{ $name }}" data-block="{{ $name }}" @class([
-    'contents' => ! $arranging,
-    'rounded-xl border-2 border-dashed border-codex/40 bg-white/60 p-2' => $arranging,
-])>
-    @if ($arranging)
-        <div class="mb-2 flex items-center gap-1.5 text-sm">
-            <button type="button" x-on:pointerdown="start($event)" class="cursor-grab touch-none rounded-md px-1.5 text-lg leading-none text-stone-500 hover:bg-codex-soft hover:text-codex active:cursor-grabbing" aria-label="{{ __('Déplacer « :name »', ['name' => $label]) }}" title="{{ __('Glisser pour déplacer') }}">⠿</button>
-            <span class="mr-auto font-medium text-stone-700">{{ $label }}</span>
-            <button type="button" x-on:click="move($el, -1)" class="rounded-md px-1.5 text-stone-500 hover:bg-codex-soft hover:text-codex" aria-label="{{ __('Monter « :name »', ['name' => $label]) }}">↑</button>
-            <button type="button" x-on:click="move($el, 1)" class="rounded-md px-1.5 text-stone-500 hover:bg-codex-soft hover:text-codex" aria-label="{{ __('Descendre « :name »', ['name' => $label]) }}">↓</button>
-            <button type="button" wire:click="hideBlock('{{ $name }}')" class="rounded-md px-1.5 text-xs text-stone-500 hover:text-red-700">{{ __('Masquer') }}</button>
-        </div>
-        @unless ($slot->hasActualContent())
-            <p class="px-1 pb-1 text-xs text-stone-500">{{ __('Vide pour l’instant : ce bloc s’affiche quand il a du contenu.') }}</p>
-        @endunless
-    @endif
-    {{ $slot }}
-</div>
+@php($label = \App\Support\ScreenLayout::labels($screen)[$place['id']] ?? $place['id'])
+@if ($arranging || $slot->hasActualContent())
+    <div wire:key="screen-block-{{ $place['id'] }}" data-block="{{ $place['id'] }}" data-column="{{ $place['column'] }}" data-span="{{ $place['span'] }}" @class([
+        'rounded-xl border-2 border-dashed border-codex/40 bg-white/60 p-2' => $arranging,
+    ])>
+        @if ($arranging)
+            <x-screen.block-bar :label="$label" :span="$place['span']" :columns="\App\Support\ScreenLayout::COLUMNS" :hide="$place['id']" />
+            @unless ($slot->hasActualContent())
+                <p class="px-1 pb-1 text-xs text-stone-500">{{ __('Vide pour l’instant : ce bloc s’affiche quand il a du contenu.') }}</p>
+            @endunless
+        @endif
+        {{ $slot }}
+    </div>
+@endif

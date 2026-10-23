@@ -4,6 +4,17 @@
 // «Novidades» (uma vez após cada atualização) e na página de mesmo nome.
 return [
 
+    '0.94.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Blocos em 1, 2 ou 3 colunas, e página de mapa organizável',
+        'short' => '«Organizar o ecrã» define a largura de cada bloco (1, 2 ou 3 colunas), e a página de um mapa também se organiza.',
+        'items' => [
+            '«Organizar o ecrã» escolhe agora a largura de cada bloco: 1, 2 ou 3 colunas, na página da campanha, no modo Sessão e em «As minhas fichas». Um bloco largo passa para baixo dos blocos anteriores; os outros ficam lado a lado.',
+            'As setas ← e → mudam a coluna de um bloco, ↑ e ↓ a sua posição na coluna. No modo «Organizar», as colunas são desenhadas em fundo para apontar a uma coluna vazia.',
+            'A página de um mapa também se organiza: o mapa, os marcadores, os modelos, a iniciativa, a grelha e o nome podem ser movidos, alargados ou ocultados, apenas para cada MJ. Por exemplo, o mapa em toda a largura e as definições lado a lado por baixo.',
+        ],
+    ],
+
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Uma nova página inicial',

@@ -4,6 +4,17 @@
 // «Novità» (una volta dopo ogni aggiornamento) e nella pagina con lo stesso nome.
 return [
 
+    '0.94.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Blocchi su 1, 2 o 3 colonne, e pagina della mappa organizzabile',
+        'short' => '«Organizza lo schermo» regola la larghezza di ogni blocco (1, 2 o 3 colonne), e anche la pagina di una mappa si organizza.',
+        'items' => [
+            '«Organizza lo schermo» ora sceglie la larghezza di ogni blocco: 1, 2 o 3 colonne, nella pagina della campagna, in modalità Sessione e in «Le mie schede». Un blocco largo passa sotto i blocchi che lo precedono; gli altri si affiancano.',
+            'Le frecce ← e → cambiano la colonna di un blocco, ↑ e ↓ la sua posizione nella colonna. In modalità «Organizza», le colonne sono disegnate sullo sfondo per puntare a una colonna vuota.',
+            'Anche la pagina di una mappa si organizza: la mappa, le pedine, le sagome, l’iniziativa, la griglia e il nome si spostano, si allargano o si nascondono, solo per ciascun master. Per esempio, la mappa a tutta larghezza e le impostazioni affiancate sotto.',
+        ],
+    ],
+
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Una nuova pagina iniziale',

@@ -4,6 +4,17 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.94.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Bloques en 1, 2 o 3 columnas, y página de mapa organizable',
+        'short' => '«Organizar la pantalla» ajusta la anchura de cada bloque (1, 2 o 3 columnas), y la página de un mapa también se organiza.',
+        'items' => [
+            '«Organizar la pantalla» elige ahora la anchura de cada bloque: 1, 2 o 3 columnas, en la página de la campaña, en el modo Sesión y en «Mis hojas». Un bloque ancho pasa debajo de los bloques anteriores; los demás se colocan uno al lado del otro.',
+            'Las flechas ← y → cambian la columna de un bloque, ↑ y ↓ su posición en la columna. En modo «Organizar», las columnas se dibujan de fondo para apuntar a una columna vacía.',
+            'La página de un mapa también se organiza: el mapa, las fichas, las plantillas, la iniciativa, la cuadrícula y el nombre se mueven, se ensanchan o se ocultan, solo para cada DJ. Por ejemplo, el mapa a todo lo ancho y los ajustes uno al lado del otro debajo.',
+        ],
+    ],
+
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Una nueva página de inicio',

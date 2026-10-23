@@ -4,6 +4,17 @@
 // « Quoi de neuf » (une fois après chaque mise à jour) et sur la page du même nom.
 return [
 
+    '0.94.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Blocs sur 1, 2 ou 3 colonnes, et page de carte organisable',
+        'short' => '« Organiser l’écran » règle la largeur de chaque bloc (1, 2 ou 3 colonnes), et la page d’une carte s’organise aussi.',
+        'items' => [
+            '« Organiser l’écran » choisit maintenant la largeur de chaque bloc : 1, 2 ou 3 colonnes, sur la page de campagne, en mode Session et dans « Mes feuilles ». Un bloc large passe sous les blocs qui le précèdent ; les autres se rangent côte à côte.',
+            'Les flèches ← et → changent la colonne d’un bloc, ↑ et ↓ son rang dans sa colonne. En mode « Organiser », les colonnes se dessinent en fond pour viser une colonne vide.',
+            'La page d’une carte s’organise aussi : la carte, les jetons, les gabarits, l’initiative, la grille et le nom se déplacent, s’élargissent ou se masquent, pour chaque MJ seulement. Par exemple, la carte sur toute la largeur et les réglages côte à côte dessous.',
+        ],
+    ],
+
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Une nouvelle page d’accueil',

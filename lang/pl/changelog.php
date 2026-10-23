@@ -4,6 +4,17 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.94.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Bloki na 1, 2 lub 3 kolumny i strona mapy do uporządkowania',
+        'short' => '„Uporządkuj ekran” ustawia szerokość każdego bloku (1, 2 lub 3 kolumny), a stronę mapy też można uporządkować.',
+        'items' => [
+            '„Uporządkuj ekran” ustawia teraz szerokość każdego bloku: 1, 2 lub 3 kolumny, na stronie kampanii, w trybie Sesji i w „Moich kartach”. Szeroki blok trafia pod bloki przed nim; pozostałe stają obok siebie.',
+            'Strzałki ← i → zmieniają kolumnę bloku, ↑ i ↓ jego miejsce w kolumnie. W trybie porządkowania kolumny są rysowane w tle, by łatwo trafić w pustą kolumnę.',
+            'Stronę mapy też można uporządkować: mapę, żetony, szablony, inicjatywę, siatkę i nazwę można przesuwać, poszerzać lub ukrywać, tylko dla danego MG. Na przykład mapa na całą szerokość, a pod nią ustawienia obok siebie.',
+        ],
+    ],
+
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Nowa strona główna',

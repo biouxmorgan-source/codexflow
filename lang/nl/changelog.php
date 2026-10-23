@@ -4,6 +4,17 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.94.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Blokken op 1, 2 of 3 kolommen, en een te ordenen kaartpagina',
+        'short' => '‘Scherm ordenen’ stelt de breedte van elk blok in (1, 2 of 3 kolommen), en ook een kaartpagina is te ordenen.',
+        'items' => [
+            '‘Scherm ordenen’ kiest nu de breedte van elk blok: 1, 2 of 3 kolommen, op de campagnepagina, in de sessiemodus en in ‘Mijn bladen’. Een breed blok komt onder de blokken ervoor; de andere staan naast elkaar.',
+            'De pijlen ← en → wijzigen de kolom van een blok, ↑ en ↓ zijn plaats in de kolom. In de ordenmodus worden de kolommen op de achtergrond getekend om een lege kolom te mikken.',
+            'Ook een kaartpagina is te ordenen: de kaart, fiches, sjablonen, het initiatief, het raster en de naam zijn te verplaatsen, te verbreden of te verbergen, alleen voor elke SL. Bijvoorbeeld de kaart over de hele breedte en de instellingen naast elkaar eronder.',
+        ],
+    ],
+
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Een nieuwe startpagina',

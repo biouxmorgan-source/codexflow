@@ -300,3 +300,43 @@
         animation: none;
     }
 }
+
+/*
+ * Écrans organisables (« Organiser l'écran », resources/js/screen-arranger.js) : sur un petit écran, les blocs
+ * s'empilent dans l'ordre. Sur un grand écran, chaque bloc prend sa colonne de départ et sa largeur
+ * (1, 2 ou 3 colonnes) ; le script le pose juste sous les blocs qui le précèdent dans ces colonnes,
+ * sur une grille de lignes d'un pixel.
+ */
+[data-screen-grid] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--screen-gap, 1rem);
+}
+
+[data-screen-grid] > * {
+    min-width: 0;
+}
+
+@media (width >= 64rem) {
+    [data-screen-grid][data-placed] {
+        display: grid;
+        grid-template-columns: repeat(var(--screen-columns, 3), minmax(0, 1fr));
+        grid-auto-rows: 1px;
+        row-gap: 0;
+        column-gap: var(--screen-gap, 1rem);
+        align-items: start;
+    }
+}
+
+/* En mode « Organiser », les colonnes se dessinent en fond, pour viser une colonne vide. */
+[data-screen-grid][data-placed][data-arranging] {
+    --screen-column: calc((100% - (var(--screen-columns, 3) - 1) * var(--screen-gap, 1rem)) / var(--screen-columns, 3));
+    min-height: 8rem;
+    padding-bottom: 2rem;
+    background-image: repeating-linear-gradient(
+        to right,
+        var(--color-stone-100) 0 var(--screen-column),
+        transparent var(--screen-column) calc(var(--screen-column) + var(--screen-gap, 1rem))
+    );
+    border-radius: 0.75rem;
+}

@@ -3,6 +3,7 @@
 namespace App\Livewire\Maps;
 
 use App\Enums\CampaignRole;
+use App\Livewire\Concerns\ArrangesScreen;
 use App\Livewire\Concerns\SuggestsEntities;
 use App\Models\Campaign;
 use App\Models\MapTemplate;
@@ -23,6 +24,7 @@ use Livewire\Component;
  */
 class Show extends Component
 {
+    use ArrangesScreen;
     use SuggestsEntities;
 
     #[Locked]
@@ -75,6 +77,12 @@ class Show extends Component
             'templateSize' => self::number(3 * ($map->scale_value ?: 1)),
             'templateSize2' => self::number($map->scale_value ?: 1),
         ]);
+    }
+
+    /** Chaque MJ range les blocs de la page (la carte, les jetons, les gabarits…) pour lui seul. */
+    protected function screenLayoutName(): string
+    {
+        return 'map';
     }
 
     /** Grille et échelle enregistrées à chaque réglage : l'écran de table suit en direct. */
