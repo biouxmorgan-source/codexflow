@@ -4,6 +4,16 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.92.0' => [
+        'date' => '2026-10-23',
+        'title' => 'AI import: prompt in English, language of your choice',
+        'items' => [
+            'The prompt and the Claude skill of “Prepare the import with an AI” are now in English, the language AIs follow best.',
+            'A “Language of the imported content” menu picks the language in which the AI writes the entries, scenes, document titles and guide (the interface language by default). With the skill, you can also ask for another language when you import.',
+            'The Adventure book recognises the “What’s planned” and “What happened” sections written in any of SagaWyn’s languages.',
+        ],
+    ],
+
     '0.89.1' => [
         'date' => '2026-10-23',
         'title' => 'Cleaner choices when creating a campaign',

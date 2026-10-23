@@ -10,7 +10,7 @@ use App\Models\FieldDefinition;
 use ZipArchive;
 
 /**
- * Prompt à coller dans une IA, avec les PDF d'un jeu de rôle, pour obtenir les fichiers
+ * Prompt (en anglais) à coller dans une IA, avec les PDF d'un jeu de rôle, pour obtenir les fichiers
  * d'import de SagaWyn et leur guide. Il décrit les formats exacts de l'import et reprend
  * ce que la campagne contient déjà (jeu, types de fiche, champs) pour que l'IA s'y raccorde.
  * Rien n'est envoyé à une IA par SagaWyn : l'utilisateur colle le texte dans la sienne.
@@ -27,18 +27,25 @@ class AiImportPrompt
     /**
      * Sans campagne, le prompt est générique : l'IA produit une archive de campagne (.zip)
      * qui crée jeu, monde et campagne d'un coup (« Mes campagnes → Importer une campagne »).
+     *
+     * Le prompt est écrit en anglais, que toutes les IA suivent le mieux ; $language (code d'une
+     * langue de l'interface, celle du MJ par défaut) est la langue du contenu importé. Les noms des
+     * écrans de SagaWyn restent dans la langue de l'interface, celle que le MJ a sous les yeux.
      */
-    public static function for(?Campaign $campaign, ?string $locale = null, bool $skill = false): string
+    public static function for(?Campaign $campaign, ?string $language = null, bool $skill = false): string
     {
-        $locale ??= app()->getLocale();
+        $language = self::language($language);
 
         return trim(view('prompts.import-ia', [
-            'language' => self::LANGUAGES[$locale] ?? self::LANGUAGES['fr'],
+            'language' => self::LANGUAGES[$language],
+            'planned' => __('Ce qui est prévu', [], $language),
+            'happened' => __('Ce qui s’est passé', [], $language),
+            'ui' => fn (string $label, array $replace = []) => '"'.str_replace(['« ', ' »'], '"', __($label, $replace)).'"',
             'archive' => $campaign === null,
             'archiveFormat' => $campaign === null ? self::archiveFormat() : null,
             'campaign' => $campaign?->name,
             'game' => $campaign?->gameSystem->name,
-            'world' => $campaign === null ? null : ($campaign->world?->name ?? 'aucun'),
+            'world' => $campaign === null ? null : ($campaign->world?->name ?? 'none'),
             'types' => $campaign === null ? null : implode(', ', EntityType::query()->availableTo($campaign->owner)->orderBy('id')->pluck('name')->unique()->values()->all()),
             'fields' => $campaign === null ? [] : $campaign->gameSystem->fieldDefinitions()->with('entityType')->orderBy('position')->get()
                 ->map(fn (FieldDefinition $field) => self::describe($field))
@@ -47,26 +54,38 @@ class AiImportPrompt
         ])->render())."\n";
     }
 
-    /** Le format de l'archive (references/format-archive.md du skill), titres décalés d'un niveau. */
+    /** La langue demandée si elle est connue, sinon celle de l'interface. */
+    public static function language(?string $language): string
+    {
+        foreach ([$language, app()->getLocale()] as $code) {
+            if ($code !== null && isset(self::LANGUAGES[$code])) {
+                return $code;
+            }
+        }
+
+        return 'fr';
+    }
+
+    /** Le format de l'archive (references/archive-format.md du skill), titres décalés d'un niveau. */
     private static function archiveFormat(): string
     {
-        $text = (string) file_get_contents(resource_path('skills/sagawyn-import/references/format-archive.md'));
+        $text = (string) file_get_contents(resource_path('skills/sagawyn-import/references/archive-format.md'));
         $text = (string) preg_replace('/\A# .*\n+/', '', $text);
 
         return trim((string) preg_replace('/^(#{2,}) /m', '#$1 ', $text));
     }
 
     /** Fichiers joints au skill, à côté de SKILL.md (resources/skills/sagawyn-import). */
-    private const SKILL_FILES = ['references/format-archive.md', 'scripts/verifier.py'];
+    private const SKILL_FILES = ['references/archive-format.md', 'scripts/check.py'];
 
     /**
      * Le même prompt sous forme de skill Claude (dossier avec SKILL.md, le format de l'archive
      * de campagne et un script de vérification des fichiers), dans une archive .zip.
      */
-    public static function skillArchive(?Campaign $campaign, ?string $locale = null): string
+    public static function skillArchive(?Campaign $campaign, ?string $language = null): string
     {
-        $skill = "---\nname: sagawyn-import\ndescription: Transforme un livre de scénario ou de campagne de jeu de rôle (PDF) en fichiers d'import SagaWyn (fiches, champs, règles, scènes, documents nommés) avec le contenu complet du livre et un guide d'import.\n---\n\n"
-            .self::for($campaign, $locale, skill: true);
+        $skill = "---\nname: sagawyn-import\ndescription: Turns a tabletop RPG rulebook, scenario or campaign book (PDF) into SagaWyn import files (entries, fields, rules, scenes, named documents) with the book's full content and an import guide, written in the language the user asks for.\n---\n\n"
+            .self::for($campaign, $language, skill: true);
 
         $path = tempnam(sys_get_temp_dir(), 'sagawyn-skill-');
         $zip = new ZipArchive;
@@ -85,28 +104,28 @@ class AiImportPrompt
     private static function describe(FieldDefinition $field): string
     {
         $parts = [
-            self::FIELD_TYPES[$field->type->value] ?? $field->type->value,
-            $field->zone === Zone::GameMaster ? 'zone MJ' : 'zone publique',
+            'type `'.(self::FIELD_TYPES[$field->type->value] ?? $field->type->value).'`',
+            $field->zone === Zone::GameMaster ? 'zone `MJ`' : 'zone `publique`',
         ];
 
         if ($field->group) {
-            $parts[] = 'groupe '.$field->group;
+            $parts[] = 'group '.$field->group;
         }
 
         if ($field->type === FieldType::Select && $field->options) {
-            $parts[] = 'choix '.implode('|', $field->options);
+            $parts[] = 'choices '.implode('|', $field->options);
         }
 
         if ($field->entity_type_id !== null) {
-            $parts[] = 'fiches '.$field->typeLabel();
+            $parts[] = 'entry type '.$field->typeLabel();
         }
 
-        return '« '.$field->name.' » : '.implode(', ', $parts);
+        return '"'.$field->name.'": '.implode(', ', $parts);
     }
 
-    /** Langue dans laquelle l'IA écrit, nommée en français comme le reste du prompt. */
-    private const LANGUAGES = [
-        'fr' => 'français', 'en' => 'anglais', 'de' => 'allemand', 'es' => 'espagnol',
-        'it' => 'italien', 'pt' => 'portugais', 'nl' => 'néerlandais', 'pl' => 'polonais',
+    /** Langues proposées pour le contenu importé, nommées en anglais comme le reste du prompt. */
+    public const LANGUAGES = [
+        'fr' => 'French', 'en' => 'English', 'de' => 'German', 'es' => 'Spanish',
+        'it' => 'Italian', 'pt' => 'Portuguese', 'nl' => 'Dutch', 'pl' => 'Polish',
     ];
 }

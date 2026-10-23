@@ -4,6 +4,16 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.92.0' => [
+        'date' => '2026-10-23',
+        'title' => 'KI-Import: Prompt auf Englisch, Sprache nach Wahl',
+        'items' => [
+            'Der Prompt und der Claude-Skill von „Import mit einer KI vorbereiten“ sind jetzt auf Englisch, der Sprache, der KIs am besten folgen.',
+            'Ein Menü „Sprache der importierten Inhalte“ wählt die Sprache, in der die KI Einträge, Szenen, Dokumenttitel und Anleitung schreibt (standardmäßig die Sprache der Oberfläche). Mit dem Skill kann man beim Import auch eine andere Sprache verlangen.',
+            'Das Abenteuerbuch erkennt die Abschnitte „Was geplant ist“ und „Was geschah“ in jeder Sprache von SagaWyn.',
+        ],
+    ],
+
     '0.89.1' => [
         'date' => '2026-10-23',
         'title' => 'Klarere Auswahl beim Anlegen einer Kampagne',

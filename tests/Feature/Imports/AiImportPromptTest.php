@@ -50,15 +50,24 @@ class AiImportPromptTest extends TestCase
         $this->actingAs($this->gm)->get(route('imports.create', $this->campaign))->assertSee(route('imports.ai', $this->campaign));
 
         $this->actingAs($this->gm)->get(route('imports.ai', $this->campaign))->assertOk()
-            ->assertSee(['Copier le prompt', 'Jeu : Brume &amp; Serment', '« Vigueur » : nombre, zone publique, groupe Caractéristiques', 'Personnage', 'GUIDE-IMPORT.md', 'Usage personnel'], false);
+            ->assertSee(['Copier le prompt', 'Langue du contenu importé', 'Game: Brume &amp; Serment', '&quot;Vigueur&quot;: type `nombre`, zone `publique`, group Caractéristiques', 'Personnage', 'IMPORT-GUIDE.md', 'Personal use'], false);
 
+        // Le prompt est en anglais ; le contenu est écrit dans la langue de l'interface par défaut.
         $this->actingAs($this->gm)->get(route('imports.ai.prompt', $this->campaign))->assertOk()
             ->assertHeader('Content-Disposition', 'attachment; filename="sagawyn-prompt-import.md"')
-            ->assertSee('Écris le contenu des fiches, les noms de champs et le guide en **français**', false);
+            ->assertSee(['Write all the content', 'in **French**', '### Ce qui est prévu', '"Importer"'], false);
 
-        // En anglais, l'IA écrit en anglais ; les en-têtes restent ceux de l'import.
+        // Une autre langue choisie : le contenu change de langue, les en-têtes restent ceux de l'import.
+        $this->actingAs($this->gm)->get(route('imports.ai', [$this->campaign, 'lang' => 'de']))->assertOk()
+            ->assertSee(route('imports.ai.prompt', [$this->campaign, 'lang' => 'de']), false);
+        $this->actingAs($this->gm)->get(route('imports.ai.prompt', [$this->campaign, 'lang' => 'de']))
+            ->assertSee(['in **German**', '### Was geplant ist', 'Nom;Type;Résumé;Description;Notes MJ'], false)
+            ->assertDontSee('in **French**', false);
+
+        // Une langue inconnue revient à celle de l'interface, dont les noms d'écrans sont repris.
         $this->gm->forceFill(['preferences' => ['locale' => 'en']])->save();
-        $this->actingAs($this->gm)->get(route('imports.ai.prompt', $this->campaign))->assertSee(['**anglais**', 'Nom;Type;Résumé;Description;Notes MJ'], false);
+        $this->actingAs($this->gm)->get(route('imports.ai.prompt', [$this->campaign, 'lang' => 'xx']))
+            ->assertSee(['in **English**', '### What’s planned', '"Import"'], false);
     }
 
     public function test_a_generic_prompt_prepares_a_whole_campaign_archive(): void
@@ -66,18 +75,19 @@ class AiImportPromptTest extends TestCase
         Livewire::actingAs($this->gm)->test(CampaignIndex::class)->set('importing', true)->assertSee(route('imports.ai.archive'));
 
         $this->actingAs($this->gm)->get(route('imports.ai.archive'))->assertOk()
-            ->assertSee(['Copier le prompt', 'Importer une campagne', 'codexflow-campaign', 'Assembler l&#039;archive de campagne', 'Usage personnel'], false)
+            ->assertSee(['Copier le prompt', 'Importer une campagne', 'codexflow-campaign', 'Assemble the campaign archive', 'Personal use'], false)
             ->assertDontSee(['Les Ombres', 'Brume &amp; Serment', '« Vigueur » : nombre'], false);
 
         $prompt = $this->actingAs($this->gm)->get(route('imports.ai.archive.prompt'))->assertOk()->getContent();
         // Le format de l'archive est repris en annexe, ses titres décalés sous celui de l'annexe.
         $this->assertStringContainsString("\n### campagne.json\n", $prompt);
-        $this->assertStringNotContainsString('# Archive de campagne SagaWyn', $prompt);
+        $this->assertStringNotContainsString('# SagaWyn campaign archive', $prompt);
 
-        $response = $this->actingAs($this->gm)->get(route('imports.ai.archive.skill'))->assertOk()->assertDownload('sagawyn-import-skill.zip');
+        $response = $this->actingAs($this->gm)->get(route('imports.ai.archive.skill', ['lang' => 'es']))->assertOk()->assertDownload('sagawyn-import-skill.zip');
         $zip = new ZipArchive;
         $zip->open($response->baseResponse->getFile()->getPathname());
-        $this->assertStringContainsString('SagaWyn - <Titre>.zip', $zip->getFromName('sagawyn-import/SKILL.md'));
+        $this->assertStringContainsString('SagaWyn - <Title>.zip', $zip->getFromName('sagawyn-import/SKILL.md'));
+        $this->assertStringContainsString('in **Spanish**', $zip->getFromName('sagawyn-import/SKILL.md'));
         $zip->close();
     }
 
@@ -88,18 +98,18 @@ class AiImportPromptTest extends TestCase
         $zip = new ZipArchive;
         $zip->open($response->baseResponse->getFile()->getPathname());
         $skill = $zip->getFromName('sagawyn-import/SKILL.md');
-        $checker = $zip->getFromName('sagawyn-import/scripts/verifier.py');
-        $archive = $zip->getFromName('sagawyn-import/references/format-archive.md');
+        $checker = $zip->getFromName('sagawyn-import/scripts/check.py');
+        $archive = $zip->getFromName('sagawyn-import/references/archive-format.md');
         $zip->close();
 
         $this->assertStringStartsWith("---\nname: sagawyn-import\ndescription: ", $skill);
-        $this->assertStringContainsString('Jeu : Brume & Serment', $skill);
-        $this->assertStringContainsString('scripts/verifier.py', $skill);
+        $this->assertStringContainsString('Game: Brume & Serment', $skill);
+        $this->assertStringContainsString('scripts/check.py', $skill);
         $this->assertStringContainsString('codexflow-campaign', $archive);
         $this->assertStringContainsString('def main(', $checker);
 
         // Le prompt à copier ne parle pas des fichiers du skill, qu'il n'a pas.
-        $this->assertStringNotContainsString('scripts/verifier.py', $this->actingAs($this->gm)->get(route('imports.ai.prompt', $this->campaign))->getContent());
+        $this->assertStringNotContainsString('scripts/check.py', $this->actingAs($this->gm)->get(route('imports.ai.prompt', $this->campaign))->getContent());
     }
 
     public function test_players_do_not_get_the_prompt(): void
