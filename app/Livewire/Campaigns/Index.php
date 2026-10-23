@@ -95,17 +95,22 @@ class Index extends Component
         unset($this->campaigns);
     }
 
-    /** Jeux proposés pour une nouvelle campagne ; un compte démo ne repart pas de ceux, verrouillés, de sa démonstration. */
+    /**
+     * Jeux proposés pour une nouvelle campagne : ceux d'une campagne en cours ou archivée. Ceux
+     * dont la campagne a été supprimée restent consultables (recherche) mais ne sont plus proposés ;
+     * un compte démo ne repart pas non plus de ceux, verrouillés, de sa démonstration.
+     */
     #[Computed]
     public function gameSystems(): Collection
     {
-        return auth()->user()->gameSystems()->whereNotIn('id', $this->lockedDemo('game_system_id'))->orderBy('name')->get();
+        return auth()->user()->gameSystems()->whereHas('campaigns')->whereNotIn('id', $this->lockedDemo('game_system_id'))->orderBy('name')->get();
     }
 
+    /** Mondes proposés, selon la même règle que les jeux. */
     #[Computed]
     public function worlds(): Collection
     {
-        return auth()->user()->worlds()->whereNotIn('id', $this->lockedDemo('world_id'))->orderBy('name')->get();
+        return auth()->user()->worlds()->whereHas('campaigns')->whereNotIn('id', $this->lockedDemo('world_id'))->orderBy('name')->get();
     }
 
     /** @return list<int> jeux ou mondes des démonstrations verrouillées du compte */

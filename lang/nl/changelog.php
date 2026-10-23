@@ -4,6 +4,14 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.89.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Duidelijkere keuzes bij het aanmaken van een campagne',
+        'items' => [
+            'Bij „Nieuwe campagne“ tonen de lijsten „Spel“ en „Wereld“ alleen nog die van een lopende of gearchiveerde campagne. Die van een verwijderde campagne verschijnen niet meer; hun inhoud blijft vindbaar via zoeken.',
+        ],
+    ],
+
     '0.89.0' => [
         'date' => '2026-10-21',
         'title' => 'Verklaring over de rechten bij elke import',

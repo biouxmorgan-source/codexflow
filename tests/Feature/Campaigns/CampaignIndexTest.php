@@ -3,6 +3,7 @@
 namespace Tests\Feature\Campaigns;
 
 use App\Enums\CampaignRole;
+use App\Enums\CampaignStatus;
 use App\Livewire\Campaigns\Index;
 use App\Models\Campaign;
 use App\Models\GameSystem;
@@ -64,8 +65,9 @@ class CampaignIndexTest extends TestCase
         $user = User::factory()->create();
         $game = GameSystem::factory()->for($user, 'owner')->create();
         $world = World::factory()->for($user, 'owner')->create();
+        Campaign::factory()->for($user, 'owner')->for($game)->for($world)->create(['name' => 'Campagne A']);
 
-        foreach (['Campagne A', 'Campagne B'] as $name) {
+        foreach (['Campagne B', 'Campagne C'] as $name) {
             Livewire::actingAs($user)
                 ->test(Index::class)
                 ->set('name', $name)
@@ -76,7 +78,34 @@ class CampaignIndexTest extends TestCase
         }
 
         $this->assertSame(1, World::count());
-        $this->assertSame(2, $world->campaigns()->count());
+        $this->assertSame(3, $world->campaigns()->count());
+    }
+
+    /** Seuls les jeux et mondes d'une campagne en cours ou archivée sont proposés, pas ceux d'une campagne supprimée. */
+    public function test_only_games_and_worlds_in_use_or_archived_are_offered(): void
+    {
+        $user = User::factory()->create();
+        $usedGame = GameSystem::factory()->for($user, 'owner')->create(['name' => 'Jeu en cours']);
+        $usedWorld = World::factory()->for($user, 'owner')->create(['name' => 'Monde en cours']);
+        Campaign::factory()->for($user, 'owner')->for($usedGame)->for($usedWorld)->create();
+        $archivedGame = GameSystem::factory()->for($user, 'owner')->create(['name' => 'Jeu archivé']);
+        $archivedWorld = World::factory()->for($user, 'owner')->create(['name' => 'Monde archivé']);
+        Campaign::factory()->for($user, 'owner')->for($archivedGame)->for($archivedWorld)->create(['status' => CampaignStatus::Archived, 'archived_at' => now()]);
+        $oldGame = GameSystem::factory()->for($user, 'owner')->create(['name' => 'Jeu supprimé']);
+        $oldWorld = World::factory()->for($user, 'owner')->create(['name' => 'Monde supprimé']);
+        Campaign::factory()->for($user, 'owner')->for($oldGame)->for($oldWorld)->create()->delete();
+
+        $component = Livewire::actingAs($user)->test(Index::class)->set('creating', true);
+
+        $this->assertSame(['Jeu archivé', 'Jeu en cours'], $component->instance()->gameSystems->pluck('name')->all());
+        $this->assertSame(['Monde archivé', 'Monde en cours'], $component->instance()->worlds->pluck('name')->all());
+        $component->assertDontSee('Jeu supprimé')
+            ->assertDontSee('Monde supprimé')
+            ->set('name', 'Intrusion')
+            ->set('gameChoice', (string) $oldGame->id)
+            ->set('worldChoice', (string) $oldWorld->id)
+            ->call('create')
+            ->assertHasErrors(['gameChoice', 'worldChoice']);
     }
 
     public function test_a_user_cannot_attach_someone_elses_world(): void
