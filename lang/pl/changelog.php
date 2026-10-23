@@ -4,7 +4,7 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
-    '0.90.0' => [
+    '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Import z AI: prompt po angielsku, język do wyboru',
         'items' => [

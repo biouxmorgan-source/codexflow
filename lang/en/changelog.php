@@ -4,7 +4,7 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
-    '0.90.0' => [
+    '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'AI import: prompt in English, language of your choice',
         'items' => [

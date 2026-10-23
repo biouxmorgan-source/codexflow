@@ -4,7 +4,7 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
-    '0.90.0' => [
+    '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Import met AI: prompt in het Engels, taal naar keuze',
         'items' => [

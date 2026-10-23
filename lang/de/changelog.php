@@ -4,7 +4,7 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
-    '0.90.0' => [
+    '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'KI-Import: Prompt auf Englisch, Sprache nach Wahl',
         'items' => [

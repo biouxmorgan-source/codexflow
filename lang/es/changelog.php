@@ -4,7 +4,7 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
-    '0.90.0' => [
+    '0.92.0' => [
         'date' => '2026-10-23',
         'title' => 'Importación con IA: prompt en inglés, idioma a elegir',
         'items' => [
