@@ -4,6 +4,15 @@
 // ‘Wat is er nieuw’ (één keer na elke update) en op de gelijknamige pagina.
 return [
 
+    '0.95.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Juridische informatie: uitgever genoemd en inhoud van gebruikers',
+        'items' => [
+            'De pagina „Privacy en juridische informatie” noemt Morgan Bioux naast Autistic Intelligence, ook als de regel LEGAL_OWNER op de server leeg is.',
+            'De rubriek over inhoud van gebruikers zegt duidelijk dat geplaatste inhoud van de gebruikers is, altijd te downloaden is (mijn gegevens, CSV, campagne-export) en dat de verantwoordelijkheid voor geplaatste gegevens bij de gebruiker ligt.',
+        ],
+    ],
+
     '0.95.0' => [
         'date' => '2026-10-23',
         'title' => '‘Wat is er nieuw’ komt ter zake',

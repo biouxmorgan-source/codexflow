@@ -4,6 +4,15 @@
 // „Co nowego” (raz po każdej aktualizacji) oraz na stronie o tej samej nazwie.
 return [
 
+    '0.95.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Informacje prawne: wskazany wydawca i treści użytkowników',
+        'items' => [
+            'Strona „Prywatność i informacje prawne” wymienia Morgana Bioux obok Autistic Intelligence, nawet gdy wiersz LEGAL_OWNER na serwerze jest pusty.',
+            'Sekcja o treściach użytkowników jasno mówi, że przesłane treści należą do użytkowników, można je pobrać w każdej chwili (moje dane, CSV, eksport kampanii), a odpowiedzialność za przesłane dane spoczywa na użytkowniku.',
+        ],
+    ],
+
     '0.95.0' => [
         'date' => '2026-10-23',
         'title' => '„Co nowego” przechodzi do sedna',

@@ -10,8 +10,10 @@
             $legal['host'] ? __('Hébergement : :host', ['host' => $legal['host']]) : null,
         ])],
         'contenus-utilisateurs' => [__('Conditions d’utilisation : contenus utilisateurs et propriété intellectuelle'), [
-            __('Vous conservez les droits que vous détenez sur vos contenus (campagnes, fiches, notes, messages, images, cartes, sons, documents). SagaWyn n’en est pas propriétaire et ne revendique aucun droit sur vos créations.'),
+            __('Le contenu que vous mettez en ligne sur SagaWyn (campagnes, fiches, notes, messages, images, cartes, sons, documents) est votre propriété, ou celle de ses auteurs. SagaWyn n’en est pas propriétaire et ne revendique aucun droit sur vos créations.'),
+            __('Vous pouvez télécharger à tout moment le contenu de votre compte : « Télécharger mes données », dans « Préférences », donne tout ce que SagaWyn garde sur vous ; les fiches, champs, règles et scènes s’exportent en CSV depuis l’import ; « Exporter la campagne » (✦ Premium) donne une campagne complète avec ses fichiers.'),
             __('SagaWyn se contente de les héberger, de les montrer aux personnes que vous choisissez et d’en faire les copies techniques nécessaires (sauvegardes, aperçus). Cet usage sert uniquement à faire fonctionner le service et s’arrête quand vous supprimez le contenu ou votre compte, une fois les dernières sauvegardes effacées.'),
+            __('La responsabilité des données et des fichiers déposés sur SagaWyn appartient à l’utilisateur qui les dépose.'),
             __('Chaque utilisateur est seul responsable des contenus qu’il importe et partage. Il s’engage à disposer des droits nécessaires sur ses textes, images, cartes, musiques, sons et documents, et à ce qu’ils ne portent atteinte ni à la loi ni aux droits d’autrui.'),
             __('Avant chaque import, l’utilisateur déclare disposer de ces droits. Sa déclaration est enregistrée avec sa date et la version du texte accepté.'),
             __('Le MJ décide de ce qu’il partage avec sa table ; chaque joueur répond de ce qu’il écrit ou envoie (notes, messages, fichiers). Partager un contenu avec une table n’en transfère pas la propriété.'),

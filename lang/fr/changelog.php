@@ -7,6 +7,15 @@
 // ou une nouveauté réservée à l'administration.
 return [
 
+    '0.95.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Mentions légales : éditeur nommé et contenus des utilisateurs',
+        'items' => [
+            'La page « Confidentialité et mentions légales » nomme Morgan Bioux à côté d’Autistic Intelligence, même si la ligne LEGAL_OWNER est vide sur le serveur.',
+            'La section sur les contenus utilisateurs dit clairement que le contenu mis en ligne appartient aux utilisateurs, qu’il se télécharge à tout moment (mes données, CSV, export de campagne) et que la responsabilité des données déposées revient à l’utilisateur.',
+        ],
+    ],
+
     '0.95.0' => [
         'date' => '2026-10-23',
         'title' => '« Quoi de neuf » va à l’essentiel',

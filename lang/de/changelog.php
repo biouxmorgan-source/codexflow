@@ -4,6 +4,15 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.95.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Impressum: genannter Herausgeber und Nutzerinhalte',
+        'items' => [
+            'Die Seite „Datenschutz und Impressum“ nennt Morgan Bioux neben Autistic Intelligence, auch wenn die Zeile LEGAL_OWNER auf dem Server leer ist.',
+            'Der Abschnitt zu Nutzerinhalten stellt klar, dass hochgeladene Inhalte den Nutzern gehören, jederzeit heruntergeladen werden können (meine Daten, CSV, Kampagnenexport) und die Verantwortung für hochgeladene Daten bei der Person liegt.',
+        ],
+    ],
+
     '0.95.0' => [
         'date' => '2026-10-23',
         'title' => '„Neuigkeiten“ kommt auf den Punkt',

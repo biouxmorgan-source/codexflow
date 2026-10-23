@@ -4,6 +4,15 @@
 // «Novedades» (una vez tras cada actualización) y en la página del mismo nombre.
 return [
 
+    '0.95.1' => [
+        'date' => '2026-10-23',
+        'title' => 'Aviso legal: editor identificado y contenidos de los usuarios',
+        'items' => [
+            'La página «Privacidad y aviso legal» nombra a Morgan Bioux junto a Autistic Intelligence, aunque la línea LEGAL_OWNER esté vacía en el servidor.',
+            'La sección sobre contenidos de los usuarios dice claramente que el contenido publicado pertenece a los usuarios, que se descarga en cualquier momento (mis datos, CSV, exportación de campaña) y que la responsabilidad de los datos subidos corresponde al usuario.',
+        ],
+    ],
+
     '0.95.0' => [
         'date' => '2026-10-23',
         'title' => '« Novedades » va a lo esencial',
