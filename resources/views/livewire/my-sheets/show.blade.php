@@ -196,23 +196,16 @@
                 </form>
             @else
                 @if ($arranging)
-                    <p class="rounded-xl border border-codex/30 bg-codex-soft/50 p-3 text-sm text-stone-700" role="status">{{ __('Glissez un bloc par sa poignée ⠿ (ou utilisez les flèches) pour le déplacer, y compris d’une colonne à l’autre.') }}</p>
+                    <p class="rounded-xl border border-codex/30 bg-codex-soft/50 p-3 text-sm text-stone-700" role="status">{{ __('Glissez un bloc par sa poignée ⠿ (ou utilisez les flèches) pour le déplacer, y compris d’une colonne à l’autre. Sur un grand écran, choisissez aussi sa largeur : 1, 2 ou 3 colonnes.') }}</p>
                 @endif
                 @if ($sheetBlocks !== [])
                     @php($shown = $arranging ? 3 : $character->usedColumns($currentTab))
-                    <div x-data="screenArranger" @class(['grid gap-4', 'items-start' => ! $arranging, 'sm:grid-cols-2' => $shown >= 2, 'lg:grid-cols-3' => $shown === 3])>
-                        @foreach (\App\Models\PersonalCharacter::COLUMNS as $position => $column)
-                            <div data-screen-column="{{ $column }}" wire:key="column-{{ $column }}" @class(['space-y-4', 'hidden' => $position >= $shown, 'min-h-24 rounded-xl border-2 border-dashed border-stone-200 p-1' => $arranging])>
-                                @foreach (collect($sheetBlocks)->where('column', $column) as $block)
+                    <div x-data="screenArranger" data-screen-grid @if ($arranging) data-arranging @endif style="--screen-columns: {{ $shown }}">
+                                @foreach ($sheetBlocks as $block)
                                     @php($title = $block['title'] !== '' ? $block['title'] : __('Sans titre'))
-                                    <section wire:key="block-{{ $block['id'] }}" data-block="{{ $block['id'] }}" aria-label="{{ $title }}" @class(['rounded-xl border border-stone-200 bg-white p-4 shadow-sm', 'border-2 border-dashed border-codex/40' => $arranging])>
+                                    <section wire:key="block-{{ $block['id'] }}" data-block="{{ $block['id'] }}" data-column="{{ array_search($block['column'], \App\Models\PersonalCharacter::COLUMNS, true) + 1 }}" data-span="{{ $block['span'] }}" aria-label="{{ $title }}" @class(['rounded-xl border border-stone-200 bg-white p-4 shadow-sm', 'border-2 border-dashed border-codex/40' => $arranging])>
                                         @if ($arranging)
-                                            <div class="mb-2 flex items-center gap-1.5 text-sm">
-                                                <button type="button" x-on:pointerdown="start($event)" class="cursor-grab touch-none rounded-md px-1.5 text-lg leading-none text-stone-500 hover:bg-codex-soft hover:text-codex active:cursor-grabbing" aria-label="{{ __('Déplacer « :name »', ['name' => $title]) }}" title="{{ __('Glisser pour déplacer') }}">⠿</button>
-                                                <span class="mr-auto font-medium text-stone-700">{{ $title }}</span>
-                                                <button type="button" x-on:click="move($el, -1)" class="rounded-md px-1.5 text-stone-500 hover:bg-codex-soft hover:text-codex" aria-label="{{ __('Monter « :name »', ['name' => $title]) }}">↑</button>
-                                                <button type="button" x-on:click="move($el, 1)" class="rounded-md px-1.5 text-stone-500 hover:bg-codex-soft hover:text-codex" aria-label="{{ __('Descendre « :name »', ['name' => $title]) }}">↓</button>
-                                            </div>
+                                            <x-screen.block-bar :label="$title" :span="$block['span']" :columns="count(\App\Models\PersonalCharacter::COLUMNS)" />
                                         @elseif ($block['title'] !== '')
                                             <h2 class="mb-2 font-semibold">{{ $block['title'] }}</h2>
                                         @endif
@@ -272,8 +265,6 @@
                                         @endif
                                     </section>
                                 @endforeach
-                            </div>
-                        @endforeach
                     </div>
                 @endif
 

@@ -14,12 +14,20 @@
             <a href="{{ route('maps.atlas', [$campaign, $map]) }}" class="btn-secondary" wire:navigate>{{ __('Points d’intérêt') }}</a>
             <livewire:table.show-button :campaign="$campaign" kind="map" :item-id="$map->id" :key="'show-map-'.$map->id" />
             @if (\App\Support\CampaignFeatures::usable($campaign, 'table'))
-            <a href="{{ route('table.remote', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Télécommande') }}</a>
-        @endif
+                <a href="{{ route('table.remote', $campaign) }}" class="btn-secondary" wire:navigate>{{ __('Télécommande') }}</a>
+            @endif
+            <x-screen.toolbar screen="map" :layout="$this->screenLayout" :arranging="$arranging" />
         </div>
     </div>
 
-    <div class="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+    {{-- Chaque MJ range les blocs de la page à sa façon (« Organiser l'écran ») : colonne et largeur de chacun. --}}
+    @php($layout = $this->screenLayout)
+    <div x-data="screenArranger" data-screen-grid @if ($arranging) data-arranging @endif style="--screen-columns: 3; --screen-gap: 1.5rem">
+        @foreach ($layout['blocks'] as $place)
+            @continue(in_array($place['id'], $layout['hidden'], true))
+            <x-screen.block screen="map" :place="$place" :arranging="$arranging">
+            @switch($place['id'])
+            @case('map')
         {{-- La carte, cadrée comme sur l'écran de table. --}}
         <section x-data="mapEditor" class="min-w-0"
             data-scale="{{ $map->scale_value }}" data-unit="{{ $map->scale_unit }}"
@@ -54,8 +62,8 @@
             </div>
             <p class="mt-2 text-xs text-stone-500">{{ __('Molette pour zoomer, glisser pour déplacer la carte, un jeton ou un gabarit. Ce cadrage est celui de l’écran de table. Les jetons en pointillés sont masqués aux joueurs.') }}</p>
         </section>
-
-        <aside class="space-y-6">
+                @break
+            @case('tokens')
             <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
                 <h2 class="mb-3 text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Jetons') }}</h2>
 
@@ -109,7 +117,8 @@
                     </ul>
                 @endif
             </section>
-
+                @break
+            @case('templates')
             <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
                 @php($unit = $map->scale_value ? ($map->scale_unit ?: __('cases')) : __('cases'))
                 @php($inUnit = fn (?float $cells) => rtrim(rtrim(number_format(($cells ?? 1) * ($map->scale_value ?: 1), 2, '.', ''), '0'), '.'))
@@ -182,11 +191,13 @@
                     </ul>
                 @endif
             </section>
-
+                @break
+            @case('initiative')
             @if (\App\Support\CampaignFeatures::usable($campaign, 'table'))
                 <livewire:table.initiative :campaign="$campaign" :key="'initiative-'.$campaign->id" />
             @endif
-
+                @break
+            @case('grid')
             <section class="space-y-3 rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
                 <h2 class="text-sm font-semibold tracking-wide text-stone-500 uppercase">{{ __('Grille') }}</h2>
                 <label class="flex items-center gap-2 text-sm">
@@ -225,12 +236,16 @@
                     <p class="mt-1 text-xs text-stone-500">{{ __('Par exemple 1,5 m ou 5 ft. Elle calibre la règle et les gabarits, quelle que soit la taille des cases à l’écran. La grille n’impose aucun déplacement.') }}</p>
                 </div>
             </section>
-
+                @break
+            @case('name')
             <section class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
                 <label for="map-name" class="label">{{ __('Nom de la carte') }}</label>
                 <input id="map-name" type="text" wire:model.live.debounce.600ms="name" class="field py-1.5 text-sm" maxlength="255">
                 @error('name') <p class="error">{{ $message }}</p> @enderror
             </section>
-        </aside>
+                @break
+            @endswitch
+            </x-screen.block>
+        @endforeach
     </div>
 </div>

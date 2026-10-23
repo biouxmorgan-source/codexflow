@@ -4,6 +4,17 @@
 // "What's new" (once after each update) and on the page of the same name.
 return [
 
+    '0.94.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Blocks on 1, 2 or 3 columns, and an arrangeable map page',
+        'short' => '“Arrange screen” sets the width of each block (1, 2 or 3 columns), and a map page can be arranged too.',
+        'items' => [
+            '“Arrange screen” now sets the width of each block: 1, 2 or 3 columns, on the campaign page, in Session mode and in “My sheets”. A wide block goes below the blocks before it; the others sit side by side.',
+            'The ← and → arrows change a block’s column, ↑ and ↓ its place in its column. In arrange mode, the columns are drawn in the background so you can aim at an empty one.',
+            'A map page can be arranged too: the map, tokens, templates, initiative, grid and name can be moved, widened or hidden, for each GM only. For example, the map across the whole width and the settings side by side below it.',
+        ],
+    ],
+
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'A new home page',

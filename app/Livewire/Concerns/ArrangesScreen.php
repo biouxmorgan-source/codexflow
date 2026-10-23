@@ -16,7 +16,7 @@ trait ArrangesScreen
 
     abstract protected function screenLayoutName(): string;
 
-    /** @return array{columns: array<string, list<string>>, hidden: list<string>, custom: bool} */
+    /** @return array{blocks: list<array{id: string, column: int, span: int}>, hidden: list<string>, custom: bool} */
     #[Computed]
     public function screenLayout(): array
     {
@@ -29,27 +29,28 @@ trait ArrangesScreen
     }
 
     /**
-     * Nouvel ordre envoyé après un glisser-déposer ou une flèche.
+     * Nouvelle disposition envoyée après un glisser-déposer, une flèche ou un changement de largeur :
+     * les blocs dans l'ordre, chacun avec sa colonne de départ et sa largeur.
      *
-     * @param  array<string, mixed>  $columns
+     * @param  array<int, mixed>  $blocks
      */
-    public function saveLayout(array $columns): void
+    public function saveLayout(array $blocks): void
     {
-        ScreenLayout::save(auth()->user(), $this->screenLayoutName(), $columns, $this->screenLayout['hidden']);
+        ScreenLayout::save(auth()->user(), $this->screenLayoutName(), $blocks, $this->screenLayout['hidden']);
         unset($this->screenLayout);
     }
 
     public function hideBlock(string $block): void
     {
         $layout = $this->screenLayout;
-        ScreenLayout::save(auth()->user(), $this->screenLayoutName(), $layout['columns'], [...$layout['hidden'], $block]);
+        ScreenLayout::save(auth()->user(), $this->screenLayoutName(), $layout['blocks'], [...$layout['hidden'], $block]);
         unset($this->screenLayout);
     }
 
     public function showBlock(string $block): void
     {
         $layout = $this->screenLayout;
-        ScreenLayout::save(auth()->user(), $this->screenLayoutName(), $layout['columns'], array_values(array_diff($layout['hidden'], [$block])));
+        ScreenLayout::save(auth()->user(), $this->screenLayoutName(), $layout['blocks'], array_values(array_diff($layout['hidden'], [$block])));
         unset($this->screenLayout);
     }
 

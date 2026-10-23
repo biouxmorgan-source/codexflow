@@ -10,7 +10,7 @@
 </button>
 @if ($arranging)
     <div class="basis-full rounded-xl border border-codex/30 bg-codex-soft/50 p-3 text-sm" role="region" aria-label="{{ __('Organiser l’écran') }}">
-        <p class="text-stone-700">{{ __('Glissez un bloc par sa poignée ⠿ (ou utilisez les flèches) pour le déplacer, y compris d’une colonne à l’autre. « Masquer » le retire de votre écran seulement : rien n’est effacé, et les joueurs comme les autres MJ gardent leur propre écran.') }}</p>
+        <p class="text-stone-700">{{ __('Glissez un bloc par sa poignée ⠿ (ou utilisez les flèches) pour le déplacer, y compris d’une colonne à l’autre. Sur un grand écran, choisissez aussi sa largeur : 1, 2 ou 3 colonnes. « Masquer » le retire de votre écran seulement : rien n’est effacé, et les joueurs comme les autres MJ gardent leur propre écran.') }}</p>
         <div class="mt-2 flex flex-wrap items-center gap-2">
             @if ($layout['hidden'] !== [])
                 <span class="text-stone-500">{{ __('Blocs masqués :') }}</span>

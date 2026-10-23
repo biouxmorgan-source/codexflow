@@ -7,29 +7,46 @@ use InvalidArgumentException;
 
 /**
  * Disposition des blocs d'un écran, choisie par chaque utilisateur pour lui seul : l'ordre des blocs,
- * leur colonne et ceux qu'il a masqués. Elle vaut pour toutes ses campagnes et se range dans
- * users.preferences['layouts']. Purement visuelle : masquer un bloc ne retire aucun droit et ne
- * cache rien à personne d'autre ; chaque bloc garde ses propres vérifications.
+ * leur colonne de départ et leur largeur (1, 2 ou 3 colonnes), et ceux qu'il a masqués. Elle vaut pour
+ * toutes ses campagnes et se range dans users.preferences['layouts']. Purement visuelle : masquer un
+ * bloc ne retire aucun droit et ne cache rien à personne d'autre ; chaque bloc garde ses propres vérifications.
  */
 class ScreenLayout
 {
+    /** Colonnes d'un écran large ; sur un petit écran, les blocs s'empilent dans l'ordre. */
+    public const COLUMNS = 3;
+
     /**
-     * Colonnes de chaque écran et leurs blocs, dans l'ordre par défaut.
+     * Blocs de chaque écran, dans l'ordre par défaut, avec leur colonne de départ et leur largeur.
      *
-     * @return array<string, array<string, list<string>>>
+     * @return array<string, list<array{id: string, column: int, span: int}>>
      */
     public static function defaults(): array
     {
+        $place = fn (int $column, int $span, string ...$ids) => array_map(fn ($id) => ['id' => $id, 'column' => $column, 'span' => $span], $ids);
+
         return [
-            'campaign' => [
-                'main' => ['session', 'zones', 'tools', 'universe', 'features', 'duplicate', 'export'],
-            ],
+            'campaign' => $place(1, 3, 'session', 'zones', 'tools', 'universe', 'features', 'duplicate', 'export'),
             'session' => [
-                'main' => ['now', 'cards', 'secrets', 'rules-docs', 'notes'],
-                'side' => ['to-play', 'music', 'table', 'give', 'pins'],
+                ...$place(1, 2, 'now', 'cards', 'secrets', 'rules-docs', 'notes'),
+                ...$place(3, 1, 'to-play', 'music', 'table', 'give', 'pins'),
+            ],
+            'map' => [
+                ...$place(1, 2, 'map'),
+                ...$place(3, 1, 'tokens', 'templates', 'initiative', 'grid', 'name'),
             ],
         ];
     }
+
+    /**
+     * Anciennes dispositions, rangées par colonnes nommées : la place que prend chaque colonne.
+     *
+     * @var array<string, array<string, array{int, int}>>
+     */
+    private const LEGACY_COLUMNS = [
+        'campaign' => ['main' => [1, 3]],
+        'session' => ['main' => [1, 2], 'side' => [3, 1]],
+    ];
 
     /** @return array<string, string> nom de chaque bloc, pour les boutons « Masquer » et « Afficher » */
     public static function labels(string $screen): array
@@ -56,6 +73,14 @@ class ScreenLayout
                 'give' => __('Révéler ou donner'),
                 'pins' => __('Épinglé'),
             ],
+            'map' => [
+                'map' => __('Carte'),
+                'tokens' => __('Jetons'),
+                'templates' => __('Gabarits de zone'),
+                'initiative' => __('Initiative'),
+                'grid' => __('Grille'),
+                'name' => __('Nom de la carte'),
+            ],
             default => throw new InvalidArgumentException("Écran inconnu : {$screen}"),
         };
     }
@@ -64,24 +89,30 @@ class ScreenLayout
      * Disposition de l'utilisateur, nettoyée : un bloc inconnu disparaît, un bloc nouveau
      * (ajouté depuis) retrouve sa place par défaut, aucun bloc n'apparaît deux fois.
      *
-     * @return array{columns: array<string, list<string>>, hidden: list<string>, custom: bool}
+     * @return array{blocks: list<array{id: string, column: int, span: int}>, hidden: list<string>, custom: bool}
      */
     public static function for(?User $user, string $screen): array
     {
         $saved = $user?->preferences['layouts'][$screen] ?? null;
 
-        return is_array($saved)
-            ? self::normalize($screen, (array) ($saved['columns'] ?? []), (array) ($saved['hidden'] ?? [])) + ['custom' => true]
-            : ['columns' => self::defaultsFor($screen), 'hidden' => [], 'custom' => false];
+        if (! is_array($saved)) {
+            return ['blocks' => self::defaultsFor($screen), 'hidden' => [], 'custom' => false];
+        }
+
+        $blocks = isset($saved['blocks']) ? (array) $saved['blocks'] : self::fromLegacy($screen, (array) ($saved['columns'] ?? []));
+
+        return self::normalize($screen, $blocks, (array) ($saved['hidden'] ?? [])) + ['custom' => true];
     }
 
     /**
-     * @param  array<string, mixed>  $columns
+     * @param  array<int, mixed>  $blocks  blocs dans l'ordre : ['id' => …, 'column' => 1-3, 'span' => 1-3]
      * @param  array<int, mixed>  $hidden
      */
-    public static function save(User $user, string $screen, array $columns, array $hidden): void
+    public static function save(User $user, string $screen, array $blocks, array $hidden): void
     {
-        $layout = self::normalize($screen, $columns, $hidden);
+        // Un bloc absent de l'envoi (masqué, donc pas à l'écran) garde sa place d'avant.
+        $previous = self::for($user, $screen)['blocks'];
+        $layout = self::normalize($screen, $blocks, $hidden, $previous);
         $preferences = $user->preferences ?? [];
         $preferences['layouts'][$screen] = $layout;
 
@@ -100,50 +131,79 @@ class ScreenLayout
     }
 
     /**
-     * @param  array<string, mixed>  $columns
-     * @param  array<int, mixed>  $hidden
-     * @return array{columns: array<string, list<string>>, hidden: list<string>}
+     * Colonne de départ et largeur valides : la largeur tient entre 1 et $columns, et le bloc ne déborde pas à droite.
+     *
+     * @return array{int, int}
      */
-    private static function normalize(string $screen, array $columns, array $hidden): array
+    public static function place(mixed $column, mixed $span, int $columns = self::COLUMNS): array
+    {
+        $span = is_numeric($span) ? max(1, min($columns, (int) $span)) : 1;
+        $column = is_numeric($column) ? max(1, min($columns - $span + 1, (int) $column)) : 1;
+
+        return [$column, $span];
+    }
+
+    /**
+     * @param  array<int, mixed>  $blocks
+     * @param  array<int, mixed>  $hidden
+     * @param  list<array{id: string, column: int, span: int}>|null  $reference  ordre où replacer les blocs oubliés
+     * @return array{blocks: list<array{id: string, column: int, span: int}>, hidden: list<string>}
+     */
+    private static function normalize(string $screen, array $blocks, array $hidden, ?array $reference = null): array
     {
         $defaults = self::defaultsFor($screen);
-        $known = array_merge(...array_values($defaults));
-        $placed = [];
-        $result = array_map(fn () => [], $defaults);
+        $known = array_column($defaults, 'id');
+        $result = [];
 
-        foreach ($defaults as $column => $unused) {
-            foreach ((array) ($columns[$column] ?? []) as $block) {
-                if (is_string($block) && in_array($block, $known, true) && ! in_array($block, $placed, true)) {
-                    $result[$column][] = $block;
-                    $placed[] = $block;
-                }
+        foreach ($blocks as $block) {
+            $id = is_array($block) ? ($block['id'] ?? null) : null;
+            if (is_string($id) && in_array($id, $known, true) && ! isset($result[$id])) {
+                [$column, $span] = self::place($block['column'] ?? null, $block['span'] ?? null);
+                $result[$id] = ['id' => $id, 'column' => $column, 'span' => $span];
             }
         }
 
-        // Un bloc absent de la disposition enregistrée reprend sa colonne par défaut, à sa place relative.
-        foreach ($defaults as $column => $blocks) {
-            foreach ($blocks as $index => $block) {
-                if (in_array($block, $placed, true)) {
+        // Un bloc absent reprend sa place (d'avant, sinon par défaut), juste après celui qui le précédait.
+        foreach ([$reference ?? [], $defaults] as $order) {
+            foreach ($order as $index => $block) {
+                if (isset($result[$block['id']]) || ! in_array($block['id'], $known, true)) {
                     continue;
                 }
-                $before = array_slice($blocks, 0, $index);
+                $before = array_column(array_slice($order, 0, $index), 'id');
                 $position = 0;
-                foreach ($result[$column] as $i => $existing) {
+                foreach (array_keys($result) as $i => $existing) {
                     if (in_array($existing, $before, true)) {
                         $position = $i + 1;
                     }
                 }
-                array_splice($result[$column], $position, 0, [$block]);
-                $placed[] = $block;
+                $result = array_slice($result, 0, $position, true) + [$block['id'] => $block] + array_slice($result, $position, null, true);
             }
         }
 
         $hidden = array_values(array_unique(array_filter($hidden, fn ($block) => is_string($block) && in_array($block, $known, true))));
 
-        return ['columns' => $result, 'hidden' => $hidden];
+        return ['blocks' => array_values($result), 'hidden' => $hidden];
     }
 
-    /** @return array<string, list<string>> */
+    /**
+     * Ancienne disposition par colonnes nommées : chaque colonne devient une colonne de départ et une largeur.
+     *
+     * @param  array<string, mixed>  $columns
+     * @return list<array{id: mixed, column: int, span: int}>
+     */
+    private static function fromLegacy(string $screen, array $columns): array
+    {
+        $blocks = [];
+        foreach (self::LEGACY_COLUMNS[$screen] ?? [] as $name => [$column, $span]) {
+            foreach ((array) ($columns[$name] ?? []) as $id) {
+                $blocks[] = ['id' => $id, 'column' => $column, 'span' => $span];
+            }
+        }
+
+        return $blocks;
+    }
+
+    /** @return list<array{id: string, column: int, span: int}> */
     private static function defaultsFor(string $screen): array
     {
         return self::defaults()[$screen] ?? throw new InvalidArgumentException("Écran inconnu : {$screen}");

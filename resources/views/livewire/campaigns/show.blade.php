@@ -35,11 +35,11 @@
     {{-- Par défaut : le mode Session d'abord, puis les quatre zones de préparation, les outils en icônes et l'univers.
          Chaque MJ peut ranger ces blocs à sa façon (« Organiser l'écran »), pour lui seul. --}}
     @php($layout = $this->screenLayout)
-    <div x-data="screenArranger">
-        <div data-screen-column="main" class="flex flex-col gap-6">
-            @foreach ($layout['columns']['main'] as $block)
+    <div x-data="screenArranger" data-screen-grid @if ($arranging) data-arranging @endif style="--screen-columns: 3; --screen-gap: 1.5rem">
+            @foreach ($layout['blocks'] as $place)
+                @php($block = $place['id'])
                 @continue(in_array($block, $layout['hidden'], true))
-                <x-screen.block screen="campaign" :name="$block" :arranging="$arranging">
+                <x-screen.block screen="campaign" :place="$place" :arranging="$arranging">
                 @switch($block)
                     @case('session')
                         <a href="{{ route('sessions.live', $campaign) }}" class="tile border-flow/40 bg-flow/5 hover:border-flow sm:flex-row sm:items-center sm:gap-4" wire:navigate>
@@ -246,7 +246,6 @@
                 @endswitch
                 </x-screen.block>
             @endforeach
-        </div>
     </div>
 
     @can('delete', $campaign)

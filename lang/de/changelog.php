@@ -4,6 +4,17 @@
 // „Neuigkeiten“ (einmal nach jedem Update) und auf der gleichnamigen Seite.
 return [
 
+    '0.94.0' => [
+        'date' => '2026-10-23',
+        'title' => 'Blöcke auf 1, 2 oder 3 Spalten und eine anordenbare Kartenseite',
+        'short' => '„Bildschirm anordnen“ legt die Breite jedes Blocks fest (1, 2 oder 3 Spalten), und auch eine Kartenseite lässt sich anordnen.',
+        'items' => [
+            '„Bildschirm anordnen“ legt jetzt die Breite jedes Blocks fest: 1, 2 oder 3 Spalten, auf der Kampagnenseite, im Sitzungsmodus und in „Meine Bögen“. Ein breiter Block rückt unter die Blöcke vor ihm; die anderen stehen nebeneinander.',
+            'Die Pfeile ← und → ändern die Spalte eines Blocks, ↑ und ↓ seinen Platz in der Spalte. Im Anordnungsmodus werden die Spalten im Hintergrund gezeichnet, um eine leere Spalte anzusteuern.',
+            'Auch eine Kartenseite lässt sich anordnen: Karte, Spielmarken, Schablonen, Initiative, Raster und Name lassen sich verschieben, verbreitern oder ausblenden, nur für die jeweilige SL. Zum Beispiel die Karte über die ganze Breite und die Einstellungen nebeneinander darunter.',
+        ],
+    ],
+
     '0.93.0' => [
         'date' => '2026-10-23',
         'title' => 'Eine neue Startseite',

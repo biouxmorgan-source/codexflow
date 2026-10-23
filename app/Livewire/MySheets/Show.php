@@ -5,6 +5,7 @@ namespace App\Livewire\MySheets;
 use App\Enums\FieldType;
 use App\Models\PersonalCharacter;
 use App\Support\Plans\Plans;
+use App\Support\ScreenLayout;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
@@ -150,7 +151,7 @@ class Show extends Component
             return;
         }
 
-        $this->blocks[] = ['id' => Str::lower(Str::random(10)), 'kind' => $kind, 'title' => $kind === 'note' ? __('Notes') : '', 'tab' => $this->tab, 'column' => 'left', 'text' => '', 'rows' => []];
+        $this->blocks[] = ['id' => Str::lower(Str::random(10)), 'kind' => $kind, 'title' => $kind === 'note' ? __('Notes') : '', 'tab' => $this->tab, 'column' => 'left', 'span' => 1, 'text' => '', 'rows' => []];
     }
 
     public function removeBlock(int $block): void
@@ -268,6 +269,7 @@ class Show extends Component
                 'title' => trim((string) $block['title']),
                 'tab' => in_array($block['tab'] ?? null, $tabIds, true) ? $block['tab'] : $tabIds[0],
                 'column' => in_array($block['column'] ?? null, PersonalCharacter::COLUMNS, true) ? $block['column'] : 'left',
+                'span' => ScreenLayout::place(1, $block['span'] ?? 1, count(PersonalCharacter::COLUMNS))[1],
                 'text' => $block['kind'] === 'note' ? trim((string) $block['text']) : '',
                 'rows' => $block['kind'] === 'note' ? [] : array_map(fn (array $row) => [
                     'type' => $row['type'],
@@ -328,24 +330,25 @@ class Show extends Component
     }
 
     /**
-     * Nouvel ordre des blocs de l'onglet affiché après un glisser-déposer ou une flèche : identifiants par colonne.
+     * Nouvelle disposition des blocs de l'onglet affiché après un glisser-déposer, une flèche ou un changement
+     * de largeur : les blocs dans l'ordre, chacun avec sa colonne de départ (1 à 3) et sa largeur.
      *
-     * @param  array<string, mixed>  $columns
+     * @param  array<int, mixed>  $layout
      */
-    public function saveLayout(array $columns): void
+    public function saveLayout(array $layout): void
     {
         $this->authorize('update', $this->character);
 
-        DB::transaction(function () use ($columns) {
+        DB::transaction(function () use ($layout) {
             $character = PersonalCharacter::query()->lockForUpdate()->findOrFail($this->character->id);
             $blocks = collect($character->blockList())->keyBy('id');
             $ordered = [];
 
-            foreach (PersonalCharacter::COLUMNS as $column) {
-                foreach (array_filter((array) ($columns[$column] ?? []), 'is_string') as $id) {
-                    if ($blocks->has($id) && $blocks[$id]['tab'] === $this->tab && ! isset($ordered[$id])) {
-                        $ordered[$id] = [...$blocks[$id], 'column' => $column];
-                    }
+            foreach (array_filter($layout, 'is_array') as $place) {
+                $id = $place['id'] ?? null;
+                if (is_string($id) && $blocks->has($id) && $blocks[$id]['tab'] === $this->tab && ! isset($ordered[$id])) {
+                    [$column, $span] = ScreenLayout::place($place['column'] ?? null, $place['span'] ?? null, count(PersonalCharacter::COLUMNS));
+                    $ordered[$id] = [...$blocks[$id], 'column' => PersonalCharacter::COLUMNS[$column - 1], 'span' => $span];
                 }
             }
 

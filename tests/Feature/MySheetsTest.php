@@ -151,11 +151,21 @@ class MySheetsTest extends TestCase
         Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
             ->call('toggleArranging')
             ->assertSee('Glissez un bloc')
-            ->call('saveLayout', ['left' => ['spells', 'stats'], 'right' => ['gear', 'inconnu']]);
+            ->assertSee('Largeur de « Sorts »')
+            ->call('saveLayout', [
+                ['id' => 'spells', 'column' => 1, 'span' => 3],
+                ['id' => 'stats', 'column' => 1, 'span' => 1],
+                // Un bloc large qui déborderait à droite revient vers la gauche.
+                ['id' => 'gear', 'column' => 3, 'span' => 2],
+                ['id' => 'inconnu', 'column' => 2, 'span' => 1],
+                ['id' => 'stats', 'column' => 3, 'span' => 1],
+            ]);
 
         $blocks = $character->refresh()->blockList();
         $this->assertSame(['spells', 'stats', 'gear'], array_column($blocks, 'id'));
-        $this->assertSame(['left', 'left', 'right'], array_column($blocks, 'column'));
+        $this->assertSame(['left', 'left', 'middle'], array_column($blocks, 'column'));
+        $this->assertSame([3, 1, 2], array_column($blocks, 'span'));
+        $this->assertSame(3, $character->usedColumns());
 
         Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
             ->call('edit')
@@ -166,7 +176,8 @@ class MySheetsTest extends TestCase
         $blocks = $character->refresh()->blockList();
         $this->assertSame([], $blocks[1]['rows']);
         $this->assertSame('Force', $blocks[2]['rows'][0]['label']);
-        $this->assertSame('right', $blocks[2]['column']);
+        $this->assertSame('middle', $blocks[2]['column']);
+        $this->assertSame(2, $blocks[2]['span']);
     }
 
     public function test_a_counter_must_be_a_whole_number_and_text_rows_cannot_be_adjusted(): void
@@ -235,7 +246,7 @@ class MySheetsTest extends TestCase
         $this->assertSame(['note', 'Notes'], [$debts['kind'], $debts['title']]);
         $this->assertSame(1, $character->usedColumns());
 
-        $component->call('saveLayout', ['left' => [$debts['id']], 'middle' => [], 'right' => [$rumours['id']]]);
+        $component->call('saveLayout', [['id' => $debts['id'], 'column' => 1, 'span' => 1], ['id' => $rumours['id'], 'column' => 3, 'span' => 1]]);
 
         $character->refresh();
         $this->assertSame(['left', 'right'], array_column($character->blockList(), 'column'));
@@ -305,7 +316,7 @@ class MySheetsTest extends TestCase
         // Organiser un onglet ne touche pas aux blocs des autres.
         Livewire::actingAs($this->me)->test(Show::class, ['personalCharacter' => $character])
             ->call('showTab', $sorts['id'])
-            ->call('saveLayout', ['left' => ['stats'], 'middle' => [], 'right' => [$character->blockList()[1]['id']]]);
+            ->call('saveLayout', [['id' => 'stats', 'column' => 1, 'span' => 1], ['id' => $character->blockList()[1]['id'], 'column' => 3, 'span' => 1]]);
         $this->assertEquals(['stats' => 'left', $character->blockList()[1]['id'] => 'right'], array_column($character->refresh()->blockList(), 'column', 'id'));
 
         // Ranger les onglets, puis en retirer un : ses blocs passent dans le premier onglet.

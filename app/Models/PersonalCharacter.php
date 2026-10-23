@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\ScreenLayout;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
@@ -108,9 +109,10 @@ class PersonalCharacter extends Model
     }
 
     /**
-     * Blocs remis en forme : identifiant, titre, onglet, colonne et lignes complètes, quoi qu'en dise la base.
+     * Blocs remis en forme : identifiant, titre, onglet, colonne, largeur (1 à 3 colonnes) et lignes complètes,
+     * quoi qu'en dise la base.
      *
-     * @return list<array{id: string, kind: string, title: string, tab: string, column: string, text: string, rows: list<array{type: string, label: string, value: string|int, max: int|null, note: string, checkbox: bool, checked: bool}>}>
+     * @return list<array{id: string, kind: string, title: string, tab: string, column: string, span: int, text: string, rows: list<array{type: string, label: string, value: string|int, max: int|null, note: string, checkbox: bool, checked: bool}>}>
      */
     public function blockList(): array
     {
@@ -122,6 +124,7 @@ class PersonalCharacter extends Model
             'title' => (string) ($block['title'] ?? ''),
             'tab' => in_array($block['tab'] ?? null, $tabs, true) ? $block['tab'] : $tabs[0],
             'column' => in_array($block['column'] ?? null, self::COLUMNS, true) ? $block['column'] : 'left',
+            'span' => ScreenLayout::place(1, $block['span'] ?? 1, count(self::COLUMNS))[1],
             'text' => (string) ($block['text'] ?? ''),
             'rows' => array_values(array_map(fn (array $row) => [
                 'type' => ($row['type'] ?? null) === 'counter' ? 'counter' : 'text',
@@ -135,7 +138,7 @@ class PersonalCharacter extends Model
         ], array_filter($this->blocks ?? [], 'is_array')));
     }
 
-    /** Nombre de colonnes à afficher dans un onglet : jusqu'à la dernière qui contient un bloc. */
+    /** Nombre de colonnes à afficher dans un onglet : jusqu'à la dernière qu'occupe un bloc. */
     public function usedColumns(?string $tab = null): int
     {
         $last = 0;
@@ -144,7 +147,7 @@ class PersonalCharacter extends Model
                 continue;
             }
 
-            $last = max($last, array_search($block['column'], self::COLUMNS, true) + 1);
+            $last = max($last, min(count(self::COLUMNS), array_search($block['column'], self::COLUMNS, true) + $block['span']));
         }
 
         return max(1, $last);
